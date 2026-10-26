@@ -1,0 +1,1708 @@
+{
+  "weapons": [
+    {
+      "id": "armature",
+      "name": "Piece of rebar",
+      "type": "melee",
+      "short_description": "Just a piece of rebar, covered with insulating tape for holding by teeth. You can hardly even call it \"a weapon\""
+    },
+    {
+      "id": "bat",
+      "name": "Bat with nails",
+      "type": "melee",
+      "short_description": "Just a piece of wood with rusty nails sticking out. In other words, a piece of trash"
+    },
+    {
+      "id": "hsword",
+      "name": "Hoofmade sword",
+      "type": "melee",
+      "short_description": "Actually it is not a sword at all but a sharpened metal part of some mechanism, strapped to a stick"
+    },
+    {
+      "id": "knife",
+      "name": "Knife",
+      "type": "melee",
+      "short_description": "A large kitchen knife, not particularly suitable for a fight"
+    },
+    {
+      "id": "mont",
+      "name": "Crowbar",
+      "type": "melee",
+      "short_description": "Covered with peeling red paint, scratches and some sticky yuck. Quite handy for breaking into common doors, lockers and cabinets. Useless against armored doors and safes"
+    },
+    {
+      "id": "mont^1",
+      "name": "\"Burglar`s mate\"",
+      "type": "melee",
+      "short_description": "A tool for ponies with not so righteous source of income. Much sturdier than a crowbar, it can break even metal doors and concrete walls"
+    },
+    {
+      "id": "chopper",
+      "name": "Chopper",
+      "type": "melee",
+      "short_description": "With this huge and heavy knife you can chop a cabbagehead in ten seconds flat... or any other head too!"
+    },
+    {
+      "id": "shovel",
+      "name": "Shovel",
+      "type": "melee",
+      "short_description": "Once it was an instrument for earthwork, but sharpened edge converted it into a weapon"
+    },
+    {
+      "id": "spear",
+      "name": "Spear",
+      "type": "melee",
+      "short_description": "Composed of a sharpened metal part fastened by wire to a firm wooden stick"
+    },
+    {
+      "id": "spear^1",
+      "name": "\"Viper`s bite\"",
+      "type": "melee",
+      "short_description": "Unlike an ordinary spear, this one is made of firm bamboo with a tip perfectly sharpened and, for a cherry on top, poisoned"
+    },
+    {
+      "id": "mach",
+      "name": "Machete",
+      "type": "melee",
+      "short_description": "A huge broad blade from Zebra Empire. Useful for chopping through dense vegetation or slicing and dicing enemies"
+    },
+    {
+      "id": "mach^1",
+      "name": "\"Jungle call\"",
+      "type": "melee",
+      "short_description": "A heavy machete, decorated with ornament and encrusted with nephrite"
+    },
+    {
+      "id": "zknife",
+      "name": "Indented knife",
+      "type": "melee",
+      "short_description": "A knife with bent and indented edge, all rusty and bloodstained. You don`t want know who used it and how"
+    },
+    {
+      "id": "zknife^1",
+      "name": "Sacrificial knife",
+      "type": "melee",
+      "short_description": "Favorite toy of raiders-sadists. The strikes by this knife cause heavy bleeding"
+    },
+    {
+      "id": "cknife",
+      "name": "Combat knife",
+      "type": "melee",
+      "short_description": "An outstanding knife of high quality steel, still sharp even after all these years. Indispensable in a close range battle"
+    },
+    {
+      "id": "cknife^1",
+      "name": "\"Sting\"",
+      "type": "melee",
+      "short_description": "A unique combat knife with a wavy edge made of durable steel. Sharp like a razor!"
+    },
+    {
+      "id": "edagger",
+      "name": "Magical energy dagger",
+      "type": "melee",
+      "short_description": "Compact weapon, combining the advantages of melee and magical energy weapons. Inflicts plasma damage"
+    },
+    {
+      "id": "cdagger",
+      "name": "Hellhound`s claw",
+      "type": "melee",
+      "short_description": "A long dagger made from a claw of the hellhound leader you defeated. This claw is stronger than steel and sharper than the best combat knife"
+    },
+    {
+      "id": "mace",
+      "name": "Mace",
+      "type": "melee",
+      "short_description": "A heavy iron machinery part, welded to a sturdy long rod. A good swing - and it can easily add a couple of holes to somepony`s head"
+    },
+    {
+      "id": "pipe",
+      "name": "Lead pipe",
+      "type": "melee",
+      "short_description": "A heavy pipe with a massive nut on one side. Those who meet this in a battle quickly learn to keep away"
+    },
+    {
+      "id": "zsword",
+      "name": "Zebra sword",
+      "type": "melee",
+      "short_description": "This sword was an attribute of every zebra centurion or higher officer during wartime. It was more a proof of status than a combat weapon though"
+    },
+    {
+      "id": "zsword^1",
+      "name": "\"Dawnbreaker\"",
+      "type": "melee",
+      "short_description": "Obviously this zebra sword belonged to some big fish. You can tell that by gold decorations on the guard and zebra glyphs on the blade which, unfortunately, you can`t read"
+    },
+    {
+      "id": "ripper",
+      "name": "Ripper",
+      "type": "melee",
+      "short_description": "Electrical saw, working on batteries. Can cut relatively fragile materials, including bones and skulls. Way less effective against metal"
+    },
+    {
+      "id": "ripper^1",
+      "name": "Sawpony",
+      "type": "melee",
+      "short_description": "A unique modified ripper. Unlike the common one, this has teeth of special steel, which makes it easy to cut through not that strong armor"
+    },
+    {
+      "id": "axe",
+      "name": "Axe",
+      "type": "melee",
+      "short_description": "This huge axe comes in handy for cutting through enemy crowds"
+    },
+    {
+      "id": "hammer",
+      "name": "Sledgehammer",
+      "type": "melee",
+      "short_description": "A good tool for crushing walls as well as enemy skulls"
+    },
+    {
+      "id": "hammer^1",
+      "name": "\"Minotaur fist\"",
+      "type": "melee",
+      "short_description": "A sledgehammer turned into a deadly weapon. A prolonged handle is made of the sturdiest oak and reinforced with iron, and head is ribbed for dealing higher damage"
+    },
+    {
+      "id": "tlance",
+      "name": "Thermic lance",
+      "type": "melee",
+      "short_description": "A tungsten tip, feeding from an \"infinite\" power source, can get several thousand degrees hot and burn through flesh and armor like a small but angry Celestia`s sun"
+    },
+    {
+      "id": "elsword",
+      "name": "Electrical zebra sword",
+      "type": "melee",
+      "short_description": "A common zebra sword at the first glance, but one can notice little lightnings dancing around on a surface of the blade. Which is unusual to say the least"
+    },
+    {
+      "id": "elsword^1",
+      "name": "\"Caesar`s word\"",
+      "type": "melee",
+      "short_description": "A unique electric sword that once belonged to a legate of the Zebra legion"
+    },
+    {
+      "id": "autoaxe",
+      "name": "Autoaxe",
+      "type": "melee",
+      "short_description": "Spinning edges of this tool are enchanted so that it can easily cut all sorts of metal garbage. Quite as easily it cuts metal armor, with its owner inside. Consumes Spark-batteries"
+    },
+    {
+      "id": "mspear",
+      "name": "Magical energy spear",
+      "type": "melee",
+      "short_description": "This thing only looks like a spear. In reality it is a complex fusion of magic and technology - magical energy melee weapon, causing a tremendous plasma damage and not requiring changing batteries for exploitation"
+    },
+    {
+      "id": "mspear^1",
+      "name": "\"Logos\"",
+      "type": "melee",
+      "short_description": "A unique magical spear, blade emitting cold moonlight and vibrating slightly from force hidden inside. Hard to tell what magic was used to create it, but one should respect it, or even better - fear"
+    },
+    {
+      "id": "sword",
+      "name": "Sword",
+      "type": "melee",
+      "short_description": "Very effective melee weapon, but it requires quite some experience using it"
+    },
+    {
+      "id": "sword^1",
+      "name": "\"Star fury\"",
+      "type": "melee",
+      "short_description": "This unique sword is not made of usual steel but of metal of unknown origin. Its edge almost never get blunt and can cut through enemy armor like through cardboard"
+    },
+    {
+      "id": "lsword",
+      "name": "Magical energy sword",
+      "type": "melee",
+      "short_description": "May the Force be with You, young Padawan!"
+    },
+    {
+      "id": "lsword^1",
+      "name": "\"Aurum\"",
+      "type": "melee",
+      "short_description": "A more powerful energy sword glowing with golden light"
+    },
+    {
+      "id": "bsaw",
+      "name": "Chainsaw",
+      "type": "melee",
+      "short_description": "Once it was used to cut down trees, now, as there are no trees left, one can use it to cut enemies to pieces. Magically-enhanced teeth can handle even the sturdiest material. Consumes Spark-batteries"
+    },
+    {
+      "id": "sledge",
+      "name": "Super sledge",
+      "type": "melee",
+      "short_description": "A high-tech weapon, equipped with an inertial accumulator, capable of storing kinetic energy. Being released on impact, it greatly increases power of the strike"
+    },
+    {
+      "id": "sledge^1",
+      "name": "\"War Hammer\"",
+      "type": "melee",
+      "short_description": "A specially weighted super sledge, clearly made for somepony big and strong. Scary even to think, what damage one strike of this can cause"
+    },
+    {
+      "id": "kosa",
+      "name": "Grim reaper",
+      "type": "melee",
+      "short_description": "A magical weapon from the zebras` land, possessing an ominous and unstoppable power. It is capable of cutting those invisible threads that bind souls to bodies of living beings, ignoring any armor"
+    },
+    {
+      "id": "p9mm",
+      "name": "9-mm pistol",
+      "type": "lightGun",
+      "short_description": "The most common pistol produced before the War for civilian needs"
+    },
+    {
+      "id": "r32",
+      "name": ".32 pistol",
+      "type": "lightGun",
+      "short_description": "Old-fashioned and not very effective firearm, dealing little damage and having low rate of fire"
+    },
+    {
+      "id": "r375",
+      "name": "Revolver cal.375",
+      "type": "lightGun",
+      "short_description": "Old, but powerful and reliable revolver, although recharging it may cause some difficulty"
+    },
+    {
+      "id": "p10mm",
+      "name": "10-mm pistol",
+      "type": "lightGun",
+      "short_description": "A standard, commonly used pistol using 10mm ammo. Its advantages are simplicity of design, reliability and low cost"
+    },
+    {
+      "id": "p10mm^1",
+      "name": "\"Lonely wanderer\"",
+      "type": "lightGun",
+      "short_description": "A unique 10-mm pistol, clearly made by some talented craftspony. It has a set of essential modifications and its stats are much higher than those of a standard model"
+    },
+    {
+      "id": "p10s",
+      "name": "Silenced pistol",
+      "type": "lightGun",
+      "short_description": "A slightly modified 10-mm gun, equipped with a sound suppressor. Makes less noise when shooting, but also does less damage"
+    },
+    {
+      "id": "revo",
+      "name": "Magnum",
+      "type": "lightGun",
+      "short_description": "Large-caliber revolver equipped with an optical sight. It possesses huge destructive power and good accuracy, but uses a rare type of .44 caliber ammo"
+    },
+    {
+      "id": "revo^1",
+      "name": "\"Little Macintosh\"",
+      "type": "lightGun",
+      "short_description": "A unique all-purpose .44 caliber revolver made by Ironshod Firearms exclusively for Applejack. Its white ivory handle has a picture of three red apples on it"
+    },
+    {
+      "id": "p308c",
+      "name": "0.308-pistol",
+      "type": "lightGun",
+      "short_description": "A pistol converted by unknown craftspony from a 0.308 caliber rifle. It resulted in a compact, fast and deadly weapon"
+    },
+    {
+      "id": "p127mm",
+      "name": "12.7mm pistol",
+      "type": "lightGun",
+      "short_description": "Large-caliber gun going with impressive destructive power, monstrous recoil and deafening \"Boom!\". Using cartridges with special blunt-ended bullets that strike like a hoof kick of doom"
+    },
+    {
+      "id": "p127mm^1",
+      "name": "\"Hoof strike\"",
+      "type": "lightGun",
+      "short_description": "This pistol is named so for a reason. Its shots are like sledge strikes. Hard to tell how it works, looks like some special earth pony magic"
+    },
+    {
+      "id": "psc",
+      "name": "Terrifying gun",
+      "type": "lightGun",
+      "short_description": "Converted from a 12.7-mm pistol, this model is designed for a powerful cartridge of 50 MG caliber. Its lethal force is really terrifying, being only slightly inferior to a large-caliber rifle. At the same time, it has a much smaller size and a decent rate of fire, but it pays with a rather low accuracy"
+    },
+    {
+      "id": "psc^1",
+      "name": "\"Black heart\"",
+      "type": "lightGun",
+      "short_description": "Modification of the \"Terrifying\" gun. Its elongated barrel allows increased accuracy and strength of the shot, and corpus, covered with black varnish, looks so very impressive"
+    },
+    {
+      "id": "shok",
+      "name": "Shock gun",
+      "type": "lightGun",
+      "short_description": "Quite a primitive weapon, sending electrical discharges on target. It was not designed for a battle but rather for paralyzing troublemakers and criminals"
+    },
+    {
+      "id": "rech",
+      "name": "Rechargeable pistol",
+      "type": "lightGun",
+      "short_description": "An example of magical energy weaponry requiring no ammo. It takes energy for shooting from an \"infinite\" self-charging spark-battery. However, it comes with a price of lower damaging power and poor combat qualities"
+    },
+    {
+      "id": "flaregun",
+      "name": "Flare gun",
+      "type": "lightGun",
+      "short_description": "Even though you cannot call this a weapon in a normal sense, it can ignite enemy, causing him quite a bit of discomfort"
+    },
+    {
+      "id": "lasp",
+      "name": "Laser Pistol",
+      "type": "lightGun",
+      "short_description": "The simplest example of magical energy weapon shooting red laser beams. Low power is compensated by low energy consumption comparing to rifles"
+    },
+    {
+      "id": "lasp^1",
+      "name": "\"Anarchist\"",
+      "type": "lightGun",
+      "short_description": "A unique laser pistol, likely created after the War. It has a more powerful and capacious battery, and there is an inscription in a red paint saying \"OBEY\"!"
+    },
+    {
+      "id": "plap",
+      "name": "Plasma Pistol",
+      "type": "lightGun",
+      "short_description": "The plasma pistol is much more powerful than laser one, but less accurate and faster consumes battery charge"
+    },
+    {
+      "id": "plap^1",
+      "name": "\"Honor guard\"",
+      "type": "lightGun",
+      "short_description": "A unique plasma pistol, perfected by a master-armorer. At least he could somehow fix the characteristic flaws of this weapon type, such as low accuracy and fast battery drain"
+    },
+    {
+      "id": "pulsep",
+      "name": "Pulse pistol",
+      "type": "lightGun",
+      "short_description": "The pulse pistol is called so because shooting it emits powerful directed electromagnetic pulses. They are capable of damaging electronic circuits of robots, but cause almost no harm to living beings"
+    },
+    {
+      "id": "blaster",
+      "name": "Star blaster",
+      "type": "lightGun",
+      "short_description": "A weapon, unique and unusual in all respects. They say it was created not by a pony but fell from the stars. The destructive power of its shots is very high, and there is no defense against it, but there is a problem with ammunition - the star blaster uses only special energy cells that are extremely difficult to find"
+    },
+    {
+      "id": "wquest1",
+      "name": "\"Loyalty\"",
+      "type": "lightGun",
+      "short_description": "A unique gun belonging to Brass Buckshot"
+    },
+    {
+      "id": "smg9",
+      "name": "9-mm submachine gun",
+      "type": "lightGun",
+      "short_description": "Submachine gun, using common 9-mm ammo. Small, cheap, effective and does not require special skills"
+    },
+    {
+      "id": "smg10",
+      "name": "10-mm submachine gun",
+      "type": "lightGun",
+      "short_description": "A compact and effective weapon, and unlike a bulky assault rifle is ideal for indoor use"
+    },
+    {
+      "id": "pp127mm",
+      "name": "12,7-mm submachine gun",
+      "type": "heavyGun",
+      "short_description": "Heavy large-caliber submachine gun. Deals some nice damage and knocks-back enemies, but uses scarce type of ammo"
+    },
+    {
+      "id": "pp127mm^1",
+      "name": "\"Squall\"",
+      "type": "heavyGun",
+      "short_description": "This specimen differs significantly from the standard 12.7 mm SMG model. Thanks to some design features, it had reduced the spread of a shot and increased aiming range"
+    },
+    {
+      "id": "assr",
+      "name": "Assault rifle",
+      "type": "heavyGun",
+      "short_description": "All-purpose firearm that combines ease of use, good firepower and abundant ammo type"
+    },
+    {
+      "id": "assr^1",
+      "name": "\"Patriot\"",
+      "type": "heavyGun",
+      "short_description": "An upgraded model of an assault rifle. They say only several hundreds were produced by the end of the Great War, thus now they are super rare"
+    },
+    {
+      "id": "carbine",
+      "name": "Assault carbine",
+      "type": "heavyGun",
+      "short_description": "Next generation of weaponry compared to assault rifles. This one is more compact, precise and effective"
+    },
+    {
+      "id": "carbine^1",
+      "name": "\"The Last Argument\"",
+      "type": "heavyGun",
+      "short_description": "Modified assault rifle with upgraded optics and increased magazine. A dream of every gun nut"
+    },
+    {
+      "id": "zebr",
+      "name": "Zebra Assault Carbine",
+      "type": "heavyGun",
+      "short_description": "Equipped with a silencer and optical sight. Bullets fired from it are enchanted to ignite on impact with a target. Always fires three bullets per a pull of trigger"
+    },
+    {
+      "id": "zebr^1",
+      "name": "\"Atropos\"",
+      "type": "heavyGun",
+      "short_description": "An improved zebra rifle owned by Centurion Upanga. It is enchanted with a much stronger fire spell than usual. It is clearly a work of an experienced shaman"
+    },
+    {
+      "id": "lmg",
+      "name": "Light machine gun",
+      "type": "heavyGun",
+      "short_description": "Very effective, powerful and high fire rate weapon, but it requires a lot of experience using it"
+    },
+    {
+      "id": "lmg^1",
+      "name": "\"Rumble\"",
+      "type": "heavyGun",
+      "short_description": "Improved version of a light machine gun, a bit more powerful and more accurate than a common one. It belonged to Elder Coldsight before"
+    },
+    {
+      "id": "autor",
+      "name": "Automatic rifle",
+      "type": "heavyGun",
+      "short_description": "This weapon is a hybrid of a rifle and a light machine gun. It is very precise, and at the same time sufficiently rapid to sustain a reasonable fire rate"
+    },
+    {
+      "id": "sparkl",
+      "name": "Sparkle-gun",
+      "type": "heavyGun",
+      "short_description": "High fire rate laser rifle, emitting magical rays of violet color. Fires three rounds per a pull of trigger"
+    },
+    {
+      "id": "sparkl^1",
+      "name": "\"Requiem\"",
+      "type": "heavyGun",
+      "short_description": "A unique sparkle-automatic, creator of which was able to increase fire rate by adding magical cooling system. It also has a built-in audio player, but it doesn`t work"
+    },
+    {
+      "id": "plamg",
+      "name": "Plasma caster",
+      "type": "heavyGun",
+      "short_description": "Weapon of devastating power, sending a rain of scorching plasma on your enemies"
+    },
+    {
+      "id": "plamg^1",
+      "name": "\"Agony\"",
+      "type": "heavyGun",
+      "short_description": "A unique plasma caster with a special spellmatrix. Its plasma blasts have a chance to hit through armor, which makes this weapon much more insidious and dangerous"
+    },
+    {
+      "id": "nova",
+      "name": "Novasurge rifle",
+      "type": "heavyGun",
+      "short_description": "A standard weapon of Great Pegasus Enclave forces. It represents the latest developments of magical energy technologies"
+    },
+    {
+      "id": "nova^1",
+      "name": "\"Tsunami\"",
+      "type": "heavyGun",
+      "short_description": "Improved version of the Novasurge rifle, more powerful and more reliable than usual. It is only given to commanders of the Enclave special forces"
+    },
+    {
+      "id": "quick",
+      "name": "Rapid-fire plasma gun",
+      "type": "heavyGun",
+      "short_description": "A model of a plasma gun, modified just before the Apocalypse, which combat characteristics were much improved. As far as we know, only a few dozen units were produced, after which the manufacturing plant was destroyed by a megaspell"
+    },
+    {
+      "id": "quick^1",
+      "name": "\"Pulsar\"",
+      "type": "heavyGun",
+      "short_description": "A unique high fire rate plasma caster, which design was improved by an unknown master. It seems, it hid in the storerooms of the \"Steel Rangers\" for years, waiting for something. And now its time has come"
+    },
+    {
+      "id": "oldshot",
+      "name": "Old shotgun",
+      "type": "lightGun",
+      "short_description": "This ancient shotgun is all rusty and falling apart. It can still shoot alright, but success is unlikely. Can hold two shells maximum"
+    },
+    {
+      "id": "oldshot^1",
+      "name": "\"Apple bucker\"",
+      "type": "lightGun",
+      "short_description": "A vintage shotgun in a good condition. You can tell, somepony really cared for this weapon and yet almost never used it"
+    },
+    {
+      "id": "lshot",
+      "name": "Lever-action shotgun",
+      "type": "lightGun",
+      "short_description": "A lever-action rifle, sawed-off and converted to a shotgun. Effective for a close range combat only"
+    },
+    {
+      "id": "shotgun",
+      "name": "Sawed-off shotgun",
+      "type": "lightGun",
+      "short_description": "Double-barreled sawed-off shotgun. Quite powerful, but because of a widespread of shot, it is effective only at close range. Allows only two shots to be fired, then you have to reload. Which, of course is not very convenient"
+    },
+    {
+      "id": "shotgun^1",
+      "name": "\"Supreme measure\"",
+      "type": "lightGun",
+      "short_description": "A unique sawed-off shotgun that probably belonged to some sheriff. There is a name on a butt of the rifle. Silverstar"
+    },
+    {
+      "id": "saf9",
+      "name": "IF-9 Combat Shotgun",
+      "type": "lightGun",
+      "short_description": "Semi-automatic shotgun with a drum magazine, one of many weapon models developed in Ironshod Firearms"
+    },
+    {
+      "id": "saf9^1",
+      "name": "\"Erebus\"",
+      "type": "lightGun",
+      "short_description": "A modified shotgun with loner barrel and improved cartridge feeding system, making it faster and more accurate"
+    },
+    {
+      "id": "pshot",
+      "name": "Police shotgun",
+      "type": "heavyGun",
+      "short_description": "A shotgun used by pre-War police forces, becoming very popular nowadays due to its combat effectiveness"
+    },
+    {
+      "id": "pshot^1",
+      "name": "\"Justice\"",
+      "type": "heavyGun",
+      "short_description": "A unique police shotgun of outstanding quality, clearly made by special order. There is an engraving saying \"To police chief Counterstrike, in gratitude for saving hostages\""
+    },
+    {
+      "id": "prism",
+      "name": "Prism gun",
+      "type": "heavyGun",
+      "short_description": "Similar to a laser rifle, but using different focusing system. Instead of a single impulse it emits a bunch of rays of different wavelength, that makes it more effective at close range"
+    },
+    {
+      "id": "prism^1",
+      "name": "\"Rainbow strike\"",
+      "type": "heavyGun",
+      "short_description": "A modified prism gun, has a higher power than a standard model. Its rainbow colored rays can burn a target through and knock it back at the same time"
+    },
+    {
+      "id": "cryo",
+      "name": "Cryolator",
+      "type": "heavyGun",
+      "short_description": "A unique weapon, the only one in existence. It does not melt or incinerate, but freezes the target. The living creatures are particularly vulnerable to this effect"
+    },
+    {
+      "id": "plam",
+      "name": "Multiplasma shotgun",
+      "type": "heavyGun",
+      "short_description": "Magical energy shotgun casting three plasma bolts per one shot. Weapon of choice at close range, not effective at long distance"
+    },
+    {
+      "id": "plam^1",
+      "name": "\"Cerberus\"",
+      "type": "heavyGun",
+      "short_description": "A unique plasma shotgun, augmented by some dark magic. First, it emits plasma of pinkish color, second - it now causes much more damage"
+    },
+    {
+      "id": "oldr",
+      "name": "Old rifle",
+      "type": "heavyGun",
+      "short_description": "A weathered, slightly rusty rifle that, surprisingly, still works. Even though it became obsolete long before the War, it can still make a few holes in somepony"
+    },
+    {
+      "id": "oldr^1",
+      "name": "\"Granddaddy`s rifle\"",
+      "type": "heavyGun",
+      "short_description": "This weapon is as old as the Equestrian firearms can be. But it was made to last, and it still surpasses many similar rifles"
+    },
+    {
+      "id": "hunt",
+      "name": "Hunting rifle",
+      "type": "heavyGun",
+      "short_description": "Do not even ask why ponies might need hunting rifles. Just a good and accurate weapon, besides consuming a common ammo type"
+    },
+    {
+      "id": "winchester",
+      "name": "Cowpony repeater",
+      "type": "heavyGun",
+      "short_description": "A lever-action rifle, slightly primitive perhaps, but accurate and reliable. It was quite popular before the War among civilians of Equestria, regarded as an outstanding self-defense weapon"
+    },
+    {
+      "id": "winchester^1",
+      "name": "\"Price of freedom\"",
+      "type": "heavyGun",
+      "short_description": "\"And what are You ready to sacrifice for freedom?\" - asks the cowpony from an old propaganda poster, holding a rifle exactly like this in her hooves"
+    },
+    {
+      "id": "brushgun",
+      "name": "Brush gun",
+      "type": "heavyGun",
+      "short_description": "One of the most powerful examples of non-military weapons. A shot from this rifle can even kill a bear, and from a reasonable distance too"
+    },
+    {
+      "id": "brushgun^1",
+      "name": "\"Elephant hunter\"",
+      "type": "heavyGun",
+      "short_description": "Can you really kill an elephant with this? Well, we will never know for sure due to an absence of elephants in the Equestrian Wasteland. But judging by its looks - you most probably can"
+    },
+    {
+      "id": "rechr",
+      "name": "Rechargeable rifle",
+      "type": "lightGun",
+      "short_description": "This weapon represents an attempt to create a weapon that doesn`t require any ammo. Not very successful, as you can see. An \"infinite\" battery does not produce enough power, and the weapon itself requires frequent maintenance"
+    },
+    {
+      "id": "lasr",
+      "name": "Laser rifle",
+      "type": "heavyGun",
+      "short_description": "A more powerful and accurate weapon than a laser pistol, but also faster consuming battery power. Unlike bullets, a laser beam instantly reaches destination, hence no need to make any corrections for target distance and some other factors. Doesn`t work underwater"
+    },
+    {
+      "id": "lasr^1",
+      "name": "\"Scarlet sunrise\"",
+      "type": "heavyGun",
+      "short_description": "Limited edition laser rifle that uses magical ruby of a very rare kind as a focusing crystal. During the War, it was used by elite pegasi-assaulters, but now it is almost impossible to get"
+    },
+    {
+      "id": "plar",
+      "name": "Plasma rifle",
+      "type": "heavyGun",
+      "short_description": "High-power magical energy weapon casting bolts of green magical plasma. When shot from this gun, enemies do not just die but actually melt into a puddle of green slime. Can easily melt through concrete walls, but because of difficulties with plasma stabilization it is not highly accurate and requires good skills for successful exploitation"
+    },
+    {
+      "id": "plar^1",
+      "name": "\"Turboplasma rifle\"",
+      "type": "heavyGun",
+      "short_description": "An example of how much one can improve combat stats of a standard weapon with proper talent and ingenuity. This modified plasma rifle not only has higher fire rate, but also uses less energy"
+    },
+    {
+      "id": "pulser",
+      "name": "Pulse rifle",
+      "type": "heavyGun",
+      "short_description": "A significantly enhanced version of the pulse pistol. To create the most powerful electromagnetic pulse, it is stuffed with a whole bunch of coils, capacitors, and lamps. Unfortunately, all this stuff is very unreliable and wears down quickly"
+    },
+    {
+      "id": "pulser^1",
+      "name": "\"Mystery shard\"",
+      "type": "heavyGun",
+      "short_description": "The impulse rifle of a very strange look. The blue crystals inserted in it emit a magical aura, which must have something to do with its increased fire rate"
+    },
+    {
+      "id": "termo",
+      "name": "Thermoemitter",
+      "type": "heavyGun",
+      "short_description": "A weapon emitting an intense flow of infrared radiation, instantly igniting the target. It was developed as an alternative to flamethrowers, but, unlike them, does not have such a demoralizing effect, and therefore has not become too popular"
+    },
+    {
+      "id": "termo^1",
+      "name": "\"Ashes of Equestria\"",
+      "type": "heavyGun",
+      "short_description": "The unique thermoemitter, which fighting qualities are an order of magnitude higher compared to a usual one. Capable of turning anything into ashes"
+    },
+    {
+      "id": "rail",
+      "name": "Railgun",
+      "type": "heavyGun",
+      "short_description": "This gun uses electro-magnetic field for bullet acceleration. This way bullets reach much higher speed than when shot using gunpowder. Although shooting bullets, it belongs to magical energy weapons and consumes spark-batteries"
+    },
+    {
+      "id": "rail^1",
+      "name": "\"Paladin\"",
+      "type": "heavyGun",
+      "short_description": "An improved railgun, developed not so long ago by what is left from Equestrian science. Even more deadly than before, and also equipped with improved power system"
+    },
+    {
+      "id": "sniper",
+      "name": "Sniper rifle",
+      "type": "heavyGun",
+      "short_description": "Effective long-range weapon. Uses rare .308 caliber ammo"
+    },
+    {
+      "id": "sniper^1",
+      "name": "\"Remorse\"",
+      "type": "heavyGun",
+      "short_description": "A unique sniper rifle. It is completely black, and its butt has hundreds of tiny notches. Its previous owner counted its every prey"
+    },
+    {
+      "id": "lassn",
+      "name": "Laser sniper rifle",
+      "type": "heavyGun",
+      "short_description": "This weapon is more powerful and accurate in comparison to a common laser rifle, but consumes battery charge faster. Also it emits rays of green color instead of red"
+    },
+    {
+      "id": "lassn^1",
+      "name": "\"Atma\"",
+      "type": "heavyGun",
+      "short_description": "A long-range laser rifle made by special order, probably even unique. Higher quality capacitors and the finest tuning of focusing crystals makes this weapon able to generate laser impulses of unbelievable power!"
+    },
+    {
+      "id": "grom",
+      "name": "Storm rifle",
+      "type": "heavyGun",
+      "short_description": "Long range magical energy rifle. Hits enemy with a powerful bolt of electricity, targeted by a laser ray. For better effect target must be touching the ground"
+    },
+    {
+      "id": "grom^1",
+      "name": "\"Thunderer\"",
+      "type": "heavyGun",
+      "short_description": "A unique storm rifle, which coolness is OVER NINE THOUSAND! It is not only more powerful than ordinary storm rifles, but is also enchanted to pierce magical armor"
+    },
+    {
+      "id": "anti",
+      "name": "Anti-machine rifle",
+      "type": "heavyGun",
+      "short_description": "Large-caliber armor-piercing rifle effective against robots and power armor. With some luck you can even take out a tank. The bad news is that it is not so easy to find proper ammunition"
+    },
+    {
+      "id": "anti^1",
+      "name": "\"Spitfire`s Thunder\"",
+      "type": "heavyGun",
+      "short_description": "A unique anti-machine rifle, enchanted to shoot without any recoil, even though its power is simply monstrous. Decorated with gold and precious stones, and every shot sounds like a thunder roll"
+    },
+    {
+      "id": "minigun",
+      "name": "Minigun",
+      "type": "heavyGun",
+      "short_description": "Weapon equipped with rotating several barreled cluster of impressive firepower. It uses small-caliber ammo, which is not very effective against armored targets. In addition, it takes some time to start spinning"
+    },
+    {
+      "id": "minigun^1",
+      "name": "\"Gale\"",
+      "type": "heavyGun",
+      "short_description": "A unique minigun - machine of doom, a horrible meat grinder. Just a word that Gale appeared on a battlefield may cause enemy troops run in panic"
+    },
+    {
+      "id": "hmg",
+      "name": "Medium machine gun",
+      "type": "heavyGun",
+      "short_description": "A large-caliber machine gun, intended primarily for reinforcing guard posts rather than for personal use. Too big and heavy, but its firepower is more than impressive"
+    },
+    {
+      "id": "antidrak",
+      "name": "Antidragon",
+      "type": "heavyGun",
+      "short_description": "The antiair machine gun, converted into a personal weapon, once indeed developed especially for fighting dragons. It is so heavy that only the strongest earth pony would be able to use it, or perhaps a unicorn with perfect telekinetic skills"
+    },
+    {
+      "id": "antidrak^1",
+      "name": "\"Little Gilda\"",
+      "type": "heavyGun",
+      "short_description": "A unique 14.5 mm machine gun, converted into a personal weapon by griffins. Once belonged to one of the \"Talons\" detachments"
+    },
+    {
+      "id": "gatl",
+      "name": "Laser minigun",
+      "type": "heavyGun",
+      "short_description": "Multiple barreled laser gun, which gives you great power and rate of fire but is too large and heavy"
+    },
+    {
+      "id": "gatl^1",
+      "name": "\"Righteous anger\"",
+      "type": "heavyGun",
+      "short_description": "Unique laser minigun that belonged to some high-ranking Steel Ranger. More precise and compact than standard model"
+    },
+    {
+      "id": "gatp",
+      "name": "Plasma minigun",
+      "type": "heavyGun",
+      "short_description": "A weapon of unbelievable power, capable of turning a whole squad into a puddle of green goo in a matter of seconds. Its huge size, weight and charge consumption on the other hoof make it a poor personal weapon"
+    },
+    {
+      "id": "gatp^1",
+      "name": "\"Dragon`s roar\"",
+      "type": "heavyGun",
+      "short_description": "Somepony could indeed find significance in dragon`s breath and flow of plasma spit by this weapon. But it would be right to say, that facing this weapon, a dragon would definitely wind himself in trouble"
+    },
+    {
+      "id": "flamer",
+      "name": "Flamethrower",
+      "type": "heavyGun",
+      "short_description": "Incinerates enemies in a jet of fire. Has a chance of setting target on fire, causing even more damage with time"
+    },
+    {
+      "id": "flamer^1",
+      "name": "\"Scorcher\"",
+      "type": "heavyGun",
+      "short_description": "An improved flamethrower, having some construction changes. Because of those, fire range and fuel burning temperature are increased"
+    },
+    {
+      "id": "incin",
+      "name": "Incinerator",
+      "type": "heavyGun",
+      "short_description": "An explosive flame-thrower, launching small portions of combustible mixture. Balls of fire explode on impact, splashing burning fuel all over, so remember to keep distance"
+    },
+    {
+      "id": "cflamer",
+      "name": "Tactical flamethrower",
+      "type": "heavyGun",
+      "short_description": "A fearsome weapon, promising inevitable and very painful death, causing panic and chaos in enemy squads. It spits burning fuel on long distance, starting fires that are quite hard to extinguish"
+    },
+    {
+      "id": "cflamer^1",
+      "name": "\"Cleansing flame\"",
+      "type": "heavyGun",
+      "short_description": "A tactical flamethrower of respectable looks, all black from soot. Once it belonged to a notorious chief of Scorchers raider gang, who died in a fire in his own lair"
+    },
+    {
+      "id": "bfg",
+      "name": "\"Big Fucking Gun\"|\"Big Frickin Gun\"",
+      "type": "heavyGun",
+      "short_description": "A weapon invented by a genius, yet obviously mad scientist. It is as dangerous for the owner, as for his enemies, as it shoots huge, unstable and explosive balls of plasma"
+    },
+    {
+      "id": "arson",
+      "name": "\"Igniter\"",
+      "type": "lightGun",
+      "short_description": "Attach a lighter to an aerosol can, and you get an improvised flamethrower! Not that it is of much use though. For burning radroaches maybe"
+    },
+    {
+      "id": "arson^1",
+      "name": "\"Igniter\" - II",
+      "type": "lightGun",
+      "short_description": "Attach a lighter to an aerosol can, and you get an improvised flamethrower! Not that it is of much use though. For burning radroaches maybe"
+    },
+    {
+      "id": "dartgun",
+      "name": "Dart gun",
+      "type": "lightGun",
+      "short_description": "Hoofmade contraption shooting poisoned darts. Darts themselves do little damage and can hardly get through even light armor, but on the bright site - it is completely noiseless"
+    },
+    {
+      "id": "dartgun^1",
+      "name": "Dart gun - II",
+      "type": "lightGun",
+      "short_description": "Hoofmade contraption shooting poisoned darts. Darts themselves do little damage and can hardly get through even light armor, but on the bright site - it is completely noiseless"
+    },
+    {
+      "id": "acidgun",
+      "name": "Acid gun",
+      "type": "lightGun",
+      "short_description": "This \"weapon\" shoots streams of corrosive acid, corrupting armor and causing chemical burns"
+    },
+    {
+      "id": "acidgun^1",
+      "name": "Acid gun - II",
+      "type": "lightGun",
+      "short_description": "This \"weapon\" shoots streams of corrosive acid, corrupting armor and causing chemical burns"
+    },
+    {
+      "id": "sawgun",
+      "name": "Saw blade launcher",
+      "type": "heavyGun",
+      "short_description": "A cunning contraption, shooting circular saws. Rapidly propelling and spinning saw blades are capable of causing serious damage to several enemies standing in a row"
+    },
+    {
+      "id": "sawgun^1",
+      "name": "Saw blade launcher - II",
+      "type": "heavyGun",
+      "short_description": "A cunning contraption, shooting circular saws. Rapidly propelling and spinning saw blades are capable of causing serious damage to several enemies standing in a row"
+    },
+    {
+      "id": "buckshot",
+      "name": "Buckshot gun",
+      "type": "heavyGun",
+      "short_description": "Hard to tell how exactly it works, but it works alright"
+    },
+    {
+      "id": "buckshot^1",
+      "name": "Buckshot gun - II",
+      "type": "heavyGun",
+      "short_description": "Hard to tell how exactly it works, but it works alright"
+    },
+    {
+      "id": "railway",
+      "name": "Railway rifle",
+      "type": "heavyGun",
+      "short_description": "This hoofmade rifle uses electromagical field to shoot railway spikes with a high speed. To make this you must be a very experienced engineer"
+    },
+    {
+      "id": "railway^1",
+      "name": "Railway rifle - II",
+      "type": "heavyGun",
+      "short_description": "This hoofmade rifle uses electromagical field to shoot railway spikes with a high speed. To make this you must be a very experienced engineer"
+    },
+    {
+      "id": "friend",
+      "name": "Friendship cannon",
+      "type": "heavyGun",
+      "short_description": "This weapon is called so because, after seeing it in your hooves, anypony will be immediately struck with the idea that it is way better to be your friend rather than your enemy"
+    },
+    {
+      "id": "friend^1",
+      "name": "Friendship cannon - II",
+      "type": "heavyGun",
+      "short_description": "This weapon is called so because, after seeing it in your hooves, anypony will be immediately struck with the idea that it is way better to be your friend rather than your enemy"
+    },
+    {
+      "id": "glau1",
+      "name": "Grenade launcher",
+      "type": "heavyGun",
+      "short_description": "Single charge 40-mm grenade launcher, effective both against crowds of enemies as well as for punching through walls. Projectiles move in a parabolic trajectory, that must be considered when aiming"
+    },
+    {
+      "id": "glau",
+      "name": "Grenade launcher",
+      "type": "heavyGun",
+      "short_description": "Automatic 40-mm grenade launcher, much more effective than an ordinary single charge one, as it allows keeping up intense fire. Steel Rangers are quite fond of this weapon for its deadly power"
+    },
+    {
+      "id": "glau^1",
+      "name": "\"Apocalypse\"",
+      "type": "heavyGun",
+      "short_description": "Unique automatic grenade launcher, capable of turning a battlefield into a burning hell. It has a bigger magazine and faster fire-rate, compared to a standard model"
+    },
+    {
+      "id": "aglau",
+      "name": "Automatic grenade launcher",
+      "type": "heavyGun",
+      "short_description": "A 40-mm grenade launcher with a large magazine for 12 shells and an excellent fire rate. Provides the highest density of fire among all weapons of this type"
+    },
+    {
+      "id": "mlau",
+      "name": "Missile launcher",
+      "type": "heavyGun",
+      "short_description": "A portable launcher designed for destruction of heavy machinery, buildings and enemy horsepower using large-caliber rockets"
+    },
+    {
+      "id": "mlau^1",
+      "name": "\"Vendetta\"",
+      "type": "heavyGun",
+      "short_description": "A missile launcher with enhanced combat characteristics and laser guidance, which provides greater accuracy"
+    },
+    {
+      "id": "bel",
+      "name": "Balefire Egg Launcher",
+      "type": "heavyGun",
+      "short_description": "There is nothing special about the weapon itself, it is a simple launcher. Its ammunition on the other hoof, balefire eggs, conceal fantastic destructive power"
+    },
+    {
+      "id": "bel^1",
+      "name": "\"Fat pony\"",
+      "type": "heavyGun",
+      "short_description": "Improved balefire Egg Launcher, more accurate, reliable and can maintain higher fire rate. As if this terrible weapon even needed improvement!"
+    },
+    {
+      "id": "dinamit",
+      "name": "Dynamite",
+      "type": "explosives",
+      "short_description": "A simple stick of dynamite with a long fuse, more suitable for mining than fighting. Use with care!"
+    },
+    {
+      "id": "hgren",
+      "name": "Hoofmade grenade",
+      "type": "explosives",
+      "short_description": "A primitive grenade, made of a tin can filled with gunpowder and metal junk. It can be easily created at a workbench"
+    },
+    {
+      "id": "grenade",
+      "name": "Frag grenade",
+      "type": "explosives",
+      "short_description": "An effective weapon against enemies hiding behind a cover. It looks like a metallic apple"
+    },
+    {
+      "id": "gasgr",
+      "name": "Gaseous grenade",
+      "type": "explosives",
+      "short_description": "This grenade emits a cloud of toxic gases. Even small amount of it can cause a quick death when inhaled. Especially effective in small and poorly ventilated rooms"
+    },
+    {
+      "id": "acidgr",
+      "name": "Acid bomb",
+      "type": "explosives",
+      "short_description": "A bottle filled with a very corrosive liquid. When smashed, it spills acid everywhere, causing severe chemical burns to whoever steps into it. Effective against robots` armor"
+    },
+    {
+      "id": "plagr",
+      "name": "Plasma grenade",
+      "type": "explosives",
+      "short_description": "Instead of common explosive substances, this grenade uses powerful magic charge that can melt everything! Much more powerful than usual grenades"
+    },
+    {
+      "id": "impgr",
+      "name": "Impulse grenade",
+      "type": "explosives",
+      "short_description": "A grenade using electromagnetic impulse for destroying robots and other electronics. Is not effective against live targets"
+    },
+    {
+      "id": "cryogr",
+      "name": "Cryogrenade",
+      "type": "explosives",
+      "short_description": "On explosion, the surrounding air instantly cools down to extremely low temperatures. The living beings receive serious hypothermic damage"
+    },
+    {
+      "id": "molotov",
+      "name": "Incendiary cocktail",
+      "type": "explosives",
+      "short_description": "A bottle filled with incendiary liquid and plugged with a piece of cloth. Ignite it, throw it - simple, cheap, effective"
+    },
+    {
+      "id": "fgren",
+      "name": "Incendiary grenade",
+      "type": "explosives",
+      "short_description": "Exploding, this grenade sets everything on fire"
+    },
+    {
+      "id": "spgren",
+      "name": "Sparkle-grenade",
+      "type": "explosives",
+      "short_description": "An extremely powerful version of a hoofmade grenade with increased radius of damage. For an explosive it uses an infernal mixture based on Sparkle-Cola RAD"
+    },
+    {
+      "id": "hmine",
+      "name": "Hoofmade mine",
+      "type": "explosives",
+      "short_description": "A mine assembled from junk and gunpowder. It operates like an ordinary anti-personnel mine, but not as powerful"
+    },
+    {
+      "id": "mine",
+      "name": "Fragmentation mine",
+      "type": "explosives",
+      "short_description": "A proximity mine, equipped with a friend/enemy recognition system"
+    },
+    {
+      "id": "cryomine",
+      "name": "Cryomine",
+      "type": "explosives",
+      "short_description": "On explosion of this mine, the surrounding air instantly cools down to extremely low temperatures. The living beings receive serious hypothermic damage"
+    },
+    {
+      "id": "plamine",
+      "name": "Plasma mine",
+      "type": "explosives",
+      "short_description": "Powerful magically-enhanced version of a usual mine"
+    },
+    {
+      "id": "impmine",
+      "name": "Impulse mine",
+      "type": "explosives",
+      "short_description": "Anti-robot mine, which sensor is calibrated to react only on mechanical enemies. It doesn`t affect live forces"
+    },
+    {
+      "id": "x37",
+      "name": "Explosive X-37",
+      "type": "explosives",
+      "short_description": "Small, yet powerful charges of plastic explosives equipped with a radio detonator. You can install several charges and then explode all at the same time by pressing the button. To detonate, press the reload button [R]. Only explosives in the same room will detonate"
+    },
+    {
+      "id": "zebmine",
+      "name": "Zebra`s mine",
+      "type": "explosives",
+      "short_description": "This mine is more powerful than usual fragmentation and plasma mines, and because of its camouflage pattern it is more difficult to notice. In addition, zebras often cast a curse on such mines, making them even more dangerous"
+    },
+    {
+      "id": "balemine",
+      "name": "Balefire mine",
+      "type": "explosives",
+      "short_description": "A balefire egg, turned into a mine. It is required to be a real explosives master to assemble and use such dangerous devices"
+    },
+    {
+      "id": "dbomb",
+      "name": "Dynamite pack",
+      "type": "explosives",
+      "short_description": "A couple of dynamite sticks, held together with duct tape. It is more effective for destroying walls, than ordinary dynamite, but doesn`t cause much damage to fortified concrete"
+    },
+    {
+      "id": "bomb",
+      "name": "Hoofmade bomb",
+      "type": "explosives",
+      "short_description": "Explosives made for destroying fragile walls. More sturdy walls may require a couple of these"
+    },
+    {
+      "id": "exc4",
+      "name": "The explosive C-4",
+      "type": "explosives",
+      "short_description": "It is a very powerful explosive device that can destroy even the sturdiest concrete wall. Useless against steel walls"
+    },
+    {
+      "id": "telebul",
+      "name": "Telekinetic bullet",
+      "type": "magic",
+      "short_description": "This spell allows to hit a remote target with a focused telekinetic field, dealing strike damage and knocking it back"
+    },
+    {
+      "id": "mbul",
+      "name": "Magic bullet",
+      "type": "magic",
+      "short_description": "One of the basic combat spells, shooting a simple blast of magical energy at the enemy. By the principle of action this spell resembles plasma weapons"
+    },
+    {
+      "id": "mbul^1",
+      "name": "Magic bullet - II",
+      "type": "magic",
+      "short_description": "One of the basic combat spells, shooting a simple blast of magical energy at the enemy. By the principle of action this spell resembles plasma weapons"
+    },
+    {
+      "id": "ice",
+      "name": "Ice shards",
+      "type": "magic",
+      "short_description": "This spell launches a blast of sharp icicles, piercing and freezing your enemies"
+    },
+    {
+      "id": "ice^1",
+      "name": "Ice shards - II",
+      "type": "magic",
+      "short_description": "This spell launches a blast of sharp icicles, piercing and freezing your enemies"
+    },
+    {
+      "id": "dragon",
+      "name": "Dragon breath",
+      "type": "magic",
+      "short_description": "This spell transforms unicorn magic power into a stream of fire, resembling dragon flames, even though, of course, not so devastating"
+    },
+    {
+      "id": "dragon^1",
+      "name": "Dragon breath - II",
+      "type": "magic",
+      "short_description": "This spell transforms unicorn magic power into a stream of fire, resembling dragon flames, even though, of course, not so devastating"
+    },
+    {
+      "id": "blades",
+      "name": "Ghost blades",
+      "type": "magic",
+      "short_description": "A spell that creates several sharp ghost blades at once, that spread out like a fan"
+    },
+    {
+      "id": "blades^1",
+      "name": "Ghost blades - II",
+      "type": "magic",
+      "short_description": "A spell that creates several sharp ghost blades at once, that spread out like a fan"
+    },
+    {
+      "id": "lightning",
+      "name": "Lightning bolt",
+      "type": "magic",
+      "short_description": "This spell hits enemy with almost a natural lightning! It causes more damage if target touches the ground, but it is not so effective against flying targets"
+    },
+    {
+      "id": "lightning^1",
+      "name": "Lightning bolt - II",
+      "type": "magic",
+      "short_description": "This spell hits enemy with almost a natural lightning! It causes more damage if target touches the ground, but it is not so effective against flying targets"
+    },
+    {
+      "id": "fireball",
+      "name": "Fireball",
+      "type": "magic",
+      "short_description": "Classics of combat magic. A fiery blast exploding when hitting the target, like a bazooka shot"
+    },
+    {
+      "id": "fireball^1",
+      "name": "Fireball - II",
+      "type": "magic",
+      "short_description": "Classics of combat magic. A fiery blast exploding when hitting the target, like a bazooka shot"
+    },
+    {
+      "id": "mray",
+      "name": "Magic beam",
+      "type": "magic",
+      "short_description": "This spell transforms unicorn magic into radiant energy of devastating power. It is also quite accurate at long range"
+    },
+    {
+      "id": "mray^1",
+      "name": "Magic beam - II",
+      "type": "magic",
+      "short_description": "This spell transforms unicorn magic into radiant energy of devastating power. It is also quite accurate at long range"
+    },
+    {
+      "id": "defwave",
+      "name": "Deformation wave",
+      "type": "magic",
+      "short_description": "A very complex spell. Allows launching a special shockwave, similar to one from an explosion, but of directed action. On impact enemies receive heavy internal damage"
+    },
+    {
+      "id": "defwave^1",
+      "name": "Deformation wave - II",
+      "type": "magic",
+      "short_description": "A very complex spell. Allows launching a special shockwave, similar to one from an explosion, but of directed action. On impact enemies receive heavy internal damage"
+    },
+    {
+      "id": "eclipse",
+      "name": "Black sun",
+      "type": "magic",
+      "short_description": "One of the most powerful spells in mage`s arsenal. Causes much damage and is very effective against crowding enemies, but is very demanding of magical power"
+    },
+    {
+      "id": "eclipse^1",
+      "name": "Black sun - II",
+      "type": "magic",
+      "short_description": "One of the most powerful spells in mage`s arsenal. Causes much damage and is very effective against crowding enemies, but is very demanding of magical power"
+    },
+    {
+      "id": "dray",
+      "name": "Death ray",
+      "type": "magic",
+      "short_description": "A spell that creates the strongest flow of negative energy that kills all life on its way, no matter how far is the distance. Does not work on non-living opponents"
+    },
+    {
+      "id": "udar",
+      "name": "Telekinetic shock",
+      "type": "magic",
+      "short_description": "The amplified version of the telekinetic bullet, producing 5 telekinetic projectiles simultaneously, causing target impact damage and throwing it back with a huge force"
+    },
+    {
+      "id": "skybolt",
+      "name": "Heavenly Lights",
+      "type": "magic",
+      "short_description": "A very powerful spell that allows you to emit streams of stellar energy from which there is no escape"
+    },
+    {
+      "id": "test",
+      "name": "Test",
+      "type": "lightGun",
+      "short_description": ""
+    },
+    {
+      "id": "a_melee",
+      "name": "Lunar halberd",
+      "type": "melee",
+      "short_description": "A weapon from the Alicorn`s Armor set. A magically created ghostly halberd, unusually light, sharp and never breaks"
+    },
+    {
+      "id": "a_fire",
+      "name": "Solar wind",
+      "type": "heavyGun",
+      "short_description": "A weapon from Alicorn`s Armor set. Similar to small arms by principle of action, though doesn`t require ammunition since bullets are created by magic"
+    },
+    {
+      "id": "a_energ",
+      "name": "Nebula",
+      "type": "heavyGun",
+      "short_description": "A weapon from Alicorn`s Armor set. Similar to plasma weapons, but uses a battery that takes power directly from the armor energy source"
+    },
+    {
+      "id": "a_expl",
+      "name": "Singularity",
+      "type": "heavyGun",
+      "short_description": "A weapon from Alicorn`s Armor set. Rapidly shoots dozens of magic shells that explode upon contact with a target"
+    },
+    {
+      "id": "a_magic",
+      "name": "Aurora polaris",
+      "type": "magic",
+      "short_description": "A battle spell embedded in Alicorn`s armor. Creates bursts of destructive cosmic energy"
+    },
+    {
+      "id": "paint",
+      "name": "Paint spray",
+      "type": "internal",
+      "short_description": ""
+    },
+    {
+      "id": "punch",
+      "name": "punch",
+      "type": "internal",
+      "short_description": ""
+    },
+    {
+      "id": "sp_slow",
+      "name": "Distortion field",
+      "type": "magic",
+      "short_description": "This spell surrounds you with a magic field that slows movements of any hostile objects. Improving \"Magic\" skill increases a radius of the field"
+    },
+    {
+      "id": "sp_mwall",
+      "name": "Magical barrier",
+      "type": "magic",
+      "short_description": "This spell enables you to summon a magical barrier in a specific location, absorbing enemy bullets and magical spells. The barrier has limited endurance and time of existence, after which it dissipates. Importantly, it lets your bullets and missiles come through"
+    },
+    {
+      "id": "sp_blast",
+      "name": "Kinetic blast",
+      "type": "magic",
+      "short_description": "This spell releases all your telekinetic power in one mighty impulse. All enemies around you get knocked back with enormous force and might even get stunned. It is very useful when you are surrounded"
+    },
+    {
+      "id": "sp_cryst",
+      "name": "Crystal shield",
+      "type": "magic",
+      "short_description": "This spell creates a shell around you that looks like a crystal. It absorbs any external damage, consuming magical energy instead of health. To use it, hold down the spell key"
+    },
+    {
+      "id": "sp_kdash",
+      "name": "Kinetic dash",
+      "type": "magic",
+      "short_description": "This spell uses your telekinetic powers to give you a powerful directed impulse. Can be used for evading attacks in combat or getting to hard-to-reach places"
+    },
+    {
+      "id": "sp_mshit",
+      "name": "Magical shield",
+      "type": "magic",
+      "short_description": "This spell surrounds you with a protective field, increasing your armor stats. It protects from any external damage, however strong blows, armor-piercing bullets and explosions can overwhelm the shield and cause a somewhat reduced damage. It has limited endurance and existence time"
+    },
+    {
+      "id": "sp_moon",
+      "name": "Moonblade",
+      "type": "magic",
+      "short_description": "The spell summons a spirit moonblade, fighting on your side"
+    },
+    {
+      "id": "sp_gwall",
+      "name": "Ghost wall",
+      "type": "magic",
+      "short_description": "Allows you to create a ghost wall impassable for your enemies. The wall has a certain limit of durability and lifetime. It is fully permeable for all inanimate objects, like bullets and shells, and for its creator. The wall cannot be created in doorways and on staircases"
+    },
+    {
+      "id": "sp_invulner",
+      "name": "Blood shield",
+      "type": "magic",
+      "short_description": "The spell uses some of your blood to create an impenetrable magic shield for a few seconds. It gives complete invulnerability to any external damage and can save you at the most critical moment at the cost of some blood loss. It won`t work if you don`t have enough blood"
+    },
+    {
+      "id": "necrbullet",
+      "name": "necrbullet",
+      "type": "internal",
+      "short_description": ""
+    },
+    {
+      "id": "mercgr",
+      "name": "Plasma grenade",
+      "type": "explosives",
+      "short_description": ""
+    },
+    {
+      "id": "alilight",
+      "name": "alilight",
+      "type": "internal",
+      "short_description": ""
+    },
+    {
+      "id": "alipsy",
+      "name": "alipsy",
+      "type": "internal",
+      "short_description": ""
+    },
+    {
+      "id": "alilight2",
+      "name": "alilight2",
+      "type": "internal",
+      "short_description": ""
+    },
+    {
+      "id": "aliblade",
+      "name": "Ghost blades",
+      "type": "internal",
+      "short_description": ""
+    },
+    {
+      "id": "alipsy2",
+      "name": "alipsy2",
+      "type": "internal",
+      "short_description": ""
+    },
+    {
+      "id": "alimray",
+      "name": "Death ray",
+      "type": "internal",
+      "short_description": ""
+    },
+    {
+      "id": "zombivenom",
+      "name": "zombivenom",
+      "type": "internal",
+      "short_description": ""
+    },
+    {
+      "id": "zombiacid",
+      "name": "zombiacid",
+      "type": "internal",
+      "short_description": ""
+    },
+    {
+      "id": "zombinecro",
+      "name": "zombinecro",
+      "type": "internal",
+      "short_description": ""
+    },
+    {
+      "id": "zombipink",
+      "name": "zombipink",
+      "type": "internal",
+      "short_description": ""
+    },
+    {
+      "id": "bloat",
+      "name": "bloat",
+      "type": "internal",
+      "short_description": ""
+    },
+    {
+      "id": "ship",
+      "name": "ship",
+      "type": "internal",
+      "short_description": ""
+    },
+    {
+      "id": "pinkbloat",
+      "name": "pinkbloat",
+      "type": "internal",
+      "short_description": ""
+    },
+    {
+      "id": "scorppunch",
+      "name": "scorppunch",
+      "type": "internal",
+      "short_description": ""
+    },
+    {
+      "id": "scorp2punch",
+      "name": "scorp2punch",
+      "type": "internal",
+      "short_description": ""
+    },
+    {
+      "id": "scorp3punch",
+      "name": "scorp3punch",
+      "type": "internal",
+      "short_description": ""
+    },
+    {
+      "id": "antfire",
+      "name": "antfire",
+      "type": "internal",
+      "short_description": ""
+    },
+    {
+      "id": "slime",
+      "name": "slime",
+      "type": "internal",
+      "short_description": ""
+    },
+    {
+      "id": "pinkslime",
+      "name": "Pink slime",
+      "type": "internal",
+      "short_description": "Slime which absorbed the concentrated Pink cloud"
+    },
+    {
+      "id": "phoenix",
+      "name": "phoenix",
+      "type": "internal",
+      "short_description": ""
+    },
+    {
+      "id": "robolaser",
+      "name": "Small laser",
+      "type": "internal",
+      "short_description": ""
+    },
+    {
+      "id": "robospark",
+      "name": "Arc thrower",
+      "type": "internal",
+      "short_description": ""
+    },
+    {
+      "id": "robolaser2",
+      "name": "Laser cannon",
+      "type": "internal",
+      "short_description": ""
+    },
+    {
+      "id": "robospark2",
+      "name": "Spark cannon",
+      "type": "internal",
+      "short_description": ""
+    },
+    {
+      "id": "roboplasma",
+      "name": "Plasma cannon",
+      "type": "internal",
+      "short_description": ""
+    },
+    {
+      "id": "roboplasma2",
+      "name": "Enhanced plasma",
+      "type": "internal",
+      "short_description": ""
+    },
+    {
+      "id": "robofire",
+      "name": "Flamethrower",
+      "type": "internal",
+      "short_description": ""
+    },
+    {
+      "id": "roboplam",
+      "name": "Plasma caster",
+      "type": "internal",
+      "short_description": ""
+    },
+    {
+      "id": "robosparkl",
+      "name": "Rapid-fire Laser",
+      "type": "internal",
+      "short_description": ""
+    },
+    {
+      "id": "robonova",
+      "name": "Enhanced laser",
+      "type": "internal",
+      "short_description": ""
+    },
+    {
+      "id": "robofire2",
+      "name": "Enhanced flamethrower",
+      "type": "internal",
+      "short_description": ""
+    },
+    {
+      "id": "robominigun",
+      "name": "Minigun",
+      "type": "internal",
+      "short_description": ""
+    },
+    {
+      "id": "robogatl",
+      "name": "Laser minigun",
+      "type": "internal",
+      "short_description": ""
+    },
+    {
+      "id": "robomlau",
+      "name": "Rocket launcher",
+      "type": "internal",
+      "short_description": ""
+    },
+    {
+      "id": "robogatp",
+      "name": "Plasma minigun",
+      "type": "internal",
+      "short_description": ""
+    },
+    {
+      "id": "robogatp2",
+      "name": "robogatp2",
+      "type": "internal",
+      "short_description": ""
+    },
+    {
+      "id": "robomlau2",
+      "name": "Multiple launch rocket system",
+      "type": "internal",
+      "short_description": ""
+    },
+    {
+      "id": "robogas",
+      "name": "Gas rocket",
+      "type": "internal",
+      "short_description": ""
+    },
+    {
+      "id": "roboplagr",
+      "name": "Plasma grenade",
+      "type": "explosives",
+      "short_description": ""
+    },
+    {
+      "id": "dronmlau",
+      "name": "Rocket launcher",
+      "type": "internal",
+      "short_description": ""
+    },
+    {
+      "id": "drongr",
+      "name": "Plasma grenade",
+      "type": "explosives",
+      "short_description": ""
+    },
+    {
+      "id": "dronlaser",
+      "name": "Laser cannon",
+      "type": "internal",
+      "short_description": ""
+    },
+    {
+      "id": "dronplasma",
+      "name": "Plasma cannon",
+      "type": "internal",
+      "short_description": ""
+    },
+    {
+      "id": "dronpspark",
+      "name": "Spark cannon",
+      "type": "internal",
+      "short_description": ""
+    },
+    {
+      "id": "owllaser",
+      "name": "owllaser",
+      "type": "internal",
+      "short_description": ""
+    },
+    {
+      "id": "turretWep1",
+      "name": "turretWep1",
+      "type": "internal",
+      "short_description": ""
+    },
+    {
+      "id": "turretWep2",
+      "name": "turretWep2",
+      "type": "internal",
+      "short_description": ""
+    },
+    {
+      "id": "turretWep3",
+      "name": "turretWep3",
+      "type": "internal",
+      "short_description": ""
+    },
+    {
+      "id": "turretWep4",
+      "name": "turretWep4",
+      "type": "internal",
+      "short_description": ""
+    },
+    {
+      "id": "turretWep5",
+      "name": "turretWep5",
+      "type": "internal",
+      "short_description": ""
+    },
+    {
+      "id": "turretWep6",
+      "name": "turretWep6",
+      "type": "internal",
+      "short_description": ""
+    },
+    {
+      "id": "turretWep7",
+      "name": "turretWep7",
+      "type": "internal",
+      "short_description": ""
+    },
+    {
+      "id": "turretWep10",
+      "name": "turretWep10",
+      "type": "internal",
+      "short_description": ""
+    },
+    {
+      "id": "ttweap1",
+      "name": "ttweap1",
+      "type": "internal",
+      "short_description": ""
+    },
+    {
+      "id": "ttweap2",
+      "name": "ttweap2",
+      "type": "internal",
+      "short_description": ""
+    },
+    {
+      "id": "ttweap3",
+      "name": "ttweap3",
+      "type": "internal",
+      "short_description": ""
+    },
+    {
+      "id": "ttweap4",
+      "name": "ttweap4",
+      "type": "internal",
+      "short_description": ""
+    },
+    {
+      "id": "ttweap5",
+      "name": "ttweap5",
+      "type": "internal",
+      "short_description": ""
+    },
+    {
+      "id": "ttweap6",
+      "name": "ttweap6",
+      "type": "internal",
+      "short_description": ""
+    }
+  ]
+}

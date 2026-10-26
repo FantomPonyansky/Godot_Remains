@@ -1,0 +1,120 @@
+{
+  "source": "items.xml tip=spell. magic is paid from the magic bar (UnitPlayer.mana), mana from Pers.manaHP. cooldown is culd in seconds.",
+  "spells": [
+    {
+      "id": "sp_slow",
+      "name": "Distortion field",
+      "kind": "spell",
+      "effect": "slow",
+      "magic": 500,
+      "mana": 30,
+      "cooldown": 10,
+      "radius": 200,
+      "spell_hp": 60,
+      "pending": false,
+      "blurb": "This spell surrounds you with a magic field that slows movements of any hostile objects. Improving \"Magic\" skill increases a radius of the field"
+    },
+    {
+      "id": "sp_mwall",
+      "name": "Magical barrier",
+      "kind": "spell",
+      "effect": "barrier",
+      "magic": 300,
+      "mana": 30,
+      "cooldown": 20,
+      "spell_hp": 200,
+      "dist": 300,
+      "line": 1,
+      "pending": false,
+      "blurb": "This spell enables you to summon a magical barrier in a specific location, absorbing enemy bullets and magical spells. The barrier has limited endurance and time of existence, after which it dissipates. Importantly, it lets your bullets and missiles come through"
+    },
+    {
+      "id": "sp_blast",
+      "name": "Kinetic blast",
+      "kind": "spell",
+      "effect": "blast",
+      "magic": 300,
+      "mana": 30,
+      "cooldown": 10,
+      "damage": 20,
+      "radius": 500,
+      "tele": 1,
+      "pending": false,
+      "blurb": "This spell releases all your telekinetic power in one mighty impulse. All enemies around you get knocked back with enormous force and might even get stunned. It is very useful when you are surrounded"
+    },
+    {
+      "id": "sp_cryst",
+      "name": "Crystal shield",
+      "kind": "spell",
+      "effect": "crystal",
+      "magic": 50,
+      "mana": 5,
+      "cooldown": 0,
+      "pending": false,
+      "blurb": "This spell creates a shell around you that looks like a crystal. It absorbs any external damage, consuming magical energy instead of health. To use it, hold down the spell key"
+    },
+    {
+      "id": "sp_kdash",
+      "name": "Kinetic dash",
+      "kind": "spell",
+      "effect": "dash",
+      "magic": 100,
+      "mana": 10,
+      "cooldown": 3,
+      "damage": 20,
+      "tele": 1,
+      "pending": false,
+      "blurb": "This spell uses your telekinetic powers to give you a powerful directed impulse. Can be used for evading attacks in combat or getting to hard-to-reach places"
+    },
+    {
+      "id": "sp_mshit",
+      "name": "Magical shield",
+      "kind": "spell",
+      "effect": "shield",
+      "magic": 500,
+      "mana": 100,
+      "cooldown": 30,
+      "spell_hp": 150,
+      "pending": false,
+      "blurb": "This spell surrounds you with a protective field, increasing your armor stats. It protects from any external damage, however strong blows, armor-piercing bullets and explosions can overwhelm the shield and cause a somewhat reduced damage. It has limited endurance and existence time"
+    },
+    {
+      "id": "sp_moon",
+      "name": "Moonblade",
+      "kind": "spell",
+      "effect": "moonblade",
+      "magic": 800,
+      "mana": 300,
+      "cooldown": 60,
+      "pending": false,
+      "blurb": "The spell summons a spirit moonblade, fighting on your side"
+    },
+    {
+      "id": "sp_gwall",
+      "name": "Ghost wall",
+      "kind": "spell",
+      "effect": "ghost_wall",
+      "magic": 500,
+      "mana": 50,
+      "cooldown": 6,
+      "spell_hp": 100,
+      "damage": 10,
+      "dist": 300,
+      "line": 1,
+      "pending": false,
+      "blurb": "Allows you to create a ghost wall impassable for your enemies. The wall has a certain limit of durability and lifetime. It is fully permeable for all inanimate objects, like bullets and shells, and for its creator. The wall cannot be created in doorways and on staircases"
+    },
+    {
+      "id": "sp_invulner",
+      "name": "Blood shield",
+      "kind": "spell",
+      "effect": "blood_shield",
+      "magic": 800,
+      "mana": 200,
+      "cooldown": 12,
+      "damage": 50,
+      "pending": false,
+      "blurb": "The spell uses some of your blood to create an impenetrable magic shield for a few seconds. It gives complete invulnerability to any external damage and can save you at the most critical moment at the cost of some blood loss. It won't work if you don't have enough blood"
+    }
+  ]
+}

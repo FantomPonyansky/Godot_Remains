@@ -1,0 +1,3621 @@
+{
+  "source": "Remains-Source2 schematics.json, weapons.json, armors.json, ammo.json",
+  "stations": {
+    "work": {
+      "object": "work",
+      "name": "Верстак",
+      "pages": [
+        "craft",
+        "upgrade",
+        "repair"
+      ],
+      "benches": [
+        "work",
+        "expl"
+      ]
+    },
+    "lab": {
+      "object": "himlab",
+      "name": "Лаборатория",
+      "pages": [
+        "craft"
+      ],
+      "benches": [
+        "lab"
+      ]
+    },
+    "stove": {
+      "object": "stove",
+      "name": "Stove",
+      "pages": [
+        "craft"
+      ],
+      "benches": [
+        "stove"
+      ]
+    },
+    "expl": {
+      "object": "mworkexpl",
+      "name": "Explosives kit",
+      "pages": [
+        "craft"
+      ],
+      "benches": [
+        "expl"
+      ]
+    },
+    "mworkbench": {
+      "object": "mworkbench",
+      "name": "Portable workbench",
+      "pages": [
+        "repair"
+      ],
+      "benches": []
+    }
+  },
+  "recipes": [
+    {
+      "id": "s_hsword",
+      "result": "hsword",
+      "kind": "weapon",
+      "one": false,
+      "bench": "work",
+      "cat": "weapon",
+      "skill": "repair",
+      "skill_level": 1,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "strap": 1,
+        "fblade": 1
+      }
+    },
+    {
+      "id": "s_arson",
+      "result": "arson",
+      "kind": "weapon",
+      "one": false,
+      "bench": "work",
+      "cat": "weapon",
+      "skill": "repair",
+      "skill_level": 0,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "tape": 1,
+        "lighter": 1,
+        "aero": 100
+      }
+    },
+    {
+      "id": "s_dartgun",
+      "result": "dartgun",
+      "kind": "weapon",
+      "one": false,
+      "bench": "work",
+      "cat": "weapon",
+      "skill": "repair",
+      "skill_level": 1,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "glue": 1,
+        "gland": 1,
+        "tubing": 2,
+        "frag": 5
+      }
+    },
+    {
+      "id": "s_acidgun",
+      "result": "acidgun",
+      "kind": "weapon",
+      "one": false,
+      "bench": "work",
+      "cat": "weapon",
+      "skill": "repair",
+      "skill_level": 2,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "pulv": 1,
+        "compress": 1,
+        "pbatt": 1,
+        "frag": 10
+      }
+    },
+    {
+      "id": "s_sawgun",
+      "result": "sawgun",
+      "kind": "weapon",
+      "one": false,
+      "bench": "work",
+      "cat": "weapon",
+      "skill": "repair",
+      "skill_level": 3,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "motor": 1,
+        "spring": 4,
+        "pbatt": 3,
+        "frag": 20
+      }
+    },
+    {
+      "id": "s_buckshot",
+      "result": "buckshot",
+      "kind": "weapon",
+      "one": false,
+      "bench": "work",
+      "cat": "weapon",
+      "skill": "repair",
+      "skill_level": 4,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "resscook": 1,
+        "mano": 1,
+        "pbatt": 5,
+        "frag": 25
+      }
+    },
+    {
+      "id": "s_railway",
+      "result": "railway",
+      "kind": "weapon",
+      "one": false,
+      "bench": "work",
+      "cat": "weapon",
+      "skill": "repair",
+      "skill_level": 5,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "tlevit": 1,
+        "condens": 2,
+        "magnit": 5,
+        "pbatt": 3,
+        "frag": 30
+      }
+    },
+    {
+      "id": "s_bfg",
+      "result": "bfg",
+      "kind": "weapon",
+      "one": false,
+      "bench": "work",
+      "cat": "weapon",
+      "skill": "science",
+      "skill_level": 5,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "fcrystal": 1,
+        "superc": 2,
+        "condens": 5,
+        "elcomp": 15,
+        "frag": 30
+      }
+    },
+    {
+      "id": "s_cdagger",
+      "result": "cdagger",
+      "kind": "weapon",
+      "one": false,
+      "bench": "work",
+      "cat": "weapon",
+      "skill": "repair",
+      "skill_level": 4,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "kogt": 1,
+        "strap": 1,
+        "tape": 1,
+        "glue": 1
+      }
+    },
+    {
+      "id": "s_friend",
+      "result": "friend",
+      "kind": "weapon",
+      "one": false,
+      "bench": "work",
+      "cat": "weapon",
+      "skill": "repair",
+      "skill_level": 5,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "hcrystal": 7,
+        "superc": 1,
+        "condens": 1,
+        "elcomp": 20,
+        "frag": 30
+      }
+    },
+    {
+      "id": "s_hgren",
+      "result": "hgren",
+      "kind": "explosives",
+      "one": false,
+      "bench": "expl",
+      "cat": "weapon",
+      "skill": "explosives",
+      "skill_level": 1,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "can": 1,
+        "detonat": 1,
+        "powder": 1,
+        "scrap": 5
+      }
+    },
+    {
+      "id": "s_molotov",
+      "result": "molotov",
+      "kind": "explosives",
+      "one": false,
+      "bench": "expl",
+      "cat": "weapon",
+      "skill": "explosives",
+      "skill_level": 1,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "bottle": 1,
+        "fuel": 25
+      }
+    },
+    {
+      "id": "s_hmine",
+      "result": "hmine",
+      "kind": "explosives",
+      "one": false,
+      "bench": "expl",
+      "cat": "weapon",
+      "skill": "explosives",
+      "skill_level": 1,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "lunchbox": 1,
+        "sensor": 1,
+        "powder": 1,
+        "scrap": 5
+      }
+    },
+    {
+      "id": "s_acidgr",
+      "result": "acidgr",
+      "kind": "explosives",
+      "one": false,
+      "bench": "expl",
+      "cat": "weapon",
+      "skill": "explosives",
+      "skill_level": 2,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "bottle": 1,
+        "acid": 3
+      }
+    },
+    {
+      "id": "s_dbomb",
+      "result": "dbomb",
+      "kind": "explosives",
+      "one": false,
+      "bench": "expl",
+      "cat": "weapon",
+      "skill": "explosives",
+      "skill_level": 2,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "dinamit": 3,
+        "tape": 1
+      }
+    },
+    {
+      "id": "s_bomb",
+      "result": "bomb",
+      "kind": "explosives",
+      "one": false,
+      "bench": "expl",
+      "cat": "weapon",
+      "skill": "explosives",
+      "skill_level": 3,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "tnt": 1,
+        "detonat": 1,
+        "timer": 1
+      }
+    },
+    {
+      "id": "s_cryogr",
+      "result": "cryogr",
+      "kind": "explosives",
+      "one": false,
+      "bench": "expl",
+      "cat": "weapon",
+      "skill": "explosives",
+      "skill_level": 3,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "can": 1,
+        "detonat": 1,
+        "pcryo": 5
+      }
+    },
+    {
+      "id": "s_cryomine",
+      "result": "cryomine",
+      "kind": "explosives",
+      "one": false,
+      "bench": "expl",
+      "cat": "weapon",
+      "skill": "explosives",
+      "skill_level": 3,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "lunchbox": 1,
+        "sensor": 1,
+        "pcryo": 5
+      }
+    },
+    {
+      "id": "s_balemine",
+      "result": "balemine",
+      "kind": "explosives",
+      "one": false,
+      "bench": "expl",
+      "cat": "weapon",
+      "skill": "explosives",
+      "skill_level": 5,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "mine": 1,
+        "egg": 1
+      }
+    },
+    {
+      "id": "s_spgren",
+      "result": "spgren",
+      "kind": "explosives",
+      "one": false,
+      "bench": "expl",
+      "cat": "weapon",
+      "skill": "explosives",
+      "skill_level": 5,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "can": 1,
+        "radcola": 1,
+        "turp": 1,
+        "app": 1
+      }
+    },
+    {
+      "id": "s_empbomb",
+      "result": "empbomb",
+      "kind": "item",
+      "one": false,
+      "bench": "expl",
+      "cat": "weapon",
+      "skill": "explosives",
+      "skill_level": 5,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "condens": 1,
+        "magnit": 1,
+        "impgr": 4,
+        "crystal": 100
+      }
+    },
+    {
+      "id": "s_mod_metal",
+      "result": "mod_metal",
+      "kind": "impl",
+      "one": false,
+      "bench": "work",
+      "cat": "",
+      "skill": "science",
+      "skill_level": 1,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "impgen": 1,
+        "chip": 1,
+        "elcomp": 10
+      }
+    },
+    {
+      "id": "s_mod_analis",
+      "result": "mod_analis",
+      "kind": "impl",
+      "one": false,
+      "bench": "work",
+      "cat": "",
+      "skill": "science",
+      "skill_level": 2,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "uscan": 1,
+        "chip": 1,
+        "elcomp": 15
+      }
+    },
+    {
+      "id": "s_mod_target",
+      "result": "mod_target",
+      "kind": "impl",
+      "one": false,
+      "bench": "work",
+      "cat": "",
+      "skill": "science",
+      "skill_level": 3,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "tlaser": 1,
+        "chip": 1,
+        "elcomp": 20
+      }
+    },
+    {
+      "id": "s_mod_holo",
+      "result": "mod_holo",
+      "kind": "impl",
+      "one": false,
+      "bench": "work",
+      "cat": "",
+      "skill": "science",
+      "skill_level": 4,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "pcrystal": 1,
+        "chip": 1,
+        "elcomp": 25
+      }
+    },
+    {
+      "id": "s_mod_reanim",
+      "result": "mod_reanim",
+      "kind": "impl",
+      "one": false,
+      "bench": "work",
+      "cat": "",
+      "skill": "science",
+      "skill_level": 5,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "tmed": 1,
+        "chip": 1,
+        "elcomp": 30
+      }
+    },
+    {
+      "id": "s_mod_hacker",
+      "result": "mod_hacker",
+      "kind": "impl",
+      "one": false,
+      "bench": "work",
+      "cat": "",
+      "skill": "science",
+      "skill_level": 3,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "bdpass": 1,
+        "chip": 1,
+        "reboot": 1,
+        "elcomp": 20
+      }
+    },
+    {
+      "id": "s_owl",
+      "result": "owl",
+      "kind": "item",
+      "one": true,
+      "bench": "work",
+      "cat": "",
+      "skill": "repair",
+      "skill_level": 3,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "c_owl": 1,
+        "tlevit": 1,
+        "chip": 1,
+        "pbatt": 3,
+        "scrap": 30,
+        "elcomp": 20
+      }
+    },
+    {
+      "id": "s_owl_armor",
+      "result": "owl_armor",
+      "kind": "impl",
+      "one": false,
+      "bench": "work",
+      "cat": "",
+      "skill": "repair",
+      "skill_level": 4,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "battle_comp": 5,
+        "magus_comp": 5,
+        "magnit": 1,
+        "scrap": 20
+      }
+    },
+    {
+      "id": "s_owl_weapon",
+      "result": "owl_weapon",
+      "kind": "impl",
+      "one": false,
+      "bench": "work",
+      "cat": "",
+      "skill": "repair",
+      "skill_level": 5,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "fcrystal": 1,
+        "superc": 1,
+        "elcomp": 20
+      }
+    },
+    {
+      "id": "s_chitin",
+      "result": "chitin",
+      "kind": "armor",
+      "one": false,
+      "bench": "work",
+      "cat": "armor",
+      "skill": "repair",
+      "skill_level": 3,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "chitin_comp": 20,
+        "tape": 4,
+        "strap": 4,
+        "glue": 3
+      }
+    },
+    {
+      "id": "s_potion_stim",
+      "result": "potion_stim",
+      "kind": "item",
+      "one": false,
+      "bench": "lab",
+      "cat": "",
+      "skill": "survival",
+      "skill_level": 2,
+      "perk": "potmaster",
+      "kol": 1,
+      "ingredients": {
+        "ghoulblood": 1,
+        "ratliver": 3,
+        "herbs": 3
+      }
+    },
+    {
+      "id": "s_potion_swim",
+      "result": "potion_swim",
+      "kind": "item",
+      "one": false,
+      "bench": "lab",
+      "cat": "",
+      "skill": "survival",
+      "skill_level": 1,
+      "perk": "potmaster",
+      "kol": 1,
+      "ingredients": {
+        "wingmembrane": 1,
+        "fishfat": 2,
+        "herbs": 3
+      }
+    },
+    {
+      "id": "s_potion_fly",
+      "result": "potion_fly",
+      "kind": "item",
+      "one": false,
+      "bench": "lab",
+      "cat": "",
+      "skill": "survival",
+      "skill_level": 5,
+      "perk": "potmaster",
+      "kol": 1,
+      "ingredients": {
+        "wingmembrane": 1,
+        "bloatwing": 4,
+        "herbs": 8
+      }
+    },
+    {
+      "id": "s_potion_shadow",
+      "result": "potion_shadow",
+      "kind": "item",
+      "one": false,
+      "bench": "lab",
+      "cat": "",
+      "skill": "survival",
+      "skill_level": 4,
+      "perk": "potmaster",
+      "kol": 1,
+      "ingredients": {
+        "radslime": 1,
+        "vampfang": 1,
+        "herbs": 5
+      }
+    },
+    {
+      "id": "s_potion_mage",
+      "result": "potion_mage",
+      "kind": "item",
+      "one": false,
+      "bench": "lab",
+      "cat": "",
+      "skill": "survival",
+      "skill_level": 1,
+      "perk": "potmaster",
+      "kol": 1,
+      "ingredients": {
+        "app": 1,
+        "sparklecola": 1,
+        "herbs": 3
+      }
+    },
+    {
+      "id": "s_potion_infra",
+      "result": "potion_infra",
+      "kind": "item",
+      "one": false,
+      "bench": "lab",
+      "cat": "",
+      "skill": "survival",
+      "skill_level": 3,
+      "perk": "potmaster",
+      "kol": 1,
+      "ingredients": {
+        "bloateye": 2,
+        "rattail": 2,
+        "herbs": 5
+      }
+    },
+    {
+      "id": "s_potion_pink",
+      "result": "potion_pink",
+      "kind": "item",
+      "one": false,
+      "bench": "lab",
+      "cat": "",
+      "skill": "survival",
+      "skill_level": 3,
+      "perk": "potmaster",
+      "kol": 1,
+      "ingredients": {
+        "pinkslime": 3,
+        "app": 1,
+        "herbs": 5
+      }
+    },
+    {
+      "id": "s_potion_purif",
+      "result": "potion_purif",
+      "kind": "item",
+      "one": false,
+      "bench": "lab",
+      "cat": "",
+      "skill": "survival",
+      "skill_level": 4,
+      "perk": "potmaster",
+      "kol": 1,
+      "ingredients": {
+        "dsoul": 1,
+        "mdust": 3,
+        "herbs": 5
+      }
+    },
+    {
+      "id": "s_potion_chance",
+      "result": "potion_chance",
+      "kind": "item",
+      "one": false,
+      "bench": "lab",
+      "cat": "",
+      "skill": "survival",
+      "skill_level": 5,
+      "perk": "potmaster",
+      "kol": 1,
+      "ingredients": {
+        "molefat": 3,
+        "dsoul": 1,
+        "whorn": 1,
+        "herbs": 5
+      }
+    },
+    {
+      "id": "s_rollup",
+      "result": "rollup",
+      "kind": "item",
+      "one": false,
+      "bench": "lab",
+      "cat": "",
+      "skill": "survival",
+      "skill_level": 0,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "app": 1,
+        "herbs": 5
+      }
+    },
+    {
+      "id": "s_acid",
+      "result": "acid",
+      "kind": "item",
+      "one": false,
+      "bench": "lab",
+      "cat": "item",
+      "skill": "survival",
+      "skill_level": 2,
+      "perk": "",
+      "kol": 15,
+      "ingredients": {
+        "acidslime": 5
+      }
+    },
+    {
+      "id": "s_fuel",
+      "result": "fuel",
+      "kind": "item",
+      "one": false,
+      "bench": "lab",
+      "cat": "item",
+      "skill": "survival",
+      "skill_level": 1,
+      "perk": "",
+      "kol": 100,
+      "ingredients": {
+        "firegland": 1
+      }
+    },
+    {
+      "id": "s_ultradash",
+      "result": "ultradash",
+      "kind": "item",
+      "one": false,
+      "bench": "lab",
+      "cat": "",
+      "skill": "medic",
+      "skill_level": 2,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "dash": 1,
+        "sparklecola": 1,
+        "bloatwing": 1,
+        "herbs": 3
+      }
+    },
+    {
+      "id": "s_stampede",
+      "result": "stampede",
+      "kind": "item",
+      "one": false,
+      "bench": "lab",
+      "cat": "",
+      "skill": "medic",
+      "skill_level": 3,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "medx": 1,
+        "rage": 1,
+        "fishfat": 1,
+        "herbs": 3
+      }
+    },
+    {
+      "id": "s_pmint",
+      "result": "pmint",
+      "kind": "item",
+      "one": false,
+      "bench": "lab",
+      "cat": "",
+      "skill": "medic",
+      "skill_level": 4,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "mint": 1,
+        "mdust": 1,
+        "app": 1,
+        "herbs": 5
+      }
+    },
+    {
+      "id": "s_potion_dskel",
+      "result": "potion_dskel",
+      "kind": "item",
+      "one": false,
+      "bench": "lab",
+      "cat": "",
+      "skill": "survival",
+      "skill_level": 3,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "acidslime": 5,
+        "ratliver": 3,
+        "taintextract": 1,
+        "herbs": 10,
+        "essence": 1
+      }
+    },
+    {
+      "id": "s_potion_immun",
+      "result": "potion_immun",
+      "kind": "item",
+      "one": false,
+      "bench": "lab",
+      "cat": "",
+      "skill": "survival",
+      "skill_level": 1,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "ghoulblood": 1,
+        "radslime": 3,
+        "hydrablood": 1,
+        "herbs": 10,
+        "essence": 1
+      }
+    },
+    {
+      "id": "s_potion_might",
+      "result": "potion_might",
+      "kind": "item",
+      "one": false,
+      "bench": "lab",
+      "cat": "",
+      "skill": "survival",
+      "skill_level": 4,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "molefat": 5,
+        "vampfang": 3,
+        "stardust": 1,
+        "herbs": 10,
+        "essence": 1
+      }
+    },
+    {
+      "id": "s_potion_speed",
+      "result": "potion_speed",
+      "kind": "item",
+      "one": false,
+      "bench": "lab",
+      "cat": "",
+      "skill": "survival",
+      "skill_level": 2,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "bloatwing": 5,
+        "rattail": 3,
+        "rainbow": 1,
+        "herbs": 10,
+        "essence": 1
+      }
+    },
+    {
+      "id": "s_potion_prec",
+      "result": "potion_prec",
+      "kind": "item",
+      "one": false,
+      "bench": "lab",
+      "cat": "",
+      "skill": "survival",
+      "skill_level": 5,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "bloateye": 5,
+        "firegland": 3,
+        "gland": 3,
+        "moonstone": 1,
+        "herbs": 10,
+        "essence": 1
+      }
+    },
+    {
+      "id": "s_potion_elements",
+      "result": "potion_elements",
+      "kind": "item",
+      "one": false,
+      "bench": "lab",
+      "cat": "",
+      "skill": "magic",
+      "skill_level": 3,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "mdust": 5,
+        "firegland": 3,
+        "firecrystal": 1,
+        "herbs": 10,
+        "essence": 1
+      }
+    },
+    {
+      "id": "s_potion_dexter",
+      "result": "potion_dexter",
+      "kind": "item",
+      "one": false,
+      "bench": "lab",
+      "cat": "",
+      "skill": "survival",
+      "skill_level": 4,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "acidslime": 5,
+        "dsoul": 1,
+        "darkfrag": 1,
+        "herbs": 12,
+        "essence": 1
+      }
+    },
+    {
+      "id": "s_potion_crit",
+      "result": "potion_crit",
+      "kind": "item",
+      "one": false,
+      "bench": "lab",
+      "cat": "",
+      "skill": "survival",
+      "skill_level": 5,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "pinkslime": 5,
+        "mdust": 3,
+        "whorn": 1,
+        "abssalt": 1,
+        "herbs": 12,
+        "essence": 1
+      }
+    },
+    {
+      "id": "s_frmeat",
+      "result": "frmeat",
+      "kind": "item",
+      "one": false,
+      "bench": "stove",
+      "cat": "",
+      "skill": "survival",
+      "skill_level": 0,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "meat": 1
+      }
+    },
+    {
+      "id": "s_cucsand",
+      "result": "cucsand",
+      "kind": "item",
+      "one": false,
+      "bench": "stove",
+      "cat": "",
+      "skill": "survival",
+      "skill_level": 1,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "bread": 1,
+        "cucumber": 1
+      }
+    },
+    {
+      "id": "s_frpot",
+      "result": "frpot",
+      "kind": "item",
+      "one": false,
+      "bench": "stove",
+      "cat": "",
+      "skill": "survival",
+      "skill_level": 1,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "potato": 1,
+        "butter": 1
+      }
+    },
+    {
+      "id": "s_oatmeal",
+      "result": "oatmeal",
+      "kind": "item",
+      "one": false,
+      "bench": "stove",
+      "cat": "",
+      "skill": "survival",
+      "skill_level": 1,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "oats": 1,
+        "milk": 1
+      }
+    },
+    {
+      "id": "s_salad",
+      "result": "salad",
+      "kind": "item",
+      "one": false,
+      "bench": "stove",
+      "cat": "",
+      "skill": "survival",
+      "skill_level": 2,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "tomato": 1,
+        "cucumber": 1,
+        "cabbage": 1
+      }
+    },
+    {
+      "id": "s_chpasta",
+      "result": "chpasta",
+      "kind": "item",
+      "one": false,
+      "bench": "stove",
+      "cat": "",
+      "skill": "survival",
+      "skill_level": 2,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "pasta": 1,
+        "cheese": 1,
+        "ketchup": 1
+      }
+    },
+    {
+      "id": "s_omelet",
+      "result": "omelet",
+      "kind": "item",
+      "one": false,
+      "bench": "stove",
+      "cat": "",
+      "skill": "survival",
+      "skill_level": 2,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "tegg": 2,
+        "mushroom": 1,
+        "crackers": 1
+      }
+    },
+    {
+      "id": "s_butterbr",
+      "result": "butterbr",
+      "kind": "item",
+      "one": false,
+      "bench": "stove",
+      "cat": "",
+      "skill": "survival",
+      "skill_level": 2,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "bread": 1,
+        "cheese": 1,
+        "butter": 1
+      }
+    },
+    {
+      "id": "s_breakfast",
+      "result": "breakfast",
+      "kind": "item",
+      "one": false,
+      "bench": "stove",
+      "cat": "",
+      "skill": "survival",
+      "skill_level": 3,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "bread": 1,
+        "noodles": 1,
+        "dinner": 1,
+        "sbombs": 1
+      }
+    },
+    {
+      "id": "s_soup",
+      "result": "soup",
+      "kind": "item",
+      "one": false,
+      "bench": "stove",
+      "cat": "",
+      "skill": "survival",
+      "skill_level": 3,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "potato": 1,
+        "carrot": 1,
+        "oats": 1,
+        "onion": 1
+      }
+    },
+    {
+      "id": "s_pizza",
+      "result": "pizza",
+      "kind": "item",
+      "one": false,
+      "bench": "stove",
+      "cat": "",
+      "skill": "survival",
+      "skill_level": 3,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "flour": 1,
+        "tomato": 1,
+        "cheese": 1,
+        "mushroom": 1,
+        "ketchup": 1
+      }
+    },
+    {
+      "id": "s_casser",
+      "result": "casser",
+      "kind": "item",
+      "one": false,
+      "bench": "stove",
+      "cat": "",
+      "skill": "survival",
+      "skill_level": 3,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "potato": 1,
+        "cabbage": 1,
+        "carrot": 1,
+        "cheese": 1
+      }
+    },
+    {
+      "id": "s_ragu",
+      "result": "ragu",
+      "kind": "item",
+      "one": false,
+      "bench": "stove",
+      "cat": "",
+      "skill": "survival",
+      "skill_level": 4,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "meat": 1,
+        "potato": 1,
+        "carrot": 1,
+        "onion": 1,
+        "ketchup": 1
+      }
+    },
+    {
+      "id": "s_spsalad",
+      "result": "spsalad",
+      "kind": "item",
+      "one": false,
+      "bench": "stove",
+      "cat": "",
+      "skill": "survival",
+      "skill_level": 4,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "corn": 1,
+        "apple": 1,
+        "cheese": 1,
+        "cucumber": 1,
+        "nuts": 1
+      }
+    },
+    {
+      "id": "s_patty",
+      "result": "patty",
+      "kind": "item",
+      "one": false,
+      "bench": "stove",
+      "cat": "",
+      "skill": "survival",
+      "skill_level": 4,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "milk": 1,
+        "flour": 1,
+        "tegg": 1,
+        "butter": 1,
+        "cabbage": 1
+      }
+    },
+    {
+      "id": "s_maffin",
+      "result": "maffin",
+      "kind": "item",
+      "one": false,
+      "bench": "stove",
+      "cat": "",
+      "skill": "survival",
+      "skill_level": 4,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "flour": 1,
+        "butter": 1,
+        "sugar": 1,
+        "tegg": 2,
+        "coffee": 1
+      }
+    },
+    {
+      "id": "s_apie",
+      "result": "apie",
+      "kind": "item",
+      "one": false,
+      "bench": "stove",
+      "cat": "",
+      "skill": "survival",
+      "skill_level": 5,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "apple": 3,
+        "milk": 1,
+        "flour": 1,
+        "sugar": 1,
+        "butter": 1,
+        "tegg": 1
+      }
+    },
+    {
+      "id": "s_mpie",
+      "result": "mpie",
+      "kind": "item",
+      "one": false,
+      "bench": "stove",
+      "cat": "",
+      "skill": "survival",
+      "skill_level": 5,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "meat": 2,
+        "milk": 1,
+        "onion": 1,
+        "flour": 1,
+        "garlic": 1,
+        "tegg": 1
+      }
+    },
+    {
+      "id": "s_ppie",
+      "result": "ppie",
+      "kind": "item",
+      "one": false,
+      "bench": "stove",
+      "cat": "",
+      "skill": "survival",
+      "skill_level": 5,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "firegland": 1,
+        "hooch": 1,
+        "garlic": 1,
+        "flour": 1,
+        "chips": 1,
+        "tegg": 1,
+        "mushroom": 1
+      }
+    },
+    {
+      "id": "s_spie",
+      "result": "spie",
+      "kind": "item",
+      "one": false,
+      "bench": "stove",
+      "cat": "",
+      "skill": "survival",
+      "skill_level": 5,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "honey": 1,
+        "lollipops": 1,
+        "bananas": 1,
+        "halva": 1,
+        "sugar": 1,
+        "flour": 1,
+        "milk": 1
+      }
+    },
+    {
+      "id": "s_borsch",
+      "result": "borsch",
+      "kind": "item",
+      "one": false,
+      "bench": "stove",
+      "cat": "",
+      "skill": "survival",
+      "skill_level": 5,
+      "perk": "",
+      "kol": 1,
+      "ingredients": {
+        "beans": 1,
+        "cabbage": 1,
+        "potato": 1,
+        "carrot": 1,
+        "onion": 1,
+        "tomato": 1,
+        "garlic": 1
+      }
+    }
+  ],
+  "weapons": {
+    "armature": {
+      "maxhp": 180,
+      "rep": 0.0,
+      "kind": "melee",
+      "mag": 0,
+      "skill": 1,
+      "variant": false,
+      "ammo": ""
+    },
+    "bat": {
+      "maxhp": 100,
+      "rep": 2.0,
+      "kind": "melee",
+      "mag": 0,
+      "skill": 1,
+      "variant": false,
+      "ammo": ""
+    },
+    "hsword": {
+      "maxhp": 200,
+      "rep": 2.0,
+      "kind": "melee",
+      "mag": 0,
+      "skill": 1,
+      "variant": false,
+      "ammo": ""
+    },
+    "knife": {
+      "maxhp": 100,
+      "rep": 2.0,
+      "kind": "melee",
+      "mag": 0,
+      "skill": 1,
+      "variant": false,
+      "ammo": ""
+    },
+    "mont": {
+      "maxhp": 300,
+      "rep": 0.0,
+      "kind": "melee",
+      "mag": 0,
+      "skill": 1,
+      "variant": false,
+      "ammo": ""
+    },
+    "mont^1": {
+      "maxhp": 800,
+      "rep": 0.0,
+      "kind": "melee",
+      "mag": 0,
+      "skill": 1,
+      "variant": true,
+      "ammo": ""
+    },
+    "chopper": {
+      "maxhp": 180,
+      "rep": 2.0,
+      "kind": "melee",
+      "mag": 0,
+      "skill": 1,
+      "variant": false,
+      "ammo": ""
+    },
+    "shovel": {
+      "maxhp": 100,
+      "rep": 2.0,
+      "kind": "melee",
+      "mag": 0,
+      "skill": 1,
+      "variant": false,
+      "ammo": ""
+    },
+    "spear": {
+      "maxhp": 100,
+      "rep": 2.0,
+      "kind": "melee",
+      "mag": 0,
+      "skill": 1,
+      "variant": false,
+      "ammo": ""
+    },
+    "spear^1": {
+      "maxhp": 200,
+      "rep": 2.0,
+      "kind": "melee",
+      "mag": 0,
+      "skill": 1,
+      "variant": true,
+      "ammo": ""
+    },
+    "mach": {
+      "maxhp": 300,
+      "rep": 1.0,
+      "kind": "melee",
+      "mag": 0,
+      "skill": 1,
+      "variant": false,
+      "ammo": ""
+    },
+    "mach^1": {
+      "maxhp": 300,
+      "rep": 1.0,
+      "kind": "melee",
+      "mag": 0,
+      "skill": 1,
+      "variant": true,
+      "ammo": ""
+    },
+    "zknife": {
+      "maxhp": 200,
+      "rep": 2.0,
+      "kind": "melee",
+      "mag": 0,
+      "skill": 1,
+      "variant": false,
+      "ammo": ""
+    },
+    "zknife^1": {
+      "maxhp": 250,
+      "rep": 2.0,
+      "kind": "melee",
+      "mag": 0,
+      "skill": 1,
+      "variant": true,
+      "ammo": ""
+    },
+    "cknife": {
+      "maxhp": 450,
+      "rep": 1.0,
+      "kind": "melee",
+      "mag": 0,
+      "skill": 1,
+      "variant": false,
+      "ammo": ""
+    },
+    "cknife^1": {
+      "maxhp": 550,
+      "rep": 1.0,
+      "kind": "melee",
+      "mag": 0,
+      "skill": 1,
+      "variant": true,
+      "ammo": ""
+    },
+    "edagger": {
+      "maxhp": 500,
+      "rep": 1.0,
+      "kind": "melee",
+      "mag": 0,
+      "skill": 1,
+      "variant": false,
+      "ammo": ""
+    },
+    "cdagger": {
+      "maxhp": 500,
+      "rep": 1.0,
+      "kind": "melee",
+      "mag": 0,
+      "skill": 1,
+      "variant": false,
+      "ammo": ""
+    },
+    "mace": {
+      "maxhp": 140,
+      "rep": 0.0,
+      "kind": "melee",
+      "mag": 0,
+      "skill": 1,
+      "variant": false,
+      "ammo": ""
+    },
+    "pipe": {
+      "maxhp": 120,
+      "rep": 0.0,
+      "kind": "melee",
+      "mag": 0,
+      "skill": 1,
+      "variant": false,
+      "ammo": ""
+    },
+    "zsword": {
+      "maxhp": 300,
+      "rep": 0.5,
+      "kind": "melee",
+      "mag": 0,
+      "skill": 1,
+      "variant": false,
+      "ammo": ""
+    },
+    "zsword^1": {
+      "maxhp": 400,
+      "rep": 0.5,
+      "kind": "melee",
+      "mag": 0,
+      "skill": 1,
+      "variant": true,
+      "ammo": ""
+    },
+    "ripper": {
+      "maxhp": 900,
+      "rep": 0.5,
+      "kind": "melee",
+      "mag": 200,
+      "skill": 1,
+      "variant": false,
+      "ammo": "batt"
+    },
+    "ripper^1": {
+      "maxhp": 1500,
+      "rep": 0.5,
+      "kind": "melee",
+      "mag": 200,
+      "skill": 1,
+      "variant": true,
+      "ammo": "batt"
+    },
+    "axe": {
+      "maxhp": 240,
+      "rep": 1.0,
+      "kind": "melee",
+      "mag": 0,
+      "skill": 1,
+      "variant": false,
+      "ammo": ""
+    },
+    "hammer": {
+      "maxhp": 200,
+      "rep": 0.5,
+      "kind": "melee",
+      "mag": 0,
+      "skill": 1,
+      "variant": false,
+      "ammo": ""
+    },
+    "hammer^1": {
+      "maxhp": 400,
+      "rep": 0.5,
+      "kind": "melee",
+      "mag": 0,
+      "skill": 1,
+      "variant": true,
+      "ammo": ""
+    },
+    "tlance": {
+      "maxhp": 350,
+      "rep": 0.25,
+      "kind": "melee",
+      "mag": 0,
+      "skill": 1,
+      "variant": false,
+      "ammo": ""
+    },
+    "elsword": {
+      "maxhp": 350,
+      "rep": 0.25,
+      "kind": "melee",
+      "mag": 0,
+      "skill": 1,
+      "variant": false,
+      "ammo": ""
+    },
+    "elsword^1": {
+      "maxhp": 480,
+      "rep": 0.25,
+      "kind": "melee",
+      "mag": 0,
+      "skill": 1,
+      "variant": true,
+      "ammo": ""
+    },
+    "autoaxe": {
+      "maxhp": 400,
+      "rep": 0.25,
+      "kind": "melee",
+      "mag": 300,
+      "skill": 1,
+      "variant": false,
+      "ammo": "energ"
+    },
+    "mspear": {
+      "maxhp": 350,
+      "rep": 0.12,
+      "kind": "melee",
+      "mag": 0,
+      "skill": 1,
+      "variant": false,
+      "ammo": ""
+    },
+    "mspear^1": {
+      "maxhp": 400,
+      "rep": 0.12,
+      "kind": "melee",
+      "mag": 0,
+      "skill": 1,
+      "variant": true,
+      "ammo": ""
+    },
+    "sword": {
+      "maxhp": 500,
+      "rep": 0.0,
+      "kind": "melee",
+      "mag": 0,
+      "skill": 1,
+      "variant": false,
+      "ammo": ""
+    },
+    "sword^1": {
+      "maxhp": 1000,
+      "rep": 0.0,
+      "kind": "melee",
+      "mag": 0,
+      "skill": 1,
+      "variant": true,
+      "ammo": ""
+    },
+    "lsword": {
+      "maxhp": 320,
+      "rep": 0.12,
+      "kind": "melee",
+      "mag": 0,
+      "skill": 1,
+      "variant": false,
+      "ammo": ""
+    },
+    "lsword^1": {
+      "maxhp": 450,
+      "rep": 0.12,
+      "kind": "melee",
+      "mag": 0,
+      "skill": 1,
+      "variant": true,
+      "ammo": ""
+    },
+    "bsaw": {
+      "maxhp": 1500,
+      "rep": 0.2,
+      "kind": "melee",
+      "mag": 600,
+      "skill": 1,
+      "variant": false,
+      "ammo": "energ"
+    },
+    "sledge": {
+      "maxhp": 500,
+      "rep": 0.15,
+      "kind": "melee",
+      "mag": 0,
+      "skill": 1,
+      "variant": false,
+      "ammo": ""
+    },
+    "sledge^1": {
+      "maxhp": 500,
+      "rep": 0.15,
+      "kind": "melee",
+      "mag": 0,
+      "skill": 1,
+      "variant": true,
+      "ammo": ""
+    },
+    "kosa": {
+      "maxhp": 400,
+      "rep": 0.12,
+      "kind": "melee",
+      "mag": 0,
+      "skill": 1,
+      "variant": false,
+      "ammo": ""
+    },
+    "p9mm": {
+      "maxhp": 200,
+      "rep": 2.0,
+      "kind": "lightGun",
+      "mag": 8,
+      "skill": 2,
+      "variant": false,
+      "ammo": "p9"
+    },
+    "r32": {
+      "maxhp": 200,
+      "rep": 2.0,
+      "kind": "lightGun",
+      "mag": 5,
+      "skill": 2,
+      "variant": false,
+      "ammo": "p32"
+    },
+    "r375": {
+      "maxhp": 350,
+      "rep": 2.0,
+      "kind": "lightGun",
+      "mag": 6,
+      "skill": 2,
+      "variant": false,
+      "ammo": "p375"
+    },
+    "p10mm": {
+      "maxhp": 300,
+      "rep": 2.0,
+      "kind": "lightGun",
+      "mag": 12,
+      "skill": 2,
+      "variant": false,
+      "ammo": "p10"
+    },
+    "p10mm^1": {
+      "maxhp": 400,
+      "rep": 2.0,
+      "kind": "lightGun",
+      "mag": 12,
+      "skill": 2,
+      "variant": true,
+      "ammo": "p10"
+    },
+    "p10s": {
+      "maxhp": 300,
+      "rep": 2.0,
+      "kind": "lightGun",
+      "mag": 12,
+      "skill": 2,
+      "variant": false,
+      "ammo": "p10"
+    },
+    "revo": {
+      "maxhp": 400,
+      "rep": 1.0,
+      "kind": "lightGun",
+      "mag": 6,
+      "skill": 2,
+      "variant": false,
+      "ammo": "p44"
+    },
+    "revo^1": {
+      "maxhp": 500,
+      "rep": 1.0,
+      "kind": "lightGun",
+      "mag": 6,
+      "skill": 2,
+      "variant": true,
+      "ammo": "p44"
+    },
+    "p308c": {
+      "maxhp": 600,
+      "rep": 1.0,
+      "kind": "lightGun",
+      "mag": 12,
+      "skill": 2,
+      "variant": false,
+      "ammo": "p308"
+    },
+    "p127mm": {
+      "maxhp": 400,
+      "rep": 1.0,
+      "kind": "lightGun",
+      "mag": 7,
+      "skill": 2,
+      "variant": false,
+      "ammo": "p127"
+    },
+    "p127mm^1": {
+      "maxhp": 400,
+      "rep": 1.0,
+      "kind": "lightGun",
+      "mag": 7,
+      "skill": 2,
+      "variant": true,
+      "ammo": "p127"
+    },
+    "psc": {
+      "maxhp": 360,
+      "rep": 0.5,
+      "kind": "lightGun",
+      "mag": 7,
+      "skill": 2,
+      "variant": false,
+      "ammo": "p50mg"
+    },
+    "psc^1": {
+      "maxhp": 420,
+      "rep": 0.5,
+      "kind": "lightGun",
+      "mag": 7,
+      "skill": 2,
+      "variant": true,
+      "ammo": "p50mg"
+    },
+    "shok": {
+      "maxhp": 200,
+      "rep": 2.0,
+      "kind": "lightGun",
+      "mag": 10,
+      "skill": 4,
+      "variant": false,
+      "ammo": "batt"
+    },
+    "rech": {
+      "maxhp": 200,
+      "rep": 2.0,
+      "kind": "lightGun",
+      "mag": 20,
+      "skill": 4,
+      "variant": false,
+      "ammo": "recharg"
+    },
+    "flaregun": {
+      "maxhp": 100,
+      "rep": 2.0,
+      "kind": "lightGun",
+      "mag": 30,
+      "skill": 4,
+      "variant": false,
+      "ammo": "fuel"
+    },
+    "lasp": {
+      "maxhp": 275,
+      "rep": 2.0,
+      "kind": "lightGun",
+      "mag": 15,
+      "skill": 4,
+      "variant": false,
+      "ammo": "batt"
+    },
+    "lasp^1": {
+      "maxhp": 275,
+      "rep": 2.0,
+      "kind": "lightGun",
+      "mag": 30,
+      "skill": 4,
+      "variant": true,
+      "ammo": "batt"
+    },
+    "plap": {
+      "maxhp": 300,
+      "rep": 1.0,
+      "kind": "lightGun",
+      "mag": 40,
+      "skill": 4,
+      "variant": false,
+      "ammo": "batt"
+    },
+    "plap^1": {
+      "maxhp": 300,
+      "rep": 1.0,
+      "kind": "lightGun",
+      "mag": 60,
+      "skill": 4,
+      "variant": true,
+      "ammo": "batt"
+    },
+    "pulsep": {
+      "maxhp": 100,
+      "rep": 1.0,
+      "kind": "lightGun",
+      "mag": 40,
+      "skill": 4,
+      "variant": false,
+      "ammo": "batt"
+    },
+    "blaster": {
+      "maxhp": 500,
+      "rep": 0.12,
+      "kind": "lightGun",
+      "mag": 12,
+      "skill": 4,
+      "variant": false,
+      "ammo": "bcell"
+    },
+    "wquest1": {
+      "maxhp": 600,
+      "rep": 1.0,
+      "kind": "lightGun",
+      "mag": 12,
+      "skill": 2,
+      "variant": false,
+      "ammo": "p308"
+    },
+    "smg9": {
+      "maxhp": 500,
+      "rep": 1.0,
+      "kind": "lightGun",
+      "mag": 24,
+      "skill": 2,
+      "variant": false,
+      "ammo": "p9"
+    },
+    "smg10": {
+      "maxhp": 600,
+      "rep": 1.0,
+      "kind": "lightGun",
+      "mag": 24,
+      "skill": 2,
+      "variant": false,
+      "ammo": "p10"
+    },
+    "pp127mm": {
+      "maxhp": 1400,
+      "rep": 0.5,
+      "kind": "heavyGun",
+      "mag": 24,
+      "skill": 2,
+      "variant": false,
+      "ammo": "p127"
+    },
+    "pp127mm^1": {
+      "maxhp": 1800,
+      "rep": 0.5,
+      "kind": "heavyGun",
+      "mag": 24,
+      "skill": 2,
+      "variant": true,
+      "ammo": "p127"
+    },
+    "assr": {
+      "maxhp": 800,
+      "rep": 1.0,
+      "kind": "heavyGun",
+      "mag": 24,
+      "skill": 2,
+      "variant": false,
+      "ammo": "p556"
+    },
+    "assr^1": {
+      "maxhp": 1000,
+      "rep": 1.0,
+      "kind": "heavyGun",
+      "mag": 24,
+      "skill": 2,
+      "variant": true,
+      "ammo": "p556"
+    },
+    "carbine": {
+      "maxhp": 900,
+      "rep": 0.5,
+      "kind": "heavyGun",
+      "mag": 32,
+      "skill": 2,
+      "variant": false,
+      "ammo": "p556"
+    },
+    "carbine^1": {
+      "maxhp": 1100,
+      "rep": 0.5,
+      "kind": "heavyGun",
+      "mag": 40,
+      "skill": 2,
+      "variant": true,
+      "ammo": "p556"
+    },
+    "zebr": {
+      "maxhp": 800,
+      "rep": 0.25,
+      "kind": "heavyGun",
+      "mag": 24,
+      "skill": 2,
+      "variant": false,
+      "ammo": "p556"
+    },
+    "zebr^1": {
+      "maxhp": 1100,
+      "rep": 0.25,
+      "kind": "heavyGun",
+      "mag": 24,
+      "skill": 2,
+      "variant": true,
+      "ammo": "p556"
+    },
+    "lmg": {
+      "maxhp": 1200,
+      "rep": 0.25,
+      "kind": "heavyGun",
+      "mag": 90,
+      "skill": 2,
+      "variant": false,
+      "ammo": "p556"
+    },
+    "lmg^1": {
+      "maxhp": 1500,
+      "rep": 0.25,
+      "kind": "heavyGun",
+      "mag": 90,
+      "skill": 2,
+      "variant": true,
+      "ammo": "p556"
+    },
+    "autor": {
+      "maxhp": 900,
+      "rep": 0.25,
+      "kind": "heavyGun",
+      "mag": 20,
+      "skill": 2,
+      "variant": false,
+      "ammo": "p308"
+    },
+    "sparkl": {
+      "maxhp": 1100,
+      "rep": 0.5,
+      "kind": "heavyGun",
+      "mag": 120,
+      "skill": 4,
+      "variant": false,
+      "ammo": "energ"
+    },
+    "sparkl^1": {
+      "maxhp": 1200,
+      "rep": 0.5,
+      "kind": "heavyGun",
+      "mag": 160,
+      "skill": 4,
+      "variant": true,
+      "ammo": "energ"
+    },
+    "plamg": {
+      "maxhp": 1200,
+      "rep": 0.25,
+      "kind": "heavyGun",
+      "mag": 180,
+      "skill": 4,
+      "variant": false,
+      "ammo": "energ"
+    },
+    "plamg^1": {
+      "maxhp": 1200,
+      "rep": 0.25,
+      "kind": "heavyGun",
+      "mag": 180,
+      "skill": 4,
+      "variant": true,
+      "ammo": "energ"
+    },
+    "nova": {
+      "maxhp": 1000,
+      "rep": 0.25,
+      "kind": "heavyGun",
+      "mag": 240,
+      "skill": 4,
+      "variant": false,
+      "ammo": "energ"
+    },
+    "nova^1": {
+      "maxhp": 1500,
+      "rep": 0.25,
+      "kind": "heavyGun",
+      "mag": 320,
+      "skill": 4,
+      "variant": true,
+      "ammo": "energ"
+    },
+    "quick": {
+      "maxhp": 1500,
+      "rep": 0.15,
+      "kind": "heavyGun",
+      "mag": 160,
+      "skill": 4,
+      "variant": false,
+      "ammo": "energ"
+    },
+    "quick^1": {
+      "maxhp": 2000,
+      "rep": 0.15,
+      "kind": "heavyGun",
+      "mag": 200,
+      "skill": 4,
+      "variant": true,
+      "ammo": "energ"
+    },
+    "oldshot": {
+      "maxhp": 150,
+      "rep": 1.0,
+      "kind": "lightGun",
+      "mag": 2,
+      "skill": 2,
+      "variant": false,
+      "ammo": "p20"
+    },
+    "oldshot^1": {
+      "maxhp": 250,
+      "rep": 1.0,
+      "kind": "lightGun",
+      "mag": 2,
+      "skill": 2,
+      "variant": true,
+      "ammo": "p20"
+    },
+    "lshot": {
+      "maxhp": 200,
+      "rep": 1.0,
+      "kind": "lightGun",
+      "mag": 5,
+      "skill": 2,
+      "variant": false,
+      "ammo": "p20"
+    },
+    "shotgun": {
+      "maxhp": 200,
+      "rep": 1.0,
+      "kind": "lightGun",
+      "mag": 2,
+      "skill": 2,
+      "variant": false,
+      "ammo": "p20"
+    },
+    "shotgun^1": {
+      "maxhp": 300,
+      "rep": 1.0,
+      "kind": "lightGun",
+      "mag": 2,
+      "skill": 2,
+      "variant": true,
+      "ammo": "p20"
+    },
+    "saf9": {
+      "maxhp": 350,
+      "rep": 0.5,
+      "kind": "lightGun",
+      "mag": 8,
+      "skill": 2,
+      "variant": false,
+      "ammo": "p12"
+    },
+    "saf9^1": {
+      "maxhp": 350,
+      "rep": 0.5,
+      "kind": "lightGun",
+      "mag": 12,
+      "skill": 2,
+      "variant": true,
+      "ammo": "p12"
+    },
+    "pshot": {
+      "maxhp": 300,
+      "rep": 0.2,
+      "kind": "heavyGun",
+      "mag": 12,
+      "skill": 2,
+      "variant": false,
+      "ammo": "p12"
+    },
+    "pshot^1": {
+      "maxhp": 400,
+      "rep": 0.2,
+      "kind": "heavyGun",
+      "mag": 12,
+      "skill": 2,
+      "variant": true,
+      "ammo": "p12"
+    },
+    "prism": {
+      "maxhp": 200,
+      "rep": 0.75,
+      "kind": "heavyGun",
+      "mag": 60,
+      "skill": 4,
+      "variant": false,
+      "ammo": "energ"
+    },
+    "prism^1": {
+      "maxhp": 250,
+      "rep": 0.75,
+      "kind": "heavyGun",
+      "mag": 60,
+      "skill": 4,
+      "variant": true,
+      "ammo": "energ"
+    },
+    "cryo": {
+      "maxhp": 200,
+      "rep": 0.5,
+      "kind": "heavyGun",
+      "mag": 12,
+      "skill": 4,
+      "variant": false,
+      "ammo": "pcryo"
+    },
+    "plam": {
+      "maxhp": 200,
+      "rep": 0.3,
+      "kind": "heavyGun",
+      "mag": 200,
+      "skill": 4,
+      "variant": false,
+      "ammo": "energ"
+    },
+    "plam^1": {
+      "maxhp": 250,
+      "rep": 0.3,
+      "kind": "heavyGun",
+      "mag": 300,
+      "skill": 4,
+      "variant": true,
+      "ammo": "energ"
+    },
+    "oldr": {
+      "maxhp": 100,
+      "rep": 1.0,
+      "kind": "heavyGun",
+      "mag": 2,
+      "skill": 2,
+      "variant": false,
+      "ammo": "p32"
+    },
+    "oldr^1": {
+      "maxhp": 100,
+      "rep": 1.0,
+      "kind": "heavyGun",
+      "mag": 2,
+      "skill": 2,
+      "variant": true,
+      "ammo": "p32"
+    },
+    "hunt": {
+      "maxhp": 200,
+      "rep": 1.0,
+      "kind": "heavyGun",
+      "mag": 5,
+      "skill": 2,
+      "variant": false,
+      "ammo": "p32"
+    },
+    "winchester": {
+      "maxhp": 250,
+      "rep": 0.5,
+      "kind": "heavyGun",
+      "mag": 8,
+      "skill": 2,
+      "variant": false,
+      "ammo": "p375"
+    },
+    "winchester^1": {
+      "maxhp": 300,
+      "rep": 0.5,
+      "kind": "heavyGun",
+      "mag": 8,
+      "skill": 2,
+      "variant": true,
+      "ammo": "p375"
+    },
+    "brushgun": {
+      "maxhp": 200,
+      "rep": 0.25,
+      "kind": "heavyGun",
+      "mag": 5,
+      "skill": 2,
+      "variant": false,
+      "ammo": "p44"
+    },
+    "brushgun^1": {
+      "maxhp": 200,
+      "rep": 0.25,
+      "kind": "heavyGun",
+      "mag": 5,
+      "skill": 2,
+      "variant": true,
+      "ammo": "p44"
+    },
+    "rechr": {
+      "maxhp": 200,
+      "rep": 1.0,
+      "kind": "lightGun",
+      "mag": 20,
+      "skill": 4,
+      "variant": false,
+      "ammo": "recharg"
+    },
+    "lasr": {
+      "maxhp": 350,
+      "rep": 0.75,
+      "kind": "heavyGun",
+      "mag": 60,
+      "skill": 4,
+      "variant": false,
+      "ammo": "energ"
+    },
+    "lasr^1": {
+      "maxhp": 450,
+      "rep": 0.75,
+      "kind": "heavyGun",
+      "mag": 120,
+      "skill": 4,
+      "variant": true,
+      "ammo": "energ"
+    },
+    "plar": {
+      "maxhp": 300,
+      "rep": 0.5,
+      "kind": "heavyGun",
+      "mag": 100,
+      "skill": 4,
+      "variant": false,
+      "ammo": "energ"
+    },
+    "plar^1": {
+      "maxhp": 400,
+      "rep": 0.5,
+      "kind": "heavyGun",
+      "mag": 120,
+      "skill": 4,
+      "variant": true,
+      "ammo": "energ"
+    },
+    "pulser": {
+      "maxhp": 100,
+      "rep": 0.25,
+      "kind": "heavyGun",
+      "mag": 200,
+      "skill": 4,
+      "variant": false,
+      "ammo": "energ"
+    },
+    "pulser^1": {
+      "maxhp": 100,
+      "rep": 0.25,
+      "kind": "heavyGun",
+      "mag": 300,
+      "skill": 4,
+      "variant": true,
+      "ammo": "energ"
+    },
+    "termo": {
+      "maxhp": 300,
+      "rep": 0.5,
+      "kind": "heavyGun",
+      "mag": 75,
+      "skill": 4,
+      "variant": false,
+      "ammo": "energ"
+    },
+    "termo^1": {
+      "maxhp": 300,
+      "rep": 0.5,
+      "kind": "heavyGun",
+      "mag": 90,
+      "skill": 4,
+      "variant": true,
+      "ammo": "energ"
+    },
+    "rail": {
+      "maxhp": 300,
+      "rep": 0.15,
+      "kind": "heavyGun",
+      "mag": 80,
+      "skill": 4,
+      "variant": false,
+      "ammo": "crystal"
+    },
+    "rail^1": {
+      "maxhp": 300,
+      "rep": 0.15,
+      "kind": "heavyGun",
+      "mag": 105,
+      "skill": 4,
+      "variant": true,
+      "ammo": "crystal"
+    },
+    "sniper": {
+      "maxhp": 300,
+      "rep": 0.5,
+      "kind": "heavyGun",
+      "mag": 5,
+      "skill": 2,
+      "variant": false,
+      "ammo": "p308"
+    },
+    "sniper^1": {
+      "maxhp": 400,
+      "rep": 0.5,
+      "kind": "heavyGun",
+      "mag": 8,
+      "skill": 2,
+      "variant": true,
+      "ammo": "p308"
+    },
+    "lassn": {
+      "maxhp": 500,
+      "rep": 0.5,
+      "kind": "heavyGun",
+      "mag": 80,
+      "skill": 4,
+      "variant": false,
+      "ammo": "energ"
+    },
+    "lassn^1": {
+      "maxhp": 500,
+      "rep": 0.5,
+      "kind": "heavyGun",
+      "mag": 80,
+      "skill": 4,
+      "variant": true,
+      "ammo": "energ"
+    },
+    "grom": {
+      "maxhp": 250,
+      "rep": 0.12,
+      "kind": "heavyGun",
+      "mag": 80,
+      "skill": 4,
+      "variant": false,
+      "ammo": "crystal"
+    },
+    "grom^1": {
+      "maxhp": 250,
+      "rep": 0.12,
+      "kind": "heavyGun",
+      "mag": 80,
+      "skill": 4,
+      "variant": true,
+      "ammo": "crystal"
+    },
+    "anti": {
+      "maxhp": 250,
+      "rep": 0.12,
+      "kind": "heavyGun",
+      "mag": 5,
+      "skill": 2,
+      "variant": false,
+      "ammo": "p50mg"
+    },
+    "anti^1": {
+      "maxhp": 300,
+      "rep": 0.12,
+      "kind": "heavyGun",
+      "mag": 5,
+      "skill": 2,
+      "variant": true,
+      "ammo": "p50mg"
+    },
+    "minigun": {
+      "maxhp": 3000,
+      "rep": 0.2,
+      "kind": "heavyGun",
+      "mag": 500,
+      "skill": 2,
+      "variant": false,
+      "ammo": "p5"
+    },
+    "minigun^1": {
+      "maxhp": 4000,
+      "rep": 0.2,
+      "kind": "heavyGun",
+      "mag": 500,
+      "skill": 2,
+      "variant": true,
+      "ammo": "p5"
+    },
+    "hmg": {
+      "maxhp": 1500,
+      "rep": 0.12,
+      "kind": "heavyGun",
+      "mag": 90,
+      "skill": 2,
+      "variant": false,
+      "ammo": "p127"
+    },
+    "antidrak": {
+      "maxhp": 600,
+      "rep": 0.12,
+      "kind": "heavyGun",
+      "mag": 45,
+      "skill": 2,
+      "variant": false,
+      "ammo": "p145"
+    },
+    "antidrak^1": {
+      "maxhp": 750,
+      "rep": 0.12,
+      "kind": "heavyGun",
+      "mag": 45,
+      "skill": 2,
+      "variant": true,
+      "ammo": "p145"
+    },
+    "gatl": {
+      "maxhp": 3000,
+      "rep": 0.25,
+      "kind": "heavyGun",
+      "mag": 300,
+      "skill": 4,
+      "variant": false,
+      "ammo": "crystal"
+    },
+    "gatl^1": {
+      "maxhp": 4000,
+      "rep": 0.25,
+      "kind": "heavyGun",
+      "mag": 600,
+      "skill": 4,
+      "variant": true,
+      "ammo": "crystal"
+    },
+    "gatp": {
+      "maxhp": 2000,
+      "rep": 0.15,
+      "kind": "heavyGun",
+      "mag": 1000,
+      "skill": 4,
+      "variant": false,
+      "ammo": "crystal"
+    },
+    "gatp^1": {
+      "maxhp": 2500,
+      "rep": 0.15,
+      "kind": "heavyGun",
+      "mag": 1000,
+      "skill": 4,
+      "variant": true,
+      "ammo": "crystal"
+    },
+    "flamer": {
+      "maxhp": 3000,
+      "rep": 1.0,
+      "kind": "heavyGun",
+      "mag": 200,
+      "skill": 4,
+      "variant": false,
+      "ammo": "fuel"
+    },
+    "flamer^1": {
+      "maxhp": 3500,
+      "rep": 1.0,
+      "kind": "heavyGun",
+      "mag": 200,
+      "skill": 4,
+      "variant": true,
+      "ammo": "fuel"
+    },
+    "incin": {
+      "maxhp": 300,
+      "rep": 0.5,
+      "kind": "heavyGun",
+      "mag": 360,
+      "skill": 4,
+      "variant": false,
+      "ammo": "fuel"
+    },
+    "cflamer": {
+      "maxhp": 3000,
+      "rep": 0.25,
+      "kind": "heavyGun",
+      "mag": 600,
+      "skill": 4,
+      "variant": false,
+      "ammo": "fuel"
+    },
+    "cflamer^1": {
+      "maxhp": 3600,
+      "rep": 0.25,
+      "kind": "heavyGun",
+      "mag": 600,
+      "skill": 4,
+      "variant": true,
+      "ammo": "fuel"
+    },
+    "bfg": {
+      "maxhp": 50,
+      "rep": 0.2,
+      "kind": "heavyGun",
+      "mag": 20,
+      "skill": 4,
+      "variant": false,
+      "ammo": "crystal"
+    },
+    "arson": {
+      "maxhp": 1500,
+      "rep": 2.0,
+      "kind": "lightGun",
+      "mag": 100,
+      "skill": 3,
+      "variant": false,
+      "ammo": "aero"
+    },
+    "arson^1": {
+      "maxhp": 2000,
+      "rep": 2.0,
+      "kind": "lightGun",
+      "mag": 100,
+      "skill": 3,
+      "variant": true,
+      "ammo": "aero"
+    },
+    "dartgun": {
+      "maxhp": 100,
+      "rep": 2.0,
+      "kind": "lightGun",
+      "mag": 1,
+      "skill": 3,
+      "variant": false,
+      "ammo": "dart"
+    },
+    "dartgun^1": {
+      "maxhp": 130,
+      "rep": 2.0,
+      "kind": "lightGun",
+      "mag": 1,
+      "skill": 3,
+      "variant": true,
+      "ammo": "dart"
+    },
+    "acidgun": {
+      "maxhp": 150,
+      "rep": 1.0,
+      "kind": "lightGun",
+      "mag": 10,
+      "skill": 3,
+      "variant": false,
+      "ammo": "acid"
+    },
+    "acidgun^1": {
+      "maxhp": 200,
+      "rep": 1.0,
+      "kind": "lightGun",
+      "mag": 10,
+      "skill": 3,
+      "variant": true,
+      "ammo": "acid"
+    },
+    "sawgun": {
+      "maxhp": 100,
+      "rep": 1.0,
+      "kind": "heavyGun",
+      "mag": 1,
+      "skill": 3,
+      "variant": false,
+      "ammo": "saw"
+    },
+    "sawgun^1": {
+      "maxhp": 130,
+      "rep": 1.0,
+      "kind": "heavyGun",
+      "mag": 1,
+      "skill": 3,
+      "variant": true,
+      "ammo": "saw"
+    },
+    "buckshot": {
+      "maxhp": 50,
+      "rep": 0.5,
+      "kind": "heavyGun",
+      "mag": 2,
+      "skill": 3,
+      "variant": false,
+      "ammo": "scrap"
+    },
+    "buckshot^1": {
+      "maxhp": 70,
+      "rep": 0.5,
+      "kind": "heavyGun",
+      "mag": 2,
+      "skill": 3,
+      "variant": true,
+      "ammo": "scrap"
+    },
+    "railway": {
+      "maxhp": 400,
+      "rep": 0.5,
+      "kind": "heavyGun",
+      "mag": 12,
+      "skill": 3,
+      "variant": false,
+      "ammo": "spikenail"
+    },
+    "railway^1": {
+      "maxhp": 550,
+      "rep": 0.5,
+      "kind": "heavyGun",
+      "mag": 12,
+      "skill": 3,
+      "variant": true,
+      "ammo": "spikenail"
+    },
+    "friend": {
+      "maxhp": 400,
+      "rep": 0.5,
+      "kind": "heavyGun",
+      "mag": 100,
+      "skill": 3,
+      "variant": false,
+      "ammo": "crystal"
+    },
+    "friend^1": {
+      "maxhp": 550,
+      "rep": 0.5,
+      "kind": "heavyGun",
+      "mag": 100,
+      "skill": 3,
+      "variant": true,
+      "ammo": "crystal"
+    },
+    "glau1": {
+      "maxhp": 50,
+      "rep": 0.5,
+      "kind": "heavyGun",
+      "mag": 1,
+      "skill": 5,
+      "variant": false,
+      "ammo": "gren40"
+    },
+    "glau": {
+      "maxhp": 100,
+      "rep": 0.5,
+      "kind": "heavyGun",
+      "mag": 6,
+      "skill": 5,
+      "variant": false,
+      "ammo": "gren40"
+    },
+    "glau^1": {
+      "maxhp": 140,
+      "rep": 0.5,
+      "kind": "heavyGun",
+      "mag": 10,
+      "skill": 5,
+      "variant": true,
+      "ammo": "gren40"
+    },
+    "aglau": {
+      "maxhp": 200,
+      "rep": 0.3,
+      "kind": "heavyGun",
+      "mag": 12,
+      "skill": 5,
+      "variant": false,
+      "ammo": "gren40"
+    },
+    "mlau": {
+      "maxhp": 50,
+      "rep": 0.3,
+      "kind": "heavyGun",
+      "mag": 1,
+      "skill": 5,
+      "variant": false,
+      "ammo": "rocket"
+    },
+    "mlau^1": {
+      "maxhp": 70,
+      "rep": 0.3,
+      "kind": "heavyGun",
+      "mag": 1,
+      "skill": 5,
+      "variant": true,
+      "ammo": "rocket"
+    },
+    "bel": {
+      "maxhp": 25,
+      "rep": 0.5,
+      "kind": "heavyGun",
+      "mag": 1,
+      "skill": 5,
+      "variant": false,
+      "ammo": "egg"
+    },
+    "bel^1": {
+      "maxhp": 50,
+      "rep": 0.5,
+      "kind": "heavyGun",
+      "mag": 1,
+      "skill": 5,
+      "variant": true,
+      "ammo": "egg"
+    },
+    "test": {
+      "maxhp": 200000,
+      "rep": 2.0,
+      "kind": "lightGun",
+      "mag": 100,
+      "skill": 2,
+      "variant": false,
+      "ammo": "p32"
+    },
+    "a_melee": {
+      "maxhp": 1000,
+      "rep": 1.0,
+      "kind": "melee",
+      "mag": 0,
+      "skill": 1,
+      "variant": false,
+      "ammo": ""
+    },
+    "a_fire": {
+      "maxhp": 100000,
+      "rep": 1.0,
+      "kind": "heavyGun",
+      "mag": 90,
+      "skill": 2,
+      "variant": false,
+      "ammo": "not"
+    },
+    "a_energ": {
+      "maxhp": 100000,
+      "rep": 1.0,
+      "kind": "heavyGun",
+      "mag": 30,
+      "skill": 4,
+      "variant": false,
+      "ammo": "not"
+    },
+    "a_expl": {
+      "maxhp": 100000,
+      "rep": 1.0,
+      "kind": "heavyGun",
+      "mag": 10,
+      "skill": 5,
+      "variant": false,
+      "ammo": "not"
+    }
+  },
+  "armors": {
+    "pip": {
+      "maxhp": 5000,
+      "unbreakable": true,
+      "no_repair": true,
+      "component": "pip_comp",
+      "kol_comp": 1,
+      "max_level": 0,
+      "armor": 0,
+      "marmor": 0,
+      "qual": 0.0,
+      "resists": {},
+      "upgrade_kol": [
+        0
+      ]
+    },
+    "kombu": {
+      "maxhp": 2000,
+      "unbreakable": false,
+      "no_repair": false,
+      "component": "kombu_comp",
+      "kol_comp": 2,
+      "max_level": 2,
+      "armor": 4,
+      "marmor": 3,
+      "qual": 0.6,
+      "resists": {
+        "DAM_BURN": 0.1,
+        "DAM_COLD": 0.1
+      },
+      "upgrade_kol": [
+        0,
+        10,
+        20
+      ]
+    },
+    "antirad": {
+      "maxhp": 2000,
+      "unbreakable": false,
+      "no_repair": false,
+      "component": "antirad_comp",
+      "kol_comp": 2,
+      "max_level": 2,
+      "armor": 2,
+      "marmor": 1,
+      "qual": 1.0,
+      "resists": {
+        "DAM_VENOM": 0.25,
+        "DAM_ACID": 0.25
+      },
+      "upgrade_kol": [
+        0,
+        15,
+        30
+      ]
+    },
+    "antihim": {
+      "maxhp": 3000,
+      "unbreakable": false,
+      "no_repair": false,
+      "component": "antihim_comp",
+      "kol_comp": 2,
+      "max_level": 2,
+      "armor": 1,
+      "marmor": 2,
+      "qual": 1.0,
+      "resists": {
+        "DAM_VENOM": 0.7,
+        "DAM_ELECTRIC": 0.25,
+        "DAM_ACID": 0.7
+      },
+      "upgrade_kol": [
+        0,
+        15,
+        30
+      ]
+    },
+    "skin": {
+      "maxhp": 4000,
+      "unbreakable": false,
+      "no_repair": false,
+      "component": "skin_comp",
+      "kol_comp": 4,
+      "max_level": 2,
+      "armor": 5,
+      "marmor": 5,
+      "qual": 0.7,
+      "resists": {
+        "DAM_BURN": 0.2,
+        "DAM_LASER": 0.1,
+        "DAM_ELECTRIC": 0.1,
+        "DAM_BITE": 0.2
+      },
+      "upgrade_kol": [
+        0,
+        15,
+        30
+      ]
+    },
+    "metal": {
+      "maxhp": 5000,
+      "unbreakable": false,
+      "no_repair": false,
+      "component": "metal_comp",
+      "kol_comp": 4,
+      "max_level": 2,
+      "armor": 12,
+      "marmor": 0,
+      "qual": 0.5,
+      "resists": {
+        "DAM_PIERCE": 0.2,
+        "DAM_CUT": 0.1,
+        "DAM_BLUNT": 0.1,
+        "DAM_EXPLOSION": 0.1,
+        "DAM_LASER": 0.25,
+        "DAM_ELECTRIC": -0.3,
+        "DAM_BITE": 0.1
+      },
+      "upgrade_kol": [
+        0,
+        15,
+        20
+      ]
+    },
+    "chitin": {
+      "maxhp": 4000,
+      "unbreakable": false,
+      "no_repair": false,
+      "component": "chitin_comp",
+      "kol_comp": 4,
+      "max_level": 2,
+      "armor": 8,
+      "marmor": 5,
+      "qual": 0.6,
+      "resists": {
+        "DAM_CUT": 0.2,
+        "DAM_BLUNT": 0.2,
+        "DAM_BURN": 0.2,
+        "DAM_ACID": 0.3,
+        "DAM_BITE": 0.4
+      },
+      "upgrade_kol": [
+        0,
+        20,
+        40
+      ]
+    },
+    "intel": {
+      "maxhp": 3500,
+      "unbreakable": false,
+      "no_repair": false,
+      "component": "intel_comp",
+      "kol_comp": 4,
+      "max_level": 2,
+      "armor": 4,
+      "marmor": 8,
+      "qual": 0.9,
+      "resists": {
+        "DAM_LASER": 0.1
+      },
+      "upgrade_kol": [
+        0,
+        15,
+        30
+      ]
+    },
+    "sapper": {
+      "maxhp": 5000,
+      "unbreakable": false,
+      "no_repair": false,
+      "component": "metal_comp",
+      "kol_comp": 6,
+      "max_level": 2,
+      "armor": 12,
+      "marmor": 5,
+      "qual": 0.8,
+      "resists": {
+        "DAM_PIERCE": 0.2,
+        "DAM_CUT": 0.2,
+        "DAM_BLUNT": 0.2,
+        "DAM_BURN": 0.3,
+        "DAM_EXPLOSION": 0.5
+      },
+      "upgrade_kol": [
+        0,
+        20,
+        40
+      ]
+    },
+    "battle": {
+      "maxhp": 10000,
+      "unbreakable": false,
+      "no_repair": false,
+      "component": "battle_comp",
+      "kol_comp": 6,
+      "max_level": 2,
+      "guns": 1.1,
+      "armor": 14,
+      "marmor": 8,
+      "qual": 0.75,
+      "resists": {
+        "DAM_PIERCE": 0.25,
+        "DAM_CUT": 0.1,
+        "DAM_BLUNT": 0.1,
+        "DAM_BURN": 0.1,
+        "DAM_EXPLOSION": 0.25,
+        "DAM_BITE": 0.2
+      },
+      "upgrade_kol": [
+        0,
+        20,
+        20
+      ]
+    },
+    "polic": {
+      "maxhp": 10000,
+      "unbreakable": false,
+      "no_repair": false,
+      "component": "polic_comp",
+      "kol_comp": 6,
+      "max_level": 2,
+      "melee": 1.1,
+      "armor": 11,
+      "marmor": 11,
+      "qual": 0.75,
+      "resists": {
+        "DAM_PIERCE": 0.1,
+        "DAM_CUT": 0.2,
+        "DAM_BLUNT": 0.2,
+        "DAM_BURN": 0.3,
+        "DAM_EXPLOSION": 0.1,
+        "DAM_LASER": 0.1,
+        "DAM_ELECTRIC": 0.1,
+        "DAM_ACID": 0.2
+      },
+      "upgrade_kol": [
+        0,
+        20,
+        20
+      ]
+    },
+    "magus": {
+      "maxhp": 8000,
+      "unbreakable": false,
+      "no_repair": false,
+      "component": "magus_comp",
+      "kol_comp": 6,
+      "max_level": 2,
+      "magic": 1.1,
+      "armor": 8,
+      "marmor": 14,
+      "qual": 0.75,
+      "resists": {
+        "DAM_BURN": 0.25,
+        "DAM_LASER": 0.3,
+        "DAM_PLASMA": 0.25,
+        "DAM_ELECTRIC": 0.4
+      },
+      "upgrade_kol": [
+        0,
+        20,
+        20
+      ]
+    },
+    "astealth": {
+      "maxhp": 8000,
+      "unbreakable": false,
+      "no_repair": false,
+      "component": "intel_comp",
+      "kol_comp": 8,
+      "max_level": 2,
+      "armor": 12,
+      "marmor": 12,
+      "qual": 1.0,
+      "resists": {
+        "DAM_LASER": 0.25
+      },
+      "upgrade_kol": [
+        0,
+        20,
+        40
+      ]
+    },
+    "assault": {
+      "maxhp": 20000,
+      "unbreakable": false,
+      "no_repair": false,
+      "component": "battle_comp",
+      "kol_comp": 12,
+      "max_level": 2,
+      "guns": 1.2,
+      "armor": 18,
+      "marmor": 10,
+      "qual": 0.75,
+      "resists": {
+        "DAM_PIERCE": 0.3,
+        "DAM_CUT": 0.2,
+        "DAM_BLUNT": 0.2,
+        "DAM_BURN": 0.2,
+        "DAM_EXPLOSION": 0.3,
+        "DAM_BITE": 0.25
+      },
+      "upgrade_kol": [
+        0,
+        20,
+        40
+      ]
+    },
+    "spec": {
+      "maxhp": 20000,
+      "unbreakable": false,
+      "no_repair": false,
+      "component": "polic_comp",
+      "kol_comp": 12,
+      "max_level": 2,
+      "melee": 1.2,
+      "armor": 14,
+      "marmor": 14,
+      "qual": 0.75,
+      "resists": {
+        "DAM_PIERCE": 0.2,
+        "DAM_CUT": 0.2,
+        "DAM_BLUNT": 0.3,
+        "DAM_BURN": 0.5,
+        "DAM_EXPLOSION": 0.2,
+        "DAM_LASER": 0.2,
+        "DAM_ELECTRIC": 0.1,
+        "DAM_ACID": 0.2
+      },
+      "upgrade_kol": [
+        0,
+        20,
+        40
+      ]
+    },
+    "moon": {
+      "maxhp": 18000,
+      "unbreakable": false,
+      "no_repair": false,
+      "component": "magus_comp",
+      "kol_comp": 12,
+      "max_level": 2,
+      "magic": 1.2,
+      "armor": 10,
+      "marmor": 20,
+      "qual": 0.75,
+      "resists": {
+        "DAM_BURN": 0.3,
+        "DAM_LASER": 0.5,
+        "DAM_PLASMA": 0.3,
+        "DAM_ELECTRIC": 0.5
+      },
+      "upgrade_kol": [
+        0,
+        20,
+        40
+      ]
+    },
+    "power": {
+      "maxhp": 30000,
+      "unbreakable": false,
+      "no_repair": false,
+      "component": "power_comp",
+      "kol_comp": 12,
+      "max_level": 2,
+      "armor": 25,
+      "marmor": 14,
+      "qual": 1.0,
+      "resists": {
+        "DAM_PIERCE": 0.4,
+        "DAM_CUT": 0.25,
+        "DAM_BLUNT": 0.25,
+        "DAM_BURN": 0.3,
+        "DAM_EXPLOSION": 0.3,
+        "DAM_VENOM": 0.75,
+        "DAM_BITE": 0.25
+      },
+      "upgrade_kol": [
+        0,
+        20,
+        40
+      ]
+    },
+    "encl": {
+      "maxhp": 20000,
+      "unbreakable": false,
+      "no_repair": false,
+      "component": "power_comp",
+      "kol_comp": 12,
+      "max_level": 2,
+      "armor": 15,
+      "marmor": 25,
+      "qual": 1.0,
+      "resists": {
+        "DAM_PIERCE": 0.2,
+        "DAM_BURN": 0.5,
+        "DAM_LASER": 0.5,
+        "DAM_PLASMA": 0.5,
+        "DAM_VENOM": 0.75,
+        "DAM_ELECTRIC": 0.5,
+        "DAM_ACID": 0.3
+      },
+      "upgrade_kol": [
+        0,
+        20,
+        40
+      ]
+    },
+    "ali": {
+      "maxhp": 40000,
+      "unbreakable": false,
+      "no_repair": false,
+      "component": "power_comp",
+      "kol_comp": 15,
+      "max_level": 2,
+      "armor": 20,
+      "marmor": 20,
+      "qual": 1.0,
+      "resists": {
+        "DAM_PIERCE": 0.3,
+        "DAM_CUT": 0.3,
+        "DAM_BLUNT": 0.3,
+        "DAM_BURN": 0.3,
+        "DAM_EXPLOSION": 0.3,
+        "DAM_LASER": 0.3,
+        "DAM_PLASMA": 0.3,
+        "DAM_VENOM": 0.75,
+        "DAM_ELECTRIC": 0.3,
+        "DAM_ACID": 0.3,
+        "DAM_BITE": 0.3
+      },
+      "upgrade_kol": [
+        0,
+        20,
+        40
+      ]
+    },
+    "tre": {
+      "maxhp": 6000,
+      "unbreakable": false,
+      "no_repair": true,
+      "component": "tre_comp",
+      "kol_comp": 1,
+      "max_level": 0,
+      "armor": 3,
+      "marmor": 3,
+      "qual": 0.4,
+      "resists": {
+        "DAM_BITE": 0.2
+      },
+      "upgrade_kol": [
+        0
+      ]
+    },
+    "socks": {
+      "maxhp": 5000,
+      "unbreakable": true,
+      "no_repair": true,
+      "component": "socks_comp",
+      "kol_comp": 1,
+      "max_level": 0,
+      "armor": 0,
+      "marmor": 0,
+      "qual": 0.0,
+      "resists": {},
+      "upgrade_kol": [
+        0
+      ]
+    },
+    "amul_bul": {
+      "maxhp": 100,
+      "unbreakable": true,
+      "no_repair": true,
+      "component": "amul_bul_comp",
+      "kol_comp": 1,
+      "max_level": 0,
+      "armor": 0,
+      "marmor": 0,
+      "qual": 0.0,
+      "resists": {
+        "DAM_PIERCE": 0.15
+      },
+      "upgrade_kol": [
+        0
+      ]
+    },
+    "amul_phis": {
+      "maxhp": 100,
+      "unbreakable": true,
+      "no_repair": true,
+      "component": "amul_phis_comp",
+      "kol_comp": 1,
+      "max_level": 0,
+      "armor": 0,
+      "marmor": 0,
+      "qual": 0.0,
+      "resists": {
+        "DAM_CUT": 0.15,
+        "DAM_BLUNT": 0.15
+      },
+      "upgrade_kol": [
+        0
+      ]
+    },
+    "amul_expl": {
+      "maxhp": 100,
+      "unbreakable": true,
+      "no_repair": true,
+      "component": "amul_expl_comp",
+      "kol_comp": 1,
+      "max_level": 0,
+      "armor": 0,
+      "marmor": 0,
+      "qual": 0.0,
+      "resists": {
+        "DAM_BURN": 0.1,
+        "DAM_EXPLOSION": 0.25
+      },
+      "upgrade_kol": [
+        0
+      ]
+    },
+    "amul_fang": {
+      "maxhp": 100,
+      "unbreakable": true,
+      "no_repair": true,
+      "component": "amul_fang_comp",
+      "kol_comp": 1,
+      "max_level": 0,
+      "armor": 0,
+      "marmor": 0,
+      "qual": 0.0,
+      "resists": {
+        "DAM_ACID": 0.15,
+        "DAM_BITE": 0.3
+      },
+      "upgrade_kol": [
+        0
+      ]
+    },
+    "amul_fire": {
+      "maxhp": 100,
+      "unbreakable": true,
+      "no_repair": true,
+      "component": "amul_fire_comp",
+      "kol_comp": 1,
+      "max_level": 0,
+      "armor": 0,
+      "marmor": 0,
+      "qual": 0.0,
+      "resists": {
+        "DAM_BURN": 0.2,
+        "DAM_LASER": 0.1,
+        "DAM_ELECTRIC": 0.1
+      },
+      "upgrade_kol": [
+        0
+      ]
+    },
+    "amul_energ": {
+      "maxhp": 100,
+      "unbreakable": true,
+      "no_repair": true,
+      "component": "amul_energ_comp",
+      "kol_comp": 1,
+      "max_level": 0,
+      "armor": 0,
+      "marmor": 0,
+      "qual": 0.0,
+      "resists": {
+        "DAM_LASER": 0.15,
+        "DAM_PLASMA": 0.15
+      },
+      "upgrade_kol": [
+        0
+      ]
+    },
+    "amul_spark": {
+      "maxhp": 100,
+      "unbreakable": true,
+      "no_repair": true,
+      "component": "amul_spark_comp",
+      "kol_comp": 1,
+      "max_level": 0,
+      "armor": 0,
+      "marmor": 0,
+      "qual": 0.0,
+      "resists": {
+        "DAM_ELECTRIC": 0.3
+      },
+      "upgrade_kol": [
+        0
+      ]
+    },
+    "amul_sneak": {
+      "maxhp": 100,
+      "unbreakable": true,
+      "no_repair": true,
+      "component": "amul_sneak_comp",
+      "kol_comp": 1,
+      "max_level": 0,
+      "armor": 0,
+      "marmor": 0,
+      "qual": 0.0,
+      "resists": {},
+      "upgrade_kol": [
+        0
+      ]
+    },
+    "amul_dark": {
+      "maxhp": 100,
+      "unbreakable": true,
+      "no_repair": true,
+      "component": "amul_dark_comp",
+      "kol_comp": 1,
+      "max_level": 0,
+      "armor": 0,
+      "marmor": 0,
+      "qual": 0.0,
+      "resists": {
+        "DAM_COLD": 0.1,
+        "DAM_DEATH": 0.3
+      },
+      "upgrade_kol": [
+        0
+      ]
+    },
+    "amul_mage": {
+      "maxhp": 100,
+      "unbreakable": true,
+      "no_repair": true,
+      "component": "amul_mage_comp",
+      "kol_comp": 1,
+      "max_level": 0,
+      "armor": 0,
+      "marmor": 0,
+      "qual": 0.0,
+      "resists": {
+        "DAM_BURN": 0.15,
+        "DAM_LASER": 0.15,
+        "DAM_PLASMA": 0.15,
+        "DAM_ELECTRIC": 0.15,
+        "DAM_COLD": 0.15
+      },
+      "upgrade_kol": [
+        0
+      ]
+    },
+    "amul_war": {
+      "maxhp": 100,
+      "unbreakable": true,
+      "no_repair": true,
+      "component": "amul_war_comp",
+      "kol_comp": 1,
+      "max_level": 0,
+      "armor": 0,
+      "marmor": 0,
+      "qual": 0.0,
+      "resists": {
+        "DAM_PIERCE": 0.15,
+        "DAM_CUT": 0.15,
+        "DAM_BLUNT": 0.15,
+        "DAM_EXPLOSION": 0.15
+      },
+      "upgrade_kol": [
+        0
+      ]
+    },
+    "amul_sniper": {
+      "maxhp": 100,
+      "unbreakable": true,
+      "no_repair": true,
+      "component": "amul_sniper_comp",
+      "kol_comp": 1,
+      "max_level": 0,
+      "guns": 1.16,
+      "armor": 0,
+      "marmor": 0,
+      "qual": 0.0,
+      "resists": {},
+      "upgrade_kol": [
+        0
+      ]
+    },
+    "amul_berserk": {
+      "maxhp": 100,
+      "unbreakable": true,
+      "no_repair": true,
+      "component": "amul_berserk_comp",
+      "kol_comp": 1,
+      "max_level": 0,
+      "melee": 1.16,
+      "armor": 0,
+      "marmor": 0,
+      "qual": 0.0,
+      "resists": {
+        "DAM_CUT": 0.2
+      },
+      "upgrade_kol": [
+        0
+      ]
+    },
+    "amul_adept": {
+      "maxhp": 100,
+      "unbreakable": true,
+      "no_repair": true,
+      "component": "amul_adept_comp",
+      "kol_comp": 1,
+      "max_level": 0,
+      "magic": 1.16,
+      "armor": 0,
+      "marmor": 0,
+      "qual": 0.0,
+      "resists": {},
+      "upgrade_kol": [
+        0
+      ]
+    }
+  },
+  "ammo_wear": {
+    "batt_6": 1.0,
+    "energ_6": 1.0,
+    "crystal_6": 1.0
+  }
+}

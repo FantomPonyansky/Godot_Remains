@@ -1,0 +1,1788 @@
+{
+ "calam": {
+  "id": "calam",
+  "vis": "Calam",
+  "ua1": "dial",
+  "ua2": "dial",
+  "ico": "10",
+  "inter": "travel",
+  "weap": "sniper",
+  "dials": [
+   {
+    "id": "dialCalam2",
+    "imp": "1",
+    "scr": [
+     {
+      "acts": [
+       {
+        "act": "passed"
+       },
+       {
+        "act": "openland",
+        "val": "rbl"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "calam2": {
+  "id": "calam2",
+  "vis": "Calam",
+  "ua1": "dial",
+  "ua2": "dial",
+  "ico": "10",
+  "inter": "travel",
+  "dials": [
+   {
+    "id": "dialCalam3",
+    "trigger": "rbl_visited",
+    "scr": []
+   },
+   {
+    "id": "dialCalam4",
+    "land": "raiders",
+    "scr": []
+   },
+   {
+    "id": "velvetDial2",
+    "prev": "velvetDial1",
+    "scr": []
+   },
+   {
+    "id": "dialCalam5",
+    "land": "random_mane",
+    "scr": []
+   },
+   {
+    "id": "dialCanter1",
+    "trigger": "story_canter",
+    "imp": "1",
+    "scr": [
+     {
+      "acts": [
+       {
+        "act": "stage",
+        "val": "storyCanter",
+        "n": "1"
+       },
+       {
+        "act": "showstage",
+        "val": "storyCanter",
+        "n": "2"
+       },
+       {
+        "act": "openland",
+        "val": "random_canter"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "calam3": {
+  "id": "calam3",
+  "vis": "Calam",
+  "ua1": "dial",
+  "ua2": "dial",
+  "ico": "10",
+  "name": "calam2",
+  "inter": "travel",
+  "dials": [
+   {
+    "id": "dialStorm1",
+    "quest": "storyStorm",
+    "sub": "1",
+    "imp": "1",
+    "scr": [
+     {
+      "acts": [
+       {
+        "act": "stage",
+        "val": "storyStorm",
+        "n": "1"
+       },
+       {
+        "act": "showstage",
+        "val": "storyStorm",
+        "n": "2"
+       },
+       {
+        "act": "trigger",
+        "val": "storm",
+        "n": "2"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "calam4": {
+  "id": "calam4",
+  "vis": "Calam",
+  "name": "calam2",
+  "dials": []
+ },
+ "calam5": {
+  "id": "calam5",
+  "vis": "Calam",
+  "ua1": "dial",
+  "ua2": "dial",
+  "ico": "10",
+  "name": "calam2",
+  "inter": "travel",
+  "dials": [
+   {
+    "id": "dialStorm4",
+    "scr": []
+   }
+  ]
+ },
+ "calam6": {
+  "id": "calam6",
+  "vis": "CalamEncl",
+  "name": "calam2",
+  "weap": "anti^1",
+  "ua1": "dial",
+  "ua2": "dial",
+  "dials": [
+   {
+    "id": "dialFB3",
+    "imp": "1",
+    "scr": [
+     {
+      "acts": [
+       {
+        "act": "stage",
+        "val": "storyFbattle",
+        "n": "3"
+       },
+       {
+        "act": "showstage",
+        "val": "storyFbattle",
+        "n": "4"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "dialFB4",
+    "imp": "1",
+    "scr": [
+     {
+      "acts": [
+       {
+        "act": "gotoland",
+        "val": "thunder"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "velvet": {
+  "id": "velvet",
+  "vis": "Velvet",
+  "vendor": "nope",
+  "inter": "vdoc",
+  "ico": "3",
+  "dials": [
+   {
+    "id": "dialVelvet2",
+    "scr": []
+   },
+   {
+    "id": "dialHelpCovert4",
+    "imp": "1",
+    "quest": "storyHelpCovert",
+    "sub": "8",
+    "music": "music_encl_1",
+    "scr": [
+     {
+      "acts": [
+       {
+        "act": "openland",
+        "val": "random_encl"
+       },
+       {
+        "act": "stage",
+        "val": "storyHelpCovert",
+        "n": "8"
+       },
+       {
+        "act": "stage",
+        "val": "storyHelpCovert"
+       },
+       {
+        "act": "stage",
+        "val": "storyHome",
+        "n": "2"
+       },
+       {
+        "act": "showstage",
+        "val": "storyHome",
+        "n": "3"
+       },
+       {
+        "act": "quest",
+        "val": "storyEncl"
+       },
+       {
+        "act": "trigger",
+        "val": "dial_dialHelpCovert4",
+        "n": "1"
+       },
+       {
+        "act": "check",
+        "targ": "observer"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "dialEncl6",
+    "imp": "1",
+    "quest": "storyHome",
+    "sub": "4",
+    "scr": [
+     {
+      "acts": [
+       {
+        "act": "stage",
+        "val": "storyHome",
+        "n": "4"
+       },
+       {
+        "act": "showstage",
+        "val": "storyHome",
+        "n": "5"
+       },
+       {
+        "act": "check",
+        "targ": "observer"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "dialStorm1",
+    "quest": "storyStorm",
+    "sub": "1",
+    "imp": "1",
+    "scr": [
+     {
+      "acts": [
+       {
+        "act": "stage",
+        "val": "storyStorm",
+        "n": "1"
+       },
+       {
+        "act": "showstage",
+        "val": "storyStorm",
+        "n": "2"
+       },
+       {
+        "act": "trigger",
+        "val": "storm",
+        "n": "2"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "dialVelvet5",
+    "trigger": "colonel_show",
+    "n": "2",
+    "scr": []
+   },
+   {
+    "id": "dialVelvet6",
+    "trigger": "colonel_show",
+    "n": "3",
+    "scr": []
+   },
+   {
+    "id": "dialPatient6",
+    "trigger": "patient_tr2",
+    "scr": [
+     {
+      "acts": [
+       {
+        "act": "stage",
+        "val": "patientHeal",
+        "n": "4"
+       },
+       {
+        "act": "stage",
+        "val": "patientHeal"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "dialVelvet4",
+    "prev": "dialHelpCovert4",
+    "scr": []
+   },
+   {
+    "id": "dialVelvet3",
+    "pet": "phoenix",
+    "scr": []
+   }
+  ]
+ },
+ "steel": {
+  "id": "steel",
+  "vis": "Steel",
+  "ua1": "dial",
+  "ua2": "dial",
+  "ico": "10",
+  "inter": "travel",
+  "weap": "aglau",
+  "dials": [
+   {
+    "id": "dialCanter6",
+    "imp": "1",
+    "scr": [
+     {
+      "acts": [
+       {
+        "act": "quest",
+        "val": "hydroPon"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "dialRanger1",
+    "imp": "1",
+    "trigger": "story_ranger",
+    "scr": [
+     {
+      "acts": [
+       {
+        "act": "stage",
+        "val": "storyRanger",
+        "n": "1"
+       },
+       {
+        "act": "showstage",
+        "val": "storyRanger",
+        "n": "2"
+       },
+       {
+        "act": "showstage",
+        "val": "storyRanger",
+        "n": "8"
+       },
+       {
+        "act": "trigger",
+        "val": "ranger_q3",
+        "n": "1"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "dialReadyToGo",
+    "imp": "1",
+    "trigger": "ranger_q4",
+    "scr": [
+     {
+      "acts": [
+       {
+        "act": "openland",
+        "val": "random_mbase"
+       },
+       {
+        "act": "gotoland",
+        "val": "random_mbase"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "dialRanger5",
+    "imp": "1",
+    "trigger": "cold_death",
+    "scr": [
+     {
+      "acts": [
+       {
+        "act": "stage",
+        "val": "storyRanger",
+        "n": "4"
+       },
+       {
+        "act": "showstage",
+        "val": "storyRanger",
+        "n": "7"
+       },
+       {
+        "act": "trigger",
+        "val": "ranger_q1",
+        "n": "1"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "dialRanger6",
+    "imp": "1",
+    "trigger": "cold_death",
+    "scr": [
+     {
+      "acts": [
+       {
+        "act": "openland",
+        "val": "bunker"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "dialHelpCovert2",
+    "imp": "1",
+    "quest": "storyHelpCovert",
+    "sub": "3",
+    "scr": [
+     {
+      "acts": [
+       {
+        "act": "stage",
+        "val": "storyHelpCovert",
+        "n": "3"
+       },
+       {
+        "act": "openland",
+        "val": "hql"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "dialStorm2",
+    "quest": "storyStorm",
+    "sub": "2",
+    "imp": "1",
+    "scr": [
+     {
+      "acts": [
+       {
+        "act": "take",
+        "val": "potion_rat",
+        "n": "1"
+       },
+       {
+        "act": "stage",
+        "val": "storyStorm",
+        "n": "2"
+       },
+       {
+        "act": "showstage",
+        "val": "storyStorm",
+        "n": "3"
+       },
+       {
+        "act": "showstage",
+        "val": "storyStorm",
+        "n": "4"
+       },
+       {
+        "act": "trigger",
+        "val": "storm",
+        "n": "3"
+       },
+       {
+        "act": "openland",
+        "val": "art"
+       },
+       {
+        "act": "dial",
+        "val": "dialNoReturn",
+        "n": "0"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "dialStorm5",
+    "quest": "storyStorm",
+    "sub": "5",
+    "imp": "1",
+    "scr": [
+     {
+      "acts": [
+       {
+        "act": "stage",
+        "val": "storyStorm",
+        "n": "5"
+       },
+       {
+        "act": "stage",
+        "val": "storyStorm"
+       },
+       {
+        "act": "control off"
+       },
+       {
+        "act": "music",
+        "val": "pre_1"
+       },
+       {
+        "act": "show",
+        "targ": "observer2",
+        "t": "2"
+       },
+       {
+        "act": "dialog",
+        "val": "dialStorm6"
+       },
+       {
+        "act": "trigger",
+        "val": "storm",
+        "n": "4"
+       },
+       {
+        "act": "trigger",
+        "val": "fin",
+        "n": "2"
+       },
+       {
+        "act": "quest",
+        "val": "storyFbattle"
+       },
+       {
+        "act": "music",
+        "val": "music_red"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "steel2": {
+  "id": "steel2",
+  "name": "steel",
+  "vis": "Steel",
+  "ua1": "dial",
+  "ua2": "dial",
+  "weap": "antidrak",
+  "weap2": "robomlau",
+  "dials": [
+   {
+    "id": "dialRanger3",
+    "imp": "1",
+    "scr": []
+   }
+  ]
+ },
+ "steel3": {
+  "id": "steel3",
+  "name": "steel",
+  "vis": "Steel",
+  "ua1": "dial",
+  "ua2": "dial",
+  "weap": "antidrak",
+  "weap2": "robomlau",
+  "ndial": "dialFC1",
+  "dials": [
+   {
+    "id": "dialFB1",
+    "scr": []
+   }
+  ]
+ },
+ "mainframe": {
+  "id": "mainframe",
+  "vis": "Mainframe",
+  "ua1": "use",
+  "ua2": "use",
+  "noturn": "1",
+  "sloy": "2",
+  "replic": "mainframe",
+  "ndial": "mainframeOff",
+  "ico": "1",
+  "dials": [
+   {
+    "id": "storyDial2",
+    "imp": "1",
+    "scr": [
+     {
+      "acts": [
+       {
+        "act": "stage",
+        "val": "storyMain",
+        "n": "5"
+       },
+       {
+        "act": "stage",
+        "val": "storyMain"
+       },
+       {
+        "act": "quest",
+        "val": "storyStable"
+       },
+       {
+        "act": "trigger",
+        "val": "story_stable",
+        "n": "1"
+       },
+       {
+        "act": "refill"
+       },
+       {
+        "act": "passed"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "velvetDial1",
+    "imp": "1",
+    "scr": []
+   }
+  ]
+ },
+ "mainframe2": {
+  "id": "mainframe2",
+  "vis": "Mainframe",
+  "ua1": "use",
+  "ua2": "use",
+  "noturn": "1",
+  "sloy": "2",
+  "replic": "mainframe",
+  "ndial": "mainframeOff",
+  "ico": "1",
+  "dials": [
+   {
+    "id": "storyDial3",
+    "imp": "1",
+    "scr": [
+     {
+      "acts": [
+       {
+        "act": "stage",
+        "val": "storyStable",
+        "n": "4"
+       },
+       {
+        "act": "stage",
+        "val": "storyStable"
+       },
+       {
+        "act": "quest",
+        "val": "storyMeet"
+       },
+       {
+        "act": "openland",
+        "val": "garages"
+       },
+       {
+        "act": "refill"
+       },
+       {
+        "act": "passed"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "comm": {
+  "id": "comm",
+  "vis": "Comm",
+  "ua1": "use",
+  "ua2": "use",
+  "noturn": "1",
+  "sloy": "1",
+  "ico": "1",
+  "dials": [
+   {
+    "id": "dialMinst3",
+    "imp": "1",
+    "trigger": "story_book",
+    "scr": [
+     {
+      "acts": [
+       {
+        "act": "stage",
+        "val": "storyHome",
+        "n": "1"
+       },
+       {
+        "act": "showstage",
+        "val": "storyHome",
+        "n": "2"
+       },
+       {
+        "act": "quest",
+        "val": "storyRanger"
+       },
+       {
+        "act": "trigger",
+        "val": "story_ranger",
+        "n": "1"
+       },
+       {
+        "act": "refill"
+       },
+       {
+        "act": "passed"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "askari": {
+  "id": "askari",
+  "vis": "Askari",
+  "ua1": "dial",
+  "ua2": "dial",
+  "ndial": "askariDial",
+  "dials": [
+   {
+    "id": "dialZebra2",
+    "scr": []
+   }
+  ]
+ },
+ "askari2": {
+  "id": "askari2",
+  "vis": "Askari",
+  "ua1": "dial",
+  "ua2": "dial",
+  "ndial": "askariDial2",
+  "name": "askari",
+  "dials": [
+   {
+    "id": "dialRanger9",
+    "imp": "1",
+    "trigger": "ranger_q1",
+    "scr": [
+     {
+      "acts": [
+       {
+        "act": "stage",
+        "val": "storyRanger",
+        "n": "7"
+       },
+       {
+        "act": "quest",
+        "val": "storyHelpCovert"
+       },
+       {
+        "act": "showstage",
+        "val": "storyRanger",
+        "n": "5"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "dialHelpCovert1",
+    "imp": "1",
+    "trigger": "soviet",
+    "scr": [
+     {
+      "acts": [
+       {
+        "act": "dblack",
+        "val": "3",
+        "t": "2"
+       },
+       {
+        "act": "goto",
+        "val": "-1 1"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "dialHelpCovert3",
+    "imp": "1",
+    "quest": "storyHelpCovert",
+    "sub": "7",
+    "scr": [
+     {
+      "acts": [
+       {
+        "act": "stage",
+        "val": "storyHelpCovert",
+        "n": "7"
+       },
+       {
+        "act": "showstage",
+        "val": "storyHelpCovert",
+        "n": "8"
+       },
+       {
+        "act": "trigger",
+        "val": "observer",
+        "n": "1"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "askari3": {
+  "id": "askari3",
+  "vis": "Askari",
+  "name": "askari",
+  "dials": []
+ },
+ "askari4": {
+  "id": "askari4",
+  "vis": "Askari",
+  "name": "askari",
+  "ua1": "dial",
+  "ua2": "dial",
+  "ndial": "dialFC2",
+  "dials": [
+   {
+    "id": "dialFB2",
+    "scr": []
+   }
+  ]
+ },
+ "observer": {
+  "id": "observer",
+  "vis": "SpriteBot",
+  "name": "spritebot",
+  "dials": [
+   {
+    "id": "dialWat1",
+    "prev": "dialHelpCovert4",
+    "scr": [
+     {
+      "acts": [
+       {
+        "act": "trigger",
+        "val": "observer",
+        "n": "2"
+       },
+       {
+        "act": "turn",
+        "targ": "observer",
+        "val": "-1"
+       },
+       {
+        "act": "mater",
+        "targ": "observer",
+        "val": "0",
+        "t": "1"
+       },
+       {
+        "act": "fly",
+        "targ": "observer",
+        "val": "1:21"
+       },
+       {
+        "act": "rem",
+        "targ": "observer"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "dialEncl6",
+    "imp": "1",
+    "quest": "storyHome",
+    "sub": "4",
+    "scr": [
+     {
+      "acts": [
+       {
+        "act": "stage",
+        "val": "storyHome",
+        "n": "4"
+       },
+       {
+        "act": "showstage",
+        "val": "storyHome",
+        "n": "5"
+       },
+       {
+        "act": "check",
+        "targ": "velvet"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "dialWat2",
+    "imp": "1",
+    "quest": "storyHome",
+    "sub": "5",
+    "scr": [
+     {
+      "acts": [
+       {
+        "act": "control off"
+       },
+       {
+        "act": "openland",
+        "val": "stable_pi"
+       },
+       {
+        "act": "stage",
+        "val": "storyHome",
+        "n": "5"
+       },
+       {
+        "act": "showstage",
+        "val": "storyHome",
+        "n": "6"
+       },
+       {
+        "act": "trigger",
+        "val": "observer",
+        "n": "2"
+       },
+       {
+        "act": "turn",
+        "targ": "observer",
+        "val": "-1"
+       },
+       {
+        "act": "mater",
+        "targ": "observer",
+        "val": "0",
+        "t": "1"
+       },
+       {
+        "act": "fly",
+        "targ": "observer",
+        "val": "1:21"
+       },
+       {
+        "act": "rem",
+        "targ": "observer"
+       },
+       {
+        "act": "dialog",
+        "val": "dialWat3"
+       },
+       {
+        "act": "control on"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "observer2": {
+  "id": "observer2",
+  "vis": "SpriteBot",
+  "name": "spritebot",
+  "dials": []
+ },
+ "mentor": {
+  "id": "mentor",
+  "vis": "Mentor",
+  "dials": [
+   {
+    "id": "dialMen3",
+    "scr": []
+   }
+  ]
+ },
+ "sc1": {
+  "id": "sc1",
+  "vis": "Sc1",
+  "dials": [
+   {
+    "id": "dialEnd_sc1",
+    "trigger": "theend",
+    "scr": []
+   },
+   {
+    "id": "dialSc1",
+    "scr": [
+     {
+      "acts": [
+       {
+        "act": "take",
+        "val": "mod_trans",
+        "n": "1"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "sc2": {
+  "id": "sc2",
+  "vis": "Sc2",
+  "dials": [
+   {
+    "id": "dialEnd_sc2",
+    "trigger": "theend",
+    "scr": []
+   },
+   {
+    "id": "dialSc2",
+    "scr": []
+   }
+  ]
+ },
+ "sc3": {
+  "id": "sc3",
+  "vis": "Sc3",
+  "dials": [
+   {
+    "id": "dialEnd_sc3",
+    "trigger": "theend",
+    "scr": []
+   },
+   {
+    "id": "dialSc3",
+    "scr": []
+   }
+  ]
+ },
+ "sc4": {
+  "id": "sc4",
+  "vis": "Sc4",
+  "dials": [
+   {
+    "id": "dialEnd_sc4",
+    "trigger": "theend",
+    "scr": [
+     {
+      "acts": [
+       {
+        "act": "take",
+        "val": "blackbook",
+        "n": "1"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "dialSc4",
+    "scr": []
+   }
+  ]
+ },
+ "mentor2": {
+  "id": "mentor2",
+  "vis": "Mentor2",
+  "name": "mentor",
+  "noturn": "1",
+  "dials": []
+ },
+ "sc12": {
+  "id": "sc12",
+  "vis": "Sc1",
+  "name": "sc1",
+  "noturn": "1",
+  "dials": []
+ },
+ "sc22": {
+  "id": "sc22",
+  "vis": "Sc2",
+  "name": "sc2",
+  "noturn": "1",
+  "dials": []
+ },
+ "sc32": {
+  "id": "sc32",
+  "vis": "Sc3",
+  "name": "sc3",
+  "dials": [
+   {
+    "id": "dialFin2",
+    "scr": []
+   }
+  ]
+ },
+ "sc42": {
+  "id": "sc42",
+  "vis": "Sc4",
+  "name": "sc4",
+  "noturn": "1",
+  "dials": []
+ },
+ "vendor_bar": {
+  "id": "vendor_bar",
+  "vendor": "vendor_bar",
+  "inter": "v",
+  "vis": "VendorBar",
+  "ico": "9",
+  "silent": "1",
+  "dials": [
+   {
+    "id": "dialEnd_vendor_bar",
+    "trigger": "theend",
+    "scr": []
+   },
+   {
+    "id": "vendor_bar_hi",
+    "imp": "1",
+    "scr": [
+     {
+      "acts": [
+       {
+        "act": "stage",
+        "val": "storyContact",
+        "n": "2"
+       },
+       {
+        "act": "unlock",
+        "targ": "doorRBL1"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "vendor_bar_task",
+    "imp": "1",
+    "scr": [
+     {
+      "acts": [
+       {
+        "act": "stage",
+        "val": "storyMain",
+        "n": "1"
+       },
+       {
+        "act": "openland",
+        "val": "random_plant"
+       },
+       {
+        "act": "sign",
+        "targ": "worldMap",
+        "val": "1"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "vendor_bar_stable",
+    "trigger": "story_stable",
+    "imp": "1",
+    "scr": [
+     {
+      "acts": [
+       {
+        "act": "stage",
+        "val": "storyStable",
+        "n": "1"
+       },
+       {
+        "act": "openland",
+        "val": "raiders"
+       },
+       {
+        "act": "check",
+        "targ": "rblCalam"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "vendor_bar_mane",
+    "trigger": "story_mane",
+    "imp": "1",
+    "scr": [
+     {
+      "acts": [
+       {
+        "act": "stage",
+        "val": "storyMane",
+        "n": "1"
+       },
+       {
+        "act": "showstage",
+        "val": "storyMane",
+        "n": "2"
+       },
+       {
+        "act": "openland",
+        "val": "random_mane"
+       },
+       {
+        "act": "check",
+        "targ": "rblCalam"
+       },
+       {
+        "act": "take",
+        "val": "money",
+        "n": "5000"
+       },
+       {
+        "act": "take",
+        "val": "binoc",
+        "n": "1"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "dialRanger7",
+    "imp": "1",
+    "trigger": "ranger_q1",
+    "scr": [
+     {
+      "acts": [
+       {
+        "act": "stage",
+        "val": "storyRanger",
+        "n": "5"
+       },
+       {
+        "act": "showstage",
+        "val": "storyRanger",
+        "n": "6"
+       },
+       {
+        "act": "trigger",
+        "val": "ranger_q2",
+        "n": "1"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "vendor_armor": {
+  "id": "vendor_armor",
+  "vendor": "vendor_armor",
+  "inter": "vr",
+  "vis": "VendorArmor",
+  "ico": "8",
+  "dials": [
+   {
+    "id": "vendor_armor_hi",
+    "scr": []
+   },
+   {
+    "id": "dialRanger8",
+    "imp": "1",
+    "trigger": "ranger_q2",
+    "scr": [
+     {
+      "acts": [
+       {
+        "act": "stage",
+        "val": "storyRanger",
+        "n": "6"
+       },
+       {
+        "act": "quest",
+        "val": "storyHelpCamp"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "vendor_armor_help1",
+    "imp": "1",
+    "quest": "storyHelpCamp",
+    "scr": [
+     {
+      "acts": [
+       {
+        "act": "stage",
+        "val": "storyHelpCamp",
+        "n": "1"
+       },
+       {
+        "act": "showstage",
+        "val": "storyHelpCamp",
+        "n": "2"
+       },
+       {
+        "act": "openland",
+        "val": "workshop"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "vendor_armor_help2",
+    "imp": "1",
+    "quest": "storyHelpCamp",
+    "sub": "3",
+    "scr": [
+     {
+      "acts": [
+       {
+        "act": "stage",
+        "val": "storyHelpCamp",
+        "n": "3"
+       },
+       {
+        "act": "stage",
+        "val": "storyHelpCamp"
+       },
+       {
+        "act": "stage",
+        "val": "storyHelpCovert",
+        "n": "1"
+       },
+       {
+        "act": "showstage",
+        "val": "storyHelpCovert",
+        "n": "2"
+       },
+       {
+        "act": "trigger",
+        "val": "helpcamp",
+        "n": "wait"
+       },
+       {
+        "act": "trigger",
+        "val": "soviet",
+        "n": "1"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "vendor_armor_new1",
+    "lvl": "5",
+    "scr": []
+   },
+   {
+    "id": "vendor_armor_chitin",
+    "lvl": "5",
+    "barter": "1",
+    "scr": []
+   },
+   {
+    "id": "vendor_armor_new2",
+    "lvl": "12",
+    "scr": []
+   },
+   {
+    "id": "vendor_armor_expl",
+    "lvl": "10",
+    "trigger": "pro_armor",
+    "scr": []
+   },
+   {
+    "id": "vendor_armor_paint",
+    "lvl": "20",
+    "trigger": "colors3",
+    "scr": []
+   },
+   {
+    "id": "vendor_armor_power",
+    "lvl": "20",
+    "trigger": "power_armor",
+    "scr": []
+   },
+   {
+    "id": "vendor_armor_quest3",
+    "trigger": "ranger_q3",
+    "imp": "1",
+    "scr": [
+     {
+      "acts": [
+       {
+        "act": "quest",
+        "val": "collectPowerArmor"
+       },
+       {
+        "act": "stage",
+        "val": "storyRanger",
+        "n": "8"
+       },
+       {
+        "act": "trigger",
+        "val": "ranger_q4",
+        "n": "1"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "dialEnd_vendor_armor",
+    "armor": "ali",
+    "scr": []
+   }
+  ]
+ },
+ "vendor_weapon": {
+  "id": "vendor_weapon",
+  "vendor": "vendor_weapon",
+  "inter": "vr",
+  "vis": "VendorWeapon",
+  "ico": "4",
+  "dials": [
+   {
+    "id": "vendor_weap_hi",
+    "scr": []
+   },
+   {
+    "id": "vendor_weap_new1",
+    "lvl": "10",
+    "scr": []
+   }
+  ]
+ },
+ "vendor_expl": {
+  "id": "vendor_expl",
+  "vendor": "vendor_expl",
+  "inter": "vr",
+  "vis": "VendorExpl",
+  "ico": "5",
+  "dials": [
+   {
+    "id": "vendor_expl_hi",
+    "scr": []
+   },
+   {
+    "id": "vendor_expl_new1",
+    "lvl": "5",
+    "scr": []
+   },
+   {
+    "id": "vendor_expl_new2",
+    "lvl": "8",
+    "scr": []
+   },
+   {
+    "id": "vendor_expl_sapper",
+    "armor": "sapper",
+    "scr": []
+   }
+  ]
+ },
+ "vendor_medic": {
+  "id": "vendor_medic",
+  "vendor": "vendor_medic",
+  "inter": "doc",
+  "vis": "Doctor",
+  "ico": "3",
+  "dials": [
+   {
+    "id": "vendor_medic_hi",
+    "scr": []
+   },
+   {
+    "id": "velvetDial3",
+    "prev": "velvetDial2",
+    "scr": [
+     {
+      "acts": [
+       {
+        "act": "stage",
+        "val": "storyFind",
+        "n": "1"
+       },
+       {
+        "act": "xp",
+        "val": "3000"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "vendor_medic_new1",
+    "lvl": "9",
+    "scr": []
+   },
+   {
+    "id": "dialPatient4",
+    "trigger": "patient_tr1",
+    "scr": []
+   }
+  ]
+ },
+ "vendor_mech": {
+  "id": "vendor_mech",
+  "vendor": "vendor_mech",
+  "inter": "vr",
+  "vis": "VendorMech",
+  "ico": "6",
+  "dials": [
+   {
+    "id": "vendor_mech_hi",
+    "scr": []
+   },
+   {
+    "id": "vendor_mech_autodoc_rep",
+    "trigger": "autodoc_rep",
+    "scr": []
+   }
+  ]
+ },
+ "vendor_mage": {
+  "id": "vendor_mage",
+  "vendor": "vendor_mage",
+  "inter": "v",
+  "vis": "VendorMage",
+  "ico": "7",
+  "silent": "1",
+  "dials": [
+   {
+    "id": "vendor_mage_hi",
+    "scr": []
+   },
+   {
+    "id": "dialEnd_vendor_mage",
+    "trigger": "theend",
+    "scr": []
+   }
+  ]
+ },
+ "vendor_cook": {
+  "id": "vendor_cook",
+  "vendor": "vendor_cook",
+  "inter": "v",
+  "vis": "VendorCook",
+  "ico": "11",
+  "silent": "1",
+  "dials": [
+   {
+    "id": "vendor_cook_hi",
+    "scr": []
+   }
+  ]
+ },
+ "vendor_zebr": {
+  "id": "vendor_zebr",
+  "vendor": "vendor_zebr",
+  "inter": "v",
+  "vis": "VendorZebr",
+  "ico": "12",
+  "silent": "1",
+  "dials": [
+   {
+    "id": "dialCanter2",
+    "scr": []
+   },
+   {
+    "id": "dialEnd_vendor_zebr",
+    "trigger": "theend",
+    "scr": []
+   }
+  ]
+ },
+ "vendor_sr": {
+  "id": "vendor_sr",
+  "vendor": "vendor_sr",
+  "inter": "vr",
+  "vis": "VendorSR",
+  "ico": "4",
+  "silent": "1",
+  "dials": [
+   {
+    "id": "vendor_sr_hi",
+    "scr": []
+   },
+   {
+    "id": "vendor_sr_quest3",
+    "trigger": "encl_armor",
+    "scr": [
+     {
+      "acts": [
+       {
+        "act": "take",
+        "val": "encl",
+        "n": "1"
+       },
+       {
+        "act": "xp",
+        "val": "1000"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "vendor_sr_bunker",
+    "land": "bunker",
+    "scr": []
+   },
+   {
+    "id": "vendor_sr_power_armor",
+    "armor": "power",
+    "scr": []
+   }
+  ]
+ },
+ "vendor_maps": {
+  "id": "vendor_maps",
+  "vendor": "vendor_maps",
+  "inter": "v",
+  "vis": "VendorMaps",
+  "ico": "2",
+  "silent": "1",
+  "dials": [
+   {
+    "id": "vendor_maps_key",
+    "barter": "4",
+    "scr": []
+   }
+  ]
+ },
+ "vendor_random": {
+  "id": "vendor_random",
+  "vendor": "random",
+  "inter": "v",
+  "vis": "Vendor",
+  "ico": "2",
+  "dials": []
+ },
+ "autodoc": {
+  "id": "autodoc",
+  "vendor": "nope",
+  "inter": "adoc",
+  "vis": "Autodoc",
+  "ico": "3",
+  "needskill": "repair",
+  "noturn": "1",
+  "replic": "",
+  "dials": []
+ },
+ "patient": {
+  "id": "patient",
+  "inter": "patient",
+  "vis": "Patient",
+  "needskill": "medic",
+  "needitem": "vaccine",
+  "noturn": "1",
+  "replic": "",
+  "dials": [
+   {
+    "id": "dialPatient9",
+    "trigger": "patient_tr2",
+    "scr": []
+   }
+  ]
+ },
+ "zeb1": {
+  "id": "zeb1",
+  "vis": "Zeb1",
+  "dials": []
+ },
+ "zeb2": {
+  "id": "zeb2",
+  "vis": "Zeb2",
+  "dials": []
+ },
+ "zeb3": {
+  "id": "zeb3",
+  "vis": "Zeb3",
+  "dials": []
+ },
+ "zeb4": {
+  "id": "zeb4",
+  "vis": "Zeb4",
+  "dials": []
+ },
+ "askari_s": {
+  "id": "askari_s",
+  "vis": "Askari",
+  "name": "askari",
+  "inter": "",
+  "dials": []
+ },
+ "velvet_s": {
+  "id": "velvet_s",
+  "vis": "Velvet",
+  "name": "velvet",
+  "inter": "",
+  "dials": []
+ },
+ "calam_end": {
+  "id": "calam_end",
+  "vis": "Calam",
+  "name": "calam2",
+  "dials": [
+   {
+    "id": "dialEnd_calam",
+    "scr": []
+   }
+  ]
+ },
+ "velvet_end": {
+  "id": "velvet_end",
+  "vis": "Velvet",
+  "name": "velvet",
+  "dials": [
+   {
+    "id": "dialEnd_velvet",
+    "scr": []
+   }
+  ]
+ },
+ "observer_end": {
+  "id": "observer_end",
+  "vis": "SpriteBot",
+  "name": "watcher",
+  "dials": [
+   {
+    "id": "dialEnd_wat",
+    "scr": []
+   }
+  ]
+ },
+ "steel_end": {
+  "id": "steel_end",
+  "vis": "Steel",
+  "name": "steel",
+  "dials": [
+   {
+    "id": "dialEnd_steel",
+    "scr": []
+   }
+  ]
+ },
+ "askari_end": {
+  "id": "askari_end",
+  "vis": "Askari",
+  "name": "askari",
+  "dials": [
+   {
+    "id": "dialEnd_askari",
+    "scr": []
+   }
+  ]
+ }
+}

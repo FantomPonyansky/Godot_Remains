@@ -1,0 +1,2648 @@
+{
+ "order": [
+  "begin",
+  "surf",
+  "rbl",
+  "random_plant",
+  "nio",
+  "random_sewer",
+  "raiders",
+  "random_stable",
+  "core",
+  "garages",
+  "random_mane",
+  "mtn",
+  "way",
+  "covert",
+  "src",
+  "random_canter",
+  "minst",
+  "random_mbase",
+  "bunker",
+  "workshop",
+  "hql",
+  "post",
+  "random_encl",
+  "comm",
+  "art",
+  "stable_pi",
+  "stable_pi_atk",
+  "stable_pi_surf",
+  "thunder",
+  "grave",
+  "prob"
+ ],
+ "lands": {
+  "begin": {
+   "id": "begin",
+   "dif": "0",
+   "file": "rooms_begin",
+   "locx": "0",
+   "locy": "0",
+   "stage": "1",
+   "limit": "1",
+   "list": "2",
+   "tip": "story",
+   "options": {
+    "backwall": "tBackWall",
+    "music": "music_begin"
+   },
+   "scr": [
+    {
+     "eve": "take",
+     "item": "mont",
+     "acts": [
+      {
+       "act": "on",
+       "targ": "trDestroy"
+      },
+      {
+       "act": "on",
+       "targ": "trDoor"
+      }
+     ]
+    },
+    {
+     "eve": "take",
+     "item": "screwdriver",
+     "acts": [
+      {
+       "act": "on",
+       "targ": "trDoor"
+      },
+      {
+       "act": "sign",
+       "targ": "trSign5",
+       "val": "1"
+      }
+     ]
+    },
+    {
+     "eve": "take",
+     "item": "rech",
+     "acts": [
+      {
+       "act": "weapch",
+       "val": "rech"
+      }
+     ]
+    },
+    {
+     "eve": "take",
+     "item": "r32",
+     "acts": [
+      {
+       "act": "weapch",
+       "val": "r32"
+      }
+     ]
+    },
+    {
+     "eve": "take",
+     "item": "s_arson",
+     "acts": [
+      {
+       "act": "mess",
+       "val": "trScheme",
+       "opt1": "1"
+      }
+     ]
+    },
+    {
+     "eve": "take",
+     "item": "col1",
+     "acts": [
+      {
+       "act": "quest",
+       "val": "collectHS"
+      }
+     ]
+    }
+   ],
+   "probs": []
+  },
+  "surf": {
+   "id": "surf",
+   "dif": "0",
+   "file": "rooms_surf",
+   "locx": "0",
+   "locy": "1",
+   "stage": "2",
+   "limit": "1",
+   "list": "3",
+   "tip": "story",
+   "options": {
+    "backwall": "sky",
+    "fon": "fonDarkClouds",
+    "color": "blue",
+    "vis": "10",
+    "music": "music_surf"
+   },
+   "scr": [],
+   "probs": []
+  },
+  "rbl": {
+   "id": "rbl",
+   "autolevel": "1",
+   "dif": "0",
+   "file": "rooms_rbl",
+   "locx": "0",
+   "locy": "0",
+   "stage": "1",
+   "list": "1",
+   "tip": "base",
+   "fin": "0",
+   "options": {
+    "backwall": "tStConcrete",
+    "fon": "fonWay",
+    "music": "music_base"
+   },
+   "scr": [],
+   "probs": [
+    {
+     "id": "bossraider1",
+     "level": "0",
+     "tip": "2",
+     "close": "1",
+     "cons": [
+      {
+       "tip": "unit",
+       "uid": "bossraider1F1"
+      }
+     ],
+     "scr": []
+    },
+    {
+     "id": "bossraider2",
+     "level": "0",
+     "tip": "2",
+     "close": "1",
+     "cons": [
+      {
+       "tip": "unit",
+       "uid": "bossraider2F1"
+      }
+     ],
+     "scr": []
+    },
+    {
+     "id": "bossultra1",
+     "level": "0",
+     "tip": "2",
+     "close": "1",
+     "cons": [
+      {
+       "tip": "unit",
+       "uid": "bossultra1F1"
+      }
+     ],
+     "scr": []
+    },
+    {
+     "id": "bossalicorn1",
+     "level": "0",
+     "tip": "2",
+     "close": "1",
+     "cons": [
+      {
+       "tip": "unit",
+       "uid": "bossalicorn1F1"
+      }
+     ],
+     "scr": []
+    },
+    {
+     "id": "bossnecr1",
+     "level": "0",
+     "tip": "2",
+     "close": "1",
+     "cons": [
+      {
+       "tip": "unit",
+       "uid": "bossnecr1F1"
+      }
+     ],
+     "scr": []
+    },
+    {
+     "id": "bossdron1",
+     "level": "0",
+     "tip": "2",
+     "close": "1",
+     "cons": [
+      {
+       "tip": "unit",
+       "uid": "bossdron1F1"
+      }
+     ],
+     "scr": []
+    },
+    {
+     "id": "bossencl",
+     "level": "0",
+     "tip": "2",
+     "close": "1",
+     "cons": [
+      {
+       "tip": "unit",
+       "uid": "bossenclF1"
+      },
+      {
+       "tip": "unit",
+       "uid": "bossenclF2"
+      },
+      {
+       "tip": "unit",
+       "uid": "bossenclF3"
+      }
+     ],
+     "scr": []
+    }
+   ]
+  },
+  "random_plant": {
+   "id": "random_plant",
+   "tip": "rnd",
+   "rnd": "1",
+   "dif": "0",
+   "biom": "0",
+   "conf": "0",
+   "file": "rooms_plant",
+   "stage": "3",
+   "exit": "exit_plant",
+   "mx": "4",
+   "my": "6",
+   "locx": "0",
+   "locy": "0",
+   "list": "4",
+   "loadscr": "1",
+   "options": {
+    "backwall": "tBackWall",
+    "music": "music_plant_1",
+    "fon": "fonDarkClouds",
+    "xp": "100"
+   },
+   "scr": [],
+   "probs": [
+    {
+     "id": "labirint",
+     "prize": "1",
+     "tip": "1",
+     "cons": [
+      {
+       "tip": "box",
+       "uid": "labirintF1"
+      }
+     ],
+     "scr": []
+    },
+    {
+     "id": "buttons1",
+     "tip": "1",
+     "cons": [
+      {
+       "tip": "box",
+       "uid": "buttons1F1"
+      },
+      {
+       "tip": "box",
+       "uid": "buttons1F2"
+      },
+      {
+       "tip": "box",
+       "uid": "buttons1F3"
+      }
+     ],
+     "scr": []
+    },
+    {
+     "id": "radioactive",
+     "level": "1",
+     "prize": "1",
+     "tip": "1",
+     "cons": [
+      {
+       "tip": "box",
+       "uid": "radioactiveF1"
+      },
+      {
+       "tip": "box",
+       "uid": "radioactiveF2"
+      }
+     ],
+     "scr": []
+    },
+    {
+     "id": "buttons2",
+     "level": "1",
+     "tip": "1",
+     "cons": [
+      {
+       "tip": "box",
+       "uid": "buttons2F1"
+      },
+      {
+       "tip": "box",
+       "uid": "buttons2F2"
+      }
+     ],
+     "scr": []
+    },
+    {
+     "id": "buttons3",
+     "level": "2",
+     "tip": "1",
+     "cons": [
+      {
+       "tip": "box",
+       "uid": "buttons3F1"
+      },
+      {
+       "tip": "box",
+       "uid": "buttons3F2"
+      },
+      {
+       "tip": "box",
+       "uid": "buttons3F3"
+      },
+      {
+       "tip": "box",
+       "uid": "buttons3F4"
+      },
+      {
+       "tip": "box",
+       "uid": "buttons3F5"
+      },
+      {
+       "tip": "box",
+       "uid": "buttons3F6"
+      },
+      {
+       "tip": "box",
+       "uid": "buttons3F7"
+      }
+     ],
+     "scr": []
+    },
+    {
+     "id": "sliv",
+     "level": "2",
+     "prize": "1",
+     "tip": "1",
+     "cons": [
+      {
+       "tip": "box",
+       "uid": "slivF1"
+      }
+     ],
+     "scr": []
+    },
+    {
+     "id": "tower2",
+     "level": "2",
+     "prize": "1",
+     "tip": "1",
+     "cons": [
+      {
+       "tip": "box",
+       "uid": "tower2F1"
+      }
+     ],
+     "scr": []
+    },
+    {
+     "id": "ant_breeding",
+     "tip": "2",
+     "cons": [
+      {
+       "tip": "unit",
+       "qid": "antF1"
+      }
+     ],
+     "scr": []
+    },
+    {
+     "id": "scorpions",
+     "level": "1",
+     "tip": "2",
+     "cons": [
+      {
+       "tip": "unit",
+       "qid": "scorpionsF1"
+      }
+     ],
+     "scr": []
+    },
+    {
+     "id": "bloat_breeding",
+     "level": "2",
+     "tip": "2",
+     "cons": [
+      {
+       "tip": "unit",
+       "qid": "bloatF1"
+      }
+     ],
+     "scr": []
+    },
+    {
+     "id": "director",
+     "level": "1",
+     "tip": "2",
+     "cons": [
+      {
+       "tip": "box",
+       "uid": "directorF1"
+      }
+     ],
+     "scr": [
+      {
+       "eve": "alarm",
+       "acts": [
+        {
+         "act": "dam",
+         "targ": "directorA1",
+         "val": "10000"
+        },
+        {
+         "act": "dam",
+         "targ": "directorA2",
+         "val": "10000"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "lair",
+     "level": "2",
+     "tip": "2",
+     "cons": [
+      {
+       "tip": "unit",
+       "uid": "raidersF1"
+      }
+     ],
+     "scr": []
+    },
+    {
+     "id": "w_raiders",
+     "level": "2",
+     "tip": "2",
+     "cons": [
+      {
+       "tip": "wave"
+      }
+     ],
+     "scr": [],
+     "waves": [
+      {
+       "t": "15",
+       "objs": [
+        {
+         "id": "raider"
+        },
+        {
+         "id": "raider"
+        },
+        {
+         "id": "robot"
+        }
+       ]
+      },
+      {
+       "t": "20",
+       "objs": [
+        {
+         "id": "protect"
+        },
+        {
+         "id": "gutsy"
+        },
+        {
+         "id": "robot"
+        },
+        {
+         "id": "roller"
+        },
+        {
+         "id": "roller"
+        }
+       ]
+      },
+      {
+       "t": "25",
+       "objs": [
+        {
+         "id": "raider",
+         "tr": "2"
+        },
+        {
+         "id": "raider",
+         "tr": "3"
+        },
+        {
+         "id": "raider",
+         "tr": "4"
+        },
+        {
+         "id": "raider",
+         "tr": "5"
+        },
+        {
+         "id": "raider",
+         "tr": "6"
+        }
+       ]
+      },
+      {
+       "t": "",
+       "objs": [
+        {
+         "id": "raider",
+         "tr": "5"
+        },
+        {
+         "id": "raider",
+         "tr": "6"
+        },
+        {
+         "id": "raider",
+         "tr": "8"
+        },
+        {
+         "id": "raider",
+         "tr": "9"
+        },
+        {
+         "id": "raider",
+         "tr": "7",
+         "hero": "1"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "generator",
+     "level": "2",
+     "tip": "2",
+     "cons": [
+      {
+       "tip": "unit",
+       "uid": "generatorU1"
+      }
+     ],
+     "scr": []
+    }
+   ]
+  },
+  "nio": {
+   "id": "nio",
+   "dif": "7",
+   "file": "rooms_nio",
+   "locx": "-1",
+   "locy": "0",
+   "stage": "2",
+   "list": "3",
+   "tip": "story",
+   "options": {
+    "backwall": "tTiles",
+    "color": "lab",
+    "music": "music_plant_2",
+    "xp": "100"
+   },
+   "scr": [],
+   "probs": []
+  },
+  "random_sewer": {
+   "id": "random_sewer",
+   "tip": "rnd",
+   "rnd": "1",
+   "dif": "10",
+   "biom": "1",
+   "conf": "2",
+   "file": "rooms_sewer",
+   "stage": "4",
+   "exit": "exit_sewer",
+   "mx": "8",
+   "my": "3",
+   "locx": "0",
+   "locy": "0",
+   "list": "6",
+   "options": {
+    "backwall": "tMossy",
+    "music": "music_sewer_1",
+    "xp": "200",
+    "border": "M",
+    "color": "green",
+    "wtip": "1",
+    "wrad": "3"
+   },
+   "scr": [
+    {
+     "eve": "take",
+     "item": "diary",
+     "acts": [
+      {
+       "act": "dialog",
+       "val": "velvetDial6"
+      },
+      {
+       "act": "stage",
+       "val": "storyFind",
+       "n": "2"
+      },
+      {
+       "act": "xp",
+       "val": "5000"
+      }
+     ]
+    }
+   ],
+   "probs": [
+    {
+     "id": "slimes",
+     "prize": "1",
+     "tip": "1",
+     "cons": [
+      {
+       "tip": "box",
+       "uid": "slimesF1"
+      }
+     ],
+     "scr": []
+    },
+    {
+     "id": "tower1",
+     "prize": "1",
+     "tip": "1",
+     "cons": [
+      {
+       "tip": "box",
+       "uid": "tower1F1"
+      }
+     ],
+     "scr": []
+    },
+    {
+     "id": "zombies",
+     "tip": "2",
+     "cons": [
+      {
+       "tip": "unit",
+       "uid": "zombiesF1"
+      }
+     ],
+     "scr": []
+    },
+    {
+     "id": "pit",
+     "tip": "2",
+     "cons": [
+      {
+       "tip": "unit",
+       "qid": "pitF1"
+      }
+     ],
+     "scr": []
+    },
+    {
+     "id": "camp",
+     "prize": "1",
+     "tip": "1",
+     "imp": "1",
+     "cons": [
+      {
+       "tip": "box",
+       "uid": "campF1"
+      }
+     ],
+     "scr": []
+    },
+    {
+     "id": "w_zombie",
+     "tip": "2",
+     "level": "1",
+     "cons": [
+      {
+       "tip": "wave"
+      }
+     ],
+     "scr": [],
+     "waves": [
+      {
+       "t": "15",
+       "objs": [
+        {
+         "id": "bloodwing"
+        },
+        {
+         "id": "bloodwing"
+        },
+        {
+         "id": "scorp"
+        },
+        {
+         "id": "scorp"
+        }
+       ]
+      },
+      {
+       "t": "20",
+       "objs": [
+        {
+         "id": "zombie",
+         "tr": "0"
+        },
+        {
+         "id": "zombie",
+         "tr": "1"
+        },
+        {
+         "id": "zombie",
+         "tr": "2"
+        },
+        {
+         "id": "bloat",
+         "tr": "4"
+        },
+        {
+         "id": "bloat",
+         "tr": "4"
+        }
+       ]
+      },
+      {
+       "t": "25",
+       "objs": [
+        {
+         "id": "zombie",
+         "tr": "0"
+        },
+        {
+         "id": "zombie",
+         "tr": "1"
+        },
+        {
+         "id": "zombie",
+         "tr": "2"
+        },
+        {
+         "id": "zombie",
+         "tr": "5"
+        },
+        {
+         "id": "zombie",
+         "tr": "6"
+        }
+       ]
+      },
+      {
+       "t": "",
+       "objs": [
+        {
+         "id": "zombie",
+         "tr": "2"
+        },
+        {
+         "id": "zombie",
+         "tr": "3"
+        },
+        {
+         "id": "zombie",
+         "tr": "4"
+        },
+        {
+         "id": "zombie",
+         "tr": "5",
+         "hero": "1"
+        },
+        {
+         "id": "zombie",
+         "tr": "6",
+         "hero": "1"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "raiders": {
+   "id": "raiders",
+   "dif": "10",
+   "file": "rooms_raiders",
+   "locx": "0",
+   "locy": "1",
+   "stage": "3",
+   "list": "5",
+   "tip": "story",
+   "loadscr": "2",
+   "options": {
+    "backwall": "sky",
+    "fon": "fonDarkClouds",
+    "color": "blue",
+    "vis": "10",
+    "music": "music_raiders"
+   },
+   "scr": [
+    {
+     "eve": "take",
+     "item": "sl_note1",
+     "acts": [
+      {
+       "act": "control off"
+      },
+      {
+       "act": "dial",
+       "val": "surfDialNote",
+       "n": "0"
+      },
+      {
+       "act": "dialog",
+       "val": "slNote1"
+      },
+      {
+       "act": "dial",
+       "val": "surfDialNote",
+       "n": "1"
+      },
+      {
+       "act": "showstage",
+       "val": "storyFind",
+       "n": "3"
+      },
+      {
+       "act": "control on"
+      },
+      {
+       "act": "xp",
+       "val": "5000"
+      }
+     ]
+    }
+   ],
+   "probs": []
+  },
+  "random_stable": {
+   "id": "random_stable",
+   "tip": "rnd",
+   "rnd": "1",
+   "dif": "12",
+   "biom": "2",
+   "conf": "1",
+   "file": "rooms_stable",
+   "exit": "exit_stable",
+   "stage": "5",
+   "mx": "4",
+   "my": "6",
+   "locx": "0",
+   "locy": "0",
+   "list": "7",
+   "loadscr": "3",
+   "options": {
+    "backwall": "tStConcrete",
+    "music": "music_stable_1",
+    "xp": "200"
+   },
+   "scr": [],
+   "probs": [
+    {
+     "id": "doors",
+     "level": "0",
+     "prize": "1",
+     "tip": "1",
+     "cons": [
+      {
+       "tip": "box",
+       "uid": "doorsF1"
+      }
+     ],
+     "scr": []
+    },
+    {
+     "id": "buttons4",
+     "level": "0",
+     "tip": "1",
+     "cons": [
+      {
+       "tip": "box",
+       "uid": "buttons4F1"
+      },
+      {
+       "tip": "box",
+       "uid": "buttons4F2"
+      },
+      {
+       "tip": "box",
+       "uid": "buttons4F3"
+      },
+      {
+       "tip": "box",
+       "uid": "buttons4F4"
+      },
+      {
+       "tip": "box",
+       "uid": "buttons4F5"
+      },
+      {
+       "tip": "box",
+       "uid": "buttons4F6"
+      }
+     ],
+     "scr": []
+    },
+    {
+     "id": "lift",
+     "level": "0",
+     "prize": "1",
+     "tip": "1",
+     "cons": [
+      {
+       "tip": "box",
+       "uid": "liftF1"
+      }
+     ],
+     "scr": []
+    },
+    {
+     "id": "platform",
+     "level": "0",
+     "prize": "1",
+     "tip": "1",
+     "cons": [
+      {
+       "tip": "box",
+       "uid": "platformF1"
+      }
+     ],
+     "scr": []
+    },
+    {
+     "id": "digger",
+     "level": "1",
+     "prize": "1",
+     "tip": "1",
+     "cons": [
+      {
+       "tip": "box",
+       "uid": "diggerF1"
+      }
+     ],
+     "scr": []
+    },
+    {
+     "id": "tech",
+     "level": "1",
+     "prize": "1",
+     "tip": "1",
+     "cons": [
+      {
+       "tip": "box",
+       "uid": "techF1"
+      }
+     ],
+     "scr": []
+    },
+    {
+     "id": "data",
+     "level": "2",
+     "tip": "1",
+     "cons": [
+      {
+       "tip": "box",
+       "uid": "dataF1"
+      }
+     ],
+     "scr": []
+    },
+    {
+     "id": "floating",
+     "level": "1",
+     "tip": "1",
+     "cons": [
+      {
+       "tip": "box",
+       "uid": "floatingF1"
+      },
+      {
+       "tip": "box",
+       "uid": "floatingF2"
+      }
+     ],
+     "scr": []
+    },
+    {
+     "id": "lasertag",
+     "level": "1",
+     "prize": "1",
+     "tip": "1",
+     "cons": [
+      {
+       "tip": "box",
+       "uid": "lasertagF1"
+      }
+     ],
+     "scr": [
+      {
+       "eve": "out",
+       "acts": [
+        {
+         "act": "allact",
+         "val": "close",
+         "n": "d1"
+        },
+        {
+         "act": "allact",
+         "val": "close",
+         "n": "d3"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "turrets",
+     "level": "0",
+     "prize": "1",
+     "tip": "2",
+     "cons": [
+      {
+       "tip": "box",
+       "uid": "turretsF1"
+      }
+     ],
+     "scr": []
+    },
+    {
+     "id": "robots",
+     "level": "1",
+     "tip": "2",
+     "cons": [
+      {
+       "tip": "unit",
+       "qid": "robotsF1"
+      }
+     ],
+     "scr": [
+      {
+       "eve": "out",
+       "acts": [
+        {
+         "act": "allact",
+         "val": "close",
+         "n": "1"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "sentinels",
+     "level": "2",
+     "tip": "2",
+     "cons": [
+      {
+       "tip": "unit",
+       "qid": "sentinelsF1"
+      }
+     ],
+     "scr": []
+    },
+    {
+     "id": "telekin",
+     "level": "2",
+     "tip": "2",
+     "prize": "1",
+     "cons": [
+      {
+       "tip": "box",
+       "uid": "telekinF1"
+      }
+     ],
+     "scr": []
+    },
+    {
+     "id": "w_robots",
+     "tip": "2",
+     "level": "2",
+     "cons": [
+      {
+       "tip": "wave"
+      }
+     ],
+     "scr": [],
+     "waves": [
+      {
+       "t": "25",
+       "objs": [
+        {
+         "id": "landturret"
+        },
+        {
+         "id": "landturret"
+        },
+        {
+         "id": "protect"
+        },
+        {
+         "id": "protect"
+        },
+        {
+         "id": "spritebot"
+        },
+        {
+         "id": "spritebot"
+        }
+       ]
+      },
+      {
+       "t": "45",
+       "objs": [
+        {
+         "id": "slaver",
+         "tr": "1"
+        },
+        {
+         "id": "slaver",
+         "tr": "2"
+        },
+        {
+         "id": "slaver",
+         "tr": "3"
+        },
+        {
+         "id": "protect"
+        },
+        {
+         "id": "gutsy"
+        },
+        {
+         "id": "landturret"
+        }
+       ]
+      },
+      {
+       "t": "60",
+       "objs": [
+        {
+         "id": "slaver",
+         "tr": "1"
+        },
+        {
+         "id": "slaver",
+         "tr": "2"
+        },
+        {
+         "id": "slaver",
+         "tr": "3"
+        },
+        {
+         "id": "slaver",
+         "tr": "4"
+        },
+        {
+         "id": "slaver",
+         "tr": "5"
+        },
+        {
+         "id": "slaver",
+         "tr": "6"
+        }
+       ]
+      },
+      {
+       "t": "",
+       "objs": [
+        {
+         "id": "gutsy"
+        },
+        {
+         "id": "gutsy"
+        },
+        {
+         "id": "gutsy",
+         "hero": "1"
+        },
+        {
+         "id": "eqd"
+        },
+        {
+         "id": "sentinel"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "core": {
+   "id": "core",
+   "dif": "15",
+   "file": "rooms_core",
+   "locx": "5",
+   "locy": "0",
+   "stage": "6",
+   "list": "3",
+   "tip": "story",
+   "options": {
+    "backwall": "tStConcrete",
+    "color": "blue",
+    "music": "music_stable_2",
+    "xp": "200"
+   },
+   "scr": [
+    {
+     "eve": "take",
+     "item": "sl_note2",
+     "acts": [
+      {
+       "act": "control off"
+      },
+      {
+       "act": "dial",
+       "val": "stableDialNote2",
+       "n": "0"
+      },
+      {
+       "act": "dial",
+       "val": "stableDialNote2",
+       "n": "1"
+      },
+      {
+       "act": "dial",
+       "val": "slNote2",
+       "n": "0"
+      },
+      {
+       "act": "dial",
+       "val": "slNote2",
+       "n": "1"
+      },
+      {
+       "act": "dial",
+       "val": "stableDialNote2",
+       "n": "2"
+      },
+      {
+       "act": "dial",
+       "val": "slNote2",
+       "n": "2"
+      },
+      {
+       "act": "dial",
+       "val": "slNote2",
+       "n": "3"
+      },
+      {
+       "act": "dial",
+       "val": "stableDialNote2",
+       "n": "3"
+      },
+      {
+       "act": "dial",
+       "val": "slNote2",
+       "n": "4"
+      },
+      {
+       "act": "dial",
+       "val": "slNote2",
+       "n": "5"
+      },
+      {
+       "act": "dial",
+       "val": "stableDialNote2",
+       "n": "4"
+      },
+      {
+       "act": "stage",
+       "val": "storyFind",
+       "n": "3"
+      },
+      {
+       "act": "control on"
+      },
+      {
+       "act": "xp",
+       "val": "5000"
+      }
+     ]
+    },
+    {
+     "eve": "take",
+     "item": "kogit",
+     "acts": [
+      {
+       "act": "control off"
+      },
+      {
+       "act": "stage",
+       "val": "storyStable",
+       "n": "3"
+      },
+      {
+       "act": "open",
+       "targ": "coreD5"
+      },
+      {
+       "act": "dialog",
+       "val": "stableDialKogit"
+      },
+      {
+       "act": "control on"
+      }
+     ]
+    }
+   ],
+   "probs": []
+  },
+  "garages": {
+   "id": "garages",
+   "dif": "15",
+   "file": "rooms_garages",
+   "locx": "0",
+   "locy": "0",
+   "stage": "6",
+   "list": "5",
+   "tip": "story",
+   "options": {
+    "backwall": "sky",
+    "fon": "fonDarkClouds",
+    "color": "blue",
+    "vis": "10",
+    "music": "music_surf"
+   },
+   "scr": [],
+   "probs": []
+  },
+  "random_mane": {
+   "id": "random_mane",
+   "tip": "rnd",
+   "rnd": "1",
+   "dif": "15",
+   "biom": "3",
+   "conf": "3",
+   "file": "rooms_mane",
+   "exit": "exit_mane",
+   "stage": "7",
+   "mx": "5",
+   "my": "5",
+   "locx": "0",
+   "locy": "4",
+   "list": "9",
+   "loadscr": "4",
+   "options": {
+    "backwall": "tWindows",
+    "fon": "fonRuins",
+    "music": "music_mane_1",
+    "vis": "2",
+    "xp": "300",
+    "border": "N",
+    "darkness": "-20"
+   },
+   "scr": [],
+   "probs": [
+    {
+     "id": "away",
+     "level": "0",
+     "prize": "1",
+     "tip": "1",
+     "cons": [
+      {
+       "tip": "box",
+       "uid": "awayF1"
+      }
+     ],
+     "scr": []
+    },
+    {
+     "id": "buttons5",
+     "level": "0",
+     "tip": "1",
+     "cons": [
+      {
+       "tip": "box",
+       "uid": "buttons5F1"
+      },
+      {
+       "tip": "box",
+       "uid": "buttons5F2"
+      },
+      {
+       "tip": "box",
+       "uid": "buttons5F3"
+      },
+      {
+       "tip": "box",
+       "uid": "buttons5F4"
+      }
+     ],
+     "scr": []
+    },
+    {
+     "id": "speed",
+     "level": "0",
+     "prize": "1",
+     "tip": "1",
+     "cons": [
+      {
+       "tip": "box",
+       "uid": "speedF1"
+      }
+     ],
+     "scr": []
+    },
+    {
+     "id": "bloatking",
+     "level": "0",
+     "tip": "2",
+     "cons": [
+      {
+       "tip": "unit",
+       "qid": "bloatkingF1"
+      }
+     ],
+     "scr": []
+    },
+    {
+     "id": "griff",
+     "level": "1",
+     "tip": "2",
+     "imp": "1",
+     "cons": [
+      {
+       "tip": "unit",
+       "qid": "griffF1"
+      }
+     ],
+     "scr": []
+    },
+    {
+     "id": "slavers",
+     "level": "1",
+     "tip": "2",
+     "cons": [
+      {
+       "tip": "unit",
+       "uid": "slaversF1"
+      }
+     ],
+     "scr": []
+    },
+    {
+     "id": "blaster",
+     "level": "1",
+     "tip": "2",
+     "cons": [
+      {
+       "tip": "unit",
+       "qid": "blasterF1"
+      }
+     ],
+     "scr": []
+    },
+    {
+     "id": "grav",
+     "level": "2",
+     "tip": "2",
+     "cons": [
+      {
+       "tip": "unit",
+       "qid": "gravF1"
+      }
+     ],
+     "scr": []
+    },
+    {
+     "id": "biblio",
+     "level": "2",
+     "tip": "2",
+     "cons": [
+      {
+       "tip": "unit",
+       "uid": "biblioU1"
+      }
+     ],
+     "scr": []
+    },
+    {
+     "id": "w_grif",
+     "tip": "2",
+     "level": "2",
+     "cons": [
+      {
+       "tip": "wave"
+      }
+     ],
+     "scr": [],
+     "waves": [
+      {
+       "t": "30",
+       "objs": [
+        {
+         "id": "slaver",
+         "tr": "1"
+        },
+        {
+         "id": "slaver",
+         "tr": "2"
+        },
+        {
+         "id": "slaver",
+         "tr": "3"
+        },
+        {
+         "id": "vortex"
+        },
+        {
+         "id": "vortex"
+        },
+        {
+         "id": "vortex"
+        }
+       ]
+      },
+      {
+       "t": "60",
+       "objs": [
+        {
+         "id": "zebra",
+         "tr": "1"
+        },
+        {
+         "id": "zebra",
+         "tr": "2"
+        },
+        {
+         "id": "zebra",
+         "tr": "3"
+        },
+        {
+         "id": "zebra",
+         "tr": "4"
+        },
+        {
+         "id": "msp"
+        },
+        {
+         "id": "msp"
+        }
+       ]
+      },
+      {
+       "t": "80",
+       "objs": [
+        {
+         "id": "merc",
+         "tr": "1"
+        },
+        {
+         "id": "merc",
+         "tr": "2"
+        },
+        {
+         "id": "merc",
+         "tr": "3"
+        },
+        {
+         "id": "merc",
+         "tr": "4"
+        },
+        {
+         "id": "merc",
+         "tr": "5"
+        }
+       ]
+      },
+      {
+       "t": "",
+       "objs": [
+        {
+         "id": "alicorn",
+         "tr": "1"
+        },
+        {
+         "id": "alicorn",
+         "tr": "2"
+        },
+        {
+         "id": "alicorn",
+         "tr": "1",
+         "hero": "1"
+        },
+        {
+         "id": "alicorn",
+         "tr": "3"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "mtn": {
+   "id": "mtn",
+   "dif": "17",
+   "file": "rooms_mtn",
+   "locx": "0",
+   "locy": "8",
+   "stage": "8",
+   "biom": "3",
+   "list": "5",
+   "tip": "story",
+   "options": {
+    "backwall": "tTower",
+    "fon": "fonRuins",
+    "music": "music_mane_2",
+    "vis": "2",
+    "xp": "300",
+    "border": "N"
+   },
+   "scr": [
+    {
+     "eve": "take",
+     "item": "amul_al",
+     "acts": [
+      {
+       "act": "control off"
+      },
+      {
+       "act": "stage",
+       "val": "storyMane",
+       "n": "5"
+      },
+      {
+       "act": "stage",
+       "val": "storyMane"
+      },
+      {
+       "act": "dialog",
+       "val": "maneDialAmul"
+      },
+      {
+       "act": "trigger",
+       "val": "story_canter",
+       "n": "1"
+      },
+      {
+       "act": "quest",
+       "val": "storyCanter"
+      },
+      {
+       "act": "passed"
+      },
+      {
+       "act": "refill"
+      },
+      {
+       "act": "control on"
+      }
+     ]
+    }
+   ],
+   "probs": []
+  },
+  "way": {
+   "id": "way",
+   "dif": "0",
+   "file": "rooms_way",
+   "locx": "0",
+   "locy": "0",
+   "stage": "8",
+   "tip": "base",
+   "options": {
+    "backwall": "sky",
+    "fon": "fonWay",
+    "vis": "10",
+    "music": "music_surf"
+   },
+   "scr": [],
+   "probs": []
+  },
+  "covert": {
+   "id": "covert",
+   "dif": "0",
+   "file": "rooms_covert",
+   "locx": "-1",
+   "locy": "0",
+   "tip": "base",
+   "fin": "0",
+   "options": {
+    "backwall": "sky",
+    "fon": "fonWay",
+    "vis": "10",
+    "music": "music_covert"
+   },
+   "scr": [],
+   "probs": []
+  },
+  "src": {
+   "id": "src",
+   "dif": "0",
+   "file": "rooms_src",
+   "locx": "0",
+   "locy": "0",
+   "tip": "base",
+   "fin": "0",
+   "options": {
+    "backwall": "tRustPlates",
+    "fon": "fonWay",
+    "vis": "10",
+    "music": "music_base"
+   },
+   "scr": [],
+   "probs": []
+  },
+  "random_canter": {
+   "id": "random_canter",
+   "tip": "rnd",
+   "rnd": "1",
+   "dif": "18",
+   "biom": "5",
+   "conf": "5",
+   "file": "rooms_canter",
+   "exit": "exit_canter",
+   "stage": "9",
+   "mx": "8",
+   "my": "3",
+   "locx": "0",
+   "locy": "0",
+   "list": "10",
+   "loadscr": "5",
+   "options": {
+    "backwall": "tConRough",
+    "fon": "fonCanter",
+    "music": "music_cat_1",
+    "xp": "400",
+    "color": "pink",
+    "border": "Q",
+    "wtip": "3",
+    "wrad": "0",
+    "wdam": "10",
+    "wtipdam": "19"
+   },
+   "scr": [],
+   "probs": [
+    {
+     "id": "buttons6",
+     "level": "0",
+     "tip": "1",
+     "cons": [
+      {
+       "tip": "box",
+       "uid": "buttons6F1"
+      },
+      {
+       "tip": "box",
+       "uid": "buttons6F2"
+      },
+      {
+       "tip": "box",
+       "uid": "buttons6F3"
+      },
+      {
+       "tip": "box",
+       "uid": "buttons6F4"
+      },
+      {
+       "tip": "box",
+       "uid": "buttons6F5"
+      },
+      {
+       "tip": "box",
+       "uid": "buttons6F6"
+      }
+     ],
+     "scr": []
+    },
+    {
+     "id": "jump",
+     "level": "0",
+     "prize": "1",
+     "tip": "1",
+     "cons": [
+      {
+       "tip": "box",
+       "uid": "jumpF1"
+      }
+     ],
+     "scr": []
+    },
+    {
+     "id": "sphera",
+     "level": "0",
+     "prize": "1",
+     "tip": "1",
+     "cons": [
+      {
+       "tip": "box",
+       "uid": "spheraF1"
+      }
+     ],
+     "scr": []
+    },
+    {
+     "id": "zaput",
+     "level": "0",
+     "prize": "1",
+     "tip": "1",
+     "cons": [
+      {
+       "tip": "box",
+       "uid": "zaputF1"
+      }
+     ],
+     "scr": []
+    },
+    {
+     "id": "talisman",
+     "level": "0",
+     "tip": "1",
+     "prize": "1",
+     "cons": [
+      {
+       "tip": "box",
+       "uid": "talismanF1"
+      }
+     ],
+     "scr": []
+    },
+    {
+     "id": "podval",
+     "level": "1",
+     "tip": "0",
+     "prize": "1",
+     "cons": [
+      {
+       "tip": "box",
+       "uid": "podvalF1"
+      }
+     ],
+     "scr": []
+    },
+    {
+     "id": "sttech",
+     "level": "1",
+     "tip": "1",
+     "cons": [
+      {
+       "tip": "box",
+       "uid": "sttechF1"
+      }
+     ],
+     "scr": []
+    },
+    {
+     "id": "w_necros",
+     "tip": "2",
+     "level": "1",
+     "cons": [
+      {
+       "tip": "wave"
+      }
+     ],
+     "scr": [],
+     "waves": [
+      {
+       "t": "30",
+       "objs": [
+        {
+         "id": "bloodwing",
+         "tr": "2"
+        },
+        {
+         "id": "bloodwing",
+         "tr": "2"
+        },
+        {
+         "id": "bloodwing",
+         "tr": "2",
+         "hero": "1"
+        },
+        {
+         "id": "scorp3"
+        },
+        {
+         "id": "scorp3"
+        },
+        {
+         "id": "bloat",
+         "tr": "5"
+        },
+        {
+         "id": "bloat",
+         "tr": "5"
+        }
+       ]
+      },
+      {
+       "t": "60",
+       "objs": [
+        {
+         "id": "zombie",
+         "tr": "5"
+        },
+        {
+         "id": "zombie",
+         "tr": "6"
+        },
+        {
+         "id": "zombie",
+         "tr": "7"
+        },
+        {
+         "id": "zombie",
+         "tr": "8"
+        },
+        {
+         "id": "zombie",
+         "tr": "9"
+        },
+        {
+         "id": "bloat",
+         "tr": "6"
+        },
+        {
+         "id": "bloat",
+         "tr": "6"
+        }
+       ]
+      },
+      {
+       "t": "80",
+       "objs": [
+        {
+         "id": "alicorn",
+         "tr": "1"
+        },
+        {
+         "id": "alicorn",
+         "tr": "2"
+        },
+        {
+         "id": "alicorn",
+         "tr": "3"
+        },
+        {
+         "id": "necros"
+        },
+        {
+         "id": "necros"
+        }
+       ]
+      },
+      {
+       "t": "",
+       "objs": [
+        {
+         "id": "zombie",
+         "tr": "7",
+         "hero": "1"
+        },
+        {
+         "id": "zombie",
+         "tr": "8",
+         "hero": "1"
+        },
+        {
+         "id": "zombie",
+         "tr": "9",
+         "hero": "1"
+        },
+        {
+         "id": "alicorn",
+         "tr": "3"
+        },
+        {
+         "id": "necros"
+        },
+        {
+         "id": "necros"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "barahlo",
+     "level": "2",
+     "tip": "2",
+     "cons": [
+      {
+       "tip": "box",
+       "uid": "barahloF1"
+      }
+     ],
+     "scr": [
+      {
+       "eve": "close",
+       "acts": [
+        {
+         "act": "-",
+         "t": "3"
+        },
+        {
+         "act": "control off"
+        },
+        {
+         "act": "show",
+         "targ": "barahloU1",
+         "t": "1"
+        },
+        {
+         "act": "dam",
+         "targ": "barahloA1",
+         "val": "10000",
+         "t": "1"
+        },
+        {
+         "act": "turn",
+         "val": "-1",
+         "t": "1"
+        },
+        {
+         "act": "dial",
+         "val": "probBarahloDial",
+         "n": "0"
+        },
+        {
+         "act": "dial",
+         "val": "probBarahloDial",
+         "n": "1"
+        },
+        {
+         "act": "dial",
+         "val": "probBarahloDial",
+         "n": "2"
+        },
+        {
+         "act": "dial",
+         "val": "probBarahloDial",
+         "n": "3"
+        },
+        {
+         "act": "turn",
+         "val": "1",
+         "t": "1"
+        },
+        {
+         "act": "eff",
+         "val": "horror",
+         "opt2": "3"
+        },
+        {
+         "act": "control on"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "minst": {
+   "id": "minst",
+   "dif": "20",
+   "file": "rooms_minst",
+   "locx": "0",
+   "locy": "0",
+   "stage": "9",
+   "biom": "5",
+   "list": "5",
+   "tip": "story",
+   "options": {
+    "backwall": "tConRough",
+    "fon": "fonCanter",
+    "music": "music_minst",
+    "xp": "400",
+    "color": "pink",
+    "border": "Q",
+    "wtip": "3",
+    "wrad": "0",
+    "wdam": "10",
+    "wtipdam": "19"
+   },
+   "scr": [
+    {
+     "eve": "take",
+     "item": "blackbook",
+     "acts": [
+      {
+       "act": "control off"
+      },
+      {
+       "act": "stage",
+       "val": "storyCanter",
+       "n": "4"
+      },
+      {
+       "act": "stage",
+       "val": "storyCanter"
+      },
+      {
+       "act": "dialog",
+       "val": "dialMinst2"
+      },
+      {
+       "act": "quest",
+       "val": "storyHome"
+      },
+      {
+       "act": "trigger",
+       "val": "story_book",
+       "n": "1"
+      },
+      {
+       "act": "check",
+       "targ": "minstComm"
+      },
+      {
+       "act": "control on"
+      }
+     ]
+    }
+   ],
+   "probs": []
+  },
+  "random_mbase": {
+   "id": "random_mbase",
+   "tip": "story",
+   "rnd": "1",
+   "dif": "22",
+   "biom": "4",
+   "conf": "4",
+   "file": "rooms_mbase",
+   "stage": "10",
+   "mx": "5",
+   "my": "3",
+   "locx": "0",
+   "locy": "0",
+   "list": "10",
+   "loadscr": "6",
+   "options": {
+    "backwall": "tMbase",
+    "fon": "fonWay",
+    "music": "music_mbase",
+    "xp": "500",
+    "color": "red",
+    "border": "O"
+   },
+   "scr": [],
+   "probs": []
+  },
+  "bunker": {
+   "id": "bunker",
+   "tip": "hard",
+   "rnd": "1",
+   "dif": "24",
+   "biom": "4",
+   "conf": "7",
+   "file": "rooms_mbase",
+   "stage": "10",
+   "mx": "6",
+   "my": "3",
+   "locx": "0",
+   "locy": "0",
+   "list": "10",
+   "options": {
+    "backwall": "tMbase",
+    "music": "music_mbase",
+    "xp": "500",
+    "color": "green",
+    "border": "O"
+   },
+   "scr": [],
+   "probs": []
+  },
+  "workshop": {
+   "id": "workshop",
+   "dif": "25",
+   "file": "rooms_workshop",
+   "stage": "10",
+   "locx": "0",
+   "locy": "0",
+   "tip": "story",
+   "options": {
+    "backwall": "tBackWall",
+    "music": "music_workshop",
+    "xp": "500"
+   },
+   "scr": [],
+   "probs": []
+  },
+  "hql": {
+   "id": "hql",
+   "dif": "26",
+   "file": "rooms_hql",
+   "stage": "10",
+   "locx": "0",
+   "locy": "0",
+   "tip": "story",
+   "options": {
+    "backwall": "sky",
+    "fon": "fonWay",
+    "color": "blue",
+    "vis": "10",
+    "music": "music_hql"
+   },
+   "scr": [],
+   "probs": []
+  },
+  "post": {
+   "id": "post",
+   "dif": "27",
+   "file": "rooms_post",
+   "stage": "11",
+   "locx": "0",
+   "locy": "0",
+   "tip": "story",
+   "options": {
+    "backwall": "sky",
+    "fon": "fonWay",
+    "color": "sky",
+    "vis": "10",
+    "music": "music_encl_1"
+   },
+   "scr": [],
+   "probs": []
+  },
+  "random_encl": {
+   "id": "random_encl",
+   "tip": "rnd",
+   "rnd": "1",
+   "dif": "27",
+   "biom": "6",
+   "conf": "6",
+   "file": "rooms_encl",
+   "exit": "exit_encl",
+   "stage": "11",
+   "mx": "3",
+   "my": "8",
+   "locx": "0",
+   "locy": "7",
+   "list": "10",
+   "loadscr": "7",
+   "options": {
+    "backwall": "tEncl3",
+    "fon": "fonEnclave",
+    "music": "music_encl_1",
+    "postmusic": "1",
+    "xp": "500",
+    "color": "sky",
+    "border": "S",
+    "darkness": "-30"
+   },
+   "scr": [],
+   "probs": [
+    {
+     "id": "buttons7",
+     "level": "0",
+     "tip": "1",
+     "cons": [
+      {
+       "tip": "box",
+       "uid": "buttons7F1"
+      },
+      {
+       "tip": "box",
+       "uid": "buttons7F2"
+      },
+      {
+       "tip": "box",
+       "uid": "buttons7F3"
+      },
+      {
+       "tip": "box",
+       "uid": "buttons7F4"
+      },
+      {
+       "tip": "box",
+       "uid": "buttons7F5"
+      },
+      {
+       "tip": "box",
+       "uid": "buttons7F6"
+      }
+     ],
+     "scr": []
+    },
+    {
+     "id": "dressing",
+     "level": "1",
+     "tip": "2",
+     "cons": [
+      {
+       "tip": "unit",
+       "qid": "dressingE1"
+      }
+     ],
+     "scr": []
+    },
+    {
+     "id": "electro",
+     "level": "0",
+     "prize": "1",
+     "tip": "1",
+     "cons": [
+      {
+       "tip": "box",
+       "uid": "electroF1"
+      }
+     ],
+     "scr": []
+    },
+    {
+     "id": "moln",
+     "level": "1",
+     "prize": "1",
+     "tip": "1",
+     "cons": [
+      {
+       "tip": "box",
+       "uid": "molnF1"
+      }
+     ],
+     "scr": []
+    },
+    {
+     "id": "hounds",
+     "level": "1",
+     "tip": "2",
+     "cons": [
+      {
+       "tip": "unit",
+       "qid": "houndF1"
+      }
+     ],
+     "scr": []
+    },
+    {
+     "id": "w_encl",
+     "tip": "2",
+     "level": "1",
+     "cons": [
+      {
+       "tip": "wave"
+      }
+     ],
+     "scr": [],
+     "waves": [
+      {
+       "t": "30",
+       "objs": [
+        {
+         "id": "roller",
+         "tr": "2"
+        },
+        {
+         "id": "roller",
+         "tr": "2"
+        },
+        {
+         "id": "roller",
+         "tr": "2"
+        },
+        {
+         "id": "dron",
+         "tr": "1"
+        },
+        {
+         "id": "dron",
+         "tr": "2"
+        },
+        {
+         "id": "dron",
+         "tr": "3"
+        },
+        {
+         "id": "dron",
+         "tr": "3"
+        }
+       ]
+      },
+      {
+       "t": "60",
+       "objs": [
+        {
+         "id": "encl",
+         "tr": "1",
+         "hero": "1"
+        },
+        {
+         "id": "encl",
+         "tr": "1"
+        },
+        {
+         "id": "encl",
+         "tr": "2"
+        },
+        {
+         "id": "encl",
+         "tr": "3"
+        },
+        {
+         "id": "encl",
+         "tr": "4"
+        }
+       ]
+      },
+      {
+       "t": "90",
+       "objs": [
+        {
+         "id": "hellhound"
+        },
+        {
+         "id": "dron",
+         "tr": "3"
+        },
+        {
+         "id": "hellhound",
+         "hero": "1"
+        },
+        {
+         "id": "dron",
+         "tr": "3"
+        },
+        {
+         "id": "hellhound"
+        }
+       ]
+      },
+      {
+       "t": "",
+       "objs": [
+        {
+         "id": "encl",
+         "tr": "2",
+         "hero": "1"
+        },
+        {
+         "id": "encl",
+         "tr": "3",
+         "hero": "1"
+        },
+        {
+         "id": "encl",
+         "tr": "4",
+         "hero": "1"
+        },
+        {
+         "id": "hellhound"
+        },
+        {
+         "id": "hellhound"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "comm": {
+   "id": "comm",
+   "dif": "29",
+   "file": "rooms_comm",
+   "stage": "11",
+   "locx": "0",
+   "locy": "0",
+   "tip": "story",
+   "options": {
+    "backwall": "tEncl3",
+    "fon": "fonEnclave",
+    "music": "music_encl_1",
+    "xp": "500",
+    "color": "sky",
+    "border": "S",
+    "darkness": "-30"
+   },
+   "scr": [],
+   "probs": []
+  },
+  "art": {
+   "id": "art",
+   "dif": "30",
+   "file": "rooms_art",
+   "stage": "12",
+   "locx": "0",
+   "locy": "0",
+   "tip": "story",
+   "fin": "1",
+   "options": {
+    "backwall": "tMbase",
+    "fon": "fonDarkClouds",
+    "music": "music_red",
+    "postmusic": "1",
+    "xp": "500",
+    "color": "red",
+    "border": "O",
+    "art": "art_trigger"
+   },
+   "scr": [],
+   "probs": []
+  },
+  "stable_pi": {
+   "id": "stable_pi",
+   "tip": "base",
+   "rnd": "1",
+   "conf": "10",
+   "biom": "10",
+   "file": "rooms_pi",
+   "mx": "4",
+   "my": "6",
+   "locx": "3",
+   "locy": "5",
+   "fin": "2",
+   "options": {
+    "backwall": "tStConcrete",
+    "music": "music_pi",
+    "darkness": "-15"
+   },
+   "scr": [],
+   "probs": []
+  },
+  "stable_pi_atk": {
+   "id": "stable_pi_atk",
+   "tip": "rnd",
+   "stage": "12",
+   "rnd": "1",
+   "conf": "11",
+   "biom": "11",
+   "file": "rooms_pi",
+   "mx": "6",
+   "my": "2",
+   "locx": "0",
+   "locy": "0",
+   "options": {
+    "backwall": "tStConcrete",
+    "music": "music_red",
+    "color": "fire"
+   },
+   "scr": [],
+   "probs": []
+  },
+  "stable_pi_surf": {
+   "id": "stable_pi_surf",
+   "tip": "story",
+   "biom": "11",
+   "file": "rooms_pis",
+   "stage": "12",
+   "locx": "1",
+   "locy": "7",
+   "options": {
+    "backwall": "sky",
+    "fon": "fonFire",
+    "vis": "3",
+    "music": "music_encl_2",
+    "postmusic": "1",
+    "color": "fire"
+   },
+   "scr": [],
+   "probs": []
+  },
+  "thunder": {
+   "id": "thunder",
+   "tip": "story",
+   "biom": "11",
+   "file": "rooms_thunder",
+   "stage": "12",
+   "locx": "0",
+   "locy": "0",
+   "options": {
+    "backwall": "sky",
+    "fon": "fonFinalb",
+    "vis": "3",
+    "music": "music_encl_2",
+    "postmusic": "1",
+    "color": "blue"
+   },
+   "scr": [],
+   "probs": []
+  },
+  "grave": {
+   "id": "grave",
+   "tip": "story",
+   "file": "rooms_grave",
+   "locx": "0",
+   "locy": "0",
+   "options": {
+    "backwall": "sky",
+    "fon": "fonClear",
+    "vis": "10",
+    "music": "music_end",
+    "darkness": "-50"
+   },
+   "scr": [],
+   "probs": []
+  },
+  "prob": {
+   "id": "prob",
+   "tip": "prob",
+   "prob": "1",
+   "file": "rooms_prob",
+   "options": {},
+   "scr": [],
+   "probs": []
+  }
+ }
+}

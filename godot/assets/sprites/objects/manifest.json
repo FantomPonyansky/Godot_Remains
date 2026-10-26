@@ -1,0 +1,567 @@
+{
+ "aaa": {
+  "frames": 2,
+  "h": 200,
+  "labels": {
+   "close": 1.0,
+   "open": 2.0
+  },
+  "ox": -80,
+  "oy": -200,
+  "w": 160
+ },
+ "alarm": {
+  "frames": 3,
+  "h": 81,
+  "labels": {
+   "active": 3.0,
+   "close": 1.0,
+   "open": 2.0
+  },
+  "ox": -31,
+  "oy": -81,
+  "w": 60
+ },
+ "alib1": {
+  "frames": 3,
+  "h": 280,
+  "labels": {
+   "close": 1.0,
+   "die": 3.0,
+   "open": 2.0
+  },
+  "ox": -20,
+  "oy": -280,
+  "w": 40
+ },
+ "alib2": {
+  "frames": 3,
+  "h": 40,
+  "labels": {
+   "close": 1.0,
+   "die": 3.0,
+   "open": 2.0
+  },
+  "ox": -140,
+  "oy": -40,
+  "w": 280
+ },
+ "barst": {
+  "frames": 1,
+  "h": 45,
+  "labels": {},
+  "ox": -60,
+  "oy": -45,
+  "w": 120
+ },
+ "basedoor": {
+  "frames": 3,
+  "h": 120,
+  "labels": {
+   "close": 1.0,
+   "die": 3.0,
+   "open": 2.0
+  },
+  "ox": -20,
+  "oy": -120,
+  "w": 40
+ },
+ "bed": {
+  "frames": 1,
+  "h": 50,
+  "labels": {},
+  "ox": -59,
+  "oy": -50,
+  "w": 118
+ },
+ "bonus_xp": {
+  "frames": 20,
+  "h": 126,
+  "labels": {},
+  "ox": -22,
+  "oy": -111,
+  "w": 36
+ },
+ "brspr": {
+  "frames": 1,
+  "h": 35,
+  "labels": {},
+  "ox": -41,
+  "oy": -29,
+  "w": 83
+ },
+ "camp": {
+  "frames": 1,
+  "h": 82,
+  "labels": {},
+  "ox": -120,
+  "oy": -82,
+  "w": 240
+ },
+ "couch": {
+  "frames": 1,
+  "h": 39,
+  "labels": {},
+  "ox": -40,
+  "oy": -39,
+  "w": 80
+ },
+ "detonator": {
+  "frames": 2,
+  "h": 41,
+  "labels": {
+   "close": 1.0,
+   "open": 2.0
+  },
+  "ox": -18,
+  "oy": -41,
+  "w": 36
+ },
+ "door_st1": {
+  "frames": 1,
+  "h": 240,
+  "labels": {},
+  "ox": -124,
+  "oy": -240,
+  "w": 248
+ },
+ "door_st2": {
+  "frames": 1,
+  "h": 240,
+  "labels": {},
+  "ox": -124,
+  "oy": -240,
+  "w": 248
+ },
+ "doorboss": {
+  "frames": 1,
+  "h": 120,
+  "labels": {},
+  "ox": -40,
+  "oy": -120,
+  "w": 80
+ },
+ "doorout": {
+  "frames": 1,
+  "h": 120,
+  "labels": {},
+  "ox": -40,
+  "oy": -120,
+  "w": 80
+ },
+ "doorprob": {
+  "frames": 1,
+  "h": 120,
+  "labels": {},
+  "ox": -40,
+  "oy": -120,
+  "w": 80
+ },
+ "dsph": {
+  "frames": 1,
+  "h": 29,
+  "labels": {},
+  "ox": -15,
+  "oy": -35,
+  "w": 29
+ },
+ "elpanel": {
+  "frames": 2,
+  "h": 40,
+  "labels": {
+   "close": 1.0,
+   "open": 2.0
+  },
+  "ox": -15,
+  "oy": -40,
+  "w": 30
+ },
+ "encldoor": {
+  "frames": 3,
+  "h": 120,
+  "labels": {
+   "close": 1.0,
+   "die": 3.0,
+   "open": 2.0
+  },
+  "ox": -20,
+  "oy": -120,
+  "w": 40
+ },
+ "enclpole": {
+  "frames": 3,
+  "h": 120,
+  "labels": {
+   "close": 1.0,
+   "die": 3.0,
+   "open": 2.0
+  },
+  "ox": -20,
+  "oy": -120,
+  "w": 40
+ },
+ "exit": {
+  "frames": 1,
+  "h": 120,
+  "labels": {},
+  "ox": -40,
+  "oy": -120,
+  "w": 80
+ },
+ "generat": {
+  "frames": 2,
+  "h": 132,
+  "labels": {
+   "close": 1.0,
+   "open": 2.0
+  },
+  "ox": -99,
+  "oy": -132,
+  "w": 199
+ },
+ "himlab": {
+  "frames": 1,
+  "h": 94,
+  "labels": {},
+  "ox": -40,
+  "oy": -94,
+  "w": 80
+ },
+ "inbasedoor": {
+  "frames": 20,
+  "h": 121,
+  "labels": {
+   "comein": 2.0
+  },
+  "ox": -60,
+  "oy": -120,
+  "w": 120
+ },
+ "indoor1": {
+  "frames": 11,
+  "h": 85,
+  "labels": {
+   "comein": 2.0
+  },
+  "ox": -26,
+  "oy": -85,
+  "w": 51
+ },
+ "indoor2": {
+  "frames": 11,
+  "h": 85,
+  "labels": {
+   "comein": 2.0
+  },
+  "ox": -28,
+  "oy": -85,
+  "w": 53
+ },
+ "indoor3": {
+  "frames": 11,
+  "h": 56,
+  "labels": {
+   "comein": 2.0
+  },
+  "ox": -28,
+  "oy": -58,
+  "w": 56
+ },
+ "indoor4": {
+  "frames": 11,
+  "h": 85,
+  "labels": {
+   "comein": 2.0
+  },
+  "ox": -28,
+  "oy": -85,
+  "w": 53
+ },
+ "inencldoor": {
+  "frames": 20,
+  "h": 121,
+  "labels": {
+   "comein": 2.0
+  },
+  "ox": -60,
+  "oy": -120,
+  "w": 120
+ },
+ "instdoor": {
+  "frames": 20,
+  "h": 120,
+  "labels": {
+   "comein": 2.0
+  },
+  "ox": -60,
+  "oy": -120,
+  "w": 120
+ },
+ "knop1": {
+  "frames": 15,
+  "h": 40,
+  "labels": {
+   "close": 1.0,
+   "open": 2.0
+  },
+  "ox": -12,
+  "oy": -40,
+  "w": 24
+ },
+ "knop2": {
+  "frames": 15,
+  "h": 38,
+  "labels": {
+   "close": 1.0,
+   "open": 2.0
+  },
+  "ox": -19,
+  "oy": -39,
+  "w": 38
+ },
+ "knop3": {
+  "frames": 15,
+  "h": 40,
+  "labels": {
+   "close": 1.0,
+   "open": 2.0
+  },
+  "ox": -12,
+  "oy": -40,
+  "w": 24
+ },
+ "knop4": {
+  "frames": 15,
+  "h": 40,
+  "labels": {
+   "close": 1.0,
+   "open": 2.0
+  },
+  "ox": -12,
+  "oy": -40,
+  "w": 24
+ },
+ "longtable": {
+  "frames": 1,
+  "h": 40,
+  "labels": {},
+  "ox": -58,
+  "oy": -40,
+  "w": 116
+ },
+ "moln1": {
+  "frames": 8,
+  "h": 126,
+  "labels": {
+   "close": 1.0,
+   "moln": 3.0,
+   "open": 2.0
+  },
+  "ox": -14,
+  "oy": -123,
+  "w": 28
+ },
+ "niche1": {
+  "frames": 1,
+  "h": 100,
+  "labels": {},
+  "ox": -40,
+  "oy": -100,
+  "w": 80
+ },
+ "p_luna": {
+  "frames": 1,
+  "h": 138,
+  "labels": {},
+  "ox": -60,
+  "oy": -138,
+  "w": 120
+ },
+ "pcloud1": {
+  "frames": 1,
+  "h": 493,
+  "labels": {},
+  "ox": -248,
+  "oy": -245,
+  "w": 493
+ },
+ "radbarrel": {
+  "frames": 1,
+  "h": 57,
+  "labels": {},
+  "ox": -20,
+  "oy": -57,
+  "w": 40
+ },
+ "radbigbarrel": {
+  "frames": 1,
+  "h": 120,
+  "labels": {},
+  "ox": -39,
+  "oy": -120,
+  "w": 79
+ },
+ "reactor": {
+  "frames": 1,
+  "h": 720,
+  "labels": {},
+  "ox": -159,
+  "oy": -720,
+  "w": 319
+ },
+ "robocell": {
+  "frames": 3,
+  "h": 80,
+  "labels": {
+   "active": 3.0,
+   "close": 1.0,
+   "open": 2.0
+  },
+  "ox": -40,
+  "oy": -80,
+  "w": 80
+ },
+ "smotr": {
+  "frames": 1,
+  "h": 69,
+  "labels": {},
+  "ox": -100,
+  "oy": -69,
+  "w": 199
+ },
+ "stand": {
+  "frames": 1,
+  "h": 120,
+  "labels": {},
+  "ox": -80,
+  "oy": -120,
+  "w": 160
+ },
+ "stdoor": {
+  "frames": 3,
+  "h": 120,
+  "labels": {
+   "close": 1.0,
+   "die": 3.0,
+   "open": 2.0
+  },
+  "ox": -20,
+  "oy": -120,
+  "w": 40
+ },
+ "stove": {
+  "frames": 2,
+  "h": 45,
+  "labels": {
+   "close": 1.0,
+   "open": 2.0
+  },
+  "ox": -20,
+  "oy": -45,
+  "w": 40
+ },
+ "table1": {
+  "frames": 1,
+  "h": 40,
+  "labels": {},
+  "ox": -34,
+  "oy": -40,
+  "w": 67
+ },
+ "table2": {
+  "frames": 1,
+  "h": 40,
+  "labels": {},
+  "ox": -33,
+  "oy": -40,
+  "w": 66
+ },
+ "table3": {
+  "frames": 1,
+  "h": 53,
+  "labels": {},
+  "ox": -34,
+  "oy": -53,
+  "w": 67
+ },
+ "table4": {
+  "frames": 1,
+  "h": 40,
+  "labels": {},
+  "ox": -38,
+  "oy": -40,
+  "w": 77
+ },
+ "tcloud1": {
+  "frames": 1,
+  "h": 493,
+  "labels": {},
+  "ox": -248,
+  "oy": -245,
+  "w": 493
+ },
+ "tomb": {
+  "frames": 1,
+  "h": 80,
+  "labels": {},
+  "ox": -24,
+  "oy": -80,
+  "w": 48
+ },
+ "trap_fspikes": {
+  "frames": 1,
+  "h": 39,
+  "labels": {},
+  "ox": -19,
+  "oy": -50,
+  "w": 38
+ },
+ "trap_fspikes2": {
+  "frames": 1,
+  "h": 27,
+  "labels": {},
+  "ox": -16,
+  "oy": -51,
+  "w": 32
+ },
+ "trap_spikes": {
+  "frames": 4,
+  "h": 40,
+  "labels": {},
+  "ox": -20,
+  "oy": -37,
+  "w": 40
+ },
+ "trap_spikes2": {
+  "frames": 4,
+  "h": 26,
+  "labels": {},
+  "ox": -20,
+  "oy": -25,
+  "w": 40
+ },
+ "vault": {
+  "frames": 1,
+  "h": 38,
+  "labels": {},
+  "ox": -30,
+  "oy": -38,
+  "w": 60
+ },
+ "wmap": {
+  "frames": 1,
+  "h": 120,
+  "labels": {},
+  "ox": -80,
+  "oy": -120,
+  "w": 160
+ },
+ "work": {
+  "frames": 1,
+  "h": 55,
+  "labels": {},
+  "ox": -40,
+  "oy": -55,
+  "w": 80
+ }
+}

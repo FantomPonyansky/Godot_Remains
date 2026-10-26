@@ -1,0 +1,3004 @@
+{
+  "items": [
+    {
+      "id": "p9",
+      "name": "9 mm round",
+      "type": "a",
+      "short_description": "A low-power pistol ammo, quite cheap because of its low efficiency"
+    },
+    {
+      "id": "p32",
+      "name": "Round cal. 32",
+      "type": "a",
+      "short_description": "Handgun ammo produced in large quantities long before the War"
+    },
+    {
+      "id": "p32_1",
+      "name": "Round cal. 32 (ap)",
+      "type": "a",
+      "short_description": "Armor-piercing round has a special bullet with a hard core and a soft shell, designed to pierce armor. However, such bullets are less effective against unprotected targets and have a weaker stopping action"
+    },
+    {
+      "id": "p32_2",
+      "name": "Round cal. 32 (exp)",
+      "type": "a",
+      "short_description": "The expansive round has a bullet that deforms when it hits a soft environment, such as the victim`s body. Such bullets do more damage to unprotected targets, but at the same time they are very bad at penetrating armor, therefore are not effective against armored targets"
+    },
+    {
+      "id": "p10",
+      "name": "10 mm round",
+      "type": "a",
+      "short_description": "Widely-used handgun ammo, easily obtained in the Wasteland"
+    },
+    {
+      "id": "p10_1",
+      "name": "10 mm round (ap)",
+      "type": "a",
+      "short_description": "Armor-piercing round has a special bullet with a hard core and a soft shell, designed to pierce armor. However, such bullets are less effective against unprotected targets and have a weaker stopping action"
+    },
+    {
+      "id": "p375",
+      "name": "Round cal. 375",
+      "type": "a",
+      "short_description": "Pistol rounds \"HnH Magnum\", used in some revolvers and rifles"
+    },
+    {
+      "id": "p375_1",
+      "name": "Round cal. 375 (ap)",
+      "type": "a",
+      "short_description": "Armor-piercing round has a special bullet with a hard core and a soft shell, designed to pierce armor. However, such bullets are less effective against unprotected targets and have a weaker stopping action"
+    },
+    {
+      "id": "p375_2",
+      "name": "Round cal. 375 (exp)",
+      "type": "a",
+      "short_description": "The expansive round has a bullet that deforms when it hits a soft environment, such as the victim`s body. Such bullets do more damage to unprotected targets, but at the same time they are very bad at penetrating armor, therefore are not effective against armored targets"
+    },
+    {
+      "id": "p44",
+      "name": "Round cal. 44",
+      "type": "a",
+      "short_description": "\"Magnum\" rounds - heavier, more expensive and rare than other handgun ammunition"
+    },
+    {
+      "id": "p44_1",
+      "name": "Round cal. 44 (ap)",
+      "type": "a",
+      "short_description": "Armor-piercing round has a special bullet with a hard core and a soft shell, designed to pierce armor. However, such bullets are less effective against unprotected targets and have a weaker stopping action"
+    },
+    {
+      "id": "p44_2",
+      "name": "Round cal. 44 (exp)",
+      "type": "a",
+      "short_description": "The expansive round has a bullet that deforms when it hits a soft environment, such as the victim`s body. Such bullets do more damage to unprotected targets, but at the same time they are very bad at penetrating armor, therefore are not effective against armored targets"
+    },
+    {
+      "id": "p127",
+      "name": "12,7-mm round",
+      "type": "a",
+      "short_description": "Great and powerful handgun rounds, very effective, but rare and expensive"
+    },
+    {
+      "id": "p127_1",
+      "name": "12,7-mm round (ap)",
+      "type": "a",
+      "short_description": "Armor-piercing round has a special bullet with a hard core and a soft shell, designed to pierce armor. However, such bullets are less effective against unprotected targets and have a weaker stopping action"
+    },
+    {
+      "id": "p127_2",
+      "name": "12,7-mm round (exp)",
+      "type": "a",
+      "short_description": "The expansive round has a bullet that deforms when it hits a soft environment, such as the victim`s body. Such bullets do more damage to unprotected targets, but at the same time they are very bad at penetrating armor, therefore are not effective against armored targets"
+    },
+    {
+      "id": "p145",
+      "name": "14,4-mm round",
+      "type": "a",
+      "short_description": "A very large caliber ammo designed for heavy machine guns"
+    },
+    {
+      "id": "p308",
+      "name": "Round cal. 308",
+      "type": "a",
+      "short_description": "Common sniper rifle rounds"
+    },
+    {
+      "id": "p308_1",
+      "name": "Round cal. 308 (ap)",
+      "type": "a",
+      "short_description": "Armor-piercing round has a special bullet with a hard core and a soft shell, designed to pierce armor. However, such bullets are less effective against unprotected targets and have a weaker stopping action"
+    },
+    {
+      "id": "p308_2",
+      "name": "Round cal. 308 (exp)",
+      "type": "a",
+      "short_description": "The expansive round has a bullet that deforms when it hits a soft environment, such as the victim`s body. Such bullets do more damage to unprotected targets, but at the same time they are very bad at penetrating armor, therefore are not effective against armored targets"
+    },
+    {
+      "id": "p50mg",
+      "name": "Round cal. 50 MG",
+      "type": "a",
+      "short_description": "Large-caliber bullet with a steel tip - one of the most rare, expensive and effective kinds"
+    },
+    {
+      "id": "p50mg_1",
+      "name": "Round cal. 50 MG (ap)",
+      "type": "a",
+      "short_description": "Armor-piercing round has a special bullet with a hard core and a soft shell, designed to pierce armor. However, such bullets are less effective against unprotected targets and have a weaker stopping action"
+    },
+    {
+      "id": "p50mg_4",
+      "name": "Round cal. 50 MG (inc)",
+      "type": "a",
+      "short_description": "A cartridge that has a magically enchanted bullet that ignites the target on impact"
+    },
+    {
+      "id": "p556",
+      "name": "5,56-mm round",
+      "type": "a",
+      "short_description": "Common assault rifle rounds, widely-used by both armies during the War"
+    },
+    {
+      "id": "p556_1",
+      "name": "5,56-mm round (ap)",
+      "type": "a",
+      "short_description": "Armor-piercing round has a special bullet with a hard core and a soft shell, designed to pierce armor. However, such bullets are less effective against unprotected targets and have a weaker stopping action"
+    },
+    {
+      "id": "p556_2",
+      "name": "5,56-mm round (exp)",
+      "type": "a",
+      "short_description": "The expansive round has a bullet that deforms when it hits a soft environment, such as the victim`s body. Such bullets do more damage to unprotected targets, but at the same time they are very bad at penetrating armor, therefore are not effective against armored targets"
+    },
+    {
+      "id": "p556_5",
+      "name": "5,56-mm round (mag)",
+      "type": "a",
+      "short_description": "A cartridge that allows exploiting magical energy technologies with common firearms. When hitting a target, the bullet from such a cartridge turns into a ball of plasma"
+    },
+    {
+      "id": "p5",
+      "name": "5-mm round",
+      "type": "a",
+      "short_description": "Small-caliber rounds used in high fire-rate weapons, when quantity means more than quality"
+    },
+    {
+      "id": "p5_1",
+      "name": "5-mm round (ap)",
+      "type": "a",
+      "short_description": "Armor-piercing round has a special bullet with a hard core and a soft shell, designed to pierce armor. However, such bullets are less effective against unprotected targets and have a weaker stopping action"
+    },
+    {
+      "id": "p20",
+      "name": "Round cal. 20",
+      "type": "a",
+      "short_description": "Ammunition that contains buckshot instead of bullets, used for shotguns"
+    },
+    {
+      "id": "p12",
+      "name": "Round cal. 12",
+      "type": "a",
+      "short_description": "A modern and more effective shotgun shell"
+    },
+    {
+      "id": "p12_3",
+      "name": "Round cal. 12 (ap)",
+      "type": "a",
+      "short_description": "In this ammo, 5 arrow-shaped bullets are used instead of the usual shot, good for penetrating armor but having a weaker stopping action"
+    },
+    {
+      "id": "p12_4",
+      "name": "Round cal. 12 (inc)",
+      "type": "a",
+      "short_description": "A cartridge that has a magically enchanted bullet that ignites the target on impact"
+    },
+    {
+      "id": "p12_5",
+      "name": "Round cal. 12 (mag)",
+      "type": "a",
+      "short_description": "A cartridge that allows exploiting magical energy technologies with common firearms. When hitting a target, the bullet from such a cartridge turns into a ball of plasma"
+    },
+    {
+      "id": "batt",
+      "name": "Battery",
+      "type": "a",
+      "short_description": "Compact Spark-battery of medium power used in magical energy weaponry"
+    },
+    {
+      "id": "batt_6",
+      "name": "Battery (enh)",
+      "type": "a",
+      "short_description": "A battery of increased power. Improves damage and gives weapons ability to burn armor, but a weapon wears out more quickly"
+    },
+    {
+      "id": "energ",
+      "name": "Spark-battery",
+      "type": "a",
+      "short_description": "Standard Spark-battery used in most models of magical energy weapons"
+    },
+    {
+      "id": "energ_6",
+      "name": "Spark-battery (enh)",
+      "type": "a",
+      "short_description": "A battery of increased power. Improves damage and gives weapons ability to burn armor, but a weapon wears out more quickly"
+    },
+    {
+      "id": "crystal",
+      "name": "Crystal battery",
+      "type": "a",
+      "short_description": "Energy cell of increased power based on rare crystals. Used as a power supply in the deadliest magical energy weapons"
+    },
+    {
+      "id": "crystal_6",
+      "name": "Crystal battery (enh)",
+      "type": "a",
+      "short_description": "A battery of increased power. Improves damage and gives weapons ability to burn armor, but a weapon wears out more quickly"
+    },
+    {
+      "id": "fuel",
+      "name": "Fuel",
+      "type": "a",
+      "short_description": "Flammable liquid used in flamethrowers"
+    },
+    {
+      "id": "fuel_7",
+      "name": "Fuel (opt)",
+      "type": "a",
+      "short_description": "Fuel with special additives that significantly increase the combustion temperature"
+    },
+    {
+      "id": "bcell",
+      "name": "Energy cell",
+      "type": "a",
+      "short_description": "A battery used for a star blaster, many times more powerful than usual batteries"
+    },
+    {
+      "id": "gren40",
+      "name": "40-mm shell",
+      "type": "a",
+      "short_description": "A small explosive projectile for use in grenade launchers"
+    },
+    {
+      "id": "gren40_8",
+      "name": "40-mm shell (plas)",
+      "type": "a",
+      "short_description": "A more powerful magical energy model of grenades"
+    },
+    {
+      "id": "gren40_9",
+      "name": "40-mm shell (pul)",
+      "type": "a",
+      "short_description": "Grenade with a pulse charge, designed for fighting against robots"
+    },
+    {
+      "id": "rocket",
+      "name": "Rocket",
+      "type": "a",
+      "short_description": "A self-propelled projectile for use in rocket launchers"
+    },
+    {
+      "id": "egg",
+      "name": "Balefire egg",
+      "type": "a",
+      "short_description": "A magical projectile, resembling an egg. Destructive energy, hidden deep inside, is expressed on a surface merely by elusive flickering of lights"
+    },
+    {
+      "id": "recharg",
+      "name": "Charge",
+      "type": "a",
+      "short_description": ""
+    },
+    {
+      "id": "not",
+      "name": "Infinite ammo",
+      "type": "a",
+      "short_description": ""
+    },
+    {
+      "id": "aero",
+      "name": "Aerosol",
+      "type": "compw",
+      "short_description": "A cylinder of liquid propane and isobutane - highly flammable gases"
+    },
+    {
+      "id": "dart",
+      "name": "Dart",
+      "type": "compw",
+      "short_description": "A common attribute for a darts game"
+    },
+    {
+      "id": "saw",
+      "name": "Circular saw",
+      "type": "compw",
+      "short_description": "A circular saw of stainless steel with sharp teeth"
+    },
+    {
+      "id": "acid",
+      "name": "Acid",
+      "type": "compw",
+      "short_description": "A plastic bottle with concentrated acid"
+    },
+    {
+      "id": "pcryo",
+      "name": "Cryo-cell",
+      "type": "compw",
+      "short_description": "If the alchemical compounds contained in this small cell react, this would cause an instant drop in their temperature to the almost absolute zero"
+    },
+    {
+      "id": "spikenail",
+      "name": "Railway spike",
+      "type": "compw",
+      "short_description": "A heavy iron thing, used to attach sleepers to rails"
+    },
+    {
+      "id": "dinamit",
+      "name": "Dynamite",
+      "type": "e",
+      "short_description": "A simple stick of dynamite with a long fuse, more suitable for mining than fighting. Use with care!"
+    },
+    {
+      "id": "hgren",
+      "name": "Hoofmade grenade",
+      "type": "e",
+      "short_description": "A primitive grenade, made of a tin can filled with gunpowder and metal junk. It can be easily created at a workbench"
+    },
+    {
+      "id": "molotov",
+      "name": "Incendiary cocktail",
+      "type": "e",
+      "short_description": "A bottle filled with incendiary liquid and plugged with a piece of cloth. Ignite it, throw it - simple, cheap, effective"
+    },
+    {
+      "id": "grenade",
+      "name": "Frag grenade",
+      "type": "e",
+      "short_description": "An effective weapon against enemies hiding behind a cover. It looks like a metallic apple"
+    },
+    {
+      "id": "gasgr",
+      "name": "Gaseous grenade",
+      "type": "e",
+      "short_description": "This grenade emits a cloud of toxic gases. Even small amount of it can cause a quick death when inhaled. Especially effective in small and poorly ventilated rooms"
+    },
+    {
+      "id": "acidgr",
+      "name": "Acid bomb",
+      "type": "e",
+      "short_description": "A bottle filled with a very corrosive liquid. When smashed, it spills acid everywhere, causing severe chemical burns to whoever steps into it. Effective against robots` armor"
+    },
+    {
+      "id": "fgren",
+      "name": "Incendiary grenade",
+      "type": "e",
+      "short_description": "Exploding, this grenade sets everything on fire"
+    },
+    {
+      "id": "plagr",
+      "name": "Plasma grenade",
+      "type": "e",
+      "short_description": "Instead of common explosive substances, this grenade uses powerful magic charge that can melt everything! Much more powerful than usual grenades"
+    },
+    {
+      "id": "impgr",
+      "name": "Impulse grenade",
+      "type": "e",
+      "short_description": "A grenade using electromagnetic impulse for destroying robots and other electronics. Is not effective against live targets"
+    },
+    {
+      "id": "cryogr",
+      "name": "Cryogrenade",
+      "type": "e",
+      "short_description": "On explosion, the surrounding air instantly cools down to extremely low temperatures. The living beings receive serious hypothermic damage"
+    },
+    {
+      "id": "spgren",
+      "name": "Sparkle-grenade",
+      "type": "e",
+      "short_description": "An extremely powerful version of a hoofmade grenade with increased radius of damage. For an explosive it uses an infernal mixture based on Sparkle-Cola RAD"
+    },
+    {
+      "id": "hmine",
+      "name": "Hoofmade mine",
+      "type": "e",
+      "short_description": "A mine assembled from junk and gunpowder. It operates like an ordinary anti-personnel mine, but not as powerful"
+    },
+    {
+      "id": "mine",
+      "name": "Fragmentation mine",
+      "type": "e",
+      "short_description": "A proximity mine, equipped with a friend/enemy recognition system"
+    },
+    {
+      "id": "plamine",
+      "name": "Plasma mine",
+      "type": "e",
+      "short_description": "Powerful magically-enhanced version of a usual mine"
+    },
+    {
+      "id": "impmine",
+      "name": "Impulse mine",
+      "type": "e",
+      "short_description": "Anti-robot mine, which sensor is calibrated to react only on mechanical enemies. It doesn`t affect live forces"
+    },
+    {
+      "id": "cryomine",
+      "name": "Cryomine",
+      "type": "e",
+      "short_description": "On explosion of this mine, the surrounding air instantly cools down to extremely low temperatures. The living beings receive serious hypothermic damage"
+    },
+    {
+      "id": "zebmine",
+      "name": "Zebra`s mine",
+      "type": "e",
+      "short_description": "This mine is more powerful than usual fragmentation and plasma mines, and because of its camouflage pattern it is more difficult to notice. In addition, zebras often cast a curse on such mines, making them even more dangerous"
+    },
+    {
+      "id": "balemine",
+      "name": "Balefire mine",
+      "type": "e",
+      "short_description": "A balefire egg, turned into a mine. It is required to be a real explosives master to assemble and use such dangerous devices"
+    },
+    {
+      "id": "x37",
+      "name": "Explosive X-37",
+      "type": "e",
+      "short_description": "Small, yet powerful charges of plastic explosives equipped with a radio detonator. You can install several charges and then explode all at the same time by pressing the button. To detonate, press the reload button [R]. Only explosives in the same room will detonate"
+    },
+    {
+      "id": "dbomb",
+      "name": "Dynamite pack",
+      "type": "e",
+      "short_description": "A couple of dynamite sticks, held together with duct tape. It is more effective for destroying walls, than ordinary dynamite, but doesn`t cause much damage to fortified concrete"
+    },
+    {
+      "id": "bomb",
+      "name": "Hoofmade bomb",
+      "type": "e",
+      "short_description": "Explosives made for destroying fragile walls. More sturdy walls may require a couple of these"
+    },
+    {
+      "id": "exc4",
+      "name": "The explosive C-4",
+      "type": "e",
+      "short_description": "It is a very powerful explosive device that can destroy even the sturdiest concrete wall. Useless against steel walls"
+    },
+    {
+      "id": "money",
+      "name": "Bag with caps",
+      "type": "money",
+      "short_description": "Bottle caps used as money"
+    },
+    {
+      "id": "pot1",
+      "name": "Healing potion",
+      "type": "med",
+      "short_description": "Intended for treatment of light injuries. Treatment effect takes some time"
+    },
+    {
+      "id": "pot2",
+      "name": "Large healing Potion",
+      "type": "med",
+      "short_description": "Intended for treatment of injuries of medium severity. Treatment effect takes some time"
+    },
+    {
+      "id": "pot3",
+      "name": "Extra-strong healing potion",
+      "type": "med",
+      "short_description": "Intended for treatment of severe injuries. Treatment effect takes some time"
+    },
+    {
+      "id": "antiradin",
+      "name": "RadAway",
+      "type": "med",
+      "short_description": "Clears body of magical radiation"
+    },
+    {
+      "id": "pot0",
+      "name": "Charmed bandage",
+      "type": "med",
+      "short_description": "Suitable for treatment of scratches and cuts and also stops bleeding"
+    },
+    {
+      "id": "potm1",
+      "name": "Magic potion",
+      "type": "med",
+      "short_description": "Restores magical power and heals magical burnout and exhaustion"
+    },
+    {
+      "id": "potm2",
+      "name": "Large magic potion",
+      "type": "med",
+      "short_description": "Restores magical power and heals magical burnout and exhaustion"
+    },
+    {
+      "id": "potm3",
+      "name": "Super-large magic potion",
+      "type": "med",
+      "short_description": "Restores magical power and heals magical burnout and exhaustion"
+    },
+    {
+      "id": "antidote",
+      "name": "Antidote",
+      "type": "med",
+      "short_description": "Instantly neutralizes effects of any kind of toxins and increases poison resistance for a short time"
+    },
+    {
+      "id": "firstaid",
+      "name": "First aid kit",
+      "type": "med",
+      "short_description": "Collection of medical supplies necessary to treat light wounds and injuries. Basic medical skills are required to use this item"
+    },
+    {
+      "id": "doctor",
+      "name": "Doctor`s bag",
+      "type": "med",
+      "short_description": "A set of medical instruments needed for mending fractured bones and other serious injuries. Advanced medical skills are required to use this item"
+    },
+    {
+      "id": "surgeon",
+      "name": "Military surgeon`s bag",
+      "type": "med",
+      "short_description": "Contains complex medical tools and healing spells for treating the most severe wounds. One can literally bring somepony back to life with this, providing he has the most advanced medical skills and lots of experience"
+    },
+    {
+      "id": "bloodpak",
+      "name": "Blood pack",
+      "type": "med",
+      "short_description": "A pack of artificial blood, compatible with blood of any pony race"
+    },
+    {
+      "id": "detoxin",
+      "name": "Detoxin",
+      "type": "med",
+      "short_description": "Rare and valuable medicine used to treat chemical addiction. Instantly removes all drug effects, both positive and negative, and also neutralizes poison"
+    },
+    {
+      "id": "radx",
+      "name": "Rad-X",
+      "type": "med",
+      "short_description": "A substance in capsules of yellow and red colors, temporarily increasing radiation resistance. Recommended when working in places with high magical radiation background. Use one capsule per individual"
+    },
+    {
+      "id": "mint",
+      "name": "Mint-als",
+      "type": "him",
+      "short_description": "Drugs in a form of peppermint-flavored candy. Temporarily gives you a boost to intelligence and clear thinking, and also sharpens your senses, but has reverse, negative after effects"
+    },
+    {
+      "id": "pmint",
+      "name": "Party-time Mint-als",
+      "type": "him",
+      "short_description": "Improved version of Mint-als, giving much more prominent effect. Incredibly boosts brain capabilities and sharpness of perception. Effect doesn`t add up with that of common Mint-als"
+    },
+    {
+      "id": "dash",
+      "name": "Dash",
+      "type": "him",
+      "short_description": "A powerful military stimulator, that gives you a feeling of time being slowed down. Increases speed and gives additional action points in S.A.T.S."
+    },
+    {
+      "id": "rage",
+      "name": "Rage",
+      "type": "him",
+      "short_description": "A drug developed and manufactured during the Great War in order to increase soldiers` courage and aggressiveness. Makes user feel unstoppable rage, resulting in higher amount of damage being caused"
+    },
+    {
+      "id": "medx",
+      "name": "Med-X",
+      "type": "him",
+      "short_description": "A potent pain-killer for intravenous injection. For a short time makes you completely mute to pain, which is sometimes used to increase soldiers` effectiveness in combat"
+    },
+    {
+      "id": "stampede",
+      "name": "Stampede",
+      "type": "him",
+      "short_description": "A drug that combines effects of Rage and Med-X. It makes one feel unstoppable rage while simultaneously suppressing any pain and self-protection instinct, making him or her very dangerous and deadly. Not compatible with common Rage or Med-X"
+    },
+    {
+      "id": "buck",
+      "name": "Buck",
+      "type": "him",
+      "short_description": "Steroid drug in form of green pills, used to increase physical strength and endurance. Starts working immediately, although only for a short period of time"
+    },
+    {
+      "id": "ultradash",
+      "name": "Ultra-dash",
+      "type": "him",
+      "short_description": "An advanced version of the dash, makes user fast as a lightning. True, there is some probability of sudden death from a heart attack. Does not add up with the effect of an ordinary dash"
+    },
+    {
+      "id": "hydra",
+      "name": "Hydra",
+      "type": "him",
+      "short_description": "Healing potion of unmatched effectiveness, formulated with essence of an actual hydra. Speeds up living tissue regeneration by up to a hundred times, mending any injuries, but it is also dangerous because of possible mutagenic side effects"
+    },
+    {
+      "id": "potion_stim",
+      "name": "Super-stimulation potion",
+      "type": "pot",
+      "short_description": "Instantly restores health. Even though it is capable of saving life in a critical condition, it is very toxic"
+    },
+    {
+      "id": "potion_fly",
+      "name": "Potion of flight",
+      "type": "pot",
+      "short_description": "This potion gives you wings, thus making you able to fly. The effect is temporary"
+    },
+    {
+      "id": "potion_shadow",
+      "name": "Potion of shadows",
+      "type": "pot",
+      "short_description": "Drinking the potion will turn you into a shadow. While in this form, it is hard to see or cause damage to you, but you won`t be able to fight as well. Also, it seems that it weakens unicorns` telekinesis ability"
+    },
+    {
+      "id": "potion_mage",
+      "name": "Wizardry potion",
+      "type": "pot",
+      "short_description": "The potion reduces magical energy consumption for telekinesis and different spells, increasing their power, and also speeds up energy restoration"
+    },
+    {
+      "id": "potion_infra",
+      "name": "Infra-vision potion",
+      "type": "pot",
+      "short_description": "For a short period of time allows you seeing through walls and also to see things that are hidden or concealed with magic"
+    },
+    {
+      "id": "potion_swim",
+      "name": "Diver`s potion",
+      "type": "pot",
+      "short_description": "For five minutes allows you to breathe underwater and swim much faster"
+    },
+    {
+      "id": "potion_pink",
+      "name": "Pink potion",
+      "type": "pot",
+      "short_description": "This potion somewhat protects you from the harmful effects of the Pink Cloud"
+    },
+    {
+      "id": "potion_chance",
+      "name": "Potion of the Last Chance",
+      "type": "pot",
+      "short_description": "If during its action you are dealt a death blow, you gain absolute protection for 5 seconds and partially restore your health. Absolute protection does not save from poison and bleeding"
+    },
+    {
+      "id": "potion_purif",
+      "name": "Potion of purification",
+      "type": "pot",
+      "short_description": "Purifies from curses"
+    },
+    {
+      "id": "potion_rat",
+      "name": "Potion of transformation",
+      "type": "pot",
+      "short_description": "Turns you into a small animal for a short time. This potion is so powerful that it`s enough to take just the smallest sip, hence you can use it many times"
+    },
+    {
+      "id": "rollup",
+      "name": "Joint of magic weed",
+      "type": "pot",
+      "short_description": "Smokable. The effect is unpredictable!"
+    },
+    {
+      "id": "potion_dskel",
+      "name": "Potion of fortitude",
+      "type": "pot",
+      "short_description": "This potion makes your bones sturdy and capable to endure heavy load. Permanent effect"
+    },
+    {
+      "id": "potion_might",
+      "name": "Potion of might",
+      "type": "pot",
+      "short_description": "This potion improves your reflexes and increases aggression. You can deal more damage with melee weapons. Permanent effect"
+    },
+    {
+      "id": "potion_immun",
+      "name": "Immunity potion",
+      "type": "pot",
+      "short_description": "Drinking this improves your ability to resist different negative factors, such as poisoning, bleeding and radiation. Permanent effect"
+    },
+    {
+      "id": "potion_speed",
+      "name": "Potion of vivacity",
+      "type": "pot",
+      "short_description": "This potion increases running speed and stamina capacity. In other words you can run faster and longer. Permanent effect"
+    },
+    {
+      "id": "potion_prec",
+      "name": "Potion of concentration",
+      "type": "pot",
+      "short_description": "This potion fortifies your nervous system and sharpens sight, which improves your shooting accuracy. Permanent effect"
+    },
+    {
+      "id": "potion_elements",
+      "name": "Elemental potion",
+      "type": "pot",
+      "short_description": "A potion invented by unicorns in the distant past. Strengthens magician`s connection to natural forces and increases power of his spells"
+    },
+    {
+      "id": "potion_dexter",
+      "name": "Elixir of Intuition",
+      "type": "pot",
+      "short_description": "This potion gives you an ability to anticipate the near future to some extent, and thus evade enemy bullets. Permanent effect"
+    },
+    {
+      "id": "potion_crit",
+      "name": "Elixir of Fortune",
+      "type": "pot",
+      "short_description": "It is hard to say what exactly this potion does and how it works, but with it your hits will cause critical damage more often. Permanent effect"
+    },
+    {
+      "id": "potion_consc",
+      "name": "Elixir of mind expansion",
+      "type": "pot",
+      "short_description": "An incredibly rare elixir, the recipe of which seems to be lost forever. Enhances the magical talent making unicorns capable of holding more spells in memory at the same time. The effect is permanent"
+    },
+    {
+      "id": "potHP",
+      "name": "Potion of life",
+      "type": "pot",
+      "short_description": "Permanently increases maximum health"
+    },
+    {
+      "id": "potMP",
+      "name": "Potion of spirit",
+      "type": "pot",
+      "short_description": "Permanently increases the maximum of magical power"
+    },
+    {
+      "id": "radcookie",
+      "name": "Radioactive cookies",
+      "type": "food",
+      "short_description": "It is extremely not recommended eating this thing. But perhaps there is somepony who might like it"
+    },
+    {
+      "id": "sparklecola",
+      "name": "Sparkle-cola",
+      "type": "food",
+      "short_description": "The most popular alcohol-free fizzy beverage with carrot flavor. Speeds up restoration of magical energy"
+    },
+    {
+      "id": "radcola",
+      "name": "Sparkle-Cola RAD",
+      "type": "food",
+      "short_description": "A rare kind of Sparkle-Cola, which contains radioactive substances. Has a radish taste and glows in the dark"
+    },
+    {
+      "id": "sars",
+      "name": "Sunrise Sarsaparilla",
+      "type": "food",
+      "short_description": "Non-alcoholic fizzy drink produced before the War. Restores health"
+    },
+    {
+      "id": "coffee",
+      "name": "Coffee",
+      "type": "food",
+      "short_description": "Tasty and healthy drink with a light stimulating effect"
+    },
+    {
+      "id": "milk",
+      "name": "Milk",
+      "type": "food",
+      "short_description": "Fresh brahmin milk, removes radiation"
+    },
+    {
+      "id": "beer",
+      "name": "Beer",
+      "type": "food",
+      "short_description": "Low-alcoholic beverage made from local oats. The taste is not so great"
+    },
+    {
+      "id": "braga",
+      "name": "Home brew",
+      "type": "food",
+      "short_description": "Low-alcohol beverage from potatoes. The taste leaves much to be desired"
+    },
+    {
+      "id": "cordial",
+      "name": "Liqueur",
+      "type": "food",
+      "short_description": "Alcoholic drink of medium strength from local fruits, or whatever is now used instead of them. Pretty pleasant to the taste"
+    },
+    {
+      "id": "schnapps",
+      "name": "Schnapps",
+      "type": "food",
+      "short_description": "A fairly strong alcoholic beverage obtained by distillation"
+    },
+    {
+      "id": "hooch",
+      "name": "Moonshine",
+      "type": "food",
+      "short_description": "An hard draft with a scent of fusel oil. For those who simply want to get wasted"
+    },
+    {
+      "id": "spirt",
+      "name": "Alcohol",
+      "type": "food",
+      "short_description": "Almost pure alcohol, rare and quite expensive"
+    },
+    {
+      "id": "noodles",
+      "name": "Instant noodles",
+      "type": "food",
+      "short_description": "You can pour in hot water, or just eat it dry"
+    },
+    {
+      "id": "pasta",
+      "name": "Pasta",
+      "type": "food",
+      "short_description": "You can cook something with it, or just chew it as it is"
+    },
+    {
+      "id": "corn",
+      "name": "Canned corn",
+      "type": "food",
+      "short_description": "Pretty tasty, sweet and nutritious"
+    },
+    {
+      "id": "dinner",
+      "name": "Ready-made lunch",
+      "type": "food",
+      "short_description": "An incomprehensible gray mass with even more incomprehensible bits of something, perhaps dried vegetables"
+    },
+    {
+      "id": "beans",
+      "name": "Canned beans",
+      "type": "food",
+      "short_description": "Food rich in vegetable protein"
+    },
+    {
+      "id": "bread",
+      "name": "Bread",
+      "type": "food",
+      "short_description": "Relatively fresh bread, baked no more than a week ago"
+    },
+    {
+      "id": "oats",
+      "name": "Oats",
+      "type": "food",
+      "short_description": "You can eat it as is, but it`s better when cooked"
+    },
+    {
+      "id": "chips",
+      "name": "Chips",
+      "type": "food",
+      "short_description": "Pre-war potato chips with the taste of spicy horseradish"
+    },
+    {
+      "id": "crackers",
+      "name": "Squirrel bits",
+      "type": "food",
+      "short_description": "Crackers with the taste of sorrel, so dry that one could use them to make sparks for a bonfire"
+    },
+    {
+      "id": "nuts",
+      "name": "Nuts",
+      "type": "food",
+      "short_description": "A mixture of nuts in a bag, who knows how preserved from pre-war times"
+    },
+    {
+      "id": "sbombs",
+      "name": "Sugar bombs",
+      "type": "food",
+      "short_description": "Sweet corn flakes shaped like air bombs"
+    },
+    {
+      "id": "lollipops",
+      "name": "Lollipops",
+      "type": "food",
+      "short_description": "Pre-war delicacy, delicious sweet and sour sweets"
+    },
+    {
+      "id": "bananas",
+      "name": "Dried bananas",
+      "type": "food",
+      "short_description": "Delicacy from the land of zebras"
+    },
+    {
+      "id": "halva",
+      "name": "Halva",
+      "type": "food",
+      "short_description": "Sweet mass made of ground peanuts"
+    },
+    {
+      "id": "honey",
+      "name": "Honey",
+      "type": "food",
+      "short_description": "Honey can be stored for hundreds of years, but fresh honey is lost, probably, forever"
+    },
+    {
+      "id": "apple",
+      "name": "Apple",
+      "type": "food",
+      "short_description": "A real apple grown on the surface"
+    },
+    {
+      "id": "carrot",
+      "name": "Carrot",
+      "type": "food",
+      "short_description": "Sweet and crisp root"
+    },
+    {
+      "id": "onion",
+      "name": "Onion",
+      "type": "food",
+      "short_description": "Bitter vegetable, used in many dishes"
+    },
+    {
+      "id": "tomato",
+      "name": "Tomato",
+      "type": "food",
+      "short_description": "Delicious vegetable of a slightly sour taste"
+    },
+    {
+      "id": "cucumber",
+      "name": "Cucumber",
+      "type": "food",
+      "short_description": "Green watery vegetable"
+    },
+    {
+      "id": "cabbage",
+      "name": "Cabbage",
+      "type": "food",
+      "short_description": "Juicy and fibrous vegetable"
+    },
+    {
+      "id": "butter",
+      "name": "Butter",
+      "type": "food",
+      "short_description": "Fresh butter from a local farm"
+    },
+    {
+      "id": "cheese",
+      "name": "Cheese",
+      "type": "food",
+      "short_description": "Fresh cheese, looks and smells good"
+    },
+    {
+      "id": "tegg",
+      "name": "Egg",
+      "type": "food",
+      "short_description": "Looks more like an egg of some reptile than bird"
+    },
+    {
+      "id": "meat",
+      "name": "Meat",
+      "type": "food",
+      "short_description": "It is not recommended to eat raw meat"
+    },
+    {
+      "id": "mushroom",
+      "name": "Cave Mushroom",
+      "type": "food",
+      "short_description": "Mushroom of questionable edibility"
+    },
+    {
+      "id": "potato",
+      "name": "Potato",
+      "type": "food",
+      "short_description": "Nutritious tubers, usually used in cooked form"
+    },
+    {
+      "id": "flour",
+      "name": "Flour",
+      "type": "food",
+      "short_description": "The main ingredient of any pastry"
+    },
+    {
+      "id": "garlic",
+      "name": "Garlic",
+      "type": "food",
+      "short_description": "A very spicy and odorous vegetable, used as a seasoning and as a chemical weapon"
+    },
+    {
+      "id": "sugar",
+      "name": "Sugar",
+      "type": "food",
+      "short_description": "Sugar is no longer produced, so its strategic reserves are very valuable"
+    },
+    {
+      "id": "ketchup",
+      "name": "Ketchup",
+      "type": "food",
+      "short_description": "Tomato sauce with many spices and preservatives"
+    },
+    {
+      "id": "frmeat",
+      "name": "Roasted meat",
+      "type": "food",
+      "short_description": "It is said that meat increases aggression"
+    },
+    {
+      "id": "cucsand",
+      "name": "Cucumber sandwich",
+      "type": "food",
+      "short_description": "Simple snack"
+    },
+    {
+      "id": "frpot",
+      "name": "Fried potatoes",
+      "type": "food",
+      "short_description": "Simple yet delicious dinner"
+    },
+    {
+      "id": "oatmeal",
+      "name": "Oatmeal",
+      "type": "food",
+      "short_description": "Simple but nutritious and healthy food"
+    },
+    {
+      "id": "salad",
+      "name": "Vegetable salad",
+      "type": "food",
+      "short_description": "It is important not to simply cut and mix vegetables, but to do it in a correct order"
+    },
+    {
+      "id": "chpasta",
+      "name": "Pasta with cheese",
+      "type": "food",
+      "short_description": "Very nourishing and delicious lunch"
+    },
+    {
+      "id": "omelet",
+      "name": "Wasteland omelet",
+      "type": "food",
+      "short_description": "The traditional food of Wasteland wanderers. Any eggs are suitable for making it"
+    },
+    {
+      "id": "butterbr",
+      "name": "Cheese sandwiches",
+      "type": "food",
+      "short_description": "Common humble breakfast"
+    },
+    {
+      "id": "breakfast",
+      "name": "Caravan breakfast",
+      "type": "food",
+      "short_description": "The main principle of this dish is to mix everything in one pan and cook it"
+    },
+    {
+      "id": "soup",
+      "name": "Soup",
+      "type": "food",
+      "short_description": "While this dish may look simple, its preparation has a lot of nuances"
+    },
+    {
+      "id": "pizza",
+      "name": "Pizza",
+      "type": "food",
+      "short_description": "By the Wasteland standards this is a rich dish"
+    },
+    {
+      "id": "casser",
+      "name": "Casserole",
+      "type": "food",
+      "short_description": "A very tasty vegetable casserole with crispy cheese crust"
+    },
+    {
+      "id": "ragu",
+      "name": "Meat stew",
+      "type": "food",
+      "short_description": "This recipe was invented after the war, when meat began to be consumed in large quantities"
+    },
+    {
+      "id": "spsalad",
+      "name": "Special salad",
+      "type": "food",
+      "short_description": "Mixing, at the first glance, incompatible ingredients, we get a completely unexpected taste"
+    },
+    {
+      "id": "patty",
+      "name": "Cabbage pies",
+      "type": "food",
+      "short_description": "An old, well known in the past recipe for hoofmade pies"
+    },
+    {
+      "id": "maffin",
+      "name": "Muffins",
+      "type": "food",
+      "short_description": "Everypony`s favorite tea time pastries"
+    },
+    {
+      "id": "apie",
+      "name": "Apple pie",
+      "type": "food",
+      "short_description": "Nowadays it is not so easy to get the right ingredients for the traditional apple pie. But it`s totally worth it"
+    },
+    {
+      "id": "mpie",
+      "name": "Meat pie",
+      "type": "food",
+      "short_description": "The filling of this pie consists of meat and vegetables. It is very nutritious, and if you eat it for breakfast, you are sated until evening"
+    },
+    {
+      "id": "ppie",
+      "name": "Spicy cake",
+      "type": "food",
+      "short_description": "A cake with a very strange filling, for true lovers of Wasteland culinary"
+    },
+    {
+      "id": "spie",
+      "name": "Sweet pie",
+      "type": "food",
+      "short_description": "This pie includes almost everything sweet that can be found it the Wasteland. Extreme dose of sugar"
+    },
+    {
+      "id": "borsch",
+      "name": "Borscht",
+      "type": "food",
+      "short_description": "A type of soup of a very complex composition. Only an experienced chef can cook it properly"
+    },
+    {
+      "id": "p_black",
+      "name": "Black paint",
+      "type": "paint",
+      "short_description": ""
+    },
+    {
+      "id": "p_white",
+      "name": "White paint",
+      "type": "paint",
+      "short_description": ""
+    },
+    {
+      "id": "p_red",
+      "name": "Red paint",
+      "type": "paint",
+      "short_description": ""
+    },
+    {
+      "id": "p_green",
+      "name": "Green paint",
+      "type": "paint",
+      "short_description": ""
+    },
+    {
+      "id": "p_blue",
+      "name": "Blue paint",
+      "type": "paint",
+      "short_description": ""
+    },
+    {
+      "id": "p_yellow",
+      "name": "Yellow paint",
+      "type": "paint",
+      "short_description": ""
+    },
+    {
+      "id": "p_gray",
+      "name": "Grey paint",
+      "type": "paint",
+      "short_description": ""
+    },
+    {
+      "id": "p_purple",
+      "name": "Purple paint",
+      "type": "paint",
+      "short_description": ""
+    },
+    {
+      "id": "p_orange",
+      "name": "Orange paint",
+      "type": "paint",
+      "short_description": ""
+    },
+    {
+      "id": "p_brown",
+      "name": "Brown paint",
+      "type": "paint",
+      "short_description": ""
+    },
+    {
+      "id": "p_lblue",
+      "name": "Light blue paint",
+      "type": "paint",
+      "short_description": ""
+    },
+    {
+      "id": "p_khaki",
+      "name": "Khaki paint",
+      "type": "paint",
+      "short_description": ""
+    },
+    {
+      "id": "p_dgreen",
+      "name": "Dark green paint",
+      "type": "paint",
+      "short_description": ""
+    },
+    {
+      "id": "p_cyan",
+      "name": "Cyan paint",
+      "type": "paint",
+      "short_description": ""
+    },
+    {
+      "id": "p_pink",
+      "name": "Pink paint",
+      "type": "paint",
+      "short_description": ""
+    },
+    {
+      "id": "p_burgundy",
+      "name": "Burgundy paint",
+      "type": "paint",
+      "short_description": ""
+    },
+    {
+      "id": "p_crimson",
+      "name": "Crimson paint",
+      "type": "paint",
+      "short_description": ""
+    },
+    {
+      "id": "p_lime",
+      "name": "Lime paint",
+      "type": "paint",
+      "short_description": ""
+    },
+    {
+      "id": "p_fire",
+      "name": "Fiery paint",
+      "type": "paint",
+      "short_description": ""
+    },
+    {
+      "id": "p_beige",
+      "name": "Beige paint",
+      "type": "paint",
+      "short_description": ""
+    },
+    {
+      "id": "sp_slow",
+      "name": "Distortion field",
+      "type": "spell",
+      "short_description": "This spell surrounds you with a magic field that slows movements of any hostile objects. Improving \"Magic\" skill increases a radius of the field"
+    },
+    {
+      "id": "sp_mwall",
+      "name": "Magical barrier",
+      "type": "spell",
+      "short_description": "This spell enables you to summon a magical barrier in a specific location, absorbing enemy bullets and magical spells. The barrier has limited endurance and time of existence, after which it dissipates. Importantly, it lets your bullets and missiles come through"
+    },
+    {
+      "id": "sp_blast",
+      "name": "Kinetic blast",
+      "type": "spell",
+      "short_description": "This spell releases all your telekinetic power in one mighty impulse. All enemies around you get knocked back with enormous force and might even get stunned. It is very useful when you are surrounded"
+    },
+    {
+      "id": "sp_cryst",
+      "name": "Crystal shield",
+      "type": "spell",
+      "short_description": "This spell creates a shell around you that looks like a crystal. It absorbs any external damage, consuming magical energy instead of health. To use it, hold down the spell key"
+    },
+    {
+      "id": "sp_kdash",
+      "name": "Kinetic dash",
+      "type": "spell",
+      "short_description": "This spell uses your telekinetic powers to give you a powerful directed impulse. Can be used for evading attacks in combat or getting to hard-to-reach places"
+    },
+    {
+      "id": "sp_mshit",
+      "name": "Magical shield",
+      "type": "spell",
+      "short_description": "This spell surrounds you with a protective field, increasing your armor stats. It protects from any external damage, however strong blows, armor-piercing bullets and explosions can overwhelm the shield and cause a somewhat reduced damage. It has limited endurance and existence time"
+    },
+    {
+      "id": "sp_moon",
+      "name": "Moonblade",
+      "type": "spell",
+      "short_description": "The spell summons a spirit moonblade, fighting on your side"
+    },
+    {
+      "id": "sp_gwall",
+      "name": "Ghost wall",
+      "type": "spell",
+      "short_description": "Allows you to create a ghost wall impassable for your enemies. The wall has a certain limit of durability and lifetime. It is fully permeable for all inanimate objects, like bullets and shells, and for its creator. The wall cannot be created in doorways and on staircases"
+    },
+    {
+      "id": "sp_invulner",
+      "name": "Blood shield",
+      "type": "spell",
+      "short_description": "The spell uses some of your blood to create an impenetrable magic shield for a few seconds. It gives complete invulnerability to any external damage and can save you at the most critical moment at the cost of some blood loss. It won`t work if you don`t have enough blood"
+    },
+    {
+      "id": "bit",
+      "name": "Pre-war bits",
+      "type": "valuables",
+      "short_description": "Pre-War bits, not widely used these days, but can be exchanged for caps"
+    },
+    {
+      "id": "gem1",
+      "name": "Emerald",
+      "type": "valuables",
+      "short_description": "Gems are still valued highly these days. You can sell it for a good price"
+    },
+    {
+      "id": "gem2",
+      "name": "Sapphire",
+      "type": "valuables",
+      "short_description": "Gems are still valued highly these days. You can sell it for a good price"
+    },
+    {
+      "id": "gem3",
+      "name": "Ruby",
+      "type": "valuables",
+      "short_description": "Gems are still valued highly these days. You can sell it for a good price"
+    },
+    {
+      "id": "data",
+      "name": "Data disc",
+      "type": "valuables",
+      "short_description": "Information downloaded from the terminal contains long forgotten secrets of the past. You can sell it for a good price"
+    },
+    {
+      "id": "disc",
+      "name": "Disc with valuable data",
+      "type": "valuables",
+      "short_description": "Data on pre-war technologies is on high demand among certain communities"
+    },
+    {
+      "id": "lbook",
+      "name": "Pre-War book",
+      "type": "valuables",
+      "short_description": "Undamaged pre-war books - a true rarity nowadays. Most merchants will gladly pay for them"
+    },
+    {
+      "id": "col1",
+      "name": "Cogwheel",
+      "type": "spec",
+      "short_description": "Just a souvenir"
+    },
+    {
+      "id": "col2",
+      "name": "The Cyberpony magazine",
+      "type": "spec",
+      "short_description": "The magazine, issued before the War by a society that promoted the idea of turning ponies into cyborgs. It lasted only one year, after which it was banned for moral and ethical reasons"
+    },
+    {
+      "id": "pro_armor",
+      "name": "Armor blueprints",
+      "type": "spec",
+      "short_description": "A pack of drawings for some unusual armor. Only specialists can understand them"
+    },
+    {
+      "id": "super_sapphire",
+      "name": "Ice sapphire",
+      "type": "spec",
+      "short_description": "A huge sapphire spreading a frosty aura"
+    },
+    {
+      "id": "super_ruby",
+      "name": "Fire ruby",
+      "type": "spec",
+      "short_description": "A huge ruby shining with fiery light and radiating heat"
+    },
+    {
+      "id": "super_emerald",
+      "name": "Marine emerald",
+      "type": "spec",
+      "short_description": "A huge emerald, for some reason always wet and smelling like the sea"
+    },
+    {
+      "id": "tool_calipers",
+      "name": "Calipers",
+      "type": "spec",
+      "short_description": "The device for precise measurements of size"
+    },
+    {
+      "id": "tool_boltcutter",
+      "name": "Hydraulic bolt cutter",
+      "type": "spec",
+      "short_description": "Can cut even a thick iron bar"
+    },
+    {
+      "id": "tool_oscilloscope",
+      "name": "Oscilloscope",
+      "type": "spec",
+      "short_description": "A complex device for analyzing parameters of an electrical signal"
+    },
+    {
+      "id": "cigars",
+      "name": "Smuggled cigars",
+      "type": "spec",
+      "short_description": "A box of cigars illegally imported from the zebra country. Excellent smokes"
+    },
+    {
+      "id": "tabak",
+      "name": "A pack of tobacco",
+      "type": "spec",
+      "short_description": "Leaf tobacco for smoking pipes. Perfectly preserved, Smoky Pit will gladly pay for it"
+    },
+    {
+      "id": "tpipe",
+      "name": "Smoking pipe",
+      "type": "spec",
+      "short_description": "Excellent pipe of cherry wood. Smoky Pit will be glad to get it"
+    },
+    {
+      "id": "bong",
+      "name": "Bong",
+      "type": "spec",
+      "short_description": "A device for heavy smokers. Perhaps Smoky Pit will like it?"
+    },
+    {
+      "id": "glycerol",
+      "name": "Glycerol canister",
+      "type": "spec",
+      "short_description": "A plastic canister containing a clear viscous liquid. With the necessary knowledge you can turn it into explosive nitroglycerin"
+    },
+    {
+      "id": "book_cm",
+      "name": "\"Celestial Mechanics\"",
+      "type": "spec",
+      "short_description": "A book telling about movements of celestial bodies"
+    },
+    {
+      "id": "data_eqd",
+      "name": "Equidroid Data disc",
+      "type": "spec",
+      "short_description": "This disk contains schematics, wiring diagrams and other information useful for figuring out how equidroids work. Although, frankly, it`s unlikely for one to be able to understand at least some of this without being a certified robotics engineer"
+    },
+    {
+      "id": "box_screw",
+      "name": "Box of new screws",
+      "type": "spec",
+      "short_description": "A whole box of brand-new bolts and screws of all sizes. A dream of any mechanic"
+    },
+    {
+      "id": "box_nut",
+      "name": "Box of new nuts",
+      "type": "spec",
+      "short_description": "A whole box of brand-new nuts and washers of all sizes. A dream of any mechanic"
+    },
+    {
+      "id": "alc1",
+      "name": "Apple cider \"Old farm\"",
+      "type": "spec",
+      "short_description": "Cider of the highest quality with a delicate taste and aroma"
+    },
+    {
+      "id": "alc2",
+      "name": "Apple wine \"Pink sunset\"",
+      "type": "spec",
+      "short_description": "Rare rose wine for real esthetes"
+    },
+    {
+      "id": "alc3",
+      "name": "Apple liquor \"Summer flavors\"",
+      "type": "spec",
+      "short_description": "In addition to apples, the composition of this liqueur includes a dozen different kinds of fruits"
+    },
+    {
+      "id": "alc4",
+      "name": "Apple Whiskey \"Wild Pegasus\"",
+      "type": "spec",
+      "short_description": "A popular brand of whiskey before the War, currently 200-year-old!"
+    },
+    {
+      "id": "alc5",
+      "name": "Apple vodka \"Crystal\"",
+      "type": "spec",
+      "short_description": "Vodka of elite quality, worth a lot of money before the War. Purified with magic crystals!"
+    },
+    {
+      "id": "alc6",
+      "name": "Granny Smith`s Apple bitter",
+      "type": "spec",
+      "short_description": "They say that over the passed time this tincture has acquired an absolutely unique taste"
+    },
+    {
+      "id": "alc7",
+      "name": "Apple balsam \"The gift of nature\"",
+      "type": "spec",
+      "short_description": "\"Healing\" liqueur made from apples, 24 kinds of herbs and medical alcohol"
+    },
+    {
+      "id": "vaccine",
+      "name": "Vaccine for the dust fever",
+      "type": "spec",
+      "short_description": "The only known cure for this disease"
+    },
+    {
+      "id": "wtal",
+      "name": "Water talisman",
+      "type": "spec",
+      "short_description": "A magical device that cleans water of chemical impurities, microbes and radiation"
+    },
+    {
+      "id": "bbatt",
+      "name": "Balefire-battery",
+      "type": "spec",
+      "short_description": "A compact device that uses Balefire technology to produce an almost unlimited amount of energy"
+    },
+    {
+      "id": "datast",
+      "name": "Disc of the Min. of Image",
+      "type": "spec",
+      "short_description": "This disc contains information about the development of the StealthBuck M2. Perhaps Steel Rangers will find it interesting"
+    },
+    {
+      "id": "secret_doc",
+      "name": "Secret documents of the Legion",
+      "type": "spec",
+      "short_description": "The document is titled \"ኽዤዌቇሕችነዥሚኆ፧\" - whatever this means. Unfortunately, you don`t speak the zebra language and won`t be able to read this"
+    },
+    {
+      "id": "tech1",
+      "name": "Magnetic resonance horsgregator",
+      "type": "spec",
+      "short_description": "Makes horsgregation using magnetic resonance - you don`t have to be a scientist to understand that"
+    },
+    {
+      "id": "tech2",
+      "name": "Ultra-quadruponificator",
+      "type": "spec",
+      "short_description": "Much more powerful than common quadruponificator. A real breakthrough in a world of quadruponification!"
+    },
+    {
+      "id": "tech3",
+      "name": "Baryon neighralyzer",
+      "type": "spec",
+      "short_description": "Neighralyzes whatever you want and any way you like - this device has so much better capabilities compared to its analogues"
+    },
+    {
+      "id": "tech4",
+      "name": "Superluminescent quasistabilitron",
+      "type": "spec",
+      "short_description": "It can glow in different colors or rectify electric current - depending on the state of the quantum field"
+    },
+    {
+      "id": "tech5",
+      "name": "Hyperbeam twilifuser",
+      "type": "spec",
+      "short_description": "The most important thing to remember when working with this device - where that plug goes into. Incorrect plugging may cause dire consequences"
+    },
+    {
+      "id": "enclarmor",
+      "name": "Enclave Power Armor",
+      "type": "spec",
+      "short_description": "Power armor for pegasi. You will not be able to wear it properly without some modifications"
+    },
+    {
+      "id": "key_raiders",
+      "name": "Slavers` key",
+      "type": "key",
+      "short_description": "Opens various locks in the slavers` den"
+    },
+    {
+      "id": "key_sewer",
+      "name": "Security access key",
+      "type": "key",
+      "short_description": "Gives access to the ManeTec Department of Special Research"
+    },
+    {
+      "id": "key_cat",
+      "name": "Overmare`s key",
+      "type": "key",
+      "short_description": "Gives access to the overmare office of stable 88"
+    },
+    {
+      "id": "key_gruz",
+      "name": "Alicorn key",
+      "type": "key",
+      "short_description": "The key taken from a very strong alicorn in Manehattan, the Blood Moon"
+    },
+    {
+      "id": "key_tumba",
+      "name": "Utility room key",
+      "type": "key",
+      "short_description": "Oak Stalwort`s key"
+    },
+    {
+      "id": "key_necr",
+      "name": "Necromancer`s key",
+      "type": "key",
+      "short_description": "The key belonging to the necromancer zebra Mchawi"
+    },
+    {
+      "id": "key_ranger",
+      "name": "Steel Rangers` key",
+      "type": "key",
+      "short_description": "The key that was kept by Elder Coldsight"
+    },
+    {
+      "id": "key_rar",
+      "name": "The extremely valuable key",
+      "type": "key",
+      "short_description": "The key to some cellar in Canterlot that, according to rumors, is full of treasures. At least you hope so, and that the key is worth it"
+    },
+    {
+      "id": "key_zebra",
+      "name": "Centurion Key",
+      "type": "key",
+      "short_description": "A key found at the Legion`s headquarters"
+    },
+    {
+      "id": "key_encl",
+      "name": "Colonel`s Key",
+      "type": "key",
+      "short_description": "Key received from the commander of the Enclave base"
+    },
+    {
+      "id": "stealth",
+      "name": "StealthBuck",
+      "type": "equip",
+      "short_description": "Portable techno-magical device developed by the Ministry of Arcane Sciences with support from the Ministry of Image, capable to make his owner invisible for a short period of time"
+    },
+    {
+      "id": "rep",
+      "name": "Weapon repair kit",
+      "type": "equip",
+      "short_description": "Can be used to repair almost any weapon. Using this, you can repair an equipped weapon by some degree depending on the weapon class and your repair skill"
+    },
+    {
+      "id": "runa",
+      "name": "Burglar rune",
+      "type": "equip",
+      "short_description": "The burglar rune can open any lock, even a stuck one. Single use. To activate, hover cursor over a door or container with a tough lock and press @1"
+    },
+    {
+      "id": "reboot",
+      "name": "Electronic lock pick",
+      "type": "equip",
+      "short_description": "A single use device used to do a deep reboot of the terminal resetting all passwords. It was hard to get even before the War, not to mention now. To use, hover over a secure terminal and press @1"
+    },
+    {
+      "id": "retr",
+      "name": "Rune of return",
+      "type": "equip",
+      "short_description": "The rune of return teleports you to the base camp from anywhere (confirm action by pressing the button). You can return to the nearest MAS terminal. One-time use"
+    },
+    {
+      "id": "pin",
+      "name": "Bobby pin",
+      "type": "stuff",
+      "short_description": "Pins are useful for lock picking. They are used to probe and move springs inside a lock with less risk of breaking and jamming it than if using brutal force. In case of failure, you might break the pin, but you will be able to try again using another one"
+    },
+    {
+      "id": "empbomb",
+      "name": "Pulse bomb",
+      "type": "equip",
+      "short_description": "Helps enter the Steel Rangers bunker. One-time use"
+    },
+    {
+      "id": "mworkbench",
+      "name": "A portable workbench",
+      "type": "equip",
+      "short_description": "Using a portable bench you can repair your weapons and armor on a march, just like using a regular workbench"
+    },
+    {
+      "id": "mworkexpl",
+      "name": "Demopony`s field kit",
+      "type": "equip",
+      "short_description": "Contains all the necessary equipment for creating explosives on a march"
+    },
+    {
+      "id": "mworklab",
+      "name": "Field lab",
+      "type": "equip",
+      "short_description": "Contains all the necessary equipment for preparing potions and chemicals in the field"
+    },
+    {
+      "id": "whistle",
+      "name": "Whistle",
+      "type": "equip",
+      "short_description": "Needed to call or dismiss a tamed phoenix"
+    },
+    {
+      "id": "owl",
+      "name": "Robo-owl",
+      "type": "equip",
+      "short_description": "A small security robot that can also serve as a personal assistant or secretary. Has a fairly powerful laser weapon. Can be used as a companion"
+    },
+    {
+      "id": "card0",
+      "name": "\"Fool\" destiny card",
+      "type": "equip",
+      "short_description": "Allows changing the game difficulty to \"very easy\" for a single time"
+    },
+    {
+      "id": "card1",
+      "name": "\"Hermit\" destiny card",
+      "type": "equip",
+      "short_description": "Allows changing the game difficulty to \"easy\" for a single time"
+    },
+    {
+      "id": "card2",
+      "name": "\"Mage\" destiny card",
+      "type": "equip",
+      "short_description": "Allows changing the game difficulty to \"normal\" for a single time"
+    },
+    {
+      "id": "card3",
+      "name": "\"Emperor\" destiny card",
+      "type": "equip",
+      "short_description": "Allows changing the game difficulty to \"hard\" for a single time"
+    },
+    {
+      "id": "card4",
+      "name": "\"Death\" destiny card",
+      "type": "equip",
+      "short_description": "Allows changing the game difficulty to \"super-hard\" for a single time"
+    },
+    {
+      "id": "screwdriver",
+      "name": "Screwdriver",
+      "type": "instr",
+      "short_description": "Screwdriver is required for lock picking. You will also require pins. If you lack them, you can try to open the lock anyway, but the probability for the lock to get jammed will be much higher"
+    },
+    {
+      "id": "titansd",
+      "name": "Titanium screwdriver",
+      "type": "instr",
+      "short_description": "A premium screwdriver made from the sturdiest titanium alloy should help unscrew even the most rusty bolts. You will also find it useful for opening locks, and your lockpicking skill will increase by #1"
+    },
+    {
+      "id": "stethoscope",
+      "name": "Stethoscope",
+      "type": "instr",
+      "short_description": "A medical device designed to hear sounds coming from internal organs... or the sounds the lock makes during lockpicking. Increases your level of lockpicking by #1"
+    },
+    {
+      "id": "strickle",
+      "name": "Diamond whetstone",
+      "type": "instr",
+      "short_description": "A very useful tool for sharpening weapons. Just always carry it with you and it will increase damage of your piercing and cutting weapons by #1"
+    },
+    {
+      "id": "binoc",
+      "name": "Binoculars",
+      "type": "instr",
+      "short_description": "Old binoculars with scratched lenses, a gift from Calamity"
+    },
+    {
+      "id": "bag1",
+      "name": "Ammo pouch",
+      "type": "instr",
+      "short_description": "A pouch made of thick tarpaulin of a special design by Brass Buckshot. With this you can carry more ammo, batteries or explosives without any loss of mobility"
+    },
+    {
+      "id": "bag2",
+      "name": "Large Ammo Pouch",
+      "type": "instr",
+      "short_description": "A durable synthetic fabric pouch designed by Steel Rangers specialists. With this you can carry more ammo, batteries or explosives without constraining your movements"
+    },
+    {
+      "id": "impl_skin",
+      "name": "Subdermal Armor",
+      "type": "impl",
+      "short_description": "A secret technology developed as a part of \"Cyber-pony\" project. Implant reinforces skin with polymer tissue, that raises damage threshold by #1. Implantation cost is included in retail price"
+    },
+    {
+      "id": "impl_mrech",
+      "name": "Magic keeper",
+      "type": "impl",
+      "short_description": "The implant created specifically for war mages. Never lets your magical power reach zero, protects from burnout"
+    },
+    {
+      "id": "impl_regen",
+      "name": "Regeneration module",
+      "type": "impl",
+      "short_description": "A complex and expensive implant that combines advanced magic and nanotechnology. Automatically restores the user`s health by #1 units per second, without requiring additional resources, but no more than #2 of the maximum health"
+    },
+    {
+      "id": "impl_intel",
+      "name": "Logical processor",
+      "type": "impl",
+      "short_description": "A small chip that connects directly to the brain. Improves memory, helps to do mathematical calculations, improves the accuracy of telekinesis. In general, this leads to an increase of Lockpicking skill by #1 and Science by #2"
+    },
+    {
+      "id": "mod_metal",
+      "name": "Metal detector",
+      "type": "impl",
+      "short_description": "A simple device, connectable to PipBuck. Set for detection of small metal items, it allows you finding lost caps and ammo in the most unexpected places"
+    },
+    {
+      "id": "mod_analis",
+      "name": "Tactical analyzer",
+      "type": "impl",
+      "short_description": "An advanced module for PipBuck, allows scanning enemies to define strong and weak points. In S.A.T.S. you will see exact information about your enemies` health and armor"
+    },
+    {
+      "id": "mod_target",
+      "name": "Targeting module",
+      "type": "impl",
+      "short_description": "A complex device, connectable to PipBuck. During battle defines enemies` weak points not covered by armor and marks them with a laser point. You have a chance to attack in the weak spot, completely ignoring any armor. The chance is higher when using rifles and pistols"
+    },
+    {
+      "id": "mod_holo",
+      "name": "Holographic module",
+      "type": "impl",
+      "short_description": "A complex techno-magical module for PipBuck, employing illusion magic. Acts as an active camouflage system, making it harder detecting you. In battle it creates illusive noise, distracting enemy`s aim. Increases Stealth and evasion bonus by #1"
+    },
+    {
+      "id": "mod_reanim",
+      "name": "Reanimation module",
+      "type": "impl",
+      "short_description": "An addition to medical PipBuck module. It constantly monitors your health, automatically applying medical spells in mortal danger, allowing the owner to survive and keep conscience even when seriously wounded. However it takes a long time to recharge after each use"
+    },
+    {
+      "id": "mod_hacker",
+      "name": "Hacker`s module",
+      "type": "impl",
+      "short_description": "A complex module for PipBuck allowing you to partially automate the picking of a password. Increases your skill for hacking terminals by #1"
+    },
+    {
+      "id": "owl_weapon",
+      "name": "Enhanced robo-owl laser",
+      "type": "impl",
+      "short_description": "Improved laser for a robo-owl, increasing damage by about one third"
+    },
+    {
+      "id": "owl_armor",
+      "name": "Robo-owl active defense",
+      "type": "impl",
+      "short_description": "Strengthened body for the robo-owl, increasing its survivability"
+    },
+    {
+      "id": "kogit",
+      "name": "Quantum cogitator",
+      "type": "instr",
+      "short_description": "A small but very powerful processor. Currently connected to your PipBuck, which increases your level of lockpicking and terminal hacking by #1, as well as the number of APs in S.A.T.S. mode by #2"
+    },
+    {
+      "id": "mod_trans",
+      "name": "Transistor module",
+      "type": "impl",
+      "short_description": "An extension module for PipBuck increasing its computing power. Increases your level of lockpicking and hacking by #1, as well as the amount of AP in S.A.T.S. by #2"
+    },
+    {
+      "id": "stat_tw",
+      "name": "Twilight Sparkle figurine",
+      "type": "art",
+      "short_description": "Be Smart! Increases damage from combat spells by #1, also increases the chance of successful lockpicking and terminal hacking"
+    },
+    {
+      "id": "stat_aj",
+      "name": "Applejack figurine",
+      "type": "art",
+      "short_description": "Be Strong! Increases damage from melee weapons by #1, damage from hoof attacks by #2, and health by #3"
+    },
+    {
+      "id": "stat_fl",
+      "name": "Fluttershy figurine",
+      "type": "art",
+      "short_description": "Be Pleasant! Reduces the prices of merchants by #1 and increases the effectiveness of healing potions by #2"
+    },
+    {
+      "id": "stat_rr",
+      "name": "Rarity figurine",
+      "type": "art",
+      "short_description": "Be Unwavering! Increases the damage threshold by #1, reduces consumption of stamina and magical power by #2"
+    },
+    {
+      "id": "stat_pp",
+      "name": "Pinkie Pie figurine",
+      "type": "art",
+      "short_description": "Awareness! It was under \"E\"! Increases accuracy and stealth by #1"
+    },
+    {
+      "id": "stat_rd",
+      "name": "Rainbow Dash figurine",
+      "type": "art",
+      "short_description": "Be Awesome! Increases damage of all firearms by #1, and the speed of running and swimming by #2"
+    },
+    {
+      "id": "amul_al",
+      "name": "Alicorn Amulet",
+      "type": "art",
+      "short_description": "An ancient and mysterious relic, increasing the magical power of the owner but enslaving his mind. Under no circumstances should you wear this amulet around your neck! Although just laying in your bag, it still strengthens your battle spells by #1 and decreases magic consumption by #2"
+    },
+    {
+      "id": "blackbook",
+      "name": "Black book",
+      "type": "art",
+      "short_description": "The ancient tome written by mighty zebra shamans and containing their forbidden knowledge. But it is not just the dark spells and terrible rituals described in the book that are of interest. The book itself is also an extraordinarily powerful artifact, protecting its owner from black magic and giving the ability to absorb the vital energy from enemies"
+    },
+    {
+      "id": "tal_star",
+      "name": "Stellar talisman",
+      "type": "art",
+      "short_description": "A powerful talisman, which will serve only an experienced warrior. Increases damage from any weapon by #1"
+    },
+    {
+      "id": "tal_moon",
+      "name": "Lunar talisman",
+      "type": "art",
+      "short_description": "A powerful talisman possessing powers that only a true hero can handle. Increases damage from any weapon by #1"
+    },
+    {
+      "id": "tal_sun",
+      "name": "Solar talisman",
+      "type": "art",
+      "short_description": "A great talisman, giving its power only to the chosen ones. Increases damage from any weapon by #1"
+    },
+    {
+      "id": "tal_ether",
+      "name": "Ether talisman",
+      "type": "art",
+      "short_description": "A legendary talisman worthy of only the best of the best. Increases damage from any weapon by #1"
+    },
+    {
+      "id": "sphera",
+      "name": "Memory orb",
+      "type": "sphera",
+      "short_description": "This magical item contains recorded memories of other creatures. Using it brings you an additional skill point"
+    },
+    {
+      "id": "repair",
+      "name": "Toaster repair",
+      "type": "book",
+      "short_description": "Despite its name, this book can tell you not only about fixing toasters, but actually about repairing anything - from household equipment to modern weapons"
+    },
+    {
+      "id": "medic",
+      "name": "Medicine - is fun!",
+      "type": "book",
+      "short_description": "In this book you can find interesting and fun facts about medicine, first aid, treating wounds and even basics of surgery"
+    },
+    {
+      "id": "magic",
+      "name": "Magical arts",
+      "type": "book",
+      "short_description": "One of many pre-war books, dedicated to unicorn magic. Far from being very clever and scientifically accurate, it still has colorful pictures and lots of practical advice"
+    },
+    {
+      "id": "lockpick",
+      "name": "Breaking-in and infiltrating",
+      "type": "book",
+      "short_description": "This book has detailed and well-illustrated descriptions of locks of different types and much advice on how to break them. An author definitely must`ve had problems with the law"
+    },
+    {
+      "id": "science",
+      "name": "Young hacker",
+      "type": "book",
+      "short_description": "A children`s guide, in which author introduces young readers to the basics of information technology, and also shares different less known facts about terminals and other electronic systems"
+    },
+    {
+      "id": "explosives",
+      "name": "Fireworks for parties",
+      "type": "book",
+      "short_description": "A book sponsored by the Ministry of Morale. It contains guidelines for safe handling of explosive materials used in fireworks and some other devices"
+    },
+    {
+      "id": "smallguns",
+      "name": "Ammo-nation",
+      "type": "book",
+      "short_description": "Monthly illustrated catalog of firearms. It has detailed information on latest technical achievements and fashion trends in this industry"
+    },
+    {
+      "id": "melee",
+      "name": "Hack and slash",
+      "type": "book",
+      "short_description": "A book on history of melee weapons. From ancient spears and blades to modern magical energy swords"
+    },
+    {
+      "id": "energy",
+      "name": "Magic guarding our Home",
+      "type": "book",
+      "short_description": "A book about the latest trends on everything concerning development and application of magical energy weapons. Although useful information is quite diluted with pompous speeches and propaganda"
+    },
+    {
+      "id": "sneak",
+      "name": "Become a shadow. Self-guide",
+      "type": "book",
+      "short_description": "A guide for beginner spies and scouts. Despite that the author was obviously a paranoid psycho, the book contains some useful information"
+    },
+    {
+      "id": "barter",
+      "name": "Why pay more?",
+      "type": "book",
+      "short_description": "This book teaches how to communicate with traders of all sorts, how to barter and get discounts and also recognize some common tricks and ruses"
+    },
+    {
+      "id": "tele",
+      "name": "Telekinesis for dummies",
+      "type": "book",
+      "short_description": "A guide for young unicorns, that is supposed to help them develop their telekinetic strength"
+    },
+    {
+      "id": "survival",
+      "name": "The Wasteland Survival Guide",
+      "type": "book",
+      "short_description": "This book was written after the War. It tells about different dangers of the Wasteland and ways to deal with them. The author - Ditzy Doo"
+    },
+    {
+      "id": "book_alicorn",
+      "name": "The mysterious power of alicorns",
+      "type": "book",
+      "short_description": "Although this book tells about true alicorns, such as the princess Celestia, the knowledge contained in it might help you against the Goddesses alicorns"
+    },
+    {
+      "id": "diary",
+      "name": "Velvet Remedy diary",
+      "type": "note",
+      "short_description": "Contains many records of ghoul studies"
+    },
+    {
+      "id": "sl_note1",
+      "name": "Note",
+      "type": "note",
+      "short_description": "A piece of paper found on Butch, the head of the slavers` guards"
+    },
+    {
+      "id": "sl_note2",
+      "name": "Slaver`s notes",
+      "type": "note",
+      "short_description": "Belonged to Sharp Shooter, the leader of a slavers gang"
+    },
+    {
+      "id": "merc_note1",
+      "name": "Griffin`s note",
+      "type": "note",
+      "short_description": "A note found on one of the griffins in the prison camp"
+    },
+    {
+      "id": "lp_item",
+      "name": "Dictionary of foul language",
+      "type": "note",
+      "short_description": "Dear Reader! If you hold this opus in your hooves, that means that you have decided to take the first step in mastering the subtle art of foul language. The ability to swear firmly and ornately is actually an important and essential part of intelligent speech, and there is absolutely nothing shameful in it if used properly. In most cases, simply adding a dirty word to your speech is not enough to impress audience and fully express your feelings, and many improve their skills of conveying emotions colorfully throughout entire life. Sadly, our dictionary will unlikely be enough to raise you to the level of real maestros of this art, because the truly masterful swearing should come intuitively and from your very heart. But thanks to this book, you can definitely get a starting point that will guide you in further improving your talents in this field"
+    },
+    {
+      "id": "kombu_comp",
+      "name": "Reinforced fabric",
+      "type": "compa",
+      "short_description": "Durable material made of several layers of thick fabric with interlayers of polymer fiber for better ballistic protection. Used for manufacturing light body armor"
+    },
+    {
+      "id": "antirad_comp",
+      "name": "Radiation-resistant fabric",
+      "type": "compa",
+      "short_description": "A material enriched with metallic fiber, able to reflect radiation"
+    },
+    {
+      "id": "antihim_comp",
+      "name": "Rubberized fabric",
+      "type": "compa",
+      "short_description": "A rubber-saturated material, impenetrable for liquid and gaseous substances. Protects well in the aggressive environment"
+    },
+    {
+      "id": "skin_comp",
+      "name": "Tanned leather",
+      "type": "compa",
+      "short_description": "Firm pieces of chemically hardened leather, can be used to enhance and repair leather armor"
+    },
+    {
+      "id": "metal_comp",
+      "name": "Metal plate",
+      "type": "compa",
+      "short_description": "Hard and shiny metal plate, that not just any bullet can break through. Can be used to repair and enhance metal armor"
+    },
+    {
+      "id": "battle_comp",
+      "name": "Armored plate",
+      "type": "compa",
+      "short_description": "A plate made of ceramics and complex polymers. Very firm and light, it is used in a modern combat armor"
+    },
+    {
+      "id": "magus_comp",
+      "name": "Enchanted plate",
+      "type": "compa",
+      "short_description": "A plate of indistinct material, greatly enhanced by magic. Used in a magic armor"
+    },
+    {
+      "id": "polic_comp",
+      "name": "Aramid fabric",
+      "type": "compa",
+      "short_description": "Aramid is stronger than steel and five times lighter. A multilayer fabric of this material can stop a pistol bullet and is quite fireproof"
+    },
+    {
+      "id": "chitin_comp",
+      "name": "Chitinous plate",
+      "type": "compa",
+      "short_description": "A fragment of a thick and sturdy chitinous shell. With enough skill you can make a decent armor"
+    },
+    {
+      "id": "intel_comp",
+      "name": "Camouflage plate",
+      "type": "compa",
+      "short_description": "A plate of composite materials with a special textured surface. Used to repair or improve scout armor"
+    },
+    {
+      "id": "power_comp",
+      "name": "Power armor fragment",
+      "type": "compa",
+      "short_description": "A fragment of one of the greatest achievements of equestrian science and technology. Perhaps, if you collect enough of these parts, you can build a complete set of armor"
+    },
+    {
+      "id": "frag",
+      "name": "Weapon fragments",
+      "type": "compw",
+      "short_description": "Different details that can be used for repair or assembly of new weapons"
+    },
+    {
+      "id": "strap",
+      "name": "Leather belt",
+      "type": "compw",
+      "short_description": "Still looks like new"
+    },
+    {
+      "id": "turp",
+      "name": "Turpentine",
+      "type": "compw",
+      "short_description": "Organic solvent, obtained from the resin of coniferous trees. Toxic and flammable"
+    },
+    {
+      "id": "pbatt",
+      "name": "Industrial battery",
+      "type": "compw",
+      "short_description": "A Spark-battery used for powering up machinery and equipment. Heavy and not very powerful, yet very long-lasting"
+    },
+    {
+      "id": "tape",
+      "name": "Duct tape",
+      "type": "compw",
+      "short_description": "Essential in any household"
+    },
+    {
+      "id": "glue",
+      "name": "Wonderglue",
+      "type": "compw",
+      "short_description": "Can glue anything to any surface of any material for good"
+    },
+    {
+      "id": "tubing",
+      "name": "Rubber band",
+      "type": "compw",
+      "short_description": "Even after all those years it is still elastic"
+    },
+    {
+      "id": "spring",
+      "name": "Spring",
+      "type": "compw",
+      "short_description": "An elastic part of some device"
+    },
+    {
+      "id": "fblade",
+      "name": "Fan blade",
+      "type": "compw",
+      "short_description": "A bit rusty, but quite sturdy and sharp"
+    },
+    {
+      "id": "lighter",
+      "name": "Lighter",
+      "type": "compw",
+      "short_description": "Indispensable accessory of any smoker"
+    },
+    {
+      "id": "pulv",
+      "name": "Paint Gun",
+      "type": "compw",
+      "short_description": "A mechanism for spraying paint"
+    },
+    {
+      "id": "compress",
+      "name": "Piston compressor",
+      "type": "compw",
+      "short_description": "A simple device for air compression"
+    },
+    {
+      "id": "motor",
+      "name": "Electric motor",
+      "type": "compw",
+      "short_description": "Electric motor from a broken circular saw"
+    },
+    {
+      "id": "resscook",
+      "name": "Pressure cooker",
+      "type": "compw",
+      "short_description": "A hermetically sealed pan for cooking at high temperature"
+    },
+    {
+      "id": "mano",
+      "name": "Manometer",
+      "type": "compw",
+      "short_description": "A device, measuring pressure, equipped with a safety valve"
+    },
+    {
+      "id": "kogt",
+      "name": "Hellhound Claw",
+      "type": "compw",
+      "short_description": "A particularly long and sharp claw once belonging to a large hellhound. You can use it to make a weapon or sell it for a good price"
+    },
+    {
+      "id": "hcrystal",
+      "name": "Harmony crystal",
+      "type": "compw",
+      "short_description": "A blue crystal of irregular shape. Its purpose is unknown"
+    },
+    {
+      "id": "elcomp",
+      "name": "Electronic elements",
+      "type": "compm",
+      "short_description": "All sorts of transistors, resistors, diodes, microschemes and other parts"
+    },
+    {
+      "id": "chip",
+      "name": "Multipurpose chip",
+      "type": "compm",
+      "short_description": "Electronic chip, that can be reprogrammed using necessary equipment and skill"
+    },
+    {
+      "id": "impgen",
+      "name": "Impulse generator",
+      "type": "compm",
+      "short_description": "A compact device for generating radio signals of certain frequency and amplitude"
+    },
+    {
+      "id": "uscan",
+      "name": "Ultrasonic scanner",
+      "type": "compm",
+      "short_description": "Device for scanning surroundings using ultrasonic signals"
+    },
+    {
+      "id": "tlaser",
+      "name": "Laser pointer",
+      "type": "compm",
+      "short_description": "A low-power laser, that can be used in an automatic target designator"
+    },
+    {
+      "id": "pcrystal",
+      "name": "Photochromic crystal",
+      "type": "compm",
+      "short_description": "Crystal of complex internal structure, refracting and modifying light"
+    },
+    {
+      "id": "tmed",
+      "name": "Medical talisman",
+      "type": "compm",
+      "short_description": "A complex magical device, capable of supporting patient`s life even when he is one hoof in the grave. Can restart a stopped heart"
+    },
+    {
+      "id": "magnit",
+      "name": "Electromagnet",
+      "type": "compm",
+      "short_description": "A very powerful one, can hold stuff 200 fold heavier than itself"
+    },
+    {
+      "id": "tlevit",
+      "name": "Levitation talisman",
+      "type": "compm",
+      "short_description": "A compact magical device, allowing holding small items in air"
+    },
+    {
+      "id": "fcrystal",
+      "name": "Focusing crystal",
+      "type": "compm",
+      "short_description": "A large and very pure crystal, used in heavy magical energy machinery for focusing energy flows"
+    },
+    {
+      "id": "superc",
+      "name": "Superconductor",
+      "type": "compm",
+      "short_description": "It has zero electrical resistance"
+    },
+    {
+      "id": "condens",
+      "name": "Capacitor",
+      "type": "compm",
+      "short_description": "An element of high capacitance, capable of producing high discharge"
+    },
+    {
+      "id": "bdpass",
+      "name": "Passwords database",
+      "type": "compm",
+      "short_description": "A memory module containing 300,000 most used passwords. It can be used to create a device that would help hacking terminals"
+    },
+    {
+      "id": "c_owl",
+      "name": "Robo-owl case",
+      "type": "compm",
+      "short_description": "Just an empty case without any filling"
+    },
+    {
+      "id": "motiv",
+      "name": "Motivator RX-47",
+      "type": "compm",
+      "short_description": "Block controlling movement of a robot"
+    },
+    {
+      "id": "bottle",
+      "name": "Empty bottle",
+      "type": "stuff",
+      "short_description": "An empty bottle of Sparkle-cola, or of some other beverage"
+    },
+    {
+      "id": "can",
+      "name": "Tin can",
+      "type": "stuff",
+      "short_description": "A container for canned food"
+    },
+    {
+      "id": "lunchbox",
+      "name": "Lunchbox",
+      "type": "stuff",
+      "short_description": "An ordinary lunchbox from \"Stable-Tec\""
+    },
+    {
+      "id": "app",
+      "name": "Pink powder",
+      "type": "stuff",
+      "short_description": "A multipurpose remedy for every life situation, used in hundreds recipes"
+    },
+    {
+      "id": "scrap",
+      "name": "Scrap metal",
+      "type": "stuff",
+      "short_description": "Just a pile of metal parts, good for nothing"
+    },
+    {
+      "id": "detonat",
+      "name": "Detonator",
+      "type": "compe",
+      "short_description": "A small detonator used in grenades"
+    },
+    {
+      "id": "sensor",
+      "name": "Sensor",
+      "type": "compe",
+      "short_description": "A small sensory module, reacts on proximity of specified objects"
+    },
+    {
+      "id": "powder",
+      "name": "Gunpowder",
+      "type": "compe",
+      "short_description": "Ordinary gunpowder"
+    },
+    {
+      "id": "tnt",
+      "name": "Trinitrotoluene",
+      "type": "compe",
+      "short_description": "A substance in shape of yellow crystals, a base for powerful explosives"
+    },
+    {
+      "id": "timer",
+      "name": "Timer",
+      "type": "compw",
+      "short_description": "A kitchen timer shaped as a half of an apple"
+    },
+    {
+      "id": "fan",
+      "name": "Fan",
+      "type": "stuff",
+      "short_description": "Old desktop fan, long broken and non-functional"
+    },
+    {
+      "id": "lamp",
+      "name": "Lamp",
+      "type": "stuff",
+      "short_description": "Old desk lamp, long broken and non-functional"
+    },
+    {
+      "id": "kofe",
+      "name": "Coffee maker",
+      "type": "stuff",
+      "short_description": "Old coffee maker, long broken and non-functional"
+    },
+    {
+      "id": "gland",
+      "name": "Poisonous gland",
+      "type": "compp",
+      "short_description": "Full of very dangerous poison"
+    },
+    {
+      "id": "acidslime",
+      "name": "Acidic goo",
+      "type": "compp",
+      "short_description": "Can be obtained from acidic slime"
+    },
+    {
+      "id": "ghoulblood",
+      "name": "Ghoul`s blood",
+      "type": "compp",
+      "short_description": "A muddy brownish liquid, that substitutes ghouls blood"
+    },
+    {
+      "id": "radslime",
+      "name": "Radioactive goo",
+      "type": "compp",
+      "short_description": "Glows in the dark with ominous poisonous-green light"
+    },
+    {
+      "id": "wingmembrane",
+      "name": "Wing membrane",
+      "type": "compp",
+      "short_description": "Wing membrane of a huge bloodwing"
+    },
+    {
+      "id": "vampfang",
+      "name": "Vampire fang",
+      "type": "compp",
+      "short_description": "A fang of a bloodwing, containing liquid, preventing blood from coagulating"
+    },
+    {
+      "id": "bloatwing",
+      "name": "Bloatsprite wing",
+      "type": "compp",
+      "short_description": "Resembles an ordinary insect wing, but of enormous size"
+    },
+    {
+      "id": "bloateye",
+      "name": "Bloatsprite eye",
+      "type": "compp",
+      "short_description": "Faceted eye, sparkling with all colors of the rainbow"
+    },
+    {
+      "id": "ratliver",
+      "name": "Rat liver",
+      "type": "compp",
+      "short_description": "Eww gross!"
+    },
+    {
+      "id": "rattail",
+      "name": "Rat tail",
+      "type": "compp",
+      "short_description": "Looks like a giant worm"
+    },
+    {
+      "id": "molefat",
+      "name": "Monster`s fat",
+      "type": "compp",
+      "short_description": "In a desperate case can be a substitute for machine oil"
+    },
+    {
+      "id": "firegland",
+      "name": "Flame gland",
+      "type": "compp",
+      "short_description": "Gives some creatures the ability to breathe fire. You can feel a powerful magic contained inside"
+    },
+    {
+      "id": "fishfat",
+      "name": "Fish oil",
+      "type": "compp",
+      "short_description": "Some ponies consider this smelly substance good for health"
+    },
+    {
+      "id": "mdust",
+      "name": "Magic dust",
+      "type": "compp",
+      "short_description": "Crystallized magical essence"
+    },
+    {
+      "id": "pinkslime",
+      "name": "Pink slime",
+      "type": "compp",
+      "short_description": "Slime which absorbed the concentrated Pink cloud"
+    },
+    {
+      "id": "dsoul",
+      "name": "Dark soul",
+      "type": "compp",
+      "short_description": "Ephemeral substance left after destruction of a necrosprites swarm"
+    },
+    {
+      "id": "whorn",
+      "name": "Horn of the Witch",
+      "type": "compp",
+      "short_description": "A horn of a very strong Canterlot ghoul"
+    },
+    {
+      "id": "gel",
+      "name": "Biogel",
+      "type": "compp",
+      "short_description": "The substance used by Auto-Doc as an expendable material for treating injuries and wounds"
+    },
+    {
+      "id": "good",
+      "name": "Kindness",
+      "type": "compp",
+      "short_description": ""
+    },
+    {
+      "id": "herbs",
+      "name": "Magical herbs",
+      "type": "compp",
+      "short_description": "All sorts of plants having magical properties, necessary for most potions. It is hard to find them in the Wasteland, although some zebra earn their living by gathering these for sale"
+    },
+    {
+      "id": "taintextract",
+      "name": "Taint extract",
+      "type": "compp",
+      "short_description": "A substance of magical nature. On contact with a living material it causes horrible mutations, but in precisely selected doses and in combination with other reagents may cause advantageous alterations"
+    },
+    {
+      "id": "hydrablood",
+      "name": "Hydra`s blood",
+      "type": "compp",
+      "short_description": "An incredibly potent magical reagent. When properly used, it helps to wake up hidden potential of the body"
+    },
+    {
+      "id": "rainbow",
+      "name": "A liquid rainbow",
+      "type": "compp",
+      "short_description": "Pretty versicolored liquid with a horrible taste. Has prominent magical properties"
+    },
+    {
+      "id": "stardust",
+      "name": "Star dust",
+      "type": "compp",
+      "short_description": "Sparkling silvery dust, that might be found in places of meteorite landing"
+    },
+    {
+      "id": "moonstone",
+      "name": "Moonstone",
+      "type": "compp",
+      "short_description": "A rare opaque mineral of blue-white color. According to beliefs, it has a connection to ancient mystical forces"
+    },
+    {
+      "id": "firecrystal",
+      "name": "Fiery crystal",
+      "type": "compp",
+      "short_description": "An orange crystal resembling a tongue of flame. And even warm to the touch"
+    },
+    {
+      "id": "abssalt",
+      "name": "Absolute salt",
+      "type": "compp",
+      "short_description": "Very rare alchemical reagent"
+    },
+    {
+      "id": "darkfrag",
+      "name": "Dark Shard",
+      "type": "compp",
+      "short_description": "It appears to be materialized dark magic"
+    },
+    {
+      "id": "essence",
+      "name": "Mysterious essence",
+      "type": "compp",
+      "short_description": "Actually, nopony knows what it is exactly, but not a single really powerful potion is possible without it"
+    },
+    {
+      "id": "s_hsword",
+      "name": "Schematics for a hoofmade sword",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_arson",
+      "name": "Schematics for the \"Igniter\"",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_dartgun",
+      "name": "Schematics for the \"Dart gun\"",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_acidgun",
+      "name": "Schematics for the acid gun",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_sawgun",
+      "name": "Schematics for the Saw blade launcher",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_buckshot",
+      "name": "Schematics for a buckshot gun",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_railway",
+      "name": "Schematics for a railway rifle",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_bfg",
+      "name": "Schematics for the \"Big Frickin Gun\"",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_cdagger",
+      "name": "Schematics for the claw dagger",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_friend",
+      "name": "Schematics for the \"Friendship cannon\"",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_hgren",
+      "name": "Schematics for a hoofmade grenade",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_molotov",
+      "name": "Recipe for an incendiary cocktail",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_hmine",
+      "name": "Schematics for the hoofmade mine",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_acidgr",
+      "name": "Recipe for acid bomb",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_dbomb",
+      "name": "Instructions for handling dynamite",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_bomb",
+      "name": "Schematics for a hoofmade bomb",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_cryogr",
+      "name": "Schematics for the cryogrenade",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_cryomine",
+      "name": "Schematics for the cryomine",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_balemine",
+      "name": "Schematics for the balefire mine",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_spgren",
+      "name": "Schematics for Sparkle-grenade",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_empbomb",
+      "name": "Schematics for a pulse bomb",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_mod_metal",
+      "name": "Scheme «Metal detector»",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_mod_analis",
+      "name": "Scheme «Tactical analyzer»",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_mod_target",
+      "name": "Scheme «Targeting module»",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_mod_holo",
+      "name": "Scheme «Holographic module»",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_mod_reanim",
+      "name": "Scheme «Reanimation module»",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_mod_hacker",
+      "name": "Scheme «Hacker`s module»",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_owl",
+      "name": "Robo-owl schematics",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_owl_armor",
+      "name": "Scheme «Robo-owl active defense»",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_owl_weapon",
+      "name": "Scheme «Enhanced robo-owl laser»",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_chitin",
+      "name": "Schematics for the chitinous armor",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_potion_stim",
+      "name": "Recipe «Super-stimulation potion»",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_potion_swim",
+      "name": "Recipe «Diver`s potion»",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_potion_fly",
+      "name": "Recipe «Potion of flight»",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_potion_shadow",
+      "name": "Recipe «Potion of shadows»",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_potion_mage",
+      "name": "Recipe «Wizardry potion»",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_potion_infra",
+      "name": "Recipe «Infra-vision potion»",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_potion_pink",
+      "name": "Recipe «Pink potion»",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_potion_purif",
+      "name": "Recipe «Potion of purification»",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_potion_chance",
+      "name": "Recipe «Potion of the Last Chance»",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_rollup",
+      "name": "Recipe «Joint of magic weed»",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_acid",
+      "name": "Recipe «Acid»",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_fuel",
+      "name": "Recipe «Fuel»",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_ultradash",
+      "name": "Recipe «Ultra-dash»",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_stampede",
+      "name": "Recipe «Stampede»",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_pmint",
+      "name": "Recipe «Party-time Mint-als»",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_potion_dskel",
+      "name": "Recipe «Potion of fortitude»",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_potion_immun",
+      "name": "Recipe «Immunity potion»",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_potion_might",
+      "name": "Recipe «Potion of might»",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_potion_speed",
+      "name": "Recipe «Potion of vivacity»",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_potion_prec",
+      "name": "Recipe «Potion of concentration»",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_potion_elements",
+      "name": "Recipe «Elemental potion»",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_potion_dexter",
+      "name": "Recipe «Elixir of Intuition»",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_potion_crit",
+      "name": "Recipe «Elixir of Fortune»",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_frmeat",
+      "name": "Recipe «Roasted meat»",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_cucsand",
+      "name": "Recipe «Cucumber sandwich»",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_frpot",
+      "name": "Recipe «Fried potatoes»",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_oatmeal",
+      "name": "Recipe «Oatmeal»",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_salad",
+      "name": "Recipe «Vegetable salad»",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_chpasta",
+      "name": "Recipe «Pasta with cheese»",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_omelet",
+      "name": "Recipe «Wasteland omelet»",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_butterbr",
+      "name": "Recipe «Cheese sandwiches»",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_breakfast",
+      "name": "Recipe «Caravan breakfast»",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_soup",
+      "name": "Recipe «Soup»",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_pizza",
+      "name": "Recipe «Pizza»",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_casser",
+      "name": "Recipe «Casserole»",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_ragu",
+      "name": "Recipe «Meat stew»",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_spsalad",
+      "name": "Recipe «Special salad»",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_patty",
+      "name": "Recipe «Cabbage pies»",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_maffin",
+      "name": "Recipe «Muffins»",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_apie",
+      "name": "Recipe «Apple pie»",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_mpie",
+      "name": "Recipe «Meat pie»",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_ppie",
+      "name": "Recipe «Spicy cake»",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_spie",
+      "name": "Recipe «Sweet pie»",
+      "type": "scheme",
+      "short_description": ""
+    },
+    {
+      "id": "s_borsch",
+      "name": "Recipe «Borscht»",
+      "type": "scheme",
+      "short_description": ""
+    }
+  ]
+}

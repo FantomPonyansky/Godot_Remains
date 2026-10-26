@@ -1,0 +1,183 @@
+[gd_scene load_steps=4 format=3 uid="uid://bremhud0001"]
+
+[ext_resource type="Script" path="res://scripts/hud.gd" id="1_script"]
+[ext_resource type="FontVariation" path="res://theme/hud_sans.tres" id="2_font"]
+[ext_resource type="Texture2D" path="res://assets/ui/blood.png" id="3_blood"]
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_script")
+
+[node name="Root" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Blood" type="TextureRect" parent="Root"]
+visible = false
+layout_mode = 0
+offset_right = 300.0
+offset_bottom = 181.0
+mouse_filter = 2
+texture = ExtResource("3_blood")
+
+[node name="Bars" type="Control" parent="Root"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="Effects" type="Control" parent="Root"]
+layout_mode = 0
+mouse_filter = 2
+
+[node name="HpText" type="Label" parent="Root"]
+layout_mode = 0
+offset_left = 6.5
+offset_top = 10.75
+offset_right = 231.15
+offset_bottom = 30.75
+mouse_filter = 2
+theme_override_colors/font_color = Color(0, 1, 0.6, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 16
+horizontal_alignment = 1
+
+[node name="StatusText" type="Label" parent="Root"]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 49.05
+offset_right = 360.0
+offset_bottom = 120.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.6, 0.6, 1, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 16
+
+[node name="ItemText" type="Label" parent="Root"]
+visible = false
+layout_mode = 0
+offset_left = 47.55
+offset_top = 49.05
+offset_right = 520.0
+offset_bottom = 69.05
+mouse_filter = 2
+theme_override_colors/font_color = Color(0, 1, 0.6, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 16
+
+[node name="WeaponName" type="Label" parent="Root"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 691.05
+offset_right = 420.0
+offset_bottom = 711.05
+mouse_filter = 2
+theme_override_colors/font_color = Color(0, 1, 0.6, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 16
+
+[node name="WeaponAmmo" type="Label" parent="Root"]
+layout_mode = 0
+offset_left = 220.0
+offset_top = 691.05
+offset_right = 344.0
+offset_bottom = 711.05
+mouse_filter = 2
+theme_override_colors/font_color = Color(0, 1, 0.6, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 16
+horizontal_alignment = 1
+
+[node name="AmmoName" type="Label" parent="Root"]
+layout_mode = 0
+offset_left = 360.0
+offset_top = 691.05
+offset_right = 660.0
+offset_bottom = 711.05
+mouse_filter = 2
+theme_override_colors/font_color = Color(0, 1, 0.6, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 16
+
+[node name="InfoLog" type="Label" parent="Root"]
+layout_mode = 0
+offset_left = 485.5
+offset_top = 14.7
+offset_right = 1262.5
+offset_bottom = 150.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.988235, 0.498039, 0.929412, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 14
+horizontal_alignment = 2
+autowrap_mode = 3
+
+[node name="Prompt" type="Label" parent="Root"]
+visible = false
+layout_mode = 0
+offset_right = 260.0
+offset_bottom = 48.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0, 1, 0.6, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 12
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Mess" type="Label" parent="Root"]
+visible = false
+layout_mode = 0
+offset_left = 390.0
+offset_top = 50.0
+offset_right = 890.0
+offset_bottom = 130.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0, 1, 0.6, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Subtitle" type="Label" parent="Root"]
+visible = false
+layout_mode = 0
+offset_left = 290.0
+offset_top = 600.0
+offset_right = 990.0
+offset_bottom = 690.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0, 1, 0.6, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 16
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="OdLabel" type="Label" parent="Root"]
+visible = false
+layout_mode = 0
+offset_left = 1080.0
+offset_top = 692.0
+offset_right = 1175.0
+offset_bottom = 712.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0, 1, 0.6, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 16
+horizontal_alignment = 2
+
+[node name="Selector" type="Control" parent="Root"]
+visible = false
+layout_mode = 0
+mouse_filter = 2
+
+[node name="Floats" type="Control" parent="Root"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2

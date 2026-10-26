@@ -1,0 +1,1684 @@
+{
+ "_source": "Pers.setGlobalDif maxm*, perks.xml sk tip='m', AllData items.json/ammo.json m + ItemManager.getInvCat",
+ "base": {
+  "maxmW": 7,
+  "maxmM": 3,
+  "maxm1": 40,
+  "maxm2": 1000,
+  "maxm3": 500
+ },
+ "items": {
+  "abssalt": {
+   "m": 5.0,
+   "cat": 3
+  },
+  "acid": {
+   "m": 1.5,
+   "cat": 3
+  },
+  "acidgr": {
+   "m": 10.0,
+   "cat": 2
+  },
+  "acidslime": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "aero": {
+   "m": 0.1,
+   "cat": 3
+  },
+  "antidote": {
+   "m": 1.0,
+   "cat": 1
+  },
+  "antihim_comp": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "antirad_comp": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "antiradin": {
+   "m": 1.0,
+   "cat": 1
+  },
+  "apie": {
+   "m": 6.0,
+   "cat": 3
+  },
+  "app": {
+   "m": 3.0,
+   "cat": 3
+  },
+  "apple": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "balemine": {
+   "m": 20.0,
+   "cat": 2
+  },
+  "bananas": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "barter": {
+   "m": 3.0,
+   "cat": 3
+  },
+  "batt": {
+   "m": 0.3,
+   "cat": 2
+  },
+  "batt_6": {
+   "m": 0.5,
+   "cat": 2
+  },
+  "battle_comp": {
+   "m": 3.0,
+   "cat": 3
+  },
+  "bcell": {
+   "m": 0.3,
+   "cat": 2
+  },
+  "bdpass": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "beans": {
+   "m": 2.0,
+   "cat": 3
+  },
+  "beer": {
+   "m": 2.0,
+   "cat": 3
+  },
+  "bloateye": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "bloatwing": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "bloodpak": {
+   "m": 1.0,
+   "cat": 1
+  },
+  "bomb": {
+   "m": 16.0,
+   "cat": 2
+  },
+  "book_alicorn": {
+   "m": 3.0,
+   "cat": 3
+  },
+  "borsch": {
+   "m": 6.0,
+   "cat": 3
+  },
+  "bottle": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "braga": {
+   "m": 2.0,
+   "cat": 3
+  },
+  "bread": {
+   "m": 2.0,
+   "cat": 3
+  },
+  "breakfast": {
+   "m": 5.0,
+   "cat": 3
+  },
+  "buck": {
+   "m": 1.0,
+   "cat": 1
+  },
+  "butter": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "butterbr": {
+   "m": 4.0,
+   "cat": 3
+  },
+  "c_owl": {
+   "m": 10.0,
+   "cat": 3
+  },
+  "cabbage": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "can": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "card0": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "card1": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "card2": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "card3": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "card4": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "carrot": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "casser": {
+   "m": 5.0,
+   "cat": 3
+  },
+  "cheese": {
+   "m": 2.0,
+   "cat": 3
+  },
+  "chip": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "chips": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "chitin_comp": {
+   "m": 3.0,
+   "cat": 3
+  },
+  "chpasta": {
+   "m": 4.0,
+   "cat": 3
+  },
+  "coffee": {
+   "m": 2.0,
+   "cat": 3
+  },
+  "compress": {
+   "m": 10.0,
+   "cat": 3
+  },
+  "condens": {
+   "m": 5.0,
+   "cat": 3
+  },
+  "cordial": {
+   "m": 2.0,
+   "cat": 3
+  },
+  "corn": {
+   "m": 2.0,
+   "cat": 3
+  },
+  "crackers": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "cryogr": {
+   "m": 10.0,
+   "cat": 2
+  },
+  "cryomine": {
+   "m": 12.0,
+   "cat": 2
+  },
+  "crystal": {
+   "m": 0.5,
+   "cat": 2
+  },
+  "crystal_6": {
+   "m": 0.7,
+   "cat": 2
+  },
+  "cucsand": {
+   "m": 3.0,
+   "cat": 3
+  },
+  "cucumber": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "darkfrag": {
+   "m": 5.0,
+   "cat": 3
+  },
+  "dart": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "dash": {
+   "m": 1.0,
+   "cat": 1
+  },
+  "data": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "datast": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "dbomb": {
+   "m": 16.0,
+   "cat": 2
+  },
+  "detonat": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "detoxin": {
+   "m": 1.0,
+   "cat": 1
+  },
+  "dinamit": {
+   "m": 5.0,
+   "cat": 2
+  },
+  "dinner": {
+   "m": 2.0,
+   "cat": 3
+  },
+  "disc": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "doctor": {
+   "m": 2.0,
+   "cat": 1
+  },
+  "dsoul": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "egg": {
+   "m": 20.0,
+   "cat": 2
+  },
+  "elcomp": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "empbomb": {
+   "m": 30.0,
+   "cat": 3
+  },
+  "energ": {
+   "m": 0.3,
+   "cat": 2
+  },
+  "energ_6": {
+   "m": 0.5,
+   "cat": 2
+  },
+  "energy": {
+   "m": 3.0,
+   "cat": 3
+  },
+  "essence": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "exc4": {
+   "m": 25.0,
+   "cat": 2
+  },
+  "explosives": {
+   "m": 3.0,
+   "cat": 3
+  },
+  "fan": {
+   "m": 5.0,
+   "cat": 3
+  },
+  "fblade": {
+   "m": 10.0,
+   "cat": 3
+  },
+  "fcrystal": {
+   "m": 3.0,
+   "cat": 3
+  },
+  "fgren": {
+   "m": 10.0,
+   "cat": 2
+  },
+  "firecrystal": {
+   "m": 5.0,
+   "cat": 3
+  },
+  "firegland": {
+   "m": 3.0,
+   "cat": 3
+  },
+  "firstaid": {
+   "m": 1.0,
+   "cat": 1
+  },
+  "fishfat": {
+   "m": 2.0,
+   "cat": 3
+  },
+  "flour": {
+   "m": 2.0,
+   "cat": 3
+  },
+  "frag": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "frmeat": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "frpot": {
+   "m": 3.0,
+   "cat": 3
+  },
+  "fuel": {
+   "m": 0.3,
+   "cat": 2
+  },
+  "fuel_7": {
+   "m": 0.3,
+   "cat": 2
+  },
+  "garlic": {
+   "m": 2.0,
+   "cat": 3
+  },
+  "gasgr": {
+   "m": 10.0,
+   "cat": 2
+  },
+  "gem1": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "gem2": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "gem3": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "ghoulblood": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "gland": {
+   "m": 4.0,
+   "cat": 3
+  },
+  "glue": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "gren40": {
+   "m": 8.0,
+   "cat": 2
+  },
+  "gren40_8": {
+   "m": 8.0,
+   "cat": 2
+  },
+  "gren40_9": {
+   "m": 8.0,
+   "cat": 2
+  },
+  "grenade": {
+   "m": 10.0,
+   "cat": 2
+  },
+  "halva": {
+   "m": 2.0,
+   "cat": 3
+  },
+  "hcrystal": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "herbs": {
+   "m": 0.5,
+   "cat": 3
+  },
+  "hgren": {
+   "m": 8.0,
+   "cat": 2
+  },
+  "hmine": {
+   "m": 10.0,
+   "cat": 2
+  },
+  "honey": {
+   "m": 2.0,
+   "cat": 3
+  },
+  "hooch": {
+   "m": 2.0,
+   "cat": 3
+  },
+  "hydra": {
+   "m": 3.0,
+   "cat": 1
+  },
+  "hydrablood": {
+   "m": 5.0,
+   "cat": 3
+  },
+  "impgen": {
+   "m": 5.0,
+   "cat": 3
+  },
+  "impgr": {
+   "m": 10.0,
+   "cat": 2
+  },
+  "impmine": {
+   "m": 12.0,
+   "cat": 2
+  },
+  "intel_comp": {
+   "m": 2.0,
+   "cat": 3
+  },
+  "ketchup": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "kofe": {
+   "m": 5.0,
+   "cat": 3
+  },
+  "kogt": {
+   "m": 5.0,
+   "cat": 3
+  },
+  "kombu_comp": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "lamp": {
+   "m": 5.0,
+   "cat": 3
+  },
+  "lbook": {
+   "m": 3.0,
+   "cat": 3
+  },
+  "lighter": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "lockpick": {
+   "m": 3.0,
+   "cat": 3
+  },
+  "lollipops": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "lunchbox": {
+   "m": 3.0,
+   "cat": 3
+  },
+  "maffin": {
+   "m": 5.0,
+   "cat": 3
+  },
+  "magic": {
+   "m": 3.0,
+   "cat": 3
+  },
+  "magnit": {
+   "m": 5.0,
+   "cat": 3
+  },
+  "magus_comp": {
+   "m": 2.0,
+   "cat": 3
+  },
+  "mano": {
+   "m": 5.0,
+   "cat": 3
+  },
+  "mdust": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "meat": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "medic": {
+   "m": 3.0,
+   "cat": 3
+  },
+  "medx": {
+   "m": 1.0,
+   "cat": 1
+  },
+  "melee": {
+   "m": 3.0,
+   "cat": 3
+  },
+  "metal_comp": {
+   "m": 3.0,
+   "cat": 3
+  },
+  "milk": {
+   "m": 2.0,
+   "cat": 3
+  },
+  "mine": {
+   "m": 12.0,
+   "cat": 2
+  },
+  "mint": {
+   "m": 1.0,
+   "cat": 1
+  },
+  "molefat": {
+   "m": 3.0,
+   "cat": 3
+  },
+  "molotov": {
+   "m": 8.0,
+   "cat": 2
+  },
+  "moonstone": {
+   "m": 5.0,
+   "cat": 3
+  },
+  "motiv": {
+   "m": 10.0,
+   "cat": 3
+  },
+  "motor": {
+   "m": 20.0,
+   "cat": 3
+  },
+  "mpie": {
+   "m": 6.0,
+   "cat": 3
+  },
+  "mushroom": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "mworkbench": {
+   "m": 30.0,
+   "cat": 3
+  },
+  "mworkexpl": {
+   "m": 20.0,
+   "cat": 3
+  },
+  "mworklab": {
+   "m": 30.0,
+   "cat": 3
+  },
+  "noodles": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "nuts": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "oatmeal": {
+   "m": 3.0,
+   "cat": 3
+  },
+  "oats": {
+   "m": 2.0,
+   "cat": 3
+  },
+  "omelet": {
+   "m": 4.0,
+   "cat": 3
+  },
+  "onion": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "p10": {
+   "m": 1.0,
+   "cat": 2
+  },
+  "p10_1": {
+   "m": 1.0,
+   "cat": 2
+  },
+  "p12": {
+   "m": 3.0,
+   "cat": 2
+  },
+  "p127": {
+   "m": 2.0,
+   "cat": 2
+  },
+  "p127_1": {
+   "m": 2.0,
+   "cat": 2
+  },
+  "p127_2": {
+   "m": 2.0,
+   "cat": 2
+  },
+  "p12_3": {
+   "m": 3.0,
+   "cat": 2
+  },
+  "p12_4": {
+   "m": 3.0,
+   "cat": 2
+  },
+  "p12_5": {
+   "m": 3.0,
+   "cat": 2
+  },
+  "p145": {
+   "m": 4.0,
+   "cat": 2
+  },
+  "p20": {
+   "m": 3.0,
+   "cat": 2
+  },
+  "p308": {
+   "m": 2.0,
+   "cat": 2
+  },
+  "p308_1": {
+   "m": 2.0,
+   "cat": 2
+  },
+  "p308_2": {
+   "m": 2.0,
+   "cat": 2
+  },
+  "p32": {
+   "m": 1.0,
+   "cat": 2
+  },
+  "p32_1": {
+   "m": 1.0,
+   "cat": 2
+  },
+  "p32_2": {
+   "m": 1.0,
+   "cat": 2
+  },
+  "p375": {
+   "m": 2.0,
+   "cat": 2
+  },
+  "p375_1": {
+   "m": 2.0,
+   "cat": 2
+  },
+  "p375_2": {
+   "m": 2.0,
+   "cat": 2
+  },
+  "p44": {
+   "m": 3.0,
+   "cat": 2
+  },
+  "p44_1": {
+   "m": 3.0,
+   "cat": 2
+  },
+  "p44_2": {
+   "m": 3.0,
+   "cat": 2
+  },
+  "p5": {
+   "m": 0.5,
+   "cat": 2
+  },
+  "p50mg": {
+   "m": 4.0,
+   "cat": 2
+  },
+  "p50mg_1": {
+   "m": 4.0,
+   "cat": 2
+  },
+  "p50mg_4": {
+   "m": 4.0,
+   "cat": 2
+  },
+  "p556": {
+   "m": 1.0,
+   "cat": 2
+  },
+  "p556_1": {
+   "m": 1.0,
+   "cat": 2
+  },
+  "p556_2": {
+   "m": 1.0,
+   "cat": 2
+  },
+  "p556_5": {
+   "m": 1.0,
+   "cat": 2
+  },
+  "p5_1": {
+   "m": 0.5,
+   "cat": 2
+  },
+  "p9": {
+   "m": 1.0,
+   "cat": 2
+  },
+  "pasta": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "patty": {
+   "m": 5.0,
+   "cat": 3
+  },
+  "pbatt": {
+   "m": 10.0,
+   "cat": 3
+  },
+  "pcryo": {
+   "m": 1.5,
+   "cat": 3
+  },
+  "pcrystal": {
+   "m": 3.0,
+   "cat": 3
+  },
+  "pin": {
+   "m": 0.2,
+   "cat": 3
+  },
+  "pinkslime": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "pizza": {
+   "m": 5.0,
+   "cat": 3
+  },
+  "plagr": {
+   "m": 10.0,
+   "cat": 2
+  },
+  "plamine": {
+   "m": 12.0,
+   "cat": 2
+  },
+  "pmint": {
+   "m": 1.0,
+   "cat": 1
+  },
+  "polic_comp": {
+   "m": 2.0,
+   "cat": 3
+  },
+  "pot0": {
+   "m": 0.5,
+   "cat": 1
+  },
+  "pot1": {
+   "m": 1.0,
+   "cat": 1
+  },
+  "pot2": {
+   "m": 2.0,
+   "cat": 1
+  },
+  "pot3": {
+   "m": 3.0,
+   "cat": 1
+  },
+  "potHP": {
+   "m": 3.0,
+   "cat": 1
+  },
+  "potMP": {
+   "m": 3.0,
+   "cat": 1
+  },
+  "potato": {
+   "m": 2.0,
+   "cat": 3
+  },
+  "potion_chance": {
+   "m": 3.0,
+   "cat": 1
+  },
+  "potion_consc": {
+   "m": 3.0,
+   "cat": 1
+  },
+  "potion_crit": {
+   "m": 3.0,
+   "cat": 1
+  },
+  "potion_dexter": {
+   "m": 3.0,
+   "cat": 1
+  },
+  "potion_dskel": {
+   "m": 3.0,
+   "cat": 1
+  },
+  "potion_elements": {
+   "m": 3.0,
+   "cat": 1
+  },
+  "potion_fly": {
+   "m": 3.0,
+   "cat": 1
+  },
+  "potion_immun": {
+   "m": 3.0,
+   "cat": 1
+  },
+  "potion_infra": {
+   "m": 2.0,
+   "cat": 1
+  },
+  "potion_mage": {
+   "m": 1.0,
+   "cat": 1
+  },
+  "potion_might": {
+   "m": 3.0,
+   "cat": 1
+  },
+  "potion_pink": {
+   "m": 2.0,
+   "cat": 1
+  },
+  "potion_prec": {
+   "m": 3.0,
+   "cat": 1
+  },
+  "potion_purif": {
+   "m": 3.0,
+   "cat": 1
+  },
+  "potion_shadow": {
+   "m": 3.0,
+   "cat": 1
+  },
+  "potion_speed": {
+   "m": 3.0,
+   "cat": 1
+  },
+  "potion_stim": {
+   "m": 1.0,
+   "cat": 1
+  },
+  "potion_swim": {
+   "m": 1.0,
+   "cat": 1
+  },
+  "potm1": {
+   "m": 1.0,
+   "cat": 1
+  },
+  "potm2": {
+   "m": 2.0,
+   "cat": 1
+  },
+  "potm3": {
+   "m": 3.0,
+   "cat": 1
+  },
+  "powder": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "power_comp": {
+   "m": 8.0,
+   "cat": 3
+  },
+  "ppie": {
+   "m": 6.0,
+   "cat": 3
+  },
+  "pulv": {
+   "m": 4.0,
+   "cat": 3
+  },
+  "radcola": {
+   "m": 4.0,
+   "cat": 3
+  },
+  "radcookie": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "radslime": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "radx": {
+   "m": 1.0,
+   "cat": 1
+  },
+  "rage": {
+   "m": 1.0,
+   "cat": 1
+  },
+  "ragu": {
+   "m": 5.0,
+   "cat": 3
+  },
+  "rainbow": {
+   "m": 5.0,
+   "cat": 3
+  },
+  "ratliver": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "rattail": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "reboot": {
+   "m": 2.0,
+   "cat": 1
+  },
+  "rep": {
+   "m": 3.0,
+   "cat": 1
+  },
+  "repair": {
+   "m": 3.0,
+   "cat": 3
+  },
+  "resscook": {
+   "m": 10.0,
+   "cat": 3
+  },
+  "retr": {
+   "m": 3.0,
+   "cat": 1
+  },
+  "rocket": {
+   "m": 20.0,
+   "cat": 2
+  },
+  "rollup": {
+   "m": 0.2,
+   "cat": 1
+  },
+  "runa": {
+   "m": 2.0,
+   "cat": 1
+  },
+  "salad": {
+   "m": 3.0,
+   "cat": 3
+  },
+  "sars": {
+   "m": 2.0,
+   "cat": 3
+  },
+  "saw": {
+   "m": 5.0,
+   "cat": 3
+  },
+  "sbombs": {
+   "m": 2.0,
+   "cat": 3
+  },
+  "schnapps": {
+   "m": 2.0,
+   "cat": 3
+  },
+  "science": {
+   "m": 3.0,
+   "cat": 3
+  },
+  "scrap": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "sensor": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "skin_comp": {
+   "m": 2.0,
+   "cat": 3
+  },
+  "smallguns": {
+   "m": 3.0,
+   "cat": 3
+  },
+  "sneak": {
+   "m": 3.0,
+   "cat": 3
+  },
+  "soup": {
+   "m": 5.0,
+   "cat": 3
+  },
+  "sparklecola": {
+   "m": 2.0,
+   "cat": 3
+  },
+  "spgren": {
+   "m": 10.0,
+   "cat": 2
+  },
+  "sphera": {
+   "m": 3.0,
+   "cat": 3
+  },
+  "spie": {
+   "m": 6.0,
+   "cat": 3
+  },
+  "spikenail": {
+   "m": 2.0,
+   "cat": 3
+  },
+  "spirt": {
+   "m": 2.0,
+   "cat": 3
+  },
+  "spring": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "spsalad": {
+   "m": 5.0,
+   "cat": 3
+  },
+  "stampede": {
+   "m": 1.0,
+   "cat": 1
+  },
+  "stardust": {
+   "m": 5.0,
+   "cat": 3
+  },
+  "stealth": {
+   "m": 3.0,
+   "cat": 1
+  },
+  "strap": {
+   "m": 3.0,
+   "cat": 3
+  },
+  "sugar": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "superc": {
+   "m": 5.0,
+   "cat": 3
+  },
+  "surgeon": {
+   "m": 3.0,
+   "cat": 1
+  },
+  "survival": {
+   "m": 3.0,
+   "cat": 3
+  },
+  "taintextract": {
+   "m": 5.0,
+   "cat": 3
+  },
+  "tape": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "tegg": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "tele": {
+   "m": 3.0,
+   "cat": 3
+  },
+  "timer": {
+   "m": 5.0,
+   "cat": 3
+  },
+  "tlaser": {
+   "m": 5.0,
+   "cat": 3
+  },
+  "tlevit": {
+   "m": 5.0,
+   "cat": 3
+  },
+  "tmed": {
+   "m": 3.0,
+   "cat": 3
+  },
+  "tnt": {
+   "m": 10.0,
+   "cat": 3
+  },
+  "tomato": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "tubing": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "turp": {
+   "m": 2.0,
+   "cat": 3
+  },
+  "ultradash": {
+   "m": 1.0,
+   "cat": 1
+  },
+  "uscan": {
+   "m": 5.0,
+   "cat": 3
+  },
+  "vampfang": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "whorn": {
+   "m": 5.0,
+   "cat": 3
+  },
+  "wingmembrane": {
+   "m": 1.0,
+   "cat": 3
+  },
+  "x37": {
+   "m": 10.0,
+   "cat": 2
+  },
+  "zebmine": {
+   "m": 12.0,
+   "cat": 2
+  }
+ },
+ "perks": {
+  "selflevit": [
+   {
+    "id": "maxmM",
+    "vd": 1.0
+   }
+  ],
+  "telemaster": [
+   {
+    "id": "maxmM",
+    "v1": 1.0
+   }
+  ],
+  "telethrow": [
+   {
+    "id": "maxmM",
+    "vd": 1.0
+   }
+  ],
+  "spell_port": [
+   {
+    "id": "maxm1",
+    "v1": 10.0
+   }
+  ],
+  "diel": [
+   {
+    "id": "maxmM",
+    "v1": 1.0
+   },
+   {
+    "id": "maxm1",
+    "v1": 10.0
+   }
+  ],
+  "warlock": [
+   {
+    "id": "maxmM",
+    "vd": 1.0
+   }
+  ],
+  "oak": [
+   {
+    "id": "maxmW",
+    "v1": 1.0
+   }
+  ],
+  "stonewall": [
+   {
+    "id": "maxmW",
+    "v1": 1.0
+   }
+  ],
+  "acute": [
+   {
+    "id": "maxmW",
+    "v1": 2.0
+   }
+  ],
+  "stunning": [
+   {
+    "id": "maxmW",
+    "v1": 2.0
+   }
+  ],
+  "mmaster": [
+   {
+    "id": "maxmW",
+    "v1": 1.0
+   }
+  ],
+  "pistol": [
+   {
+    "id": "maxmW",
+    "v1": 1.0
+   },
+   {
+    "id": "maxm2",
+    "v1": 200.0
+   }
+  ],
+  "reinforced": [
+   {
+    "id": "maxm2",
+    "v1": 200.0
+   }
+  ],
+  "shot": [
+   {
+    "id": "maxmW",
+    "v1": 1.0
+   },
+   {
+    "id": "maxm2",
+    "v1": 100.0
+   }
+  ],
+  "commando": [
+   {
+    "id": "maxmW",
+    "v1": 1.0
+   },
+   {
+    "id": "maxm2",
+    "v1": 100.0
+   }
+  ],
+  "hardness": [
+   {
+    "id": "maxmW",
+    "v1": 1.0
+   },
+   {
+    "id": "maxm2",
+    "v1": 100.0
+   }
+  ],
+  "perf": [
+   {
+    "id": "maxm2",
+    "v1": 200.0
+   }
+  ],
+  "antifire": [
+   {
+    "id": "maxm2",
+    "v1": 200.0
+   }
+  ],
+  "laser": [
+   {
+    "id": "maxmW",
+    "v1": 1.0
+   },
+   {
+    "id": "maxm2",
+    "v1": 100.0
+   }
+  ],
+  "plasma": [
+   {
+    "id": "maxmW",
+    "v1": 1.0
+   },
+   {
+    "id": "maxm2",
+    "v1": 100.0
+   }
+  ],
+  "pyro": [
+   {
+    "id": "maxmW",
+    "v1": 1.0
+   },
+   {
+    "id": "maxm2",
+    "v1": 200.0
+   }
+  ],
+  "recyc": [
+   {
+    "id": "maxm2",
+    "v1": 300.0
+   }
+  ],
+  "desintegr": [
+   {
+    "id": "maxmW",
+    "v1": 1.0
+   },
+   {
+    "id": "maxm2",
+    "v1": 100.0
+   }
+  ],
+  "fastreload": [
+   {
+    "id": "maxm2",
+    "v1": 300.0
+   }
+  ],
+  "rungun": [
+   {
+    "id": "maxmW",
+    "v1": 1.0
+   },
+   {
+    "id": "maxm2",
+    "v1": 100.0
+   }
+  ],
+  "composure": [
+   {
+    "id": "maxmW",
+    "v1": 1.0
+   },
+   {
+    "id": "maxm2",
+    "v1": 100.0
+   }
+  ],
+  "rifle": [
+   {
+    "id": "maxm2",
+    "v1": 200.0
+   }
+  ],
+  "bigsize": [
+   {
+    "id": "maxmW",
+    "v1": 1.0
+   },
+   {
+    "id": "maxm2",
+    "v1": 100.0
+   }
+  ],
+  "babah": [
+   {
+    "id": "maxm2",
+    "v1": 300.0
+   }
+  ],
+  "grenader": [
+   {
+    "id": "maxm2",
+    "v1": 200.0
+   }
+  ],
+  "zona": [
+   {
+    "id": "maxm2",
+    "v1": 200.0
+   }
+  ],
+  "sapper": [
+   {
+    "id": "maxm2",
+    "v1": 200.0
+   }
+  ],
+  "friendly": [
+   {
+    "id": "maxm2",
+    "v1": 300.0
+   }
+  ],
+  "fortune": [
+   {
+    "id": "maxm3",
+    "vd": 100.0
+   }
+  ],
+  "infiltrator": [
+   {
+    "id": "maxm3",
+    "v1": 200.0
+   }
+  ],
+  "freel": [
+   {
+    "id": "maxm2",
+    "v1": 200.0
+   }
+  ],
+  "entomolog": [
+   {
+    "id": "maxm3",
+    "v1": 200.0
+   }
+  ],
+  "coolhacker": [
+   {
+    "id": "maxm1",
+    "v1": 10.0
+   }
+  ],
+  "robot": [
+   {
+    "id": "maxm1",
+    "v1": 10.0
+   }
+  ],
+  "security": [
+   {
+    "id": "maxm1",
+    "v1": 10.0
+   }
+  ],
+  "mathlogic": [
+   {
+    "id": "maxm1",
+    "vd": 10.0
+   }
+  ],
+  "remont": [
+   {
+    "id": "maxmW",
+    "v1": 1.0
+   },
+   {
+    "id": "maxm2",
+    "v1": 100.0
+   }
+  ],
+  "sparepart": [
+   {
+    "id": "maxm3",
+    "v1": 100.0
+   }
+  ],
+  "uparmor": [
+   {
+    "id": "maxm3",
+    "vd": 50.0
+   }
+  ],
+  "durable": [
+   {
+    "id": "maxm3",
+    "v1": 100.0
+   }
+  ],
+  "metabol": [
+   {
+    "id": "maxm1",
+    "v1": 10.0
+   }
+  ],
+  "anatomy": [
+   {
+    "id": "maxmW",
+    "v1": 1.0
+   }
+  ],
+  "longtime": [
+   {
+    "id": "maxm1",
+    "v1": 10.0
+   }
+  ],
+  "fightstim": [
+   {
+    "id": "maxm1",
+    "v1": 10.0
+   }
+  ],
+  "jump": [
+   {
+    "id": "maxm3",
+    "v1": 100.0
+   }
+  ],
+  "lightstep": [
+   {
+    "id": "maxm3",
+    "v1": 100.0
+   }
+  ],
+  "dexter": [
+   {
+    "id": "maxm3",
+    "vd": 100.0
+   }
+  ],
+  "stamina": [
+   {
+    "id": "maxm2",
+    "v1": 200.0
+   },
+   {
+    "id": "maxm3",
+    "v1": 100.0
+   }
+  ],
+  "envir": [
+   {
+    "id": "maxm1",
+    "v1": 10.0
+   },
+   {
+    "id": "maxm3",
+    "v1": 100.0
+   }
+  ],
+  "wild": [
+   {
+    "id": "maxm1",
+    "v1": 10.0
+   },
+   {
+    "id": "maxm3",
+    "v1": 100.0
+   }
+  ],
+  "purifier": [
+   {
+    "id": "maxm2",
+    "v1": 200.0
+   }
+  ],
+  "potmaster": [
+   {
+    "id": "maxm1",
+    "v1": 10.0
+   }
+  ],
+  "radchild": [
+   {
+    "id": "maxm3",
+    "v1": 100.0
+   }
+  ],
+  "econom": [
+   {
+    "id": "maxm1",
+    "v1": 10.0
+   },
+   {
+    "id": "maxm2",
+    "v1": 100.0
+   },
+   {
+    "id": "maxm3",
+    "v1": 100.0
+   }
+  ],
+  "action": [
+   {
+    "id": "maxm1",
+    "vd": 10.0
+   },
+   {
+    "id": "maxm2",
+    "vd": 100.0
+   }
+  ],
+  "powerkick": [
+   {
+    "id": "maxm3",
+    "v1": 100.0
+   }
+  ],
+  "empathy": [
+   {
+    "id": "maxm1",
+    "vd": 10.0
+   }
+  ],
+  "potion_consc": [
+   {
+    "id": "maxmM",
+    "vd": 3.0
+   }
+  ]
+ }
+}

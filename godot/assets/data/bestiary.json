@@ -1,0 +1,3959 @@
+{
+ "units": [
+  {
+   "id": "pony",
+   "cat": "1"
+  },
+  {
+   "id": "raider",
+   "cat": "2"
+  },
+  {
+   "id": "raider1",
+   "cat": "3",
+   "stats": {
+    "hp": "50",
+    "aqual": "0.5",
+    "skill": "0.8",
+    "visdam": "1",
+    "damage": "11"
+   },
+   "comb": true,
+   "w": [
+    [
+     "cknife",
+     15.0
+    ],
+    [
+     "mach",
+     16.0
+    ],
+    [
+     "armature",
+     11.0
+    ],
+    [
+     "chopper",
+     14.0
+    ],
+    [
+     "zknife",
+     12.0
+    ],
+    [
+     "knife",
+     9.0
+    ]
+   ]
+  },
+  {
+   "id": "raider2",
+   "cat": "3",
+   "stats": {
+    "hp": "40",
+    "aqual": "0.5",
+    "dexter": "1.2",
+    "skill": "0.8",
+    "visdam": "1",
+    "damage": "10"
+   },
+   "comb": true,
+   "w": [
+    [
+     "mach",
+     16.0
+    ],
+    [
+     "bat",
+     10.0
+    ],
+    [
+     "chopper",
+     14.0
+    ],
+    [
+     "armature",
+     11.0
+    ],
+    [
+     "spear",
+     32.0
+    ]
+   ]
+  },
+  {
+   "id": "raider3",
+   "cat": "3",
+   "stats": {
+    "hp": "60",
+    "aqual": "0.5",
+    "armor": "15",
+    "dexter": "0.9",
+    "skill": "0.8",
+    "visdam": "1",
+    "damage": "15"
+   },
+   "comb": true,
+   "w": [
+    [
+     "pipe",
+     26.0
+    ],
+    [
+     "bat",
+     10.0
+    ]
+   ],
+   "vulner": [
+    [
+     5,
+     0.5
+    ]
+   ]
+  },
+  {
+   "id": "raider4",
+   "cat": "3",
+   "stats": {
+    "hp": "60",
+    "aqual": "0.5",
+    "armor": "3",
+    "dexter": "1.2",
+    "skill": "0.8",
+    "visdam": "1",
+    "damage": "18"
+   },
+   "comb": true,
+   "w": [
+    [
+     "hammer",
+     44.0
+    ],
+    [
+     "axe",
+     34.0
+    ],
+    [
+     "mace",
+     30.0
+    ],
+    [
+     "shovel",
+     18.0
+    ]
+   ]
+  },
+  {
+   "id": "raider5",
+   "cat": "3",
+   "stats": {
+    "hp": "50",
+    "aqual": "0.5",
+    "dexter": "0.9",
+    "skill": "0.8",
+    "visdam": "1",
+    "damage": "15"
+   },
+   "comb": true,
+   "w": [
+    [
+     "smg10",
+     10.0
+    ],
+    [
+     "smg9",
+     7.0
+    ],
+    [
+     "p10mm",
+     11.0
+    ],
+    [
+     "p9mm",
+     8.0
+    ],
+    [
+     "r32",
+     14.0
+    ]
+   ]
+  },
+  {
+   "id": "raider6",
+   "cat": "3",
+   "stats": {
+    "hp": "80",
+    "aqual": "0.5",
+    "armor": "2",
+    "dexter": "0.9",
+    "skill": "1",
+    "visdam": "1",
+    "damage": "10"
+   },
+   "comb": true,
+   "w": [
+    [
+     "shotgun",
+     9.0
+    ],
+    [
+     "lshot",
+     8.0
+    ],
+    [
+     "oldshot",
+     6.0
+    ]
+   ]
+  },
+  {
+   "id": "raider7",
+   "cat": "3",
+   "stats": {
+    "hp": "100",
+    "aqual": "0.75",
+    "armor": "3",
+    "skill": "1.2",
+    "observ": "3",
+    "visdam": "1",
+    "damage": "18"
+   },
+   "comb": true,
+   "w": [
+    [
+     "winchester",
+     36.0
+    ],
+    [
+     "assr",
+     9.0
+    ],
+    [
+     "oldr",
+     16.0
+    ],
+    [
+     "hunt",
+     22.0
+    ]
+   ]
+  },
+  {
+   "id": "raider8",
+   "cat": "3",
+   "stats": {
+    "hp": "80",
+    "aqual": "0.5",
+    "marmor": "5",
+    "dexter": "0.9",
+    "skill": "0.8",
+    "visdam": "1",
+    "damage": "10"
+   },
+   "comb": true,
+   "w": [
+    [
+     "molotov",
+     20.0
+    ],
+    [
+     "flamer",
+     2.5
+    ],
+    [
+     "flaregun",
+     15.0
+    ]
+   ],
+   "vulner": [
+    [
+     3,
+     0.5
+    ]
+   ]
+  },
+  {
+   "id": "raider9",
+   "cat": "3",
+   "stats": {
+    "hp": "60",
+    "aqual": "0.5",
+    "dexter": "1.2",
+    "skill": "0.8",
+    "visdam": "1",
+    "damage": "15"
+   },
+   "comb": true,
+   "w": [
+    [
+     "hgren",
+     110.0
+    ],
+    [
+     "grenade",
+     150.0
+    ]
+   ],
+   "vulner": [
+    [
+     4,
+     0.5
+    ]
+   ]
+  },
+  {
+   "id": "bossraider",
+   "cat": "3",
+   "stats": {
+    "hp": "2000",
+    "aqual": "0.25",
+    "armor": "10",
+    "dexter": "0.5",
+    "skill": "1.2",
+    "damage": "19",
+    "dkill": "0"
+   },
+   "comb": true,
+   "w": [
+    [
+     "flamer",
+     2.5
+    ],
+    [
+     "assr",
+     9.0
+    ]
+   ],
+   "vulner": [
+    [
+     3,
+     0.3
+    ]
+   ]
+  },
+  {
+   "id": "slaver",
+   "cat": "2"
+  },
+  {
+   "id": "slaver1",
+   "cat": "3",
+   "stats": {
+    "hp": "80",
+    "aqual": "0.65",
+    "armor": "5",
+    "dexter": "1.2",
+    "skill": "1",
+    "observ": "3",
+    "visdam": "1",
+    "damage": "20"
+   },
+   "comb": true,
+   "w": [
+    [
+     "cknife",
+     15.0
+    ],
+    [
+     "mach",
+     16.0
+    ],
+    [
+     "hunt",
+     22.0
+    ],
+    [
+     "lshot",
+     8.0
+    ],
+    [
+     "zknife",
+     12.0
+    ],
+    [
+     "pipe",
+     26.0
+    ]
+   ]
+  },
+  {
+   "id": "slaver2",
+   "cat": "3",
+   "stats": {
+    "hp": "100",
+    "aqual": "0.65",
+    "armor": "5",
+    "skill": "1",
+    "observ": "6",
+    "visdam": "1",
+    "damage": "18"
+   },
+   "comb": true,
+   "w": [
+    [
+     "sledge",
+     75.0
+    ],
+    [
+     "hammer",
+     44.0
+    ],
+    [
+     "p308c",
+     26.0
+    ],
+    [
+     "revo",
+     36.0
+    ],
+    [
+     "r375",
+     24.0
+    ],
+    [
+     "smg10",
+     10.0
+    ],
+    [
+     "spear",
+     32.0
+    ]
+   ]
+  },
+  {
+   "id": "slaver3",
+   "cat": "3",
+   "stats": {
+    "hp": "110",
+    "aqual": "0.75",
+    "armor": "5",
+    "dexter": "1.2",
+    "skill": "1",
+    "observ": "6",
+    "visdam": "1",
+    "damage": "20"
+   },
+   "comb": true,
+   "w": [
+    [
+     "lmg",
+     12.0
+    ],
+    [
+     "zebr",
+     14.0
+    ],
+    [
+     "carbine",
+     12.0
+    ],
+    [
+     "assr",
+     9.0
+    ],
+    [
+     "zsword",
+     24.0
+    ],
+    [
+     "flamer",
+     2.5
+    ]
+   ]
+  },
+  {
+   "id": "slaver4",
+   "cat": "3",
+   "stats": {
+    "hp": "125",
+    "aqual": "0.65",
+    "armor": "10",
+    "marmor": "5",
+    "dexter": "0.9",
+    "skill": "1.2",
+    "observ": "3",
+    "visdam": "1",
+    "damage": "25"
+   },
+   "comb": true,
+   "w": [
+    [
+     "pshot",
+     12.0
+    ],
+    [
+     "saf9",
+     10.0
+    ],
+    [
+     "shotgun",
+     9.0
+    ],
+    [
+     "lshot",
+     8.0
+    ],
+    [
+     "prism",
+     8.0
+    ]
+   ]
+  },
+  {
+   "id": "slaver5",
+   "cat": "3",
+   "stats": {
+    "hp": "150",
+    "aqual": "0.8",
+    "armor": "15",
+    "marmor": "10",
+    "dexter": "0.8",
+    "skill": "1.5",
+    "observ": "3",
+    "visdam": "1",
+    "damage": "25"
+   },
+   "comb": true,
+   "w": [
+    [
+     "anti",
+     85.0
+    ],
+    [
+     "brushgun",
+     58.0
+    ],
+    [
+     "sniper",
+     40.0
+    ],
+    [
+     "plar",
+     44.0
+    ],
+    [
+     "lasr",
+     18.0
+    ],
+    [
+     "winchester",
+     36.0
+    ]
+   ]
+  },
+  {
+   "id": "slaver6",
+   "cat": "3",
+   "stats": {
+    "hp": "200",
+    "aqual": "0.8",
+    "armor": "5",
+    "marmor": "15",
+    "skill": "1.5",
+    "observ": "6",
+    "visdam": "1",
+    "damage": "25"
+   },
+   "comb": true,
+   "w": [
+    [
+     "rail",
+     66.0
+    ],
+    [
+     "nova",
+     25.0
+    ],
+    [
+     "lassn",
+     30.0
+    ],
+    [
+     "plamg",
+     17.0
+    ],
+    [
+     "plam",
+     32.0
+    ],
+    [
+     "sparkl",
+     14.0
+    ]
+   ]
+  },
+  {
+   "id": "zebra",
+   "cat": "2"
+  },
+  {
+   "id": "zebra1",
+   "cat": "3",
+   "stats": {
+    "hp": "100",
+    "dexter": "1.5",
+    "skill": "1.2",
+    "observ": "12",
+    "visdam": "1",
+    "damage": "20"
+   },
+   "comb": true,
+   "w": [
+    [
+     "p127mm",
+     32.0
+    ],
+    [
+     "elsword",
+     30.0
+    ],
+    [
+     "p308c",
+     26.0
+    ],
+    [
+     "zsword",
+     24.0
+    ],
+    [
+     "cknife",
+     15.0
+    ],
+    [
+     "p10s",
+     9.0
+    ]
+   ],
+   "vulner": [
+    [
+     5,
+     0.8
+    ]
+   ]
+  },
+  {
+   "id": "zebra2",
+   "cat": "3",
+   "stats": {
+    "hp": "130",
+    "dexter": "1.2",
+    "skill": "1.2",
+    "observ": "8",
+    "visdam": "1",
+    "damage": "16"
+   },
+   "comb": true,
+   "w": [
+    [
+     "plamg",
+     17.0
+    ],
+    [
+     "termo",
+     58.0
+    ],
+    [
+     "sparkl",
+     14.0
+    ],
+    [
+     "plar",
+     44.0
+    ],
+    [
+     "lasr",
+     18.0
+    ],
+    [
+     "plap",
+     20.0
+    ]
+   ],
+   "vulner": [
+    [
+     3,
+     0.7
+    ],
+    [
+     4,
+     0.5
+    ]
+   ]
+  },
+  {
+   "id": "zebra3",
+   "cat": "3",
+   "stats": {
+    "hp": "100",
+    "dexter": "1.5",
+    "skill": "1.3",
+    "observ": "12",
+    "visdam": "1",
+    "damage": "14"
+   },
+   "comb": true,
+   "w": [
+    [
+     "anti",
+     85.0
+    ],
+    [
+     "grom",
+     76.0
+    ],
+    [
+     "rail",
+     66.0
+    ],
+    [
+     "lassn",
+     30.0
+    ],
+    [
+     "sniper",
+     40.0
+    ]
+   ],
+   "vulner": [
+    [
+     5,
+     0.7
+    ],
+    [
+     6,
+     0.8
+    ]
+   ]
+  },
+  {
+   "id": "zebra4",
+   "cat": "3",
+   "stats": {
+    "hp": "120",
+    "aqual": "0.7",
+    "armor": "10",
+    "marmor": "10",
+    "dexter": "1.2",
+    "skill": "1.2",
+    "observ": "8",
+    "visdam": "1",
+    "damage": "20"
+   },
+   "comb": true,
+   "w": [
+    [
+     "lmg",
+     12.0
+    ],
+    [
+     "pshot",
+     12.0
+    ],
+    [
+     "zebr",
+     14.0
+    ]
+   ],
+   "vulner": [
+    [
+     1,
+     0.8
+    ],
+    [
+     2,
+     0.8
+    ]
+   ]
+  },
+  {
+   "id": "zebra5",
+   "cat": "3",
+   "stats": {
+    "hp": "200",
+    "aqual": "0.7",
+    "armor": "10",
+    "marmor": "20",
+    "dexter": "1",
+    "skill": "1.8",
+    "observ": "6",
+    "visdam": "1",
+    "damage": "60"
+   },
+   "comb": true,
+   "w": [
+    [
+     "lsword",
+     45.0
+    ],
+    [
+     "sword",
+     35.0
+    ],
+    [
+     "zsword",
+     24.0
+    ],
+    [
+     "lmg",
+     12.0
+    ],
+    [
+     "zebr",
+     14.0
+    ]
+   ],
+   "vulner": [
+    [
+     5,
+     0.7
+    ]
+   ]
+  },
+  {
+   "id": "bossnecr",
+   "cat": "3",
+   "stats": {
+    "hp": "3200",
+    "skill": "2",
+    "visdam": "2",
+    "damage": "30",
+    "sdamage": "22",
+    "stipdam": "16",
+    "dkill": "0"
+   },
+   "comb": true,
+   "w": [],
+   "vulner": []
+  },
+  {
+   "id": "merc",
+   "cat": "2"
+  },
+  {
+   "id": "merc1",
+   "cat": "3",
+   "stats": {
+    "hp": "80",
+    "aqual": "0.65",
+    "armor": "5",
+    "marmor": "5",
+    "dexter": "1.8",
+    "skill": "1",
+    "observ": "10",
+    "visdam": "1",
+    "damage": "20"
+   },
+   "comb": true,
+   "w": [
+    [
+     "mercgr",
+     250.0
+    ],
+    [
+     "psc",
+     55.0
+    ],
+    [
+     "p127mm",
+     32.0
+    ],
+    [
+     "p308c",
+     26.0
+    ],
+    [
+     "revo",
+     36.0
+    ]
+   ],
+   "vulner": [
+    [
+     3,
+     1.2
+    ]
+   ]
+  },
+  {
+   "id": "merc2",
+   "cat": "3",
+   "stats": {
+    "hp": "120",
+    "aqual": "0.75",
+    "armor": "10",
+    "marmor": "10",
+    "dexter": "1.5",
+    "skill": "1",
+    "observ": "5",
+    "visdam": "1",
+    "damage": "20"
+   },
+   "comb": true,
+   "w": [
+    [
+     "mercgr",
+     250.0
+    ],
+    [
+     "pshot",
+     12.0
+    ],
+    [
+     "zebr",
+     14.0
+    ],
+    [
+     "nova",
+     25.0
+    ],
+    [
+     "plam",
+     32.0
+    ],
+    [
+     "saf9",
+     10.0
+    ],
+    [
+     "shotgun",
+     9.0
+    ],
+    [
+     "carbine",
+     12.0
+    ],
+    [
+     "prism",
+     8.0
+    ]
+   ],
+   "vulner": [
+    [
+     1,
+     0.75
+    ],
+    [
+     2,
+     0.75
+    ],
+    [
+     3,
+     0.75
+    ]
+   ]
+  },
+  {
+   "id": "merc3",
+   "cat": "3",
+   "stats": {
+    "hp": "140",
+    "aqual": "0.75",
+    "armor": "15",
+    "marmor": "5",
+    "dexter": "1.3",
+    "skill": "1",
+    "observ": "8",
+    "visdam": "1",
+    "damage": "20"
+   },
+   "comb": true,
+   "w": [
+    [
+     "mercgr",
+     250.0
+    ],
+    [
+     "cflamer",
+     6.0
+    ],
+    [
+     "autor",
+     30.0
+    ],
+    [
+     "gatp",
+     25.0
+    ],
+    [
+     "quick",
+     13.0
+    ],
+    [
+     "gatl",
+     12.0
+    ],
+    [
+     "plamg",
+     17.0
+    ],
+    [
+     "lmg",
+     12.0
+    ],
+    [
+     "minigun",
+     7.0
+    ]
+   ],
+   "vulner": [
+    [
+     1,
+     0.85
+    ],
+    [
+     2,
+     0.85
+    ],
+    [
+     4,
+     0.85
+    ]
+   ]
+  },
+  {
+   "id": "merc4",
+   "cat": "3",
+   "stats": {
+    "hp": "100",
+    "aqual": "0.65",
+    "armor": "5",
+    "marmor": "10",
+    "dexter": "1.5",
+    "skill": "1.3",
+    "observ": "10",
+    "visdam": "1",
+    "damage": "20"
+   },
+   "comb": true,
+   "w": [
+    [
+     "mercgr",
+     250.0
+    ],
+    [
+     "grom",
+     76.0
+    ],
+    [
+     "anti",
+     85.0
+    ],
+    [
+     "rail",
+     66.0
+    ],
+    [
+     "lassn",
+     30.0
+    ],
+    [
+     "sniper",
+     40.0
+    ]
+   ],
+   "vulner": [
+    [
+     5,
+     0.85
+    ],
+    [
+     6,
+     0.85
+    ],
+    [
+     9,
+     0.85
+    ]
+   ]
+  },
+  {
+   "id": "merc5",
+   "cat": "3",
+   "stats": {
+    "hp": "170",
+    "aqual": "0.8",
+    "armor": "15",
+    "marmor": "15",
+    "dexter": "1.3",
+    "skill": "1.6",
+    "observ": "5",
+    "visdam": "1",
+    "damage": "20",
+    "tipdam": "1"
+   },
+   "comb": true,
+   "w": [
+    [
+     "mercgr",
+     250.0
+    ],
+    [
+     "anti",
+     85.0
+    ],
+    [
+     "lmg",
+     12.0
+    ],
+    [
+     "hmg",
+     18.0
+    ],
+    [
+     "gatl",
+     12.0
+    ],
+    [
+     "gatp",
+     25.0
+    ],
+    [
+     "pshot",
+     12.0
+    ]
+   ],
+   "vulner": [
+    [
+     1,
+     0.75
+    ],
+    [
+     2,
+     0.75
+    ],
+    [
+     5,
+     0.85
+    ],
+    [
+     6,
+     0.85
+    ]
+   ]
+  },
+  {
+   "id": "ranger",
+   "cat": "2"
+  },
+  {
+   "id": "ranger1",
+   "cat": "3",
+   "stats": {
+    "hp": "180",
+    "aqual": "1",
+    "armor": "25",
+    "marmor": "15",
+    "dexter": "0.8",
+    "skill": "1.2",
+    "observ": "6",
+    "visdam": "1",
+    "damage": "16"
+   },
+   "comb": true,
+   "w": [
+    [
+     "robomlau",
+     200.0
+    ],
+    [
+     "robogas",
+     20.0
+    ],
+    [
+     "glau",
+     120.0
+    ],
+    [
+     "lmg",
+     12.0
+    ],
+    [
+     "minigun",
+     7.0
+    ]
+   ]
+  },
+  {
+   "id": "ranger2",
+   "cat": "3",
+   "stats": {
+    "hp": "210",
+    "aqual": "1",
+    "armor": "20",
+    "marmor": "25",
+    "dexter": "0.8",
+    "skill": "1.5",
+    "observ": "8",
+    "visdam": "1",
+    "damage": "24"
+   },
+   "comb": true,
+   "w": [
+    [
+     "robomlau",
+     200.0
+    ],
+    [
+     "robogas",
+     20.0
+    ],
+    [
+     "cflamer",
+     6.0
+    ],
+    [
+     "gatl",
+     12.0
+    ],
+    [
+     "gatp",
+     25.0
+    ]
+   ],
+   "vulner": [
+    [
+     0,
+     0.8
+    ],
+    [
+     1,
+     0.8
+    ],
+    [
+     2,
+     0.8
+    ]
+   ]
+  },
+  {
+   "id": "ranger3",
+   "cat": "3",
+   "stats": {
+    "hp": "250",
+    "aqual": "1",
+    "armor": "25",
+    "marmor": "25",
+    "dexter": "0.8",
+    "skill": "1.8",
+    "observ": "10",
+    "visdam": "1",
+    "damage": "30"
+   },
+   "comb": true,
+   "w": [
+    [
+     "robomlau",
+     200.0
+    ],
+    [
+     "robogas",
+     20.0
+    ],
+    [
+     "gatp",
+     25.0
+    ],
+    [
+     "hmg",
+     18.0
+    ],
+    [
+     "antidrak",
+     44.0
+    ]
+   ],
+   "vulner": [
+    [
+     5,
+     0.8
+    ],
+    [
+     6,
+     0.8
+    ],
+    [
+     9,
+     0.8
+    ]
+   ]
+  },
+  {
+   "id": "encl",
+   "cat": "2"
+  },
+  {
+   "id": "encl1",
+   "cat": "3",
+   "stats": {
+    "hp": "120",
+    "aqual": "0.5",
+    "armor": "5",
+    "marmor": "5",
+    "dexter": "1.2",
+    "skill": "1.6",
+    "visdam": "1",
+    "damage": "16"
+   },
+   "comb": true,
+   "w": [
+    [
+     "plar",
+     44.0
+    ],
+    [
+     "sparkl",
+     14.0
+    ],
+    [
+     "cryo",
+     18.0
+    ],
+    [
+     "prism",
+     8.0
+    ]
+   ],
+   "vulner": [
+    [
+     9,
+     0.75
+    ]
+   ]
+  },
+  {
+   "id": "encl2",
+   "cat": "3",
+   "stats": {
+    "hp": "140",
+    "aqual": "0.9",
+    "armor": "10",
+    "marmor": "15",
+    "dexter": "1.8",
+    "skill": "1.6",
+    "observ": "20",
+    "visdam": "1",
+    "damage": "16"
+   },
+   "comb": true,
+   "w": [
+    [
+     "nova",
+     25.0
+    ],
+    [
+     "plam",
+     32.0
+    ],
+    [
+     "lassn",
+     30.0
+    ],
+    [
+     "grom",
+     76.0
+    ],
+    [
+     "plamg",
+     17.0
+    ]
+   ],
+   "vulner": [
+    [
+     5,
+     0.7
+    ],
+    [
+     6,
+     0.85
+    ],
+    [
+     7,
+     0.5
+    ]
+   ]
+  },
+  {
+   "id": "encl3",
+   "cat": "3",
+   "stats": {
+    "hp": "180",
+    "aqual": "1",
+    "armor": "15",
+    "marmor": "25",
+    "dexter": "1.6",
+    "skill": "1.8",
+    "observ": "8",
+    "visdam": "1",
+    "damage": "40",
+    "tipdam": "1"
+   },
+   "comb": true,
+   "w": [
+    [
+     "plamg",
+     17.0
+    ],
+    [
+     "gatl",
+     12.0
+    ],
+    [
+     "termo",
+     58.0
+    ],
+    [
+     "grom",
+     76.0
+    ],
+    [
+     "nova",
+     25.0
+    ]
+   ],
+   "vulner": [
+    [
+     5,
+     0.5
+    ],
+    [
+     6,
+     0.75
+    ],
+    [
+     7,
+     0.5
+    ]
+   ]
+  },
+  {
+   "id": "encl4",
+   "cat": "3",
+   "stats": {
+    "hp": "220",
+    "aqual": "1",
+    "armor": "25",
+    "marmor": "25",
+    "dexter": "1.6",
+    "skill": "2",
+    "observ": "10",
+    "visdam": "1",
+    "damage": "50",
+    "tipdam": "6"
+   },
+   "comb": true,
+   "w": [
+    [
+     "gatl",
+     12.0
+    ],
+    [
+     "gatp",
+     25.0
+    ],
+    [
+     "rail",
+     66.0
+    ],
+    [
+     "grom",
+     76.0
+    ],
+    [
+     "quick",
+     13.0
+    ]
+   ],
+   "vulner": [
+    [
+     5,
+     0.5
+    ],
+    [
+     6,
+     0.75
+    ],
+    [
+     7,
+     0.5
+    ]
+   ]
+  },
+  {
+   "id": "bossencl",
+   "cat": "3",
+   "stats": {
+    "hp": "1800",
+    "aqual": "1",
+    "skill": "2",
+    "damage": "45",
+    "dkill": "0"
+   },
+   "comb": true,
+   "w": [],
+   "vulner": [
+    [
+     5,
+     0.7
+    ],
+    [
+     6,
+     0.85
+    ],
+    [
+     7,
+     0.5
+    ]
+   ]
+  },
+  {
+   "id": "monster",
+   "cat": "1"
+  },
+  {
+   "id": "alicorn",
+   "cat": "2"
+  },
+  {
+   "id": "alicorn1",
+   "cat": "3",
+   "stats": {
+    "hp": "350",
+    "observ": "10",
+    "visdam": "3",
+    "damage": "18",
+    "sdamage": "50",
+    "stipdam": "9"
+   },
+   "comb": true,
+   "w": [],
+   "vulner": [
+    [
+     6,
+     0.5
+    ],
+    [
+     7,
+     0.5
+    ],
+    [
+     10,
+     0.25
+    ],
+    [
+     11,
+     0.5
+    ]
+   ]
+  },
+  {
+   "id": "alicorn2",
+   "cat": "3",
+   "stats": {
+    "hp": "250",
+    "observ": "5",
+    "visdam": "3",
+    "damage": "15",
+    "sdamage": "50",
+    "stipdam": "9"
+   },
+   "comb": true,
+   "w": [],
+   "vulner": [
+    [
+     5,
+     0.5
+    ],
+    [
+     7,
+     0.5
+    ],
+    [
+     9,
+     0.5
+    ],
+    [
+     10,
+     0.25
+    ]
+   ]
+  },
+  {
+   "id": "alicorn3",
+   "cat": "3",
+   "stats": {
+    "hp": "250",
+    "observ": "5",
+    "visdam": "3",
+    "damage": "12",
+    "sdamage": "50",
+    "stipdam": "9"
+   },
+   "comb": true,
+   "w": [],
+   "vulner": [
+    [
+     3,
+     0.5
+    ],
+    [
+     4,
+     0.5
+    ],
+    [
+     7,
+     0.5
+    ],
+    [
+     10,
+     0.25
+    ]
+   ]
+  },
+  {
+   "id": "bossalicorn",
+   "cat": "3",
+   "stats": {
+    "hp": "4500",
+    "visdam": "3",
+    "damage": "35",
+    "sdamage": "70",
+    "stipdam": "9",
+    "dkill": "0"
+   },
+   "comb": true,
+   "w": [
+    [
+     "aliblade",
+     24.0
+    ],
+    [
+     "alimray",
+     12.0
+    ]
+   ],
+   "vulner": [
+    [
+     7,
+     0.5
+    ],
+    [
+     10,
+     0.25
+    ]
+   ]
+  },
+  {
+   "id": "hellhound",
+   "cat": "2"
+  },
+  {
+   "id": "hellhound1",
+   "cat": "3",
+   "stats": {
+    "hp": "300",
+    "visdam": "1",
+    "damage": "100",
+    "tipdam": "14"
+   },
+   "comb": true,
+   "w": []
+  },
+  {
+   "id": "zombie",
+   "cat": "2"
+  },
+  {
+   "id": "zombie0",
+   "cat": "3",
+   "stats": {
+    "hp": "50",
+    "visdam": "1",
+    "damage": "14"
+   },
+   "comb": true,
+   "w": [],
+   "vulner": [
+    [
+     7,
+     0.0
+    ],
+    [
+     10,
+     0.25
+    ]
+   ]
+  },
+  {
+   "id": "zombie1",
+   "cat": "3",
+   "stats": {
+    "hp": "80",
+    "visdam": "1",
+    "damage": "15"
+   },
+   "comb": true,
+   "w": [],
+   "vulner": [
+    [
+     0,
+     0.75
+    ],
+    [
+     7,
+     0.0
+    ],
+    [
+     10,
+     0.25
+    ]
+   ]
+  },
+  {
+   "id": "zombie2",
+   "cat": "3",
+   "stats": {
+    "hp": "80",
+    "visdam": "1",
+    "damage": "18"
+   },
+   "comb": true,
+   "w": [],
+   "vulner": [
+    [
+     0,
+     0.75
+    ],
+    [
+     7,
+     0.0
+    ],
+    [
+     10,
+     0.25
+    ]
+   ]
+  },
+  {
+   "id": "zombie3",
+   "cat": "3",
+   "stats": {
+    "hp": "85",
+    "visdam": "3",
+    "damage": "15",
+    "sdamage": "15",
+    "stipdam": "7"
+   },
+   "comb": true,
+   "w": [],
+   "vulner": [
+    [
+     0,
+     0.75
+    ],
+    [
+     7,
+     0.0
+    ],
+    [
+     10,
+     0.25
+    ]
+   ]
+  },
+  {
+   "id": "zombie4",
+   "cat": "3",
+   "stats": {
+    "hp": "100",
+    "visdam": "1",
+    "damage": "20"
+   },
+   "comb": true,
+   "w": [],
+   "vulner": [
+    [
+     0,
+     0.75
+    ],
+    [
+     5,
+     0.5
+    ],
+    [
+     7,
+     0.0
+    ],
+    [
+     10,
+     0.25
+    ]
+   ]
+  },
+  {
+   "id": "zombie5",
+   "cat": "3",
+   "stats": {
+    "hp": "140",
+    "aqual": "0.4",
+    "armor": "12",
+    "observ": "3",
+    "visdam": "1",
+    "damage": "25"
+   },
+   "comb": true,
+   "w": [],
+   "vulner": [
+    [
+     0,
+     0.75
+    ],
+    [
+     3,
+     0.5
+    ],
+    [
+     7,
+     0.0
+    ],
+    [
+     10,
+     0.25
+    ]
+   ]
+  },
+  {
+   "id": "zombie6",
+   "cat": "3",
+   "stats": {
+    "hp": "180",
+    "skin": "3",
+    "observ": "6",
+    "visdam": "3",
+    "damage": "30",
+    "sdamage": "20",
+    "stipdam": "10"
+   },
+   "comb": true,
+   "w": [],
+   "vulner": [
+    [
+     0,
+     0.75
+    ],
+    [
+     7,
+     0.0
+    ],
+    [
+     10,
+     0.0
+    ]
+   ]
+  },
+  {
+   "id": "zombie7",
+   "cat": "3",
+   "stats": {
+    "hp": "150",
+    "visdam": "3",
+    "damage": "30",
+    "tipdam": "16",
+    "sdamage": "15",
+    "stipdam": "16"
+   },
+   "comb": true,
+   "w": [],
+   "vulner": [
+    [
+     0,
+     0.5
+    ],
+    [
+     7,
+     0.0
+    ],
+    [
+     10,
+     0.25
+    ]
+   ]
+  },
+  {
+   "id": "zombie8",
+   "cat": "3",
+   "stats": {
+    "hp": "200",
+    "visdam": "3",
+    "damage": "35",
+    "sdamage": "25",
+    "stipdam": "19"
+   },
+   "comb": true,
+   "w": [],
+   "vulner": [
+    [
+     0,
+     0.5
+    ],
+    [
+     7,
+     0.0
+    ],
+    [
+     10,
+     0.25
+    ]
+   ]
+  },
+  {
+   "id": "zombie9",
+   "cat": "3",
+   "stats": {
+    "hp": "250",
+    "observ": "6",
+    "visdam": "1",
+    "damage": "50"
+   },
+   "comb": true,
+   "w": [],
+   "vulner": [
+    [
+     0,
+     0.5
+    ],
+    [
+     7,
+     0.0
+    ],
+    [
+     10,
+     0.25
+    ]
+   ]
+  },
+  {
+   "id": "bloat",
+   "cat": "2"
+  },
+  {
+   "id": "bloat0",
+   "cat": "3",
+   "stats": {
+    "hp": "8",
+    "dexter": "1.3",
+    "visdam": "1",
+    "damage": "4",
+    "tipdam": "14"
+   },
+   "comb": true,
+   "w": [],
+   "vulner": [
+    [
+     0,
+     0.5
+    ],
+    [
+     3,
+     1.25
+    ],
+    [
+     5,
+     1.25
+    ],
+    [
+     6,
+     1.25
+    ],
+    [
+     11,
+     1.25
+    ]
+   ]
+  },
+  {
+   "id": "bloat1",
+   "cat": "3",
+   "stats": {
+    "hp": "12",
+    "dexter": "1.3",
+    "visdam": "3",
+    "damage": "3",
+    "tipdam": "14",
+    "sdamage": "5",
+    "stipdam": "10"
+   },
+   "comb": true,
+   "w": [],
+   "vulner": [
+    [
+     0,
+     0.25
+    ],
+    [
+     3,
+     1.25
+    ],
+    [
+     5,
+     1.25
+    ],
+    [
+     6,
+     1.25
+    ],
+    [
+     10,
+     0.0
+    ],
+    [
+     11,
+     1.25
+    ]
+   ]
+  },
+  {
+   "id": "bloat2",
+   "cat": "3",
+   "stats": {
+    "hp": "14",
+    "dexter": "1.3",
+    "visdam": "3",
+    "damage": "3",
+    "tipdam": "14",
+    "sdamage": "3",
+    "stipdam": "14"
+   },
+   "comb": true,
+   "w": [],
+   "vulner": [
+    [
+     0,
+     0.25
+    ],
+    [
+     3,
+     1.25
+    ],
+    [
+     5,
+     1.25
+    ],
+    [
+     6,
+     1.25
+    ],
+    [
+     7,
+     0.0
+    ],
+    [
+     11,
+     1.25
+    ]
+   ]
+  },
+  {
+   "id": "bloat3",
+   "cat": "3",
+   "stats": {
+    "hp": "24",
+    "skin": "5",
+    "visdam": "1",
+    "damage": "9",
+    "tipdam": "14"
+   },
+   "comb": true,
+   "w": [],
+   "vulner": [
+    [
+     0,
+     0.25
+    ],
+    [
+     1,
+     0.75
+    ],
+    [
+     2,
+     0.75
+    ],
+    [
+     3,
+     0.75
+    ],
+    [
+     5,
+     0.75
+    ],
+    [
+     6,
+     0.75
+    ],
+    [
+     11,
+     0.75
+    ]
+   ]
+  },
+  {
+   "id": "bloat4",
+   "cat": "3",
+   "stats": {
+    "hp": "16",
+    "skin": "3",
+    "dexter": "1.2",
+    "visdam": "1",
+    "damage": "9",
+    "tipdam": "14"
+   },
+   "comb": true,
+   "w": [],
+   "vulner": [
+    [
+     0,
+     0.5
+    ]
+   ]
+  },
+  {
+   "id": "bloat5",
+   "cat": "3",
+   "stats": {
+    "hp": "30",
+    "dexter": "1.3",
+    "visdam": "3",
+    "damage": "15",
+    "tipdam": "14",
+    "sdamage": "15",
+    "stipdam": "19"
+   },
+   "comb": true,
+   "w": [],
+   "vulner": [
+    [
+     0,
+     0.25
+    ],
+    [
+     3,
+     1.25
+    ],
+    [
+     5,
+     1.25
+    ],
+    [
+     6,
+     1.25
+    ],
+    [
+     10,
+     0.0
+    ],
+    [
+     11,
+     1.25
+    ]
+   ]
+  },
+  {
+   "id": "bloat6",
+   "cat": "3",
+   "stats": {
+    "hp": "36",
+    "skin": "6",
+    "dexter": "1.3",
+    "visdam": "1",
+    "damage": "20",
+    "tipdam": "14"
+   },
+   "comb": true,
+   "w": [],
+   "vulner": [
+    [
+     0,
+     0.25
+    ]
+   ]
+  },
+  {
+   "id": "bloat10",
+   "cat": "3",
+   "stats": {
+    "hp": "500",
+    "skin": "6",
+    "visdam": "1",
+    "damage": "18",
+    "tipdam": "14",
+    "dkill": "0"
+   },
+   "comb": true,
+   "w": [],
+   "vulner": [
+    [
+     0,
+     0.75
+    ],
+    [
+     7,
+     0.0
+    ],
+    [
+     10,
+     0.0
+    ]
+   ]
+  },
+  {
+   "id": "ebloat",
+   "cat": "3",
+   "stats": {
+    "hp": "300",
+    "skin": "3",
+    "dexter": "0.5",
+    "visdam": "1",
+    "damage": "30",
+    "tipdam": "10",
+    "dkill": "1"
+   },
+   "comb": true,
+   "w": [],
+   "vulner": [
+    [
+     0,
+     0.5
+    ]
+   ]
+  },
+  {
+   "id": "other",
+   "cat": "2"
+  },
+  {
+   "id": "bloodwing",
+   "cat": "3",
+   "stats": {
+    "hp": "40",
+    "dexter": "1.2",
+    "visdam": "1",
+    "damage": "10",
+    "tipdam": "14"
+   },
+   "comb": true,
+   "w": [],
+   "vulner": [
+    [
+     3,
+     1.25
+    ]
+   ]
+  },
+  {
+   "id": "bloodwing2",
+   "cat": "3",
+   "stats": {
+    "hp": "120",
+    "dexter": "1.2",
+    "visdam": "1",
+    "damage": "20",
+    "tipdam": "14"
+   },
+   "comb": true,
+   "w": [],
+   "vulner": [
+    [
+     3,
+     1.25
+    ]
+   ]
+  },
+  {
+   "id": "fish1",
+   "cat": "3",
+   "stats": {
+    "hp": "20",
+    "dexter": "1.2",
+    "visdam": "1",
+    "damage": "7",
+    "tipdam": "14"
+   },
+   "comb": true,
+   "w": []
+  },
+  {
+   "id": "fish2",
+   "cat": "3",
+   "stats": {
+    "hp": "35",
+    "dexter": "1.2",
+    "visdam": "1",
+    "damage": "10",
+    "tipdam": "14"
+   },
+   "comb": true,
+   "w": []
+  },
+  {
+   "id": "fish3",
+   "cat": "3",
+   "stats": {
+    "hp": "100",
+    "dexter": "1.2",
+    "visdam": "1",
+    "damage": "20",
+    "tipdam": "14"
+   },
+   "comb": true,
+   "w": [],
+   "vulner": []
+  },
+  {
+   "id": "tarakan",
+   "cat": "3",
+   "stats": {
+    "hp": "8",
+    "visdam": "1",
+    "damage": "4",
+    "tipdam": "14"
+   },
+   "comb": true,
+   "w": []
+  },
+  {
+   "id": "rat",
+   "cat": "3",
+   "stats": {
+    "hp": "15",
+    "visdam": "1",
+    "damage": "6",
+    "tipdam": "14"
+   },
+   "comb": true,
+   "w": []
+  },
+  {
+   "id": "molerat",
+   "cat": "3",
+   "stats": {
+    "hp": "34",
+    "visdam": "1",
+    "damage": "10",
+    "tipdam": "14"
+   },
+   "comb": true,
+   "w": [],
+   "vulner": [
+    [
+     11,
+     0.5
+    ]
+   ]
+  },
+  {
+   "id": "scorp1",
+   "cat": "3",
+   "stats": {
+    "hp": "40",
+    "skin": "5",
+    "visdam": "1",
+    "damage": "7",
+    "tipdam": "14"
+   },
+   "comb": true,
+   "w": [],
+   "vulner": [
+    [
+     1,
+     0.5
+    ],
+    [
+     2,
+     0.75
+    ],
+    [
+     5,
+     0.5
+    ],
+    [
+     7,
+     0.5
+    ],
+    [
+     10,
+     0.5
+    ]
+   ]
+  },
+  {
+   "id": "scorp2",
+   "cat": "3",
+   "stats": {
+    "hp": "60",
+    "skin": "2",
+    "visdam": "1",
+    "damage": "10",
+    "tipdam": "14"
+   },
+   "comb": true,
+   "w": [],
+   "vulner": [
+    [
+     1,
+     0.5
+    ],
+    [
+     2,
+     0.75
+    ],
+    [
+     5,
+     0.5
+    ],
+    [
+     7,
+     0.5
+    ],
+    [
+     10,
+     0.5
+    ]
+   ]
+  },
+  {
+   "id": "scorp3",
+   "cat": "3",
+   "stats": {
+    "hp": "120",
+    "skin": "10",
+    "visdam": "1",
+    "damage": "32",
+    "tipdam": "14"
+   },
+   "comb": true,
+   "w": [],
+   "vulner": [
+    [
+     1,
+     0.5
+    ],
+    [
+     2,
+     0.75
+    ],
+    [
+     5,
+     0.5
+    ],
+    [
+     7,
+     0.5
+    ],
+    [
+     10,
+     0.5
+    ]
+   ]
+  },
+  {
+   "id": "ant1",
+   "cat": "3",
+   "stats": {
+    "hp": "16",
+    "skin": "2",
+    "dexter": "1.1",
+    "visdam": "1",
+    "damage": "7",
+    "tipdam": "14"
+   },
+   "comb": true,
+   "w": [],
+   "vulner": [
+    [
+     11,
+     1.5
+    ]
+   ]
+  },
+  {
+   "id": "ant2",
+   "cat": "3",
+   "stats": {
+    "hp": "32",
+    "skin": "4",
+    "visdam": "1",
+    "damage": "14",
+    "tipdam": "14"
+   },
+   "comb": true,
+   "w": [],
+   "vulner": [
+    [
+     11,
+     1.5
+    ]
+   ]
+  },
+  {
+   "id": "ant3",
+   "cat": "3",
+   "stats": {
+    "hp": "32",
+    "skin": "2",
+    "visdam": "3",
+    "damage": "7",
+    "tipdam": "14",
+    "sdamage": "2",
+    "stipdam": "3"
+   },
+   "comb": true,
+   "w": [],
+   "vulner": [
+    [
+     3,
+     0.25
+    ],
+    [
+     11,
+     1.5
+    ]
+   ]
+  },
+  {
+   "id": "eant",
+   "cat": "3",
+   "stats": {
+    "hp": "300",
+    "skin": "10",
+    "dexter": "0.5",
+    "visdam": "1",
+    "damage": "30",
+    "tipdam": "10",
+    "dkill": "0"
+   },
+   "comb": true,
+   "w": [],
+   "vulner": [
+    [
+     1,
+     0.5
+    ],
+    [
+     2,
+     0.5
+    ],
+    [
+     4,
+     3.0
+    ]
+   ]
+  },
+  {
+   "id": "slime",
+   "cat": "3",
+   "stats": {
+    "hp": "60",
+    "visdam": "1",
+    "damage": "6",
+    "tipdam": "10"
+   },
+   "comb": true,
+   "w": [],
+   "vulner": [
+    [
+     0,
+     0.05
+    ],
+    [
+     1,
+     0.25
+    ],
+    [
+     2,
+     0.25
+    ],
+    [
+     4,
+     0.7
+    ],
+    [
+     5,
+     0.7
+    ],
+    [
+     7,
+     0.0
+    ],
+    [
+     9,
+     0.5
+    ],
+    [
+     10,
+     0.0
+    ]
+   ]
+  },
+  {
+   "id": "cryoslime",
+   "cat": "3",
+   "stats": {
+    "hp": "120",
+    "visdam": "1",
+    "damage": "12",
+    "tipdam": "11",
+    "dkill": "2"
+   },
+   "comb": true,
+   "w": [],
+   "vulner": [
+    [
+     0,
+     0.05
+    ],
+    [
+     1,
+     0.25
+    ],
+    [
+     2,
+     0.25
+    ],
+    [
+     4,
+     0.7
+    ],
+    [
+     5,
+     0.7
+    ],
+    [
+     7,
+     0.0
+    ],
+    [
+     9,
+     0.5
+    ],
+    [
+     11,
+     0.0
+    ]
+   ]
+  },
+  {
+   "id": "pinkslime",
+   "cat": "3",
+   "stats": {
+    "hp": "200",
+    "visdam": "1",
+    "damage": "20",
+    "tipdam": "19"
+   },
+   "comb": true,
+   "w": [],
+   "vulner": [
+    [
+     0,
+     0.05
+    ],
+    [
+     1,
+     0.25
+    ],
+    [
+     2,
+     0.25
+    ],
+    [
+     4,
+     0.7
+    ],
+    [
+     5,
+     0.7
+    ],
+    [
+     7,
+     0.0
+    ],
+    [
+     9,
+     0.5
+    ]
+   ]
+  },
+  {
+   "id": "necros",
+   "cat": "3",
+   "stats": {
+    "hp": "400",
+    "dexter": "2",
+    "visdam": "1",
+    "damage": "80",
+    "tipdam": "16"
+   },
+   "comb": true,
+   "w": [],
+   "vulner": [
+    [
+     0,
+     0.0
+    ],
+    [
+     1,
+     0.0
+    ],
+    [
+     2,
+     0.0
+    ],
+    [
+     4,
+     0.7
+    ],
+    [
+     5,
+     0.7
+    ],
+    [
+     7,
+     0.0
+    ],
+    [
+     9,
+     0.5
+    ],
+    [
+     11,
+     0.2
+    ]
+   ]
+  },
+  {
+   "id": "phoenix",
+   "cat": "3",
+   "stats": {
+    "hp": "10"
+   },
+   "comb": true,
+   "w": [],
+   "vulner": [
+    [
+     3,
+     0.5
+    ],
+    [
+     4,
+     0.25
+    ],
+    [
+     5,
+     0.75
+    ],
+    [
+     6,
+     0.5
+    ]
+   ]
+  },
+  {
+   "id": "moon",
+   "cat": "3",
+   "stats": {
+    "hp": "10",
+    "damage": "1",
+    "tipdam": "1"
+   },
+   "comb": true,
+   "w": [],
+   "vulner": [
+    [
+     7,
+     0.0
+    ],
+    [
+     11,
+     0.5
+    ]
+   ]
+  },
+  {
+   "id": "robot",
+   "cat": "1"
+  },
+  {
+   "id": "bigrobot",
+   "cat": "2"
+  },
+  {
+   "id": "robobrain",
+   "cat": "3",
+   "stats": {
+    "hp": "60",
+    "aqual": "0.75",
+    "armor": "5",
+    "visdam": "1"
+   },
+   "comb": true,
+   "w": [
+    [
+     "robolaser",
+     7.0
+    ],
+    [
+     "robospark",
+     12.0
+    ]
+   ],
+   "vulner": [
+    [
+     3,
+     0.5
+    ],
+    [
+     7,
+     0.0
+    ],
+    [
+     8,
+     1.0
+    ],
+    [
+     9,
+     1.5
+    ],
+    [
+     11,
+     0.5
+    ]
+   ]
+  },
+  {
+   "id": "protect",
+   "cat": "3",
+   "stats": {
+    "hp": "100",
+    "aqual": "0.8",
+    "armor": "10",
+    "marmor": "5",
+    "observ": "3"
+   },
+   "comb": true,
+   "w": [
+    [
+     "roboplasma",
+     22.0
+    ],
+    [
+     "robolaser2",
+     11.0
+    ],
+    [
+     "robospark2",
+     16.0
+    ]
+   ],
+   "vulner": [
+    [
+     1,
+     0.5
+    ],
+    [
+     3,
+     0.5
+    ],
+    [
+     4,
+     0.7
+    ],
+    [
+     7,
+     0.0
+    ],
+    [
+     8,
+     1.0
+    ],
+    [
+     9,
+     1.25
+    ],
+    [
+     11,
+     0.5
+    ]
+   ]
+  },
+  {
+   "id": "gutsy",
+   "cat": "3",
+   "stats": {
+    "hp": "140",
+    "aqual": "0.85",
+    "armor": "12",
+    "marmor": "10",
+    "observ": "5",
+    "visdam": "1",
+    "damage": "18",
+    "tipdam": "1"
+   },
+   "comb": true,
+   "w": [
+    [
+     "robofire",
+     2.2
+    ],
+    [
+     "roboplasma2",
+     27.0
+    ],
+    [
+     "roboplasma",
+     22.0
+    ]
+   ],
+   "vulner": [
+    [
+     1,
+     0.5
+    ],
+    [
+     3,
+     0.5
+    ],
+    [
+     4,
+     0.7
+    ],
+    [
+     5,
+     0.7
+    ],
+    [
+     7,
+     0.0
+    ],
+    [
+     8,
+     1.0
+    ],
+    [
+     9,
+     1.25
+    ],
+    [
+     11,
+     0.5
+    ]
+   ]
+  },
+  {
+   "id": "eqd",
+   "cat": "3",
+   "stats": {
+    "hp": "150",
+    "aqual": "0.8",
+    "armor": "6",
+    "marmor": "15",
+    "observ": "8"
+   },
+   "comb": true,
+   "w": [
+    [
+     "robonova",
+     20.0
+    ],
+    [
+     "robosparkl",
+     10.0
+    ],
+    [
+     "roboplam",
+     13.0
+    ]
+   ],
+   "vulner": [
+    [
+     3,
+     0.7
+    ],
+    [
+     5,
+     0.7
+    ],
+    [
+     6,
+     0.7
+    ],
+    [
+     7,
+     0.0
+    ],
+    [
+     8,
+     1.0
+    ],
+    [
+     10,
+     0.5
+    ],
+    [
+     11,
+     0.5
+    ]
+   ]
+  },
+  {
+   "id": "protect1",
+   "cat": "3",
+   "stats": {
+    "hp": "120",
+    "aqual": "0.9",
+    "armor": "25",
+    "marmor": "15",
+    "observ": "3"
+   },
+   "comb": true,
+   "w": [
+    [
+     "robonova",
+     20.0
+    ],
+    [
+     "robosparkl",
+     10.0
+    ],
+    [
+     "roboplam",
+     13.0
+    ]
+   ],
+   "vulner": [
+    [
+     1,
+     0.5
+    ],
+    [
+     3,
+     0.5
+    ],
+    [
+     4,
+     0.7
+    ],
+    [
+     7,
+     0.0
+    ],
+    [
+     8,
+     0.5
+    ],
+    [
+     11,
+     0.5
+    ]
+   ]
+  },
+  {
+   "id": "gutsy1",
+   "cat": "3",
+   "stats": {
+    "hp": "240",
+    "aqual": "0.85",
+    "armor": "16",
+    "marmor": "16",
+    "observ": "10",
+    "damage": "36",
+    "tipdam": "1"
+   },
+   "comb": true,
+   "w": [
+    [
+     "roboplasma2",
+     27.0
+    ]
+   ],
+   "vulner": [
+    [
+     1,
+     0.5
+    ],
+    [
+     3,
+     0.5
+    ],
+    [
+     4,
+     0.7
+    ],
+    [
+     5,
+     0.7
+    ],
+    [
+     7,
+     0.0
+    ],
+    [
+     8,
+     1.0
+    ],
+    [
+     9,
+     1.25
+    ],
+    [
+     11,
+     0.5
+    ]
+   ]
+  },
+  {
+   "id": "sentinel",
+   "cat": "3",
+   "stats": {
+    "hp": "360",
+    "aqual": "0.8",
+    "armor": "18",
+    "marmor": "6",
+    "dexter": "0.7",
+    "observ": "5",
+    "visdam": "1",
+    "damage": "25"
+   },
+   "comb": true,
+   "w": [
+    [
+     "robomlau",
+     200.0
+    ],
+    [
+     "robogatl",
+     12.0
+    ],
+    [
+     "robominigun",
+     8.0
+    ]
+   ],
+   "vulner": [
+    [
+     0,
+     0.85
+    ],
+    [
+     1,
+     0.5
+    ],
+    [
+     3,
+     0.5
+    ],
+    [
+     4,
+     0.5
+    ],
+    [
+     7,
+     0.0
+    ],
+    [
+     8,
+     0.75
+    ],
+    [
+     11,
+     0.5
+    ]
+   ]
+  },
+  {
+   "id": "bossultra",
+   "cat": "3",
+   "stats": {
+    "hp": "3600",
+    "aqual": "1",
+    "armor": "10",
+    "marmor": "10",
+    "dexter": "0.5",
+    "skill": "1.6",
+    "visdam": "1",
+    "damage": "12",
+    "dkill": "0"
+   },
+   "comb": true,
+   "w": [
+    [
+     "robogatp",
+     15.0
+    ],
+    [
+     "robomlau2",
+     150.0
+    ],
+    [
+     "robogas",
+     20.0
+    ],
+    [
+     "roboplagr",
+     140.0
+    ]
+   ],
+   "vulner": [
+    [
+     3,
+     0.5
+    ],
+    [
+     7,
+     0.0
+    ],
+    [
+     8,
+     1.0
+    ],
+    [
+     11,
+     0.5
+    ]
+   ]
+  },
+  {
+   "id": "bossdron",
+   "cat": "3",
+   "stats": {
+    "hp": "5000",
+    "aqual": "1",
+    "armor": "10",
+    "marmor": "10",
+    "dexter": "0.5",
+    "skill": "1.6",
+    "visdam": "1",
+    "damage": "100",
+    "tipdam": "9",
+    "dkill": "0"
+   },
+   "comb": true,
+   "w": [
+    [
+     "dronmlau",
+     200.0
+    ],
+    [
+     "drongr",
+     250.0
+    ]
+   ],
+   "vulner": [
+    [
+     3,
+     0.5
+    ],
+    [
+     7,
+     0.0
+    ],
+    [
+     8,
+     0.5
+    ],
+    [
+     11,
+     0.5
+    ]
+   ]
+  },
+  {
+   "id": "smallrobot",
+   "cat": "2"
+  },
+  {
+   "id": "spritebot",
+   "cat": "3",
+   "stats": {
+    "hp": "30",
+    "aqual": "0.75",
+    "armor": "3",
+    "dexter": "1.2"
+   },
+   "comb": true,
+   "w": [],
+   "vulner": [
+    [
+     3,
+     0.75
+    ],
+    [
+     7,
+     0.0
+    ],
+    [
+     8,
+     1.0
+    ],
+    [
+     9,
+     1.5
+    ],
+    [
+     11,
+     0.5
+    ]
+   ]
+  },
+  {
+   "id": "vortex",
+   "cat": "3",
+   "stats": {
+    "hp": "15",
+    "aqual": "0.5",
+    "armor": "3",
+    "dexter": "1.5",
+    "observ": "5",
+    "visdam": "1",
+    "damage": "12",
+    "tipdam": "1"
+   },
+   "comb": true,
+   "w": [],
+   "vulner": [
+    [
+     7,
+     0.0
+    ],
+    [
+     8,
+     1.0
+    ],
+    [
+     9,
+     1.5
+    ]
+   ]
+  },
+  {
+   "id": "roller",
+   "cat": "3",
+   "stats": {
+    "hp": "20",
+    "aqual": "1",
+    "armor": "20",
+    "marmor": "20",
+    "visdam": "1",
+    "damage": "18",
+    "tipdam": "9"
+   },
+   "comb": true,
+   "w": [],
+   "vulner": [
+    [
+     3,
+     0.5
+    ],
+    [
+     4,
+     3.0
+    ],
+    [
+     5,
+     0.5
+    ],
+    [
+     7,
+     0.0
+    ],
+    [
+     8,
+     1.0
+    ],
+    [
+     9,
+     0.0
+    ],
+    [
+     11,
+     0.5
+    ]
+   ]
+  },
+  {
+   "id": "msp",
+   "cat": "3",
+   "stats": {
+    "hp": "14",
+    "aqual": "1",
+    "armor": "5",
+    "visdam": "1",
+    "damage": "60",
+    "tipdam": "4"
+   },
+   "comb": true,
+   "w": [],
+   "vulner": [
+    [
+     3,
+     0.5
+    ],
+    [
+     4,
+     0.1
+    ],
+    [
+     7,
+     0.0
+    ],
+    [
+     8,
+     0.25
+    ],
+    [
+     11,
+     0.5
+    ]
+   ]
+  },
+  {
+   "id": "roller2",
+   "cat": "3",
+   "stats": {
+    "hp": "40",
+    "aqual": "1",
+    "armor": "20",
+    "marmor": "20",
+    "visdam": "1",
+    "damage": "30",
+    "tipdam": "9"
+   },
+   "comb": true,
+   "w": [],
+   "vulner": [
+    [
+     3,
+     0.5
+    ],
+    [
+     4,
+     1.5
+    ],
+    [
+     5,
+     0.5
+    ],
+    [
+     7,
+     0.0
+    ],
+    [
+     8,
+     1.0
+    ],
+    [
+     9,
+     0.0
+    ],
+    [
+     11,
+     0.5
+    ]
+   ]
+  },
+  {
+   "id": "dron1",
+   "cat": "3",
+   "stats": {
+    "hp": "100",
+    "aqual": "0.85",
+    "armor": "15",
+    "dexter": "1",
+    "visdam": "1",
+    "damage": "16",
+    "tipdam": "9"
+   },
+   "comb": true,
+   "w": [
+    [
+     "dronlaser",
+     3.0
+    ]
+   ],
+   "vulner": [
+    [
+     3,
+     0.75
+    ],
+    [
+     5,
+     0.5
+    ],
+    [
+     7,
+     0.0
+    ],
+    [
+     8,
+     1.0
+    ],
+    [
+     11,
+     0.5
+    ]
+   ]
+  },
+  {
+   "id": "dron2",
+   "cat": "3",
+   "stats": {
+    "hp": "80",
+    "aqual": "0.85",
+    "armor": "10",
+    "dexter": "1.3",
+    "visdam": "1",
+    "damage": "24",
+    "tipdam": "9"
+   },
+   "comb": true,
+   "w": [
+    [
+     "dronplasma",
+     12.0
+    ]
+   ],
+   "vulner": [
+    [
+     3,
+     0.75
+    ],
+    [
+     6,
+     0.5
+    ],
+    [
+     7,
+     0.0
+    ],
+    [
+     8,
+     1.0
+    ],
+    [
+     11,
+     0.5
+    ]
+   ]
+  },
+  {
+   "id": "dron3",
+   "cat": "3",
+   "stats": {
+    "hp": "60",
+    "aqual": "0.85",
+    "marmor": "10",
+    "dexter": "1.6",
+    "visdam": "1",
+    "damage": "24",
+    "tipdam": "9"
+   },
+   "comb": true,
+   "w": [
+    [
+     "dronpspark",
+     12.0
+    ]
+   ],
+   "vulner": [
+    [
+     3,
+     0.5
+    ],
+    [
+     7,
+     0.0
+    ],
+    [
+     8,
+     1.0
+    ],
+    [
+     9,
+     0.5
+    ],
+    [
+     11,
+     0.5
+    ]
+   ]
+  },
+  {
+   "id": "owl",
+   "cat": "3",
+   "stats": {
+    "hp": "10"
+   },
+   "comb": true,
+   "w": [
+    [
+     "owllaser",
+     2.0
+    ]
+   ],
+   "vulner": [
+    [
+     0,
+     0.75
+    ],
+    [
+     3,
+     0.5
+    ],
+    [
+     4,
+     0.25
+    ],
+    [
+     5,
+     0.75
+    ],
+    [
+     7,
+     0.0
+    ]
+   ]
+  },
+  {
+   "id": "turret",
+   "cat": "2"
+  },
+  {
+   "id": "turret0",
+   "cat": "3",
+   "stats": {
+    "hp": "46",
+    "aqual": "0.85",
+    "armor": "5"
+   },
+   "comb": true,
+   "w": [
+    [
+     "turretWep1",
+     6.5
+    ],
+    [
+     "turretWep2",
+     8.0
+    ],
+    [
+     "turretWep3",
+     26.0
+    ],
+    [
+     "turretWep4",
+     50.0
+    ],
+    [
+     "turretWep5",
+     15.0
+    ],
+    [
+     "turretWep6",
+     11.0
+    ],
+    [
+     "turretWep7",
+     60.0
+    ]
+   ],
+   "vulner": [
+    [
+     3,
+     0.75
+    ],
+    [
+     7,
+     0.0
+    ],
+    [
+     8,
+     1.0
+    ],
+    [
+     9,
+     1.25
+    ],
+    [
+     11,
+     0.5
+    ]
+   ]
+  },
+  {
+   "id": "turret1",
+   "cat": "3",
+   "stats": {
+    "hp": "88",
+    "aqual": "0.9",
+    "armor": "8",
+    "marmor": "8",
+    "dexter": "0.5"
+   },
+   "comb": true,
+   "w": [
+    [
+     "turretWep1",
+     6.5
+    ],
+    [
+     "turretWep2",
+     8.0
+    ],
+    [
+     "turretWep3",
+     26.0
+    ],
+    [
+     "turretWep4",
+     50.0
+    ],
+    [
+     "turretWep5",
+     15.0
+    ],
+    [
+     "turretWep6",
+     11.0
+    ],
+    [
+     "turretWep7",
+     60.0
+    ]
+   ],
+   "vulner": [
+    [
+     3,
+     0.75
+    ],
+    [
+     7,
+     0.0
+    ],
+    [
+     8,
+     1.0
+    ],
+    [
+     9,
+     1.25
+    ],
+    [
+     11,
+     0.5
+    ]
+   ]
+  },
+  {
+   "id": "turret2",
+   "cat": "3",
+   "stats": {
+    "hp": "52",
+    "aqual": "0.8",
+    "armor": "4",
+    "marmor": "4"
+   },
+   "comb": true,
+   "w": [
+    [
+     "turretWep1",
+     6.5
+    ],
+    [
+     "turretWep2",
+     8.0
+    ],
+    [
+     "turretWep3",
+     26.0
+    ],
+    [
+     "turretWep4",
+     50.0
+    ],
+    [
+     "turretWep5",
+     15.0
+    ],
+    [
+     "turretWep6",
+     11.0
+    ],
+    [
+     "turretWep7",
+     60.0
+    ]
+   ],
+   "vulner": [
+    [
+     3,
+     0.75
+    ],
+    [
+     7,
+     0.0
+    ],
+    [
+     8,
+     1.0
+    ],
+    [
+     9,
+     1.25
+    ],
+    [
+     11,
+     0.5
+    ]
+   ]
+  },
+  {
+   "id": "turret3",
+   "cat": "3",
+   "stats": {
+    "hp": "104",
+    "aqual": "1",
+    "armor": "10",
+    "marmor": "10",
+    "dexter": "0.5",
+    "damage": "24",
+    "tipdam": "9"
+   },
+   "comb": true,
+   "w": [
+    [
+     "turretWep1",
+     6.5
+    ],
+    [
+     "turretWep2",
+     8.0
+    ],
+    [
+     "turretWep3",
+     26.0
+    ],
+    [
+     "turretWep4",
+     50.0
+    ],
+    [
+     "turretWep5",
+     15.0
+    ],
+    [
+     "turretWep6",
+     11.0
+    ],
+    [
+     "turretWep7",
+     60.0
+    ]
+   ],
+   "vulner": [
+    [
+     3,
+     0.5
+    ],
+    [
+     4,
+     0.5
+    ],
+    [
+     7,
+     0.0
+    ],
+    [
+     8,
+     1.0
+    ],
+    [
+     9,
+     1.25
+    ],
+    [
+     10,
+     0.0
+    ],
+    [
+     11,
+     0.5
+    ]
+   ]
+  },
+  {
+   "id": "turret4",
+   "cat": "3",
+   "stats": {
+    "hp": "85",
+    "aqual": "1",
+    "armor": "10",
+    "marmor": "10"
+   },
+   "comb": true,
+   "w": [
+    [
+     "turretWep1",
+     6.5
+    ],
+    [
+     "turretWep2",
+     8.0
+    ],
+    [
+     "turretWep3",
+     26.0
+    ],
+    [
+     "turretWep4",
+     50.0
+    ],
+    [
+     "turretWep5",
+     15.0
+    ],
+    [
+     "turretWep6",
+     11.0
+    ],
+    [
+     "turretWep7",
+     60.0
+    ]
+   ],
+   "vulner": [
+    [
+     3,
+     0.75
+    ],
+    [
+     7,
+     0.0
+    ],
+    [
+     8,
+     1.0
+    ],
+    [
+     11,
+     0.5
+    ]
+   ]
+  },
+  {
+   "id": "turret5",
+   "cat": "3",
+   "stats": {
+    "hp": "1000"
+   },
+   "comb": true,
+   "w": []
+  }
+ ]
+}

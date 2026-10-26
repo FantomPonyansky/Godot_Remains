@@ -1,0 +1,1842 @@
+{
+ "test": {
+  "id": "test",
+  "sp": "3",
+  "main": "1",
+  "subs": [
+   {
+    "id": "1"
+   },
+   {
+    "id": "2"
+   },
+   {
+    "id": "3"
+   }
+  ]
+ },
+ "toExit": {
+  "id": "toExit",
+  "xp": "5000",
+  "main": "1",
+  "subs": [
+   {
+    "id": "1"
+   }
+  ]
+ },
+ "storyContact": {
+  "id": "storyContact",
+  "xp": "1000",
+  "main": "1",
+  "subs": [
+   {
+    "id": "1"
+   },
+   {
+    "id": "2"
+   }
+  ]
+ },
+ "storyFind": {
+  "id": "storyFind",
+  "xp": "10000",
+  "main": "1",
+  "subs": [
+   {
+    "id": "1"
+   },
+   {
+    "id": "2",
+    "invis": "1"
+   },
+   {
+    "id": "3",
+    "invis": "1"
+   },
+   {
+    "id": "4"
+   }
+  ]
+ },
+ "storyMain": {
+  "id": "storyMain",
+  "xp": "10000",
+  "main": "1",
+  "subs": [
+   {
+    "id": "1"
+   },
+   {
+    "id": "2"
+   },
+   {
+    "id": "3",
+    "invis": "1",
+    "collect": "key_sewer",
+    "kol": "1"
+   },
+   {
+    "id": "4",
+    "invis": "1"
+   },
+   {
+    "id": "5"
+   }
+  ]
+ },
+ "storyStable": {
+  "id": "storyStable",
+  "xp": "25000",
+  "main": "1",
+  "subs": [
+   {
+    "id": "1"
+   },
+   {
+    "id": "2"
+   },
+   {
+    "id": "3"
+   },
+   {
+    "id": "4"
+   }
+  ]
+ },
+ "storyMeet": {
+  "id": "storyMeet",
+  "xp": "25000",
+  "main": "1",
+  "subs": [
+   {
+    "id": "1"
+   },
+   {
+    "id": "2"
+   },
+   {
+    "id": "3",
+    "invis": "1"
+   }
+  ]
+ },
+ "storyMane": {
+  "id": "storyMane",
+  "xp": "50000",
+  "main": "1",
+  "subs": [
+   {
+    "id": "1"
+   },
+   {
+    "id": "2",
+    "invis": "1"
+   },
+   {
+    "id": "3",
+    "invis": "1"
+   },
+   {
+    "id": "4",
+    "invis": "1"
+   },
+   {
+    "id": "5"
+   }
+  ]
+ },
+ "storyCanter": {
+  "id": "storyCanter",
+  "xp": "50000",
+  "main": "1",
+  "subs": [
+   {
+    "id": "1"
+   },
+   {
+    "id": "2",
+    "invis": "1"
+   },
+   {
+    "id": "3",
+    "invis": "1"
+   },
+   {
+    "id": "4"
+   }
+  ]
+ },
+ "storyHome": {
+  "id": "storyHome",
+  "xp": "100000",
+  "main": "1",
+  "subs": [
+   {
+    "id": "1"
+   },
+   {
+    "id": "2",
+    "invis": "1"
+   },
+   {
+    "id": "3",
+    "invis": "1"
+   },
+   {
+    "id": "4",
+    "invis": "1"
+   },
+   {
+    "id": "5",
+    "invis": "1"
+   },
+   {
+    "id": "6",
+    "invis": "1"
+   }
+  ]
+ },
+ "storyRanger": {
+  "id": "storyRanger",
+  "xp": "100000",
+  "main": "1",
+  "subs": [
+   {
+    "id": "1"
+   },
+   {
+    "id": "8",
+    "invis": "1",
+    "nn": "1"
+   },
+   {
+    "id": "2",
+    "invis": "1"
+   },
+   {
+    "id": "3",
+    "invis": "1"
+   },
+   {
+    "id": "4",
+    "invis": "1"
+   },
+   {
+    "id": "5",
+    "invis": "1"
+   },
+   {
+    "id": "6",
+    "invis": "1"
+   },
+   {
+    "id": "7",
+    "invis": "1"
+   }
+  ],
+  "next": [
+   {
+    "id": "storyHelpCamp"
+   },
+   {
+    "id": "storyHelpCovert"
+   }
+  ]
+ },
+ "storyHelpCamp": {
+  "id": "storyHelpCamp",
+  "xp": "50000",
+  "main": "1",
+  "subs": [
+   {
+    "id": "1"
+   },
+   {
+    "id": "2",
+    "invis": "1"
+   },
+   {
+    "id": "3",
+    "invis": "1"
+   }
+  ],
+  "reward": [
+   {
+    "id": "money",
+    "kol": "10000"
+   }
+  ]
+ },
+ "storyHelpCovert": {
+  "id": "storyHelpCovert",
+  "xp": "50000",
+  "main": "1",
+  "subs": [
+   {
+    "id": "1"
+   },
+   {
+    "id": "2",
+    "invis": "1"
+   },
+   {
+    "id": "3",
+    "invis": "1"
+   },
+   {
+    "id": "4",
+    "invis": "1"
+   },
+   {
+    "id": "5",
+    "invis": "1"
+   },
+   {
+    "id": "6",
+    "invis": "1",
+    "collect": "secret_doc",
+    "kol": "1",
+    "del": "1"
+   },
+   {
+    "id": "7",
+    "invis": "1",
+    "result": "1"
+   },
+   {
+    "id": "8",
+    "invis": "1"
+   }
+  ],
+  "reward": [
+   {
+    "id": "potHP",
+    "kol": "1"
+   },
+   {
+    "id": "potMP",
+    "kol": "1"
+   }
+  ]
+ },
+ "storyEncl": {
+  "id": "storyEncl",
+  "xp": "100000",
+  "main": "1",
+  "subs": [
+   {
+    "id": "1"
+   },
+   {
+    "id": "2",
+    "invis": "1"
+   },
+   {
+    "id": "3",
+    "invis": "1"
+   }
+  ]
+ },
+ "storyStorm": {
+  "id": "storyStorm",
+  "xp": "100000",
+  "main": "1",
+  "subs": [
+   {
+    "id": "1"
+   },
+   {
+    "id": "2",
+    "invis": "1"
+   },
+   {
+    "id": "3",
+    "invis": "1"
+   },
+   {
+    "id": "4",
+    "invis": "1"
+   },
+   {
+    "id": "5",
+    "invis": "1"
+   }
+  ]
+ },
+ "storyFbattle": {
+  "id": "storyFbattle",
+  "xp": "100000",
+  "main": "1",
+  "subs": [
+   {
+    "id": "1"
+   },
+   {
+    "id": "2",
+    "invis": "1"
+   },
+   {
+    "id": "3",
+    "invis": "1"
+   },
+   {
+    "id": "4",
+    "invis": "1"
+   },
+   {
+    "id": "5",
+    "invis": "1"
+   }
+  ]
+ },
+ "collectHS": {
+  "id": "collectHS",
+  "sp": "1",
+  "xp": "1000",
+  "subs": [
+   {
+    "id": "1",
+    "collect": "col1",
+    "kol": "20",
+    "del": "1"
+   }
+  ]
+ },
+ "tamePhoenix": {
+  "id": "tamePhoenix",
+  "xp": "10000",
+  "subs": [
+   {
+    "id": "1",
+    "collect": "tame_ph",
+    "kol": "5"
+   },
+   {
+    "id": "2"
+   }
+  ]
+ },
+ "freeCaptive": {
+  "id": "freeCaptive",
+  "sp": "1",
+  "xp": "10000",
+  "rep": "5",
+  "subs": [
+   {
+    "id": "1",
+    "collect": "capt_raiders",
+    "kol": "12"
+   }
+  ]
+ },
+ "patientHeal": {
+  "id": "patientHeal",
+  "xp": "20000",
+  "rep": "3",
+  "subs": [
+   {
+    "id": "1"
+   },
+   {
+    "id": "2",
+    "invis": "1",
+    "collect": "vaccine",
+    "kol": "1",
+    "us": "1"
+   },
+   {
+    "id": "3",
+    "invis": "1"
+   },
+   {
+    "id": "4",
+    "invis": "1"
+   }
+  ],
+  "reward": [
+   {
+    "id": "stat_fl",
+    "kol": "1"
+   }
+  ]
+ },
+ "findProArmor": {
+  "id": "findProArmor",
+  "empl": "vendor_armor",
+  "rep": "2",
+  "begdial": "vendor_armor_quest1",
+  "enddial": "vendor_armor_quest2",
+  "trigger": "pro_armor",
+  "triggerset": "wait",
+  "subs": [
+   {
+    "id": "1",
+    "collect": "pro_armor",
+    "kol": "1",
+    "del": "1"
+   },
+   {
+    "id": "2",
+    "report": "vendor_armor"
+   }
+  ],
+  "reward": [
+   {
+    "id": "money",
+    "kol": "1000"
+   },
+   {
+    "id": "metal_comp",
+    "kol": "5"
+   },
+   {
+    "id": "skin_comp",
+    "kol": "5"
+   }
+  ]
+ },
+ "killMadfox": {
+  "id": "killMadfox",
+  "empl": "vendor_armor",
+  "rep": "2",
+  "subs": [
+   {
+    "id": "1"
+   },
+   {
+    "id": "2",
+    "report": "vendor_armor"
+   }
+  ],
+  "reward": [
+   {
+    "id": "money",
+    "kol": "2000"
+   },
+   {
+    "id": "amul_bul",
+    "kol": "1"
+   }
+  ]
+ },
+ "collectPaintsA": {
+  "id": "collectPaintsA",
+  "empl": "vendor_armor",
+  "rep": "1",
+  "trigger": "colors1",
+  "subs": [
+   {
+    "id": "1",
+    "collect": "p_red",
+    "kol": "1"
+   },
+   {
+    "id": "2",
+    "collect": "p_green",
+    "kol": "1"
+   },
+   {
+    "id": "3",
+    "collect": "p_blue",
+    "kol": "1"
+   },
+   {
+    "id": "4",
+    "collect": "p_yellow",
+    "kol": "1"
+   },
+   {
+    "id": "5",
+    "collect": "p_white",
+    "kol": "1"
+   },
+   {
+    "id": "6",
+    "report": "vendor_armor"
+   }
+  ],
+  "deposit": [
+   {
+    "id": "p_black",
+    "kol": "1"
+   }
+  ],
+  "reward": [
+   {
+    "id": "intel_comp",
+    "kol": "3"
+   },
+   {
+    "id": "money",
+    "kol": "500"
+   }
+  ]
+ },
+ "collectPaintsB": {
+  "id": "collectPaintsB",
+  "empl": "vendor_armor",
+  "rep": "1",
+  "trigger": "colors2",
+  "subs": [
+   {
+    "id": "1",
+    "collect": "p_gray",
+    "kol": "1"
+   },
+   {
+    "id": "2",
+    "collect": "p_purple",
+    "kol": "1"
+   },
+   {
+    "id": "3",
+    "collect": "p_orange",
+    "kol": "1"
+   },
+   {
+    "id": "4",
+    "collect": "p_brown",
+    "kol": "1"
+   },
+   {
+    "id": "5",
+    "collect": "p_lblue",
+    "kol": "1"
+   },
+   {
+    "id": "6",
+    "collect": "p_khaki",
+    "kol": "1"
+   },
+   {
+    "id": "7",
+    "collect": "p_dgreen",
+    "kol": "1"
+   },
+   {
+    "id": "8",
+    "report": "vendor_armor"
+   }
+  ],
+  "reward": [
+   {
+    "id": "battle_comp",
+    "kol": "3"
+   },
+   {
+    "id": "money",
+    "kol": "500"
+   }
+  ]
+ },
+ "collectPaintsC": {
+  "id": "collectPaintsC",
+  "empl": "vendor_armor",
+  "rep": "1",
+  "trigger": "colors3",
+  "triggerset": "wait",
+  "subs": [
+   {
+    "id": "1",
+    "collect": "p_cyan",
+    "kol": "1"
+   },
+   {
+    "id": "2",
+    "collect": "p_pink",
+    "kol": "1"
+   },
+   {
+    "id": "3",
+    "collect": "p_burgundy",
+    "kol": "1"
+   },
+   {
+    "id": "4",
+    "collect": "p_crimson",
+    "kol": "1"
+   },
+   {
+    "id": "5",
+    "collect": "p_lime",
+    "kol": "1"
+   },
+   {
+    "id": "6",
+    "collect": "p_fire",
+    "kol": "1"
+   },
+   {
+    "id": "7",
+    "collect": "p_beige",
+    "kol": "1"
+   },
+   {
+    "id": "8",
+    "report": "vendor_armor"
+   }
+  ],
+  "reward": [
+   {
+    "id": "magus_comp",
+    "kol": "3"
+   },
+   {
+    "id": "money",
+    "kol": "1000"
+   },
+   {
+    "id": "amul_fang",
+    "kol": "1"
+   }
+  ]
+ },
+ "collectPowerArmor": {
+  "id": "collectPowerArmor",
+  "empl": "vendor_armor",
+  "rep": "3",
+  "enddial": "vendor_armor_quest4",
+  "trigger": "power_armor",
+  "triggerset": "wait",
+  "subs": [
+   {
+    "id": "1",
+    "collect": "power_comp",
+    "kol": "20",
+    "del": "1"
+   },
+   {
+    "id": "2",
+    "report": "vendor_armor"
+   }
+  ]
+ },
+ "killBloats": {
+  "id": "killBloats",
+  "empl": "vendor_weapon",
+  "rep": "2",
+  "subs": [
+   {
+    "id": "1"
+   },
+   {
+    "id": "2",
+    "collect": "bloatF1",
+    "kol": "5"
+   },
+   {
+    "id": "3",
+    "report": "vendor_weapon"
+   }
+  ],
+  "reward": [
+   {
+    "id": "p127",
+    "kol": "80"
+   },
+   {
+    "id": "p12",
+    "kol": "32"
+   },
+   {
+    "id": "p308",
+    "kol": "18"
+   },
+   {
+    "id": "money",
+    "kol": "1000"
+   }
+  ]
+ },
+ "collectFcrystal": {
+  "id": "collectFcrystal",
+  "empl": "vendor_weapon",
+  "rep": "2",
+  "subs": [
+   {
+    "id": "1",
+    "collect": "fcrystal",
+    "kol": "1",
+    "del": "1"
+   },
+   {
+    "id": "2",
+    "report": "vendor_weapon"
+   }
+  ],
+  "reward": [
+   {
+    "id": "energ_6",
+    "kol": "200"
+   },
+   {
+    "id": "crystal_6",
+    "kol": "400"
+   },
+   {
+    "id": "money",
+    "kol": "1000"
+   }
+  ]
+ },
+ "killLucerne": {
+  "id": "killLucerne",
+  "empl": "vendor_weapon",
+  "rep": "3",
+  "subs": [
+   {
+    "id": "1"
+   },
+   {
+    "id": "2",
+    "report": "vendor_weapon"
+   }
+  ],
+  "reward": [
+   {
+    "id": "money",
+    "kol": "2500"
+   },
+   {
+    "id": "pp127mm^1",
+    "kol": "1"
+   }
+  ]
+ },
+ "retPistol": {
+  "id": "retPistol",
+  "empl": "vendor_weapon",
+  "rep": "3",
+  "begdial": "vendor_weapon_quest1",
+  "enddial": "vendor_weapon_quest2",
+  "subs": [
+   {
+    "id": "1",
+    "collect": "wquest1",
+    "coltip": "1",
+    "kol": "1",
+    "del": "1"
+   },
+   {
+    "id": "2",
+    "report": "vendor_weapon"
+   }
+  ],
+  "reward": [
+   {
+    "id": "psc^1",
+    "kol": "2"
+   },
+   {
+    "id": "p50mg",
+    "kol": "50"
+   }
+  ]
+ },
+ "collectBlaster": {
+  "id": "collectBlaster",
+  "empl": "vendor_weapon",
+  "rep": "3",
+  "enddial": "vendor_weapon_quest3",
+  "subs": [
+   {
+    "id": "1",
+    "collect": "blaster",
+    "coltip": "1",
+    "kol": "1"
+   },
+   {
+    "id": "2",
+    "report": "vendor_weapon"
+   }
+  ],
+  "reward": [
+   {
+    "id": "bcell",
+    "kol": "70"
+   }
+  ]
+ },
+ "repairAutoDoc": {
+  "id": "repairAutoDoc",
+  "empl": "vendor_medic",
+  "rep": "2",
+  "begdial": "vendor_medic_quest1",
+  "enddial": "vendor_medic_quest2",
+  "trigger": "autodoc_rep",
+  "subs": [
+   {
+    "id": "1"
+   },
+   {
+    "id": "2",
+    "report": "vendor_medic"
+   }
+  ],
+  "reward": [
+   {
+    "id": "gel",
+    "kol": "5000"
+   }
+  ]
+ },
+ "collectFishfat": {
+  "id": "collectFishfat",
+  "empl": "vendor_medic",
+  "rep": "1",
+  "subs": [
+   {
+    "id": "1",
+    "collect": "fishfat",
+    "kol": "20",
+    "del": "1"
+   },
+   {
+    "id": "2",
+    "report": "vendor_medic"
+   }
+  ],
+  "reward": [
+   {
+    "id": "money",
+    "kol": "500"
+   },
+   {
+    "id": "pot3",
+    "kol": "1"
+   },
+   {
+    "id": "radx",
+    "kol": "1"
+   },
+   {
+    "id": "antiradin",
+    "kol": "1"
+   }
+  ]
+ },
+ "collectTmed": {
+  "id": "collectTmed",
+  "empl": "vendor_medic",
+  "rep": "2",
+  "subs": [
+   {
+    "id": "1",
+    "collect": "tmed",
+    "kol": "1",
+    "del": "1"
+   },
+   {
+    "id": "2",
+    "report": "vendor_medic"
+   }
+  ],
+  "reward": [
+   {
+    "id": "money",
+    "kol": "2500"
+   }
+  ]
+ },
+ "collectRecipes": {
+  "id": "collectRecipes",
+  "empl": "vendor_medic",
+  "rep": "2",
+  "subs": [
+   {
+    "id": "1",
+    "collect": "s_ultradash",
+    "kol": "1"
+   },
+   {
+    "id": "2",
+    "collect": "s_stampede",
+    "kol": "1"
+   },
+   {
+    "id": "3",
+    "collect": "s_pmint",
+    "kol": "1"
+   },
+   {
+    "id": "4",
+    "report": "vendor_medic"
+   }
+  ],
+  "reward": [
+   {
+    "id": "money",
+    "kol": "2500"
+   },
+   {
+    "id": "detoxin",
+    "kol": "3"
+   }
+  ]
+ },
+ "collectNitro": {
+  "id": "collectNitro",
+  "empl": "vendor_expl",
+  "rep": "1",
+  "subs": [
+   {
+    "id": "1",
+    "collect": "acid",
+    "kol": "100",
+    "del": "1"
+   },
+   {
+    "id": "2",
+    "collect": "glycerol",
+    "kol": "1",
+    "del": "1"
+   },
+   {
+    "id": "3",
+    "report": "vendor_expl"
+   }
+  ],
+  "reward": [
+   {
+    "id": "money",
+    "kol": "1000"
+   },
+   {
+    "id": "grenade",
+    "kol": "6"
+   },
+   {
+    "id": "gasgr",
+    "kol": "3"
+   },
+   {
+    "id": "fgren",
+    "kol": "3"
+   },
+   {
+    "id": "plagr",
+    "kol": "3"
+   }
+  ]
+ },
+ "killAnthills": {
+  "id": "killAnthills",
+  "empl": "vendor_expl",
+  "rep": "2",
+  "begdial": "vendor_expl_quest1",
+  "subs": [
+   {
+    "id": "1",
+    "collect": "antF1",
+    "kol": "5"
+   },
+   {
+    "id": "2",
+    "report": "vendor_expl"
+   }
+  ],
+  "deposit": [
+   {
+    "id": "dinamit",
+    "kol": "10"
+   }
+  ],
+  "reward": [
+   {
+    "id": "money",
+    "kol": "1500"
+   }
+  ]
+ },
+ "testCryo": {
+  "id": "testCryo",
+  "empl": "vendor_expl",
+  "rep": "3",
+  "begdial": "vendor_expl_quest2",
+  "enddial": "vendor_expl_quest3",
+  "trigger": "test_cryo",
+  "triggerset": "wait",
+  "subs": [
+   {
+    "id": "1",
+    "collect": "pcryo",
+    "kol": "100",
+    "nn": "1",
+    "us": "1"
+   },
+   {
+    "id": "2",
+    "collect": "cryogr",
+    "kol": "1",
+    "us": "1"
+   },
+   {
+    "id": "3",
+    "collect": "cryomine",
+    "kol": "1",
+    "us": "1"
+   },
+   {
+    "id": "4",
+    "collect": "kill_cryogr",
+    "kol": "5"
+   },
+   {
+    "id": "5",
+    "collect": "kill_cryomine",
+    "kol": "5"
+   },
+   {
+    "id": "6",
+    "report": "vendor_expl"
+   }
+  ],
+  "deposit": [
+   {
+    "id": "s_cryogr",
+    "kol": "1"
+   },
+   {
+    "id": "s_cryomine",
+    "kol": "1"
+   },
+   {
+    "trigger": "look_cryogr",
+    "set": "1"
+   },
+   {
+    "trigger": "look_cryomine",
+    "set": "1"
+   }
+  ],
+  "reward": [
+   {
+    "id": "money",
+    "kol": "2000"
+   },
+   {
+    "id": "x37",
+    "kol": "4"
+   },
+   {
+    "trigger": "look_cryogr",
+    "set": "0"
+   },
+   {
+    "trigger": "look_cryomine",
+    "set": "0"
+   }
+  ]
+ },
+ "collectSpgren": {
+  "id": "collectSpgren",
+  "empl": "vendor_expl",
+  "rep": "2",
+  "subs": [
+   {
+    "id": "1",
+    "collect": "s_spgren",
+    "kol": "1"
+   },
+   {
+    "id": "2",
+    "report": "vendor_expl"
+   }
+  ],
+  "reward": [
+   {
+    "id": "s_balemine",
+    "kol": "1"
+   }
+  ]
+ },
+ "collectSmoke": {
+  "id": "collectSmoke",
+  "empl": "vendor_expl",
+  "rep": "2",
+  "subs": [
+   {
+    "id": "1",
+    "collect": "rollup",
+    "kol": "1",
+    "hidden": "1",
+    "give": "vendor_expl",
+    "pay": "100"
+   },
+   {
+    "id": "2",
+    "collect": "tabak",
+    "kol": "1",
+    "hidden": "1",
+    "give": "vendor_expl",
+    "pay": "250"
+   },
+   {
+    "id": "3",
+    "collect": "bong",
+    "kol": "1",
+    "hidden": "1",
+    "give": "vendor_expl",
+    "pay": "500"
+   },
+   {
+    "id": "4",
+    "collect": "tpipe",
+    "kol": "1",
+    "hidden": "1",
+    "give": "vendor_expl",
+    "pay": "750"
+   },
+   {
+    "id": "5",
+    "collect": "cigars",
+    "kol": "1",
+    "hidden": "1",
+    "give": "vendor_expl",
+    "pay": "1000"
+   }
+  ],
+  "reward": [
+   {
+    "id": "amul_expl",
+    "kol": "1"
+   }
+  ]
+ },
+ "collectGems": {
+  "id": "collectGems",
+  "empl": "vendor_mage",
+  "rep": "2",
+  "subs": [
+   {
+    "id": "1",
+    "collect": "gem1",
+    "kol": "10",
+    "pay": "70",
+    "give": "vendor_mage"
+   },
+   {
+    "id": "2",
+    "collect": "gem2",
+    "kol": "10",
+    "pay": "130",
+    "give": "vendor_mage"
+   },
+   {
+    "id": "3",
+    "collect": "gem3",
+    "kol": "10",
+    "pay": "200",
+    "give": "vendor_mage"
+   },
+   {
+    "id": "4",
+    "collect": "super_emerald",
+    "kol": "1",
+    "del": "1"
+   },
+   {
+    "id": "5",
+    "collect": "super_sapphire",
+    "kol": "1",
+    "del": "1"
+   },
+   {
+    "id": "6",
+    "collect": "super_ruby",
+    "kol": "1",
+    "del": "1"
+   },
+   {
+    "id": "7",
+    "report": "vendor_mage"
+   }
+  ],
+  "reward": [
+   {
+    "id": "money",
+    "kol": "1000"
+   },
+   {
+    "id": "amul_fire",
+    "kol": "1"
+   }
+  ]
+ },
+ "collectBooks": {
+  "id": "collectBooks",
+  "empl": "vendor_mage",
+  "rep": "2",
+  "begdial": "vendor_mage_quest1",
+  "enddial": "vendor_mage_quest2",
+  "subs": [
+   {
+    "id": "1",
+    "collect": "lbook",
+    "kol": "50",
+    "pay": "150",
+    "give": "vendor_mage"
+   },
+   {
+    "id": "2",
+    "collect": "book_cm",
+    "kol": "5",
+    "pay": "500",
+    "give": "vendor_mage"
+   },
+   {
+    "id": "3",
+    "report": "vendor_mage"
+   }
+  ],
+  "reward": [
+   {
+    "id": "book_alicorn",
+    "kol": "1"
+   }
+  ]
+ },
+ "collectDust": {
+  "id": "collectDust",
+  "empl": "vendor_mage",
+  "rep": "2",
+  "subs": [
+   {
+    "id": "1",
+    "collect": "mdust",
+    "kol": "10",
+    "del": "1"
+   },
+   {
+    "id": "2",
+    "collect": "firecrystal",
+    "kol": "3",
+    "del": "1"
+   },
+   {
+    "id": "3",
+    "report": "vendor_mage"
+   }
+  ],
+  "reward": [
+   {
+    "id": "s_potion_elements",
+    "kol": "1"
+   }
+  ]
+ },
+ "collectMolefat": {
+  "id": "collectMolefat",
+  "empl": "vendor_mech",
+  "rep": "1",
+  "subs": [
+   {
+    "id": "1",
+    "collect": "molefat",
+    "kol": "25",
+    "pay": "100",
+    "give": "vendor_mech"
+   }
+  ]
+ },
+ "collectTools": {
+  "id": "collectTools",
+  "empl": "vendor_mech",
+  "rep": "2",
+  "begdial": "vendor_mech_quest1",
+  "subs": [
+   {
+    "id": "1",
+    "collect": "tool_calipers",
+    "kol": "1",
+    "give": "vendor_mech",
+    "pay": "750"
+   },
+   {
+    "id": "2",
+    "collect": "tool_boltcutter",
+    "kol": "1",
+    "give": "vendor_mech",
+    "pay": "750"
+   },
+   {
+    "id": "3",
+    "collect": "tool_oscilloscope",
+    "kol": "1",
+    "give": "vendor_mech",
+    "pay": "1500"
+   }
+  ],
+  "reward": [
+   {
+    "id": "reboot",
+    "kol": "3"
+   },
+   {
+    "id": "runa",
+    "kol": "3"
+   }
+  ]
+ },
+ "collectFans": {
+  "id": "collectFans",
+  "empl": "vendor_mech",
+  "rep": "1",
+  "subs": [
+   {
+    "id": "1",
+    "collect": "fan",
+    "kol": "10",
+    "pay": "20",
+    "give": "vendor_mech"
+   },
+   {
+    "id": "2",
+    "collect": "lamp",
+    "kol": "10",
+    "pay": "30",
+    "give": "vendor_mech"
+   },
+   {
+    "id": "3",
+    "collect": "kofe",
+    "kol": "10",
+    "pay": "50",
+    "give": "vendor_mech"
+   },
+   {
+    "id": "4",
+    "report": "vendor_mech"
+   }
+  ],
+  "reward": [
+   {
+    "id": "strickle",
+    "kol": "1"
+   }
+  ]
+ },
+ "collectScrew": {
+  "id": "collectScrew",
+  "empl": "vendor_mech",
+  "rep": "1",
+  "subs": [
+   {
+    "id": "1",
+    "collect": "box_screw",
+    "kol": "1",
+    "del": "1"
+   },
+   {
+    "id": "2",
+    "collect": "box_nut",
+    "kol": "1",
+    "del": "1"
+   },
+   {
+    "id": "3",
+    "report": "vendor_mech"
+   }
+  ],
+  "reward": [
+   {
+    "id": "money",
+    "kol": "1000"
+   },
+   {
+    "id": "rep",
+    "kol": "3"
+   }
+  ]
+ },
+ "collectData": {
+  "id": "collectData",
+  "empl": "vendor_mech",
+  "rep": "2",
+  "begdial": "vendor_mech_quest2",
+  "enddial": "vendor_mech_quest3",
+  "subs": [
+   {
+    "id": "1"
+   },
+   {
+    "id": "2",
+    "collect": "bdpass",
+    "kol": "1",
+    "nn": "1",
+    "us": "1"
+   },
+   {
+    "id": "3",
+    "collect": "mod_hacker",
+    "kol": "1",
+    "nn": "1"
+   },
+   {
+    "id": "4",
+    "collect": "data_eqd",
+    "kol": "1",
+    "del": "1"
+   },
+   {
+    "id": "5",
+    "report": "vendor_mech"
+   }
+  ],
+  "deposit": [
+   {
+    "id": "s_mod_hacker",
+    "kol": "1"
+   }
+  ],
+  "reward": [
+   {
+    "id": "money",
+    "kol": "2000"
+   },
+   {
+    "id": "amul_phis",
+    "kol": "1"
+   }
+  ]
+ },
+ "collectCol2": {
+  "id": "collectCol2",
+  "empl": "vendor_mech",
+  "rep": "2",
+  "subs": [
+   {
+    "id": "1",
+    "collect": "col2",
+    "kol": "12",
+    "pay": "200",
+    "give": "vendor_mech"
+   }
+  ],
+  "reward": [
+   {
+    "id": "money",
+    "kol": "1000"
+   },
+   {
+    "id": "repair",
+    "kol": "1"
+   }
+  ]
+ },
+ "collectCanter": {
+  "id": "collectCanter",
+  "empl": "vendor_zebr",
+  "rep": "1",
+  "subs": [
+   {
+    "id": "1",
+    "collect": "pinkslime",
+    "kol": "14",
+    "pay": "10",
+    "give": "vendor_zebr"
+   },
+   {
+    "id": "2",
+    "collect": "dsoul",
+    "kol": "4",
+    "pay": "40",
+    "give": "vendor_zebr"
+   },
+   {
+    "id": "3",
+    "collect": "whorn",
+    "kol": "2",
+    "pay": "100",
+    "give": "vendor_zebr"
+   },
+   {
+    "id": "4",
+    "report": "vendor_zebr"
+   }
+  ],
+  "reward": [
+   {
+    "id": "s_potion_dexter",
+    "kol": "1"
+   }
+  ]
+ },
+ "collectTalisman": {
+  "id": "collectTalisman",
+  "empl": "vendor_zebr",
+  "rep": "2",
+  "subs": [
+   {
+    "id": "1",
+    "collect": "wtal",
+    "kol": "1",
+    "del": "1"
+   },
+   {
+    "id": "2",
+    "report": "vendor_zebr"
+   }
+  ],
+  "reward": [
+   {
+    "id": "money",
+    "kol": "1000"
+   },
+   {
+    "id": "amul_dark",
+    "kol": "1"
+   }
+  ]
+ },
+ "hydroPon": {
+  "id": "hydroPon",
+  "rep": "2",
+  "enddial": "dialCanter8",
+  "subs": [
+   {
+    "id": "1"
+   },
+   {
+    "id": "2"
+   },
+   {
+    "id": "3",
+    "report": "vendor_sr"
+   }
+  ],
+  "reward": [
+   {
+    "id": "money",
+    "kol": "1000"
+   },
+   {
+    "id": "p50mg_1",
+    "kol": "40"
+   },
+   {
+    "id": "gren40_8",
+    "kol": "20"
+   },
+   {
+    "id": "crystal_6",
+    "kol": "120"
+   }
+  ]
+ },
+ "collectDatast": {
+  "id": "collectDatast",
+  "empl": "vendor_sr",
+  "rep": "1",
+  "subs": [
+   {
+    "id": "1",
+    "collect": "datast",
+    "kol": "8",
+    "pay": "500",
+    "give": "vendor_sr"
+   }
+  ],
+  "reward": [
+   {
+    "id": "amul_energ",
+    "kol": "1"
+   }
+  ]
+ },
+ "collectMotiv": {
+  "id": "collectMotiv",
+  "empl": "vendor_sr",
+  "rep": "1",
+  "subs": [
+   {
+    "id": "1",
+    "collect": "motiv",
+    "kol": "10",
+    "pay": "300",
+    "give": "vendor_sr"
+   }
+  ],
+  "reward": [
+   {
+    "id": "money",
+    "kol": "1000"
+   },
+   {
+    "id": "impgr",
+    "kol": "10"
+   }
+  ]
+ },
+ "collectBbatt": {
+  "id": "collectBbatt",
+  "empl": "vendor_sr",
+  "rep": "2",
+  "subs": [
+   {
+    "id": "1",
+    "collect": "bbatt",
+    "kol": "1",
+    "del": "1"
+   },
+   {
+    "id": "2",
+    "report": "vendor_sr"
+   }
+  ],
+  "reward": [
+   {
+    "id": "money",
+    "kol": "2500"
+   },
+   {
+    "id": "energ_6",
+    "kol": "250"
+   },
+   {
+    "id": "p308_2",
+    "kol": "40"
+   }
+  ]
+ },
+ "collectTech": {
+  "id": "collectTech",
+  "empl": "vendor_sr",
+  "rep": "3",
+  "subs": [
+   {
+    "id": "1",
+    "collect": "tech1",
+    "kol": "1",
+    "give": "vendor_sr",
+    "pay": "1000"
+   },
+   {
+    "id": "2",
+    "collect": "tech2",
+    "kol": "1",
+    "give": "vendor_sr",
+    "pay": "1500"
+   },
+   {
+    "id": "3",
+    "collect": "tech3",
+    "kol": "1",
+    "give": "vendor_sr",
+    "pay": "2000"
+   },
+   {
+    "id": "4",
+    "collect": "tech4",
+    "kol": "1",
+    "give": "vendor_sr",
+    "pay": "2500"
+   },
+   {
+    "id": "5",
+    "collect": "tech5",
+    "kol": "1",
+    "give": "vendor_sr",
+    "pay": "3000"
+   }
+  ],
+  "reward": [
+   {
+    "id": "bel^1",
+    "kol": "1"
+   }
+  ]
+ },
+ "enclArmor": {
+  "id": "enclArmor",
+  "empl": "vendor_sr",
+  "rep": "2",
+  "trigger": "encl_armor",
+  "triggerset": "wait",
+  "begdial": "vendor_sr_quest1",
+  "enddial": "vendor_sr_quest2",
+  "subs": [
+   {
+    "id": "1",
+    "collect": "enclarmor",
+    "kol": "1",
+    "del": "1"
+   },
+   {
+    "id": "2",
+    "report": "vendor_sr"
+   }
+  ]
+ },
+ "collectAlc": {
+  "id": "collectAlc",
+  "empl": "vendor_bar",
+  "rep": "3",
+  "begdial": "vendor_bar_quest1",
+  "subs": [
+   {
+    "id": "1",
+    "collect": "alc1",
+    "kol": "1",
+    "give": "vendor_bar",
+    "pay": "250",
+    "hidden": "1"
+   },
+   {
+    "id": "2",
+    "collect": "alc2",
+    "kol": "1",
+    "give": "vendor_bar",
+    "pay": "500",
+    "hidden": "1"
+   },
+   {
+    "id": "3",
+    "collect": "alc3",
+    "kol": "1",
+    "give": "vendor_bar",
+    "pay": "750",
+    "hidden": "1"
+   },
+   {
+    "id": "4",
+    "collect": "alc4",
+    "kol": "1",
+    "give": "vendor_bar",
+    "pay": "1000",
+    "hidden": "1"
+   },
+   {
+    "id": "5",
+    "collect": "alc5",
+    "kol": "1",
+    "give": "vendor_bar",
+    "pay": "1250",
+    "hidden": "1"
+   },
+   {
+    "id": "6",
+    "collect": "alc6",
+    "kol": "1",
+    "give": "vendor_bar",
+    "pay": "1500",
+    "hidden": "1"
+   },
+   {
+    "id": "7",
+    "collect": "alc7",
+    "kol": "1",
+    "give": "vendor_bar",
+    "pay": "2000",
+    "hidden": "1"
+   }
+  ],
+  "reward": [
+   {
+    "id": "socks",
+    "kol": "1"
+   }
+  ]
+ }
+}

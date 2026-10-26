@@ -1,0 +1,66 @@
+{
+ "repair": {
+  "tip": "book"
+ },
+ "medic": {
+  "tip": "book"
+ },
+ "magic": {
+  "tip": "book"
+ },
+ "lockpick": {
+  "tip": "book"
+ },
+ "science": {
+  "tip": "book"
+ },
+ "explosives": {
+  "tip": "book"
+ },
+ "smallguns": {
+  "tip": "book"
+ },
+ "melee": {
+  "tip": "book"
+ },
+ "energy": {
+  "tip": "book"
+ },
+ "sneak": {
+  "tip": "book"
+ },
+ "barter": {
+  "tip": "book"
+ },
+ "tele": {
+  "tip": "book"
+ },
+ "survival": {
+  "tip": "book"
+ },
+ "book_alicorn": {
+  "tip": "book",
+  "perk": "dam_alicorn"
+ },
+ "diary": {
+  "tip": "note",
+  "perk": "dam_zombie",
+  "text": "diaryText"
+ },
+ "sl_note1": {
+  "tip": "note",
+  "text": "slNote1"
+ },
+ "sl_note2": {
+  "tip": "note",
+  "text": "slNote2"
+ },
+ "merc_note1": {
+  "tip": "note",
+  "text": "mercNote1"
+ },
+ "lp_item": {
+  "tip": "note",
+  "text": "roomLPbook"
+ }
+}

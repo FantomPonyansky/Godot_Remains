@@ -1,0 +1,2119 @@
+{
+ "giveQuickstartItems": {
+  "id": "giveQuickstartItems",
+  "acts": [
+   {
+    "act": "take",
+    "val": "screwdriver",
+    "n": "1"
+   },
+   {
+    "act": "take",
+    "val": "r32",
+    "n": "1"
+   },
+   {
+    "act": "take",
+    "val": "p32",
+    "n": "16"
+   },
+   {
+    "act": "weapch",
+    "val": "r32"
+   },
+   {
+    "act": "take",
+    "val": "rech",
+    "n": "1"
+   },
+   {
+    "act": "take",
+    "val": "mont",
+    "n": "1"
+   },
+   {
+    "act": "take",
+    "val": "bat",
+    "n": "1"
+   },
+   {
+    "act": "take",
+    "val": "money",
+    "n": "50"
+   },
+   {
+    "act": "take",
+    "val": "pot0",
+    "n": "1"
+   },
+   {
+    "act": "take",
+    "val": "pot1",
+    "n": "1"
+   },
+   {
+    "act": "takeArmor",
+    "val": "pip"
+   },
+   {
+    "act": "armor",
+    "val": "pip"
+   },
+   {
+    "act": "fav",
+    "val": "r32",
+    "n": "1"
+   },
+   {
+    "act": "fav",
+    "val": "mont",
+    "n": "2"
+   }
+  ]
+ },
+ "tamePhoenix": {
+  "id": "tamePhoenix",
+  "acts": [
+   {
+    "act": "dialog",
+    "val": "dialTamePhoenix"
+   },
+   {
+    "act": "tame",
+    "targ": "this"
+   },
+   {
+    "act": "stage",
+    "val": "tamePhoenix",
+    "n": "2"
+   },
+   {
+    "act": "take",
+    "val": "whistle",
+    "t": "3",
+    "n": "1"
+   },
+   {
+    "act": "dialog",
+    "val": "dialTakeWhistle"
+   }
+  ]
+ },
+ "smokeRollup": {
+  "id": "smokeRollup",
+  "acts": [
+   {
+    "act": "control off"
+   },
+   {
+    "act": "dial",
+    "val": "dialSmoke",
+    "n": "0"
+   },
+   {
+    "act": "dial",
+    "val": "dialSmoke",
+    "t": "2",
+    "n": "1"
+   },
+   {
+    "act": "dial",
+    "val": "dialSmoke",
+    "n": "2"
+   },
+   {
+    "act": "dial",
+    "val": "dialSmoke",
+    "t": "2",
+    "n": "1"
+   },
+   {
+    "act": "speceffect",
+    "n": "1"
+   },
+   {
+    "act": "dial",
+    "val": "dialSmoke",
+    "n": "4"
+   },
+   {
+    "act": "speceffect",
+    "t": "3",
+    "n": "2"
+   },
+   {
+    "act": "dial",
+    "val": "dialSmoke",
+    "n": "5"
+   },
+   {
+    "act": "speceffect",
+    "t": "3",
+    "n": "3"
+   },
+   {
+    "act": "dial",
+    "val": "dialSmoke",
+    "n": "6"
+   },
+   {
+    "act": "speceffect",
+    "t": "3",
+    "n": "4"
+   },
+   {
+    "act": "dial",
+    "val": "dialSmoke",
+    "n": "7"
+   },
+   {
+    "act": "speceffect",
+    "t": "3",
+    "n": "5"
+   },
+   {
+    "act": "dial",
+    "val": "dialSmoke",
+    "n": "8"
+   },
+   {
+    "act": "dblack",
+    "val": "2",
+    "t": "3"
+   },
+   {
+    "act": "speceffect",
+    "n": "6"
+   },
+   {
+    "act": "dblack",
+    "val": "-3",
+    "t": "3"
+   },
+   {
+    "act": "black",
+    "val": "0"
+   },
+   {
+    "act": "dial",
+    "val": "dialSmoke",
+    "n": "9"
+   },
+   {
+    "act": "speceffect",
+    "n": "0"
+   },
+   {
+    "act": "dial",
+    "val": "dialSmoke",
+    "n": "10"
+   },
+   {
+    "act": "control on"
+   },
+   {
+    "act": "xp",
+    "val": "500"
+   }
+  ]
+ },
+ "fixGenerator": {
+  "id": "fixGenerator",
+  "acts": [
+   {
+    "act": "control off"
+   },
+   {
+    "act": "dblack",
+    "val": "2",
+    "t": "3"
+   },
+   {
+    "act": "locon"
+   },
+   {
+    "act": "control on"
+   },
+   {
+    "act": "dblack",
+    "val": "-3",
+    "t": "3"
+   },
+   {
+    "act": "black",
+    "val": "0"
+   }
+  ]
+ },
+ "beginBeg": {
+  "id": "beginBeg",
+  "acts": [
+   {
+    "act": "black",
+    "val": "1"
+   },
+   {
+    "act": "takeArmor",
+    "val": "pip"
+   },
+   {
+    "act": "armor",
+    "val": "pip"
+   },
+   {
+    "act": "gui off"
+   },
+   {
+    "act": "control off"
+   },
+   {
+    "act": "anim",
+    "val": "die",
+    "opt1": "1"
+   },
+   {
+    "act": "mess",
+    "val": "beginMess",
+    "t": "2"
+   },
+   {
+    "act": "dblack",
+    "val": "-2"
+   },
+   {
+    "act": "dial",
+    "val": "begDial",
+    "t": "4",
+    "n": "0"
+   },
+   {
+    "act": "dial",
+    "val": "begDial",
+    "t": "2",
+    "n": "1"
+   },
+   {
+    "act": "anim",
+    "val": "res",
+    "t": "2"
+   },
+   {
+    "act": "dial",
+    "val": "begDial",
+    "t": "2",
+    "n": "2"
+   },
+   {
+    "act": "control on",
+    "t": "1"
+   },
+   {
+    "act": "off",
+    "targ": "this"
+   },
+   {
+    "act": "mess",
+    "val": "trWalk"
+   }
+  ]
+ },
+ "beginMtn": {
+  "id": "beginMtn",
+  "acts": [
+   {
+    "act": "control off"
+   },
+   {
+    "act": "music",
+    "val": "music_strange"
+   },
+   {
+    "act": "dial",
+    "val": "begDialCP",
+    "t": "2",
+    "n": "0"
+   },
+   {
+    "act": "dial",
+    "val": "begDialCP",
+    "t": "2",
+    "n": "1"
+   },
+   {
+    "act": "dial",
+    "val": "begDialCP",
+    "n": "2"
+   },
+   {
+    "act": "on",
+    "targ": "begCP",
+    "t": "2"
+   },
+   {
+    "act": "dial",
+    "val": "begDialCP",
+    "n": "3"
+   },
+   {
+    "act": "dial",
+    "val": "begDialCP",
+    "n": "4"
+   },
+   {
+    "act": "dial",
+    "val": "begDialCP",
+    "n": "5"
+   },
+   {
+    "act": "dial",
+    "val": "begDialCP",
+    "n": "6"
+   },
+   {
+    "act": "quest",
+    "val": "toExit"
+   },
+   {
+    "act": "gui on"
+   },
+   {
+    "act": "unlock",
+    "targ": "begDoor"
+   },
+   {
+    "act": "off",
+    "targ": "this"
+   },
+   {
+    "act": "control on",
+    "t": "1"
+   }
+  ]
+ },
+ "beginLevit": {
+  "id": "beginLevit",
+  "acts": [
+   {
+    "act": "control off"
+   },
+   {
+    "act": "dial",
+    "val": "begDialLevit",
+    "t": "2",
+    "n": "0"
+   },
+   {
+    "act": "dial",
+    "val": "begDialLevit",
+    "t": "1",
+    "n": "1"
+   },
+   {
+    "act": "dial",
+    "val": "begDialLevit",
+    "n": "2"
+   },
+   {
+    "act": "perk",
+    "val": "levitation"
+   },
+   {
+    "act": "mess",
+    "val": "perkLevit",
+    "t": "1"
+   },
+   {
+    "act": "off",
+    "targ": "this"
+   },
+   {
+    "act": "on",
+    "targ": "trLevit"
+   },
+   {
+    "act": "control on",
+    "t": "0.2"
+   }
+  ]
+ },
+ "beginUp": {
+  "id": "beginUp",
+  "acts": [
+   {
+    "act": "control off"
+   },
+   {
+    "act": "dial",
+    "val": "begDialExit",
+    "n": "0"
+   },
+   {
+    "act": "dial",
+    "val": "begDialExit",
+    "n": "1"
+   },
+   {
+    "act": "dial",
+    "val": "begDialExit",
+    "n": "2"
+   },
+   {
+    "act": "stage",
+    "val": "toExit",
+    "t": "2",
+    "n": "1"
+   },
+   {
+    "act": "dial",
+    "val": "begDialExit",
+    "n": "3"
+   },
+   {
+    "act": "dial",
+    "val": "begDialExit",
+    "n": "4"
+   },
+   {
+    "act": "off",
+    "targ": "this"
+   },
+   {
+    "act": "control on"
+   },
+   {
+    "act": "pip",
+    "val": "1",
+    "n": "2"
+   },
+   {
+    "act": "on",
+    "targ": "trCrossroad"
+   }
+  ]
+ },
+ "beginStory": {
+  "id": "beginStory",
+  "acts": [
+   {
+    "act": "control off"
+   },
+   {
+    "act": "dialog",
+    "val": "storyDial1"
+   },
+   {
+    "act": "quest",
+    "val": "storyContact"
+   },
+   {
+    "act": "quest",
+    "val": "storyFind"
+   },
+   {
+    "act": "quest",
+    "val": "storyMain"
+   },
+   {
+    "act": "control on"
+   }
+  ]
+ },
+ "surfStory": {
+  "id": "surfStory",
+  "acts": [
+   {
+    "act": "control off"
+   },
+   {
+    "act": "dial",
+    "val": "dialCalam1",
+    "n": "0"
+   },
+   {
+    "act": "dial",
+    "val": "dialCalam1",
+    "n": "1"
+   },
+   {
+    "act": "dial",
+    "val": "dialCalam1",
+    "n": "2"
+   },
+   {
+    "act": "dial",
+    "val": "dialCalam1",
+    "n": "3"
+   },
+   {
+    "act": "fly",
+    "targ": "surfCalam",
+    "val": "40:7"
+   },
+   {
+    "act": "show",
+    "targ": "surfCalam",
+    "t": "2.5"
+   },
+   {
+    "act": "sign",
+    "targ": "surfCalam"
+   },
+   {
+    "act": "dial",
+    "val": "dialCalam1",
+    "t": "1.5",
+    "n": "4"
+   },
+   {
+    "act": "ai",
+    "targ": "surfCalam",
+    "val": "agro"
+   },
+   {
+    "act": "rep",
+    "targ": "surfCalam",
+    "val": "1"
+   },
+   {
+    "act": "show"
+   },
+   {
+    "act": "off",
+    "targ": "this"
+   },
+   {
+    "act": "control on"
+   }
+  ]
+ },
+ "rblVisit": {
+  "id": "rblVisit",
+  "acts": [
+   {
+    "act": "dialog",
+    "val": "rblDialM"
+   },
+   {
+    "act": "trigger",
+    "val": "rbl_visited",
+    "n": "1"
+   },
+   {
+    "act": "stage",
+    "val": "storyContact",
+    "n": "1"
+   },
+   {
+    "act": "off",
+    "targ": "this"
+   }
+  ]
+ },
+ "rblStory": {
+  "id": "rblStory",
+  "acts": [
+   {
+    "act": "control off"
+   },
+   {
+    "act": "music",
+    "val": "music_strange"
+   },
+   {
+    "act": "dialog",
+    "val": "storyDial1"
+   },
+   {
+    "act": "quest",
+    "val": "storyContact"
+   },
+   {
+    "act": "quest",
+    "val": "storyFind"
+   },
+   {
+    "act": "quest",
+    "val": "storyMain"
+   },
+   {
+    "act": "control on"
+   }
+  ]
+ },
+ "plantStory1": {
+  "id": "plantStory1",
+  "acts": [
+   {
+    "act": "stage",
+    "val": "storyMain",
+    "n": "2"
+   },
+   {
+    "act": "showstage",
+    "val": "storyMain",
+    "n": "3"
+   },
+   {
+    "act": "showstage",
+    "val": "storyMain",
+    "n": "4"
+   },
+   {
+    "act": "dialog",
+    "val": "plantNextLevel"
+   }
+  ]
+ },
+ "plantStory2": {
+  "id": "plantStory2",
+  "acts": [
+   {
+    "act": "dialog",
+    "val": "nioDial1"
+   },
+   {
+    "act": "stage",
+    "val": "storyMain",
+    "n": "4"
+   },
+   {
+    "act": "off",
+    "targ": "this"
+   }
+  ]
+ },
+ "raidersCapt": {
+  "id": "raidersCapt",
+  "acts": [
+   {
+    "act": "dialog",
+    "val": "surfDialCaptive"
+   },
+   {
+    "act": "quest",
+    "val": "freeCaptive"
+   },
+   {
+    "act": "off",
+    "targ": "this"
+   }
+  ]
+ },
+ "stableStory": {
+  "id": "stableStory",
+  "acts": [
+   {
+    "act": "stage",
+    "val": "storyStable",
+    "n": "2"
+   },
+   {
+    "act": "gotoland",
+    "val": "random_stable"
+   },
+   {
+    "act": "passed"
+   }
+  ]
+ },
+ "garages": {
+  "id": "garages",
+  "acts": [
+   {
+    "act": "stage",
+    "val": "storyMeet",
+    "n": "1"
+   },
+   {
+    "act": "off",
+    "targ": "this"
+   }
+  ]
+ },
+ "brspr": {
+  "id": "brspr",
+  "acts": [
+   {
+    "act": "dialog",
+    "val": "meetDial2"
+   },
+   {
+    "act": "stage",
+    "val": "storyMeet",
+    "n": "3"
+   },
+   {
+    "act": "stage",
+    "val": "storyMeet"
+   },
+   {
+    "act": "quest",
+    "val": "storyMane"
+   },
+   {
+    "act": "trigger",
+    "val": "story_mane",
+    "n": "1"
+   },
+   {
+    "act": "passed"
+   }
+  ]
+ },
+ "maneStory0": {
+  "id": "maneStory0",
+  "acts": [
+   {
+    "act": "dialog",
+    "val": "maneNextLevel"
+   },
+   {
+    "act": "stage",
+    "val": "storyMane",
+    "n": "2"
+   },
+   {
+    "act": "showstage",
+    "val": "storyMane",
+    "n": "3"
+   }
+  ]
+ },
+ "maneStory1": {
+  "id": "maneStory1",
+  "acts": [
+   {
+    "act": "control off"
+   },
+   {
+    "act": "music",
+    "val": "pre_1"
+   },
+   {
+    "act": "stage",
+    "val": "storyMane",
+    "n": "3"
+   },
+   {
+    "act": "allact",
+    "val": "activate",
+    "n": "1"
+   },
+   {
+    "act": "dialog",
+    "val": "dialAlicorn1"
+   },
+   {
+    "act": "showstage",
+    "val": "storyMane",
+    "n": "4"
+   },
+   {
+    "act": "off",
+    "targ": "this"
+   },
+   {
+    "act": "control on"
+   }
+  ]
+ },
+ "maneStory2": {
+  "id": "maneStory2",
+  "acts": [
+   {
+    "act": "control off"
+   },
+   {
+    "act": "music",
+    "val": "pre_1"
+   },
+   {
+    "act": "turn",
+    "val": "-1"
+   },
+   {
+    "act": "dialog",
+    "val": "dialAlicorn2"
+   },
+   {
+    "act": "stage",
+    "val": "storyMane",
+    "n": "4"
+   },
+   {
+    "act": "off",
+    "targ": "this"
+   },
+   {
+    "act": "control on"
+   }
+  ]
+ },
+ "zebraWay": {
+  "id": "zebraWay",
+  "acts": [
+   {
+    "act": "control off"
+   },
+   {
+    "act": "dialog",
+    "val": "dialZebra1"
+   },
+   {
+    "act": "trigger",
+    "val": "encounter_way",
+    "n": "1"
+   },
+   {
+    "act": "gotoland",
+    "val": "covert"
+   },
+   {
+    "act": "control on"
+   }
+  ]
+ },
+ "covertStory": {
+  "id": "covertStory",
+  "acts": [
+   {
+    "act": "control off"
+   },
+   {
+    "act": "music",
+    "val": "music_enc"
+   },
+   {
+    "act": "dialog",
+    "val": "dialVelvet1"
+   },
+   {
+    "act": "trigger",
+    "val": "rbl_visited",
+    "n": "1"
+   },
+   {
+    "act": "stage",
+    "val": "storyFind",
+    "n": "4"
+   },
+   {
+    "act": "stage",
+    "val": "storyFind"
+   },
+   {
+    "act": "off",
+    "targ": "this"
+   },
+   {
+    "act": "control on"
+   }
+  ]
+ },
+ "coverPatient": {
+  "id": "coverPatient",
+  "acts": [
+   {
+    "act": "control off"
+   },
+   {
+    "act": "dialog",
+    "val": "dialPatient1"
+   },
+   {
+    "act": "quest",
+    "val": "patientHeal"
+   },
+   {
+    "act": "off",
+    "targ": "this"
+   },
+   {
+    "act": "control on"
+   }
+  ]
+ },
+ "canterStory1": {
+  "id": "canterStory1",
+  "acts": [
+   {
+    "act": "stage",
+    "val": "storyCanter",
+    "n": "2"
+   },
+   {
+    "act": "dialog",
+    "val": "dialCanter3"
+   }
+  ]
+ },
+ "canterRangers": {
+  "id": "canterRangers",
+  "acts": [
+   {
+    "act": "control off"
+   },
+   {
+    "act": "dialog",
+    "val": "dialCanter5"
+   },
+   {
+    "act": "openland",
+    "val": "src"
+   },
+   {
+    "act": "control on"
+   },
+   {
+    "act": "refill"
+   },
+   {
+    "act": "upland"
+   },
+   {
+    "act": "off",
+    "targ": "this"
+   }
+  ]
+ },
+ "canterStory2": {
+  "id": "canterStory2",
+  "acts": [
+   {
+    "act": "stage",
+    "val": "storyCanter",
+    "n": "3"
+   },
+   {
+    "act": "off",
+    "targ": "this"
+   }
+  ]
+ },
+ "canterStory3": {
+  "id": "canterStory3",
+  "acts": [
+   {
+    "act": "control off"
+   },
+   {
+    "act": "music",
+    "val": "pre_1"
+   },
+   {
+    "act": "turn",
+    "val": "1"
+   },
+   {
+    "act": "show",
+    "targ": "minstMchavi",
+    "t": "1"
+   },
+   {
+    "act": "dialog",
+    "val": "dialMinst1"
+   },
+   {
+    "act": "show"
+   },
+   {
+    "act": "stage",
+    "val": "storyMane",
+    "n": "4"
+   },
+   {
+    "act": "off",
+    "targ": "this"
+   },
+   {
+    "act": "control on"
+   }
+  ]
+ },
+ "rangerStory1": {
+  "id": "rangerStory1",
+  "acts": [
+   {
+    "act": "control off"
+   },
+   {
+    "act": "music",
+    "val": "pre_1",
+    "t": "1"
+   },
+   {
+    "act": "turn",
+    "val": "1"
+   },
+   {
+    "act": "dialog",
+    "val": "dialRanger2"
+   },
+   {
+    "act": "ai",
+    "targ": "mbaseSteel",
+    "val": "agro"
+   },
+   {
+    "act": "showstage",
+    "val": "storyRanger",
+    "n": "3"
+   },
+   {
+    "act": "off",
+    "targ": "this"
+   },
+   {
+    "act": "control on"
+   }
+  ]
+ },
+ "rangerStory2": {
+  "id": "rangerStory2",
+  "acts": [
+   {
+    "act": "trigger",
+    "val": "mbase_visited",
+    "n": "1"
+   },
+   {
+    "act": "stage",
+    "val": "storyRanger",
+    "n": "2"
+   },
+   {
+    "act": "off",
+    "targ": "this"
+   }
+  ]
+ },
+ "rangerStory3": {
+  "id": "rangerStory3",
+  "acts": [
+   {
+    "act": "music",
+    "val": "pre_1"
+   },
+   {
+    "act": "dialog",
+    "val": "dialRanger4"
+   }
+  ]
+ },
+ "rangerStoryOk": {
+  "id": "rangerStoryOk",
+  "acts": [
+   {
+    "act": "stage",
+    "val": "storyRanger",
+    "n": "3"
+   },
+   {
+    "act": "showstage",
+    "val": "storyRanger",
+    "n": "4"
+   },
+   {
+    "act": "trigger",
+    "val": "cold_death",
+    "n": "1"
+   },
+   {
+    "act": "refill"
+   },
+   {
+    "act": "passed"
+   }
+  ]
+ },
+ "helpCampOk": {
+  "id": "helpCampOk",
+  "acts": [
+   {
+    "act": "dialog",
+    "val": "dialHelpCamp3"
+   },
+   {
+    "act": "stage",
+    "val": "storyHelpCamp",
+    "n": "2"
+   },
+   {
+    "act": "showstage",
+    "val": "storyHelpCamp",
+    "n": "3"
+   },
+   {
+    "act": "passed"
+   }
+  ]
+ },
+ "sovietStory": {
+  "id": "sovietStory",
+  "acts": [
+   {
+    "act": "control off"
+   },
+   {
+    "act": "dblack",
+    "val": "-3",
+    "t": "2"
+   },
+   {
+    "act": "black",
+    "val": "0"
+   },
+   {
+    "act": "dialog",
+    "val": "dialSoviet"
+   },
+   {
+    "act": "stage",
+    "val": "storyHelpCovert",
+    "n": "2"
+   },
+   {
+    "act": "showstage",
+    "val": "storyHelpCovert",
+    "n": "3"
+   },
+   {
+    "act": "showstage",
+    "val": "storyHelpCovert",
+    "n": "4"
+   },
+   {
+    "act": "showstage",
+    "val": "storyHelpCovert",
+    "n": "5"
+   },
+   {
+    "act": "showstage",
+    "val": "storyHelpCovert",
+    "n": "6"
+   },
+   {
+    "act": "dblack",
+    "val": "3",
+    "t": "2"
+   },
+   {
+    "act": "control on"
+   },
+   {
+    "act": "goto",
+    "val": "1 0"
+   },
+   {
+    "act": "black",
+    "val": "0"
+   }
+  ]
+ },
+ "workshopIn": {
+  "id": "workshopIn",
+  "acts": [
+   {
+    "act": "off",
+    "targ": "this"
+   },
+   {
+    "act": "dialog",
+    "val": "dialHelpCamp1"
+   },
+   {
+    "act": "close",
+    "targ": "elpanel1",
+    "t": "1"
+   },
+   {
+    "act": "dialog",
+    "val": "dialHelpCamp2"
+   }
+  ]
+ },
+ "hqlIn": {
+  "id": "hqlIn",
+  "acts": [
+   {
+    "act": "stage",
+    "val": "storyHelpCovert",
+    "n": "4"
+   },
+   {
+    "act": "off",
+    "targ": "this"
+   }
+  ]
+ },
+ "zebraKill": {
+  "id": "zebraKill",
+  "acts": [
+   {
+    "act": "stage",
+    "val": "storyHelpCovert",
+    "n": "5"
+   }
+  ]
+ },
+ "postStory1": {
+  "id": "postStory1",
+  "acts": [
+   {
+    "act": "control off"
+   },
+   {
+    "act": "music",
+    "val": "pre_1",
+    "t": "1"
+   },
+   {
+    "act": "dialog",
+    "val": "dialEncl1"
+   },
+   {
+    "act": "off",
+    "targ": "this"
+   },
+   {
+    "act": "control on",
+    "t": "1"
+   },
+   {
+    "act": "fraction",
+    "targ": "postE2",
+    "val": "4"
+   },
+   {
+    "act": "fraction",
+    "targ": "postE1",
+    "val": "4",
+    "t": "5"
+   },
+   {
+    "act": "alarm"
+   }
+  ]
+ },
+ "postStory3": {
+  "id": "postStory3",
+  "acts": [
+   {
+    "act": "dialog",
+    "val": "dialEncl2"
+   },
+   {
+    "act": "stage",
+    "val": "storyEncl",
+    "n": "1"
+   },
+   {
+    "act": "showstage",
+    "val": "storyEncl",
+    "n": "2"
+   },
+   {
+    "act": "showstage",
+    "val": "storyEncl",
+    "n": "3"
+   },
+   {
+    "act": "trigger",
+    "val": "encounter_post",
+    "n": "1"
+   },
+   {
+    "act": "passed"
+   },
+   {
+    "act": "gotoland",
+    "val": "random_encl"
+   }
+  ]
+ },
+ "commStory0": {
+  "id": "commStory0",
+  "acts": [
+   {
+    "act": "dialog",
+    "val": "dialEncl3"
+   },
+   {
+    "act": "stage",
+    "val": "storyEncl",
+    "n": "2"
+   },
+   {
+    "act": "check",
+    "targ": "commCheck"
+   },
+   {
+    "act": "off",
+    "targ": "this"
+   }
+  ]
+ },
+ "commStory1": {
+  "id": "commStory1",
+  "acts": [
+   {
+    "act": "trigger",
+    "val": "colonel_show",
+    "n": "1"
+   },
+   {
+    "act": "off",
+    "targ": "this"
+   }
+  ]
+ },
+ "commStory2": {
+  "id": "commStory2",
+  "acts": [
+   {
+    "act": "trigger",
+    "val": "colonel_show",
+    "n": "2"
+   },
+   {
+    "act": "dialog",
+    "val": "dialEncl4"
+   },
+   {
+    "act": "take",
+    "val": "key_encl",
+    "n": "1"
+   },
+   {
+    "act": "stage",
+    "val": "storyEncl",
+    "n": "3"
+   },
+   {
+    "act": "stage",
+    "val": "storyHome",
+    "n": "3"
+   },
+   {
+    "act": "showstage",
+    "val": "storyHome",
+    "n": "4"
+   },
+   {
+    "act": "trigger",
+    "val": "observer",
+    "n": "1"
+   },
+   {
+    "act": "trigger",
+    "val": "dial_dialWat1",
+    "n": "1"
+   },
+   {
+    "act": "passed"
+   },
+   {
+    "act": "off",
+    "targ": "this"
+   }
+  ]
+ },
+ "commStory3": {
+  "id": "commStory3",
+  "acts": [
+   {
+    "act": "trigger",
+    "val": "colonel_show",
+    "n": "3"
+   },
+   {
+    "act": "dialog",
+    "val": "dialEncl5"
+   }
+  ]
+ },
+ "stablePi0": {
+  "id": "stablePi0",
+  "acts": [
+   {
+    "act": "control off"
+   },
+   {
+    "act": "turn",
+    "val": "1"
+   },
+   {
+    "act": "dialog",
+    "val": "dialMen1"
+   },
+   {
+    "act": "control off"
+   },
+   {
+    "act": "dblack",
+    "val": "3",
+    "t": "2"
+   },
+   {
+    "act": "mess",
+    "val": "mentorMess",
+    "t": "2"
+   },
+   {
+    "act": "dblack",
+    "val": "-3",
+    "t": "2"
+   },
+   {
+    "act": "black",
+    "val": "0"
+   },
+   {
+    "act": "dialog",
+    "val": "dialMen2"
+   },
+   {
+    "act": "stage",
+    "val": "storyHome",
+    "n": "6"
+   },
+   {
+    "act": "stage",
+    "val": "storyHome"
+   },
+   {
+    "act": "take",
+    "val": "kogit",
+    "n": "-1"
+   },
+   {
+    "act": "take",
+    "val": "amul_al",
+    "n": "-1"
+   },
+   {
+    "act": "take",
+    "val": "blackbook",
+    "n": "-1"
+   },
+   {
+    "act": "quest",
+    "val": "storyStorm"
+   },
+   {
+    "act": "trigger",
+    "val": "storm",
+    "n": "1"
+   },
+   {
+    "act": "trigger",
+    "val": "pi_visited",
+    "n": "1"
+   },
+   {
+    "act": "control on"
+   }
+  ]
+ },
+ "stablePi1": {
+  "id": "stablePi1",
+  "acts": [
+   {
+    "act": "music",
+    "val": "music_enc"
+   },
+   {
+    "act": "dialog",
+    "val": "roomLP"
+   }
+  ]
+ },
+ "fortRocks1": {
+  "id": "fortRocks1",
+  "acts": [
+   {
+    "act": "stage",
+    "val": "storyStorm",
+    "n": "3"
+   },
+   {
+    "act": "trigger",
+    "val": "fin",
+    "n": "1"
+   },
+   {
+    "act": "check",
+    "targ": "artF1"
+   },
+   {
+    "act": "off",
+    "targ": "this"
+   }
+  ]
+ },
+ "fortRocks2": {
+  "id": "fortRocks2",
+  "acts": [
+   {
+    "act": "control off"
+   },
+   {
+    "act": "dial",
+    "val": "dialStorm3",
+    "n": "0"
+   },
+   {
+    "act": "control off"
+   },
+   {
+    "act": "black",
+    "val": "1"
+   },
+   {
+    "act": "allact",
+    "val": "open",
+    "n": "a1"
+   },
+   {
+    "act": "trigger",
+    "val": "art_trigger",
+    "n": "1"
+   },
+   {
+    "act": "trigger",
+    "val": "storm",
+    "n": "3"
+   },
+   {
+    "act": "passed"
+   },
+   {
+    "act": "locoff"
+   },
+   {
+    "act": "dial",
+    "val": "dialStorm3",
+    "n": "1"
+   },
+   {
+    "act": "control off"
+   },
+   {
+    "act": "dblack",
+    "val": "-3",
+    "t": "2"
+   },
+   {
+    "act": "black",
+    "val": "0"
+   },
+   {
+    "act": "stage",
+    "val": "storyStorm",
+    "n": "4"
+   },
+   {
+    "act": "showstage",
+    "val": "storyStorm",
+    "n": "5"
+   },
+   {
+    "act": "dial",
+    "val": "dialStorm3",
+    "n": "2"
+   },
+   {
+    "act": "off",
+    "targ": "this"
+   },
+   {
+    "act": "control on"
+   }
+  ]
+ },
+ "stablePi2": {
+  "id": "stablePi2",
+  "acts": [
+   {
+    "act": "dialog",
+    "val": "dialFin1"
+   },
+   {
+    "act": "open",
+    "targ": "piF2"
+   }
+  ]
+ },
+ "stablePi3": {
+  "id": "stablePi3",
+  "acts": [
+   {
+    "act": "dialog",
+    "val": "dialFin3"
+   },
+   {
+    "act": "stage",
+    "val": "storyFbattle",
+    "n": "1"
+   },
+   {
+    "act": "showstage",
+    "val": "storyFbattle",
+    "n": "2"
+   },
+   {
+    "act": "sign",
+    "targ": "piF3",
+    "n": "1"
+   },
+   {
+    "act": "off",
+    "targ": "this"
+   }
+  ]
+ },
+ "stablePi4": {
+  "id": "stablePi4",
+  "acts": [
+   {
+    "act": "dialog",
+    "val": "dialFin4"
+   },
+   {
+    "act": "control off"
+   },
+   {
+    "act": "dblack",
+    "val": "1",
+    "t": "4"
+   },
+   {
+    "act": "music",
+    "val": "music_strange"
+   },
+   {
+    "act": "open",
+    "targ": "piF4"
+   },
+   {
+    "act": "alicorn",
+    "val": "1"
+   },
+   {
+    "act": "dblack",
+    "val": "-10",
+    "t": "1"
+   },
+   {
+    "act": "black",
+    "val": "0"
+   },
+   {
+    "act": "trigger",
+    "val": "storm",
+    "n": "5"
+   },
+   {
+    "act": "trigger",
+    "val": "fin",
+    "n": "3"
+   },
+   {
+    "act": "stage",
+    "val": "storyFbattle",
+    "n": "2"
+   },
+   {
+    "act": "dialog",
+    "val": "dialFin5"
+   },
+   {
+    "act": "showstage",
+    "val": "storyFbattle",
+    "n": "3"
+   },
+   {
+    "act": "showstage",
+    "val": "storyFbattle",
+    "n": "5"
+   },
+   {
+    "act": "off",
+    "targ": "this"
+   },
+   {
+    "act": "control on"
+   },
+   {
+    "act": "dialog",
+    "val": "alicornArmor"
+   }
+  ]
+ },
+ "megabossDie": {
+  "id": "megabossDie",
+  "acts": [
+   {
+    "act": "control off",
+    "t": "1"
+   },
+   {
+    "act": "dialog",
+    "val": "dialFB5"
+   },
+   {
+    "act": "dblack",
+    "val": "1.6"
+   },
+   {
+    "act": "vsos",
+    "targ": "megaboss",
+    "t": "2"
+   },
+   {
+    "act": "black",
+    "val": "1"
+   },
+   {
+    "act": "goto",
+    "val": "1 0"
+   },
+   {
+    "act": "black",
+    "val": "0"
+   },
+   {
+    "act": "control on"
+   }
+  ]
+ },
+ "megabossDie2": {
+  "id": "megabossDie2",
+  "acts": [
+   {
+    "act": "trus",
+    "val": "1"
+   },
+   {
+    "act": "open",
+    "targ": "th1"
+   },
+   {
+    "act": "open",
+    "targ": "th2"
+   },
+   {
+    "act": "dialog",
+    "val": "dialFB6",
+    "t": "1"
+   },
+   {
+    "act": "stage",
+    "val": "storyFbattle",
+    "n": "4"
+   }
+  ]
+ },
+ "lp_fall": {
+  "id": "lp_fall",
+  "acts": [
+   {
+    "act": "music",
+    "val": "music_fall_1",
+    "n": "1"
+   },
+   {
+    "act": "scene",
+    "val": "thunder1",
+    "t": "7"
+   },
+   {
+    "act": "dblack",
+    "val": "3",
+    "t": "1"
+   },
+   {
+    "act": "black",
+    "val": "1",
+    "t": "1"
+   },
+   {
+    "act": "scene",
+    "val": "thunder2"
+   },
+   {
+    "act": "dblack",
+    "val": "-1",
+    "t": "3"
+   },
+   {
+    "act": "black",
+    "val": "0",
+    "t": "1"
+   },
+   {
+    "act": "dialog",
+    "val": "dialFB7"
+   },
+   {
+    "act": "music",
+    "val": "music_fall_2"
+   },
+   {
+    "act": "scene",
+    "val": "thunder2",
+    "t": "2"
+   },
+   {
+    "act": "scene",
+    "val": "thunder2",
+    "t": "1",
+    "n": "3"
+   },
+   {
+    "act": "dblack",
+    "val": "3",
+    "t": "1"
+   },
+   {
+    "act": "scene",
+    "val": "thunder3"
+   },
+   {
+    "act": "dblack",
+    "val": "-1",
+    "t": "3"
+   },
+   {
+    "act": "black",
+    "val": "0"
+   },
+   {
+    "act": "dialog",
+    "val": "dialFB8"
+   },
+   {
+    "act": "scene",
+    "val": "thunder3",
+    "t": "1",
+    "n": "3"
+   },
+   {
+    "act": "dialog",
+    "val": "dialFB9"
+   },
+   {
+    "act": "scene",
+    "val": "thunder3",
+    "n": "51"
+   },
+   {
+    "act": "dblack",
+    "val": "1",
+    "t": "5"
+   },
+   {
+    "act": "black",
+    "val": "1",
+    "t": "1"
+   },
+   {
+    "act": "trigger",
+    "val": "theend",
+    "n": "1"
+   },
+   {
+    "act": "scene"
+   },
+   {
+    "act": "gotoland",
+    "val": "grave",
+    "n": "2"
+   }
+  ]
+ },
+ "vse": {
+  "id": "vse",
+  "acts": [
+   {
+    "act": "black",
+    "val": "1"
+   },
+   {
+    "act": "black",
+    "val": "1"
+   },
+   {
+    "act": "dblack",
+    "val": "0"
+   },
+   {
+    "act": "black",
+    "val": "1"
+   },
+   {
+    "act": "mess",
+    "val": "graveMess"
+   },
+   {
+    "act": "music",
+    "val": "music_end"
+   },
+   {
+    "act": "control off",
+    "t": "2"
+   },
+   {
+    "act": "trigger",
+    "val": "fin",
+    "n": "0"
+   },
+   {
+    "act": "trigger",
+    "val": "storm",
+    "n": "0"
+   },
+   {
+    "act": "trigger",
+    "val": "dial_dialSc1",
+    "n": "1"
+   },
+   {
+    "act": "trigger",
+    "val": "dial_dialSc2",
+    "n": "1"
+   },
+   {
+    "act": "trigger",
+    "val": "dial_dialSc3",
+    "n": "1"
+   },
+   {
+    "act": "trigger",
+    "val": "dial_dialSc4",
+    "n": "1"
+   },
+   {
+    "act": "alicorn",
+    "val": "0"
+   },
+   {
+    "act": "armor",
+    "val": "pip"
+   },
+   {
+    "act": "turn",
+    "val": "-1"
+   },
+   {
+    "act": "dblack",
+    "val": "-1.1",
+    "t": "3"
+   },
+   {
+    "act": "black",
+    "val": "0"
+   },
+   {
+    "act": "dialog",
+    "val": "dialEnd0"
+   },
+   {
+    "act": "stage",
+    "val": "storyFbattle",
+    "n": "5"
+   },
+   {
+    "act": "stage",
+    "val": "storyFbattle"
+   },
+   {
+    "act": "take",
+    "val": "ali",
+    "n": "1"
+   },
+   {
+    "act": "control on"
+   },
+   {
+    "act": "off",
+    "targ": "this"
+   }
+  ]
+ },
+ "endgame": {
+  "id": "endgame",
+  "acts": [
+   {
+    "act": "control off"
+   },
+   {
+    "act": "dblack",
+    "val": "1",
+    "t": "5"
+   },
+   {
+    "act": "black",
+    "val": "1"
+   },
+   {
+    "act": "endgame"
+   },
+   {
+    "act": "dblack",
+    "val": "-3",
+    "t": "1"
+   },
+   {
+    "act": "black",
+    "val": "0"
+   },
+   {
+    "act": "wait"
+   },
+   {
+    "act": "dblack",
+    "val": "2",
+    "t": "2"
+   },
+   {
+    "act": "black",
+    "val": "1"
+   },
+   {
+    "act": "dialog",
+    "val": "dial_endgame"
+   },
+   {
+    "act": "gotoland",
+    "val": "rbl",
+    "n": "2"
+   }
+  ]
+ },
+ "gameover": {
+  "id": "gameover",
+  "acts": [
+   {
+    "act": "gameover"
+   },
+   {
+    "act": "dblack",
+    "val": "-3",
+    "t": "1"
+   },
+   {
+    "act": "black",
+    "val": "0"
+   },
+   {
+    "act": "wait"
+   },
+   {
+    "act": "pip",
+    "val": "5",
+    "n": "1"
+   }
+  ]
+ }
+}

@@ -1,0 +1,33 @@
+{
+  "files": [
+    "rooms_art",
+    "rooms_begin",
+    "rooms_canter",
+    "rooms_comm",
+    "rooms_core",
+    "rooms_covert",
+    "rooms_encl",
+    "rooms_garages",
+    "rooms_grave",
+    "rooms_hql",
+    "rooms_mane",
+    "rooms_mbase",
+    "rooms_minst",
+    "rooms_mtn",
+    "rooms_nio",
+    "rooms_pi",
+    "rooms_pis",
+    "rooms_plant",
+    "rooms_post",
+    "rooms_prob",
+    "rooms_raiders",
+    "rooms_rbl",
+    "rooms_sewer",
+    "rooms_src",
+    "rooms_stable",
+    "rooms_surf",
+    "rooms_thunder",
+    "rooms_way",
+    "rooms_workshop"
+  ]
+}

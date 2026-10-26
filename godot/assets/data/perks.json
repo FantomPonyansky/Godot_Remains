@@ -1,0 +1,2825 @@
+{
+  "source": "perks.xml + text_en.xml. pending marks effects this slice does not apply yet. Ranks still save.",
+  "perks": [
+    {
+      "id": "levitation",
+      "name": "Double jump",
+      "cost": 1,
+      "max_rank": 1,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "level",
+          "level": 1
+        }
+      ],
+      "blurb": "With help of your telekinesis, you can jump once in mid-air. The height of this second jump depends on the skill level of \"Telekinesis\"",
+      "pending": false,
+      "sk": [
+        {
+          "id": "isDJ",
+          "v": [
+            1.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "selflevit",
+      "name": "Self-levitation",
+      "cost": 1,
+      "max_rank": 2,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "tele",
+          "level": 2,
+          "dlvl": 3
+        }
+      ],
+      "blurb": "You can levitate yourself using magical power. To do this, press and hold @1 while being in the air. Press the @2@3@4@5 movement keys to move sideways, down or up. Moving upwards consumes more magical power.\nAt the second level of this ability the consumption of magic will decrease, and the time and range of flight increase",
+      "pending": false,
+      "sk": [
+        {
+          "id": "levitOn",
+          "v0": 0.0,
+          "v": [
+            1.0,
+            1.0
+          ]
+        },
+        {
+          "id": "levitDMana",
+          "v": [
+            5.0,
+            1.0
+          ]
+        },
+        {
+          "id": "levitDManaUp",
+          "v": [
+            20.0,
+            4.0
+          ]
+        },
+        {
+          "id": "maxmM",
+          "tip": "m",
+          "vd": 1.0
+        }
+      ]
+    },
+    {
+      "id": "telemaster",
+      "name": "Master of telekinesis",
+      "cost": 1,
+      "max_rank": 1,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "tele",
+          "level": 4
+        },
+        {
+          "id": "level",
+          "level": 15
+        }
+      ],
+      "blurb": "The range of your telekinetic grasp is increased. Also, now you can lift and perform other telekinetic actions with objects that are out of your sight",
+      "pending": false,
+      "sk": [
+        {
+          "id": "telemaster",
+          "v0": 0.0,
+          "v": [
+            1.0
+          ]
+        },
+        {
+          "id": "teleDist",
+          "v0": 360000.0,
+          "v": [
+            640000.0
+          ]
+        },
+        {
+          "id": "maxmM",
+          "tip": "m",
+          "v": [
+            1.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "telethrow",
+      "name": "Zero point magical field manipulator",
+      "cost": 1,
+      "max_rank": 2,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "tele",
+          "level": 2,
+          "dlvl": 2
+        }
+      ],
+      "blurb": "Not only you are able to move objects with telekinesis, but also you can make them plummet through the air! To do that, press @1 when levitating an object. You can try to hit an enemy with a heady box or smash him against a wall. The second level of this perk allows you to throw objects even faster and further. Keep in mind - pushing heavy objects rapidly burns your magical power",
+      "pending": false,
+      "sk": [
+        {
+          "id": "throwForce",
+          "v0": 0.0,
+          "v": [
+            25.0,
+            35.0
+          ]
+        },
+        {
+          "id": "throwDmagic",
+          "v0": 300.0,
+          "v": [
+            200.0,
+            150.0
+          ]
+        },
+        {
+          "id": "maxmM",
+          "tip": "m",
+          "vd": 1.0
+        }
+      ]
+    },
+    {
+      "id": "spell_port",
+      "name": "Teleportation",
+      "cost": 1,
+      "max_rank": 1,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "level",
+          "level": 12
+        },
+        {
+          "id": "magic",
+          "level": 4
+        }
+      ],
+      "blurb": "You receive an ability to instantly move between places. To use it press and hold @1 while the spell charges, then release to perform teleportation. To cancel already charged spell press @2. You must see the point of arrival. Consumes quite a lot of magical energy",
+      "pending": false,
+      "sk": [
+        {
+          "id": "portPoss",
+          "v0": 0.0,
+          "vd": 1.0
+        },
+        {
+          "id": "maxm1",
+          "tip": "m",
+          "v": [
+            10.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "diel",
+      "name": "Dielectric",
+      "cost": 1,
+      "max_rank": 1,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "magic",
+          "level": 2
+        }
+      ],
+      "blurb": "Due to some features of your organism, electricity and lightning cause you 20% less damage",
+      "pending": false,
+      "sk": [
+        {
+          "id": "9",
+          "tip": "res",
+          "v": [
+            0.2
+          ]
+        },
+        {
+          "id": "maxmM",
+          "tip": "m",
+          "v": [
+            1.0
+          ]
+        },
+        {
+          "id": "maxm1",
+          "tip": "m",
+          "v": [
+            10.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "warlock",
+      "name": "Battle mage",
+      "cost": 1,
+      "max_rank": 3,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "magic",
+          "level": 1,
+          "dlvl": 2
+        }
+      ],
+      "blurb": "You are so used to using attack magic in battles, that it almost does not tire you. With each level of this ability, you spend less magical energy on combat spells",
+      "pending": false,
+      "sk": [
+        {
+          "id": "warlockDManaMult",
+          "v0": 1.0,
+          "v": [
+            0.8,
+            0.65,
+            0.5
+          ]
+        },
+        {
+          "id": "maxmM",
+          "tip": "m",
+          "vd": 1.0
+        }
+      ]
+    },
+    {
+      "id": "oak",
+      "name": "Iron skin",
+      "cost": 1,
+      "max_rank": 1,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "melee",
+          "level": 1
+        }
+      ],
+      "blurb": "Trainings with melee weapons gave great results. Now you are harder to get wounded with sharp items. Resistance to cutting damage increased",
+      "pending": false,
+      "sk": [
+        {
+          "id": "1",
+          "tip": "res",
+          "v0": 0.0,
+          "v": [
+            0.25
+          ]
+        },
+        {
+          "id": "maxmW",
+          "tip": "m",
+          "v": [
+            1.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "stonewall",
+      "name": "Stone wall",
+      "cost": 1,
+      "max_rank": 1,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "melee",
+          "level": 2
+        }
+      ],
+      "blurb": "You got so used to being hit with heavy stuff, now it just tickles. Resistance to blunt weapons increased",
+      "pending": false,
+      "sk": [
+        {
+          "id": "2",
+          "tip": "res",
+          "v0": 0.0,
+          "v": [
+            0.25
+          ]
+        },
+        {
+          "id": "maxmW",
+          "tip": "m",
+          "v": [
+            1.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "acute",
+      "name": "Piercing strike",
+      "cost": 1,
+      "max_rank": 1,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "melee",
+          "level": 3
+        }
+      ],
+      "blurb": "Any armor has weak spots and you know it very well. Any stubbing-cutting weapon (like knives, swords, axes and spears) gets additional armor-piercing effect",
+      "pending": false,
+      "sk": [
+        {
+          "id": "acutePier",
+          "v0": 0.0,
+          "v": [
+            25.0
+          ]
+        },
+        {
+          "id": "maxmW",
+          "tip": "m",
+          "v": [
+            2.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "stunning",
+      "name": "Stunning strike",
+      "cost": 1,
+      "max_rank": 1,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "melee",
+          "level": 4
+        }
+      ],
+      "blurb": "Any blunt weapon (like a bat, a crowbar or a sledgehammer) gets a chance to stun enemy for 3 seconds. Its knockback effect is also increased",
+      "pending": false,
+      "sk": [
+        {
+          "id": "stunningStun",
+          "v0": 0.0,
+          "v": [
+            90.0
+          ]
+        },
+        {
+          "id": "stunningKnock",
+          "v0": 1.0,
+          "v": [
+            1.25
+          ]
+        },
+        {
+          "id": "maxmW",
+          "tip": "m",
+          "v": [
+            2.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mmaster",
+      "name": "Melee master",
+      "cost": 1,
+      "max_rank": 1,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "melee",
+          "level": 5
+        }
+      ],
+      "blurb": "You have mastered the cold steel to perfections. The attack speed of any melee weapon (except chainsaw and similar) is increased by 15%",
+      "pending": false,
+      "sk": [
+        {
+          "id": "meleeSpdMult",
+          "ref": "add",
+          "v": [
+            0.15
+          ]
+        },
+        {
+          "id": "maxmW",
+          "tip": "m",
+          "v": [
+            1.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pistol",
+      "name": "Duelist",
+      "cost": 1,
+      "max_rank": 1,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "smallguns",
+          "level": 1
+        }
+      ],
+      "blurb": "You are not a fan of big and heavy weapons. Your choice - pistols and revolvers, and you sure know how to use them. All your handguns (including automatic) get accuracy bonus, and they consume 25% less action points in S.A.T.S.",
+      "pending": false,
+      "sk": [
+        {
+          "id": "pistolPrec",
+          "v0": 1.0,
+          "v": [
+            1.25
+          ]
+        },
+        {
+          "id": "pistolCons",
+          "v0": 1.0,
+          "v": [
+            0.75
+          ]
+        },
+        {
+          "id": "maxmW",
+          "tip": "m",
+          "v": [
+            1.0
+          ]
+        },
+        {
+          "id": "maxm2",
+          "tip": "m",
+          "v": [
+            200.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reinforced",
+      "name": "Armored hide",
+      "cost": 1,
+      "max_rank": 1,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "level",
+          "level": 10
+        },
+        {
+          "id": "smallguns",
+          "level": 2
+        }
+      ],
+      "blurb": "You lost count of bullets being shot at you. This made you tougher, your bullet resistance is permanently increased",
+      "damage_taken_mult": 0.85,
+      "sk": [
+        {
+          "id": "0",
+          "tip": "res",
+          "v0": 0.0,
+          "v": [
+            0.15
+          ]
+        },
+        {
+          "id": "maxm2",
+          "tip": "m",
+          "v": [
+            200.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "shot",
+      "name": "Crazy farmer",
+      "cost": 1,
+      "max_rank": 1,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "smallguns",
+          "level": 2
+        }
+      ],
+      "blurb": "Your favorite weapon - a shotgun, with that you are ready to protect yourself and your property either from raiders, bandits or a darn army of dragons! All your shotguns get armor piercing and increased knockback effects",
+      "pending": false,
+      "sk": [
+        {
+          "id": "shotPier",
+          "v0": 0.0,
+          "v": [
+            15.0
+          ]
+        },
+        {
+          "id": "shotKnock",
+          "v0": 1.0,
+          "v": [
+            1.25
+          ]
+        },
+        {
+          "id": "maxmW",
+          "tip": "m",
+          "v": [
+            1.0
+          ]
+        },
+        {
+          "id": "maxm2",
+          "tip": "m",
+          "v": [
+            100.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "commando",
+      "name": "Commando",
+      "cost": 1,
+      "max_rank": 1,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "smallguns",
+          "level": 3
+        }
+      ],
+      "blurb": "You are absolutely sure that there is no weapon better than an assault rifle. And you sure know how to get the best from it. Your assault rifles and a minigun cause more damage by 2 points per each bullet",
+      "damage_flat": 3,
+      "sk": [
+        {
+          "id": "commandoDet",
+          "v0": 0.0,
+          "v": [
+            3.0
+          ]
+        },
+        {
+          "id": "maxmW",
+          "tip": "m",
+          "v": [
+            1.0
+          ]
+        },
+        {
+          "id": "maxm2",
+          "tip": "m",
+          "v": [
+            100.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "hardness",
+      "name": "Hard grip",
+      "cost": 1,
+      "max_rank": 1,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "smallguns",
+          "level": 4
+        },
+        {
+          "id": "tele",
+          "level": 3
+        }
+      ],
+      "blurb": "You learned to hold the weapon with telekinesis so that there is less impact from recoil. Now you can sustain burst fire longer without fear of losing a target. This also increases the accuracy of assault rifles",
+      "pending": false,
+      "sk": [
+        {
+          "id": "recoilMult",
+          "v0": 1.0,
+          "v": [
+            0.2
+          ]
+        },
+        {
+          "id": "commandoPrec",
+          "v0": 1.0,
+          "v": [
+            1.15
+          ]
+        },
+        {
+          "id": "maxmW",
+          "tip": "m",
+          "v": [
+            1.0
+          ]
+        },
+        {
+          "id": "maxm2",
+          "tip": "m",
+          "v": [
+            100.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "perf",
+      "name": "Perforator",
+      "cost": 1,
+      "max_rank": 1,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "smallguns",
+          "level": 5
+        }
+      ],
+      "blurb": "Let's make some holes in 'em! Your heavy machine guns receive additional armor-piercing properties, and their bullet spread is decreased 2 times",
+      "pending": false,
+      "sk": [
+        {
+          "id": "perfPier",
+          "v0": 0.0,
+          "v": [
+            20.0
+          ]
+        },
+        {
+          "id": "perfDev",
+          "v0": 1.0,
+          "v": [
+            0.5
+          ]
+        },
+        {
+          "id": "maxm2",
+          "tip": "m",
+          "v": [
+            200.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "antifire",
+      "name": "Fire resistance",
+      "cost": 1,
+      "max_rank": 1,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "level",
+          "level": 5
+        },
+        {
+          "id": "energy",
+          "level": 2
+        }
+      ],
+      "blurb": "Fire inflicts less damage to you. Also decreases a chance for you to be set on fire",
+      "pending": false,
+      "sk": [
+        {
+          "id": "3",
+          "tip": "res",
+          "v0": 0.0,
+          "v": [
+            0.25
+          ]
+        },
+        {
+          "id": "maxm2",
+          "tip": "m",
+          "v": [
+            200.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "laser",
+      "name": "Laser show",
+      "cost": 1,
+      "max_rank": 1,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "energy",
+          "level": 2
+        }
+      ],
+      "blurb": "Laser weapons are your favorites. You know how to handle it so that it causes 15% more damage",
+      "pending": false,
+      "sk": [
+        {
+          "id": "laserDam",
+          "v0": 1.0,
+          "v": [
+            1.15
+          ]
+        },
+        {
+          "id": "maxmW",
+          "tip": "m",
+          "v": [
+            1.0
+          ]
+        },
+        {
+          "id": "maxm2",
+          "tip": "m",
+          "v": [
+            100.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "plasma",
+      "name": "Plasma greetings",
+      "cost": 1,
+      "max_rank": 1,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "energy",
+          "level": 3
+        }
+      ],
+      "blurb": "You love to turn enemies into puddles of slime with plasma weapons. You even learned to deal with its drawbacks, so that now your plasma weapons are more accurate, and plasma reaches target 50% faster",
+      "pending": false,
+      "sk": [
+        {
+          "id": "plasmaPrec",
+          "v0": 1.0,
+          "v": [
+            1.25
+          ]
+        },
+        {
+          "id": "plasmaSpeed",
+          "v0": 1.0,
+          "v": [
+            1.5
+          ]
+        },
+        {
+          "id": "maxmW",
+          "tip": "m",
+          "v": [
+            1.0
+          ]
+        },
+        {
+          "id": "maxm2",
+          "tip": "m",
+          "v": [
+            100.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pyro",
+      "name": "Pyromaniac",
+      "cost": 1,
+      "max_rank": 1,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "energy",
+          "level": 3
+        }
+      ],
+      "blurb": "You love to set things on fire since you were little, your favorite smell is of petroleum, and your favorite hobby - watch enemies turn into ashes. Any weapon causing fire damage (including grenades) becomes more powerful",
+      "pending": false,
+      "sk": [
+        {
+          "id": "pyroDam",
+          "v0": 1.0,
+          "v": [
+            1.25
+          ]
+        },
+        {
+          "id": "maxmW",
+          "tip": "m",
+          "v": [
+            1.0
+          ]
+        },
+        {
+          "id": "maxm2",
+          "tip": "m",
+          "v": [
+            200.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "recyc",
+      "name": "Recycling",
+      "cost": 1,
+      "max_rank": 1,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "energy",
+          "level": 4
+        }
+      ],
+      "blurb": "You optimized all your weapons that use various batteries to consume less energy. With a 25% probability each shot from such a weapon will be free of charge, that is, it will not consume the battery charge",
+      "pending": false,
+      "sk": [
+        {
+          "id": "recyc",
+          "v0": 0.0,
+          "v": [
+            0.25
+          ]
+        },
+        {
+          "id": "maxm2",
+          "tip": "m",
+          "v": [
+            300.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "desintegr",
+      "name": "Disintegration",
+      "cost": 1,
+      "max_rank": 1,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "level",
+          "level": 15
+        },
+        {
+          "id": "energy",
+          "level": 5
+        }
+      ],
+      "blurb": "All your laser and plasma weapons get a 5% chance to disintegrate target - that is to completely annihilate it with a single shot (the weapon becomes about 20% cooler), providing that the target has no more health left than 10 times the weapon's damage",
+      "pending": false,
+      "sk": [
+        {
+          "id": "desintegr",
+          "v0": 0.0,
+          "v": [
+            0.05
+          ]
+        },
+        {
+          "id": "maxmW",
+          "tip": "m",
+          "v": [
+            1.0
+          ]
+        },
+        {
+          "id": "maxm2",
+          "tip": "m",
+          "v": [
+            100.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fastreload",
+      "name": "Quick reload",
+      "cost": 1,
+      "max_rank": 1,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "guns",
+          "level": 2
+        }
+      ],
+      "blurb": "You reload weapons twice quicker than before. It is a great advantage - less chance to get killed while you desperately try to reload",
+      "pending": false,
+      "sk": [
+        {
+          "id": "reloadMult",
+          "v0": 1.0,
+          "v": [
+            0.5
+          ]
+        },
+        {
+          "id": "maxm2",
+          "tip": "m",
+          "v": [
+            300.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rungun",
+      "name": "Run and Gun",
+      "cost": 1,
+      "max_rank": 1,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "level",
+          "level": 4
+        },
+        {
+          "id": "guns",
+          "level": 2
+        }
+      ],
+      "blurb": "You have learned to shoot accurately even while running or from an unsteady position. The accuracy penalty for shooting while running is reduced to -25% (with base penalty value -50%), and the penalty for shooting while jumping or while climbing stairs has been reduced to -15% (base penalty value -30%). Does not affect shooting with S.A.T.S.",
+      "pending": false,
+      "sk": [
+        {
+          "id": "runPenalty",
+          "v0": 0.5,
+          "v": [
+            0.25
+          ]
+        },
+        {
+          "id": "jumpPenalty",
+          "v0": 0.3,
+          "v": [
+            0.15
+          ]
+        },
+        {
+          "id": "maxmW",
+          "tip": "m",
+          "v": [
+            1.0
+          ]
+        },
+        {
+          "id": "maxm2",
+          "tip": "m",
+          "v": [
+            100.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "composure",
+      "name": "Cold blooded",
+      "cost": 1,
+      "max_rank": 1,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "level",
+          "level": 6
+        },
+        {
+          "id": "guns",
+          "level": 3
+        }
+      ],
+      "blurb": "You keep calm during a fight and prefer systematic shooting or a tactical retreat to rushing headlong into battle. Accuracy bonus when firing while standing still is increased to +45% (+30% by default), and accuracy loss from shooting behind your back is decreased tp -20% (-40% by default). Only affects shooting without using S.A.T.S.",
+      "pending": false,
+      "sk": [
+        {
+          "id": "backPenalty",
+          "v0": 0.4,
+          "v": [
+            0.2
+          ]
+        },
+        {
+          "id": "stayBonus",
+          "v0": 0.3,
+          "v": [
+            0.45
+          ]
+        },
+        {
+          "id": "maxmW",
+          "tip": "m",
+          "v": [
+            1.0
+          ]
+        },
+        {
+          "id": "maxm2",
+          "tip": "m",
+          "v": [
+            100.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rifle",
+      "name": "One shot",
+      "cost": 1,
+      "max_rank": 1,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "guns",
+          "level": 4
+        }
+      ],
+      "blurb": "You are a great shooter, for whom every bullet counts. All your hunting and sniper rifles get a critical hit bonus",
+      "pending": false,
+      "sk": [
+        {
+          "id": "rifleCritch",
+          "v0": 0.0,
+          "v": [
+            0.2
+          ]
+        },
+        {
+          "id": "maxm2",
+          "tip": "m",
+          "v": [
+            200.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bigsize",
+      "name": "Size matters",
+      "cost": 1,
+      "max_rank": 1,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "level",
+          "level": 10
+        }
+      ],
+      "blurb": "You are a fan of veery big guns! You got so used to them that you barely notice their weight",
+      "clears_gun_weight": true,
+      "sk": [
+        {
+          "id": "bigGunsSlow",
+          "v0": 1.0,
+          "v": [
+            0.0
+          ]
+        },
+        {
+          "id": "drotMult",
+          "v0": 1.0,
+          "v": [
+            2.0
+          ]
+        },
+        {
+          "id": "maxmW",
+          "tip": "m",
+          "v": [
+            1.0
+          ]
+        },
+        {
+          "id": "maxm2",
+          "tip": "m",
+          "v": [
+            100.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "babah",
+      "name": "Explosions fan",
+      "cost": 1,
+      "max_rank": 1,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "level",
+          "level": 6
+        },
+        {
+          "id": "explosives",
+          "level": 2
+        }
+      ],
+      "blurb": "Even though you like to explode stuff, you don't forget about safety. Any explosion causes you less damage",
+      "pending": false,
+      "sk": [
+        {
+          "id": "4",
+          "tip": "res",
+          "v0": 0.0,
+          "v": [
+            0.25
+          ]
+        },
+        {
+          "id": "maxm2",
+          "tip": "m",
+          "v": [
+            300.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "grenader",
+      "name": "Grenader",
+      "cost": 1,
+      "max_rank": 1,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "explosives",
+          "level": 4
+        }
+      ],
+      "blurb": "You learned to supply all grenades with an advanced sensor, so that now they explode right after hitting an enemy! (To use ordinary grenades, hold @1 when throwing)",
+      "pending": false,
+      "sk": [
+        {
+          "id": "grenader",
+          "v0": 0.0,
+          "v": [
+            1.0
+          ]
+        },
+        {
+          "id": "maxm2",
+          "tip": "m",
+          "v": [
+            200.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "zona",
+      "name": "Danger zone",
+      "cost": 1,
+      "max_rank": 1,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "explosives",
+          "level": 3
+        }
+      ],
+      "blurb": "The blast radius for any explosives you use increases by 25%",
+      "pending": false,
+      "sk": [
+        {
+          "id": "explRadMult",
+          "v0": 1.0,
+          "v": [
+            1.25
+          ]
+        },
+        {
+          "id": "maxm2",
+          "tip": "m",
+          "v": [
+            200.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sapper",
+      "name": "Expert sapper",
+      "cost": 1,
+      "max_rank": 1,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "explosives",
+          "level": 4
+        }
+      ],
+      "blurb": "When it comes to mines and minefields, you have no equal. The mines you install are 25% more powerful, and in addition, your mines do not detonate from nearby explosions",
+      "pending": false,
+      "sk": [
+        {
+          "id": "sapper",
+          "v0": 1.0,
+          "v": [
+            1.25
+          ]
+        },
+        {
+          "id": "maxm2",
+          "tip": "m",
+          "v": [
+            200.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "friendly",
+      "name": "Friendly Fire",
+      "cost": 1,
+      "max_rank": 1,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "explosives",
+          "level": 5
+        },
+        {
+          "id": "survival",
+          "level": 3
+        }
+      ],
+      "blurb": "You always know how to throw a grenade or shoot a grenade launcher so that you are not personally affected by the explosion. With this ability, you receive only 25% of the damage from your own explosives, including its special varieties",
+      "pending": false,
+      "sk": [
+        {
+          "id": "autoExpl",
+          "v0": 1.0,
+          "v": [
+            0.25
+          ]
+        },
+        {
+          "id": "maxm2",
+          "tip": "m",
+          "v": [
+            300.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fortune",
+      "name": "Treasure hunter",
+      "cost": 1,
+      "max_rank": 2,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "lockpick",
+          "level": 3,
+          "dlvl": 2
+        }
+      ],
+      "blurb": "You have a habit of searching through every trash can on your way, hence you always find more caps and pre-War bits",
+      "pending": false,
+      "sk": [
+        {
+          "id": "capsMult",
+          "v0": 1.0,
+          "v": [
+            2.0,
+            3.0
+          ]
+        },
+        {
+          "id": "bitsMult",
+          "v0": 1.0,
+          "v": [
+            1.5,
+            2.0
+          ]
+        },
+        {
+          "id": "maxm3",
+          "tip": "m",
+          "vd": 100.0
+        }
+      ]
+    },
+    {
+      "id": "infiltrator",
+      "name": "Infiltrator",
+      "cost": 1,
+      "max_rank": 1,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "lockpick",
+          "level": 2
+        }
+      ],
+      "blurb": "You learned to be more careful when picking locks. In case of failure, pin break twice less often, and lock is damaged 25% less",
+      "pending": false,
+      "sk": [
+        {
+          "id": "lockAtt",
+          "v0": 1.0,
+          "v": [
+            0.75
+          ]
+        },
+        {
+          "id": "pinBreak",
+          "v0": 1.0,
+          "v": [
+            0.5
+          ]
+        },
+        {
+          "id": "maxm3",
+          "tip": "m",
+          "v": [
+            200.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "freel",
+      "name": "Scrounger",
+      "cost": 1,
+      "max_rank": 1,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "lockpick",
+          "level": 4
+        }
+      ],
+      "blurb": "You are always a little more lucky than other hunters for valuable junk. You will find more cartridges and explosives in containers",
+      "pending": false,
+      "sk": [
+        {
+          "id": "freel",
+          "v0": 0.0,
+          "v": [
+            1.0
+          ]
+        },
+        {
+          "id": "maxm2",
+          "tip": "m",
+          "v": [
+            200.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "entomolog",
+      "name": "Entomologist",
+      "cost": 1,
+      "max_rank": 1,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "science",
+          "level": 1
+        }
+      ],
+      "blurb": "You always showed interest to insects, spiders, and other arthropods, and you learned their weaknesses. You cause 40% more damage to radscorpions, radroaches, bloatsprites and similar creatures",
+      "pending": false,
+      "sk": [
+        {
+          "id": "damInsect",
+          "v0": 1.0,
+          "v": [
+            1.4
+          ]
+        },
+        {
+          "id": "maxm3",
+          "tip": "m",
+          "v": [
+            200.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "coolhacker",
+      "name": "Cool hacker",
+      "cost": 1,
+      "max_rank": 1,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "level",
+          "level": 10
+        },
+        {
+          "id": "science",
+          "level": 3
+        }
+      ],
+      "blurb": "You are such a cool hacker, that even security systems provide you with additional attempts for picking a password (5 instead of 3)!",
+      "pending": false,
+      "sk": [
+        {
+          "id": "hackAtt",
+          "v0": 3.0,
+          "v": [
+            5.0
+          ]
+        },
+        {
+          "id": "maxm1",
+          "tip": "m",
+          "v": [
+            10.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "robot",
+      "name": "Applied robotics",
+      "cost": 1,
+      "max_rank": 1,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "level",
+          "level": 6
+        },
+        {
+          "id": "science",
+          "level": 3
+        }
+      ],
+      "blurb": "You know schematics for any robot by heart, and always aim at their weak points. You cause 20% more damage to robots and turrets",
+      "pending": false,
+      "sk": [
+        {
+          "id": "damRobot",
+          "v0": 1.0,
+          "v": [
+            1.2
+          ]
+        },
+        {
+          "id": "maxm1",
+          "tip": "m",
+          "v": [
+            10.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "security",
+      "name": "Security expert",
+      "cost": 1,
+      "max_rank": 1,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "science",
+          "level": 4
+        }
+      ],
+      "blurb": "You understand automatic security systems like none other. From any terminal controlling the turrets, you can not just simply turn them off, but reconfigure them so that they begin attacking your opponents. Meanwhile, you get all experience from the turret's kills",
+      "pending": false,
+      "sk": [
+        {
+          "id": "security",
+          "v0": 0.0,
+          "v": [
+            1.0
+          ]
+        },
+        {
+          "id": "maxm1",
+          "tip": "m",
+          "v": [
+            10.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mathlogic",
+      "name": "Math logic",
+      "cost": 1,
+      "max_rank": 2,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "science",
+          "level": 3,
+          "dlvl": 2
+        }
+      ],
+      "blurb": "You calibrated your PipBuck so that now any attack in S.A.T.S. consumes 15% less action points, and on the second level of ability - 25% less",
+      "pending": false,
+      "sk": [
+        {
+          "id": "satsMult",
+          "v0": 1.0,
+          "v": [
+            0.85,
+            0.75
+          ]
+        },
+        {
+          "id": "maxm1",
+          "tip": "m",
+          "vd": 10.0
+        }
+      ]
+    },
+    {
+      "id": "remont",
+      "name": "Weapon maintenance",
+      "cost": 1,
+      "max_rank": 1,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "repair",
+          "level": 1
+        }
+      ],
+      "blurb": "You always clean and oil your weapons, and in return they never let you down in a critical moment. A probability that a worn weapon misfires is decreased 5 times, even though its damage and accuracy still decrease",
+      "pending": false,
+      "sk": [
+        {
+          "id": "jammedMult",
+          "v0": 1.0,
+          "v": [
+            0.2
+          ]
+        },
+        {
+          "id": "maxmW",
+          "tip": "m",
+          "v": [
+            1.0
+          ]
+        },
+        {
+          "id": "maxm2",
+          "tip": "m",
+          "v": [
+            100.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sparepart",
+      "name": "Scavenger",
+      "cost": 1,
+      "max_rank": 1,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "repair",
+          "level": 2
+        }
+      ],
+      "blurb": "You throw nothing away. To that extent, that it is hard to enter your room without breaking legs. On the other hoof, you get additional weapon fragments each time you find a weapon that you already have, and also find more useful (in your personal opinion) garbage",
+      "pending": false,
+      "sk": [
+        {
+          "id": "barahlo",
+          "v0": 0.0,
+          "v": [
+            1.0
+          ]
+        },
+        {
+          "id": "maxm3",
+          "tip": "m",
+          "v": [
+            100.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "uparmor",
+      "name": "Armor enhancement",
+      "cost": 1,
+      "max_rank": 2,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "repair",
+          "level": 3,
+          "dlvl": 2
+        }
+      ],
+      "blurb": "You know how to improve your armor and make it fit perfectly, thus increasing its battle qualities. To do this you require workbench and proper materials. The second level of this perk allows you to further enhance your armor for one more time",
+      "pending": false,
+      "sk": [
+        {
+          "id": "maxArmorLvl",
+          "v0": 0.0,
+          "v": [
+            1.0,
+            2.0
+          ]
+        },
+        {
+          "id": "maxm3",
+          "tip": "m",
+          "vd": 50.0
+        }
+      ]
+    },
+    {
+      "id": "durable",
+      "name": "Reliable armor",
+      "cost": 1,
+      "max_rank": 1,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "repair",
+          "level": 4
+        }
+      ],
+      "blurb": "Due to the fact that you always carefully look after your armor, it serves you 20% longer. That allows saving considerably on its repair",
+      "pending": false,
+      "sk": [
+        {
+          "id": "armorVulner",
+          "v0": 1.0,
+          "v": [
+            0.8
+          ]
+        },
+        {
+          "id": "maxm3",
+          "tip": "m",
+          "v": [
+            100.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "metabol",
+      "name": "Rapid metabolism",
+      "cost": 1,
+      "max_rank": 1,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "medic",
+          "level": 1
+        }
+      ],
+      "blurb": "Your body adsorbs and converts chemicals much faster than average, therefore healing potions become 10% more effective and restore health 2.5 times faster",
+      "heal_add": 0.1,
+      "sk": [
+        {
+          "id": "metaMult",
+          "v0": 1.0,
+          "v": [
+            2.5
+          ]
+        },
+        {
+          "id": "healMult",
+          "ref": "add",
+          "v": [
+            0.1
+          ]
+        },
+        {
+          "id": "maxm1",
+          "tip": "m",
+          "v": [
+            10.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "anatomy",
+      "name": "Military anatomy",
+      "cost": 1,
+      "max_rank": 1,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "level",
+          "level": 10
+        },
+        {
+          "id": "medic",
+          "level": 4
+        }
+      ],
+      "blurb": "You know pony anatomy so well, that you always aim at vital organs. You cause 15% more damage to raiders and other equine enemies",
+      "pending": false,
+      "sk": [
+        {
+          "id": "damPony",
+          "v0": 1.0,
+          "v": [
+            1.15
+          ]
+        },
+        {
+          "id": "maxmW",
+          "tip": "m",
+          "v": [
+            1.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "longtime",
+      "name": "Long-term effect",
+      "cost": 1,
+      "max_rank": 1,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "medic",
+          "level": 3
+        }
+      ],
+      "blurb": "Your medical knowledge helps you using combat chemistry properly. Now it works for you 2 times longer",
+      "pending": false,
+      "sk": [
+        {
+          "id": "himTimeMult",
+          "v0": 1.0,
+          "v": [
+            2.0
+          ]
+        },
+        {
+          "id": "maxm1",
+          "tip": "m",
+          "v": [
+            10.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fightstim",
+      "name": "Combat stimulators",
+      "cost": 1,
+      "max_rank": 1,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "medic",
+          "level": 5
+        }
+      ],
+      "blurb": "You have studied medicine well and you know how to turn yourself into a death machine with help of the chemicals. Effects from substances such as Mint-als, Buck, Dash, Rage, Med-X, are amplified. At the same time, the chances of getting addicted to them are reduced 2 times",
+      "pending": false,
+      "sk": [
+        {
+          "id": "himLevel",
+          "v0": 1.0,
+          "v": [
+            2.0
+          ]
+        },
+        {
+          "id": "himBadMult",
+          "v0": 1.0,
+          "v": [
+            0.5
+          ]
+        },
+        {
+          "id": "maxm1",
+          "tip": "m",
+          "v": [
+            10.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "jump",
+      "name": "Jumper",
+      "cost": 1,
+      "max_rank": 1,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "level",
+          "level": 8
+        },
+        {
+          "id": "sneak",
+          "level": 3
+        }
+      ],
+      "blurb": "\"It's not very far, just move your little rump. You can make it if you try with a hop, skip and jump!\" Now you can jump half a meter higher!",
+      "jump_add": 2,
+      "jump_base": 12,
+      "sk": [
+        {
+          "id": "jumpdy",
+          "ref": "add",
+          "v": [
+            2.0
+          ]
+        },
+        {
+          "id": "maxm3",
+          "tip": "m",
+          "v": [
+            100.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lightstep",
+      "name": "Light step",
+      "cost": 1,
+      "max_rank": 1,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "level",
+          "level": 12
+        },
+        {
+          "id": "sneak",
+          "level": 4
+        },
+        {
+          "id": "explosives",
+          "level": 2
+        }
+      ],
+      "blurb": "You are always watchful and careful. You never activate a trap or a pressure plate, and enemy mines are triggered with a delay",
+      "pending": false,
+      "sk": [
+        {
+          "id": "activateTrap",
+          "v0": 2.0,
+          "v": [
+            1.0
+          ]
+        },
+        {
+          "id": "maxm3",
+          "tip": "m",
+          "v": [
+            100.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dexter",
+      "name": "Bullet Dodger",
+      "cost": 1,
+      "max_rank": 3,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "sneak",
+          "level": 1,
+          "dlvl": 2
+        }
+      ],
+      "blurb": "Enemies will have a hard time trying to hit you. You evasion bonus increased",
+      "dodge_per_rank": 0.15,
+      "sk": [
+        {
+          "id": "dexter",
+          "ref": "add",
+          "vd": 0.15
+        },
+        {
+          "id": "maxm3",
+          "tip": "m",
+          "vd": 100.0
+        }
+      ]
+    },
+    {
+      "id": "stamina",
+      "name": "Stamina",
+      "cost": 1,
+      "max_rank": 1,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "survival",
+          "level": 1
+        }
+      ],
+      "blurb": "Life in the harsh conditions of the wasteland increased your endurance. Now in combat you can run and jump longer without experiencing fatigue. Stamina consumption for running and jumping during battle is reduced by 40%",
+      "pending": false,
+      "sk": [
+        {
+          "id": "stamRun",
+          "ref": "mult",
+          "v": [
+            0.6
+          ]
+        },
+        {
+          "id": "maxm2",
+          "tip": "m",
+          "v": [
+            200.0
+          ]
+        },
+        {
+          "id": "maxm3",
+          "tip": "m",
+          "v": [
+            100.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "envir",
+      "name": "Adaptive metabolism",
+      "cost": 1,
+      "max_rank": 1,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "survival",
+          "level": 2
+        }
+      ],
+      "blurb": "Surprisingly, you adapted well to life in the toxic and irradiated Wasteland. You get a bonus to radiation resistance, and also to resistance against toxic and corrosive substances",
+      "pending": false,
+      "sk": [
+        {
+          "id": "7",
+          "tip": "res",
+          "v0": 0.0,
+          "v": [
+            0.2
+          ]
+        },
+        {
+          "id": "10",
+          "tip": "res",
+          "v0": 0.0,
+          "v": [
+            0.2
+          ]
+        },
+        {
+          "id": "radX",
+          "ref": "add",
+          "v": [
+            -0.2
+          ]
+        },
+        {
+          "id": "maxm1",
+          "tip": "m",
+          "v": [
+            10.0
+          ]
+        },
+        {
+          "id": "maxm3",
+          "tip": "m",
+          "v": [
+            100.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wild",
+      "name": "Roamer of the wild plains",
+      "cost": 1,
+      "max_rank": 1,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "survival",
+          "level": 3
+        }
+      ],
+      "blurb": "You learned to survive among wild animals and monsters. You get a bonus to protection against bites and scratches, stings and spikes and so on, and suffer less from wounds and poisoning",
+      "pending": false,
+      "sk": [
+        {
+          "id": "12",
+          "tip": "res",
+          "v0": 0.0,
+          "v": [
+            0.1
+          ]
+        },
+        {
+          "id": "13",
+          "tip": "res",
+          "v0": 0.0,
+          "v": [
+            0.1
+          ]
+        },
+        {
+          "id": "14",
+          "tip": "res",
+          "v0": 0.0,
+          "v": [
+            0.2
+          ]
+        },
+        {
+          "id": "maxm1",
+          "tip": "m",
+          "v": [
+            10.0
+          ]
+        },
+        {
+          "id": "maxm3",
+          "tip": "m",
+          "v": [
+            100.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "purifier",
+      "name": "Purifier",
+      "cost": 1,
+      "max_rank": 1,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "survival",
+          "level": 3
+        }
+      ],
+      "blurb": "You believe that the Wasteland must be cleansed of monsters and mutated beasts. You cause 20% more damage to feral ghouls and mutants",
+      "pending": false,
+      "sk": [
+        {
+          "id": "damMonster",
+          "v0": 1.0,
+          "v": [
+            1.2
+          ]
+        },
+        {
+          "id": "damZombie",
+          "ref": "add",
+          "v": [
+            0.2
+          ]
+        },
+        {
+          "id": "maxm2",
+          "tip": "m",
+          "v": [
+            200.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "potmaster",
+      "name": "Alchemist",
+      "cost": 1,
+      "max_rank": 1,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "survival",
+          "level": 4
+        }
+      ],
+      "blurb": "Countless hours spent with a cauldron, a retort, and a boiling cube brought their fruits! Now, when making potions, you receive two bottles of potion instead of one, consuming the same amount of ingredients. Does not work on permanent effect potions",
+      "pending": false,
+      "sk": [
+        {
+          "id": "potmaster",
+          "v0": 0.0,
+          "v": [
+            1.0
+          ]
+        },
+        {
+          "id": "maxm1",
+          "tip": "m",
+          "v": [
+            10.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "radchild",
+      "name": "Child of radiation",
+      "cost": 1,
+      "max_rank": 1,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "survival",
+          "level": 5
+        }
+      ],
+      "blurb": "Radiation does not kill you, but only makes you stronger. The higher your radiation level, the fewer injuries you get. Also, radiation can not reduce your health by more than 80%",
+      "pending": false,
+      "sk": [
+        {
+          "id": "radChild",
+          "v0": 0.0,
+          "v": [
+            0.2
+          ]
+        },
+        {
+          "id": "maxm3",
+          "tip": "m",
+          "v": [
+            100.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "econom",
+      "name": "Wastelands economics",
+      "cost": 1,
+      "max_rank": 1,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "barter",
+          "level": 3
+        }
+      ],
+      "blurb": "Your talents as an economist contribute to the development of trade. All traders start importing more ammunition, medicine and other popular goods. Also, a traveling trader with rare goods begins visiting the \"The prancing pony\" camp",
+      "pending": true,
+      "sk": [
+        {
+          "id": "limitBuys",
+          "ref": "add",
+          "v": [
+            0.4
+          ]
+        },
+        {
+          "id": "eco",
+          "v0": 0.0,
+          "v": [
+            1.0
+          ]
+        },
+        {
+          "id": "maxm1",
+          "tip": "m",
+          "v": [
+            10.0
+          ]
+        },
+        {
+          "id": "maxm2",
+          "tip": "m",
+          "v": [
+            100.0
+          ]
+        },
+        {
+          "id": "maxm3",
+          "tip": "m",
+          "v": [
+            100.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "action",
+      "name": "Action pony",
+      "cost": 1,
+      "max_rank": 3,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "level",
+          "level": 5,
+          "dlvl": 5
+        }
+      ],
+      "blurb": "You never stay put, always rushing somewhere. You get 25 action points extra (to 75 initial points) in S.A.T.S. for every level of this ability",
+      "pending": false,
+      "sk": [
+        {
+          "id": "maxOd",
+          "ref": "add",
+          "vd": 25.0
+        },
+        {
+          "id": "maxm1",
+          "tip": "m",
+          "vd": 10.0
+        },
+        {
+          "id": "maxm2",
+          "tip": "m",
+          "vd": 100.0
+        }
+      ]
+    },
+    {
+      "id": "critch",
+      "name": "Soldier's luck",
+      "cost": 1,
+      "max_rank": 3,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "level",
+          "level": 8,
+          "dlvl": 4
+        }
+      ],
+      "blurb": "Good luck always follows you on a battlefield. Your critical damage chance is increased by 5% for every level of this perk",
+      "crit_per_rank": 0.05,
+      "sk": [
+        {
+          "id": "critCh",
+          "ref": "add",
+          "vd": 0.05
+        }
+      ]
+    },
+    {
+      "id": "critdam",
+      "name": "Deadly criticals",
+      "cost": 1,
+      "max_rank": 1,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "level",
+          "level": 20
+        }
+      ],
+      "blurb": "When you get lucky on a battlefield, your enemy can sure feel the difference! You get +40% to critical damage with any weapon",
+      "crit_damage_add": 0.4,
+      "sk": [
+        {
+          "id": "critDamMult",
+          "ref": "add",
+          "v": [
+            0.4
+          ]
+        }
+      ]
+    },
+    {
+      "id": "powerkick",
+      "name": "Mighty kick",
+      "cost": 1,
+      "max_rank": 1,
+      "chart": true,
+      "reqs": [],
+      "blurb": "Damage from your bare-hoof kicks is increased by 50%. Now you can break sturdy and reinforced doors with your hind legs and stun enemies for a short period of time",
+      "pending": false,
+      "sk": [
+        {
+          "id": "punchDamMult",
+          "ref": "add",
+          "v": [
+            0.5
+          ]
+        },
+        {
+          "id": "kickDestroy",
+          "v0": 30.0,
+          "v": [
+            80.0
+          ]
+        },
+        {
+          "id": "maxm3",
+          "tip": "m",
+          "v": [
+            100.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "empathy",
+      "name": "Empathy",
+      "cost": 1,
+      "max_rank": 3,
+      "chart": true,
+      "reqs": [
+        {
+          "id": "level",
+          "level": 5,
+          "dlvl": 5
+        }
+      ],
+      "blurb": "A special psychological connection with your companion gives him new strength. With each level of this ability, the defense and attack of your companion significantly increases",
+      "pending": true,
+      "sk": [
+        {
+          "id": "petDam",
+          "v0": 2.0,
+          "vd": 0.5
+        },
+        {
+          "id": "petSkin",
+          "v0": 0.0,
+          "vd": 4.0
+        },
+        {
+          "id": "petVulner",
+          "v0": 1.0,
+          "vd": -0.2
+        },
+        {
+          "id": "owlDam",
+          "v0": 3.0,
+          "vd": 0.3
+        },
+        {
+          "id": "owlSkin",
+          "v0": 5.0,
+          "vd": 1.0
+        },
+        {
+          "id": "owlVulner",
+          "v0": 1.0,
+          "vd": -0.1
+        },
+        {
+          "id": "maxm1",
+          "tip": "m",
+          "vd": 10.0
+        }
+      ]
+    },
+    {
+      "id": "dead",
+      "name": "ERS User",
+      "cost": 1,
+      "max_rank": 10000,
+      "chart": false,
+      "reqs": [],
+      "blurb": "You almost died, but got saved by MAS Emergency Rescue System",
+      "pending": false,
+      "sk": []
+    },
+    {
+      "id": "life",
+      "name": "Lifegiver",
+      "cost": 1,
+      "max_rank": 40,
+      "chart": false,
+      "reqs": [],
+      "blurb": "Your health became stronger! (+5 per ability level)",
+      "max_hp_per_rank": 5,
+      "sk": [
+        {
+          "id": "maxhp",
+          "ref": "add",
+          "vd": 5.0
+        }
+      ]
+    },
+    {
+      "id": "spirit",
+      "name": "Mighty spirit",
+      "cost": 1,
+      "max_rank": 30,
+      "chart": false,
+      "reqs": [],
+      "blurb": "Your magical power reserve is increased! (+20 per ability level)",
+      "pending": false,
+      "sk": [
+        {
+          "id": "inMaxMana",
+          "ref": "add",
+          "vd": 20.0
+        }
+      ]
+    },
+    {
+      "id": "potion_dskel",
+      "name": "Diamond skeleton",
+      "cost": 1,
+      "max_rank": 5,
+      "chart": false,
+      "reqs": [],
+      "blurb": "Zebra potion fortified your bones. Now you get 5% less injuries with each level of this ability",
+      "pending": false,
+      "sk": [
+        {
+          "id": "organMultPot",
+          "v0": 1.0,
+          "vd": -0.05
+        }
+      ]
+    },
+    {
+      "id": "potion_immun",
+      "name": "Strong immunity",
+      "cost": 1,
+      "max_rank": 5,
+      "chart": false,
+      "reqs": [],
+      "blurb": "Zebra potion improved natural defense systems of your body. You get +5% resistance to poisoning, bleeding and radiation for each level of this ability",
+      "pending": false,
+      "sk": [
+        {
+          "id": "12",
+          "tip": "res",
+          "v0": 0.0,
+          "vd": 0.05
+        },
+        {
+          "id": "13",
+          "tip": "res",
+          "v0": 0.0,
+          "vd": 0.05
+        },
+        {
+          "id": "radX",
+          "ref": "add",
+          "vd": -0.05
+        }
+      ]
+    },
+    {
+      "id": "potion_might",
+      "name": "Might of Earth",
+      "cost": 1,
+      "max_rank": 5,
+      "chart": false,
+      "reqs": [],
+      "blurb": "Zebra potion improved your reflexes and increased aggression. You deal 5% more melee damage for each level of this ability",
+      "pending": false,
+      "sk": [
+        {
+          "id": "meleeDamMult",
+          "v0": 1.0,
+          "vd": 0.05
+        }
+      ]
+    },
+    {
+      "id": "potion_speed",
+      "name": "Wind walk",
+      "cost": 1,
+      "max_rank": 5,
+      "chart": false,
+      "reqs": [],
+      "blurb": "Zebra potion strengthened your muscles and increased stamina capacity. You receive +5% to running speed and fatigue resistance for each level of this ability",
+      "speed_per_rank": 0.05,
+      "sk": [
+        {
+          "id": "runSpeedMult",
+          "ref": "mult",
+          "vd": 0.05
+        },
+        {
+          "id": "stamRun",
+          "ref": "mult",
+          "v0": 1.0,
+          "vd": -0.05
+        }
+      ]
+    },
+    {
+      "id": "potion_prec",
+      "name": "Hawk eye",
+      "cost": 1,
+      "max_rank": 5,
+      "chart": false,
+      "reqs": [],
+      "blurb": "Zebra potion augmented your nervous system and sharpened your sight. It increases shooting accuracy 5% per each level of this ability",
+      "pending": false,
+      "sk": [
+        {
+          "id": "allPrecMult",
+          "v0": 1.0,
+          "vd": 0.05
+        }
+      ]
+    },
+    {
+      "id": "potion_elements",
+      "name": "Ardent spirit",
+      "cost": 1,
+      "max_rank": 5,
+      "chart": false,
+      "reqs": [],
+      "blurb": "A magical potion strengthened the connection between you and the elemental forces of nature. Your attack spells power is increased by 5% for each level of this ability",
+      "pending": false,
+      "sk": [
+        {
+          "id": "spellsDamMult",
+          "ref": "add",
+          "vd": 0.05
+        }
+      ]
+    },
+    {
+      "id": "potion_dexter",
+      "name": "Intuition",
+      "cost": 1,
+      "max_rank": 5,
+      "chart": false,
+      "reqs": [],
+      "blurb": "Zebra potion strengthened your intuition. You gain +5% to evasion bonus for each level of this ability",
+      "dodge_per_rank": 0.05,
+      "sk": [
+        {
+          "id": "dexter",
+          "ref": "add",
+          "vd": 0.05
+        }
+      ]
+    },
+    {
+      "id": "potion_crit",
+      "name": "Critical luck",
+      "cost": 1,
+      "max_rank": 5,
+      "chart": false,
+      "reqs": [],
+      "blurb": "Zebra potion enhanced your luck. You gain +2% to chance of critical hit for each level of this ability",
+      "crit_per_rank": 0.02,
+      "sk": [
+        {
+          "id": "critCh",
+          "ref": "add",
+          "vd": 0.02
+        }
+      ]
+    },
+    {
+      "id": "potion_consc",
+      "name": "Expanded mind",
+      "cost": 1,
+      "max_rank": 2,
+      "chart": false,
+      "reqs": [],
+      "blurb": "You can memorize more spells",
+      "pending": false,
+      "sk": [
+        {
+          "id": "maxmM",
+          "tip": "m",
+          "vd": 3.0
+        }
+      ]
+    },
+    {
+      "id": "dam_alicorn",
+      "name": "Enemy of the Unity",
+      "cost": 1,
+      "max_rank": 1,
+      "chart": false,
+      "reqs": [],
+      "blurb": "You learned something special about fighting with alicorns. Now you deal them 15% more damage",
+      "pending": false,
+      "sk": [
+        {
+          "id": "damAlicorn",
+          "v0": 1.0,
+          "v": [
+            1.15
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dam_zombie",
+      "name": "Zombie Exterminator",
+      "cost": 1,
+      "max_rank": 1,
+      "chart": false,
+      "reqs": [],
+      "blurb": "You've learned a lot about the anatomy of ghouls, and therefore inflict them 10% more damage",
+      "pending": false,
+      "sk": [
+        {
+          "id": "damZombie",
+          "ref": "add",
+          "v": [
+            0.1
+          ]
+        }
+      ]
+    },
+    {
+      "id": "trauma_head",
+      "name": "Head injuries",
+      "cost": 1,
+      "max_rank": 3,
+      "chart": false,
+      "reqs": [],
+      "blurb": "Accuracy reduced by 10%, melee attack speed reduced by 10%, magic consumption increased by 0%",
+      "pending": false,
+      "sk": [
+        {
+          "id": "allPrecMult",
+          "ref": "mult",
+          "v": [
+            0.9,
+            0.8,
+            0.7
+          ]
+        },
+        {
+          "id": "meleeSpdMult",
+          "ref": "mult",
+          "v": [
+            0.9,
+            0.8,
+            0.7
+          ]
+        },
+        {
+          "id": "allDManaMult",
+          "ref": "mult",
+          "v": [
+            1.0,
+            1.5,
+            2.0
+          ]
+        },
+        {
+          "id": "mazilAdd",
+          "ref": "add",
+          "v": [
+            0.0,
+            5.0,
+            15.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "trauma_tors",
+      "name": "Body injuries",
+      "cost": 1,
+      "max_rank": 3,
+      "chart": false,
+      "reqs": [],
+      "blurb": "Maximum health reduced by 10%, stamina recovery reduced by 33%, stamina consumption for running and jumping increased by 50%",
+      "pending": false,
+      "sk": [
+        {
+          "id": "maxhp",
+          "ref": "mult",
+          "v": [
+            0.9,
+            0.8,
+            0.6
+          ]
+        },
+        {
+          "id": "stamRun",
+          "ref": "mult",
+          "v": [
+            1.5,
+            2.0,
+            3.0
+          ]
+        },
+        {
+          "id": "stamRes",
+          "ref": "mult",
+          "v": [
+            0.66,
+            0.5,
+            0.25
+          ]
+        }
+      ]
+    },
+    {
+      "id": "trauma_legs",
+      "name": "Leg injuries",
+      "cost": 1,
+      "max_rank": 3,
+      "chart": false,
+      "reqs": [],
+      "blurb": "Running speed reduced by 30%, walking speed reduced by 0%",
+      "pending": false,
+      "sk": [
+        {
+          "id": "runSpeedMult",
+          "ref": "mult",
+          "v": [
+            0.85,
+            0.7,
+            0.5
+          ]
+        },
+        {
+          "id": "allSpeedMult",
+          "ref": "mult",
+          "v": [
+            1.0,
+            0.9,
+            0.75
+          ]
+        },
+        {
+          "id": "jumpdy",
+          "ref": "add",
+          "v": [
+            0.0,
+            0.0,
+            -2.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "trauma_blood",
+      "name": "Blood loss",
+      "cost": 1,
+      "max_rank": 3,
+      "chart": false,
+      "reqs": [],
+      "blurb": "Resistance to any external damage reduced by 10%, damage of your weapons reduced by 0%",
+      "pending": false,
+      "sk": [
+        {
+          "id": "allVulnerMult",
+          "ref": "mult",
+          "v": [
+            1.1,
+            1.2,
+            1.3
+          ]
+        },
+        {
+          "id": "allDamMult",
+          "ref": "mult",
+          "v": [
+            1.0,
+            0.9,
+            0.8
+          ]
+        }
+      ]
+    },
+    {
+      "id": "trauma_mana",
+      "name": "Magical exhaustion",
+      "cost": 1,
+      "max_rank": 4,
+      "chart": false,
+      "reqs": [],
+      "blurb": "Maximum weight you can lift by telekinesis is reduced by #1, combat spells damage reduced by #2",
+      "pending": false,
+      "sk": [
+        {
+          "id": "maxTeleMassa",
+          "ref": "mult",
+          "v": [
+            1.0,
+            1.0,
+            0.8,
+            0.3
+          ]
+        },
+        {
+          "id": "spellsDamMult",
+          "ref": "mult",
+          "v": [
+            1.0,
+            1.0,
+            0.75,
+            0.0
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,214 @@
+{
+  "simplified_subset": true,
+  "summary": "Notes only. The runtime is scripts/map/land_gen.gd, which follows Land.buildRandomLand and reads res://assets/data/maps/rooms. The old slice.room_pool names were invented and are not used. A first visit of random_plant is 4 by 3 because landStage starts at 0.",
+  "source": {
+    "generator": "reference/Remains-Source2/fe/game/domain/location/Land.as",
+    "land_table": "reference/Remains-Source2/Modules/core/GameData/Lands.xml",
+    "room_record": "reference/Remains-Source2/fe/game/domain/location/Room.as",
+    "tile_build": "reference/Remains-Source2/fe/game/domain/location/Location.as",
+    "loader": "reference/Remains-Source2/fe/game/domain/location/LandLoader.as",
+    "tile_codes": "reference/Remains-Source2/Modules/core/AllData/tilePieces.json",
+    "constants": "GameContainer.cellsX/cellsY and Tile.tileSize"
+  },
+  "geometry": {
+    "tile_px": 40,
+    "room_tiles_x": 48,
+    "room_tiles_y": 25,
+    "note": "One land cell is one room of 48 by 25 tiles. A procedural land is mx by my of those rooms. The player changes room by walking off an edge (Land.gotoLoc) or through a back-layer door (gotoOtherLayer)."
+  },
+  "doors": {
+    "count": 22,
+    "min_hole": 2,
+    "default_mask": 2,
+    "horizontal_stride": 4,
+    "horizontal_origin": 3,
+    "vertical_stride": 9,
+    "vertical_origin": 4,
+    "right_index": [0, 5],
+    "down_index": [6, 10],
+    "left_index_offset": 11,
+    "down_index_start": 6,
+    "up_index_start": 17,
+    "neighbor_index_add": 11,
+    "picks_right": 3,
+    "picks_down": 1,
+    "wide_when_above": 2,
+    "note": "A room's <doors> text is 22 integers split on '.'. Missing doors defaults every slot to 2. A passage exists where min(this slot, neighbor slot) >= 2. Right slots 0-5 line up with the right-hand room's slots 11-16. Down slots 6-10 line up with the lower room's slots 17-21. Right openings: 3 picks with replacement (1 to 3 distinct doors). Down openings: 1 pick. Width above 2 also clears one extra tile. Slot positions are Location.setDoor: horizontal y = n*4+3, vertical x = (n-origin)*9+4."
+  },
+  "room_rules": {
+    "default_kol": 2,
+    "uniq_kol": 1,
+    "test_kol": 4,
+    "weight": "kol * kol",
+    "low_level_weight_if_squared_is": 4,
+    "low_level_weight_becomes": 2,
+    "low_level_requires_level": 0,
+    "low_level_when_max_level_above": 1,
+    "not_random_tips": ["beg0", "back", "roof", "pass", "passroof", "roofpass", "vert", "surf"],
+    "exclude_same_template_as_left_or_above": true,
+    "second_layer": "If a template's options.back names another room id, that room is placed at the same x,y on z=1 and kept off the minimap.",
+    "note": "newRandomLoc bags each eligible template kol*kol times, skips the template used immediately left or above, then decrements kol. If the bag is empty it falls back to any rnd template and still decrements. newTipLoc picks uniformly among templates of that tip and does not check kol. conf 4 then forces kol to 0 so each template is used once."
+  },
+  "biomes": [
+    {"id": 0, "lands": ["random_plant"], "enemies": "25% type 1; otherwise a random type 0-2 if unset. Past depth 12, 10% zebras (6)."},
+    {"id": 1, "lands": ["random_sewer"], "enemies": "Type 0."},
+    {"id": 2, "lands": ["random_stable"], "enemies": "Type 1 can become slavers (3) as depth rises. Past depth 12, 10% zebras (6)."},
+    {"id": 3, "lands": ["random_mane"], "enemies": "Type 3, 4 (mercenaries), or 5 (alicorns). Past depth 12, 10% zebras (6)."},
+    {"id": 4, "lands": ["random_mbase", "bunker"], "enemies": "Steel Rangers and robots (7)."},
+    {"id": 5, "lands": ["random_canter"], "enemies": "30% alicorns (5), otherwise pink-cloud creatures (8)."},
+    {"id": 6, "lands": ["random_encl"], "enemies": "About 70% Enclave (9), otherwise hellhounds (10)."},
+    {"id": 10, "lands": ["stable_pi"], "enemies": "No tipEnemy override in setLocDif. This biome is the lived-in stable."},
+    {"id": 11, "lands": ["stable_pi_atk", "stable_pi_surf", "thunder"], "enemies": "Enclave and hellhounds (11), with a larger type-2 pack."}
+  ],
+  "configs": [
+    {
+      "id": 0,
+      "name": "plant",
+      "executed_by_slice": true,
+      "early_height": 3,
+      "early_when_land_stage_lte": 0,
+      "depth": "y / 2",
+      "fixed": "Until the land has been visited, row y=0 is tip beg{x} and is not mirrored.",
+      "water": null
+    },
+    {
+      "id": 1,
+      "name": "stable",
+      "executed_by_slice": false,
+      "depth": "y",
+      "fixed": "Until visited, only (0,0) is tip beg0.",
+      "water": null
+    },
+    {
+      "id": 2,
+      "name": "sewer",
+      "executed_by_slice": false,
+      "depth": "y * 2.5",
+      "fixed": "Until visited, (0,0) is tip beg0. An important trial is forced onto (3,0).",
+      "water": "Row y=1 gets water level 17. Rows below that get water level 0. Row 0 keeps the land default."
+    },
+    {
+      "id": 3,
+      "name": "manehattan",
+      "executed_by_slice": false,
+      "depth": "0",
+      "fixed": "Column x=2 is a pass shaft (passroof on y=0, pass below) with no floor. Other y=0 cells are tip roof. Transparent backdrop.",
+      "water": null
+    },
+    {
+      "id": 4,
+      "name": "military",
+      "executed_by_slice": false,
+      "use_room_once": true,
+      "depth": "0",
+      "fixed": "Left column is vertical rooms, with beg0 at (0,0) on the first visit. Right column is vertical, with tip end at the bottom corner. Random rooms are level 0.",
+      "water": null
+    },
+    {
+      "id": 5,
+      "name": "canterlot",
+      "executed_by_slice": false,
+      "depth": "0",
+      "fixed": "Until visited, (0,0) is beg0. The rest of row y=0 is tip surf. Every room is gassed.",
+      "water": "Row y=2 gets water level 21. Rows below that get water level 0."
+    },
+    {
+      "id": 6,
+      "name": "enclave",
+      "executed_by_slice": false,
+      "depth": "0",
+      "fixed": "No fixed room tips. The whole grid is random. Exits and the important trial are placed on row y=0 afterwards.",
+      "water": null
+    },
+    {
+      "id": 7,
+      "name": "bunker",
+      "executed_by_slice": false,
+      "depth": "0",
+      "fixed": "(0,0) is beg1. The far bottom corner is end1. Both side columns are tip vert. Random rooms are forced to level 1.",
+      "water": null
+    },
+    {
+      "id": 10,
+      "name": "stable_pi",
+      "executed_by_slice": false,
+      "depth": "0",
+      "fixed": "Home palette. The start cell is beg0. (1,1) is tip roof. Other rooms roll at level 10.",
+      "water": null
+    },
+    {
+      "id": 11,
+      "name": "stable_pi_atk",
+      "executed_by_slice": false,
+      "depth": "0",
+      "fixed": "Attack palette. (5,0) is tip pass. Everything else is random.",
+      "water": null
+    }
+  ],
+  "procedural_lands": [
+    {"id": "random_plant", "tip": "rnd", "file": "rooms_plant", "conf": 0, "biom": 0, "mx": 4, "my": 6, "start": [0, 0], "dif": 0, "game_stage": 3, "exit": "exit_plant"},
+    {"id": "random_sewer", "tip": "rnd", "file": "rooms_sewer", "conf": 2, "biom": 1, "mx": 8, "my": 3, "start": [0, 0], "dif": 10, "game_stage": 4, "exit": "exit_sewer"},
+    {"id": "random_stable", "tip": "rnd", "file": "rooms_stable", "conf": 1, "biom": 2, "mx": 4, "my": 6, "start": [0, 0], "dif": 12, "game_stage": 5, "exit": "exit_stable"},
+    {"id": "random_mane", "tip": "rnd", "file": "rooms_mane", "conf": 3, "biom": 3, "mx": 5, "my": 5, "start": [0, 4], "dif": 15, "game_stage": 7, "exit": "exit_mane"},
+    {"id": "random_canter", "tip": "rnd", "file": "rooms_canter", "conf": 5, "biom": 5, "mx": 8, "my": 3, "start": [0, 0], "dif": 18, "game_stage": 9, "exit": "exit_canter"},
+    {"id": "random_mbase", "tip": "story", "file": "rooms_mbase", "conf": 4, "biom": 4, "mx": 5, "my": 3, "start": [0, 0], "dif": 22, "game_stage": 10, "note": "tip is story, but rnd=1 so the grid is still generated."},
+    {"id": "bunker", "tip": "hard", "file": "rooms_mbase", "conf": 7, "biom": 4, "mx": 6, "my": 3, "start": [0, 0], "dif": 24, "game_stage": 10},
+    {"id": "random_encl", "tip": "rnd", "file": "rooms_encl", "conf": 6, "biom": 6, "mx": 3, "my": 8, "start": [0, 7], "dif": 27, "game_stage": 11, "exit": "exit_encl"},
+    {"id": "stable_pi", "tip": "base", "file": "rooms_pi", "conf": 10, "biom": 10, "mx": 4, "my": 6, "start": [3, 5], "fin": 2},
+    {"id": "stable_pi_atk", "tip": "rnd", "file": "rooms_pi", "conf": 11, "biom": 11, "mx": 6, "my": 2, "start": [0, 0], "game_stage": 12}
+  ],
+  "hand_authored_lands": [
+    {"id": "begin", "tip": "story", "file": "rooms_begin", "start": [0, 0], "dif": 0, "game_stage": 1},
+    {"id": "surf", "tip": "story", "file": "rooms_surf", "start": [0, 1], "dif": 0, "game_stage": 2},
+    {"id": "rbl", "tip": "base", "file": "rooms_rbl", "start": [0, 0], "dif": 0, "game_stage": 1, "autolevel": true},
+    {"id": "nio", "tip": "story", "file": "rooms_nio", "start": [-1, 0], "dif": 7, "game_stage": 2},
+    {"id": "raiders", "tip": "story", "file": "rooms_raiders", "start": [0, 1], "dif": 10, "game_stage": 3},
+    {"id": "core", "tip": "story", "file": "rooms_core", "start": [5, 0], "dif": 15, "game_stage": 6},
+    {"id": "garages", "tip": "story", "file": "rooms_garages", "start": [0, 0], "dif": 15, "game_stage": 6},
+    {"id": "mtn", "tip": "story", "file": "rooms_mtn", "start": [0, 8], "dif": 17, "game_stage": 8, "biom": 3},
+    {"id": "way", "tip": "base", "file": "rooms_way", "start": [0, 0], "dif": 0, "game_stage": 8},
+    {"id": "covert", "tip": "base", "file": "rooms_covert", "start": [-1, 0], "dif": 0},
+    {"id": "src", "tip": "base", "file": "rooms_src", "start": [0, 0], "dif": 0},
+    {"id": "minst", "tip": "story", "file": "rooms_minst", "start": [0, 0], "dif": 20, "game_stage": 9, "biom": 5},
+    {"id": "workshop", "tip": "story", "file": "rooms_workshop", "start": [0, 0], "dif": 25, "game_stage": 10},
+    {"id": "hql", "tip": "story", "file": "rooms_hql", "start": [0, 0], "dif": 26, "game_stage": 10},
+    {"id": "post", "tip": "story", "file": "rooms_post", "start": [0, 0], "dif": 27, "game_stage": 11},
+    {"id": "comm", "tip": "story", "file": "rooms_comm", "start": [0, 0], "dif": 29, "game_stage": 11},
+    {"id": "art", "tip": "story", "file": "rooms_art", "start": [0, 0], "dif": 30, "game_stage": 12},
+    {"id": "stable_pi_surf", "tip": "story", "file": "rooms_pis", "start": [1, 7], "game_stage": 12, "biom": 11},
+    {"id": "thunder", "tip": "story", "file": "rooms_thunder", "start": [0, 0], "game_stage": 12, "biom": 11},
+    {"id": "grave", "tip": "story", "file": "rooms_grave", "start": [0, 0], "zone": "res://assets/data/maps/quest_zones/grave.json"}
+  ],
+  "trial_rooms": {
+    "land_id": "prob",
+    "file": "rooms_prob",
+    "note": "A third bucket. Each trial is one hand-authored room on its own layer, opened from a door inside a land (Land.buildProb / gotoProb). Trials are not cells of the land grid. The slice does not place them."
+  },
+  "slice": {
+    "why": "Rooms/*.xml is not in Remains-Source2, so this pool is a stand-in for the plant template bag: real ids, levels, and rnd flags are unknown. Door masks use the engine default (every slot 2) because the per-room masks lived in those missing files. Interiors drawn for random and fixed cells are an open shell with a border; the grave cells are the extracted tiles. Conf 0's entrance row, the kol weight, the neighbor exclusion, and the 3-right / 1-down door picks are the original rules.",
+    "seed": 1,
+    "land_id": "random_plant",
+    "land_stage": 0,
+    "visited": false,
+    "land_stage_note": "land_stage is LandAct.landStage, the highest floor the player has reached, saved and starting at 0. The stage attribute on a <land> is gameStage (loot), not the generator level. Conf 0 with land_stage <= 0 clamps my from 6 down to 3.",
+    "room_pool": [
+      {"id": "beg0", "tip": "beg0", "level": 0, "kol": 1, "rnd": false},
+      {"id": "beg1", "tip": "beg1", "level": 0, "kol": 1, "rnd": false},
+      {"id": "beg2", "tip": "beg2", "level": 0, "kol": 1, "rnd": false},
+      {"id": "beg3", "tip": "beg3", "level": 0, "kol": 1, "rnd": false},
+      {"id": "plant_a", "tip": "", "level": 0, "kol": 2, "rnd": true},
+      {"id": "plant_b", "tip": "", "level": 0, "kol": 2, "rnd": true},
+      {"id": "plant_c", "tip": "", "level": 0, "kol": 2, "rnd": true},
+      {"id": "plant_d", "tip": "", "level": 0, "kol": 2, "rnd": true},
+      {"id": "plant_e", "tip": "", "level": 1, "kol": 2, "rnd": true},
+      {"id": "plant_f", "tip": "", "level": 2, "kol": 2, "rnd": true}
+    ],
+    "quest_overlay": {
+      "land_id": "grave",
+      "file": "res://assets/data/maps/quest_zones/grave.json",
+      "anchor_room": [0, 0],
+      "anchor_cell": [0, 0],
+      "note": "grave is a hand-authored land, not a cell of random_plant. The slice lays its placed rooms over the plant grid, anchored so grave's (0,0) room sits on plant cell (0,0). Covered cells are not rolled and get no procedural doors."
+    }
+  }
+}

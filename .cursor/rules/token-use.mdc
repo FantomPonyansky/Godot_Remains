@@ -1,0 +1,27 @@
+---
+description: Cut token use on the FoE Remains port. Read this before exploring.
+alwaysApply: true
+---
+
+# Token use
+
+`HANDOFF.md` at the repo root is the index: paths, working rules, how to check and export. Project state is split in `docs/`: `KNOWLEDGE_BASE.md` (the original), `IMPLEMENTED.md` (the port), `TODO.md` (the plan), `PLAYER_FEEDBACK.md`, `PORT_RULES.md` (user decisions that differ from the original). Read only the section you need. Do not rediscover phases, paths, or decisions by searching the tree or old chats.
+
+## Do not load
+
+- `agent-transcripts/`, `original/` (except one named file), `tmp/`, `_trash/`, `assets/data/text_*.xml`, room JSON, or `project.godot` input blocks unless the task is that file.
+- A whole of `player.gd`, `land_props.gd`, `enemy.gd`, `pipbuck.gd`. Read the function with a line limit.
+- Do not resume a subagent. Their transcripts are huge. Start a new agent with a short prompt plus the relevant `docs/` section.
+
+## Search and edits
+
+- `rg` with a directory and a small head limit. Never search `D:\` or the whole repo for a symbol you can scope to `godot/scripts`.
+- One Godot boot per change. Reuse its output. Do not poll in a loop.
+- Never FFDec-export sprites from a whole swf. Trim to the symbol ids named in `docs/KNOWLEDGE_BASE.md`.
+- One writer for `player.gd`, `land_props.gd`, `enemy.gd`, `bullet.gd`, `project.godot`. Do not run a second agent on the same file.
+
+## Replies
+
+- A few sentences, or a short list of what changed and what is left. No coverage tables, file inventories, or recap of finished phases unless the user asks.
+- Do not paste ActionScript, Godot logs, or binding dumps. Cite the file and line.
+- If `HANDOFF.md` or `docs/` already answers the question, answer from it and stop.

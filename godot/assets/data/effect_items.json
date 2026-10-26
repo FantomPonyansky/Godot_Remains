@@ -1,0 +1,621 @@
+{
+    "source":  "Remains-Source2 Modules/core/AllData/items.xml (med, him, pot, food, stealth): ItemInteraction.usePotion fields",
+    "items":  [
+                  {
+                      "id":  "pot1",
+                      "tip":  "med",
+                      "heal":  "hp",
+                      "hhp":  40,
+                      "hhplong":  60,
+                      "horgans":  20,
+                      "hblood":  20
+                  },
+                  {
+                      "id":  "pot2",
+                      "tip":  "med",
+                      "heal":  "hp",
+                      "hhp":  60,
+                      "hhplong":  140,
+                      "horgans":  30,
+                      "hblood":  35
+                  },
+                  {
+                      "id":  "pot3",
+                      "tip":  "med",
+                      "heal":  "hp",
+                      "hhp":  100,
+                      "hhplong":  400,
+                      "horgans":  60,
+                      "hblood":  50
+                  },
+                  {
+                      "id":  "antiradin",
+                      "tip":  "med",
+                      "heal":  "rad",
+                      "hrad":  200
+                  },
+                  {
+                      "id":  "pot0",
+                      "tip":  "med",
+                      "heal":  "cut",
+                      "hcut":  5,
+                      "hhp":  25
+                  },
+                  {
+                      "id":  "potm1",
+                      "tip":  "med",
+                      "heal":  "mana",
+                      "hmana":  200
+                  },
+                  {
+                      "id":  "potm2",
+                      "tip":  "med",
+                      "heal":  "mana",
+                      "hmana":  400
+                  },
+                  {
+                      "id":  "potm3",
+                      "tip":  "med",
+                      "heal":  "mana",
+                      "hmana":  800
+                  },
+                  {
+                      "id":  "antidote",
+                      "tip":  "med",
+                      "effect":  "antidote",
+                      "heal":  "poison",
+                      "hpoison":  10
+                  },
+                  {
+                      "id":  "firstaid",
+                      "tip":  "med",
+                      "heal":  "organ",
+                      "minmed":  2,
+                      "horgan":  150
+                  },
+                  {
+                      "id":  "doctor",
+                      "tip":  "med",
+                      "heal":  "organ",
+                      "minmed":  3,
+                      "horgan":  400
+                  },
+                  {
+                      "id":  "surgeon",
+                      "tip":  "med",
+                      "heal":  "organ",
+                      "minmed":  4,
+                      "horgan":  1000
+                  },
+                  {
+                      "id":  "bloodpak",
+                      "tip":  "med",
+                      "heal":  "blood",
+                      "minmed":  1,
+                      "hblood":  150
+                  },
+                  {
+                      "id":  "detoxin",
+                      "tip":  "med",
+                      "heal":  "detoxin",
+                      "detox":  250,
+                      "hpoison":  50
+                  },
+                  {
+                      "id":  "radx",
+                      "tip":  "med",
+                      "effect":  "radx"
+                  },
+                  {
+                      "id":  "mint",
+                      "tip":  "him",
+                      "effect":  "mint",
+                      "ad":  "post_mint",
+                      "admin":  10,
+                      "admax":  30
+                  },
+                  {
+                      "id":  "pmint",
+                      "tip":  "him",
+                      "effect":  "pmint",
+                      "ad":  "post_mint",
+                      "admin":  30,
+                      "admax":  60
+                  },
+                  {
+                      "id":  "dash",
+                      "tip":  "him",
+                      "effect":  "dash",
+                      "ad":  "post_dash",
+                      "admin":  10,
+                      "admax":  30
+                  },
+                  {
+                      "id":  "rage",
+                      "tip":  "him",
+                      "effect":  "rage",
+                      "ad":  "post_rage",
+                      "admin":  5,
+                      "admax":  25
+                  },
+                  {
+                      "id":  "medx",
+                      "tip":  "him",
+                      "effect":  "medx",
+                      "ad":  "post_medx",
+                      "admin":  5,
+                      "admax":  25
+                  },
+                  {
+                      "id":  "stampede",
+                      "tip":  "him",
+                      "effect":  "stampede",
+                      "ad":  "post_stampede",
+                      "admin":  15,
+                      "admax":  40
+                  },
+                  {
+                      "id":  "buck",
+                      "tip":  "him",
+                      "effect":  "buck",
+                      "ad":  "post_buck",
+                      "admin":  5,
+                      "admax":  25
+                  },
+                  {
+                      "id":  "ultradash",
+                      "tip":  "him",
+                      "effect":  "ultradash",
+                      "ad":  "post_dash",
+                      "admin":  30,
+                      "admax":  60
+                  },
+                  {
+                      "id":  "hydra",
+                      "tip":  "him",
+                      "effect":  "hydra"
+                  },
+                  {
+                      "id":  "potion_stim",
+                      "tip":  "pot",
+                      "hpoison":  -10,
+                      "hhp":  400
+                  },
+                  {
+                      "id":  "potion_fly",
+                      "tip":  "pot",
+                      "effect":  "potion_fly"
+                  },
+                  {
+                      "id":  "potion_shadow",
+                      "tip":  "pot",
+                      "effect":  "potion_shadow"
+                  },
+                  {
+                      "id":  "potion_mage",
+                      "tip":  "pot",
+                      "effect":  "potion_mage"
+                  },
+                  {
+                      "id":  "potion_infra",
+                      "tip":  "pot",
+                      "effect":  "potion_infra"
+                  },
+                  {
+                      "id":  "potion_swim",
+                      "tip":  "pot",
+                      "effect":  "potion_swim"
+                  },
+                  {
+                      "id":  "potion_pink",
+                      "tip":  "pot",
+                      "effect":  "potion_pink"
+                  },
+                  {
+                      "id":  "potion_chance",
+                      "tip":  "pot",
+                      "effect":  "potion_chance"
+                  },
+                  {
+                      "id":  "potion_purif",
+                      "tip":  "pot",
+                      "hpurif":  1
+                  },
+                  {
+                      "id":  "potion_rat",
+                      "tip":  "pot",
+                      "effect":  "potion_rat",
+                      "inf":  1,
+                      "rad":  5
+                  },
+                  {
+                      "id":  "rollup",
+                      "tip":  "pot"
+                  },
+                  {
+                      "id":  "potion_dskel",
+                      "tip":  "pot",
+                      "perk":  "potion_dskel"
+                  },
+                  {
+                      "id":  "potion_might",
+                      "tip":  "pot",
+                      "perk":  "potion_might"
+                  },
+                  {
+                      "id":  "potion_immun",
+                      "tip":  "pot",
+                      "perk":  "potion_immun"
+                  },
+                  {
+                      "id":  "potion_speed",
+                      "tip":  "pot",
+                      "perk":  "potion_speed"
+                  },
+                  {
+                      "id":  "potion_prec",
+                      "tip":  "pot",
+                      "perk":  "potion_prec"
+                  },
+                  {
+                      "id":  "potion_elements",
+                      "tip":  "pot",
+                      "perk":  "potion_elements"
+                  },
+                  {
+                      "id":  "potion_dexter",
+                      "tip":  "pot",
+                      "perk":  "potion_dexter"
+                  },
+                  {
+                      "id":  "potion_crit",
+                      "tip":  "pot",
+                      "perk":  "potion_crit"
+                  },
+                  {
+                      "id":  "potion_consc",
+                      "tip":  "pot",
+                      "perk":  "potion_consc"
+                  },
+                  {
+                      "id":  "potHP",
+                      "tip":  "pot",
+                      "perk":  "life"
+                  },
+                  {
+                      "id":  "potMP",
+                      "tip":  "pot",
+                      "perk":  "spirit"
+                  },
+                  {
+                      "id":  "radcookie",
+                      "tip":  "food",
+                      "heal":  "pet",
+                      "ftip":  0
+                  },
+                  {
+                      "id":  "sparklecola",
+                      "tip":  "food",
+                      "ftip":  1,
+                      "hmana":  40
+                  },
+                  {
+                      "id":  "radcola",
+                      "tip":  "food",
+                      "ftip":  1,
+                      "rad":  10,
+                      "hmana":  100
+                  },
+                  {
+                      "id":  "sars",
+                      "tip":  "food",
+                      "ftip":  1,
+                      "hhplong":  50
+                  },
+                  {
+                      "id":  "coffee",
+                      "tip":  "food",
+                      "effect":  "coffee",
+                      "ftip":  1
+                  },
+                  {
+                      "id":  "milk",
+                      "tip":  "food",
+                      "ftip":  1,
+                      "hrad":  50
+                  },
+                  {
+                      "id":  "beer",
+                      "tip":  "food",
+                      "ftip":  1,
+                      "alc":  5
+                  },
+                  {
+                      "id":  "braga",
+                      "tip":  "food",
+                      "ftip":  1,
+                      "alc":  10
+                  },
+                  {
+                      "id":  "cordial",
+                      "tip":  "food",
+                      "ftip":  1,
+                      "alc":  20
+                  },
+                  {
+                      "id":  "schnapps",
+                      "tip":  "food",
+                      "ftip":  1,
+                      "alc":  40
+                  },
+                  {
+                      "id":  "hooch",
+                      "tip":  "food",
+                      "ftip":  1,
+                      "alc":  60
+                  },
+                  {
+                      "id":  "spirt",
+                      "tip":  "food",
+                      "ftip":  1,
+                      "alc":  100
+                  },
+                  {
+                      "id":  "noodles",
+                      "tip":  "food",
+                      "effect":  "f_hp"
+                  },
+                  {
+                      "id":  "pasta",
+                      "tip":  "food",
+                      "effect":  "f_hp"
+                  },
+                  {
+                      "id":  "corn",
+                      "tip":  "food",
+                      "effect":  "f_hp"
+                  },
+                  {
+                      "id":  "dinner",
+                      "tip":  "food",
+                      "effect":  "f_hp"
+                  },
+                  {
+                      "id":  "beans",
+                      "tip":  "food",
+                      "effect":  "f_hp"
+                  },
+                  {
+                      "id":  "bread",
+                      "tip":  "food",
+                      "effect":  "f_hp"
+                  },
+                  {
+                      "id":  "oats",
+                      "tip":  "food",
+                      "effect":  "f_hp"
+                  },
+                  {
+                      "id":  "chips",
+                      "tip":  "food",
+                      "effect":  "f_mana"
+                  },
+                  {
+                      "id":  "crackers",
+                      "tip":  "food",
+                      "effect":  "f_mana"
+                  },
+                  {
+                      "id":  "nuts",
+                      "tip":  "food",
+                      "effect":  "f_mana"
+                  },
+                  {
+                      "id":  "sbombs",
+                      "tip":  "food",
+                      "effect":  "f_prec"
+                  },
+                  {
+                      "id":  "lollipops",
+                      "tip":  "food",
+                      "effect":  "f_prec"
+                  },
+                  {
+                      "id":  "bananas",
+                      "tip":  "food",
+                      "effect":  "f_prec"
+                  },
+                  {
+                      "id":  "halva",
+                      "tip":  "food",
+                      "effect":  "f_prec"
+                  },
+                  {
+                      "id":  "honey",
+                      "tip":  "food",
+                      "effect":  "f_prec"
+                  },
+                  {
+                      "id":  "apple",
+                      "tip":  "food",
+                      "effect":  "f_speed"
+                  },
+                  {
+                      "id":  "carrot",
+                      "tip":  "food",
+                      "effect":  "f_speed"
+                  },
+                  {
+                      "id":  "onion",
+                      "tip":  "food",
+                      "effect":  "f_speed"
+                  },
+                  {
+                      "id":  "tomato",
+                      "tip":  "food",
+                      "effect":  "f_speed"
+                  },
+                  {
+                      "id":  "cucumber",
+                      "tip":  "food",
+                      "effect":  "f_speed"
+                  },
+                  {
+                      "id":  "cabbage",
+                      "tip":  "food",
+                      "effect":  "f_speed"
+                  },
+                  {
+                      "id":  "butter",
+                      "tip":  "food",
+                      "effect":  "f_od"
+                  },
+                  {
+                      "id":  "cheese",
+                      "tip":  "food",
+                      "effect":  "f_vulner"
+                  },
+                  {
+                      "id":  "tegg",
+                      "tip":  "food",
+                      "effect":  "f_od"
+                  },
+                  {
+                      "id":  "meat",
+                      "tip":  "food"
+                  },
+                  {
+                      "id":  "mushroom",
+                      "tip":  "food"
+                  },
+                  {
+                      "id":  "potato",
+                      "tip":  "food"
+                  },
+                  {
+                      "id":  "flour",
+                      "tip":  "food"
+                  },
+                  {
+                      "id":  "garlic",
+                      "tip":  "food"
+                  },
+                  {
+                      "id":  "sugar",
+                      "tip":  "food"
+                  },
+                  {
+                      "id":  "ketchup",
+                      "tip":  "food"
+                  },
+                  {
+                      "id":  "frmeat",
+                      "tip":  "food",
+                      "effect":  "f_melee"
+                  },
+                  {
+                      "id":  "cucsand",
+                      "tip":  "food",
+                      "effect":  "f_cucsand"
+                  },
+                  {
+                      "id":  "frpot",
+                      "tip":  "food",
+                      "effect":  "f_frpot"
+                  },
+                  {
+                      "id":  "oatmeal",
+                      "tip":  "food",
+                      "effect":  "f_oatmeal"
+                  },
+                  {
+                      "id":  "salad",
+                      "tip":  "food",
+                      "effect":  "f_salad"
+                  },
+                  {
+                      "id":  "chpasta",
+                      "tip":  "food",
+                      "effect":  "f_chpasta"
+                  },
+                  {
+                      "id":  "omelet",
+                      "tip":  "food",
+                      "effect":  "f_omelet"
+                  },
+                  {
+                      "id":  "butterbr",
+                      "tip":  "food",
+                      "effect":  "f_butterbr"
+                  },
+                  {
+                      "id":  "breakfast",
+                      "tip":  "food",
+                      "effect":  "f_breakfast"
+                  },
+                  {
+                      "id":  "soup",
+                      "tip":  "food",
+                      "effect":  "f_soup"
+                  },
+                  {
+                      "id":  "pizza",
+                      "tip":  "food",
+                      "effect":  "f_pizza"
+                  },
+                  {
+                      "id":  "casser",
+                      "tip":  "food",
+                      "effect":  "f_casser"
+                  },
+                  {
+                      "id":  "ragu",
+                      "tip":  "food",
+                      "effect":  "f_ragu"
+                  },
+                  {
+                      "id":  "spsalad",
+                      "tip":  "food",
+                      "effect":  "f_spsalad"
+                  },
+                  {
+                      "id":  "patty",
+                      "tip":  "food",
+                      "effect":  "f_patty"
+                  },
+                  {
+                      "id":  "maffin",
+                      "tip":  "food",
+                      "effect":  "f_maffin"
+                  },
+                  {
+                      "id":  "apie",
+                      "tip":  "food",
+                      "effect":  "f_apie"
+                  },
+                  {
+                      "id":  "mpie",
+                      "tip":  "food",
+                      "effect":  "f_mpie"
+                  },
+                  {
+                      "id":  "ppie",
+                      "tip":  "food",
+                      "effect":  "f_ppie"
+                  },
+                  {
+                      "id":  "spie",
+                      "tip":  "food",
+                      "effect":  "f_spie"
+                  },
+                  {
+                      "id":  "borsch",
+                      "tip":  "food",
+                      "effect":  "f_borsch"
+                  },
+                  {
+                      "id":  "stealth",
+                      "tip":  "equip"
+                  }
+              ]
+}

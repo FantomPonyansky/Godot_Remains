@@ -1,0 +1,78 @@
+{
+	"_comment": {"en": "Port-only strings. Original lines come from text_en.xml / text_ru.xml.", "ru": ""},
+
+	"npc_traveling_merchant": {"en": "Traveling merchant", "ru": "Странствующий торговец"},
+	"unbound": {"en": "unbound", "ru": "не назначено"},
+	"act_pause": {"en": "Pause", "ru": "Пауза"},
+	"act_weapon_wheel": {"en": "Weapon wheel", "ru": "Колесо оружия"},
+	"act_spell_wheel": {"en": "Spell wheel", "ru": "Колесо заклинаний"},
+	"wheel_empty": {"en": "No favourite weapons or attack spells", "ru": "Нет избранного оружия и атакующих заклинаний"},
+	"wheel_empty_spells": {"en": "No defensive spells", "ru": "Нет защитных заклинаний"},
+	"wheel_close": {"en": "release to close", "ru": "отпустить — закрыть"},
+	"wheel_hint": {"en": "[R stick] choose   release %s apply   centre the stick to cancel", "ru": "[R стик] выбрать   отпустить %s — применить   стик в центр — отмена"},
+	"wheel_pages": {"en": "%s page", "ru": "%s страница"},
+	"sats_port_keys": {"en": "%s next target   %s cancel", "ru": "%s следующая цель   %s отмена"},
+	"opt_language": {"en": "Language", "ru": "Язык"},
+
+	"hint_tabs": {"en": "Section", "ru": "Раздел"},
+	"hint_pages": {"en": "Scroll", "ru": "Прокрутка"},
+
+	"pause_title": {"en": "Paused", "ru": "Пауза"},
+	"pause_main_menu": {"en": "Main menu", "ru": "Главное меню"},
+
+	"menu_enemy_lab": {"en": "Enemy Lab", "ru": "Лаборатория врагов"},
+	"menu_map_builder": {"en": "Map Builder", "ru": "Редактор карт"},
+	"menu_exit": {"en": "Exit", "ru": "Выход"},
+
+	"ctl_col_keys": {"en": "Keyboard / mouse", "ru": "Клавиатура / мышь"},
+	"ctl_col_pad": {"en": "Gamepad", "ru": "Геймпад"},
+	"ctl_pad_options": {"en": "Gamepad", "ru": "Геймпад"},
+	"ctl_deadzone": {"en": "Stick dead zone", "ru": "Мёртвая зона стиков"},
+	"ctl_aim_speed": {"en": "Cursor speed", "ru": "Скорость курсора"},
+	"ctl_aim_assist": {"en": "Aim assist", "ru": "Помощь в прицеливании"},
+	"ctl_assist_pull": {"en": "Assist pull", "ru": "Притяжение к цели"},
+	"ctl_assist_slow": {"en": "Assist slowdown", "ru": "Замедление у цели"},
+	"ctl_listen_pad": {"en": "Press a gamepad button or trigger for \"%s\". Esc cancels.", "ru": "Нажмите кнопку или курок геймпада для «%s». Esc — отмена."},
+	"ctl_saved": {"en": "Saved.", "ru": "Сохранено."},
+	"ctl_cancelled": {"en": "Cancelled.", "ru": "Отменено."},
+	"ctl_cleared": {"en": "Cleared.", "ru": "Очищено."},
+	"ctl_defaults": {"en": "Default controls restored.", "ru": "Восстановлено управление по умолчанию."},
+	"ctl_help": {"en": "Choose a binding, then press the new key or gamepad button.", "ru": "Выберите назначение, затем нажмите новую клавишу или кнопку геймпада."},
+	"ctl_rebind": {"en": "Reassign", "ru": "Назначить"},
+
+	"cam_title": {"en": "Camera distance", "ru": "Дистанция камеры"},
+	"cam_hint": {"en": "Farther shows more of the room.", "ru": "Чем дальше, тем больше видно комнаты."},
+	"cam_closer": {"en": "Closer", "ru": "Ближе"},
+	"cam_farther": {"en": "Farther", "ru": "Дальше"},
+	"cam_normal": {"en": "Normal", "ru": "Обычная"},
+	"cam_more": {"en": "x%.1f", "ru": "x%.1f"},
+
+	"pickup_hint": {"en": "Items are picked up when you walk over them.", "ru": "Предметы подбираются, когда вы проходите по ним."},
+	"pickup_ammo": {"en": "Ammo", "ru": "Патроны"},
+	"pip_bind_spell": {"en": "%s on a weapon or spell, then a key: its favourites key.", "ru": "%s на оружии или заклинании, затем клавиша: назначить клавишу."},
+	"pip_fav_pad": {"en": "%s — choose a favourites key", "ru": "%s — выбрать клавишу избранного"},
+	"pip_fav_pick": {"en": "Key: [%s]   %s change   %s assign   %s cancel", "ru": "Клавиша: [%s]   %s сменить   %s назначить   %s отмена"},
+
+	"look_hint": {"en": "R G B are 0-255. Mane style 1-5, eye shape 1-6.", "ru": "R G B — от 0 до 255. Причёска 1-5, форма глаз 1-6."},
+	"look_second_mane": {"en": "Second mane color", "ru": "Второй цвет гривы"},
+	"look_mane_style": {"en": "Mane style %d / %d", "ru": "Причёска %d / %d"},
+	"look_eye_shape": {"en": "Eye shape %d / %d", "ru": "Форма глаз %d / %d"},
+
+	"craft_ready": {"en": "ready", "ru": "готово"},
+	"craft_missing": {"en": "missing parts", "ru": "не хватает деталей"},
+	"craft_unique": {"en": "unique", "ru": "уникальное"},
+
+	"slice_effect": {"en": "%s is not in this port yet", "ru": "%s пока не перенесено"},
+	"slice_no_way": {"en": "The way to %s is not in this port yet.", "ru": "Путь в %s пока не перенесён."},
+	"slice_no_quest": {"en": "Quests are not in this port yet.", "ru": "Задания пока не перенесены."},
+	"spell_no_room": {"en": "No room for the wall here", "ru": "Здесь нет места для стены"},
+
+	"story_next": {"en": "Next", "ru": "Далее"},
+	"story_skip": {"en": "Skip", "ru": "Пропустить"},
+	"trade_not_yet": {"en": "Trading is not in this port yet.", "ru": "Торговля пока не перенесена."},
+	"therapy_not_yet": {"en": "Paid treatment is not in this port yet.", "ru": "Платное лечение пока не перенесено."},
+	"intro_story": {"en": "Once upon a time, in the magical land of Equestria...\n... there came an era when the ideals of friendship gave way to envy, selfishness, greed and cruelty. The Great War for natural resources broke out, in which there were no winners. A magical spark struck by pony hooves quickly raged out of control and turned into flames that engulfed whole continents. Dragon fire and black magic, turned into destructive weapons, almost ended all life on the planet. Soil, water and air became poisoned from radiation, cities were destroyed, civilizations collapsed. Both ponies and their enemies were almost wiped off the face of the earth. Apocalypse, predicted by insane prophets, whom almost no one believed until the last day, finally has come...\n... But it was not the end yet. Many ponies survived, some - hiding in the huge underground shelters-stables, others - somehow adapting to new conditions. Apocalypse was just a prologue for another bloody chapter of pony history. On the scorched and poisoned Wasteland, violence and cruelty became not just permissible - now they were means of survival...\n... Since that day, the last day of the former Equestria, about two hundred years have passed...", "ru": "Давным-давно в волшебной стране Эквестрии…\n…Наступило время, когда идеалы дружбы уступили место зависти, эгоизму, жадности и жестокости. В Великой Войне между государствами, начавшейся из-за природных ресурсов, не было победителей. Искра магии, выбитая копытом пони, вырвалась из-под контроля и превратилась в пожар, объявший целые континенты. Драконий огонь и чёрное волшебство, обращённые в разрушительное оружие, едва не погубили всё живое на планете. Почва, вода и воздух оказались отравлены радиацией, города разрушены, цивилизация уничтожена. И пони, и их противники были почти стёрты с лица земли. Апокалипсис, предсказанный безумными провидцами, в который до последнего дня не верил почти никто, наступил…\n…Но это был ещё не конец. Многие пони выжили, одни — укрывшись в огромных подземных убежищах-Стойлах, другие — каким-то образом приспособившись к новым условиям. Апокалипсис стал всего лишь прологом к очередной кровавой странице истории пони. На выжженной и отравленной Пустоши насилие и жестокость стали не просто допустимыми — теперь это был вопрос выживания…\n…С того дня, последнего дня прежней Эквестрии, прошло около двухсот лет…"},
+	"pip_invupr1": {"en": "[click] - select weapon@[right click] - discard (spells - hide / take back)@slot selection keys (@1- @2) - assign", "ru": "[клик] — выбрать оружие@[правая кнопка] - выбросить (заклинания - скрыть / вернуть)@клавиши выбора слота (@1-@2) — назначить"},
+	"pip_invupr2": {"en": "[click] - put on armor@[right click] - discard@slot selection keys (@1- @2) - assign", "ru": "[клик] — надеть броню@[правая кнопка] - выбросить@клавиши выбора слота (@1-@2) — назначить"},
+	"pip_infostand3": {"en": "[click] - leave on the stand or take it back", "ru": "[клик] — оставить на стенде или забрать снова"}
+}

@@ -1,0 +1,233 @@
+{
+ "bullet_metal": {
+  "cell": [
+   20,
+   21
+  ],
+  "frames": 1,
+  "anchor": [
+   9.85,
+   11.3
+  ]
+ },
+ "bullet_tre": {
+  "cell": [
+   25,
+   25
+  ],
+  "frames": 3,
+  "anchor": [
+   13.55,
+   11.25
+  ]
+ },
+ "bullet_dyr": {
+  "cell": [
+   6,
+   6
+  ],
+  "frames": 1,
+  "anchor": [
+   2.65,
+   1.7
+  ]
+ },
+ "punch_tre": {
+  "cell": [
+   56,
+   71
+  ],
+  "frames": 4,
+  "anchor": [
+   32.3,
+   31.8
+  ]
+ },
+ "expl_tre": {
+  "cell": [
+   52,
+   55
+  ],
+  "frames": 5,
+  "anchor": [
+   25.5,
+   28.25
+  ]
+ },
+ "metal_tre": {
+  "cell": [
+   47,
+   43
+  ],
+  "frames": 3,
+  "anchor": [
+   19.45,
+   22.25
+  ]
+ },
+ "bullet_wood": {
+  "cell": [
+   5,
+   31
+  ],
+  "frames": 3,
+  "anchor": [
+   2.5,
+   16.85
+  ]
+ },
+ "fire_soft": {
+  "cell": [
+   55,
+   55
+  ],
+  "frames": 1,
+  "anchor": [
+   27.35,
+   27.35
+  ]
+ },
+ "laser_tre": {
+  "cell": [
+   55,
+   55
+  ],
+  "frames": 1,
+  "anchor": [
+   27.35,
+   27.35
+  ]
+ },
+ "plasma_soft": {
+  "cell": [
+   55,
+   55
+  ],
+  "frames": 3,
+  "anchor": [
+   27.35,
+   27.35
+  ]
+ },
+ "plasma_dyr": {
+  "cell": [
+   15,
+   15
+  ],
+  "frames": 1,
+  "anchor": [
+   6.65,
+   7.0
+  ]
+ },
+ "plasma_tre": {
+  "cell": [
+   55,
+   55
+  ],
+  "frames": 1,
+  "anchor": [
+   27.35,
+   27.35
+  ]
+ },
+ "bluplasma_tre": {
+  "cell": [
+   55,
+   55
+  ],
+  "frames": 1,
+  "anchor": [
+   27.35,
+   27.35
+  ]
+ },
+ "pinkplasma_tre": {
+  "cell": [
+   55,
+   55
+  ],
+  "frames": 1,
+  "anchor": [
+   27.35,
+   27.35
+  ]
+ },
+ "cryo_soft": {
+  "cell": [
+   55,
+   55
+  ],
+  "frames": 1,
+  "anchor": [
+   27.35,
+   27.35
+  ]
+ },
+ "plaexpl_tre": {
+  "cell": [
+   52,
+   55
+  ],
+  "frames": 5,
+  "anchor": [
+   25.5,
+   28.25
+  ]
+ },
+ "block_dyr": {
+  "cell": [
+   50,
+   50
+  ],
+  "frames": 1,
+  "anchor": [
+   25.0,
+   25.0
+  ]
+ },
+ "block_tre": {
+  "cell": [
+   72,
+   72
+  ],
+  "frames": 3,
+  "anchor": [
+   36.2,
+   37.5
+  ]
+ },
+ "block_bur": {
+  "cell": [
+   71,
+   72
+  ],
+  "frames": 1,
+  "anchor": [
+   36.0,
+   36.0
+  ]
+ },
+ "block_plav": {
+  "cell": [
+   47,
+   45
+  ],
+  "frames": 1,
+  "anchor": [
+   23.0,
+   23.0
+  ]
+ },
+ "block_pla": {
+  "cell": [
+   71,
+   72
+  ],
+  "frames": 1,
+  "anchor": [
+   36.0,
+   36.0
+  ]
+ }
+}

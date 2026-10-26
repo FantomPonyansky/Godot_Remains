@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://bremgame0001"]
+
+[ext_resource type="Script" path="res://scripts/game.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://scenes/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/hud.tscn" id="5_hud"]
+[ext_resource type="PackedScene" path="res://scenes/pause_menu.tscn" id="6_pause"]
+
+[node name="Game" type="Node2D"]
+script = ExtResource("1_script")
+
+[node name="Sky" type="ColorRect" parent="."]
+z_index = -20
+offset_right = 9600.0
+offset_bottom = 5000.0
+color = Color(0.10, 0.09, 0.08, 1)
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector2(320, 639)
+
+[node name="HUD" parent="." instance=ExtResource("5_hud")]
+
+[node name="PauseMenu" parent="." instance=ExtResource("6_pause")]

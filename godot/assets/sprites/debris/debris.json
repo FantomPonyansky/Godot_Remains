@@ -1,0 +1,58 @@
+{
+ "kusok": {
+  "frames": 5,
+  "anchor": [
+   10.0,
+   17.0
+  ]
+ },
+ "kusokB": {
+  "frames": 5,
+  "anchor": [
+   9.0,
+   16.0
+  ]
+ },
+ "kusokD": {
+  "frames": 5,
+  "anchor": [
+   9.0,
+   16.0
+  ]
+ },
+ "steklo": {
+  "frames": 5,
+  "anchor": [
+   7.05,
+   12.6
+  ]
+ },
+ "kusoch": {
+  "frames": 5,
+  "anchor": [
+   4.85,
+   6.5
+  ]
+ },
+ "kusochB": {
+  "frames": 5,
+  "anchor": [
+   4.85,
+   6.5
+  ]
+ },
+ "schep": {
+  "frames": 5,
+  "anchor": [
+   5.56,
+   21.98
+  ]
+ },
+ "schepoch": {
+  "frames": 5,
+  "anchor": [
+   2.25,
+   13.0
+  ]
+ }
+}

@@ -1,0 +1,677 @@
+{
+  "source": "Remains-Source2 objs.xml. cont is the LootGen.lootCont table. wall>0 is not a levitation target.",
+  "boxes": {
+    "safe": {
+      "cont": "safe",
+      "locktip": 1,
+      "wall": 0,
+      "levitate": true,
+      "difficulty": 31
+    },
+    "wallsafe": {
+      "cont": "safe",
+      "locktip": 1,
+      "wall": 2,
+      "levitate": false,
+      "difficulty": 10
+    },
+    "chest": {
+      "cont": "chest",
+      "locktip": 1,
+      "wall": 0,
+      "levitate": true,
+      "difficulty": 10
+    },
+    "case": {
+      "cont": "case",
+      "locktip": 1,
+      "wall": 0,
+      "levitate": true,
+      "difficulty": 10
+    },
+    "ammobox": {
+      "cont": "ammo",
+      "locktip": 1,
+      "wall": 0,
+      "levitate": true,
+      "difficulty": 10
+    },
+    "explbox": {
+      "cont": "expl",
+      "locktip": 1,
+      "wall": 0,
+      "levitate": true,
+      "difficulty": 10
+    },
+    "bigexpl": {
+      "cont": "bigexpl",
+      "locktip": 1,
+      "wall": 0,
+      "levitate": true,
+      "difficulty": 10
+    },
+    "weapbox": {
+      "cont": "wbattle",
+      "locktip": 1,
+      "wall": 0,
+      "levitate": true,
+      "difficulty": 31
+    },
+    "weapcase": {
+      "cont": "wbig",
+      "locktip": 1,
+      "wall": 0,
+      "levitate": true,
+      "difficulty": 15
+    },
+    "bookcase": {
+      "cont": "book",
+      "locktip": 1,
+      "wall": 1,
+      "levitate": false,
+      "difficulty": 46
+    },
+    "medbox": {
+      "cont": "med",
+      "locktip": 1,
+      "wall": 1,
+      "levitate": false,
+      "difficulty": 10
+    },
+    "bigmed": {
+      "cont": "med2",
+      "locktip": 1,
+      "wall": 0,
+      "levitate": true,
+      "difficulty": 23
+    },
+    "instr1": {
+      "cont": "instr",
+      "locktip": 1,
+      "wall": 0,
+      "levitate": true,
+      "difficulty": 25
+    },
+    "instr2": {
+      "cont": "instr2",
+      "locktip": 1,
+      "wall": 1,
+      "levitate": false,
+      "difficulty": 10
+    },
+    "table": {
+      "cont": "table",
+      "locktip": 1,
+      "wall": 0,
+      "levitate": true,
+      "difficulty": 10
+    },
+    "wallcab": {
+      "cont": "case",
+      "locktip": 1,
+      "wall": 2,
+      "levitate": false,
+      "difficulty": 10
+    },
+    "locker": {
+      "cont": "chest",
+      "locktip": 1,
+      "wall": 1,
+      "levitate": false,
+      "difficulty": 46
+    },
+    "trash": {
+      "cont": "trash",
+      "locktip": 1,
+      "wall": 0,
+      "levitate": true,
+      "difficulty": 10
+    },
+    "cup": {
+      "cont": "cup",
+      "locktip": 1,
+      "wall": 0,
+      "levitate": true,
+      "difficulty": 20
+    },
+    "tumba1": {
+      "cont": "case",
+      "locktip": 1,
+      "wall": 0,
+      "levitate": true,
+      "difficulty": 10
+    },
+    "tumba2": {
+      "cont": "case",
+      "locktip": 1,
+      "wall": 0,
+      "levitate": true,
+      "difficulty": 10
+    },
+    "filecab": {
+      "cont": "filecab",
+      "locktip": 1,
+      "wall": 0,
+      "levitate": true,
+      "difficulty": 10
+    },
+    "fridge": {
+      "cont": "fridge",
+      "locktip": 1,
+      "wall": 0,
+      "levitate": true,
+      "difficulty": 10
+    },
+    "ccup": {
+      "cont": "food",
+      "locktip": 1,
+      "wall": 0,
+      "levitate": true,
+      "difficulty": 10
+    },
+    "wcup": {
+      "cont": "food",
+      "locktip": 1,
+      "wall": 1,
+      "levitate": false,
+      "difficulty": 10
+    },
+    "tap": {
+      "cont": "trash",
+      "locktip": 1,
+      "wall": 0,
+      "levitate": true,
+      "difficulty": 10
+    },
+    "cryocap": {
+      "cont": "cryo",
+      "locktip": 1,
+      "wall": 1,
+      "levitate": false,
+      "difficulty": 46
+    },
+    "basechest": {
+      "cont": "chest",
+      "locktip": 2,
+      "wall": 0,
+      "levitate": true,
+      "difficulty": 10
+    },
+    "enclchest": {
+      "cont": "chest",
+      "locktip": 1,
+      "wall": 0,
+      "levitate": true,
+      "difficulty": 10
+    },
+    "enclcase": {
+      "cont": "wbig",
+      "locktip": 1,
+      "wall": 0,
+      "levitate": true,
+      "difficulty": 15
+    },
+    "woodbox": {
+      "cont": "",
+      "locktip": 1,
+      "wall": 0,
+      "levitate": true,
+      "difficulty": 10
+    },
+    "mcrate1": {
+      "cont": "",
+      "locktip": 1,
+      "wall": 0,
+      "levitate": true,
+      "difficulty": 10
+    },
+    "box": {
+      "cont": "",
+      "locktip": 1,
+      "wall": 0,
+      "levitate": true,
+      "difficulty": 10
+    },
+    "mcrate2": {
+      "cont": "",
+      "locktip": 1,
+      "wall": 0,
+      "levitate": true,
+      "difficulty": 15
+    },
+    "mcrate3": {
+      "cont": "",
+      "locktip": 1,
+      "wall": 0,
+      "levitate": true,
+      "difficulty": 24
+    },
+    "bigbox": {
+      "cont": "",
+      "locktip": 1,
+      "wall": 0,
+      "levitate": true,
+      "difficulty": 35
+    },
+    "bigbox2": {
+      "cont": "",
+      "locktip": 1,
+      "wall": 0,
+      "levitate": true,
+      "difficulty": 100
+    },
+    "mcrate4": {
+      "cont": "",
+      "locktip": 1,
+      "wall": 0,
+      "levitate": true,
+      "difficulty": 200
+    },
+    "mcrate5": {
+      "cont": "",
+      "locktip": 1,
+      "wall": 0,
+      "levitate": true,
+      "difficulty": 100
+    },
+    "radbarrel": {
+      "cont": "",
+      "locktip": 1,
+      "wall": 0,
+      "levitate": true,
+      "difficulty": 20
+    },
+    "radbigbarrel": {
+      "cont": "",
+      "locktip": 1,
+      "wall": 0,
+      "levitate": true,
+      "difficulty": 220
+    },
+    "couch": {
+      "cont": "",
+      "locktip": 1,
+      "wall": 0,
+      "levitate": true,
+      "difficulty": 10
+    },
+    "bed": {
+      "cont": "",
+      "locktip": 1,
+      "wall": 0,
+      "levitate": true,
+      "difficulty": 10
+    },
+    "table1": {
+      "cont": "",
+      "locktip": 1,
+      "wall": 0,
+      "levitate": true,
+      "difficulty": 10
+    },
+    "table2": {
+      "cont": "",
+      "locktip": 1,
+      "wall": 0,
+      "levitate": true,
+      "difficulty": 10
+    },
+    "table4": {
+      "cont": "",
+      "locktip": 1,
+      "wall": 0,
+      "levitate": true,
+      "difficulty": 10
+    },
+    "longtable": {
+      "cont": "",
+      "locktip": 1,
+      "wall": 0,
+      "levitate": true,
+      "difficulty": 10
+    },
+    "niche1": {
+      "cont": "",
+      "locktip": 1,
+      "wall": 2,
+      "levitate": false,
+      "difficulty": 20
+    },
+    "term": {
+      "cont": "",
+      "locktip": 2,
+      "wall": 1,
+      "levitate": false,
+      "difficulty": 10
+    },
+    "term1": {
+      "cont": "",
+      "locktip": 2,
+      "wall": 1,
+      "levitate": false,
+      "difficulty": 10
+    },
+    "term2": {
+      "cont": "",
+      "locktip": 2,
+      "wall": 1,
+      "levitate": false,
+      "difficulty": 10
+    },
+    "term3": {
+      "cont": "info",
+      "locktip": 2,
+      "wall": 1,
+      "levitate": false,
+      "difficulty": 10
+    },
+    "termh": {
+      "cont": "",
+      "locktip": 2,
+      "wall": 1,
+      "levitate": false,
+      "difficulty": 10
+    },
+    "elpanel": {
+      "cont": "",
+      "locktip": 2,
+      "wall": 2,
+      "levitate": false,
+      "difficulty": 10
+    },
+    "knop1": {
+      "cont": "",
+      "locktip": 1,
+      "wall": 1,
+      "levitate": false,
+      "difficulty": 10
+    },
+    "knop2": {
+      "cont": "",
+      "locktip": 1,
+      "wall": 1,
+      "levitate": false,
+      "difficulty": 10
+    },
+    "knop3": {
+      "cont": "",
+      "locktip": 5,
+      "wall": 1,
+      "levitate": false,
+      "difficulty": 10
+    },
+    "knop4": {
+      "cont": "",
+      "locktip": 2,
+      "wall": 1,
+      "levitate": false,
+      "difficulty": 10
+    },
+    "platform2": {
+      "cont": "",
+      "locktip": 1,
+      "wall": 1,
+      "levitate": false,
+      "difficulty": 10
+    },
+    "platform3": {
+      "cont": "",
+      "locktip": 1,
+      "wall": 1,
+      "levitate": false,
+      "difficulty": 10
+    },
+    "dsph": {
+      "cont": "",
+      "locktip": 1,
+      "wall": 1,
+      "levitate": false,
+      "difficulty": 10
+    },
+    "indoor1": {
+      "cont": "",
+      "locktip": 1,
+      "wall": 2,
+      "levitate": false,
+      "difficulty": 20
+    },
+    "indoor2": {
+      "cont": "",
+      "locktip": 1,
+      "wall": 2,
+      "levitate": false,
+      "difficulty": 20
+    },
+    "indoor3": {
+      "cont": "",
+      "locktip": 1,
+      "wall": 2,
+      "levitate": false,
+      "difficulty": 20
+    },
+    "indoor4": {
+      "cont": "",
+      "locktip": 1,
+      "wall": 2,
+      "levitate": false,
+      "difficulty": 20
+    },
+    "instdoor": {
+      "cont": "",
+      "locktip": 1,
+      "wall": 2,
+      "levitate": false,
+      "difficulty": 69
+    },
+    "inbasedoor": {
+      "cont": "",
+      "locktip": 1,
+      "wall": 2,
+      "levitate": false,
+      "difficulty": 69
+    },
+    "inencldoor": {
+      "cont": "",
+      "locktip": 1,
+      "wall": 2,
+      "levitate": false,
+      "difficulty": 69
+    },
+    "moln1": {
+      "cont": "",
+      "locktip": 1,
+      "wall": 2,
+      "levitate": false,
+      "difficulty": 17
+    },
+    "work": {
+      "cont": "",
+      "locktip": 1,
+      "wall": 0,
+      "levitate": true,
+      "difficulty": 10
+    },
+    "himlab": {
+      "cont": "",
+      "locktip": 1,
+      "wall": 0,
+      "levitate": true,
+      "difficulty": 10
+    },
+    "stove": {
+      "cont": "",
+      "locktip": 1,
+      "wall": 0,
+      "levitate": true,
+      "difficulty": 10
+    },
+    "exit": {
+      "cont": "",
+      "locktip": 1,
+      "wall": 1,
+      "levitate": false,
+      "difficulty": 46
+    },
+    "doorout": {
+      "cont": "",
+      "locktip": 1,
+      "wall": 1,
+      "levitate": false,
+      "difficulty": 46
+    },
+    "doorprob": {
+      "cont": "",
+      "locktip": 1,
+      "wall": 1,
+      "levitate": false,
+      "difficulty": 46
+    },
+    "doorboss": {
+      "cont": "",
+      "locktip": 1,
+      "wall": 1,
+      "levitate": false,
+      "difficulty": 46
+    },
+    "wmap": {
+      "cont": "",
+      "locktip": 1,
+      "wall": 1,
+      "levitate": false,
+      "difficulty": 92
+    },
+    "stand": {
+      "cont": "",
+      "locktip": 1,
+      "wall": 1,
+      "levitate": false,
+      "difficulty": 92
+    },
+    "vault": {
+      "cont": "",
+      "locktip": 1,
+      "wall": 1,
+      "levitate": false,
+      "difficulty": 10
+    },
+    "table3": {
+      "cont": "",
+      "locktip": 1,
+      "wall": 0,
+      "levitate": true,
+      "difficulty": 10
+    },
+    "p_luna": {
+      "cont": "",
+      "locktip": 1,
+      "wall": 1,
+      "levitate": false,
+      "difficulty": 123
+    },
+    "barst": {
+      "cont": "",
+      "locktip": 1,
+      "wall": 1,
+      "levitate": false,
+      "difficulty": 10
+    },
+    "smotr": {
+      "cont": "",
+      "locktip": 1,
+      "wall": 1,
+      "levitate": false,
+      "difficulty": 13
+    },
+    "camp": {
+      "cont": "",
+      "locktip": 1,
+      "wall": 1,
+      "levitate": false,
+      "difficulty": 61
+    },
+    "brspr": {
+      "cont": "",
+      "locktip": 1,
+      "wall": 1,
+      "levitate": false,
+      "difficulty": 10
+    },
+    "detonator": {
+      "cont": "",
+      "locktip": 1,
+      "wall": 0,
+      "levitate": true,
+      "difficulty": 10
+    },
+    "robocell": {
+      "cont": "robocell",
+      "locktip": 2,
+      "wall": 1,
+      "levitate": false,
+      "difficulty": 20
+    },
+    "alarm": {
+      "cont": "",
+      "locktip": 1,
+      "wall": 1,
+      "levitate": false,
+      "difficulty": 10
+    },
+    "reactor": {
+      "cont": "",
+      "locktip": 1,
+      "wall": 0,
+      "levitate": true,
+      "difficulty": 10000
+    },
+    "generat": {
+      "cont": "",
+      "locktip": 1,
+      "wall": 1,
+      "levitate": false,
+      "difficulty": 246
+    },
+    "tcloud1": {
+      "cont": "",
+      "locktip": 1,
+      "wall": 2,
+      "levitate": false,
+      "difficulty": 10
+    },
+    "pcloud1": {
+      "cont": "",
+      "locktip": 1,
+      "wall": 2,
+      "levitate": false,
+      "difficulty": 10
+    },
+    "door_st1": {
+      "cont": "",
+      "locktip": 1,
+      "wall": 2,
+      "levitate": false,
+      "difficulty": 553
+    },
+    "door_st2": {
+      "cont": "",
+      "locktip": 1,
+      "wall": 2,
+      "levitate": false,
+      "difficulty": 553
+    },
+    "aaa": {
+      "cont": "",
+      "locktip": 1,
+      "wall": 1,
+      "levitate": false,
+      "difficulty": 256
+    },
+    "tomb": {
+      "cont": "",
+      "locktip": 1,
+      "wall": 1,
+      "levitate": false,
+      "difficulty": 20
+    }
+  }
+}

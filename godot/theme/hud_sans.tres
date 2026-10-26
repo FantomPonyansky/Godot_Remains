@@ -1,0 +1,8 @@
+[gd_resource type="FontVariation" load_steps=3 format=3]
+
+[ext_resource type="FontFile" path="res://theme/fonts/LiberationSans-Regular.ttf" id="1_lib"]
+[ext_resource type="FontFile" path="res://theme/OpenSans-Regular.ttf" id="2_sans"]
+
+[resource]
+fallbacks = Array[Font]([ExtResource("2_sans")])
+base_font = ExtResource("1_lib")

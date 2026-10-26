@@ -1,0 +1,296 @@
+{
+ "units": {
+  "alicorn": [
+   "combat_1",
+   1
+  ],
+  "alicorn1": [
+   "combat_1",
+   1
+  ],
+  "alicorn2": [
+   "combat_1",
+   1
+  ],
+  "alicorn3": [
+   "combat_1",
+   1
+  ],
+  "bloat10": [
+   "boss_2",
+   1
+  ],
+  "bloat7": [
+   "boss_2",
+   1
+  ],
+  "bloat8": [
+   "boss_2",
+   1
+  ],
+  "bloat9": [
+   "boss_2",
+   1
+  ],
+  "bossalicorn": [
+   "boss_2",
+   1
+  ],
+  "bossdron": [
+   "boss_3",
+   1
+  ],
+  "bossencl": [
+   "boss_6",
+   1
+  ],
+  "bossnecr": [
+   "boss_3",
+   1
+  ],
+  "bossraider": [
+   "boss_1",
+   1
+  ],
+  "bossultra": [
+   "boss_4",
+   1
+  ],
+  "encl": [
+   "combat_1",
+   1
+  ],
+  "encl1": [
+   "combat_1",
+   1
+  ],
+  "encl2": [
+   "combat_1",
+   1
+  ],
+  "encl3": [
+   "combat_1",
+   1
+  ],
+  "encl4": [
+   "combat_1",
+   1
+  ],
+  "eqd": [
+   "combat_1",
+   1
+  ],
+  "gutsy": [
+   "combat_1",
+   1
+  ],
+  "gutsy1": [
+   "combat_1",
+   1
+  ],
+  "hellhound": [
+   "combat_1",
+   1
+  ],
+  "hellhound1": [
+   "combat_1",
+   1
+  ],
+  "merc": [
+   "combat_1",
+   1
+  ],
+  "merc1": [
+   "combat_1",
+   1
+  ],
+  "merc2": [
+   "combat_1",
+   1
+  ],
+  "merc3": [
+   "combat_1",
+   1
+  ],
+  "merc4": [
+   "combat_1",
+   1
+  ],
+  "merc5": [
+   "combat_1",
+   1
+  ],
+  "protect": [
+   "combat_1",
+   1
+  ],
+  "protect1": [
+   "combat_1",
+   1
+  ],
+  "raider": [
+   "combat_1",
+   1
+  ],
+  "raider1": [
+   "combat_1",
+   1
+  ],
+  "raider2": [
+   "combat_1",
+   1
+  ],
+  "raider3": [
+   "combat_1",
+   1
+  ],
+  "raider4": [
+   "combat_1",
+   1
+  ],
+  "raider5": [
+   "combat_1",
+   1
+  ],
+  "raider6": [
+   "combat_1",
+   1
+  ],
+  "raider7": [
+   "combat_1",
+   1
+  ],
+  "raider8": [
+   "combat_1",
+   1
+  ],
+  "raider9": [
+   "combat_1",
+   1
+  ],
+  "ranger": [
+   "combat_1",
+   1
+  ],
+  "ranger1": [
+   "combat_1",
+   1
+  ],
+  "ranger2": [
+   "combat_1",
+   1
+  ],
+  "ranger3": [
+   "combat_1",
+   1
+  ],
+  "robobrain": [
+   "combat_1",
+   1
+  ],
+  "sentinel": [
+   "combat_1",
+   1
+  ],
+  "slaver": [
+   "combat_1",
+   1
+  ],
+  "slaver1": [
+   "combat_1",
+   1
+  ],
+  "slaver2": [
+   "combat_1",
+   1
+  ],
+  "slaver3": [
+   "combat_1",
+   1
+  ],
+  "slaver4": [
+   "combat_1",
+   1
+  ],
+  "slaver5": [
+   "combat_1",
+   1
+  ],
+  "slaver6": [
+   "combat_1",
+   1
+  ],
+  "turret5": [
+   "boss_3",
+   1
+  ],
+  "zebra": [
+   "combat_1",
+   1
+  ],
+  "zebra1": [
+   "combat_1",
+   1
+  ],
+  "zebra2": [
+   "combat_1",
+   1
+  ],
+  "zebra3": [
+   "combat_1",
+   1
+  ],
+  "zebra4": [
+   "combat_1",
+   1
+  ],
+  "zebra5": [
+   "combat_1",
+   1
+  ],
+  "zombie": [
+   "combat_1",
+   1
+  ],
+  "zombie0": [
+   "combat_1",
+   1
+  ],
+  "zombie1": [
+   "combat_1",
+   1
+  ],
+  "zombie2": [
+   "combat_1",
+   1
+  ],
+  "zombie3": [
+   "combat_1",
+   1
+  ],
+  "zombie4": [
+   "combat_1",
+   1
+  ],
+  "zombie5": [
+   "combat_1",
+   1
+  ],
+  "zombie6": [
+   "combat_1",
+   1
+  ],
+  "zombie7": [
+   "combat_1",
+   1
+  ],
+  "zombie8": [
+   "combat_1",
+   1
+  ],
+  "zombie9": [
+   "combat_1",
+   1
+  ]
+ }
+}

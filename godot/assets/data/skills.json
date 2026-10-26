@@ -1,0 +1,151 @@
+{
+  "meta": {
+    "source": "skills.xml + text_en.xml eff names",
+    "points_per_level": 5,
+    "perk_every_level": true,
+    "xp_delta": 5000,
+    "base_hp": 100,
+    "hp_per_level": 20,
+    "max_rank": 20,
+    "max_post_rank": 100
+  },
+  "skills": [
+    {
+      "id": "tele",
+      "name": "Telekinesis",
+      "cost": 1,
+      "post": false,
+      "blurb": "The \"Telekinesis\" skill determines your ability to move various objects with magic, and can also serve as a support for a jump in the air.\n- With every skill point invested, the magical power consumption for telekinesis and \"Double Jump\" decreases.\n- With each skill level your telekinetic power increase, in particular, you can lift heavier items, and it will be harder for enemies to escape from your telekinetic grip"
+    },
+    {
+      "id": "melee",
+      "name": "Melee weapons",
+      "cost": 1,
+      "post": false,
+      "blurb": "Skill \"Melee weapons\" determines combat effectiveness with any melee weapon.\n- Each invested skill point increases damage by 5%.\n- Each skill level allows using more advanced weapons. Insufficient skill level decreases attack speed and increases action points consumption in S.A.T.S.",
+      "pending": true
+    },
+    {
+      "id": "smallguns",
+      "name": "Firearms",
+      "cost": 1,
+      "post": false,
+      "blurb": "Skill \"Firearms\" determines your ability to handle pistols, rifles, shotguns and, a minigun.\n- Each invested skill point increases damage and accuracy of these weapons by 5%.\n- Each skill level allows using more advanced weapons. Insufficient skill level will make you miss more often",
+      "damage_per_point": 0.05
+    },
+    {
+      "id": "energy",
+      "name": "Energy weapons",
+      "cost": 1,
+      "post": false,
+      "blurb": "Skill \"Energy weapons\" determines your ability to handle different laser, plasma or pulse weapons and a flamethrower.\n- Each invested skill point increases damage and accuracy of these weapons by 5%.\n- Each skill level allows using more advanced weapons. Insufficient skill level will make you miss more often",
+      "damage_per_point": 0.05
+    },
+    {
+      "id": "explosives",
+      "name": "Explosives",
+      "cost": 1,
+      "post": false,
+      "blurb": "Skill \"Explosives\" determines your ability to work with everything that is capable of exploding.\n- Each invested skill point increases the damage of your explosives by 5%, also increases throwing distance for grenades.\n- Each skill level allows using and creating more advanced explosives, improves success rate at defusing and helps you detect enemy mines from a longer distance",
+      "damage_per_point": 0.05,
+      "pending": true
+    },
+    {
+      "id": "magic",
+      "name": "Magic",
+      "cost": 1,
+      "post": false,
+      "blurb": "Skill \"Magic\" determines your knowledge of magical arts, directly affecting power of your spells, both offensive and defensive.\n- Each invested skill point increases damage of your offensive spells by 5%, and defensive - by 10%.\n- Each skill level decreases cooldown time for all spells",
+      "damage_per_point": 0.05,
+      "pending": false
+    },
+    {
+      "id": "repair",
+      "name": "Repair",
+      "cost": 1,
+      "post": false,
+      "blurb": "Skill \"Repair\" helps you keeping your weapons and armor in good condition, and using mechanisms of all sorts.\n- Each invested skill point increases the effectiveness of repairs by 4% (with base value of 20%) and increases damage for the crafted weapon by 5%.\n- Each skill level enables you creating advanced weapons, also repairing or shutting down more complex mechanisms",
+      "pending": true
+    },
+    {
+      "id": "medic",
+      "name": "Medicine",
+      "cost": 1,
+      "post": false,
+      "blurb": "Skill \"Medicine\" directly affects your health and ability to heal yourself without medic's help.\n- Each invested skill point increases the effectiveness of healing potions and other medication by 3% (with base value of 40%).\n- Each skill level increases your maximal health and enables you to operate special medical instrumentation",
+      "max_hp_by_level": [
+        0,
+        20,
+        50,
+        90,
+        140,
+        200
+      ],
+      "heal_per_point": 0.03
+    },
+    {
+      "id": "lockpick",
+      "name": "Lockpicking",
+      "cost": 1,
+      "post": false,
+      "blurb": "Skill \"Lockpicking\" allows you to open mechanical locks.\n- Each invested skill point increases probability to open a lock and decreases chance of jamming.\n- Each skill level allows you to pick locks of more sophisticated design",
+      "pending": true
+    },
+    {
+      "id": "science",
+      "name": "Science",
+      "cost": 1,
+      "post": false,
+      "blurb": "Skill \"Science\" represents your knowledge in different scientific fields, particularly those about electronics and information technology.\n- Each invested skill point increases the chance of successful hacking of electronic locks and protected terminals.\n- Each skill level enables you breaking through more advanced defense systems, and using additional PipBuck features by applying special extension modules",
+      "pending": true
+    },
+    {
+      "id": "sneak",
+      "name": "Sneak",
+      "cost": 1,
+      "post": false,
+      "blurb": "The \"Sneak\" skill allows you to move unnoticed by enemies or to attack them from ambush, suddenly and deadly.\n- Each invested skill point makes you harder to be noticed or heard.\n- With each skill level a chance to deal critical damage to an enemy who hasn't seen you is increased by 5%. It also helps you to shut down alarm systems",
+      "pending": true
+    },
+    {
+      "id": "barter",
+      "name": "Barter",
+      "cost": 1,
+      "post": false,
+      "blurb": "Skill \"Barter\" helps you to negotiate with all sorts of merchants in the Wasteland to get better goods and services for a lower price.\n- Each invested skill point decreases prices for purchasing and repairs by 3%.\n- Each skill level expands the selection of merchants' goods and allows you to access some exclusive deals, that can't be found anywhere else",
+      "pending": true
+    },
+    {
+      "id": "survival",
+      "name": "Survival",
+      "cost": 1,
+      "post": false,
+      "blurb": "This skill represents ancient knowledge almost forgotten by ponies but mastered and perfected by zebras. With this knowledge, you will survive where others would perish.\n- Each invested skill point increases your resistance to any damage by 1%.\n- Each skill level increases your damage threshold by 1 and enables you to prepare magical potions by zebras' recipes",
+      "vulner_per_point": -0.01
+    },
+    {
+      "id": "attack",
+      "name": "Attack",
+      "cost": 1,
+      "post": true,
+      "blurb": "With each level of this skill the damage of any weapon is increased by 5%",
+      "all_damage_per_level": 0.05
+    },
+    {
+      "id": "defense",
+      "name": "Defense",
+      "cost": 1,
+      "post": true,
+      "blurb": "With each level your resistance to any damage increases by 3%",
+      "vulner_per_level": -0.03
+    },
+    {
+      "id": "knowl",
+      "name": "Knowledge",
+      "cost": 1,
+      "post": true,
+      "blurb": "With each level of this skill, you gain an additional ability for each level up",
+      "grants_perk_points": true
+    }
+  ]
+}

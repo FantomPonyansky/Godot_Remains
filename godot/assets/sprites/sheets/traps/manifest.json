@@ -1,0 +1,239 @@
+{
+ "triglaser": {
+  "sheet": "triglaser.png",
+  "cell": [
+   34,
+   49
+  ],
+  "anchor": [
+   17,
+   47
+  ],
+  "cols": 2,
+  "clips": {
+   "all": {
+    "frames": [
+     0,
+     1,
+     1
+    ],
+    "loop": false
+   }
+  },
+  "parts": {}
+ },
+ "trigplate": {
+  "sheet": "trigplate.png",
+  "cell": [
+   46,
+   11
+  ],
+  "anchor": [
+   23,
+   6
+  ],
+  "cols": 2,
+  "clips": {
+   "all": {
+    "frames": [
+     0,
+     1,
+     1
+    ],
+    "loop": false
+   }
+  },
+  "parts": {}
+ },
+ "trigcans": {
+  "sheet": "trigcans.png",
+  "cell": [
+   39,
+   74
+  ],
+  "anchor": [
+   20,
+   72
+  ],
+  "cols": 3,
+  "clips": {
+   "all": {
+    "frames": [
+     0,
+     1,
+     2
+    ],
+    "loop": false
+   }
+  },
+  "parts": {}
+ },
+ "trigridge": {
+  "sheet": "trigridge.png",
+  "cell": [
+   18,
+   29
+  ],
+  "anchor": [
+   10,
+   27
+  ],
+  "cols": 2,
+  "clips": {
+   "all": {
+    "frames": [
+     0,
+     1,
+     1
+    ],
+    "loop": false
+   }
+  },
+  "parts": {}
+ },
+ "damshot": {
+  "sheet": "damshot.png",
+  "cell": [
+   46,
+   53
+  ],
+  "anchor": [
+   23,
+   50
+  ],
+  "cols": 1,
+  "clips": {
+   "all": {
+    "frames": [
+     0
+    ],
+    "loop": false
+   }
+  },
+  "parts": {}
+ },
+ "damgren": {
+  "sheet": "damgren.png",
+  "cell": [
+   36,
+   51
+  ],
+  "anchor": [
+   20,
+   48
+  ],
+  "cols": 1,
+  "clips": {
+   "all": {
+    "frames": [
+     0
+    ],
+    "loop": false
+   }
+  },
+  "parts": {}
+ },
+ "damexpl1": {
+  "sheet": "damexpl1.png",
+  "cell": [
+   51,
+   46
+  ],
+  "anchor": [
+   26,
+   43
+  ],
+  "cols": 1,
+  "clips": {
+   "all": {
+    "frames": [
+     0
+    ],
+    "loop": false
+   }
+  },
+  "parts": {}
+ },
+ "mtrap": {
+  "sheet": "mtrap.png",
+  "cell": [
+   46,
+   27
+  ],
+  "anchor": [
+   23,
+   23
+  ],
+  "cols": 20,
+  "clips": {
+   "all": {
+    "frames": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     17,
+     18,
+     19
+    ],
+    "loop": false
+   }
+  },
+  "parts": {}
+ },
+ "fx_blind": {
+  "sheet": "fx_blind.png",
+  "cell": [
+   172,
+   172
+  ],
+  "anchor": [
+   87,
+   87
+  ],
+  "cols": 1,
+  "clips": {
+   "all": {
+    "frames": [
+     0
+    ],
+    "loop": false
+   }
+  },
+  "parts": {}
+ },
+ "fx_stun": {
+  "sheet": "fx_stun.png",
+  "cell": [
+   23,
+   23
+  ],
+  "anchor": [
+   12,
+   12
+  ],
+  "cols": 1,
+  "clips": {
+   "all": {
+    "frames": [
+     0
+    ],
+    "loop": false
+   }
+  },
+  "parts": {}
+ }
+}
