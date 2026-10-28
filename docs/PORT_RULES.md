@@ -10,6 +10,10 @@ If an earlier request blocks an accurate port or causes bugs or performance issu
 - The Steam DLC 1.0.4 rebalance is a selectable mode beside the base game, not a replacement. Ask the user about each value that looks like a test leftover before copying it.
 - Languages: all 9 Steam languages. System language on first launch, then the player's choice is remembered.
 
+## Project
+
+- Fully non-commercial (user, 2026-10-26). Own code: PolyForm Noncommercial 1.0.0 with the same kind of additional permissions as Remains: Unity (`LICENSE`, `LICENSING.md`, `ADDITIONAL_PERMISSIONS.md`). List any adapted file in `THIRD_PARTY_NOTICES.md`. Code adapted from Remains: Unity (PolyForm Noncommercial) is allowed with its notices; see `KNOWLEDGE_BASE.md` "Other remake".
+
 ## Future multiplayer (2026-10-26, user)
 
 Planned after the port is finished, as a separate mode: true online co-op, P2P, several players, via Steam. Do not implement it now. When making architectural choices, prefer the option that does not block it:
@@ -29,6 +33,7 @@ Planned after the port is finished, as a separate mode: true online co-op, P2P, 
 
 - Camera (2026-10-25, user): not locked on the player. A free circle of 1/3 screen height diameter; past it the view catches up faster the farther out (`player_camera.gd`). The original shows the whole room when it fits the screen and only follows the player, clamped to the room, when it does not (Camera.calc); seamless rooms cannot do that, so the free zone stands in for it.
 - Seamless rooms: camera and fog flow across room edges; enemies, bullets and objects cross rooms.
+- Enemies are not reset when the player returns to a room (user, 2026-10-28). The original restores them to full HP, at their start point and calm, after more than two other visits (`Location.reactivate`, `Unit.setNull`). Here they stay as they were left.
   - Exception (2026-10-26, tester): back rooms and trial rooms show only themselves and the camera stays in the room, as in the original (`map/back_room.gd`).
   - Exception (2026-10-25, user chose B): enemies in a room whose scripted area is still enabled do not see or hear the player outside that room until they are aware of the player (surf end raiders).
 - Fog layout memory: remembered layout and static objects stay visible, dimmed. Trial rooms with `retdark` (`labirint`, `floating`) hide everything outside line of sight.
@@ -78,9 +83,11 @@ Pad (Xbox names; the original has no pad):
 
 ## Menus and PipBuck
 
-- Main menu: Exit is a sixth button below Credits. Controls moved into PipBuck options. The debug tools (enemy lab, map editor) sit top right and only exist in dev runs.
+- Main menu: Exit is a sixth button below Credits. Controls moved into PipBuck options. The debug tools (enemy lab, map editor) sit top right and only exist in dev runs. Exception (2026-10-27): the ported room editor (`docs/EDITOR_PORT_PLAN.md`) ships to everyone, and rooms saved with it in `mods/rooms/` of the user dir plug into the game without a rebuild. The editor must only produce rooms and maps fully compatible with Editor.swf and the original game (2026-10-27): no new cell tokens, tile shapes or attributes the original cannot read (for example, partial tiles stay bottom-filled zForm 1–3 only).
 - The pause panel is retired: pause opens the PipBuck on Menu; Tab / pad Back reopens the last page and sub-page. "Main menu" sits right of the Menu sub tabs.
 - In game, the crystal ball opens the appearance window as PipBuck page 8 (user confirmed).
+- The PipBuck page button for pip `main5` reads "Menu" / "Меню" (`port_strings` `pip_menu_tab`), not the original "Main menu" (user, 2026-10-28).
+- Save slots also store the hero's look, worn suit, play time (`play_ms`, Game.t_save) and version, so Menu / Load shows the OTHER/original showSaveInfo card with a pony preview. Slots saved before this have no preview look (live appearance) and no play time.
 - Intro story screen text is `intro_story` in `port_strings.json` (not in the original text files).
 
 ## Builds and tools

@@ -21,6 +21,7 @@ worldmap — Open the PipBuck world map in travel mode, as the map table does.
 die — Kill the player: the original death, then respawn at the last checkpoint (in hardcore, the end of the run).
 heal — Fill hit points and set head, torso, legs, and blood to full. Clears radiation, which otherwise caps hit points.
 tp <room_x> <room_y> [cell_x] [cell_y] — Put the player in that room of the current land (rooms 48 x 25 cells; room y from the top). Two numbers land near the floor of the room; four pick a cell. Port debug only.
+spawn <unit_id> [count] — Put that enemy (enemies.json id: bloat3, turret0, alicorn1, ...) calm, 3 cells in front of the player. Count defaults to 1. Port debug only.
 trials — List every trial (tip 1) id and the land that can hold it.
 trial <id> — Go to that trial chamber (rebuilds the land and plants the room if it is missing). Port debug only.
 bosses — List every boss arena (tip 2) id and the land that can hold it.

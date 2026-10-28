@@ -4,6 +4,10 @@ extends CanvasLayer
 ## Esc stays the pause key, so it does not close the console.
 
 const _Commands := preload("res://scripts/debug_commands.gd")
+## Lines from --cmd that travel. The rest of the queue waits for the next land.
+const _TRAVEL: PackedStringArray = ["land", "quiet", "trial", "boss", "surfend", "arena"]
+const _QUEUE_SETTLE := 1.0
+const _QUEUE_TIMEOUT := 20.0
 
 var selected: Node
 
@@ -19,6 +23,11 @@ var _log_label: RichTextLabel
 var _line: LineEdit
 var _history: PackedStringArray = []
 var _ring: Line2D
+var _boot := ""
+var _land := ""
+var _room := ""
+var _queue: PackedStringArray = []
+var _queue_wait := 0
 
 
 func _init() -> void:
@@ -31,6 +40,76 @@ func _ready() -> void:
 	_build_ui()
 	_log("~ opens and closes this console.")
 	_refresh_picked()
+	_read_launch_args()
+
+
+## --boot=new|cont|slot=N skips the main menu once. --cmd="a; b" runs those
+## console lines after the first land loads (verify/ kit).
+func _read_launch_args() -> void:
+	for arg in OS.get_cmdline_args() + OS.get_cmdline_user_args():
+		if arg.begins_with("--boot="):
+			_boot = arg.trim_prefix("--boot=")
+		elif arg.begins_with("--land="):
+			_land = arg.trim_prefix("--land=")
+		elif arg.begins_with("--room="):
+			_room = arg.trim_prefix("--room=")
+		elif arg.begins_with("--cmd="):
+			for part in arg.trim_prefix("--cmd=").split(";", false):
+				if part.strip_edges() != "":
+					_queue.append(part.strip_edges())
+	if not _queue.is_empty():
+		# Travel is a later autoload.
+		(func() -> void: Travel.land_entered.connect(_on_queue_land.unbind(1))).call_deferred()
+
+
+## The main menu asks once; an empty answer means show the menu.
+func take_boot() -> String:
+	var boot := _boot
+	_boot = ""
+	return boot
+
+
+## --land=<id>[:room_x:room_y]: game.tscn opens on that land, once.
+func take_land() -> String:
+	var land := _land
+	_land = ""
+	return land
+
+
+## --room=<rooms file>:<room name>: that room alone as its own test land, once.
+func take_room() -> String:
+	var room := _room
+	_room = ""
+	return room
+
+
+func _on_queue_land() -> void:
+	print("cmd> in land %s" % Travel.cur_land_id)
+	_queue_wait += 1
+	var token := _queue_wait
+	await get_tree().create_timer(_QUEUE_SETTLE, true).timeout
+	if token == _queue_wait:
+		_run_queue()
+
+
+func _run_queue() -> void:
+	while not _queue.is_empty():
+		var line := _queue[0]
+		_queue.remove_at(0)
+		var result := str(_commands.run(self, line))
+		_log("> " + line)
+		if result != "":
+			_log(result)
+		print("cmd> %s | %s" % [line, result.replace("\n", " / ")])
+		var words: PackedStringArray = _commands.tokenize(line)
+		if not words.is_empty() and _TRAVEL.has(words[0].to_lower()):
+			_queue_wait += 1
+			var token := _queue_wait
+			await get_tree().create_timer(_QUEUE_TIMEOUT, true).timeout
+			if token == _queue_wait and not _queue.is_empty():
+				print("cmd> no land after '%s', running the rest here" % line)
+				_run_queue()
+			return
 
 
 func _input(event: InputEvent) -> void:

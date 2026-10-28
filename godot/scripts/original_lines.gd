@@ -13,6 +13,9 @@ const SECTIONS: PackedStringArray = [
 
 static var _text: Dictionary = {}
 static var _keys: Dictionary = {}
+## pip_eff.json: AllData textvar / eff rows by perk, skill or item id.
+static var _vars: Dictionary = {}
+static var _st: Dictionary = {}
 static var _ready := false
 static var _lang := ""
 
@@ -48,8 +51,17 @@ static func gui(id: String) -> String:
 
 
 static func info(id: String, a1: String = "", a2: String = "") -> String:
-	var line := _line("info", id)
-	return line.replace("@1", a1).replace("@2", a2)
+	var line := _line("info", id).replace("@1", a1).replace("@2", a2)
+	if _st.size() > 512:
+		_st.clear()
+	_st[line] = str(_keys.get("info\n" + id, {}).get("st", ""))
+	return line
+
+
+## Res.txt "f": the line's <info st> (span class r<st>), "" for the default .r,
+## null for a line that did not come from info().
+static func info_style(line: String) -> Variant:
+	return _st.get(line)
 
 
 static func pip(id: String) -> String:
@@ -76,14 +88,25 @@ static func text(section: String, id: String) -> String:
 static func desc(section: String, id: String) -> String:
 	_ensure()
 	var raw := str(_text.get(section + "\n" + id + "\ninfo", ""))
-	return raw.replace("[br]", "\n").replace("\t", "")
+	raw = raw.replace("[br]", "\n").replace("\t", "")
+	# Res.txt razd 1: addKeys on the entry and on its <info>, @N -> [key].
+	var keys := keys_of(section, id).duplicate()
+	keys.merge(keys_of(section, id, "info"))
+	if keys.is_empty() or not raw.contains("@"):
+		return raw
+	return (load("res://scripts/story/story_text.gd") as GDScript).call("add_keys", raw, keys)
 
 
 ## First <info> body for an id across the item-like sections.
 ## The <mess> line under an entry (GUI.infoEffText for effects).
 static func mess(section: String, id: String) -> String:
 	_ensure()
-	return str(_text.get(section + "\n" + id + "\nmess", ""))
+	var raw := str(_text.get(section + "\n" + id + "\nmess", ""))
+	var keys := keys_of(section, id).duplicate()
+	keys.merge(keys_of(section, id, "mess"))
+	if keys.is_empty() or not raw.contains("@"):
+		return raw
+	return (load("res://scripts/story/story_text.gd") as GDScript).call("add_keys", raw, keys)
 
 
 ## The <help> line under an entry (TextParser.txt n 3: a trial hint).
@@ -96,8 +119,25 @@ static func desc_of(id: String) -> String:
 	for section: String in ["weapon", "item", "armor", "ammo", "eff", "obj", "unit"]:
 		var body := desc(section, id)
 		if body != "":
-			return body
+			return text_vars(body, id) if section == "item" else body
 	return ""
+
+
+## PipPage.addVar: #N -> [sN] from the AllData textvar row (level 1 unless lvl > 1).
+static func text_vars(s: String, id: String, lvl: int = 1) -> String:
+	if not s.contains("#"):
+		return s
+	if _vars.is_empty():
+		var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://assets/data/pip_eff.json"))
+		_vars = parsed if parsed is Dictionary else {"": {}}
+	var tv: Array = (_vars.get(id, {}) as Dictionary).get("textvar", [])
+	if tv.is_empty():
+		return s
+	var row: Dictionary = tv[lvl - 1] if lvl > 1 and lvl - 1 < tv.size() else tv[0]
+	for k in range(1, 6):
+		if row.has("s%d" % k):
+			s = s.replace("#%d" % k, "[%s]" % str(row["s%d" % k]))
+	return s
 
 
 static func has(section: String, id: String) -> bool:
@@ -129,6 +169,9 @@ static func _store_keys(k: String, xml: XMLParser) -> void:
 		var v := xml.get_named_attribute_value_safe("s%d" % i)
 		if v != "":
 			row["s%d" % i] = v
+	var st := xml.get_named_attribute_value_safe("st")
+	if st != "":
+		row["st"] = st
 	if not row.is_empty():
 		_keys[k] = row
 

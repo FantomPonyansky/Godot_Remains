@@ -92,6 +92,8 @@ var _air: String = ""
 var _hover_entry := false
 var _air_shown: int = 1
 
+## A saved slot's look for the Load preview; empty uses the live appearance.
+var look_override: Dictionary = {}
 var _art: Node2D
 var _flat := false
 var _flat_saved: Array = []
@@ -138,6 +140,17 @@ var _armor_id: String = ""
 var _armor_frames: Dictionary = {}
 static var _armor_cache: Dictionary = {}
 static var _armor_tex: Dictionary = {}
+## Frame sequences by folder, shared by every puppet for the whole session: the
+## body alone is ~1,900 separate files, far too slow to reread per puppet on a
+## slow drive. Worker threads fill it (warm_up, _warm_suit); _lock guards these
+## three caches.
+static var _seq_cache: Dictionary = {}
+static var _lock := Mutex.new()
+static var _warm_started := false
+static var _suits_warming: Dictionary = {}
+static var _tasks: Array[int] = []
+static var _on_quit: Array[Callable] = []
+static var _warm_task := -1
 var _armor_sprite: Sprite2D
 var _armor_anchor: Dictionary = {}
 ## Body layers above pip2 (clips/<clip>/upper), drawn over the far-leg PipBuck when facing left.
@@ -237,6 +250,7 @@ func set_armor(id: String = "") -> void:
 	# ableFly), the alicorn effect, or potion_fly. Dropping ali hides them
 	# when neither of the other two remains.
 	_armor_id = id
+	_warm_suit(id)
 	_armor_frames.clear()
 	_armor_anchor.clear()
 	if _sprite != null:
@@ -400,7 +414,7 @@ func set_magic_activity(weapon_held: bool, telekinesis: bool, spell_active: bool
 
 
 func apply_appearance() -> void:
-	var look := Look.state()
+	var look := look_override if not look_override.is_empty() else Look.state()
 	_style_hair = clampi(int(look.hair_style), 1, Look.MAX_HAIR)
 	_style_eye = clampi(int(look.eye_style), 1, Look.MAX_EYE)
 	_vis_hair1 = bool(look.vis_hair1)
@@ -954,34 +968,128 @@ func _worn_frames(clip_name: String) -> Array:
 		return []
 	if _armor_frames.has(clip_name):
 		return _armor_frames[clip_name]
-	var key := "%s/%s" % [_armor_id, clip_name]
-	if not _armor_cache.has(key):
-		var folder := "res://assets/sprites/pony/clips/%s/%s" % [clip_name, _armor_id]
-		var paths: Array = []
-		var i := 1
-		while ResourceLoader.exists("%s/%d.png" % [folder, i]):
-			paths.append("%s/%d.png" % [folder, i])
-			i += 1
-		# A suit wider than the body frame carries its own origin.
-		var anchor: Variant = null
-		var parsed: Variant = _read_json(folder + "/anchor.json") if not paths.is_empty() else null
-		if parsed is Array and (parsed as Array).size() >= 2:
-			anchor = Vector2(float(parsed[0]), float(parsed[1]))
-		_armor_cache[key] = [paths, anchor]
-	var entry: Array = _armor_cache[key]
+	var entry: Array = _suit_entry(_armor_id, clip_name)
 	_armor_frames[clip_name] = entry[0]
 	if entry[1] is Vector2:
 		_armor_anchor[clip_name] = entry[1]
 	return entry[0]
 
 
-func _worn_tex(path: String) -> Texture2D:
-	if not _armor_tex.has(path):
-		_armor_tex[path] = load(path) as Texture2D
-	return _armor_tex[path]
+static func _suit_entry(armor: String, clip_name: String) -> Array:
+	var key := "%s/%s" % [armor, clip_name]
+	_lock.lock()
+	var cached: Variant = _armor_cache.get(key)
+	_lock.unlock()
+	if cached is Array:
+		return cached
+	var folder := "res://assets/sprites/pony/clips/%s/%s" % [clip_name, armor]
+	var paths: Array = []
+	var i := 1
+	while ResourceLoader.exists("%s/%d.png" % [folder, i]):
+		paths.append("%s/%d.png" % [folder, i])
+		i += 1
+	# A suit wider than the body frame carries its own origin.
+	var anchor: Variant = null
+	var parsed: Variant = _read_json(folder + "/anchor.json") if not paths.is_empty() else null
+	if parsed is Array and (parsed as Array).size() >= 2:
+		anchor = Vector2(float(parsed[0]), float(parsed[1]))
+	var entry := [paths, anchor]
+	_lock.lock()
+	_armor_cache[key] = entry
+	_lock.unlock()
+	return entry
 
 
-func _load_sequence(folder: String) -> Array[Texture2D]:
+static func _worn_tex(path: String) -> Texture2D:
+	_lock.lock()
+	var tex: Texture2D = _armor_tex.get(path)
+	_lock.unlock()
+	if tex == null:
+		tex = load(path) as Texture2D
+		_lock.lock()
+		_armor_tex[path] = tex
+		_lock.unlock()
+	return tex
+
+
+## Loads every body clip and part sequence (normal and HD) on a worker thread,
+## then runs `after` on the same worker (warm_up.gd's groups: one loader at a
+## time). `on_quit` runs at shutdown once the task is done.
+static func warm_up(after := Callable(), on_quit := Callable()) -> void:
+	if _warm_started:
+		return
+	_warm_started = true
+	if on_quit.is_valid():
+		_on_quit.append(on_quit)
+	_start_task(_warm_body.bind(after))
+	_warm_task = _tasks[-1]
+
+
+## True once warm_up's task has finished, or when it never started.
+static func warm_done() -> bool:
+	return _warm_task < 0 or WorkerThreadPool.is_task_completed(_warm_task)
+
+
+static func _start_task(job: Callable) -> void:
+	var tree := Engine.get_main_loop() as SceneTree
+	if tree != null and not tree.root.tree_exiting.is_connected(_drop_on_quit):
+		tree.root.tree_exiting.connect(_drop_on_quit)
+	_tasks.append(WorkerThreadPool.add_task(job))
+
+
+## Textures still held in static vars at shutdown are freed after the renderer
+## and crash the exit, so the caches let go while the tree is still up.
+static func _drop_on_quit() -> void:
+	for id in _tasks:
+		WorkerThreadPool.wait_for_task_completion(id)
+	_tasks.clear()
+	_warm_task = -1
+	_lock.lock()
+	_seq_cache.clear()
+	_armor_tex.clear()
+	_armor_cache.clear()
+	_lock.unlock()
+	for job in _on_quit:
+		job.call()
+	_on_quit.clear()
+
+
+static func _warm_body(after: Callable) -> void:
+	for clip_name in _ANCHOR.keys():
+		var folder := "res://assets/sprites/pony/clips/%s" % clip_name
+		for sub in ["", "/upper", "/hd"]:
+			_load_sequence(folder + sub)
+	for part in _PARTS:
+		_load_sequence("res://assets/sprites/pony/parts/%s" % part)
+		_load_sequence("res://assets/sprites/pony/parts/%s/hd" % part)
+	if after.is_valid():
+		after.call()
+
+## Loads a suit's frames for every clip off the main thread, so the first
+## time each frame is drawn does not stall the animation.
+static func _warm_suit(armor: String) -> void:
+	if armor == "":
+		return
+	_lock.lock()
+	var started: bool = _suits_warming.has(armor)
+	_suits_warming[armor] = true
+	_lock.unlock()
+	if not started:
+		_start_task(_warm_suit_frames.bind(armor))
+
+
+static func _warm_suit_frames(armor: String) -> void:
+	for clip_name in _ANCHOR.keys():
+		for path in _suit_entry(armor, clip_name)[0]:
+			_worn_tex(str(path))
+
+
+static func _load_sequence(folder: String) -> Array[Texture2D]:
+	_lock.lock()
+	var cached: Variant = _seq_cache.get(folder)
+	_lock.unlock()
+	if cached != null:
+		return cached
 	var frames: Array[Texture2D] = []
 	var i := 1
 	while true:
@@ -993,6 +1101,9 @@ func _load_sequence(folder: String) -> Array[Texture2D]:
 			break
 		frames.append(tex)
 		i += 1
+	_lock.lock()
+	_seq_cache[folder] = frames
+	_lock.unlock()
 	return frames
 
 
@@ -1002,7 +1113,7 @@ func _anchor_of(clip: String) -> Vector2:
 	return _ANCHOR.get(clip, Vector2.ZERO) as Vector2
 
 
-func _read_json(path: String) -> Variant:
+static func _read_json(path: String) -> Variant:
 	if not FileAccess.file_exists(path):
 		return null
 	return JSON.parse_string(FileAccess.get_file_as_string(path))

@@ -28,6 +28,7 @@ const LINES: PackedStringArray = [
 	"god [0|1] — Toggle (or set) god mode: no damage or radiation, magic and mana stay full, spells cost nothing. Port debug only.",
 	"artcache [0|1] — Print or set load on demand: on a land change, art only the old land used is freed (setting foe/art/load_on_demand, flags --art-on-demand / --art-preload). Takes effect at the next land change.",
 	"tp <room_x> <room_y> [cell_x] [cell_y] — Put the player in that room of the current land (rooms 48 x 25 cells; room y from the top). Two numbers land near the floor of the room; four pick a cell. Port debug only.",
+	"spawn <unit_id> [count] — Put that enemy (enemies.json id: bloat3, turret0, alicorn1, ...) calm, 3 cells in front of the player. Count defaults to 1. Port debug only.",
 	"trials — List every trial (tip 1) id and the land that can hold it.",
 	"trial <id> — Go to that trial chamber (rebuilds the land and plants the room if it is missing). Port debug only.",
 	"bosses — List every boss arena (tip 2) id and the land that can hold it.",
@@ -99,6 +100,7 @@ func _init() -> void:
 		"physhz": _cmd_physhz,
 		"arena": _cmd_arena,
 		"tp": _cmd_tp,
+		"spawn": _cmd_spawn,
 		"trials": _cmd_trials,
 		"trial": _cmd_trial,
 		"bosses": _cmd_bosses,
@@ -852,6 +854,31 @@ func _cmd_tp(console, args: PackedStringArray) -> String:
 	var at := _cell_feet(int(args[0]), int(args[1]), cx, cy)
 	host.place_player(at)
 	return "player at room %s,%s" % [args[0], args[1]]
+
+
+func _cmd_spawn(console, args: PackedStringArray) -> String:
+	if args.is_empty() or args.size() > 2 or (args.size() == 2 and not args[1].is_valid_int()):
+		return usage("spawn")
+	var uid := args[0]
+	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://assets/data/enemies.json"))
+	if typeof(parsed) != TYPE_DICTIONARY or not (parsed as Dictionary).get("units", {}).has(uid):
+		return "unknown unit '%s'" % uid
+	var tree: SceneTree = console.get_tree()
+	var who := tree.get_first_node_in_group("player") as Node2D
+	var host: Node = tree.current_scene
+	if who == null or host == null:
+		return "no player"
+	var count := clampi(int(args[1]) if args.size() == 2 else 1, 1, 20)
+	var facing := 1.0 if float(who.get("facing")) >= 0.0 else -1.0
+	var packed := load("res://scenes/enemy.tscn") as PackedScene
+	for i in count:
+		var node := packed.instantiate() as CharacterBody2D
+		node.set_meta("unit_id", uid)
+		var at := who.global_position + Vector2(facing * (120.0 + 40.0 * i), 0.0)
+		node.position = at
+		host.add_child(node)
+		node.global_position = at
+	return "spawned %d %s" % [count, uid]
 
 
 func _cmd_trials(_console, args: PackedStringArray) -> String:

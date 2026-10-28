@@ -1931,6 +1931,9 @@ func _receive(amount: float, type: String, bullet: Node, tt: bool) -> void:
 		_windup_left = 0.0
 	_die_tip = type
 	_blood_fx(float(dealt), type, bullet)
+	# Unit.damage: mat 10 (only UnitThunderHead sets it) flashes pole2 where the bullet hit.
+	if _species_id == "thunderhead" and bullet is Node2D:
+		UnitFx.emit(get_tree(), "pole2", (bullet as Node2D).global_position)
 	_apply_damage(dealt, tt)
 	Effects.unit_damaged(self, float(dealt), type, tt, bullet)
 

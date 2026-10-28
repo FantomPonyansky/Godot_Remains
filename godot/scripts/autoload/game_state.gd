@@ -118,6 +118,9 @@ var debug_prob := ""
 var head_hp: float = ORGAN_BASE
 var torso_hp: float = ORGAN_BASE
 var legs_hp: float = ORGAN_BASE
+## Invent.usePotion norgan: "head", "torso" or "legs" for the next horgan item
+## (PipPageStat health rows); "" heals the worst part.
+var organ_target := ""
 var blood_hp: float = ORGAN_BASE
 var rad: float = 0.0
 var stam: float = STAM_MAX
@@ -340,6 +343,7 @@ func start_effect(id: String, seconds: float) -> void:
 
 
 func reset_run() -> void:
+	SaveSlots.reset_play_time()
 	enemies_think = true
 	Effects.reset_run()
 	_healhp = 0.0
@@ -630,7 +634,10 @@ func apply_consumable(item_id: String) -> void:
 		Effects.heal_cut(float(pot.hcut))
 	var one_organ := float(pot.get("horgan", 0.0))
 	if one_organ > 0.0:
-		_restore_worst_organ(one_organ)
+		if organ_target != "":
+			_restore(organ_target, one_organ)
+		else:
+			_restore_worst_organ(one_organ)
 	var organs := float(pot.get("horgans", 0.0))
 	if organs > 0.0:
 		heal_organs(organs)
@@ -1262,7 +1269,7 @@ func _die(sposob := 0) -> void:
 	_dead = true
 	_save_pools()
 	preload("res://scripts/exit_trace.gd").arm(get_tree(), "death without host")
-	get_tree().call_deferred("change_scene_to_file", "res://scenes/main_menu.tscn")
+	get_tree().call_deferred("change_scene_to_file", load("res://scripts/editor/editor_play.gd").menu_dest())
 
 
 ## Game.dopusk: no organ at 1 or below.

@@ -10,6 +10,12 @@ extends UnitBrain
 ## (noDestr) that flashes for 150 ticks; the script's vsos keeps pulling.
 
 const SPRITE := "res://assets/fx_blits/11_sprThunderHead.png"
+## ThunderHeadMoln from OTHER art/strips, exported at 2×. Scale 0.5 keeps the old world size.
+const MOLN_STRIP := "res://assets/fx_blits/ThunderHeadMoln.png"
+const MOLN_FRAME := Vector2(500, 424)
+const MOLN_ORIGIN := Vector2(250, 214)
+const MOLN_COLS := 2
+const MOLN_FRAMES := 3
 ## UnitThunderHead.run: the hit box is a 1370x580 window of the x3 hull, so the
 ## sprite centre (Unit.coordinates) sits off the box's feet.
 const HIT_BOX := Vector2(4110.0, 1740.0)
@@ -118,8 +124,7 @@ func ready() -> void:
 
 
 func _make_moln(tex: Texture2D) -> void:
-	var entry := vis_of("fx_moln")
-	var sheet := load("res://assets/sprites/sheets/units/%s" % str(entry.get("sheet", ""))) as Texture2D if not entry.is_empty() else null
+	var sheet := load(MOLN_STRIP) as Texture2D
 	if sheet == null:
 		return
 	var mat := CanvasItemMaterial.new()
@@ -131,9 +136,9 @@ func _make_moln(tex: Texture2D) -> void:
 		at.atlas = sheet
 		spr.texture = at
 		spr.material = mat
+		spr.scale = Vector2(0.5, 0.5)
 		spr.modulate.a = 0.0
 		spr.position = hull_top_left + Vector2(MOLN_X[i], MOLN_Y)
-		spr.set_meta("frames", entry)
 		hull.add_child(spr)
 		molns.append(spr)
 
@@ -295,17 +300,13 @@ func animate() -> void:
 		var i := 0 if randf() < 0.5 else 1
 		if i < molns.size():
 			var m := molns[i]
-			var entry: Dictionary = m.get_meta("frames")
-			var cell: Array = entry.cell
-			var cols := maxi(1, int(entry.get("cols", 1)))
-			var anchor: Array = entry.get("anchor", [0, 0])
-			var fr := randi() % maxi(1, (entry.clips.stay.frames as Array).size())
-			(m.texture as AtlasTexture).region = Rect2((fr % cols) * float(cell[0]), (fr / cols) * float(cell[1]), float(cell[0]), float(cell[1]))
-			m.offset = -Vector2(float(anchor[0]), float(anchor[1]))
+			var fr := randi() % MOLN_FRAMES
+			(m.texture as AtlasTexture).region = Rect2((fr % MOLN_COLS) * MOLN_FRAME.x, int(float(fr) / float(MOLN_COLS)) * MOLN_FRAME.y, MOLN_FRAME.x, MOLN_FRAME.y)
+			m.offset = -MOLN_ORIGIN
 			m.modulate.a = 1.0
 			m.position = -Vector2(hull.texture.get_width(), hull.texture.get_height()) * 0.5 + Vector2(MOLN_X[i] + randf_range(-150.0, 150.0), MOLN_Y + randf_range(-15.0, 15.0))
 			m.rotation = randf() * TAU
-			var s := randf() * 0.3 + 0.7
+			var s := (randf() * 0.3 + 0.7) * 0.5
 			m.scale = Vector2(s, s)
 	for m in molns:
 		if m.modulate.a > 0.0:

@@ -253,5 +253,6 @@ func _to_menu() -> void:
 	_ExitTrace.step("unpaused")
 	AudioManager.play_menu()
 	_ExitTrace.step("menu music started")
-	var err := get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
+	var dest: String = load("res://scripts/editor/editor_play.gd").menu_dest()
+	var err := get_tree().change_scene_to_file(dest)
 	_ExitTrace.step("change_scene_to_file returned %d" % err)

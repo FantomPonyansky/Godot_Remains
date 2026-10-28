@@ -117,6 +117,9 @@ class LandFog:
 	var image: Image
 	var texture: ImageTexture
 	var dirty := false
+	## Minimap tile kinds (map_kinds), built on first PipBuck map open.
+	var kinds := {}
+	var kinds_built := false
 
 
 var _lands := {}
@@ -374,7 +377,45 @@ func map_tiles() -> Dictionary:
 			var mem := float(_state.bytes[((j + 1) * _state.img_w + i) * 4]) / 255.0
 			seen[index] = maxf(_state.vis[index], mem)
 	return {"w": _state.tiles_w, "h": _state.tiles_h, "base": _state.base, "live": _state.live,
-		"wet": _state.wet, "doors": _state.door_tiles, "seen": seen}
+		"wet": _state.wet, "doors": _state.door_tiles, "seen": seen, "kinds": map_kinds()}
+
+
+## Minimap.drawRoom tile classes by index: "shelf" (platform or slope),
+## "stair" (ladder), "white" (indestructible solid). Other tiles are absent.
+func map_kinds() -> Dictionary:
+	if _state == null:
+		return {}
+	if _state.kinds_built or _land == null:
+		return _state.kinds
+	_state.kinds_built = true
+	var id := str(_land.get("land_id")) if _land.get("land_id") != null else ""
+	if id == "":
+		id = "begin"
+	for room_v in _room_rows(_land, id):
+		var src: Dictionary = room_v
+		var ox := int(src.x) * COLS
+		var oy := int(src.y) * ROWS
+		if ox < 0 or oy < 0 or ox + COLS > _state.tiles_w or oy + ROWS > _state.tiles_h:
+			continue
+		var rows: Array = src.get("rows", [])
+		for j in mini(ROWS, rows.size()):
+			var parts := str(rows[j]).split(".")
+			for i in mini(COLS, parts.size()):
+				var code := parts[i]
+				if code == "" or code == "_":
+					continue
+				var info := Catalog.decode(code)
+				var kind := ""
+				if not (info.beams as Array).is_empty() or str(info.slope_side) != "":
+					kind = "shelf"
+				if str(info.ladder_side) != "":
+					kind = "stair"
+				var block := str(info.block)
+				if block != "" and str(info.slope_side) == "":
+					kind = "white" if Catalog.WALL.has(block) and bool((Catalog.WALL[block] as Array)[3]) else ""
+				if kind != "":
+					_state.kinds[(oy + j) * _state.tiles_w + ox + i] = kind
+	return _state.kinds
 
 
 func _process(delta: float) -> void:
@@ -843,7 +884,10 @@ func _build_land(land: Node) -> LandFog:
 	var id := str(land.get("land_id")) if land.get("land_id") != null else ""
 	if id == "":
 		id = "begin"
+	var land_opts: Dictionary = _Registry.land(id).get("options", {})
 	var land_vis := float(LAND_VIS.get(id, 1.0))
+	if land_opts.has("vis") and str(land_opts.vis).is_valid_float():
+		land_vis = float(str(land_opts.vis))
 	var camp := str(_Registry.land(id).get("tip", "")) == "base"
 	var envs := _Flags.envs(land)
 	for room_v in _room_rows(land, id):

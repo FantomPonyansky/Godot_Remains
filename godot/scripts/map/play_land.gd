@@ -189,8 +189,8 @@ func _spawn_actors(rooms: Array) -> void:
 
 func _spec(next_id: String) -> Dictionary:
 	var info := Registry.land(next_id)
-	if LandGen.GENERATED.has(next_id):
-		var row: Dictionary = (LandGen.GENERATED[next_id] as Dictionary).duplicate()
+	if LandGen.is_generated(next_id):
+		var row: Dictionary = LandGen.generated(next_id).duplicate()
 		row["back"] = str((info.get("options", {}) as Dictionary).get("backwall", "tBackWall"))
 		row["sky"] = Color(0, 0, 0, 1)
 		row["rnd"] = true
@@ -212,7 +212,7 @@ func _spec(next_id: String) -> Dictionary:
 
 
 func _rooms(next_id: String, spec: Dictionary) -> Dictionary:
-	if LandGen.GENERATED.has(next_id):
+	if LandGen.is_generated(next_id):
 		return _generated(next_id)
 	var doc := RoomFile.load_doc(str(spec.file))
 	if doc.is_empty():
@@ -269,7 +269,7 @@ func _generated(next_id: String) -> Dictionary:
 			back["water"] = LandGen._to_int(back_options.wlevel, 100) if back_options.has("wlevel") else int(cell.get("base_water", 100))
 			rooms.append(back)
 			break
-	var spec: Dictionary = LandGen.GENERATED[next_id]
+	var spec: Dictionary = LandGen.generated(next_id)
 	var packed := _layout(rooms, Vector2i(int(spec.sx), int(spec.sy)), int(built.width), int(built.height))
 	return packed
 

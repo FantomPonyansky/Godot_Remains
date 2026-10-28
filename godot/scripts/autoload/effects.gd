@@ -1180,14 +1180,14 @@ func describe(id: String, lvl: int) -> String:
 		for k in 5:
 			var key := "s%d" % (k + 1)
 			if row.has(key):
-				s = s.replace("#%d" % (k + 1), str(row[key]))
+				s = s.replace("#%d" % (k + 1), "[%s]" % str(row[key]))
 	var rows: Array = d.get("eff", [])
 	if not rows.is_empty() and lvl > 0:
 		s += "\n"
 		for r_v in rows:
 			var r: Dictionary = r_v
 			var label := OriginalLines.pip(str(r.id)) if str(r.get("id", "")) != "" else OriginalLines.pip("refeff")
-			s += "\n%s: %s" % [label, str(r.get("n%d" % lvl, ""))]
+			s += "\n%s: [%s]" % [label, str(r.get("n%d" % lvl, ""))]
 	return s
 
 

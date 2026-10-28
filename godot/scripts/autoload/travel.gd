@@ -1,6 +1,7 @@
 extends Node
 
 const _IntroScreen := preload("res://scripts/intro_screen.gd")
+const _WarmUp := preload("res://scripts/warm_up.gd")
 
 ## Game.as land list and travel rules (gotoLand, beginMission, gotoNextLevel,
 ## upLandLevel, checkTravel, enterToCurLand, Encounter), Land.enterLand /
@@ -119,6 +120,11 @@ func enter_game() -> void:
 		show_load_screen()
 	await get_tree().process_frame
 	await RenderingServer.frame_post_draw
+	# The menu opens only after the session warm-up; this covers any other entry.
+	if not _WarmUp.done():
+		_WarmUp.start(self)
+	while not _WarmUp.done():
+		await get_tree().process_frame
 	get_tree().change_scene_to_file("res://scenes/game.tscn")
 
 
@@ -497,7 +503,14 @@ func set_state(data: Dictionary) -> void:
 		cur_land_id = "rbl"
 	_loading = true
 	lands_changed.emit()
-	call_deferred("_resume_saved")
+	# HUD hides the load screen after applying a save if no exit is running yet.
+	# Deferring this left one presented frame of the empty sky (and the whole
+	# land build sat on that frame). The game scene is up by the time a save
+	# is applied; before that, wait a frame.
+	if _host() != null:
+		_resume_saved()
+	else:
+		call_deferred("_resume_saved")
 
 
 ## Game.init with a save: a hardcore death stays dead, and a generated land
@@ -635,6 +648,11 @@ func _leave_game_scene() -> void:
 func _set_black(alpha: float) -> void:
 	_black.color.a = alpha
 	_black.visible = alpha > 0.0
+
+
+## game.tscn opening on a land that is not built yet: black until it fades in.
+func cover() -> void:
+	_set_black(1.0)
 
 
 func fade_alpha() -> float:
@@ -894,7 +912,7 @@ func _hard_to_menu() -> void:
 	_set_black(0.0)
 	GameState.set_paused(false)
 	AudioManager.play_menu()
-	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
+	get_tree().change_scene_to_file(load("res://scripts/editor/editor_play.gd").menu_dest())
 
 
 # --- Helpers ---

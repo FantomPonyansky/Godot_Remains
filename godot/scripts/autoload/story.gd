@@ -639,11 +639,18 @@ func is_document(id: String) -> bool:
 ## document (its dialogue, and its perk). Books are spent; documents stay.
 func read_item(id: String) -> bool:
 	var row: Dictionary = _item_data.get(id, {})
-	if row.is_empty() or Inventory.count(id) <= 0:
+	if (row.is_empty() and id != "sphera") or Inventory.count(id) <= 0:
 		return false
 	if _in_battle():
 		info("noUseCombat")
 		return false
+	if id == "sphera":
+		if Inventory.hard_inv() and not _at_base():
+			info("noBase")
+			return false
+		Progression.add_skill_point(1)
+		Inventory.spend(id, 1)
+		return true
 	if row.has("text"):
 		close_pip()
 		ScriptsEngine.dialog(str(row.text))

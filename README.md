@@ -2,7 +2,9 @@
 
 A faithful port of the Flash game *Fallout Equestria: Remains* to **Godot 4.7**. The aims are full controller support, all the Steam languages, and native Windows and Linux builds.
 
-This is a fan project. It is not affiliated with the authors of the original game. The art, sound, music and text in `godot/assets` come from the original and belong to their authors.
+This is a non-commercial fan project. It is not affiliated with the authors of the original game. The art, sound, music and text in `godot/assets` come from the original and belong to their authors.
+
+The project's own code is under the [PolyForm Noncommercial License 1.0.0](LICENSE) with [additional permissions](ADDITIONAL_PERMISSIONS.md) (voluntary donations, monetised videos and streams, free mirrors). What is and is not covered: [LICENSING.md](LICENSING.md), [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 
 ## Status
 

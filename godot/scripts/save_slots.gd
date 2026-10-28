@@ -12,6 +12,8 @@ extends RefCounted
 ## so save(0) means "the autosave" and goes there.
 
 const _UserDir := preload("res://scripts/user_dir.gd")
+const _Play := preload("res://scripts/editor/editor_play.gd")
+const Look := preload("res://scripts/pony_look.gd")
 const SLOTS := 10
 const FORMAT := 2
 const RUN_FILES: PackedStringArray = [
@@ -20,6 +22,27 @@ const RUN_FILES: PackedStringArray = [
 const META := "slot.cfg"
 
 static var _pending := -1
+## Game.t_save + t_proshlo: ms played before this session, and when it began.
+static var _play_base := -1
+static var _play_start := 0
+
+
+static func reset_play_time(base: int = 0) -> void:
+	_play_base = base
+	_play_start = Time.get_ticks_msec()
+	UiSettings.set_value("game", "play_ms", base)
+
+
+static func play_time_ms() -> int:
+	if _play_base < 0:
+		reset_play_time(int(UiSettings.value("game", "play_ms", 0)))
+	return _play_base + Time.get_ticks_msec() - _play_start
+
+
+## Res.gameTime: h:mm:ss.
+static func game_time(ms: int) -> String:
+	var s := roundi(ms / 1000.0)
+	return "%d:%02d:%02d" % [s / 3600, (s / 60) % 60, s % 60]
 
 
 static func dir_of(slot: int) -> String:
@@ -95,6 +118,15 @@ static func save(slot: int) -> bool:
 	cfg.set_value("slot", "hardinv", bool(UiSettings.value("game", "hardinv", false)))
 	cfg.set_value("slot", "autosave_n", auto_slot())
 	cfg.set_value("slot", "rndpump", prog != null and bool(prog.get("rndpump")))
+	var played := play_time_ms()
+	reset_play_time(played)
+	cfg.set_value("slot", "play_ms", played)
+	cfg.set_value("slot", "version", str(ProjectSettings.get_setting("application/config/version", "")))
+	# PipPageOpt.showSaveInfo: app.load(obj.app) and setArmor(obj.armor) for the preview.
+	cfg.set_value("slot", "look", Look.state())
+	var bags := _node("Inventory")
+	if bags and bags.has_method("body_armor_id"):
+		cfg.set_value("slot", "armor", str(bags.call("body_armor_id", str(bags.get("worn")))))
 	var world := _node("WorldState")
 	if world:
 		cfg.set_value("slot", "land", str(world.call("current_land_id")))
@@ -119,6 +151,18 @@ static func has_pending() -> bool:
 	return _pending >= 0
 
 
+## The land the queued slot resumes in, before it is applied. A format 1 slot
+## or one without a land starts in the stable.
+static func pending_land() -> String:
+	if _pending < 0:
+		return ""
+	var row := info(_pending)
+	if int(row.get("format", 1)) < 2:
+		return "begin"
+	var id := str(row.get("land", ""))
+	return id if id != "" else "begin"
+
+
 static func apply_pending() -> void:
 	if _pending < 0:
 		return
@@ -138,6 +182,7 @@ static func apply_pending() -> void:
 	UiSettings.set_value("game", "hardcore", bool(row.get("hardcore", false)))
 	UiSettings.set_value("game", "hardinv", bool(row.get("hardinv", false)))
 	UiSettings.set_value("game", "autosave_n", int(row.get("autosave_n", 0)))
+	reset_play_time(int(row.get("play_ms", 0)))
 	for pair in [["Progression", "_load"], ["Condition", "_load"], ["Inventory", "_load"], ["GameState", "_load_pools"]]:
 		var n := _node(pair[0])
 		if n and n.has_method(pair[1]):
