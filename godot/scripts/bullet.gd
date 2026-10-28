@@ -855,6 +855,7 @@ func _exclude_body(body: Object) -> void:
 func _dress_projectile() -> void:
 	_origin = global_position
 	_shot = _Proj.lookup(weapon_id)
+	_shot = _Proj.alicorn_bullet(_shot, from_player, ScriptsEngine != null and ScriptsEngine.alicorn)
 	if _shot.is_empty():
 		if from_player:
 			_apply_style()
@@ -902,16 +903,17 @@ func _apply_stretch() -> void:
 	if _beam:
 		sprite.scale = Vector2(0.02, 1.0)
 		return
+	var base := _Proj.RAINBOW_SCALE if str(_shot.get("symbol", "")) == "visualRainbow" else 1.0
 	if _spring != 1:
-		sprite.scale = Vector2.ONE
+		sprite.scale = Vector2(base, base)
 		return
 	var vel := speed / 30.0
 	if use_velocity:
 		vel = velocity.length() / 30.0
 	if vel > 100.0:
-		sprite.scale = Vector2(vel * 0.01, 1.0)
+		sprite.scale = Vector2(vel * 0.01, 1.0) * base
 	else:
-		sprite.scale = Vector2.ONE
+		sprite.scale = Vector2(base, base)
 
 
 func _fit_sprite(delta: float) -> void:

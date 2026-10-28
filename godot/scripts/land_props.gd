@@ -2030,11 +2030,15 @@ func room_spawn(lx: int, ly: int) -> Variant:
 		if int(r.get("lx", -999)) != lx or int(r.get("ly", -999)) != ly or int(r.get("z", 0)) != 0:
 			continue
 		var cell := Vector2i(3, 3)
+		var marked := false
 		for obj_v in r.get("objs", []):
 			var obj: Dictionary = obj_v
 			if str(obj.get("id", "")) == "player":
 				cell = Vector2i(int(obj.get("x", 3)), int(obj.get("y", 3)))
+				marked = true
 				break
+		if not marked and str(get_parent().get("land_id")) == "editor_play":
+			cell = load("res://scripts/editor/editor_play.gd").spawn_cell(r)
 		return Vector2((int(r.x) * ROOM_W + cell.x + 1) * TILE, (int(r.y) * ROOM_H + cell.y + 1) * TILE - 1.0)
 	return null
 

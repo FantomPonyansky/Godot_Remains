@@ -1,0 +1,962 @@
+{
+ "telemaster": {
+  "textvar": [
+   {
+    "s1": "33%"
+   }
+  ],
+  "eff": []
+ },
+ "diel": {
+  "textvar": [],
+  "eff": [
+   {
+    "id": "spark",
+    "n1": "+20%"
+   }
+  ]
+ },
+ "warlock": {
+  "textvar": [],
+  "eff": [
+   {
+    "id": "wmana",
+    "n1": "-20%",
+    "n2": "-35%",
+    "n3": "-50%"
+   }
+  ]
+ },
+ "oak": {
+  "textvar": [],
+  "eff": [
+   {
+    "id": "blade",
+    "n1": "+25%"
+   }
+  ]
+ },
+ "stonewall": {
+  "textvar": [],
+  "eff": [
+   {
+    "id": "phis",
+    "n1": "+25%"
+   }
+  ]
+ },
+ "acute": {
+  "textvar": [],
+  "eff": [
+   {
+    "id": "pier",
+    "n1": "+25"
+   }
+  ]
+ },
+ "stunning": {
+  "textvar": [
+   {
+    "s1": "3"
+   }
+  ],
+  "eff": [
+   {
+    "id": "knock",
+    "n1": "+25%"
+   }
+  ]
+ },
+ "mmaster": {
+  "textvar": [
+   {
+    "s1": "15%"
+   }
+  ],
+  "eff": []
+ },
+ "pistol": {
+  "textvar": [
+   {
+    "s1": "25%"
+   }
+  ],
+  "eff": [
+   {
+    "id": "prec",
+    "n1": "+25%"
+   }
+  ]
+ },
+ "reinforced": {
+  "textvar": [],
+  "eff": [
+   {
+    "id": "bullet",
+    "n1": "+15%"
+   }
+  ]
+ },
+ "shot": {
+  "textvar": [],
+  "eff": [
+   {
+    "id": "pier",
+    "n1": "+15"
+   },
+   {
+    "id": "knock",
+    "n1": "+25%"
+   }
+  ]
+ },
+ "commando": {
+  "textvar": [],
+  "eff": [
+   {
+    "id": "damage",
+    "n1": "+3"
+   }
+  ]
+ },
+ "hardness": {
+  "textvar": [],
+  "eff": [
+   {
+    "id": "recoil",
+    "n1": "-80%"
+   },
+   {
+    "id": "prec",
+    "n1": "+15%"
+   }
+  ]
+ },
+ "perf": {
+  "textvar": [
+   {
+    "s1": "2"
+   }
+  ],
+  "eff": [
+   {
+    "id": "pier",
+    "n1": "+20"
+   }
+  ]
+ },
+ "antifire": {
+  "textvar": [],
+  "eff": [
+   {
+    "id": "fire",
+    "n1": "+25%"
+   }
+  ]
+ },
+ "laser": {
+  "textvar": [],
+  "eff": [
+   {
+    "id": "damage",
+    "n1": "+15%"
+   }
+  ]
+ },
+ "plasma": {
+  "textvar": [
+   {
+    "s1": "50%"
+   }
+  ],
+  "eff": [
+   {
+    "id": "prec",
+    "n1": "+25%"
+   }
+  ]
+ },
+ "pyro": {
+  "textvar": [],
+  "eff": [
+   {
+    "id": "damage",
+    "n1": "+25%"
+   }
+  ]
+ },
+ "recyc": {
+  "textvar": [
+   {
+    "s1": "25%"
+   }
+  ],
+  "eff": []
+ },
+ "desintegr": {
+  "textvar": [
+   {
+    "s1": "5%",
+    "s2": "20%"
+   }
+  ],
+  "eff": []
+ },
+ "fastreload": {
+  "textvar": [],
+  "eff": [
+   {
+    "id": "reload",
+    "n1": "-50%"
+   }
+  ]
+ },
+ "rungun": {
+  "textvar": [
+   {
+    "s1": "-25%",
+    "s2": "-50%",
+    "s3": "-15%",
+    "s4": "-30%"
+   }
+  ],
+  "eff": []
+ },
+ "composure": {
+  "textvar": [
+   {
+    "s3": "-20%",
+    "s4": "-40%",
+    "s1": "+45%",
+    "s2": "+30%"
+   }
+  ],
+  "eff": []
+ },
+ "rifle": {
+  "textvar": [],
+  "eff": [
+   {
+    "id": "critch",
+    "n1": "+20%"
+   }
+  ]
+ },
+ "babah": {
+  "textvar": [],
+  "eff": [
+   {
+    "id": "expl",
+    "n1": "+25%"
+   }
+  ]
+ },
+ "zona": {
+  "textvar": [
+   {
+    "s1": "25%"
+   }
+  ],
+  "eff": []
+ },
+ "sapper": {
+  "textvar": [
+   {
+    "s1": "25%"
+   }
+  ],
+  "eff": []
+ },
+ "friendly": {
+  "textvar": [
+   {
+    "s1": "25%"
+   }
+  ],
+  "eff": []
+ },
+ "infiltrator": {
+  "textvar": [
+   {
+    "s1": "25%"
+   }
+  ],
+  "eff": []
+ },
+ "entomolog": {
+  "textvar": [
+   {
+    "s1": "40%"
+   }
+  ],
+  "eff": []
+ },
+ "coolhacker": {
+  "textvar": [
+   {
+    "s1": "5",
+    "s2": "3"
+   }
+  ],
+  "eff": []
+ },
+ "robot": {
+  "textvar": [
+   {
+    "s1": "20%"
+   }
+  ],
+  "eff": []
+ },
+ "mathlogic": {
+  "textvar": [
+   {
+    "s1": "15%",
+    "s2": "25%"
+   }
+  ],
+  "eff": []
+ },
+ "remont": {
+  "textvar": [
+   {
+    "s1": "5"
+   }
+  ],
+  "eff": []
+ },
+ "durable": {
+  "textvar": [
+   {
+    "s1": "20%"
+   }
+  ],
+  "eff": []
+ },
+ "metabol": {
+  "textvar": [
+   {
+    "s1": "10%",
+    "s2": "2.5"
+   }
+  ],
+  "eff": []
+ },
+ "anatomy": {
+  "textvar": [
+   {
+    "s1": "15%"
+   }
+  ],
+  "eff": []
+ },
+ "longtime": {
+  "textvar": [
+   {
+    "s1": "2"
+   }
+  ],
+  "eff": []
+ },
+ "fightstim": {
+  "textvar": [
+   {
+    "s1": "2"
+   }
+  ],
+  "eff": []
+ },
+ "dexter": {
+  "textvar": [
+   {
+    "s1": "15%"
+   }
+  ],
+  "eff": []
+ },
+ "stamina": {
+  "textvar": [
+   {
+    "s1": "40%"
+   }
+  ],
+  "eff": []
+ },
+ "envir": {
+  "textvar": [],
+  "eff": [
+   {
+    "id": "radx",
+    "n1": "+20%"
+   },
+   {
+    "id": "venom",
+    "n1": "+20%"
+   },
+   {
+    "id": "acid",
+    "n1": "+20%"
+   }
+  ]
+ },
+ "wild": {
+  "textvar": [],
+  "eff": [
+   {
+    "id": "fang",
+    "n1": "+20%"
+   },
+   {
+    "id": "respoison",
+    "n1": "+10%"
+   },
+   {
+    "id": "resbleeding",
+    "n1": "+10%"
+   }
+  ]
+ },
+ "purifier": {
+  "textvar": [
+   {
+    "s1": "20%"
+   }
+  ],
+  "eff": []
+ },
+ "radchild": {
+  "textvar": [
+   {
+    "s1": "80%"
+   }
+  ],
+  "eff": []
+ },
+ "action": {
+  "textvar": [
+   {
+    "s1": "25",
+    "s2": "75"
+   }
+  ],
+  "eff": []
+ },
+ "critch": {
+  "textvar": [
+   {
+    "s1": "5%"
+   }
+  ],
+  "eff": []
+ },
+ "critdam": {
+  "textvar": [
+   {
+    "s1": "40%"
+   }
+  ],
+  "eff": []
+ },
+ "powerkick": {
+  "textvar": [
+   {
+    "s1": "50%"
+   }
+  ],
+  "eff": []
+ },
+ "life": {
+  "textvar": [
+   {
+    "s1": "5"
+   }
+  ],
+  "eff": []
+ },
+ "spirit": {
+  "textvar": [
+   {
+    "s1": "20"
+   }
+  ],
+  "eff": []
+ },
+ "potion_dskel": {
+  "textvar": [
+   {
+    "s1": "5%"
+   }
+  ],
+  "eff": []
+ },
+ "potion_immun": {
+  "textvar": [
+   {
+    "s1": "5%"
+   }
+  ],
+  "eff": []
+ },
+ "potion_might": {
+  "textvar": [
+   {
+    "s1": "5%"
+   }
+  ],
+  "eff": []
+ },
+ "potion_speed": {
+  "textvar": [
+   {
+    "s1": "5%"
+   }
+  ],
+  "eff": []
+ },
+ "potion_prec": {
+  "textvar": [
+   {
+    "s1": "5%"
+   }
+  ],
+  "eff": []
+ },
+ "potion_elements": {
+  "textvar": [
+   {
+    "s1": "5%"
+   }
+  ],
+  "eff": []
+ },
+ "potion_dexter": {
+  "textvar": [
+   {
+    "s1": "5%"
+   }
+  ],
+  "eff": []
+ },
+ "potion_crit": {
+  "textvar": [
+   {
+    "s1": "2%"
+   }
+  ],
+  "eff": []
+ },
+ "dam_alicorn": {
+  "textvar": [
+   {
+    "s1": "15%"
+   }
+  ],
+  "eff": []
+ },
+ "dam_zombie": {
+  "textvar": [
+   {
+    "s1": "10%"
+   }
+  ],
+  "eff": []
+ },
+ "trauma_head": {
+  "textvar": [
+   {
+    "s1": "10%",
+    "s2": "10%",
+    "s3": "0%"
+   },
+   {
+    "s1": "20%",
+    "s2": "20%",
+    "s3": "50%"
+   },
+   {
+    "s1": "30%",
+    "s2": "30%",
+    "s3": "100%"
+   }
+  ],
+  "eff": []
+ },
+ "trauma_tors": {
+  "textvar": [
+   {
+    "s1": "10%",
+    "s2": "50%",
+    "s3": "33%"
+   },
+   {
+    "s1": "20%",
+    "s2": "100%",
+    "s3": "50%"
+   },
+   {
+    "s1": "40%",
+    "s2": "200%",
+    "s3": "75%"
+   }
+  ],
+  "eff": []
+ },
+ "trauma_legs": {
+  "textvar": [
+   {
+    "s1": "30%",
+    "s2": "0%"
+   },
+   {
+    "s1": "60%",
+    "s2": "10%"
+   },
+   {
+    "s1": "100%",
+    "s2": "25%"
+   }
+  ],
+  "eff": []
+ },
+ "trauma_blood": {
+  "textvar": [
+   {
+    "s1": "10%",
+    "s2": "0%"
+   },
+   {
+    "s1": "20%",
+    "s2": "10%"
+   },
+   {
+    "s1": "30%",
+    "s2": "20%"
+   }
+  ],
+  "eff": []
+ },
+ "trauma_mana": {
+  "textvar": [
+   {
+    "s1": "20%",
+    "s2": "25%"
+   },
+   {
+    "s1": "70%",
+    "s2": "100%"
+   }
+  ],
+  "eff": []
+ },
+ "tele": {
+  "textvar": [
+   {
+    "s1": "5%"
+   }
+  ],
+  "eff": []
+ },
+ "melee": {
+  "textvar": [
+   {
+    "s1": "5%"
+   }
+  ],
+  "eff": []
+ },
+ "smallguns": {
+  "textvar": [
+   {
+    "s1": "5%"
+   }
+  ],
+  "eff": []
+ },
+ "energy": {
+  "textvar": [
+   {
+    "s1": "5%"
+   }
+  ],
+  "eff": []
+ },
+ "explosives": {
+  "textvar": [
+   {
+    "s1": "5%"
+   }
+  ],
+  "eff": []
+ },
+ "magic": {
+  "textvar": [
+   {
+    "s1": "5%",
+    "s2": "10%",
+    "s3": "10%"
+   }
+  ],
+  "eff": []
+ },
+ "repair": {
+  "textvar": [
+   {
+    "s1": "4%",
+    "s2": "20%",
+    "s3": "5%"
+   }
+  ],
+  "eff": []
+ },
+ "medic": {
+  "textvar": [
+   {
+    "s1": "3%",
+    "s2": "40%"
+   }
+  ],
+  "eff": [
+   {
+    "id": "hp",
+    "n1": "+20",
+    "n2": "+50",
+    "n3": "+90",
+    "n4": "+140",
+    "n5": "+200"
+   }
+  ]
+ },
+ "sneak": {
+  "textvar": [
+   {
+    "s1": "5%"
+   }
+  ],
+  "eff": []
+ },
+ "barter": {
+  "textvar": [
+   {
+    "s1": "3%"
+   }
+  ],
+  "eff": []
+ },
+ "survival": {
+  "textvar": [
+   {
+    "s1": "1%",
+    "s2": "1"
+   }
+  ],
+  "eff": []
+ },
+ "attack": {
+  "textvar": [
+   {
+    "s1": "5%"
+   }
+  ],
+  "eff": []
+ },
+ "defense": {
+  "textvar": [
+   {
+    "s1": "3%"
+   }
+  ],
+  "eff": []
+ },
+ "titansd": {
+  "textvar": [
+   {
+    "s1": "1"
+   }
+  ],
+  "eff": []
+ },
+ "stethoscope": {
+  "textvar": [
+   {
+    "s1": "1"
+   }
+  ],
+  "eff": []
+ },
+ "strickle": {
+  "textvar": [
+   {
+    "s1": "10%"
+   }
+  ],
+  "eff": []
+ },
+ "impl_skin": {
+  "textvar": [
+   {
+    "s1": "3"
+   }
+  ],
+  "eff": []
+ },
+ "impl_regen": {
+  "textvar": [
+   {
+    "s1": "3",
+    "s2": "25%"
+   }
+  ],
+  "eff": []
+ },
+ "impl_intel": {
+  "textvar": [
+   {
+    "s1": "1",
+    "s2": "1"
+   }
+  ],
+  "eff": []
+ },
+ "mod_holo": {
+  "textvar": [
+   {
+    "s1": "10%"
+   }
+  ],
+  "eff": []
+ },
+ "mod_hacker": {
+  "textvar": [
+   {
+    "s1": "2"
+   }
+  ],
+  "eff": []
+ },
+ "kogit": {
+  "textvar": [
+   {
+    "s1": "1",
+    "s2": "25"
+   }
+  ],
+  "eff": []
+ },
+ "mod_trans": {
+  "textvar": [
+   {
+    "s1": "1",
+    "s2": "25"
+   }
+  ],
+  "eff": []
+ },
+ "stat_tw": {
+  "textvar": [
+   {
+    "s1": "10%"
+   }
+  ],
+  "eff": []
+ },
+ "stat_aj": {
+  "textvar": [
+   {
+    "s1": "10%",
+    "s2": "50%",
+    "s3": "25"
+   }
+  ],
+  "eff": []
+ },
+ "stat_fl": {
+  "textvar": [
+   {
+    "s1": "10%",
+    "s2": "10%"
+   }
+  ],
+  "eff": []
+ },
+ "stat_rr": {
+  "textvar": [
+   {
+    "s1": "2",
+    "s2": "10%"
+   }
+  ],
+  "eff": []
+ },
+ "stat_pp": {
+  "textvar": [
+   {
+    "s1": "10%",
+    "s2": "10%"
+   }
+  ],
+  "eff": []
+ },
+ "stat_rd": {
+  "textvar": [
+   {
+    "s1": "5%",
+    "s2": "10%"
+   }
+  ],
+  "eff": []
+ },
+ "amul_al": {
+  "textvar": [
+   {
+    "s1": "10%",
+    "s2": "10%"
+   }
+  ],
+  "eff": []
+ },
+ "blackbook": {
+  "textvar": [],
+  "eff": [
+   {
+    "id": "necro",
+    "n1": "+20%"
+   },
+   {
+    "id": "pink",
+    "n1": "+20%"
+   }
+  ]
+ },
+ "tal_star": {
+  "textvar": [
+   {
+    "s1": "10%"
+   }
+  ],
+  "eff": []
+ },
+ "tal_moon": {
+  "textvar": [
+   {
+    "s1": "10%"
+   }
+  ],
+  "eff": []
+ },
+ "tal_sun": {
+  "textvar": [
+   {
+    "s1": "10%"
+   }
+  ],
+  "eff": []
+ },
+ "tal_ether": {
+  "textvar": [
+   {
+    "s1": "10%"
+   }
+  ],
+  "eff": []
+ }
+}

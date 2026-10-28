@@ -9,6 +9,8 @@ extends RefCounted
 
 const StoryText := preload("res://scripts/story/story_text.gd")
 const TROL := "res://assets/ui/trol/%s.png"
+## pipInvent butsCat centre 716,40.55 less the header offset 30,70 and half a 31 px plate.
+const CATS_AT := Vector2(670.5, -44.95)
 const GREEN := Color("00ff99")
 const DARK := Color("007e4b")
 const ORANGE := Color("ff9900")
@@ -197,7 +199,7 @@ static func add_cats(owner, tips: Array, cur: int, pick: Callable) -> Array[Butt
 			label = label.substr(2)
 		var b := cat_button(tip, cur == i)
 		b.tooltip_text = label
-		b.position = Vector2(686.0 + 32.0 * i, -31.0)
+		b.position = CATS_AT + Vector2(32.0 * i, 0.0)
 		b.pressed.connect(pick.bind(i))
 		b.focus_entered.connect(func() -> void: owner._title.text = label)
 		owner._header.add_child(b)
@@ -236,7 +238,7 @@ static func cat_button(tip: String, on: bool) -> Button:
 
 ## The trol icon of an inventory or trade row, centred where visPipInvItem
 ## puts it (the name starts just right of it).
-static func row_icon(row: Control, tip: String) -> void:
+static func row_icon(row: Control, tip: String, center_x := 14.75) -> void:
 	var path := TROL % tip
 	if tip == "" or not ResourceLoader.exists(path):
 		return
@@ -244,7 +246,7 @@ static func row_icon(row: Control, tip: String) -> void:
 	icon.texture = load(path)
 	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	icon.position = Vector2(4.5, 2.25)
+	icon.position = Vector2(center_x - 10.25, 2.25)
 	icon.size = Vector2(20.5, 19.5)
 	icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	row.add_child(icon)

@@ -267,6 +267,17 @@ func upskill_from_book(id: String) -> bool:
 	return true
 
 
+## Pers.addSkillPoint (the memory orb: numb 1, snd).
+func add_skill_point(n: int = 1) -> void:
+	skill_points += n
+	if n == 1:
+		_info("skillPoint")
+	else:
+		_info("skillPoints", str(n))
+	SfxBank.play("skill")
+	_commit()
+
+
 func grant_perk(id: String) -> void:
 	# Pers.addPerk without a perk point (scripts, potions, training).
 	var def := _perk_def(id)

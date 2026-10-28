@@ -61,7 +61,7 @@ var history: PackedStringArray = PackedStringArray()
 @onready var _weapon: Label = $Root/WeaponName
 @onready var _holder: Label = $Root/WeaponAmmo
 @onready var _ammo_name: Label = $Root/AmmoName
-@onready var _info: Label = $Root/InfoLog
+@onready var _info: RichTextLabel = $Root/InfoLog
 @onready var _prompt: Label = $Root/Prompt
 @onready var _mess: Label = $Root/Mess
 @onready var _subtitle: Label = $Root/Subtitle
@@ -168,7 +168,7 @@ func show_notice(text: String) -> void:
 
 
 func info_line(text: String) -> void:
-	var line := text.strip_edges()
+	var line := styled_line(text.strip_edges())
 	if line == "":
 		return
 	_info_lines.append(line)
@@ -180,6 +180,21 @@ func info_line(text: String) -> void:
 	_info.text = "\n".join(_info_lines)
 	_info.visible = true
 	_info_left = 150.0 / FPS
+
+
+## GUI.as style sheet: .r is the default, .r0-.r9 by <info st>, [..] is .yel.
+const INFO_STYLE := {"": "00ff99", "0": "999999", "1": "00ffff", "2": "ffff00", "3": "ff9900",
+	"4": "fc7fed", "5": "ff3333", "6": "bb99ff", "7": "c4926c", "8": "98bd34", "9": "7777ff"}
+
+
+## One BBCode line: GUI.infoText wraps every info line in span class r<st>.
+static func styled_line(line: String) -> String:
+	if line == "":
+		return ""
+	var st: Variant = OriginalLines.info_style(line)
+	var body := line.replace("[", "\u0001").replace("]", "\u0002") \
+		.replace("\u0001", "[color=#ffff00]").replace("\u0002", "[/color]")
+	return "[color=#%s]%s[/color]" % [INFO_STYLE.get(str(st) if st != null else "", "00ff99"), body]
 
 
 func show_message(text: String, down: bool = false) -> void:
@@ -1025,7 +1040,8 @@ func _style_labels() -> void:
 	_apply_font(_weapon, 16, GREEN)
 	_apply_font(_holder, 16, GREEN)
 	_apply_font(_ammo_name, 16, GREEN)
-	_apply_font(_info, 14, Color("fc7fed"))
+	if _font:
+		_info.add_theme_font_override("normal_font", _font)
 	_apply_font(_prompt, 12, GREEN)
 	_apply_font(_mess, 20, GREEN)
 	_apply_font(_subtitle, 16, GREEN)

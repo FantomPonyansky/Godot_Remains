@@ -27,6 +27,19 @@ static func ids() -> Array:
 	return _order.duplicate()
 
 
+static func register_temp(id: String, row: Dictionary) -> void:
+	_ensure()
+	_lands[id] = row
+	if not _order.has(id):
+		_order.append(id)
+
+
+static func unregister_temp(id: String) -> void:
+	_ensure()
+	_lands.erase(id)
+	_order.erase(id)
+
+
 static func land(id: String) -> Dictionary:
 	_ensure()
 	return _lands.get(id, {})

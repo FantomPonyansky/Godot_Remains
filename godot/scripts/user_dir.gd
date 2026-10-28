@@ -16,12 +16,13 @@ const MAX_LOGS := 30
 
 static var _base: Variant = null
 static var _why := ""
+static var _sandbox := false
 
 
 func _init() -> void:
-	if base() != "user://":
+	if base() != "user://" and not _sandbox:
 		_migrate()
-	if not OS.has_feature("editor"):
+	if not OS.has_feature("editor") or _sandbox:
 		_start_log()
 		print("user dir: %s (exe %s) %s" % [ProjectSettings.globalize_path(base()), OS.get_executable_path(), _why])
 	_load_patches()
@@ -65,8 +66,23 @@ static func saves() -> String:
 	return base() + "saves/" if local() else "user://saves/"
 
 
+## Player rooms from the shipped editor. RoomFile reads these over the built-in files.
+static func mods() -> String:
+	return base() + "mods/" if local() else "user://mods/"
+
+
+static func mods_rooms() -> String:
+	return mods() + "rooms/"
+
+
 static func _pick_base() -> String:
 	var args := OS.get_cmdline_args() + OS.get_cmdline_user_args()
+	for arg in args:
+		if arg.begins_with("--user-dir="):
+			var own := _own_dir(arg.trim_prefix("--user-dir="))
+			if own != "":
+				_sandbox = true
+				return own
 	if args.has("--user-appdata") or (OS.has_feature("editor") and not args.has("--user-local")):
 		return "user://"
 	var dir := OS.get_executable_path().get_base_dir().replace("\\", "/") + "/"
@@ -81,6 +97,17 @@ static func _pick_base() -> String:
 		return "user://"
 	probe.close()
 	DirAccess.remove_absolute(dir + "settings/.write_test")
+	return dir
+
+
+## --user-dir=<path> (verify/ kit): settings, saves and logs in that folder,
+## with nothing copied in from AppData.
+static func _own_dir(path: String) -> String:
+	var dir := path.strip_edges().replace("\\", "/").trim_suffix("/") + "/"
+	for sub in ["settings", "saves", "logs"]:
+		if DirAccess.make_dir_recursive_absolute(dir + sub) != OK:
+			_why = "user-dir %s not writable" % dir
+			return ""
 	return dir
 
 

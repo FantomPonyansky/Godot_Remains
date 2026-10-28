@@ -21,24 +21,29 @@ func _ready() -> void:
 	if DisplayServer.get_name() != "headless":
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 	_add_surroundings()
-	var land := _BeginLand.instantiate()
-	land.name = "BeginLand"
-	add_child(land)
-	_stable = land
-	_shown = land
-	land.add_to_group("active_land")
-	player.position = land.get("spawn_px")
-	_frame_camera(land)
+	var _ed := load("res://scripts/editor/editor_play.gd")
+	var _job: Dictionary = {}
+	if _ed.has_pending():
+		_job = _ed.install()
+	var boot := DebugConsole.take_land().split(":")
+	var start := _start_land(_job, boot[0], _ed.ID)
+	if start == "begin":
+		_show_begin()
 	camera.make_current()
 	CameraDistance.apply()
-	var sky := get_node_or_null("Sky") as ColorRect
-	if sky:
-		sky.offset_right = land.map_px.x
-		sky.offset_bottom = land.map_px.y
-	AudioManager.play_begin()
 	GameState.reset_run()
 	WorldState.reset_run()
-	Travel.begin_run()
+	# reset_run clears the cover. Put it back once the run state is reset,
+	# and keep it until the land fade. A save's land is not built yet.
+	if start != "begin":
+		Travel.cover()
+	if not _job.is_empty():
+		var _cell: Vector2i = _job.get("cell", Vector2i.ZERO)
+		Travel.goto_land(_ed.ID, "%d:%d" % [_cell.x, _cell.y], true)
+	elif start == boot[0] and start != "begin" and not SaveSlots.has_pending():
+		Travel.goto_land(boot[0], "%s:%s" % [boot[1], boot[2]] if boot.size() >= 3 else "", true)
+	elif start == "begin" or not SaveSlots.has_pending():
+		Travel.begin_run()
 	# beginBeg grants the leg PipBuck during the black wake-up, after the
 	# item exists. The count alone does not draw it.
 	var bags := get_node_or_null("/root/Inventory")
@@ -47,6 +52,45 @@ func _ready() -> void:
 	GameState.enemies_remaining = 0
 	add_child(load("res://scripts/fog.gd").new())
 	add_child(load("res://scripts/aim_cursor.gd").new())
+	var _preview := load("res://scripts/editor/editor_preview.gd")
+	if _preview.running():
+		_preview.attach(self)
+
+
+## The land this scene opens on. Only begin is built here; any other start (a
+## save made elsewhere, an editor test, --land, a new game that skips training)
+## loads straight in through Travel, and begin is built when first entered.
+func _start_land(job: Dictionary, boot_land: String, editor_id: String) -> String:
+	if not job.is_empty():
+		return editor_id
+	if SaveSlots.has_pending():
+		return SaveSlots.pending_land()
+	if boot_land != "" and Travel.lands.has(boot_land):
+		return boot_land
+	if bool(UiSettings.value("game", "propusk", false)):
+		return Travel.base_id
+	return "begin"
+
+
+func _show_begin() -> void:
+	var land := _make_begin()
+	add_child(land)
+	_stable = land
+	_shown = land
+	land.add_to_group("active_land")
+	player.position = land.get("spawn_px")
+	_frame_camera(land)
+	var sky := get_node_or_null("Sky") as ColorRect
+	if sky:
+		sky.offset_right = land.map_px.x
+		sky.offset_bottom = land.map_px.y
+	AudioManager.play_begin()
+
+
+func _make_begin() -> Node2D:
+	var land := _BeginLand.instantiate() as Node2D
+	land.name = "BeginLand"
+	return land
 
 
 ## A land exit: Travel runs the exit sequence and calls enter_land.
@@ -67,6 +111,8 @@ func enter_land(next_id: String, rebuild: bool) -> Node2D:
 		_ArtCache.drop_land_art()
 	var dest: Node2D = null
 	if next_id == "begin":
+		if _stable == null:
+			_stable = _make_begin()
 		dest = _stable
 	else:
 		dest = _away.get(next_id)
@@ -116,7 +162,12 @@ func place_player(at: Vector2) -> void:
 	player.velocity = Vector2.ZERO
 	player.global_position = at
 	player.reset_physics_interpolation()
-	camera.reset_smoothing()
+	# Top-level camera does not follow until the next physics snap. Room
+	# culling reads it this frame, so it has to be on the player now.
+	if camera.has_method("snap"):
+		camera.snap()
+	else:
+		camera.reset_smoothing()
 
 
 ## Land.setGGToSpawnPoint: the land's begLoc spawn, or back at the door used

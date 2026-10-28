@@ -8,7 +8,7 @@ extends Control
 ## 1920x1080 stage, so everything here sits on a Stage control in those
 ## coordinates, scaled to the viewport height. Dialog children use the
 ## visMainMenu-space positions (dialogs are authored at 750, 400).
-## Управление, Выход, Enemy Lab and Map Builder are port extras, top right.
+## Выход sits under Создатели. Enemy Lab (dev) and Room editor sit top right.
 
 const GREEN := Color("00ff99")
 const LINK := Color("66ff66")
@@ -25,6 +25,7 @@ const VERSION := "1.0"
 ## Main button glyph lift, as a fraction of the font height.
 const MENU_TEXT_LIFT := 0.2
 const _CURSOR := preload("res://assets/ui/cursor/arrow.png")
+const _WarmUp := preload("res://scripts/warm_up.gd")
 ## dialNew checkOpt1..6, in MainMenu.mainStep's opt order.
 const NEW_OPTS: PackedStringArray = ["propusk", "hardcore", "fastxp", "rndpump", "hardskills", "hardinv"]
 ## _dialNew checkOpt1..6 y (checkbox at x 910, infoOpt text from x 940).
@@ -50,7 +51,9 @@ const ADV_COLOR := Color("01bd72")
 static var _nadv := -1
 static var _advice: Dictionary = {}
 static var _inform: Dictionary = {}
+var _warming := false
 var _adv: Button
+var _link_buttons: Array[Control] = []
 var _pers: Node2D
 var _displ: MenuDispl
 ## MainMenu.animOn: off while dialLoad or dialNew is open.
@@ -61,7 +64,11 @@ func _ready() -> void:
 	GameState.set_paused(false)
 	UiSettings.apply_audio()
 	AudioManager.play_menu()
-	# The menu arrow; play scenes hide the OS cursor and draw it in aim_cursor.
+	_WarmUp.start(self)
+	# The menu shows once the session warm-up is done, under the load screen till then.
+	_warming = not _WarmUp.done()
+	if _warming:
+		Travel.show_load_screen()	# The menu arrow; play scenes hide the OS cursor and draw it in aim_cursor.
 	for shape in [Input.CURSOR_ARROW, Input.CURSOR_POINTING_HAND]:
 		Input.set_custom_mouse_cursor(_CURSOR, shape, Vector2.ZERO)
 	_font = load(FONT)
@@ -79,6 +86,30 @@ func _ready() -> void:
 	UiNav.add_screen(self, {"default": func() -> Control: return _buttons[0] if not _buttons.is_empty() else null})
 	Locale.language_changed.connect(_on_language)
 	_buttons[0].grab_focus()
+	_boot_from_args(DebugConsole.take_boot())
+
+
+## --boot= (verify/ kit): new skips the intro, cont is Continue, slot=N loads N.
+## With new, --room=<file>:<room> (or <file>:<x>:<y>) opens that room alone as
+## the editor test land.
+func _boot_from_args(boot: String) -> void:
+	if boot == "new":
+		Travel.set_hardcore(false)
+		var room := DebugConsole.take_room().split(":")
+		if room.size() >= 2:
+			var file := room[0] if room[0].begins_with("rooms_") else "rooms_" + room[0]
+			var room_name := room[1] if room.size() == 2 else "room_%s_%s" % [room[1], room[2]]
+			preload("res://scripts/editor/editor_play.gd").start(file, room_name, true)
+		GameState.reset_run()
+		preload("res://scripts/intro_screen.gd").pending = false
+		Travel.enter_game()
+	elif boot == "cont":
+		_on_continue()
+	elif boot.begins_with("slot=") and boot.trim_prefix("slot=").is_valid_int():
+		SaveSlots.request_load(int(boot.trim_prefix("slot=")))
+		Travel.enter_game()
+	elif boot != "":
+		push_warning("--boot=%s: expected new, cont or slot=N" % boot)
 
 
 ## Rebuilds the menu in the new language; an open PipBuck or appearance
@@ -102,6 +133,7 @@ func _on_language(_lang: String) -> void:
 
 
 func _build() -> void:
+	_link_buttons.clear()
 	var black := ColorRect.new()
 	black.name = "Black"
 	black.color = Color.BLACK
@@ -150,7 +182,8 @@ func _build() -> void:
 			box.add_child(lb)
 			_lang_buttons.push_front(lb)
 	_build_advice()
-	UiNav.link_column(_buttons + [_adv] + _lang_buttons)
+	_build_side()
+	UiNav.link_column(_buttons + [_adv] + _link_buttons + _lang_buttons)
 
 
 ## Debug-only tools in the language-box style, top right. Управление is in
@@ -164,8 +197,8 @@ func _build_extras() -> void:
 	# Dev scenes are left out of the tester pck, so their buttons follow the files.
 	if OS.is_debug_build() and ResourceLoader.exists("res://scenes/enemy_lab.tscn"):
 		extras.append([Locale.t("menu_enemy_lab"), func() -> void: get_tree().change_scene_to_file("res://scenes/enemy_lab.tscn")])
-	if OS.is_debug_build() and ResourceLoader.exists("res://scenes/map_builder.tscn"):
-		extras.append([Locale.t("menu_map_builder"), func() -> void: get_tree().change_scene_to_file("res://scenes/map_builder.tscn")])
+	if ResourceLoader.exists("res://scenes/room_editor.tscn"):
+		extras.append([Locale.t("menu_room_editor"), func() -> void: get_tree().change_scene_to_file("res://scenes/room_editor.tscn")])
 	for i in extras.size():
 		var b := _box_button(str(extras[i][0]), Rect2(-220.0, 40.0 * i, 220, 34), 18)
 		var action: Callable = extras[i][1]
@@ -176,20 +209,74 @@ func _build_extras() -> void:
 		_buttons.append(b)
 
 
-## The main screen's info block (gui inform) and site links (l1, l2) are
-## shown at the end of dialAbout instead (port layout). Links are #66FF66
-## (MainMenu style "a").
-func _links_text() -> String:
-	var text := ""
+## gui inform at (75.7, 369.3) and daLink (foe.ucoz.org, deviantart) pinned
+## to stageHeight - 125. The about dialog keeps the same block.
+## Links are indented under the heading and underline on hover; the site
+## links carry their web / da2 icons.
+func _build_side() -> void:
 	var data := _inform_data()
-	if not data.is_empty():
-		text += "[color=#%s]%s[/color]\n" % [GREEN.to_html(false), str(data["head"])]
+	if not data.is_empty() and str(data.get("head", "")) != "":
+		var info := VBoxContainer.new()
+		info.name = "Info"
+		info.position = Vector2(77.7, 371.4)
+		info.size = Vector2(261, 0)
+		info.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		info.add_theme_constant_override("separation", 2)
+		_stage.add_child(info)
+		var head := Label.new()
+		head.text = str(data["head"])
+		head.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		head.custom_minimum_size.x = 261
+		if _font:
+			head.add_theme_font_override("font", _font)
+		head.add_theme_font_size_override("font_size", 16)
+		head.add_theme_color_override("font_color", GREEN)
+		info.add_child(head)
 		for link in data["links"]:
-			text += "\n[url=%s][color=#%s]%s[/color][/url]" % [link[0], LINK.to_html(false), link[1]]
-		text += "\n"
-	for row in [["http://foe.ucoz.org", "foe.ucoz.org"], ["https://www.deviantart.com/empalu", "deviantart.com/empalu"]]:
-		text += "\n[url=%s][color=#%s]%s[/color][/url]" % [row[0], LINK.to_html(false), row[1]]
-	return text
+			info.add_child(_link_row(str(link[0]), str(link[1]), "", 16))
+	var sites := VBoxContainer.new()
+	sites.name = "Sites"
+	sites.position.x = 64.0
+	sites.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	sites.add_theme_constant_override("separation", 2)
+	_stage.add_child(sites)
+	sites.add_child(_link_row("http://foe.ucoz.org", "foe.ucoz.org", "web", 18))
+	sites.add_child(_link_row("https://www.deviantart.com/empalu", "deviantart.com/empalu", "da2", 18))
+
+
+## One link line: a slight indent (or the site icon) and a LinkButton.
+func _link_row(url: String, text: String, icon_id: String, size: int) -> HBoxContainer:
+	var row := HBoxContainer.new()
+	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	row.add_theme_constant_override("separation", 4)
+	if icon_id != "" and ResourceLoader.exists(PARTS % icon_id):
+		var icon := TextureRect.new()
+		icon.texture = load(PARTS % icon_id)
+		icon.stretch_mode = TextureRect.STRETCH_KEEP_CENTERED
+		icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		row.add_child(icon)
+	else:
+		var pad := Control.new()
+		pad.custom_minimum_size.x = 12
+		pad.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		row.add_child(pad)
+	var b := LinkButton.new()
+	b.text = text
+	b.uri = url
+	b.underline = LinkButton.UNDERLINE_MODE_ON_HOVER
+	b.focus_mode = Control.FOCUS_ALL
+	b.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	if _font:
+		b.add_theme_font_override("font", _font)
+	b.add_theme_font_size_override("font_size", size)
+	for c in ["font_color", "font_hover_color", "font_pressed_color", "font_hover_pressed_color"]:
+		b.add_theme_color_override(c, LINK)
+	b.add_theme_color_override("font_focus_color", FOCUS)
+	b.add_theme_stylebox_override("focus", _focus_box())
+	b.pressed.connect(func() -> void: SfxBank.play("ui_click"))
+	row.add_child(b)
+	_link_buttons.append(b)
+	return row
 
 
 ## Version at stageHeight - 58, bold yellow.
@@ -442,6 +529,9 @@ func _layout() -> void:
 		version.position.y = s.y - 58.0
 	if _adv != null and is_instance_valid(_adv):
 		_adv.position = Vector2(358.95, s.y - _adv.size.y - 40.0)
+	var sites := _stage.get_node_or_null("Sites") as Control
+	if sites:
+		sites.position.y = s.y - 125.0
 	if _dialog != null and is_instance_valid(_dialog):
 		_place_dialog()
 
@@ -848,38 +938,46 @@ func _load_slot(slot: int) -> void:
 
 func _open_about() -> void:
 	var d := _open_dialog(OriginalLines.gui("about"), Vector2(364.9, 86.4), 774)
+	# dialAbout (OTHER _dialAbout.tscn): txt 750.1 x 462 at -387.1, -265 from the
+	# centre, its scroll bar apart at 374.1..389.1.
 	var scroll := ScrollContainer.new()
 	scroll.position = Vector2(364.9, 137.0)
-	scroll.size = Vector2(770, 462)
+	scroll.size = Vector2(1141.1 - 364.9, 462)
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	d.add_child(scroll)
-	var column := VBoxContainer.new()
-	column.add_theme_constant_override("separation", 16)
-	scroll.add_child(column)
-	var text := Label.new()
-	text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	text.custom_minimum_size = Vector2(748, 0)
-	if _font:
-		text.add_theme_font_override("font", _font)
-	text.add_theme_font_size_override("font_size", 16)
-	text.add_theme_color_override("font_color", GREEN)
-	text.text = OriginalLines.desc("gui", "about").replace("[", "").replace("]", "") \
-		+ "\n\n" + OriginalLines.gui("usedmusic") + "\n" + OriginalLines.desc("gui", "usedmusic")
-	column.add_child(text)
-	var links := RichTextLabel.new()
-	links.bbcode_enabled = true
-	links.meta_underlined = false
-	links.fit_content = true
-	links.scroll_active = false
-	links.custom_minimum_size = Vector2(748, 0)
-	_rich_style(links, 16)
-	links.text = _links_text()
-	links.meta_clicked.connect(func(meta: Variant) -> void: OS.shell_open(str(meta)))
-	column.add_child(links)
+	var text := RichTextLabel.new()
+	text.bbcode_enabled = true
+	text.fit_content = true
+	text.scroll_active = false
+	text.meta_underlined = false
+	text.custom_minimum_size = Vector2(750.1, 0)
+	_rich_style(text, 16)
+	var bold := FontVariation.new()
+	bold.base_font = _font
+	bold.variation_embolden = 0.8
+	text.add_theme_font_override("bold_font", bold)
+	text.add_theme_font_size_override("bold_font_size", 16)
+	text.text = _about_text()
+	text.meta_clicked.connect(func(meta: Variant) -> void: OS.shell_open(str(meta)))
+	scroll.add_child(text)
 	var close := _dbutton(OriginalLines.pip("mainclose"), Rect2(656.6, 624.5, 186.2, 28), _close_dialog)
 	close.grab_focus()
 	_back_to = _buttons[4]
 	_dialog.set_meta("scroll", scroll)
+
+
+## MainMenu.funAbout: about (.yel names, bold FFFF00), usedmusic, the music list
+## in .music (12 px, 00FF99) and the CC-BY link (style "a", 66FF66).
+## Res.txt drops \r, so each line break is one break.
+func _about_text() -> String:
+	var yel := func(s: String) -> String:
+		return s.replace("\r", "").replace("[", "\u0001").replace("]", "\u0002") \
+			.replace("\u0001", "[b][color=#ffff00]").replace("\u0002", "[/color][/b]")
+	var s: String = yel.call(OriginalLines.desc("gui", "about"))
+	s += "\n\n" + OriginalLines.gui("usedmusic") + "\n"
+	s += "\n[font_size=12][color=#00ff99]%s[/color][/font_size]" % OriginalLines.desc("gui", "usedmusic").replace("\r", "")
+	s += "\n\n[url=https://creativecommons.org/licenses/by-nc/4.0/legalcode][color=#%s]Music CC-BY License[/color][/url]" % LINK.to_html(false)
+	return s
 
 
 func _exit_tree() -> void:
@@ -888,6 +986,11 @@ func _exit_tree() -> void:
 
 
 func _process(delta: float) -> void:
+	if _warming and _WarmUp.done():
+		_warming = false
+		Travel.hide_load_screen()
+		if not _buttons.is_empty():
+			_buttons[0].grab_focus()
 	if _displ != null:
 		_displ.playing = _anim_on and not (_pip != null and is_instance_valid(_pip))
 	if _pers != null and is_instance_valid(_pers) and _pers.is_visible_in_tree():
@@ -897,6 +1000,9 @@ func _process(delta: float) -> void:
 # --- Input ---
 
 func _input(event: InputEvent) -> void:
+	if _warming:
+		get_viewport().set_input_as_handled()
+		return
 	if _look != null and _look.is_open():
 		return
 	if ControlsUI.is_open():

@@ -38,6 +38,29 @@ const GENERATED := {
 static var keep_seed := false
 
 
+## Editor play-test of an unplaced file. Not a shipped land id.
+## GENERATED is const, so temps live here.
+static var _extra: Dictionary = {}
+
+
+static func bind_temp(id: String, spec: Dictionary) -> void:
+	_extra[id] = spec
+
+
+static func unbind_temp(id: String) -> void:
+	_extra.erase(id)
+
+
+static func is_generated(id: String) -> bool:
+	return _extra.has(id) or GENERATED.has(id)
+
+
+static func generated(id: String) -> Dictionary:
+	if _extra.has(id):
+		return _extra[id]
+	return GENERATED.get(id, {})
+
+
 static func lands_using(file_name: String) -> Array:
 	var ids: Array = []
 	for land_id in GENERATED.keys():
@@ -47,12 +70,12 @@ static func lands_using(file_name: String) -> Array:
 
 
 static func build(land_id: String, land_dif: float = -1.0) -> Dictionary:
-	if not GENERATED.has(land_id):
+	if not is_generated(land_id):
 		return {"error": "unknown generated land %s" % land_id}
-	var spec: Dictionary = (GENERATED[land_id] as Dictionary).duplicate()
-	spec["stage"] = int(_input(land_id, "stage", Travel.land_stage(land_id)))
-	spec["visited"] = bool(_input(land_id, "visited", bool(Travel.land_act(land_id).get("visited", false))))
-	spec["mbase_visited"] = int(_input(land_id, "mbase_visited", int(Travel.triggers.get("mbase_visited", 0))))
+	var spec: Dictionary = generated(land_id).duplicate()
+	spec["stage"] = int(_input(land_id, "stage", _fresh("stage", land_id)))
+	spec["visited"] = bool(_input(land_id, "visited", _fresh("visited", land_id)))
+	spec["mbase_visited"] = int(_input(land_id, "mbase_visited", _fresh("mbase_visited", land_id)))
 	spec["land_dif"] = land_dif if land_dif >= 0.0 else float(spec.dif)
 	var file_name := str(spec.file)
 	var doc := RoomFile.load_doc(file_name)
@@ -61,6 +84,7 @@ static func build(land_id: String, land_dif: float = -1.0) -> Dictionary:
 	if not keep_seed:
 		randomize()
 	var pool: Array = _prepare(doc)
+	_mix_pool(pool, land_id, file_name)
 	var conf := int(spec.conf)
 	var width := int(spec.mx)
 	var height := int(spec.my)
@@ -89,6 +113,18 @@ static func back_open(src: Dictionary, cell: Dictionary) -> Array:
 	var open: Array = _open_grid(src.get("rows", []), bool(cell.get("mirror", false)))
 	_apply_ramka(open, int(cell.get("ramka", 1)))
 	return open
+
+
+static func _fresh(key: String, land_id: String):
+	var tree := Engine.get_main_loop() as SceneTree
+	var travel: Node = tree.root.get_node_or_null("/root/Travel") if tree else null
+	if travel == null:
+		return false if key == "visited" else 0
+	if key == "stage":
+		return travel.land_stage(land_id)
+	if key == "visited":
+		return bool(travel.land_act(land_id).get("visited", false))
+	return int(travel.triggers.get("mbase_visited", 0))
 
 
 static func _input(land_id: String, key: String, value: Variant) -> Variant:
@@ -506,6 +542,33 @@ static func _prepare(doc: Dictionary) -> Array:
 			state.lvl = 0
 		pool.append(state)
 	return pool
+
+
+## User rooms whose pools name this land, beside the land file's own rooms.
+static func _mix_pool(pool: Array, land_id: String, home: String) -> void:
+	for row_v in RoomFile._pool_entries(land_id):
+		var row: Dictionary = row_v
+		var file := str(row.get("file", ""))
+		var room_name := str(row.get("name", ""))
+		if file == home and _pool_has(pool, room_name):
+			continue
+		var room: Dictionary = row.get("room", {})
+		var problems: Array = RoomFile.check_pool_room(room, land_id)
+		if not problems.is_empty():
+			var bits := PackedStringArray()
+			for p in problems:
+				bits.append(str(p))
+			push_warning("pool room %s/%s: %s" % [file, room_name, "; ".join(bits)])
+			continue
+		for made_v in _prepare({"rooms": [room]}):
+			pool.append(made_v)
+
+
+static func _pool_has(pool: Array, room_name: String) -> bool:
+	for room_v in pool:
+		if (room_v as _Room).name == room_name:
+			return true
+	return false
 
 
 static func _pick_tip(pool: Array, ntip: String):

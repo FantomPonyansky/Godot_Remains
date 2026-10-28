@@ -60,7 +60,15 @@ func _process(delta: float) -> void:
 	if _land == null or not _land.is_inside_tree():
 		return
 	var vp := get_viewport()
-	var view := vp.get_canvas_transform().affine_inverse() * vp.get_visible_rect()
+	# Canvas transform still belongs to the previous frame, so a land that
+	# just moved the camera would hide the room on screen for this whole tick.
+	var cam := vp.get_camera_2d()
+	var view: Rect2
+	if cam != null and cam.zoom.x != 0.0 and cam.zoom.y != 0.0:
+		var size := vp.get_visible_rect().size / cam.zoom
+		view = Rect2(cam.get_screen_center_position() - size * 0.5, size)
+	else:
+		view = vp.get_canvas_transform().affine_inverse() * vp.get_visible_rect()
 	var local := _land.get_global_transform().affine_inverse() * view
 	var a := Vector2i((local.position / ROOM_PX).floor()) - Vector2i.ONE
 	var b := Vector2i((local.end / ROOM_PX).floor()) + Vector2i.ONE
