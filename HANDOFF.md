@@ -11,7 +11,11 @@ Godot 4.7.2 port of Fallout Equestria: Remains (Flash). Goal: a faithful port wi
 | `docs/TODO.md` | Step-by-step plan to finish, with phase status. |
 | `docs/PLAYER_FEEDBACK.md` | Reports from play and their status. |
 | `docs/PORT_RULES.md` | User decisions that differ from the original. Do not revert them. |
+| `docs/ENEMY_AI.md` | Enemy behaviour now (states, senses, targets, movement, engage / disengage) and the list of differences from the original. |
+| `docs/MULTIPLAYER_PLAN.md` | Step-by-step refactoring plan for online co-op (after the port). |
+| `docs/EDITOR_PORT_PLAN.md` | Room editor plan. Debug `map_builder` is retired in `_trash/map_builder/`. |
 | `godot/DEBUG_COMMANDS.md` | Console commands. Update whenever they change. |
+| `verify/README.md` | Human verify kit: one folder per hand check with a launcher straight into the situation and a verdict file. A "Verify in play" note in `PLAYER_FEEDBACK.md` should get a row here. |
 | `build/TESTER_GUIDE.md`, `build/TESTER_IDS.md` | Tester onboarding and ID lists (copied into `build/windows`, `build/linux`). |
 
 After each chunk of work: update `IMPLEMENTED.md`, tick `TODO.md`, and answer `PLAYER_FEEDBACK.md` rows it touches. New user decisions go to `PORT_RULES.md`; new facts about the original go to `KNOWLEDGE_BASE.md`.
@@ -24,6 +28,7 @@ After each chunk of work: update `IMPLEMENTED.md`, tick `TODO.md`, and answer `P
 | Godot console exe | `D:\Games\FoE Remains Port\tools\godot\Godot_v4.7.2-stable_win64_console.exe` |
 | Original game (local only, gitignored) | `original\`: `swf\` (pfe, sprite, texture, sound swf), `text\` (text_*.xml, lang.xml), `game\` (pfe.exe, Flash player, pfe1.zip), `release_2021\`, `reference\` (AS3 source), `decompiled_2021\`, `steam_decompiled\`, `ui_xfl\`, `tile_extract\` (symbol lists), `extracted_swf\` (FFDec work dirs), `extracted_images\`, `music_2019\`, `menu_screenshots\`, `fla\` (author's unit animation sources, see `KNOWLEDGE_BASE.md`). Versions: `docs/KNOWLEDGE_BASE.md` "Versions" |
 | Extraction scripts | `tools\swf_export\` (exporters, `swf_trim.py`), `tools\*.py` (data extractors), `godot\tools\pack_*.gd` (packers). Paths are relative to the repo root. |
+| Share pack for Remains: Unity | `python tools\share_unity_pack.py` writes `build\share_remains_unity\` (their Resources layout; README from `tools\share_unity_pack_README.md`). |
 | Scratch | `tmp\` (gitignored). Screenshots go to `tmp\shots\`. `_trash\` holds files waiting for the user to delete. |
 | User test launcher | `Launch Remains Port.bat` (runs the project directly) |
 | Builds | `build\windows\RemainsPort.exe` (+ `.console.exe`), `build\linux\RemainsPort.x86_64` |
@@ -47,6 +52,16 @@ Headless boot (autoloads load; `-s` / `--check-only` scripts do not, so their au
 ```
 & $g --headless --path godot res://scenes/game.tscn --quit-after 240
 & $g --headless --path godot res://scenes/main_menu.tscn --quit-after 120
+& $g --headless --path godot -s res://tests/test_room_xml.gd
+& $g --headless --path godot -s res://tests/test_editor_validate.gd -- --user-dir="$env:TEMP\foe_editor_validate"
+& $g --headless --path godot -s res://tests/test_room_pool.gd -- --user-dir="$env:TEMP\foe_room_pool"
+# Windowed editor play/preview probe, screenshot to tmp/play_probe.png. Args: file room|*|EMPTY seconds [as_name] [preview|preview2|editor|play] [burst] [layerpop] [drag: LMB drag 2 s before the shot, prints camera vs screen centre]
+# --user-dir=<path> is our flag (user_dir.gd), not Godot's: always after --, always with =. "--user-dir <path>" makes Godot run the path as the scene (main menu) and writes to AppData.
+& $g --path godot res://tests/play_probe.tscn -- rooms_comm room_1_0 8 rooms_comm editor --user-dir="$env:TEMP\foe_probe"
+# Windowed main menu shot to tmp/shots/menu.png. Arg: seconds.
+& $g --path godot res://tests/menu_probe.tscn -- 10 --user-dir="$env:TEMP\foe_probe"
+# Windowed PipBuck shot to tmp/shots/pip.png. Args: page sub [skill points]. New art needs `--headless --path godot --import` first.
+& $g --path godot res://tests/pip_probe.tscn -- 1 1 5 --user-dir="$env:TEMP\foe_probe"
 ```
 
 Filter for `SCRIPT ERROR|Parse Error|Compile Error|ERROR:`. After adding assets or `class_name` scripts, run `--headless --import` first. To compile a lazily loaded script, `load()` it from a test that starts `game.tscn`.

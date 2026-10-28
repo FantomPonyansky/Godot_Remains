@@ -2,6 +2,18 @@
 
 What the user and testers saw in play, with the current status. New reports go at the top. "Fixed" means fixed in code; "verify" means it still needs a look in play.
 
+## 2026-10-28, user
+
+| Report | Status |
+|---|---|
+| Customize appearance (main menu and PipBuck) needs work. | Open. What to change is not specified. Compare with the original and the other Godot port, then ask. |
+
+## 2026-10-27, user
+
+| Report | Status |
+|---|---|
+| Every launch builds begin first, even when loading a save made elsewhere or starting a test; it should load straight into the needed land or room. | Fixed: `game._start_land` builds only the start land; begin is built on first entry. Loads no longer rebuild the saved land a second time. Test rooms: `--room=<file>:<room>` (own land, `editor_play`), `--land=<id>`. Checked: rbl, surf save continue, test room, surf → begin. |
+
 ## 2026-10-26, tester (begin, random maps, misc)
 
 | Report | Status |
@@ -117,3 +129,4 @@ What the user and testers saw in play, with the current status. New reports go a
 | — | Crystal-ball appearance page: side buttons dead. | Mouse clicks work in a test; verify keyboard and pad focus. |
 | — | Stable Pi run bug. | Not reproduced. |
 | — | Invisible border at a land's start room. | Fixed: port-only "StableExit" strip removed. |
+| — | Magic beam (user, 2026-10-27): a second beam image is drawn perpendicular to the real one, going straight up from the horn while the beam goes sideways. | Open. Likely the beam sprite's rotation or the length scale is applied on the wrong axis for one of the two segments. |
