@@ -1,0 +1,127 @@
+{
+ "climb": {
+  "frames": 13,
+  "labels": {
+   "laz": 1
+  }
+ },
+ "die": {
+  "frames": 40
+ },
+ "dieali": {
+  "frames": 40
+ },
+ "free1": {
+  "frames": 50
+ },
+ "free2": {
+  "frames": 50
+ },
+ "free3": {
+  "frames": 50
+ },
+ "jump": {
+  "frames": 32,
+  "labels": {
+   "jump": 1
+  }
+ },
+ "kick": {
+  "frames": 20
+ },
+ "levit": {
+  "frames": 80,
+  "labels": {
+   "jump": 1
+  }
+ },
+ "lurk1": {
+  "frames": 20,
+  "labels": {
+   "un": 10
+  }
+ },
+ "lurk2": {
+  "frames": 30,
+  "labels": {
+   "un": 20
+  }
+ },
+ "lurk3": {
+  "frames": 31,
+  "labels": {
+   "un": 20
+  }
+ },
+ "pinok": {
+  "frames": 42
+ },
+ "plav": {
+  "frames": 32,
+  "labels": {
+   "plav": 1
+  }
+ },
+ "polz": {
+  "frames": 14,
+  "labels": {
+   "polz": 1
+  }
+ },
+ "punch": {
+  "frames": 20,
+  "labels": {
+   "punch": 1
+  }
+ },
+ "res": {
+  "frames": 98
+ },
+ "roll": {
+  "frames": 20
+ },
+ "run": {
+  "frames": 8,
+  "labels": {
+   "run": 1
+  }
+ },
+ "stay": {
+  "frames": 76,
+  "labels": {
+   "stay": 1,
+   "sit": 2,
+   "down": 3,
+   "up": 12,
+   "downjump": 21,
+   "jump": 71
+  }
+ },
+ "trot": {
+  "frames": 18,
+  "labels": {
+   "trot1": 1,
+   "trot": 2
+  }
+ },
+ "trot_down": {
+  "frames": 18,
+  "labels": {
+   "trot1": 1,
+   "trot": 2
+  }
+ },
+ "trot_up": {
+  "frames": 18,
+  "labels": {
+   "trot1": 1,
+   "trot": 2
+  }
+ },
+ "walk": {
+  "frames": 26,
+  "labels": {
+   "walk": 2
+  }
+ }
+}

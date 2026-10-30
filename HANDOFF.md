@@ -69,7 +69,7 @@ Headless boot (autoloads load; `-s` / `--check-only` scripts do not, so their au
 # Frame-by-frame match: ours and OTHER's runtime on the same layout, stacked into tmp/shots/frames_compare.png; crop_cmp.gd x y w h zooms one cell.
 $rows="rows=fly:0,1,2,3,4,5;die:0,4,8,12,16,19"; $o="C:\Users\Командор\Downloads\foe-remains-godot-master\foe-remains-godot-master\Godot_project"
 & $g --path godot res://tests/rig_frames_probe.tscn -- unit=bloodwing $rows --user-dir="$env:TEMP\foe_probe"
-# Player rig: re-copy OTHER's player rig and runtime (scripts/rig/other/, stubs/ stand in for its EntityEffects etc.), then --import. Any boot with `--puppet-frames` after -- draws the old frame clips.
+# Player rig: re-copy OTHER's player rig and runtime (scripts/rig/other/, stubs/ stand in for its EntityEffects etc.), then --import.
 python tools/import_player_rig.py
 # Room editor stills of rigged units (assets/sprites/rig_stills). Rerun after a rig changes; units=a,b for some.
 & $g --path godot -s res://tests/rig_stills.gd -- --user-dir="$env:TEMP\foe_probe"
