@@ -95,7 +95,7 @@ $b="D:/Games/FoE Remains Port/build"
 & $g --headless --path godot --export-patch "Windows Desktop" "$b/patch/patch_002.pck" --patches "$b/base/RemainsPort.pck,$b/patch/patch_001.pck" *> "$env:TEMP\foe_patch.log"
 ```
 
-Shipped: full build 2026-10-26 (changes in `build/BUILD_2026-10-26_CHANGES.txt`, includes the `user_dir.gd` changes; `build/base` updated). Testers delete their old `patches/` folder. Patch numbering restarts: the next patch is `patch_001` with `--patches "$b/base/RemainsPort.pck"`. Old `patch_001` (2026-10-25) is superseded. `user_dir.gd` is the autoload that mounts patches, so a patch cannot replace it.
+Shipped: full build 2026-10-31 (player rig, frame clips retired; `build/base` updated). Before that: 2026-10-26 (changes in `build/BUILD_2026-10-26_CHANGES.txt`, includes the `user_dir.gd` changes). Testers delete their old `patches/` folder. Patch numbering restarts: the next patch is `patch_001` with `--patches "$b/base/RemainsPort.pck"`. Old `patch_001` (2026-10-25) is superseded. `user_dir.gd` is the autoload that mounts patches, so a patch cannot replace it.
 
 Cumulative alternative: list only the base; then testers keep just the newest patch.
 
