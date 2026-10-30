@@ -66,14 +66,32 @@ Nobody has played start to finish. One run: water in the four rooms, terminals, 
 11. Local map ladders and platforms; enemies page portraits.
 12. Object hint signs saved; important-item window on vendor buys.
 13. Dialogue box and info window: `lmb` icon instead of text hints.
-14. Enemy animation leftovers: roller pivot (`brain_roller.gd:83`), vortex `attack` clip, ant / rat / tarakan death clips, `stab` ignored by `_frames_from_clips`.
+14. Enemy animation leftovers: vortex `attack` clip, ant / rat / tarakan death clips, `stab` ignored by `_frames_from_clips`.
 15. PipBuck pony preview (Inventory, Armor, Menu, Load) is blurry and jitters when first shown (`pony_puppet.preview` blur 3.0, `_freeze_pers` after 0.3 s). Sharp and still from the first frame.
+
+## 3a. Rig animation migration (priority, `PORT_RULES.md` Visuals)
+
+Import with `tools/import_rig.py <unit...>` into `assets/rigs/`, play with `scripts/rig/rig_view.gd`, compare in `tests/anim_probe.tscn` (ours left, rig right).
+
+1. Rigged units' sheets moved to `_trash/rig_sheets` (2026-10-29). Left: measure memory (step 4).
+2. `rig_view.gd` gaps left (nested movie clips, blend mirrors, stop keys done 2026-10-29):
+   - art_fx `group_filters` (merged groups). Do with the unit that needs it.
+   - Graphic sync, `frame_transforms`, symbol masks and timeline masks done (2026-10-31). Check turret0's emerge clip (osn0 1–11) under its timeline mask in game.
+3. Next units by size: simple enemies, then NPCs, then the player with armour on the bones (merges 3b.1). Non-pony enemies with an OTHER rig (unit id = rig name unless shown):
+   - On rigs (2026-10-29): bloat0–10, bloodwing, bloodwing2, slime, pinkslime, cryoslime, fish1–3, dron1–3, vortex, spritebot, transmitter, msp, scythe, roller, roller2, robobrain, sentinel, turret0–5, ttur, eant, ebloat, destr1, bossdron, bossultra.
+   - Pony-shaped (2026-10-30): bossnecr (`necrboss`) and bossraider (`raiderboss`, tr 2 `raiderboss2`) on rigs. Raiders, slavers, mercs, zebras, enclave, rangers, zombies and alicorns are bitmap sheets in the original and in OTHER (`visBmp`), so they stay on sheets.
+   - NPCs on rigs (2026-10-31) through `NpcVis.sprite`. Left:
+     - vendor, doctor, vendorarmor, vendorexpl, vendorweapon stay on sheets (`NpcVis.SHEET_ONLY`): the converted saddlebag / medkit draws below and behind the body, the same in OTHER. Find the cause in the rig data (bone tracks of `T01_Staff_Part_01/02`?).
+     - captive and ponpon are composites (cage + `pon` stills) on sheets.
+     - Move the rigged NPCs' sheet PNGs to `_trash` (keep `manifest.json`: it gives the clip frame counts).
+     - Not imported: visualscene, vischeckpoint.
+4. Memory check per step: VRAM and RAM before and after dropping a unit's sheets.
 
 ## 3b. From the other Godot port
 
 The other port (`C:\Users\Командор\Downloads\foe-remains-godot-master`, below: OTHER) may be copied: the author allowed it (2026-10-28). Credit him in `LICENSING.md` and note the source file in `IMPLEMENTED.md`. Do not load its `CLAUDE.md`. Its main-menu pony, PipBuck chrome and stat icons are already in.
 
-1. **Armour on the rig, per clip** (fixes 3.2 and the swim half of 3.9). OTHER swaps suit frames on the body bones and stores draw order per bone per clip, so far-leg armour stays under the PipBuck (`rig_base.gd` `_apply_variant`; read `OTHER/Godot_Transpilation/04_player_rig/04_0_rig_semantics/01_layering.md`). Ours draws one overlay above the body (`pony_puppet.gd` `set_armor`). Take the depth order from each `body_*` clip, including `body_plav`. Check verify row V-04.
+1. **Armour on the rig, per clip** (fixes 3.2 and the swim half of 3.9). In since 2026-10-31 through OTHER's player rig (`IMPLEMENTED.md`). Left: user approval, then move the pony frame clips, overlay parts and suit overlays to `_trash` and drop the `--puppet-frames` path; check 3.2, 3.9 swim and V-04 on the rig; check on the rig: lurk, swim, alicorn death (`dieali`), the menu / Load previews. Was: OTHER swaps suit frames on the body bones and stores draw order per bone per clip, so far-leg armour stays under the PipBuck (`rig_base.gd` `_apply_variant`; read `OTHER/Godot_Transpilation/04_player_rig/04_0_rig_semantics/01_layering.md`). Ours draws one overlay above the body (`pony_puppet.gd` `set_armor`). Take the depth order from each `body_*` clip, including `body_plav`. Check verify row V-04.
 2. **look** Customize appearance (`appearance_screen.gd`, also PipBuck page 8). The user is not happy with it (2026-10-28) and has not said what to change. Compare with the original and OTHER, then ask. Report in `PLAYER_FEEDBACK.md`.
 3. **Flash filters as shaders** (tile edges, glows; also 3.5). Original filters in `Grafon.as`: Glow on `cont_th`, Bevel + Glow on `plitka`, DropShadow + Bevel on `dyrka` / `cloud`, one global drop shadow, colour-matrix presets, blur under SATS. OTHER's reference shaders are `shaders/flash/{glow,bevel,drop_shadow}_compose.gdshader`, baked per room. Ours outline front faces only (`map/tile_outline.gd`). Bake our own into the room's tile canvas. Mind weak GPUs.
 4. PipBuck pages still to match against OTHER in a running game: trade, doctor, craft, vault.
@@ -164,3 +182,14 @@ User, 2026-10-28. A local model (Ollama or LM Studio, localhost only, a 14B–32
 5. Examples from shipped rooms. One room first; map assembly through `land_gen` later.
 
 Test with `tests/test_editor_validate.gd`, the play probe, and the reachability check.
+
+### 10.5 Fluid and gas simulation (optional mode)
+
+User, 2026-10-30. This differs from the original, which has whole-tile water (`map/water_flow.gd`, `Location.recalcWater`) and fixed gas areas, so it needs a `PORT_RULES.md` entry when started. Put it behind one switch that is off by default. Room data stays whole-tile and Editor.swf-compatible; the simulation only runs from it.
+
+1. Water: partial levels with pressure, replacing `water_flow.gd`. Use packed arrays per room and simulate only active cells, at 30 Hz. Needs fill-level art and a compact save in the "water" land memory. Swimming, enemies' water checks, fish, bullets in water and room opacity read the level. Several sessions.
+2. Heavy gas on the same grid, fed by the existing gas sources. It pools low, clears faster under open air and stays above water. Decide how it damages units compared with `area_fx`.
+3. Buoyancy and drag for boxes and units, plus walking on ice, through the existing swim and float code. The port has no `RigidBody2D` or `TileMapLayer` walls, so ignore those parts of the original proposal.
+4. Later, and design first: reactions (gas ignition with fire, electrolysis, condensation, freezing into solid tiles).
+
+Do 1 and 2 first and play-test them before 3 and 4.

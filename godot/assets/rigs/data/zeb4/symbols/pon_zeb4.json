@@ -1,0 +1,92 @@
+{
+  "artwork_layers": [
+    {
+      "layer_index": 0,
+      "element_svg_files": {
+        "0": [
+          "pon_zeb4_L0_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 1,
+      "element_svg_files": {
+        "0": [
+          "pon_zeb4_L1_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 2,
+      "element_svg_files": {
+        "0": [
+          "pon_zeb4_L2_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 4,
+      "element_svg_files": {
+        "0": [
+          "pon_zeb4_L4_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 7,
+      "element_svg_files": {
+        "0": [
+          "pon_zeb4_L7_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 8,
+      "element_svg_files": {
+        "0": [
+          "pon_zeb4_L8_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 9,
+      "element_svg_files": {
+        "0": [
+          "pon_zeb4_L9_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    }
+  ],
+  "svg_files": {
+    "0": "pon_zeb4_L0_S0.svg"
+  },
+  "children": [
+    {
+      "library": "zglaz8",
+      "layer_index": 3,
+      "matrix": {
+        "a": 1.0751953125,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0751953125,
+        "tx": 51.6,
+        "ty": -48.35
+      },
+      "frame_ranges": [
+        [
+          0,
+          0
+        ]
+      ],
+      "frame_start": 0,
+      "frame_end": 0
+    }
+  ]
+}

@@ -1,0 +1,190 @@
+{
+  "root": "osn",
+  "scale": 0.287399291992188,
+  "bones": [
+    {
+      "instance_name": "svern",
+      "library_item": "svern",
+      "library_path": "Objects/Units/BloodWing/svern",
+      "layer_index": 0,
+      "layer_name": "Слой 2",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": -2.2,
+        "ty": 1.8
+      },
+      "node_name": "svern"
+    },
+    {
+      "instance_name": "rwing",
+      "library_item": "rwing2",
+      "library_path": "Objects/Units/BloodWing/rwing2",
+      "layer_index": 0,
+      "layer_name": "rwing",
+      "matrix": {
+        "a": 0.707107543945313,
+        "b": -0.70709228515625,
+        "c": 0.70709228515625,
+        "d": 0.707107543945313,
+        "tx": -1.45,
+        "ty": -10.95
+      },
+      "source": "body_attack",
+      "named": true,
+      "node_name": "rwing"
+    },
+    {
+      "instance_name": "head",
+      "library_item": "head",
+      "library_path": "Objects/Units/BloodWing/head",
+      "layer_index": 1,
+      "layer_name": "head",
+      "matrix": {
+        "a": 0.780029296875,
+        "b": -0.625732421875,
+        "c": 0.625732421875,
+        "d": 0.780029296875,
+        "tx": 41.2,
+        "ty": -11.6
+      },
+      "source": "body_attack",
+      "named": true,
+      "node_name": "head"
+    },
+    {
+      "instance_name": "claw",
+      "library_item": "claw",
+      "library_path": "Objects/Units/BloodWing/claw",
+      "layer_index": 2,
+      "layer_name": "claw",
+      "matrix": {
+        "a": 0.996597290039063,
+        "b": -0.0823822021484375,
+        "c": 0.0823822021484375,
+        "d": 0.996597290039063,
+        "tx": 35.35,
+        "ty": 5.55
+      },
+      "source": "body_attack",
+      "named": true,
+      "node_name": "claw"
+    },
+    {
+      "instance_name": "rlap",
+      "library_item": "lapa",
+      "library_path": "Objects/Units/BloodWing/lapa",
+      "layer_index": 3,
+      "layer_name": "rlap",
+      "matrix": {
+        "a": 0.5,
+        "b": 0.866012573242188,
+        "c": -0.866012573242188,
+        "d": 0.5,
+        "tx": -53.55,
+        "ty": 21.95
+      },
+      "source": "body_attack",
+      "named": true,
+      "node_name": "rlap"
+    },
+    {
+      "instance_name": "tors",
+      "library_item": "tors",
+      "library_path": "Objects/Units/BloodWing/tors",
+      "layer_index": 4,
+      "layer_name": "tors",
+      "matrix": {
+        "a": 0.9857177734375,
+        "b": 0.16839599609375,
+        "c": -0.16839599609375,
+        "d": 0.9857177734375,
+        "tx": -34.1,
+        "ty": 0.9
+      },
+      "source": "body_attack",
+      "named": true,
+      "node_name": "tors"
+    },
+    {
+      "instance_name": "llap",
+      "library_item": "lapa",
+      "library_path": "Objects/Units/BloodWing/lapa",
+      "layer_index": 5,
+      "layer_name": "llap",
+      "matrix": {
+        "a": 0.719009399414063,
+        "b": 0.694992065429688,
+        "c": -0.694992065429688,
+        "d": 0.719009399414063,
+        "tx": -38.1,
+        "ty": 19.8
+      },
+      "source": "body_attack",
+      "named": true,
+      "node_name": "llap"
+    },
+    {
+      "instance_name": "lwing",
+      "library_item": "lwing2",
+      "library_path": "Objects/Units/BloodWing/lwing2",
+      "layer_index": 6,
+      "layer_name": "lwing",
+      "matrix": {
+        "a": 0.523086547851563,
+        "b": -0.507980346679688,
+        "c": 0.8009033203125,
+        "d": 0.598785400390625,
+        "tx": 11.5,
+        "ty": -14.05
+      },
+      "source": "body_attack",
+      "named": true,
+      "node_name": "lwing"
+    }
+  ],
+  "root_matrix": {
+    "a": 0.287399291992188,
+    "b": 0.0,
+    "c": 0.0,
+    "d": 0.287399291992188,
+    "tx": -2.3,
+    "ty": -22.4
+  },
+  "body_matrices": {
+    "body_stay": {
+      "a": 1.0,
+      "b": 0.0,
+      "c": 0.0,
+      "d": 1.0,
+      "tx": 9.1,
+      "ty": 24.0
+    },
+    "body_fly": {
+      "a": 1.0,
+      "b": 0.0,
+      "c": 0.0,
+      "d": 1.0,
+      "tx": 19.25,
+      "ty": 6.65
+    },
+    "body_attack": {
+      "a": 1.0,
+      "b": 0.0,
+      "c": 0.0,
+      "d": 1.0,
+      "tx": 28.8,
+      "ty": 16.2
+    },
+    "body_die": {
+      "a": 1.0,
+      "b": 0.0,
+      "c": 0.0,
+      "d": 1.0,
+      "tx": 20.95,
+      "ty": 19.7
+    }
+  }
+}

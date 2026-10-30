@@ -41,6 +41,11 @@ func ready() -> void:
 	cur = gun("dronmlau")
 	th = gun("drongr")
 	visshit = make_overlay("shield", Vector2(0.0, -70.0), 1.7)
+	# visualMegaDron's discharge plays on its own; UnitBossDron never hides it.
+	var rig: RigView = u.get("rig")
+	var dis := rig.attachment("dis") if rig != null else null
+	if dis != null:
+		dis.visible = true
 
 
 func forces() -> void:

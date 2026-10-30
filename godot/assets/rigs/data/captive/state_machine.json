@@ -1,0 +1,12 @@
+[
+  {
+    "index": 1,
+    "label": "open",
+    "animation": "_osn_open"
+  },
+  {
+    "index": 35,
+    "label": "opened",
+    "animation": "_osn_opened"
+  }
+]

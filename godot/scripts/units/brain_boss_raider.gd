@@ -34,9 +34,7 @@ func configure() -> void:
 		var vis2 := vis_of("bossraider2")
 		if not vis2.is_empty():
 			u.set("_unit_vis", vis2)
-			var tex := load("res://assets/sprites/sheets/units/%s" % str(vis2.get("sheet", ""))) as Texture2D
-			if tex != null:
-				u.set("sheet_texture", tex)
+		u.set_meta("rig_name", "raiderboss2")
 	var d_mult := 1.0
 	if global_dif() == 3:
 		d_mult = 1.2
@@ -51,6 +49,11 @@ func ready() -> void:
 	beg = u.global_position
 	cur = gun("flamer" if tr == 2 else "carbine")
 	ai_dist = 500.0 if tr == 2 else 2000.0
+	# Weapon.create: the gun's own vis beside the body (krep 0).
+	if cur != null:
+		cur.floating = true
+		# Buch's "The Last Argument" has no art of its own; the port draws the Patriot skin (PORT_RULES.md).
+		make_gun_vis(cur, "assr^1" if tr != 2 else "")
 
 
 func on_damage(amount: float, type: String, bullet: Node, tt: bool) -> float:
@@ -67,9 +70,12 @@ func on_damage(amount: float, type: String, bullet: Node, tt: bool) -> float:
 
 func drop_loot() -> void:
 	if cur != null:
+		var at := cur.origin()
+		if cur.vis != null:
+			cur.vis.visible = false
 		var host := u.get_tree().current_scene
 		if host != null:
-			u.call("_spawn_drop", host, cur.id, 1, weapon_pos())
+			u.call("_spawn_drop", host, cur.id, 1, at)
 
 
 func command(com: String, _val: String = "") -> void:
@@ -222,6 +228,7 @@ func _quake_tick() -> void:
 var _jump_f := -1
 
 func animate() -> void:
+	animate_gun_vis(cur)
 	if ai_state == 4 or ai_state == 6:
 		_jump_f = -1
 		anim("bac")

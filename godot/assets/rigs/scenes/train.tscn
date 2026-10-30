@@ -1,0 +1,71 @@
+[gd_scene load_steps=11 format=3]
+
+[ext_resource type="Shader" path="res://assets/rigs/shaders/color_transform.gdshader" id="ext_1"]
+[ext_resource type="Shader" path="res://assets/rigs/shaders/color_transform_masked.gdshader" id="ext_2"]
+[ext_resource type="Shader" path="res://assets/rigs/shaders/color_transform_hardlight.gdshader" id="ext_3"]
+[ext_resource type="Shader" path="res://assets/rigs/shaders/color_transform_lighten.gdshader" id="ext_4"]
+[ext_resource type="Shader" path="res://assets/rigs/shaders/color_transform_screen.gdshader" id="ext_5"]
+[ext_resource type="Script" path="res://scripts/rig/rig_view.gd" id="ext_6"]
+
+[sub_resource type="ShaderMaterial" id="sub_1"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_2"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_3"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_4"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[node name="Train" type="Node2D"]
+script = ExtResource("ext_6")
+metadata/data_dir = "res://assets/rigs/data/train/"
+metadata/art_dir = "res://assets/rigs/art/train/"
+metadata/anim_library = "res://assets/rigs/scenes/train_anims.tres"
+metadata/idle_animation = "visualTrain"
+
+[node name="osn" type="Node2D" parent="."]
+
+[node name="body" type="CanvasGroup" parent="osn"]
+
+[node name="train" type="Node2D" parent="osn/body"]
+position = Vector2(-4.95, -41.4)
+scale = Vector2(0.55885, 0.5591)
+
+[node name="spr_L4_S0" type="Sprite2D" parent="osn/body/train"]
+centered = false
+scale = Vector2(0.59634, 0.59634)
+material = SubResource("sub_1")
+metadata/artwork_layer = 4
+metadata/element_index = 0
+
+[node name="spr_L3_S0" type="Sprite2D" parent="osn/body/train"]
+centered = false
+scale = Vector2(0.59634, 0.59634)
+material = SubResource("sub_2")
+metadata/artwork_layer = 3
+metadata/element_index = 0
+
+[node name="spr_L2_S0" type="Sprite2D" parent="osn/body/train"]
+centered = false
+scale = Vector2(0.59634, 0.59634)
+material = SubResource("sub_3")
+metadata/artwork_layer = 2
+metadata/element_index = 0
+
+[node name="spr_L1_S0" type="Sprite2D" parent="osn/body/train"]
+centered = false
+scale = Vector2(0.59634, 0.59634)
+material = SubResource("sub_4")
+metadata/artwork_layer = 1
+metadata/element_index = 0

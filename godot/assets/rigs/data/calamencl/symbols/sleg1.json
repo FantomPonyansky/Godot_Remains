@@ -1,0 +1,27 @@
+{
+  "artwork_layers": [
+    {
+      "layer_index": 0,
+      "element_svg_files": {
+        "0": [
+          "sleg1_L0_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 3,
+      "element_svg_files": {
+        "0": [
+          "sleg1_L3_S0.svg",
+          "sleg1_L3_S1.svg",
+          "sleg1_L3_S2.svg"
+        ]
+      },
+      "max_elements": 3
+    }
+  ],
+  "svg_files": {
+    "0": "sleg1_L0_S0.svg"
+  }
+}

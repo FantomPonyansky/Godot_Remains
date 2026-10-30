@@ -1,0 +1,75 @@
+{
+  "symbols": [
+    "pon_mentor2"
+  ],
+  "unreachable_symbols": [],
+  "timelines": [
+    "visualMentor2"
+  ],
+  "nested_containers": [],
+  "default_colors": {},
+  "hide_mane_armors": [],
+  "color_channels": {},
+  "armor_bones": {},
+  "hair_bones": [],
+  "visible_bones": [],
+  "morda_bones": [],
+  "eye_bones": [],
+  "attachments": [],
+  "precomputed": {
+    "dups": [],
+    "extra_bones": {},
+    "bone_alt_libs": {},
+    "bone_tree_order": [],
+    "library_scales": {
+      "pon_mentor2": 3.2693
+    },
+    "library_hairlines": {
+      "pon_mentor2": 0.9176
+    },
+    "bone_orders": {
+      "visualMentor2": [
+        "pon_mentor2"
+      ]
+    }
+  },
+  "rig": {
+    "name": "mentor2",
+    "config": "Godot_Transpilation/04_player_rig/rigs/mentor2.json",
+    "root_symbol": "Objects/NPC/visualMentor2",
+    "state_kind": "self",
+    "root_node": "Mentor2",
+    "script": "res://scripts/entity/rig_base.gd",
+    "idle_animation": "visualMentor2",
+    "state_instance": "",
+    "shape_masks": {},
+    "runtime_synced_bones": [],
+    "runtime_visibility_bones": [],
+    "paths": {
+      "output": "Godot_Transpilation/04_player_rig/rigs_output/mentor2",
+      "godot_data": "Godot_project/data/rigs/mentor2",
+      "svg": "Assets/Art/rigs/mentor2",
+      "png": "Godot_project/art/rigs/mentor2",
+      "scene": "Godot_project/scenes/rigs/mentor2.tscn",
+      "anim_library": "Godot_project/scenes/rigs/mentor2_anims.tres"
+    },
+    "mark_libraries": [
+      "quti",
+      "mark"
+    ]
+  },
+  "tickers": {},
+  "symbol_paths": {
+    "pon_mentor2": "Objects/NPC/pon_mentor2"
+  },
+  "stats": {
+    "symbols": 1,
+    "bones": 1,
+    "nested_containers": 0,
+    "timelines": 1,
+    "total_bone_keys": 2,
+    "attachments": 0,
+    "unreachable_symbols": 0,
+    "hidden_layer_entries": 0
+  }
+}

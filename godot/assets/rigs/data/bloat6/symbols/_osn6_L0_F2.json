@@ -1,0 +1,30 @@
+{
+  "artwork_layers": [],
+  "svg_files": {},
+  "source_symbol": "_osn6",
+  "artwork_selector": [
+    0,
+    2
+  ],
+  "bitmaps": [
+    {
+      "layer_index": 0,
+      "library_item": "Objects/Units/BloatSprite/Растровое изображение 19",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": -53.0,
+        "ty": -43.0
+      },
+      "frame_ranges": [
+        [
+          0,
+          0
+        ]
+      ],
+      "file": null
+    }
+  ]
+}

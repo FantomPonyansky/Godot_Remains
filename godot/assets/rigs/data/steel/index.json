@@ -1,0 +1,84 @@
+{
+  "symbols": [
+    "ecl_part2",
+    "gold_spark",
+    "pon_steel"
+  ],
+  "unreachable_symbols": [],
+  "timelines": [
+    "visualSteel"
+  ],
+  "nested_containers": [
+    "pon_steel"
+  ],
+  "default_colors": {},
+  "hide_mane_armors": [],
+  "color_channels": {},
+  "armor_bones": {},
+  "hair_bones": [],
+  "visible_bones": [],
+  "morda_bones": [],
+  "eye_bones": [],
+  "attachments": [],
+  "precomputed": {
+    "dups": [],
+    "extra_bones": {},
+    "bone_alt_libs": {},
+    "bone_tree_order": [],
+    "library_scales": {
+      "ecl_part2": 1.6769,
+      "gold_spark": 1.6769,
+      "pon_steel": 1.6769
+    },
+    "library_hairlines": {
+      "ecl_part2": 1.789,
+      "gold_spark": 1.789,
+      "pon_steel": 1.789
+    },
+    "bone_orders": {
+      "visualSteel": [
+        "pon_steel"
+      ]
+    }
+  },
+  "rig": {
+    "name": "steel",
+    "config": "Godot_Transpilation/04_player_rig/rigs/steel.json",
+    "root_symbol": "Objects/NPC/visualSteel",
+    "state_kind": "self",
+    "root_node": "Steel",
+    "script": "res://scripts/entity/rig_base.gd",
+    "idle_animation": "visualSteel",
+    "state_instance": "",
+    "shape_masks": {},
+    "runtime_synced_bones": [],
+    "runtime_visibility_bones": [],
+    "paths": {
+      "output": "Godot_Transpilation/04_player_rig/rigs_output/steel",
+      "godot_data": "Godot_project/data/rigs/steel",
+      "svg": "Assets/Art/rigs/steel",
+      "png": "Godot_project/art/rigs/steel",
+      "scene": "Godot_project/scenes/rigs/steel.tscn",
+      "anim_library": "Godot_project/scenes/rigs/steel_anims.tres"
+    },
+    "mark_libraries": [
+      "quti"
+    ]
+  },
+  "tickers": {},
+  "symbol_paths": {
+    "ecl_part2": "Objects/Parts/ecl_part2",
+    "gold_spark": "Objects/Parts/gold_spark",
+    "pon_steel": "Objects/NPC/pon_steel"
+  },
+  "stats": {
+    "symbols": 3,
+    "bones": 1,
+    "nested_containers": 1,
+    "timelines": 1,
+    "total_bone_keys": 2,
+    "attachments": 0,
+    "unreachable_symbols": 0,
+    "hidden_layer_entries": 0
+  }
+}

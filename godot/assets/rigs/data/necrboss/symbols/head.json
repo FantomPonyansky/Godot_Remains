@@ -1,0 +1,91 @@
+{
+  "artwork_layers": [
+    {
+      "layer_index": 1,
+      "element_svg_files": {
+        "0": [
+          "head_L1_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 4,
+      "element_svg_files": {
+        "0": [
+          "head_L4_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    }
+  ],
+  "svg_files": {
+    "0": "head_L1_S0.svg"
+  },
+  "children": [
+    {
+      "library": "fiol",
+      "layer_index": 0,
+      "matrix": {
+        "a": 0.70489501953125,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 0.70489501953125,
+        "tx": -8.1,
+        "ty": 20.35
+      },
+      "frame_ranges": [
+        [
+          0,
+          0
+        ]
+      ],
+      "blend_mode": "screen",
+      "foreign": true,
+      "frame_start": 0,
+      "frame_end": 0
+    },
+    {
+      "library": "eye",
+      "layer_index": 2,
+      "matrix": {
+        "a": 0.98394775390625,
+        "b": -0.0731658935546875,
+        "c": 0.085906982421875,
+        "d": 0.9957275390625,
+        "tx": 23.9,
+        "ty": 16.25
+      },
+      "frame_ranges": [
+        [
+          0,
+          0
+        ]
+      ],
+      "frame_start": 0,
+      "frame_end": 0,
+      "instance": "eye"
+    },
+    {
+      "library": "morda",
+      "layer_index": 3,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 21.1,
+        "ty": 13.9
+      },
+      "frame_ranges": [
+        [
+          0,
+          0
+        ]
+      ],
+      "frame_start": 0,
+      "frame_end": 0,
+      "instance": "morda"
+    }
+  ]
+}

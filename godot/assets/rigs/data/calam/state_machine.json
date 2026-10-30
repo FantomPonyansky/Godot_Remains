@@ -1,0 +1,62 @@
+[
+  {
+    "index": 0,
+    "label": "stay",
+    "animation": "body_stay"
+  },
+  {
+    "index": 1,
+    "label": "trot",
+    "animation": "body_trot"
+  },
+  {
+    "index": 2,
+    "label": "run",
+    "animation": "body_run"
+  },
+  {
+    "index": 3,
+    "label": "polz",
+    "animation": "body_polz"
+  },
+  {
+    "index": 4,
+    "label": "jump",
+    "animation": "body_jump"
+  },
+  {
+    "index": 5,
+    "label": "laz",
+    "animation": "body_laz"
+  },
+  {
+    "index": 6,
+    "label": "plav",
+    "animation": "body_plav"
+  },
+  {
+    "index": 7,
+    "label": "punch",
+    "animation": "body_punch"
+  },
+  {
+    "index": 8,
+    "label": "kick",
+    "animation": "body_kick"
+  },
+  {
+    "index": 9,
+    "label": "die",
+    "animation": "body_die"
+  },
+  {
+    "index": 10,
+    "label": "derg",
+    "animation": "body_derg"
+  },
+  {
+    "index": 11,
+    "label": "fly",
+    "animation": "body_fly"
+  }
+]

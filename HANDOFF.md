@@ -62,6 +62,19 @@ Headless boot (autoloads load; `-s` / `--check-only` scripts do not, so their au
 & $g --path godot res://tests/menu_probe.tscn -- 10 --user-dir="$env:TEMP\foe_probe"
 # Windowed PipBuck shot to tmp/shots/pip.png. Args: page sub [skill points]. New art needs `--headless --path godot --import` first.
 & $g --path godot res://tests/pip_probe.tscn -- 1 1 5 --user-dir="$env:TEMP\foe_probe"
+# Animation test: ours in game (left) vs OTHER rig (right), every clip held 5 s. shot=N saves tmp/shots/anim_probe.png and quits.
+& $g --path godot res://tests/anim_probe.tscn -- unit=bloat1,bloat10 --user-dir="$env:TEMP\foe_probe"
+# Rig units in a real land, 3 shots to tmp/shots/rig_game_*.png.
+& $g --path godot res://tests/rig_game_probe.tscn -- --land=begin "--cmd=god 1" units=bloat1,bloat10,bloat7 wait=14 --user-dir="$env:TEMP\foe_probe"
+# Frame-by-frame match: ours and OTHER's runtime on the same layout, stacked into tmp/shots/frames_compare.png; crop_cmp.gd x y w h zooms one cell.
+$rows="rows=fly:0,1,2,3,4,5;die:0,4,8,12,16,19"; $o="C:\Users\Командор\Downloads\foe-remains-godot-master\foe-remains-godot-master\Godot_project"
+& $g --path godot res://tests/rig_frames_probe.tscn -- unit=bloodwing $rows --user-dir="$env:TEMP\foe_probe"
+# Player rig: re-copy OTHER's player rig and runtime (scripts/rig/other/, stubs/ stand in for its EntityEffects etc.), then --import. Any boot with `--puppet-frames` after -- draws the old frame clips.
+python tools/import_player_rig.py
+# Room editor stills of rigged units (assets/sprites/rig_stills). Rerun after a rig changes; units=a,b for some.
+& $g --path godot -s res://tests/rig_stills.gd -- --user-dir="$env:TEMP\foe_probe"
+& $g --path $o -s "D:/Games/FoE Remains Port/tools/rig_compare/other_frames.gd" -- unit=bloodwing $rows
+& $g --headless --path godot -s "D:/Games/FoE Remains Port/tools/rig_compare/compose_frames.gd" -- h=720
 ```
 
 Filter for `SCRIPT ERROR|Parse Error|Compile Error|ERROR:`. After adding assets or `class_name` scripts, run `--headless --import` first. To compile a lazily loaded script, `load()` it from a test that starts `game.tscn`.

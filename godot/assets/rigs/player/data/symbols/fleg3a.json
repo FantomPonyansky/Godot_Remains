@@ -1,0 +1,200 @@
+{
+  "artwork_layers": [
+    {
+      "layer_index": 1,
+      "element_svg_files": {
+        "1": [
+          "fleg3a_pip_L1_S0.svg"
+        ],
+        "2": [
+          "fleg3a_chitin_L1_S0.svg"
+        ],
+        "3": [
+          "fleg3a_kombu_L1_S0.svg"
+        ],
+        "4": [
+          "fleg3a_skin_L1_S0.svg"
+        ],
+        "5": [
+          "fleg3a_metal_L1_S0.svg"
+        ],
+        "6": [
+          "fleg3a_battle_L1_S0.svg"
+        ],
+        "7": [
+          "fleg3a_assault_L1_S0.svg"
+        ],
+        "8": [
+          "fleg3a_magus_L1_S0.svg"
+        ],
+        "13": [
+          "fleg3a_moon_L1_S0.svg"
+        ],
+        "14": [
+          "fleg3a_sapper_L1_S0.svg"
+        ],
+        "16": [
+          "fleg3a_power_L1_S0.svg"
+        ],
+        "17": [
+          "fleg3a_polic_L1_S0.svg"
+        ],
+        "18": [
+          "fleg3a_spec_L1_S0.svg"
+        ],
+        "19": [
+          "fleg3a_encl_L1_S0.svg"
+        ],
+        "20": [
+          "fleg3a_ali_L1_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 2,
+      "element_svg_files": {
+        "4": [
+          "fleg3a_skin_L2_S0.svg"
+        ],
+        "7": [
+          "fleg3a_assault_L2_S0.svg"
+        ],
+        "8": [
+          "fleg3a_magus_L2_S0.svg"
+        ],
+        "9": [
+          "fleg3a_antirad_L2_S0.svg"
+        ],
+        "10": [
+          "fleg3a_antihim_L2_S0.svg"
+        ],
+        "11": [
+          "fleg3a_intel_L2_S0.svg"
+        ],
+        "12": [
+          "fleg3a_astealth_L2_S0.svg"
+        ],
+        "13": [
+          "fleg3a_moon_L2_S0.svg"
+        ],
+        "14": [
+          "fleg3a_sapper_L2_S0.svg"
+        ],
+        "15": [
+          "fleg3a_socks_L2_S0.svg"
+        ],
+        "16": [
+          "fleg3a_power_L2_S0.svg"
+        ],
+        "17": [
+          "fleg3a_polic_L2_S0.svg"
+        ],
+        "18": [
+          "fleg3a_spec_L2_S0.svg"
+        ],
+        "19": [
+          "fleg3a_encl_L2_S0.svg"
+        ],
+        "20": [
+          "fleg3a_ali_L2_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    }
+  ],
+  "svg_files": {
+    "1": "fleg3a_pip_L1_S0.svg",
+    "2": "fleg3a_chitin_L1_S0.svg",
+    "3": "fleg3a_kombu_L1_S0.svg",
+    "4": "fleg3a_skin_L1_S0.svg",
+    "5": "fleg3a_metal_L1_S0.svg",
+    "6": "fleg3a_battle_L1_S0.svg",
+    "7": "fleg3a_assault_L1_S0.svg",
+    "8": "fleg3a_magus_L1_S0.svg",
+    "13": "fleg3a_moon_L1_S0.svg",
+    "14": "fleg3a_sapper_L1_S0.svg",
+    "16": "fleg3a_power_L1_S0.svg",
+    "17": "fleg3a_polic_L1_S0.svg",
+    "18": "fleg3a_spec_L1_S0.svg",
+    "19": "fleg3a_encl_L1_S0.svg",
+    "20": "fleg3a_ali_L1_S0.svg"
+  },
+  "armor_labels": {
+    "1": "pip",
+    "2": "chitin",
+    "3": "kombu",
+    "4": "skin",
+    "5": "metal",
+    "6": "battle",
+    "7": "assault",
+    "8": "magus",
+    "9": "antirad",
+    "10": "antihim",
+    "11": "intel",
+    "12": "astealth",
+    "13": "moon",
+    "14": "sapper",
+    "15": "socks",
+    "16": "power",
+    "17": "polic",
+    "18": "spec",
+    "19": "encl",
+    "20": "ali"
+  },
+  "children": [
+    {
+      "library": "fleg3a0",
+      "layer_index": 2,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 1.0,
+        "ty": 7.15
+      },
+      "frame_ranges": [
+        [
+          0,
+          3
+        ],
+        [
+          5,
+          6
+        ]
+      ],
+      "frame_start": 0,
+      "frame_end": 6
+    }
+  ],
+  "timeline": {
+    "frames": 21,
+    "labels": {
+      "pip": 1,
+      "chitin": 2,
+      "kombu": 3,
+      "skin": 4,
+      "metal": 5,
+      "battle": 6,
+      "assault": 7,
+      "magus": 8,
+      "antirad": 9,
+      "antihim": 10,
+      "intel": 11,
+      "astealth": 12,
+      "moon": 13,
+      "sapper": 14,
+      "socks": 15,
+      "power": 16,
+      "polic": 17,
+      "spec": 18,
+      "encl": 19,
+      "ali": 20
+    },
+    "scripts": {
+      "0": "import fe.Obj;\nObj.setArmor(this);"
+    }
+  },
+  "is_armor": true
+}

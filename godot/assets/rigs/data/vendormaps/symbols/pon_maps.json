@@ -1,0 +1,83 @@
+{
+  "artwork_layers": [
+    {
+      "layer_index": 0,
+      "element_svg_files": {
+        "0": [
+          "pon_maps_L0_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 3,
+      "element_svg_files": {
+        "0": [
+          "pon_maps_L3_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 8,
+      "element_svg_files": {
+        "0": [
+          "pon_maps_L8_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 9,
+      "element_svg_files": {
+        "0": [
+          "pon_maps_L9_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 10,
+      "element_svg_files": {
+        "0": [
+          "pon_maps_L10_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 12,
+      "element_svg_files": {
+        "0": [
+          "pon_maps_L12_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    }
+  ],
+  "svg_files": {
+    "0": "pon_maps_L0_S0.svg"
+  },
+  "children": [
+    {
+      "library": "glaz_maps",
+      "layer_index": 2,
+      "matrix": {
+        "a": 0.999984741210938,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 0.999984741210938,
+        "tx": 51.05,
+        "ty": -56.45
+      },
+      "frame_ranges": [
+        [
+          0,
+          0
+        ]
+      ],
+      "frame_start": 0,
+      "frame_end": 0
+    }
+  ]
+}

@@ -1,0 +1,184 @@
+{
+  "artwork_layers": [
+    {
+      "layer_index": 1,
+      "element_svg_files": {
+        "1": [
+          "neck_pip_L1_S0.svg"
+        ],
+        "2": [
+          "neck_tre_L1_S0.svg"
+        ],
+        "3": [
+          "neck_kombu_L1_S0.svg"
+        ],
+        "4": [
+          "neck_chitin_L1_S0.svg"
+        ],
+        "5": [
+          "neck_skin_L1_S0.svg"
+        ],
+        "6": [
+          "neck_metal_L1_S0.svg"
+        ],
+        "7": [
+          "neck_battle_L1_S0.svg"
+        ],
+        "8": [
+          "neck_assault_L1_S0.svg"
+        ],
+        "9": [
+          "neck_magus_L1_S0.svg"
+        ],
+        "10": [
+          "neck_moon_L1_S0.svg"
+        ],
+        "15": [
+          "neck_sapper_L1_S0.svg"
+        ],
+        "16": [
+          "neck_power_L1_S0.svg"
+        ],
+        "17": [
+          "neck_polic_L1_S0.svg"
+        ],
+        "18": [
+          "neck_spec_L1_S0.svg"
+        ],
+        "19": [
+          "neck_encl_L1_S0.svg"
+        ],
+        "20": [
+          "neck_ali_L1_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 2,
+      "element_svg_files": {
+        "11": [
+          "neck_antirad_L2_S0.svg"
+        ],
+        "12": [
+          "neck_antihim_L2_S0.svg"
+        ],
+        "13": [
+          "neck_intel_L2_S0.svg"
+        ],
+        "14": [
+          "neck_astealth_L2_S0.svg"
+        ],
+        "16": [
+          "neck_power_L2_S0.svg"
+        ],
+        "19": [
+          "neck_encl_L2_S0.svg"
+        ],
+        "20": [
+          "neck_ali_L2_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    }
+  ],
+  "svg_files": {
+    "1": "neck_pip_L1_S0.svg",
+    "2": "neck_tre_L1_S0.svg",
+    "3": "neck_kombu_L1_S0.svg",
+    "4": "neck_chitin_L1_S0.svg",
+    "5": "neck_skin_L1_S0.svg",
+    "6": "neck_metal_L1_S0.svg",
+    "7": "neck_battle_L1_S0.svg",
+    "8": "neck_assault_L1_S0.svg",
+    "9": "neck_magus_L1_S0.svg",
+    "10": "neck_moon_L1_S0.svg",
+    "15": "neck_sapper_L1_S0.svg",
+    "16": "neck_power_L1_S0.svg",
+    "17": "neck_polic_L1_S0.svg",
+    "18": "neck_spec_L1_S0.svg",
+    "19": "neck_encl_L1_S0.svg",
+    "20": "neck_ali_L1_S0.svg"
+  },
+  "armor_labels": {
+    "1": "pip",
+    "2": "tre",
+    "3": "kombu",
+    "4": "chitin",
+    "5": "skin",
+    "6": "metal",
+    "7": "battle",
+    "8": "assault",
+    "9": "magus",
+    "10": "moon",
+    "11": "antirad",
+    "12": "antihim",
+    "13": "intel",
+    "14": "astealth",
+    "15": "sapper",
+    "16": "power",
+    "17": "polic",
+    "18": "spec",
+    "19": "encl",
+    "20": "ali"
+  },
+  "children": [
+    {
+      "library": "neck0",
+      "layer_index": 2,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": -28.7,
+        "ty": -10.55
+      },
+      "frame_ranges": [
+        [
+          0,
+          10
+        ],
+        [
+          15,
+          15
+        ],
+        [
+          17,
+          18
+        ]
+      ],
+      "frame_start": 0,
+      "frame_end": 18
+    }
+  ],
+  "timeline": {
+    "frames": 21,
+    "labels": {
+      "pip": 1,
+      "tre": 2,
+      "kombu": 3,
+      "chitin": 4,
+      "skin": 5,
+      "metal": 6,
+      "battle": 7,
+      "assault": 8,
+      "magus": 9,
+      "moon": 10,
+      "antirad": 11,
+      "antihim": 12,
+      "intel": 13,
+      "astealth": 14,
+      "sapper": 15,
+      "power": 16,
+      "polic": 17,
+      "spec": 18,
+      "encl": 19,
+      "ali": 20
+    },
+    "scripts": {
+      "0": "import fe.Obj;\nObj.setArmor(this);"
+    }
+  },
+  "is_armor": true
+}

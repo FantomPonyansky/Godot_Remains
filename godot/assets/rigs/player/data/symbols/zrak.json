@@ -1,0 +1,24 @@
+{
+  "artwork_layers": [
+    {
+      "layer_index": 1,
+      "element_svg_files": {
+        "0": [
+          "zrak_L1_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    }
+  ],
+  "svg_files": {
+    "0": "zrak_L1_S0.svg"
+  },
+  "timeline": {
+    "frames": 1,
+    "labels": {},
+    "scripts": {
+      "0": "import fe.Obj;\nObj.setColor(this,3);"
+    }
+  },
+  "color_channel": "trEye"
+}

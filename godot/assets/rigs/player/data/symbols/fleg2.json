@@ -1,0 +1,167 @@
+{
+  "artwork_layers": [
+    {
+      "layer_index": 1,
+      "element_svg_files": {
+        "2": [
+          "fleg2_tre_L1_S0.svg"
+        ],
+        "3": [
+          "fleg2_pip_L1_S0.svg"
+        ],
+        "4": [
+          "fleg2_kombu_L1_S0.svg"
+        ],
+        "5": [
+          "fleg2_skin_L1_S0.svg"
+        ],
+        "6": [
+          "fleg2_metal_L1_S0.svg"
+        ],
+        "7": [
+          "fleg2_battle_L1_S0.svg"
+        ],
+        "8": [
+          "fleg2_assault_L1_S0.svg"
+        ],
+        "9": [
+          "fleg2_magus_L1_S0.svg"
+        ],
+        "10": [
+          "fleg2_antirad_L1_S0.svg"
+        ],
+        "11": [
+          "fleg2_antihim_L1_S0.svg"
+        ],
+        "12": [
+          "fleg2_intel_L1_S0.svg"
+        ],
+        "13": [
+          "fleg2_astealth_L1_S0.svg"
+        ],
+        "14": [
+          "fleg2_moon_L1_S0.svg"
+        ],
+        "15": [
+          "fleg2_sapper_L1_S0.svg"
+        ],
+        "16": [
+          "fleg2_socks_L1_S0.svg"
+        ],
+        "17": [
+          "fleg2_power_L1_S0.svg"
+        ],
+        "18": [
+          "fleg2_polic_L1_S0.svg"
+        ],
+        "19": [
+          "fleg2_spec_L1_S0.svg"
+        ],
+        "20": [
+          "fleg2_encl_L1_S0.svg"
+        ],
+        "21": [
+          "fleg2_ali_L1_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    }
+  ],
+  "svg_files": {
+    "2": "fleg2_tre_L1_S0.svg",
+    "3": "fleg2_pip_L1_S0.svg",
+    "4": "fleg2_kombu_L1_S0.svg",
+    "5": "fleg2_skin_L1_S0.svg",
+    "6": "fleg2_metal_L1_S0.svg",
+    "7": "fleg2_battle_L1_S0.svg",
+    "8": "fleg2_assault_L1_S0.svg",
+    "9": "fleg2_magus_L1_S0.svg",
+    "10": "fleg2_antirad_L1_S0.svg",
+    "11": "fleg2_antihim_L1_S0.svg",
+    "12": "fleg2_intel_L1_S0.svg",
+    "13": "fleg2_astealth_L1_S0.svg",
+    "14": "fleg2_moon_L1_S0.svg",
+    "15": "fleg2_sapper_L1_S0.svg",
+    "16": "fleg2_socks_L1_S0.svg",
+    "17": "fleg2_power_L1_S0.svg",
+    "18": "fleg2_polic_L1_S0.svg",
+    "19": "fleg2_spec_L1_S0.svg",
+    "20": "fleg2_encl_L1_S0.svg",
+    "21": "fleg2_ali_L1_S0.svg"
+  },
+  "armor_labels": {
+    "1": "chitin",
+    "2": "tre",
+    "3": "pip",
+    "4": "kombu",
+    "5": "skin",
+    "6": "metal",
+    "7": "battle",
+    "8": "assault",
+    "9": "magus",
+    "10": "antirad",
+    "11": "antihim",
+    "12": "intel",
+    "13": "astealth",
+    "14": "moon",
+    "15": "sapper",
+    "16": "socks",
+    "17": "power",
+    "18": "polic",
+    "19": "spec",
+    "20": "encl",
+    "21": "ali"
+  },
+  "children": [
+    {
+      "library": "fleg20",
+      "layer_index": 2,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 0.0,
+        "ty": 2.95
+      },
+      "frame_ranges": [
+        [
+          0,
+          2
+        ]
+      ],
+      "frame_start": 0,
+      "frame_end": 2
+    }
+  ],
+  "timeline": {
+    "frames": 22,
+    "labels": {
+      "chitin": 1,
+      "tre": 2,
+      "pip": 3,
+      "kombu": 4,
+      "skin": 5,
+      "metal": 6,
+      "battle": 7,
+      "assault": 8,
+      "magus": 9,
+      "antirad": 10,
+      "antihim": 11,
+      "intel": 12,
+      "astealth": 13,
+      "moon": 14,
+      "sapper": 15,
+      "socks": 16,
+      "power": 17,
+      "polic": 18,
+      "spec": 19,
+      "encl": 20,
+      "ali": 21
+    },
+    "scripts": {
+      "0": "import fe.Obj;\nObj.setArmor(this);"
+    }
+  },
+  "is_armor": true
+}

@@ -1,0 +1,137 @@
+[
+  {
+    "index": 0,
+    "label": "stay",
+    "animation": "body_stay"
+  },
+  {
+    "index": 1,
+    "label": "trot",
+    "animation": "body_trot_idle"
+  },
+  {
+    "index": 2,
+    "label": "trot_up",
+    "animation": "body_trot_up_idle"
+  },
+  {
+    "index": 3,
+    "label": "trot_down",
+    "animation": "body_trot_down_idle"
+  },
+  {
+    "index": 4,
+    "label": "run",
+    "animation": "body_run"
+  },
+  {
+    "index": 5,
+    "label": "polz",
+    "animation": "body_polz"
+  },
+  {
+    "index": 6,
+    "label": "walk",
+    "animation": "body_walk_start"
+  },
+  {
+    "index": 7,
+    "label": "jump",
+    "animation": "body_jump"
+  },
+  {
+    "index": 8,
+    "label": "sitjump",
+    "animation": "body_sitjump"
+  },
+  {
+    "index": 9,
+    "label": "laz",
+    "animation": "body_laz"
+  },
+  {
+    "index": 10,
+    "label": "plav",
+    "animation": "body_plav"
+  },
+  {
+    "index": 11,
+    "label": "punch",
+    "animation": "body_punch"
+  },
+  {
+    "index": 12,
+    "label": "kick",
+    "animation": "body_kick"
+  },
+  {
+    "index": 13,
+    "label": "die",
+    "animation": "body_die"
+  },
+  {
+    "index": 14,
+    "label": "dieali",
+    "animation": "body_dieali"
+  },
+  {
+    "index": 15,
+    "label": "derg",
+    "animation": "body_derg"
+  },
+  {
+    "index": 16,
+    "label": "res",
+    "animation": "body_res"
+  },
+  {
+    "index": 17,
+    "label": "lurk1",
+    "animation": "body_lurk1"
+  },
+  {
+    "index": 18,
+    "label": "lurk2",
+    "animation": "body_lurk2"
+  },
+  {
+    "index": 19,
+    "label": "lurk3",
+    "animation": "body_lurk3"
+  },
+  {
+    "index": 20,
+    "label": "pinok",
+    "animation": "body_pinok"
+  },
+  {
+    "index": 21,
+    "label": "levit",
+    "animation": "body_levit_intro"
+  },
+  {
+    "index": 22,
+    "label": "free1",
+    "animation": "body_free1"
+  },
+  {
+    "index": 23,
+    "label": "free2",
+    "animation": "body_free2"
+  },
+  {
+    "index": 24,
+    "label": "free3",
+    "animation": "body_free3"
+  },
+  {
+    "index": 25,
+    "label": "roll",
+    "animation": "body_roll"
+  },
+  {
+    "index": 34,
+    "label": "nope",
+    "animation": ""
+  }
+]

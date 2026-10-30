@@ -1,0 +1,119 @@
+{
+  "artwork_layers": [
+    {
+      "layer_index": 0,
+      "element_svg_files": {
+        "0": [
+          "pon_zebr_L0_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 1,
+      "element_svg_files": {
+        "0": [
+          "pon_zebr_L1_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 2,
+      "element_svg_files": {
+        "0": [
+          "pon_zebr_L2_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 3,
+      "element_svg_files": {
+        "0": [
+          "pon_zebr_L3_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 5,
+      "element_svg_files": {
+        "0": [
+          "pon_zebr_L5_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 6,
+      "element_svg_files": {
+        "0": [
+          "pon_zebr_L6_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 7,
+      "element_svg_files": {
+        "0": [
+          "pon_zebr_L7_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 8,
+      "element_svg_files": {
+        "0": [
+          "pon_zebr_L8_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 9,
+      "element_svg_files": {
+        "0": [
+          "pon_zebr_L9_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 10,
+      "element_svg_files": {
+        "0": [
+          "pon_zebr_L10_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    }
+  ],
+  "svg_files": {
+    "0": "pon_zebr_L0_S0.svg"
+  },
+  "children": [
+    {
+      "library": "zglaz5",
+      "layer_index": 4,
+      "matrix": {
+        "a": 0.975967407226563,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 0.975967407226563,
+        "tx": 50.75,
+        "ty": -36.5
+      },
+      "frame_ranges": [
+        [
+          0,
+          0
+        ]
+      ],
+      "frame_start": 0,
+      "frame_end": 0
+    }
+  ]
+}

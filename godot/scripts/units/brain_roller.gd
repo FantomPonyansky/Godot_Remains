@@ -76,7 +76,8 @@ func animate() -> void:
 		alert_frame = true
 	elif d2 > CALM_RANGE * CALM_RANGE:
 		alert_frame = false
-	anim_frame("walk" if has_clip("walk") else "stay", 1 if alert_frame else 0)
+	# osn frame 1 is shut, frame 2 the open shell whose spikes play (UnitRoller.animate).
+	anim("walk" if alert_frame and has_clip("walk") else "stay")
 	if stay or turn_y < 0.0:
 		roll_spin = vel.x * SPIN
 	turn_y = 0.0

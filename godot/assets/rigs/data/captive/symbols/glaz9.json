@@ -1,0 +1,787 @@
+{
+  "artwork_layers": [
+    {
+      "layer_index": 1,
+      "element_svg_files": {
+        "0": [
+          "glaz9_L1_S0.svg"
+        ],
+        "1": [
+          "glaz9_L1_S0.svg"
+        ],
+        "2": [
+          "glaz9_L1_S0.svg"
+        ],
+        "3": [
+          "glaz9_L1_S0.svg"
+        ],
+        "4": [
+          "glaz9_L1_S0.svg"
+        ],
+        "5": [
+          "glaz9_L1_S0.svg"
+        ],
+        "6": [
+          "glaz9_L1_S0.svg"
+        ],
+        "7": [
+          "glaz9_L1_S0.svg"
+        ],
+        "8": [
+          "glaz9_L1_S0.svg"
+        ],
+        "9": [
+          "glaz9_L1_S0.svg"
+        ],
+        "10": [
+          "glaz9_L1_S0.svg"
+        ],
+        "11": [
+          "glaz9_L1_S0.svg"
+        ],
+        "12": [
+          "glaz9_L1_S0.svg"
+        ],
+        "13": [
+          "glaz9_L1_S0.svg"
+        ],
+        "14": [
+          "glaz9_L1_S0.svg"
+        ],
+        "15": [
+          "glaz9_L1_S0.svg"
+        ],
+        "16": [
+          "glaz9_L1_S0.svg"
+        ],
+        "17": [
+          "glaz9_L1_S0.svg"
+        ],
+        "18": [
+          "glaz9_L1_S0.svg"
+        ],
+        "19": [
+          "glaz9_L1_S0.svg"
+        ],
+        "20": [
+          "glaz9_L1_S0.svg"
+        ],
+        "21": [
+          "glaz9_L1_S0.svg"
+        ],
+        "22": [
+          "glaz9_L1_S0.svg"
+        ],
+        "23": [
+          "glaz9_L1_S0.svg"
+        ],
+        "24": [
+          "glaz9_L1_S0.svg"
+        ],
+        "25": [
+          "glaz9_L1_S0.svg"
+        ],
+        "26": [
+          "glaz9_L1_S0.svg"
+        ],
+        "27": [
+          "glaz9_L1_S0.svg"
+        ],
+        "28": [
+          "glaz9_L1_S0.svg"
+        ],
+        "29": [
+          "glaz9_L1_S0.svg"
+        ],
+        "30": [
+          "glaz9_L1_S0.svg"
+        ],
+        "31": [
+          "glaz9_L1_S0.svg"
+        ],
+        "32": [
+          "glaz9_L1_S0.svg"
+        ],
+        "33": [
+          "glaz9_L1_S0.svg"
+        ],
+        "34": [
+          "glaz9_L1_S0.svg"
+        ],
+        "35": [
+          "glaz9_L1_S0.svg"
+        ],
+        "36": [
+          "glaz9_L1_S0.svg"
+        ],
+        "37": [
+          "glaz9_L1_S0.svg"
+        ],
+        "38": [
+          "glaz9_L1_S0.svg"
+        ],
+        "39": [
+          "glaz9_L1_S0.svg"
+        ],
+        "40": [
+          "glaz9_L1_S0.svg"
+        ],
+        "41": [
+          "glaz9_L1_S0.svg"
+        ],
+        "42": [
+          "glaz9_L1_S0.svg"
+        ],
+        "43": [
+          "glaz9_L1_S0.svg"
+        ],
+        "44": [
+          "glaz9_L1_S0.svg"
+        ],
+        "45": [
+          "glaz9_L1_S0.svg"
+        ],
+        "46": [
+          "glaz9_L1_S0.svg"
+        ],
+        "47": [
+          "glaz9_L1_S0.svg"
+        ],
+        "48": [
+          "glaz9_L1_S0.svg"
+        ],
+        "49": [
+          "glaz9_L1_S0.svg"
+        ],
+        "50": [
+          "glaz9_L1_S0.svg"
+        ],
+        "51": [
+          "glaz9_L1_S0.svg"
+        ],
+        "52": [
+          "glaz9_L1_S0.svg"
+        ],
+        "53": [
+          "glaz9_L1_S0.svg"
+        ],
+        "54": [
+          "glaz9_L1_S0.svg"
+        ],
+        "55": [
+          "glaz9_L1_S0.svg"
+        ],
+        "56": [
+          "glaz9_L1_S0.svg"
+        ],
+        "57": [
+          "glaz9_L1_S0.svg"
+        ],
+        "58": [
+          "glaz9_L1_S0.svg"
+        ],
+        "59": [
+          "glaz9_L1_S0.svg"
+        ],
+        "60": [
+          "glaz9_L1_S0.svg"
+        ],
+        "61": [
+          "glaz9_L1_S0.svg"
+        ],
+        "62": [
+          "glaz9_L1_S0.svg"
+        ],
+        "63": [
+          "glaz9_L1_S0.svg"
+        ],
+        "64": [
+          "glaz9_L1_S0.svg"
+        ],
+        "65": [
+          "glaz9_L1_S0.svg"
+        ],
+        "66": [
+          "glaz9_L1_S0.svg"
+        ],
+        "67": [
+          "glaz9_L1_S0.svg"
+        ],
+        "68": [
+          "glaz9_L1_S0.svg"
+        ],
+        "69": [
+          "glaz9_L1_S0.svg"
+        ],
+        "70": [
+          "glaz9_L1_S0.svg"
+        ],
+        "71": [
+          "glaz9_L1_S0.svg"
+        ],
+        "72": [
+          "glaz9_L1_S0.svg"
+        ],
+        "73": [
+          "glaz9_L1_S0.svg"
+        ],
+        "74": [
+          "glaz9_L1_S0.svg"
+        ],
+        "75": [
+          "glaz9_L1_S0.svg"
+        ],
+        "76": [
+          "glaz9_L1_S0.svg"
+        ],
+        "77": [
+          "glaz9_L1_S0.svg"
+        ],
+        "78": [
+          "glaz9_L1_S0.svg"
+        ],
+        "79": [
+          "glaz9_L1_S0.svg"
+        ],
+        "80": [
+          "glaz9_L1_S0.svg"
+        ],
+        "81": [
+          "glaz9_L1_S0.svg"
+        ],
+        "82": [
+          "glaz9_L1_S0.svg"
+        ],
+        "83": [
+          "glaz9_L1_S0.svg"
+        ],
+        "84": [
+          "glaz9_L1_S0.svg"
+        ],
+        "85": [
+          "glaz9_L1_S0.svg"
+        ],
+        "86": [
+          "glaz9_L1_S0.svg"
+        ],
+        "87": [
+          "glaz9_L1_S0.svg"
+        ],
+        "88": [
+          "glaz9_L1_S0.svg"
+        ],
+        "89": [
+          "glaz9_L1_S0.svg"
+        ],
+        "90": [
+          "glaz9_L1_S0.svg"
+        ],
+        "91": [
+          "glaz9_L1_S0.svg"
+        ],
+        "92": [
+          "glaz9_L1_S0.svg"
+        ],
+        "93": [
+          "glaz9_L1_S0.svg"
+        ],
+        "94": [
+          "glaz9_L1_S0.svg"
+        ],
+        "95": [
+          "glaz9_L1_S0.svg"
+        ],
+        "96": [
+          "glaz9_L1_S0.svg"
+        ],
+        "97": [
+          "glaz9_L1_S0.svg"
+        ],
+        "98": [
+          "glaz9_L1_S0.svg"
+        ],
+        "99": [
+          "glaz9_L1_S0.svg"
+        ],
+        "100": [
+          "glaz9_L1_S0.svg"
+        ],
+        "101": [
+          "glaz9_L1_S0.svg"
+        ],
+        "102": [
+          "glaz9_L1_S0.svg"
+        ],
+        "103": [
+          "glaz9_L1_S0.svg"
+        ],
+        "104": [
+          "glaz9_L1_S0.svg"
+        ],
+        "105": [
+          "glaz9_L1_S0.svg"
+        ],
+        "106": [
+          "glaz9_f106_L1_S0.svg"
+        ],
+        "109": [
+          "glaz9_f109_L1_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 2,
+      "element_svg_files": {
+        "0": [
+          "glaz9_L2_S0.svg"
+        ],
+        "1": [
+          "glaz9_L2_S0.svg"
+        ],
+        "2": [
+          "glaz9_L2_S0.svg"
+        ],
+        "3": [
+          "glaz9_L2_S0.svg"
+        ],
+        "4": [
+          "glaz9_L2_S0.svg"
+        ],
+        "5": [
+          "glaz9_L2_S0.svg"
+        ],
+        "6": [
+          "glaz9_L2_S0.svg"
+        ],
+        "7": [
+          "glaz9_L2_S0.svg"
+        ],
+        "8": [
+          "glaz9_L2_S0.svg"
+        ],
+        "9": [
+          "glaz9_L2_S0.svg"
+        ],
+        "10": [
+          "glaz9_L2_S0.svg"
+        ],
+        "11": [
+          "glaz9_L2_S0.svg"
+        ],
+        "12": [
+          "glaz9_L2_S0.svg"
+        ],
+        "13": [
+          "glaz9_L2_S0.svg"
+        ],
+        "14": [
+          "glaz9_L2_S0.svg"
+        ],
+        "15": [
+          "glaz9_L2_S0.svg"
+        ],
+        "16": [
+          "glaz9_L2_S0.svg"
+        ],
+        "17": [
+          "glaz9_L2_S0.svg"
+        ],
+        "18": [
+          "glaz9_L2_S0.svg"
+        ],
+        "19": [
+          "glaz9_L2_S0.svg"
+        ],
+        "20": [
+          "glaz9_L2_S0.svg"
+        ],
+        "21": [
+          "glaz9_L2_S0.svg"
+        ],
+        "22": [
+          "glaz9_L2_S0.svg"
+        ],
+        "23": [
+          "glaz9_L2_S0.svg"
+        ],
+        "24": [
+          "glaz9_L2_S0.svg"
+        ],
+        "25": [
+          "glaz9_L2_S0.svg"
+        ],
+        "26": [
+          "glaz9_L2_S0.svg"
+        ],
+        "27": [
+          "glaz9_L2_S0.svg"
+        ],
+        "28": [
+          "glaz9_L2_S0.svg"
+        ],
+        "29": [
+          "glaz9_L2_S0.svg"
+        ],
+        "30": [
+          "glaz9_L2_S0.svg"
+        ],
+        "31": [
+          "glaz9_L2_S0.svg"
+        ],
+        "32": [
+          "glaz9_L2_S0.svg"
+        ],
+        "33": [
+          "glaz9_L2_S0.svg"
+        ],
+        "34": [
+          "glaz9_L2_S0.svg"
+        ],
+        "35": [
+          "glaz9_L2_S0.svg"
+        ],
+        "36": [
+          "glaz9_L2_S0.svg"
+        ],
+        "37": [
+          "glaz9_L2_S0.svg"
+        ],
+        "38": [
+          "glaz9_L2_S0.svg"
+        ],
+        "39": [
+          "glaz9_L2_S0.svg"
+        ],
+        "40": [
+          "glaz9_L2_S0.svg"
+        ],
+        "41": [
+          "glaz9_L2_S0.svg"
+        ],
+        "42": [
+          "glaz9_L2_S0.svg"
+        ],
+        "43": [
+          "glaz9_L2_S0.svg"
+        ],
+        "44": [
+          "glaz9_L2_S0.svg"
+        ],
+        "45": [
+          "glaz9_L2_S0.svg"
+        ],
+        "46": [
+          "glaz9_L2_S0.svg"
+        ],
+        "47": [
+          "glaz9_L2_S0.svg"
+        ],
+        "48": [
+          "glaz9_L2_S0.svg"
+        ],
+        "49": [
+          "glaz9_L2_S0.svg"
+        ],
+        "50": [
+          "glaz9_L2_S0.svg"
+        ],
+        "51": [
+          "glaz9_L2_S0.svg"
+        ],
+        "52": [
+          "glaz9_L2_S0.svg"
+        ],
+        "53": [
+          "glaz9_L2_S0.svg"
+        ],
+        "54": [
+          "glaz9_L2_S0.svg"
+        ],
+        "55": [
+          "glaz9_L2_S0.svg"
+        ],
+        "56": [
+          "glaz9_L2_S0.svg"
+        ],
+        "57": [
+          "glaz9_L2_S0.svg"
+        ],
+        "58": [
+          "glaz9_L2_S0.svg"
+        ],
+        "59": [
+          "glaz9_L2_S0.svg"
+        ],
+        "60": [
+          "glaz9_L2_S0.svg"
+        ],
+        "61": [
+          "glaz9_L2_S0.svg"
+        ],
+        "62": [
+          "glaz9_L2_S0.svg"
+        ],
+        "63": [
+          "glaz9_L2_S0.svg"
+        ],
+        "64": [
+          "glaz9_L2_S0.svg"
+        ],
+        "65": [
+          "glaz9_L2_S0.svg"
+        ],
+        "66": [
+          "glaz9_L2_S0.svg"
+        ],
+        "67": [
+          "glaz9_L2_S0.svg"
+        ],
+        "68": [
+          "glaz9_L2_S0.svg"
+        ],
+        "69": [
+          "glaz9_L2_S0.svg"
+        ],
+        "70": [
+          "glaz9_L2_S0.svg"
+        ],
+        "71": [
+          "glaz9_L2_S0.svg"
+        ],
+        "72": [
+          "glaz9_L2_S0.svg"
+        ],
+        "73": [
+          "glaz9_L2_S0.svg"
+        ],
+        "74": [
+          "glaz9_L2_S0.svg"
+        ],
+        "75": [
+          "glaz9_L2_S0.svg"
+        ],
+        "76": [
+          "glaz9_L2_S0.svg"
+        ],
+        "77": [
+          "glaz9_L2_S0.svg"
+        ],
+        "78": [
+          "glaz9_L2_S0.svg"
+        ],
+        "79": [
+          "glaz9_L2_S0.svg"
+        ],
+        "80": [
+          "glaz9_L2_S0.svg"
+        ],
+        "81": [
+          "glaz9_L2_S0.svg"
+        ],
+        "82": [
+          "glaz9_L2_S0.svg"
+        ],
+        "83": [
+          "glaz9_L2_S0.svg"
+        ],
+        "84": [
+          "glaz9_L2_S0.svg"
+        ],
+        "85": [
+          "glaz9_L2_S0.svg"
+        ],
+        "86": [
+          "glaz9_L2_S0.svg"
+        ],
+        "87": [
+          "glaz9_L2_S0.svg"
+        ],
+        "88": [
+          "glaz9_L2_S0.svg"
+        ],
+        "89": [
+          "glaz9_L2_S0.svg"
+        ],
+        "90": [
+          "glaz9_L2_S0.svg"
+        ],
+        "91": [
+          "glaz9_L2_S0.svg"
+        ],
+        "92": [
+          "glaz9_L2_S0.svg"
+        ],
+        "93": [
+          "glaz9_L2_S0.svg"
+        ],
+        "94": [
+          "glaz9_L2_S0.svg"
+        ],
+        "95": [
+          "glaz9_L2_S0.svg"
+        ],
+        "96": [
+          "glaz9_L2_S0.svg"
+        ],
+        "97": [
+          "glaz9_L2_S0.svg"
+        ],
+        "98": [
+          "glaz9_L2_S0.svg"
+        ],
+        "99": [
+          "glaz9_L2_S0.svg"
+        ],
+        "100": [
+          "glaz9_L2_S0.svg"
+        ],
+        "101": [
+          "glaz9_L2_S0.svg"
+        ],
+        "102": [
+          "glaz9_L2_S0.svg"
+        ],
+        "103": [
+          "glaz9_L2_S0.svg"
+        ],
+        "104": [
+          "glaz9_L2_S0.svg"
+        ],
+        "105": [
+          "glaz9_L2_S0.svg"
+        ],
+        "106": [
+          "glaz9_f106_L2_S0.svg"
+        ],
+        "107": [
+          "glaz9_f107_L2_S0.svg"
+        ],
+        "108": [
+          "glaz9_f108_L2_S0.svg"
+        ],
+        "109": [
+          "glaz9_f109_L2_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    }
+  ],
+  "svg_files": {
+    "0": "glaz9_L1_S0.svg",
+    "1": "glaz9_L1_S0.svg",
+    "2": "glaz9_L1_S0.svg",
+    "3": "glaz9_L1_S0.svg",
+    "4": "glaz9_L1_S0.svg",
+    "5": "glaz9_L1_S0.svg",
+    "6": "glaz9_L1_S0.svg",
+    "7": "glaz9_L1_S0.svg",
+    "8": "glaz9_L1_S0.svg",
+    "9": "glaz9_L1_S0.svg",
+    "10": "glaz9_L1_S0.svg",
+    "11": "glaz9_L1_S0.svg",
+    "12": "glaz9_L1_S0.svg",
+    "13": "glaz9_L1_S0.svg",
+    "14": "glaz9_L1_S0.svg",
+    "15": "glaz9_L1_S0.svg",
+    "16": "glaz9_L1_S0.svg",
+    "17": "glaz9_L1_S0.svg",
+    "18": "glaz9_L1_S0.svg",
+    "19": "glaz9_L1_S0.svg",
+    "20": "glaz9_L1_S0.svg",
+    "21": "glaz9_L1_S0.svg",
+    "22": "glaz9_L1_S0.svg",
+    "23": "glaz9_L1_S0.svg",
+    "24": "glaz9_L1_S0.svg",
+    "25": "glaz9_L1_S0.svg",
+    "26": "glaz9_L1_S0.svg",
+    "27": "glaz9_L1_S0.svg",
+    "28": "glaz9_L1_S0.svg",
+    "29": "glaz9_L1_S0.svg",
+    "30": "glaz9_L1_S0.svg",
+    "31": "glaz9_L1_S0.svg",
+    "32": "glaz9_L1_S0.svg",
+    "33": "glaz9_L1_S0.svg",
+    "34": "glaz9_L1_S0.svg",
+    "35": "glaz9_L1_S0.svg",
+    "36": "glaz9_L1_S0.svg",
+    "37": "glaz9_L1_S0.svg",
+    "38": "glaz9_L1_S0.svg",
+    "39": "glaz9_L1_S0.svg",
+    "40": "glaz9_L1_S0.svg",
+    "41": "glaz9_L1_S0.svg",
+    "42": "glaz9_L1_S0.svg",
+    "43": "glaz9_L1_S0.svg",
+    "44": "glaz9_L1_S0.svg",
+    "45": "glaz9_L1_S0.svg",
+    "46": "glaz9_L1_S0.svg",
+    "47": "glaz9_L1_S0.svg",
+    "48": "glaz9_L1_S0.svg",
+    "49": "glaz9_L1_S0.svg",
+    "50": "glaz9_L1_S0.svg",
+    "51": "glaz9_L1_S0.svg",
+    "52": "glaz9_L1_S0.svg",
+    "53": "glaz9_L1_S0.svg",
+    "54": "glaz9_L1_S0.svg",
+    "55": "glaz9_L1_S0.svg",
+    "56": "glaz9_L1_S0.svg",
+    "57": "glaz9_L1_S0.svg",
+    "58": "glaz9_L1_S0.svg",
+    "59": "glaz9_L1_S0.svg",
+    "60": "glaz9_L1_S0.svg",
+    "61": "glaz9_L1_S0.svg",
+    "62": "glaz9_L1_S0.svg",
+    "63": "glaz9_L1_S0.svg",
+    "64": "glaz9_L1_S0.svg",
+    "65": "glaz9_L1_S0.svg",
+    "66": "glaz9_L1_S0.svg",
+    "67": "glaz9_L1_S0.svg",
+    "68": "glaz9_L1_S0.svg",
+    "69": "glaz9_L1_S0.svg",
+    "70": "glaz9_L1_S0.svg",
+    "71": "glaz9_L1_S0.svg",
+    "72": "glaz9_L1_S0.svg",
+    "73": "glaz9_L1_S0.svg",
+    "74": "glaz9_L1_S0.svg",
+    "75": "glaz9_L1_S0.svg",
+    "76": "glaz9_L1_S0.svg",
+    "77": "glaz9_L1_S0.svg",
+    "78": "glaz9_L1_S0.svg",
+    "79": "glaz9_L1_S0.svg",
+    "80": "glaz9_L1_S0.svg",
+    "81": "glaz9_L1_S0.svg",
+    "82": "glaz9_L1_S0.svg",
+    "83": "glaz9_L1_S0.svg",
+    "84": "glaz9_L1_S0.svg",
+    "85": "glaz9_L1_S0.svg",
+    "86": "glaz9_L1_S0.svg",
+    "87": "glaz9_L1_S0.svg",
+    "88": "glaz9_L1_S0.svg",
+    "89": "glaz9_L1_S0.svg",
+    "90": "glaz9_L1_S0.svg",
+    "91": "glaz9_L1_S0.svg",
+    "92": "glaz9_L1_S0.svg",
+    "93": "glaz9_L1_S0.svg",
+    "94": "glaz9_L1_S0.svg",
+    "95": "glaz9_L1_S0.svg",
+    "96": "glaz9_L1_S0.svg",
+    "97": "glaz9_L1_S0.svg",
+    "98": "glaz9_L1_S0.svg",
+    "99": "glaz9_L1_S0.svg",
+    "100": "glaz9_L1_S0.svg",
+    "101": "glaz9_L1_S0.svg",
+    "102": "glaz9_L1_S0.svg",
+    "103": "glaz9_L1_S0.svg",
+    "104": "glaz9_L1_S0.svg",
+    "105": "glaz9_L1_S0.svg",
+    "106": "glaz9_f106_L1_S0.svg",
+    "109": "glaz9_f109_L1_S0.svg"
+  },
+  "timeline": {
+    "frames": 110,
+    "labels": {},
+    "scripts": {
+      "0": "gotoAndPlay(Math.floor(Math.random()*80+1));"
+    }
+  }
+}

@@ -1,0 +1,14 @@
+[gd_resource type="AnimationLibrary" load_steps=5 format=3]
+
+[ext_resource type="Animation" path="res://assets/rigs/scenes/sentinel_anims/body.tres" id="ext_1"]
+[ext_resource type="Animation" path="res://assets/rigs/scenes/sentinel_anims/body_die.tres" id="ext_2"]
+[ext_resource type="Animation" path="res://assets/rigs/scenes/sentinel_anims/body_jump.tres" id="ext_3"]
+[ext_resource type="Animation" path="res://assets/rigs/scenes/sentinel_anims/body_jump_f10.tres" id="ext_4"]
+
+[resource]
+_data = {
+"body": ExtResource("ext_1"),
+"body_die": ExtResource("ext_2"),
+"body_jump": ExtResource("ext_3"),
+"body_jump_f10": ExtResource("ext_4")
+}

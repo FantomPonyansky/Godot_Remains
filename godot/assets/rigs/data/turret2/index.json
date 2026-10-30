@@ -1,0 +1,212 @@
+{
+  "symbols": [
+    "flare",
+    "laser_flare",
+    "nova_flare",
+    "plasma_flare",
+    "plasma_flare2",
+    "turel_osnova2",
+    "turel_puha",
+    "turel_puha1",
+    "turel_puha10",
+    "turel_puha2",
+    "turel_puha3",
+    "turel_puha4",
+    "turel_puha5",
+    "turel_puha6",
+    "turel_puha7",
+    "turret_blaster",
+    "turret_drandul",
+    "turret_grom",
+    "turret_laser",
+    "turret_light",
+    "turret_plasma",
+    "turret_plasma2",
+    "turret_pulemet",
+    "turret_thermo"
+  ],
+  "unreachable_symbols": [],
+  "timelines": [
+    "osn2"
+  ],
+  "nested_containers": [
+    "turel_puha",
+    "turel_puha1",
+    "turel_puha10",
+    "turel_puha2",
+    "turel_puha3",
+    "turel_puha4",
+    "turel_puha5",
+    "turel_puha6",
+    "turel_puha7"
+  ],
+  "default_colors": {},
+  "hide_mane_armors": [],
+  "color_channels": {},
+  "armor_bones": {},
+  "hair_bones": [],
+  "visible_bones": [],
+  "morda_bones": [],
+  "eye_bones": [],
+  "attachments": [
+    {
+      "name": "osn",
+      "library_item": "Objects/Units/turret/osn2",
+      "layer_index": 0,
+      "layer_name": "Слой 1",
+      "frame": 0,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 0.0,
+        "ty": 0.0
+      },
+      "pivot": {
+        "x": 0.0,
+        "y": -4.95
+      },
+      "blend_mode": "normal",
+      "hidden": false,
+      "cache_as_bitmap": false,
+      "foreign": false
+    }
+  ],
+  "precomputed": {
+    "dups": [],
+    "extra_bones": {},
+    "bone_alt_libs": {},
+    "bone_tree_order": [],
+    "library_scales": {
+      "flare": 3.0,
+      "laser_flare": 3.0,
+      "nova_flare": 3.0,
+      "plasma_flare": 3.0,
+      "plasma_flare2": 3.0,
+      "turel_osnova2": 1.0,
+      "turel_puha": 3.0,
+      "turel_puha1": 3.0,
+      "turel_puha10": 3.0,
+      "turel_puha2": 3.0,
+      "turel_puha3": 3.0,
+      "turel_puha4": 3.0,
+      "turel_puha5": 3.0,
+      "turel_puha6": 3.0,
+      "turel_puha7": 3.0,
+      "turret_blaster": 3.0,
+      "turret_drandul": 3.0,
+      "turret_grom": 3.0,
+      "turret_laser": 3.0,
+      "turret_light": 3.0,
+      "turret_plasma": 3.0,
+      "turret_plasma2": 3.0,
+      "turret_pulemet": 3.0,
+      "turret_thermo": 3.0
+    },
+    "library_hairlines": {
+      "flare": 1.0,
+      "laser_flare": 1.0,
+      "nova_flare": 1.0,
+      "plasma_flare": 1.0,
+      "plasma_flare2": 1.0,
+      "turel_osnova2": 4.8033,
+      "turel_puha": 1.0,
+      "turel_puha1": 1.0,
+      "turel_puha10": 1.0,
+      "turel_puha2": 1.0,
+      "turel_puha3": 1.0,
+      "turel_puha4": 1.0,
+      "turel_puha5": 1.0,
+      "turel_puha6": 1.0,
+      "turel_puha7": 1.0,
+      "turret_blaster": 1.0,
+      "turret_drandul": 1.0,
+      "turret_grom": 1.0,
+      "turret_laser": 1.0,
+      "turret_light": 1.0,
+      "turret_plasma": 1.0,
+      "turret_plasma2": 1.0,
+      "turret_pulemet": 1.0,
+      "turret_thermo": 1.0
+    },
+    "bone_orders": {
+      "osn2": [
+        "turel_osnova2",
+        "puha",
+        "light"
+      ]
+    }
+  },
+  "rig": {
+    "name": "turret2",
+    "config": "Godot_Transpilation/04_player_rig/rigs/turret2.json",
+    "root_symbol": "Objects/Units/turret/visualTurret2",
+    "state_kind": "self",
+    "root_node": "Turret2",
+    "script": "res://scripts/entity/rig_base.gd",
+    "idle_animation": "osn2",
+    "shape_masks": {},
+    "runtime_synced_bones": [],
+    "runtime_visibility_bones": [],
+    "paths": {
+      "output": "Godot_Transpilation/04_player_rig/rigs_output/turret2",
+      "godot_data": "Godot_project/data/rigs/turret2",
+      "svg": "Assets/Art/rigs/turret2",
+      "png": "Godot_project/art/rigs/turret2",
+      "scene": "Godot_project/scenes/rigs/turret2.tscn",
+      "anim_library": "Godot_project/scenes/rigs/turret2_anims.tres"
+    },
+    "mark_libraries": [
+      "quti",
+      "mark"
+    ]
+  },
+  "tickers": {
+    "flare": {
+      "frames": [
+        0,
+        1
+      ],
+      "loop_from": 0,
+      "idle_frame": -1,
+      "random_start": null
+    }
+  },
+  "symbol_paths": {
+    "flare": "Objects/Weapon/_flare/flare",
+    "laser_flare": "Objects/Weapon/_flare/laser_flare",
+    "nova_flare": "Objects/Weapon/_flare/nova_flare",
+    "plasma_flare": "Objects/Weapon/_flare/plasma flare",
+    "plasma_flare2": "Objects/Weapon/_flare/plasma flare2",
+    "turel_osnova2": "Objects/Units/turret/turel_osnova2",
+    "turel_puha": "Objects/Units/turret/turel_puha",
+    "turel_puha1": "Objects/Units/turret/turel_puha1",
+    "turel_puha10": "Objects/Units/turret/turel_puha10",
+    "turel_puha2": "Objects/Units/turret/turel_puha2",
+    "turel_puha3": "Objects/Units/turret/turel_puha3",
+    "turel_puha4": "Objects/Units/turret/turel_puha4",
+    "turel_puha5": "Objects/Units/turret/turel_puha5",
+    "turel_puha6": "Objects/Units/turret/turel_puha6",
+    "turel_puha7": "Objects/Units/turret/turel_puha7",
+    "turret_blaster": "Objects/Units/turret/turret_blaster",
+    "turret_drandul": "Objects/Units/turret/turret_drandul",
+    "turret_grom": "Objects/Units/turret/turret_grom",
+    "turret_laser": "Objects/Units/turret/turret_laser",
+    "turret_light": "Objects/Units/turret/turret_light",
+    "turret_plasma": "Objects/Units/turret/turret_plasma",
+    "turret_plasma2": "Objects/Units/turret/turret_plasma2",
+    "turret_pulemet": "Objects/Units/turret/turret_pulemet",
+    "turret_thermo": "Objects/Units/turret/turret_thermo"
+  },
+  "stats": {
+    "symbols": 24,
+    "bones": 3,
+    "nested_containers": 9,
+    "timelines": 1,
+    "total_bone_keys": 6,
+    "attachments": 1,
+    "unreachable_symbols": 0,
+    "hidden_layer_entries": 0
+  }
+}

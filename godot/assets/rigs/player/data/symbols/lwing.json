@@ -1,0 +1,79 @@
+{
+  "artwork_layers": [
+    {
+      "layer_index": 1,
+      "element_svg_files": {
+        "1": [
+          "lwing_f1_L1_S0.svg"
+        ],
+        "2": [
+          "lwing_f2_L1_S0.svg"
+        ],
+        "3": [
+          "lwing_f3_L1_S0.svg"
+        ],
+        "4": [
+          "lwing_f4_L1_S0.svg"
+        ],
+        "5": [
+          "lwing_f5_L1_S0.svg"
+        ],
+        "6": [
+          "lwing_f6_L1_S0.svg"
+        ],
+        "7": [
+          "lwing_f7_L1_S0.svg"
+        ],
+        "8": [
+          "lwing_f8_L1_S0.svg"
+        ],
+        "9": [
+          "lwing_f8_L1_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    }
+  ],
+  "svg_files": {
+    "1": "lwing_f1_L1_S0.svg",
+    "2": "lwing_f2_L1_S0.svg",
+    "3": "lwing_f3_L1_S0.svg",
+    "4": "lwing_f4_L1_S0.svg",
+    "5": "lwing_f5_L1_S0.svg",
+    "6": "lwing_f6_L1_S0.svg",
+    "7": "lwing_f7_L1_S0.svg",
+    "8": "lwing_f8_L1_S0.svg",
+    "9": "lwing_f8_L1_S0.svg"
+  },
+  "children": [
+    {
+      "library": "aliwing",
+      "layer_index": 1,
+      "matrix": {
+        "a": 0.91888427734375,
+        "b": 0.394500732421875,
+        "c": -0.358718872070313,
+        "d": 0.835556030273438,
+        "tx": 0.0,
+        "ty": 0.4
+      },
+      "frame_ranges": [
+        [
+          10,
+          10
+        ]
+      ],
+      "frame_start": 10,
+      "frame_end": 10,
+      "instance": "wing"
+    }
+  ],
+  "timeline": {
+    "frames": 11,
+    "labels": {},
+    "scripts": {
+      "0": "stop()",
+      "9": "gotoAndPlay(2)"
+    }
+  }
+}

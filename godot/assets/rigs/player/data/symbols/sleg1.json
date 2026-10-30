@@ -1,0 +1,241 @@
+{
+  "artwork_layers": [
+    {
+      "layer_index": 1,
+      "element_svg_files": {
+        "2": [
+          "sleg1_chitin_L1_S0.svg"
+        ],
+        "5": [
+          "sleg1_metal_L1_S0.svg"
+        ],
+        "6": [
+          "sleg1_battle_L1_S0.svg"
+        ],
+        "7": [
+          "sleg1_assault_L1_S0.svg"
+        ],
+        "14": [
+          "sleg1_sapper_L1_S0.svg"
+        ],
+        "15": [
+          "sleg1_socks_L1_S0.svg"
+        ],
+        "17": [
+          "sleg1_polic_L1_S0.svg"
+        ],
+        "18": [
+          "sleg1_spec_L1_S0.svg"
+        ],
+        "20": [
+          "sleg1_ali_L1_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 3,
+      "element_svg_files": {
+        "3": [
+          "sleg1_kombu_L3_S0.svg"
+        ],
+        "4": [
+          "sleg1_skin_L3_S0.svg"
+        ],
+        "6": [
+          "sleg1_battle_L3_S0.svg"
+        ],
+        "7": [
+          "sleg1_assault_L3_S0.svg"
+        ],
+        "8": [
+          "sleg1_magus_L3_S0.svg"
+        ],
+        "9": [
+          "sleg1_antirad_L3_S0.svg"
+        ],
+        "10": [
+          "sleg1_antihim_L3_S0.svg"
+        ],
+        "11": [
+          "sleg1_intel_L3_S0.svg"
+        ],
+        "12": [
+          "sleg1_astealth_L3_S0.svg"
+        ],
+        "13": [
+          "sleg1_moon_L3_S0.svg"
+        ],
+        "14": [
+          "sleg1_sapper_L3_S0.svg"
+        ],
+        "16": [
+          "sleg1_power_L3_S0.svg"
+        ],
+        "17": [
+          "sleg1_polic_L3_S0.svg"
+        ],
+        "18": [
+          "sleg1_spec_L3_S0.svg"
+        ],
+        "19": [
+          "sleg1_encl_L3_S0.svg"
+        ],
+        "20": [
+          "sleg1_ali_L3_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    }
+  ],
+  "svg_files": {
+    "2": "sleg1_chitin_L1_S0.svg",
+    "5": "sleg1_metal_L1_S0.svg",
+    "6": "sleg1_battle_L1_S0.svg",
+    "7": "sleg1_assault_L1_S0.svg",
+    "14": "sleg1_sapper_L1_S0.svg",
+    "15": "sleg1_socks_L1_S0.svg",
+    "17": "sleg1_polic_L1_S0.svg",
+    "18": "sleg1_spec_L1_S0.svg",
+    "20": "sleg1_ali_L1_S0.svg"
+  },
+  "armor_labels": {
+    "1": "pip",
+    "2": "chitin",
+    "3": "kombu",
+    "4": "skin",
+    "5": "metal",
+    "6": "battle",
+    "7": "assault",
+    "8": "magus",
+    "9": "antirad",
+    "10": "antihim",
+    "11": "intel",
+    "12": "astealth",
+    "13": "moon",
+    "14": "sapper",
+    "15": "socks",
+    "16": "power",
+    "17": "polic",
+    "18": "spec",
+    "19": "encl",
+    "20": "ali"
+  },
+  "children": [
+    {
+      "library": "quti",
+      "layer_index": 2,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": -10.3,
+        "ty": 25.7
+      },
+      "frame_ranges": [
+        [
+          0,
+          2
+        ],
+        [
+          5,
+          5
+        ],
+        [
+          15,
+          15
+        ]
+      ],
+      "frame_start": 0,
+      "frame_end": 15,
+      "instance": "mark"
+    },
+    {
+      "library": "qutiNull",
+      "layer_index": 2,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": -10.3,
+        "ty": 25.7
+      },
+      "frame_ranges": [
+        [
+          3,
+          4
+        ],
+        [
+          6,
+          14
+        ],
+        [
+          16,
+          20
+        ]
+      ],
+      "frame_start": 3,
+      "frame_end": 20,
+      "instance": "mark"
+    },
+    {
+      "library": "sleg10",
+      "layer_index": 3,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": -11.2,
+        "ty": 29.8
+      },
+      "frame_ranges": [
+        [
+          0,
+          2
+        ],
+        [
+          5,
+          5
+        ],
+        [
+          15,
+          15
+        ]
+      ],
+      "frame_start": 0,
+      "frame_end": 15
+    }
+  ],
+  "timeline": {
+    "frames": 21,
+    "labels": {
+      "pip": 1,
+      "chitin": 2,
+      "kombu": 3,
+      "skin": 4,
+      "metal": 5,
+      "battle": 6,
+      "assault": 7,
+      "magus": 8,
+      "antirad": 9,
+      "antihim": 10,
+      "intel": 11,
+      "astealth": 12,
+      "moon": 13,
+      "sapper": 14,
+      "socks": 15,
+      "power": 16,
+      "polic": 17,
+      "spec": 18,
+      "encl": 19,
+      "ali": 20
+    },
+    "scripts": {
+      "0": "import fe.Obj;\nObj.setArmor(this);"
+    }
+  },
+  "is_armor": true
+}

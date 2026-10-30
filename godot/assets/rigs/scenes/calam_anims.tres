@@ -1,0 +1,44 @@
+[gd_resource type="AnimationLibrary" load_steps=20 format=3]
+
+[ext_resource type="Animation" path="res://assets/rigs/scenes/calam_anims/body_derg.tres" id="ext_1"]
+[ext_resource type="Animation" path="res://assets/rigs/scenes/calam_anims/body_die.tres" id="ext_2"]
+[ext_resource type="Animation" path="res://assets/rigs/scenes/calam_anims/body_die_jump.tres" id="ext_3"]
+[ext_resource type="Animation" path="res://assets/rigs/scenes/calam_anims/body_fly.tres" id="ext_4"]
+[ext_resource type="Animation" path="res://assets/rigs/scenes/calam_anims/body_fly2.tres" id="ext_5"]
+[ext_resource type="Animation" path="res://assets/rigs/scenes/calam_anims/body_jump.tres" id="ext_6"]
+[ext_resource type="Animation" path="res://assets/rigs/scenes/calam_anims/body_kick.tres" id="ext_7"]
+[ext_resource type="Animation" path="res://assets/rigs/scenes/calam_anims/body_laz.tres" id="ext_8"]
+[ext_resource type="Animation" path="res://assets/rigs/scenes/calam_anims/body_plav.tres" id="ext_9"]
+[ext_resource type="Animation" path="res://assets/rigs/scenes/calam_anims/body_polz.tres" id="ext_10"]
+[ext_resource type="Animation" path="res://assets/rigs/scenes/calam_anims/body_punch.tres" id="ext_11"]
+[ext_resource type="Animation" path="res://assets/rigs/scenes/calam_anims/body_run.tres" id="ext_12"]
+[ext_resource type="Animation" path="res://assets/rigs/scenes/calam_anims/body_sitjump.tres" id="ext_13"]
+[ext_resource type="Animation" path="res://assets/rigs/scenes/calam_anims/body_stay.tres" id="ext_14"]
+[ext_resource type="Animation" path="res://assets/rigs/scenes/calam_anims/body_stay_down.tres" id="ext_15"]
+[ext_resource type="Animation" path="res://assets/rigs/scenes/calam_anims/body_stay_sit.tres" id="ext_16"]
+[ext_resource type="Animation" path="res://assets/rigs/scenes/calam_anims/body_stay_up.tres" id="ext_17"]
+[ext_resource type="Animation" path="res://assets/rigs/scenes/calam_anims/body_trot.tres" id="ext_18"]
+[ext_resource type="Animation" path="res://assets/rigs/scenes/calam_anims/body_trot_trot.tres" id="ext_19"]
+
+[resource]
+_data = {
+"body_derg": ExtResource("ext_1"),
+"body_die": ExtResource("ext_2"),
+"body_die_jump": ExtResource("ext_3"),
+"body_fly": ExtResource("ext_4"),
+"body_fly2": ExtResource("ext_5"),
+"body_jump": ExtResource("ext_6"),
+"body_kick": ExtResource("ext_7"),
+"body_laz": ExtResource("ext_8"),
+"body_plav": ExtResource("ext_9"),
+"body_polz": ExtResource("ext_10"),
+"body_punch": ExtResource("ext_11"),
+"body_run": ExtResource("ext_12"),
+"body_sitjump": ExtResource("ext_13"),
+"body_stay": ExtResource("ext_14"),
+"body_stay_down": ExtResource("ext_15"),
+"body_stay_sit": ExtResource("ext_16"),
+"body_stay_up": ExtResource("ext_17"),
+"body_trot": ExtResource("ext_18"),
+"body_trot_trot": ExtResource("ext_19")
+}

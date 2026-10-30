@@ -121,6 +121,27 @@ static func unit_still(sheets_dir: String, key: String) -> Array[Sprite2D]:
 	return out
 
 
+## A rigged unit's rig held on its stay pose (the manifest's osn frame), Flash origin at 0.
+static func rig_still(unit_id: String) -> Node2D:
+	var enemy_script: GDScript = load("res://scripts/enemy.gd")
+	var path: String = enemy_script.rig_path(unit_id)
+	if path == "":
+		return null
+	var rig := (load(path) as PackedScene).instantiate() as RigView
+	var row: Dictionary = enemy_script._catalog_row(unit_id)
+	var entry := UnitBrain.vis_of(str(row.get("vis", ""))) if str(row.get("vis", "")) != "" \
+			else UnitBrain.vis_of(str(row.get("pack", unit_id)))
+	var stay: Dictionary = (entry.get("clips", {}) as Dictionary).get("stay", {})
+	var osn := int(stay.get("osn", 1))
+	rig.ready.connect(func() -> void:
+		var idle := rig.idle_clip()
+		if idle != "":
+			rig.anim_player.play(idle)
+			rig.anim_player.seek(float(osn - 1) / 30.0, true)
+			rig.anim_player.pause(), CONNECT_ONE_SHOT)
+	return rig
+
+
 static func _cell(sheets_dir: String, e: Dictionary, frame: int) -> Sprite2D:
 	var path := sheets_dir + str(e.get("sheet", ""))
 	if not ResourceLoader.exists(path):

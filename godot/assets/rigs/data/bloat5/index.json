@@ -1,0 +1,108 @@
+{
+  "symbols": [
+    "_osn5_L0_F0",
+    "_osn5_L0_F1",
+    "_osn5_L0_F2"
+  ],
+  "unreachable_symbols": [],
+  "timelines": [
+    "_osn5"
+  ],
+  "nested_containers": [],
+  "default_colors": {},
+  "hide_mane_armors": [],
+  "color_channels": {},
+  "armor_bones": {},
+  "hair_bones": [],
+  "visible_bones": [],
+  "morda_bones": [],
+  "eye_bones": [],
+  "attachments": [
+    {
+      "name": "osn",
+      "library_item": "Objects/Units/BloatSprite/_osn5",
+      "layer_index": 0,
+      "layer_name": "Слой 1",
+      "frame": 0,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": -1.9,
+        "ty": -17.1
+      },
+      "pivot": {
+        "x": -0.05,
+        "y": -0.05
+      },
+      "blend_mode": "normal",
+      "hidden": false,
+      "cache_as_bitmap": false,
+      "foreign": false
+    }
+  ],
+  "precomputed": {
+    "dups": [],
+    "extra_bones": {},
+    "bone_alt_libs": {},
+    "bone_tree_order": [],
+    "library_scales": {
+      "_osn5_L0_F0": 3.0,
+      "_osn5_L0_F1": 3.0,
+      "_osn5_L0_F2": 3.0
+    },
+    "library_hairlines": {
+      "_osn5_L0_F0": 1.0,
+      "_osn5_L0_F1": 1.0,
+      "_osn5_L0_F2": 1.0
+    },
+    "bone_orders": {
+      "_osn5": [
+        "_osn5_L0_F2",
+        "_osn5_L0_F1",
+        "_osn5_L0_F0"
+      ]
+    }
+  },
+  "rig": {
+    "name": "bloat5",
+    "config": "Godot_Transpilation/04_player_rig/rigs/bloat5.json",
+    "root_symbol": "Objects/Units/BloatSprite/visualBloat5",
+    "state_kind": "self",
+    "root_node": "Bloat5",
+    "script": "res://scripts/entity/rig_base.gd",
+    "idle_animation": "_osn5",
+    "shape_masks": {},
+    "runtime_synced_bones": [],
+    "runtime_visibility_bones": [],
+    "paths": {
+      "output": "Godot_Transpilation/04_player_rig/rigs_output/bloat5",
+      "godot_data": "Godot_project/data/rigs/bloat5",
+      "svg": "Assets/Art/rigs/bloat5",
+      "png": "Godot_project/art/rigs/bloat5",
+      "scene": "Godot_project/scenes/rigs/bloat5.tscn",
+      "anim_library": "Godot_project/scenes/rigs/bloat5_anims.tres"
+    },
+    "mark_libraries": [
+      "quti",
+      "mark"
+    ]
+  },
+  "tickers": {},
+  "symbol_paths": {
+    "_osn5_L0_F0": "Objects/Units/BloatSprite/_osn5",
+    "_osn5_L0_F1": "Objects/Units/BloatSprite/_osn5",
+    "_osn5_L0_F2": "Objects/Units/BloatSprite/_osn5"
+  },
+  "stats": {
+    "symbols": 3,
+    "bones": 3,
+    "nested_containers": 0,
+    "timelines": 1,
+    "total_bone_keys": 18,
+    "attachments": 1,
+    "unreachable_symbols": 0,
+    "hidden_layer_entries": 0
+  }
+}

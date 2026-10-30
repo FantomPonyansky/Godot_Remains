@@ -1,0 +1,93 @@
+{
+  "children": [
+    {
+      "library": "tail_runa0",
+      "layer_index": 1,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 0.0,
+        "ty": 0.0
+      },
+      "frame_ranges": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "frame_start": 0,
+      "frame_end": 1
+    },
+    {
+      "library": "tail_runa2",
+      "layer_index": 1,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 0.0,
+        "ty": 0.0
+      },
+      "frame_ranges": [
+        [
+          2,
+          2
+        ]
+      ],
+      "frame_start": 2,
+      "frame_end": 2
+    },
+    {
+      "library": "tail_runa3",
+      "layer_index": 1,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 0.0,
+        "ty": 0.0
+      },
+      "frame_ranges": [
+        [
+          3,
+          3
+        ]
+      ],
+      "frame_start": 3,
+      "frame_end": 3
+    },
+    {
+      "library": "tail_runa4",
+      "layer_index": 1,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 0.0,
+        "ty": 0.0
+      },
+      "frame_ranges": [
+        [
+          4,
+          4
+        ]
+      ],
+      "frame_start": 4,
+      "frame_end": 4
+    }
+  ],
+  "timeline": {
+    "frames": 5,
+    "labels": {},
+    "scripts": {}
+  }
+}

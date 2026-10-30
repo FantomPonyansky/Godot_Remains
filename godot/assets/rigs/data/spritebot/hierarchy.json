@@ -1,0 +1,30 @@
+{
+  "root": "osn",
+  "scale": 0.90582275390625,
+  "bones": [
+    {
+      "instance_name": "korpus",
+      "library_item": "korpus",
+      "library_path": "Objects/Units/SpriteBot/korpus",
+      "layer_index": 0,
+      "layer_name": "Слой 1",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 2.35,
+        "ty": -0.9
+      },
+      "node_name": "korpus"
+    }
+  ],
+  "root_matrix": {
+    "a": 0.90582275390625,
+    "b": 0.0,
+    "c": 0.0,
+    "d": 0.90582275390625,
+    "tx": 1.25,
+    "ty": -20.75
+  }
+}

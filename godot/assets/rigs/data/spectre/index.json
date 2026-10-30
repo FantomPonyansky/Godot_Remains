@@ -1,0 +1,132 @@
+{
+  "symbols": [
+    "osn_L0_F0",
+    "osn_L1_F0",
+    "osn_L2_F0",
+    "osn_L3_F0",
+    "osn_L4_F0"
+  ],
+  "unreachable_symbols": [],
+  "timelines": [
+    "osn"
+  ],
+  "nested_containers": [],
+  "default_colors": {},
+  "hide_mane_armors": [],
+  "color_channels": {},
+  "armor_bones": {},
+  "hair_bones": [],
+  "visible_bones": [],
+  "morda_bones": [],
+  "eye_bones": [],
+  "attachments": [
+    {
+      "name": "osn",
+      "library_item": "Objects/Units/Ghost/osn",
+      "layer_index": 0,
+      "layer_name": "Слой 1",
+      "frame": 0,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": -4.15,
+        "ty": -52.45
+      },
+      "pivot": {
+        "x": -21.85,
+        "y": 13.5
+      },
+      "blend_mode": "normal",
+      "hidden": false,
+      "cache_as_bitmap": false,
+      "foreign": false,
+      "filters": [
+        {
+          "type": "GlowFilter",
+          "attrs": {
+            "blurX": "6",
+            "blurY": "6",
+            "color": "#442386"
+          },
+          "frames": [
+            0,
+            0
+          ]
+        }
+      ]
+    }
+  ],
+  "precomputed": {
+    "dups": [],
+    "extra_bones": {},
+    "bone_alt_libs": {},
+    "bone_tree_order": [],
+    "library_scales": {
+      "osn_L0_F0": 3.0,
+      "osn_L1_F0": 3.0,
+      "osn_L2_F0": 3.0,
+      "osn_L3_F0": 3.0,
+      "osn_L4_F0": 3.0
+    },
+    "library_hairlines": {
+      "osn_L0_F0": 1.0,
+      "osn_L1_F0": 1.0,
+      "osn_L2_F0": 1.0,
+      "osn_L3_F0": 1.0,
+      "osn_L4_F0": 1.0
+    },
+    "bone_orders": {
+      "osn": [
+        "osn_L4_F0",
+        "osn_L3_F0",
+        "osn_L2_F0",
+        "osn_L1_F0",
+        "osn_L0_F0"
+      ]
+    }
+  },
+  "rig": {
+    "name": "spectre",
+    "config": "Godot_Transpilation/04_player_rig/rigs/spectre.json",
+    "root_symbol": "Objects/Units/Ghost/visualSpectre",
+    "state_kind": "self",
+    "root_node": "Spectre",
+    "script": "res://scripts/entity/rig_base.gd",
+    "idle_animation": "osn",
+    "shape_masks": {},
+    "runtime_synced_bones": [],
+    "runtime_visibility_bones": [],
+    "paths": {
+      "output": "Godot_Transpilation/04_player_rig/rigs_output/spectre",
+      "godot_data": "Godot_project/data/rigs/spectre",
+      "svg": "Assets/Art/rigs/spectre",
+      "png": "Godot_project/art/rigs/spectre",
+      "scene": "Godot_project/scenes/rigs/spectre.tscn",
+      "anim_library": "Godot_project/scenes/rigs/spectre_anims.tres"
+    },
+    "mark_libraries": [
+      "quti",
+      "mark"
+    ]
+  },
+  "tickers": {},
+  "symbol_paths": {
+    "osn_L0_F0": "Objects/Units/Ghost/osn",
+    "osn_L1_F0": "Objects/Units/Ghost/osn",
+    "osn_L2_F0": "Objects/Units/Ghost/osn",
+    "osn_L3_F0": "Objects/Units/Ghost/osn",
+    "osn_L4_F0": "Objects/Units/Ghost/osn"
+  },
+  "stats": {
+    "symbols": 5,
+    "bones": 5,
+    "nested_containers": 0,
+    "timelines": 1,
+    "total_bone_keys": 10,
+    "attachments": 1,
+    "unreachable_symbols": 0,
+    "hidden_layer_entries": 0
+  }
+}

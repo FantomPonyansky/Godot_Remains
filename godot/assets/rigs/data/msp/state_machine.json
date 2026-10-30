@@ -1,0 +1,22 @@
+[
+  {
+    "index": 0,
+    "label": "stay",
+    "animation": "msp1"
+  },
+  {
+    "index": 1,
+    "label": "wake",
+    "animation": "msp2"
+  },
+  {
+    "index": 2,
+    "label": "walk",
+    "animation": "msp3"
+  },
+  {
+    "index": 3,
+    "label": "jump",
+    "animation": "msp4"
+  }
+]

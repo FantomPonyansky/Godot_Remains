@@ -1,0 +1,53 @@
+{
+  "children": [
+    {
+      "library": "flare",
+      "layer_index": 0,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 43.75,
+        "ty": 0.35
+      },
+      "frame_ranges": [
+        [
+          1,
+          2
+        ]
+      ],
+      "blend_mode": "screen",
+      "foreign": true,
+      "frame_start": 1,
+      "frame_end": 2
+    },
+    {
+      "library": "turret_pulemet",
+      "layer_index": 1,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 14.25,
+        "ty": 0.25
+      },
+      "frame_ranges": [
+        [
+          0,
+          2
+        ]
+      ],
+      "frame_start": 0,
+      "frame_end": 2
+    }
+  ],
+  "timeline": {
+    "frames": 3,
+    "labels": {},
+    "scripts": {
+      "0": "stop()"
+    }
+  }
+}

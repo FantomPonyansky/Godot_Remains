@@ -1,0 +1,33 @@
+{
+  "artwork_layers": [
+    {
+      "layer_index": 1,
+      "element_svg_files": {
+        "0": [
+          "morda0_L1_S0.svg"
+        ],
+        "1": [
+          "morda0_f1_L1_S0.svg"
+        ],
+        "2": [
+          "morda0_f2_L1_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    }
+  ],
+  "svg_files": {
+    "0": "morda0_L1_S0.svg",
+    "1": "morda0_f1_L1_S0.svg",
+    "2": "morda0_f2_L1_S0.svg"
+  },
+  "timeline": {
+    "frames": 3,
+    "labels": {},
+    "scripts": {
+      "0": "import fe.Obj;\nstop();\nObj.setColor(this,0);\nObj.setMorda(this,0);"
+    }
+  },
+  "color_channel": "trFur",
+  "is_morda": true
+}

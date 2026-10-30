@@ -23,6 +23,9 @@ var dop: UnitGun
 var gas: UnitGun
 var th: UnitGun
 var visshit: AnimatedSprite2D
+## The gatling arms (Weapon.vis of robogatp / robogatp2) at the weapon point.
+var arm: Sprite2D
+var arm2: Sprite2D
 
 
 func configure() -> void:
@@ -55,6 +58,10 @@ func ready() -> void:
 	th.find_cel = false
 	set_cel(null, u.global_position + Vector2(200.0 * storona, -50.0))
 	visshit = make_overlay("shield", Vector2(0.0, -70.0), 1.7)
+	arm = make_gun_vis(cur)
+	arm2 = make_gun_vis(cur2)
+	if arm2 != null:
+		arm2.visible = false
 
 
 func forces() -> void:
@@ -192,6 +199,11 @@ func attack() -> void:
 
 func animate() -> void:
 	anim("stay")
+	if arm != null and arm2 != null and arm2.visible != usil:
+		arm.visible = not usil
+		arm2.visible = usil
+	animate_gun_vis(cur)
+	animate_gun_vis(cur2)
 	if visshit != null:
 		if not visshit.visible and shithp > 0.0:
 			visshit.visible = true
@@ -204,6 +216,8 @@ func animate() -> void:
 func drop_loot() -> void:
 	new_part("baleblast")
 	sound("bale_e")
+	if arm != null:
+		arm.visible = false
 
 
 func expl() -> void:

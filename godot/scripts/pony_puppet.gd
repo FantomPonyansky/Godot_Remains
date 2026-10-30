@@ -106,6 +106,13 @@ const HD_ZOOM := 3.0
 var _hd_frames: Dictionary = {}
 var _hd_parts: Dictionary = {}
 const _WeaponVis := preload("res://scripts/weapon_vis.gd")
+const _PLAYER_RIG := "res://assets/rigs/player/player_rig.tscn"
+const _PlayerRigPort := preload("res://scripts/rig/player_rig_port.gd")
+## OTHER's player rig draws body, mane, eyes, PipBuck, wings and armour. The
+## `--puppet-frames` user arg switches back to the frame clips and overlays.
+static var use_rig := not "--puppet-frames" in OS.get_cmdline_user_args()
+## The rig's fuller tail, mane and helmets need more room than the frame clips (user, 2026-10-31).
+const PREVIEW_FIT := 0.8
 const _WeaponFx := preload("res://scripts/weapon_fx.gd")
 
 var _gun: Node2D
@@ -159,6 +166,7 @@ var _upper_anchor: Dictionary = {}
 var _upper_sprite: Sprite2D
 var _pose: String = "idle"
 var _wings: Node2D
+var _rig
 var _wing_near: Polygon2D
 var _wing_far: Polygon2D
 var _missing_attack: Dictionary = {}
@@ -213,8 +221,30 @@ static func preview(holder_pos: Vector2, holder_scale: float, blur: float) -> Ar
 	mat.set_shader_parameter("blur", blur)
 	group.material = mat
 	var puppet: Node2D = load("res://scripts/pony_puppet.gd").new()
-	puppet.hd = true
-	group.add_child(puppet)
+	if not use_rig:
+		puppet.hd = true
+		group.add_child(puppet)
+		return [group, puppet]
+	# The rig's own CanvasGroups do not draw inside the glow group, so the rig
+	# renders in a SubViewport and the group holds its texture.
+	var feet := Vector2(90, 130)
+	var view := SubViewport.new()
+	view.transparent_bg = true
+	view.disable_3d = true
+	view.size = Vector2i((Vector2(180, 160) * holder_scale).ceil())
+	view.render_target_update_mode = SubViewport.UPDATE_ALWAYS
+	var zoom := Node2D.new()
+	zoom.position = feet * holder_scale
+	zoom.scale = Vector2.ONE * holder_scale * PREVIEW_FIT
+	zoom.add_child(puppet)
+	view.add_child(zoom)
+	group.add_child(view)
+	var shown := Sprite2D.new()
+	shown.centered = false
+	shown.texture = view.get_texture()
+	shown.scale = Vector2.ONE / holder_scale
+	shown.position = -feet
+	group.add_child(shown)
 	return [group, puppet]
 
 
@@ -250,7 +280,10 @@ func set_armor(id: String = "") -> void:
 	# ableFly), the alicorn effect, or potion_fly. Dropping ali hides them
 	# when neither of the other two remains.
 	_armor_id = id
-	_warm_suit(id)
+	if _rig != null:
+		_rig.set_armor(id)
+	else:
+		_warm_suit(id)
 	_armor_frames.clear()
 	_armor_anchor.clear()
 	if _sprite != null:
@@ -391,7 +424,12 @@ func set_magic_preview(on: bool) -> void:
 	if on:
 		_horn_alpha = 1.0
 	if _shown_clip != "":
-		_place_rig(_shown_clip, _shown_frame)
+		_show(_shown_clip, _shown_frame)
+
+
+## The player rig, null in `--puppet-frames` mode.
+func rig() -> Node2D:
+	return _rig
 
 
 func weapon_visible() -> bool:
@@ -438,8 +476,16 @@ func apply_appearance() -> void:
 	_magic_color = magic
 	_paint_eye(eye)
 	_paint_magic()
+	if _rig != null:
+		for pair in [["trFur", look.fur], ["trHair", look.hair], ["trHair1", look.hair1],
+				["trEye", look.eye], ["trMagic", look.magic]]:
+			var rgb: Array = pair[1]
+			_rig.set_channel_color(pair[0], Color8(int(rgb[0]), int(rgb[1]), int(rgb[2])))
+		_rig.set_hair(_style_hair - 1)
+		_rig.set_eye_style(_style_eye - 1)
+		_rig.set_hair1_visible(_vis_hair1)
 	if _shown_clip != "":
-		_place_rig(_shown_clip, _shown_frame)
+		_show(_shown_clip, _shown_frame)
 
 
 func update_pose(state: String, facing: float, aim_dir: Vector2, delta: float) -> void:
@@ -821,6 +867,9 @@ func _note_missing_clip(clip_name: String) -> void:
 
 
 func _show(clip: String, frame: int) -> void:
+	if _rig != null:
+		_show_on_rig(clip, frame)
+		return
 	var frames: Array = _frames.get(clip, [])
 	if frames.is_empty():
 		return
@@ -845,6 +894,30 @@ func _show(clip: String, frame: int) -> void:
 	_shown_clip = clip
 	_shown_frame = frame
 	_place_rig(clip, frame)
+
+
+## The rig holds frame `frame` of the Flash body_<clip> timeline. The frame-clip
+## layers still place the spell marker and the horn glow, then hide.
+func _show_on_rig(clip: String, frame: int) -> void:
+	if _len(clip) == 0:
+		return
+	var source := "body_laz" if clip == "climb" else "body_" + clip
+	if not _rig.hold_source_frame(source, frame):
+		_rig.hold_source_frame("body_stay", 1)
+	_shown_clip = clip
+	_shown_frame = frame
+	_place_rig(clip, frame)
+	var bags := get_node_or_null("/root/Inventory")
+	_rig.pip_shown = bags != null and bool(bags.get("leg_pip"))
+	_rig.set_facing_right(scale.x >= 0.0)
+	_rig.set_magic_intensity(_magic.modulate.a if _magic.visible else 0.0)
+	var fly := _able_fly()
+	_rig.set_wings_visible(fly)
+	_rig.set_wing_alicorn(fly and (_armor_id == "ali" or _effect_on("alicorn")))
+	for part in [_sprite, _upper_sprite, _armor_sprite, _mane, _mane2, _fore, _fore2,
+			_tail_s, _tail2, _eye, _horn, _magic, _helm, _pip]:
+		if part != null:
+			part.visible = false
 
 
 func _place_markers(state: String, clip: String) -> void:
@@ -921,8 +994,14 @@ func _build() -> void:
 	_gun_sprite.name = "Vis"
 	_gun.add_child(_gun_sprite)
 	_gun_glow = _WeaponVis.make_glow(_gun_sprite)
-	_build_wings()
 	_build_rig()
+	if use_rig:
+		_rig = load(_PLAYER_RIG).instantiate()
+		_rig.set_script(_PlayerRigPort)
+		_rig.scale = Vector2.ONE / BODY_DRAW
+		_art.add_child(_rig)
+	else:
+		_build_wings()
 	_muzzle = Marker2D.new()
 	_muzzle.position = Vector2(28, 0)
 	_gun.add_child(_muzzle)

@@ -1,0 +1,22 @@
+{
+  "root": "osn",
+  "scale": 1.0,
+  "bones": [
+    {
+      "instance_name": "pon_maps",
+      "library_item": "pon_maps",
+      "library_path": "Objects/NPC/pon_maps",
+      "layer_index": 0,
+      "layer_name": "Слой 1",
+      "matrix": {
+        "a": 0.559982299804688,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 0.560226440429688,
+        "tx": -4.6,
+        "ty": -41.35
+      },
+      "node_name": "pon_maps"
+    }
+  ]
+}

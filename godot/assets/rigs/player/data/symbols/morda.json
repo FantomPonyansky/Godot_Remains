@@ -1,0 +1,531 @@
+{
+  "artwork_layers": [
+    {
+      "layer_index": 2,
+      "element_svg_files": {
+        "12": [
+          "morda_polic_L2_S0.svg"
+        ],
+        "13": [
+          "morda_spec_L2_S0.svg"
+        ],
+        "14": [
+          "morda_encl_L2_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 3,
+      "element_svg_files": {
+        "10": [
+          "morda_tre_L3_S0.svg"
+        ],
+        "11": [
+          "morda_power_L3_S0.svg"
+        ],
+        "12": [
+          "morda_polic_L3_S0.svg"
+        ],
+        "13": [
+          "morda_spec_L3_S0.svg"
+        ],
+        "14": [
+          "morda_encl_L3_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 6,
+      "element_svg_files": {
+        "12": [
+          "morda_polic_L6_S0.svg"
+        ],
+        "13": [
+          "morda_polic_L6_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 7,
+      "element_svg_files": {
+        "9": [
+          "morda_sapper_L7_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 11,
+      "element_svg_files": {
+        "10": [
+          "morda_tre_L11_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    }
+  ],
+  "svg_files": {
+    "12": "morda_polic_L2_S0.svg",
+    "13": "morda_spec_L2_S0.svg",
+    "14": "morda_encl_L2_S0.svg"
+  },
+  "armor_labels": {
+    "1": "battle",
+    "2": "magus",
+    "3": "antirad",
+    "4": "antihim",
+    "5": "intel",
+    "6": "astealth",
+    "7": "assault",
+    "8": "moon",
+    "9": "sapper",
+    "10": "tre",
+    "11": "power",
+    "12": "polic",
+    "13": "spec",
+    "14": "encl",
+    "15": "ali"
+  },
+  "children": [
+    {
+      "library": "qutiNull",
+      "layer_index": 3,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 8.15,
+        "ty": 0.4
+      },
+      "frame_ranges": [
+        [
+          0,
+          1
+        ]
+      ],
+      "frame_start": 0,
+      "frame_end": 1,
+      "instance": "helm"
+    },
+    {
+      "library": "magus_helm",
+      "layer_index": 3,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": -1.25,
+        "ty": -13.2
+      },
+      "frame_ranges": [
+        [
+          2,
+          2
+        ]
+      ],
+      "frame_start": 2,
+      "frame_end": 2,
+      "instance": "helm"
+    },
+    {
+      "library": "skaf_helm",
+      "layer_index": 3,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": -1.25,
+        "ty": -13.2
+      },
+      "frame_ranges": [
+        [
+          3,
+          3
+        ]
+      ],
+      "frame_start": 3,
+      "frame_end": 3,
+      "instance": "helm"
+    },
+    {
+      "library": "skaf_helm2",
+      "layer_index": 3,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": -1.25,
+        "ty": -13.2
+      },
+      "frame_ranges": [
+        [
+          4,
+          4
+        ]
+      ],
+      "frame_start": 4,
+      "frame_end": 4,
+      "instance": "helm"
+    },
+    {
+      "library": "intel_helm",
+      "layer_index": 3,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 0.85,
+        "ty": -8.95
+      },
+      "frame_ranges": [
+        [
+          5,
+          5
+        ]
+      ],
+      "frame_start": 5,
+      "frame_end": 5,
+      "instance": "helm"
+    },
+    {
+      "library": "stealth_helm",
+      "layer_index": 3,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 6.5,
+        "ty": -6.0
+      },
+      "frame_ranges": [
+        [
+          6,
+          6
+        ]
+      ],
+      "frame_start": 6,
+      "frame_end": 6,
+      "instance": "helm"
+    },
+    {
+      "library": "ass_helm",
+      "layer_index": 3,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 3.0,
+        "ty": -11.0
+      },
+      "frame_ranges": [
+        [
+          7,
+          7
+        ]
+      ],
+      "frame_start": 7,
+      "frame_end": 7,
+      "instance": "helm"
+    },
+    {
+      "library": "moon_helm",
+      "layer_index": 3,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 3.0,
+        "ty": -11.0
+      },
+      "frame_ranges": [
+        [
+          8,
+          8
+        ]
+      ],
+      "frame_start": 8,
+      "frame_end": 8,
+      "instance": "helm"
+    },
+    {
+      "library": "ali_helm",
+      "layer_index": 3,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 6.5,
+        "ty": -6.0
+      },
+      "frame_ranges": [
+        [
+          15,
+          15
+        ]
+      ],
+      "frame_start": 15,
+      "frame_end": 15,
+      "instance": "helm"
+    },
+    {
+      "library": "magic",
+      "layer_index": 4,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 0.1,
+        "ty": -11.05
+      },
+      "frame_ranges": [
+        [
+          0,
+          14
+        ],
+        [
+          15,
+          15
+        ]
+      ],
+      "blend_mode": "hardlight",
+      "frame_start": 0,
+      "frame_end": 15,
+      "frame_transforms": {
+        "15": {
+          "tx": 12.4,
+          "ty": 4.65,
+          "rot": 0.0,
+          "sx": 1.373627,
+          "sy": 1.373627,
+          "skew": -0.0
+        }
+      },
+      "instance": "magic"
+    },
+    {
+      "library": "horn",
+      "layer_index": 5,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 0.1,
+        "ty": -11.05
+      },
+      "frame_ranges": [
+        [
+          0,
+          14
+        ]
+      ],
+      "frame_start": 0,
+      "frame_end": 14,
+      "instance": "horn"
+    },
+    {
+      "library": "horn2",
+      "layer_index": 5,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 0.1,
+        "ty": -11.05
+      },
+      "frame_ranges": [
+        [
+          15,
+          15
+        ]
+      ],
+      "frame_start": 15,
+      "frame_end": 15,
+      "instance": "horn"
+    },
+    {
+      "library": "ear0",
+      "layer_index": 6,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 0.1,
+        "ty": -11.1
+      },
+      "frame_ranges": [
+        [
+          0,
+          4
+        ],
+        [
+          8,
+          11
+        ]
+      ],
+      "frame_start": 0,
+      "frame_end": 11,
+      "instance": "morda"
+    },
+    {
+      "library": "hair",
+      "layer_index": 7,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 4.6,
+        "ty": -73.25
+      },
+      "frame_ranges": [
+        [
+          0,
+          0
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          10,
+          10
+        ]
+      ],
+      "frame_start": 0,
+      "frame_end": 10,
+      "instance": "hair"
+    },
+    {
+      "library": "eye",
+      "layer_index": 8,
+      "matrix": {
+        "a": 0.98394775390625,
+        "b": -0.0731658935546875,
+        "c": 0.085906982421875,
+        "d": 0.9957275390625,
+        "tx": -34.35,
+        "ty": -18.3
+      },
+      "frame_ranges": [
+        [
+          0,
+          15
+        ]
+      ],
+      "frame_start": 0,
+      "frame_end": 15,
+      "instance": "eye"
+    },
+    {
+      "library": "morda_battle",
+      "layer_index": 9,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 0.1,
+        "ty": -11.1
+      },
+      "frame_ranges": [
+        [
+          1,
+          1
+        ]
+      ],
+      "frame_start": 1,
+      "frame_end": 1,
+      "instance": "morda"
+    },
+    {
+      "library": "morda_intel",
+      "layer_index": 9,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 0.1,
+        "ty": -11.1
+      },
+      "frame_ranges": [
+        [
+          5,
+          5
+        ]
+      ],
+      "frame_start": 5,
+      "frame_end": 5,
+      "instance": "morda"
+    },
+    {
+      "library": "morda0",
+      "layer_index": 10,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 0.1,
+        "ty": -11.1
+      },
+      "frame_ranges": [
+        [
+          0,
+          5
+        ],
+        [
+          7,
+          10
+        ],
+        [
+          12,
+          13
+        ]
+      ],
+      "frame_start": 0,
+      "frame_end": 13,
+      "instance": "morda"
+    }
+  ],
+  "timeline": {
+    "frames": 16,
+    "labels": {
+      "battle": 1,
+      "magus": 2,
+      "antirad": 3,
+      "antihim": 4,
+      "intel": 5,
+      "astealth": 6,
+      "assault": 7,
+      "moon": 8,
+      "sapper": 9,
+      "tre": 10,
+      "power": 11,
+      "polic": 12,
+      "spec": 13,
+      "encl": 14,
+      "ali": 15
+    },
+    "scripts": {
+      "0": "import fe.Obj;\nObj.setArmor(this);"
+    }
+  },
+  "is_armor": true
+}

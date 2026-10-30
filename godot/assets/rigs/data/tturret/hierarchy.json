@@ -1,0 +1,42 @@
+{
+  "root": "osn",
+  "scale": 1.0,
+  "bones": [
+    {
+      "instance_name": "pole",
+      "library_item": "tur_cr",
+      "library_path": "Objects/Units/turret/tur_cr",
+      "layer_index": 1,
+      "layer_name": "Слой 4",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": -0.25,
+        "ty": -16.2
+      },
+      "named": true,
+      "blend_mode": "hardlight",
+      "alpha": 0.73828125,
+      "node_name": "pole"
+    },
+    {
+      "instance_name": "korp",
+      "library_item": "turel_osnova_t",
+      "library_path": "Objects/Units/turret/turel_osnova_t",
+      "layer_index": 4,
+      "layer_name": "Слой 1",
+      "matrix": {
+        "a": 0.20819091796875,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 0.20819091796875,
+        "tx": -0.2,
+        "ty": -19.8
+      },
+      "named": true,
+      "node_name": "korp"
+    }
+  ]
+}

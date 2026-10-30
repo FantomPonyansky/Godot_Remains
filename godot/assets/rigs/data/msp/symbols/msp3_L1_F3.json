@@ -1,0 +1,21 @@
+{
+  "artwork_layers": [
+    {
+      "layer_index": 1,
+      "element_svg_files": {
+        "0": [
+          "msp3_f3_L1_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    }
+  ],
+  "svg_files": {
+    "0": "msp3_f3_L1_S0.svg"
+  },
+  "source_symbol": "msp3",
+  "artwork_selector": [
+    1,
+    3
+  ]
+}

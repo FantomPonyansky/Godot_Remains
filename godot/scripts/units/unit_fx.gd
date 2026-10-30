@@ -42,7 +42,7 @@ const PARTS := {
 	"telered": {"blit": ["23_sprRSpark.png", 9, 9], "alph": true, "minliv": 10, "rliv": 20, "rv": 5, "add": true},
 	"lift": {"blit": ["40_sprBSpark.png", 9, 9], "alph": true, "minliv": 20, "rliv": 20, "dy": -5, "rdy": -5, "add": true},
 	"teleport": {"vis": "fx_teleport", "anim": true, "minliv": 12},
-	"quake": {"vis": "fx_quake", "anim": true, "minliv": 10},
+	"quake": {"vis": "fx_quake", "anim": true, "minliv": 10, "add": true},
 	"necronoise": {"vis": "fx_necronoise", "anim": true, "minliv": 9},
 	"vsos": {"blit": ["visualVsos.png", 134, 134], "origin": [70.0, 70.0], "tex_scale": 0.5, "alph": true, "minliv": 30, "rsc": 0.2},
 	"green_spark": {"vis": "fx_green_spark", "alph": true, "minliv": 20, "rliv": 10, "add": true, "minv": 8, "rv": 1, "rsc": 0.4, "brake": 0.92},

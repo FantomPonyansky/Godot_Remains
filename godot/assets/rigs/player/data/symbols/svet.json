@@ -1,0 +1,23 @@
+{
+  "bitmaps": [
+    {
+      "layer_index": 0,
+      "library_item": "Objects/LittlePip/flare.png",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": -60.0,
+        "ty": -60.0
+      },
+      "frame_ranges": [
+        [
+          0,
+          0
+        ]
+      ],
+      "file": "Objects/LittlePip/flare.png"
+    }
+  ]
+}

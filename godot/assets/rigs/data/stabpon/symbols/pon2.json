@@ -1,0 +1,1340 @@
+{
+  "artwork_layers": [
+    {
+      "layer_index": 1,
+      "element_svg_files": {
+        "0": [
+          "pon2_L1_S0.svg"
+        ],
+        "1": [
+          "pon2_f1_L1_S0.svg"
+        ],
+        "4": [
+          "pon2_f4_L1_S0.svg"
+        ],
+        "5": [
+          "pon2_f5_L1_S0.svg"
+        ],
+        "6": [
+          "pon2_f6_L1_S0.svg"
+        ],
+        "7": [
+          "pon2_f7_L1_S0.svg"
+        ],
+        "8": [
+          "pon2_f8_L1_S0.svg"
+        ],
+        "10": [
+          "pon2_f10_L1_S0.svg"
+        ],
+        "14": [
+          "pon2_f14_L1_S0.svg"
+        ],
+        "15": [
+          "pon2_f15_L1_S0.svg"
+        ],
+        "17": [
+          "pon2_f17_L1_S0.svg"
+        ],
+        "19": [
+          "pon2_f19_L1_S0.svg"
+        ],
+        "22": [
+          "pon2_f22_L1_S0.svg"
+        ],
+        "27": [
+          "pon2_f27_L1_S0.svg"
+        ],
+        "31": [
+          "pon2_f31_L1_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 2,
+      "element_svg_files": {
+        "0": [
+          "pon2_L2_S0.svg"
+        ],
+        "1": [
+          "pon2_f1_L2_S0.svg"
+        ],
+        "2": [
+          "pon2_f2_L2_S0.svg"
+        ],
+        "3": [
+          "pon2_f3_L2_S0.svg"
+        ],
+        "4": [
+          "pon2_f4_L2_S0.svg"
+        ],
+        "5": [
+          "pon2_f5_L2_S0.svg"
+        ],
+        "6": [
+          "pon2_f6_L2_S0.svg"
+        ],
+        "7": [
+          "pon2_f7_L2_S0.svg"
+        ],
+        "8": [
+          "pon2_f8_L2_S0.svg"
+        ],
+        "9": [
+          "pon2_f9_L2_S0.svg"
+        ],
+        "10": [
+          "pon2_f10_L2_S0.svg"
+        ],
+        "11": [
+          "pon2_f11_L2_S0.svg"
+        ],
+        "12": [
+          "pon2_f12_L2_S0.svg"
+        ],
+        "13": [
+          "pon2_f13_L2_S0.svg"
+        ],
+        "14": [
+          "pon2_f14_L2_S0.svg"
+        ],
+        "15": [
+          "pon2_f15_L2_S0.svg"
+        ],
+        "16": [
+          "pon2_f16_L2_S0.svg"
+        ],
+        "17": [
+          "pon2_f17_L2_S0.svg"
+        ],
+        "18": [
+          "pon2_f18_L2_S0.svg"
+        ],
+        "19": [
+          "pon2_f19_L2_S0.svg"
+        ],
+        "20": [
+          "pon2_f20_L2_S0.svg"
+        ],
+        "21": [
+          "pon2_f21_L2_S0.svg"
+        ],
+        "22": [
+          "pon2_f22_L2_S0.svg"
+        ],
+        "23": [
+          "pon2_f23_L2_S0.svg"
+        ],
+        "24": [
+          "pon2_f24_L2_S0.svg"
+        ],
+        "25": [
+          "pon2_f25_L2_S0.svg"
+        ],
+        "26": [
+          "pon2_f26_L2_S0.svg"
+        ],
+        "27": [
+          "pon2_f27_L2_S0.svg"
+        ],
+        "28": [
+          "pon2_f28_L2_S0.svg"
+        ],
+        "29": [
+          "pon2_f29_L2_S0.svg"
+        ],
+        "30": [
+          "pon2_f30_L2_S0.svg"
+        ],
+        "31": [
+          "pon2_f31_L2_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 3,
+      "element_svg_files": {
+        "0": [
+          "pon2_L3_S0.svg"
+        ],
+        "1": [
+          "pon2_f1_L3_S0.svg"
+        ],
+        "2": [
+          "pon2_f2_L3_S0.svg"
+        ],
+        "3": [
+          "pon2_f3_L3_S0.svg"
+        ],
+        "4": [
+          "pon2_f4_L3_S0.svg"
+        ],
+        "5": [
+          "pon2_f5_L3_S0.svg"
+        ],
+        "6": [
+          "pon2_f6_L3_S0.svg"
+        ],
+        "7": [
+          "pon2_f7_L3_S0.svg"
+        ],
+        "8": [
+          "pon2_f8_L3_S0.svg"
+        ],
+        "9": [
+          "pon2_f9_L3_S0.svg"
+        ],
+        "10": [
+          "pon2_f10_L3_S0.svg"
+        ],
+        "11": [
+          "pon2_f11_L3_S0.svg"
+        ],
+        "12": [
+          "pon2_f12_L3_S0.svg"
+        ],
+        "13": [
+          "pon2_f13_L3_S0.svg"
+        ],
+        "14": [
+          "pon2_f14_L3_S0.svg"
+        ],
+        "15": [
+          "pon2_f15_L3_S0.svg"
+        ],
+        "16": [
+          "pon2_f16_L3_S0.svg"
+        ],
+        "17": [
+          "pon2_f17_L3_S0.svg"
+        ],
+        "18": [
+          "pon2_f18_L3_S0.svg"
+        ],
+        "19": [
+          "pon2_f19_L3_S0.svg"
+        ],
+        "20": [
+          "pon2_f20_L3_S0.svg"
+        ],
+        "21": [
+          "pon2_f21_L3_S0.svg"
+        ],
+        "22": [
+          "pon2_f22_L3_S0.svg"
+        ],
+        "23": [
+          "pon2_f23_L3_S0.svg"
+        ],
+        "24": [
+          "pon2_f24_L3_S0.svg"
+        ],
+        "25": [
+          "pon2_f25_L3_S0.svg"
+        ],
+        "26": [
+          "pon2_f26_L3_S0.svg"
+        ],
+        "27": [
+          "pon2_f27_L3_S0.svg"
+        ],
+        "28": [
+          "pon2_f28_L3_S0.svg"
+        ],
+        "29": [
+          "pon2_f29_L3_S0.svg"
+        ],
+        "30": [
+          "pon2_f30_L3_S0.svg"
+        ],
+        "31": [
+          "pon2_f31_L3_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 5,
+      "element_svg_files": {
+        "0": [
+          "pon2_L5_S0.svg"
+        ],
+        "1": [
+          "pon2_L5_S0.svg"
+        ],
+        "2": [
+          "pon2_L5_S0.svg"
+        ],
+        "3": [
+          "pon2_L5_S0.svg"
+        ],
+        "4": [
+          "pon2_L5_S0.svg"
+        ],
+        "5": [
+          "pon2_L5_S0.svg"
+        ],
+        "6": [
+          "pon2_L5_S0.svg"
+        ],
+        "7": [
+          "pon2_L5_S0.svg"
+        ],
+        "8": [
+          "pon2_L5_S0.svg"
+        ],
+        "9": [
+          "pon2_L5_S0.svg"
+        ],
+        "10": [
+          "pon2_L5_S0.svg"
+        ],
+        "11": [
+          "pon2_L5_S0.svg"
+        ],
+        "12": [
+          "pon2_L5_S0.svg"
+        ],
+        "13": [
+          "pon2_f13_L5_S0.svg"
+        ],
+        "14": [
+          "pon2_f13_L5_S0.svg"
+        ],
+        "15": [
+          "pon2_f13_L5_S0.svg"
+        ],
+        "16": [
+          "pon2_f16_L5_S0.svg"
+        ],
+        "17": [
+          "pon2_f16_L5_S0.svg"
+        ],
+        "18": [
+          "pon2_f18_L5_S0.svg"
+        ],
+        "19": [
+          "pon2_f19_L5_S0.svg"
+        ],
+        "20": [
+          "pon2_f19_L5_S0.svg"
+        ],
+        "21": [
+          "pon2_f21_L5_S0.svg"
+        ],
+        "22": [
+          "pon2_f21_L5_S0.svg"
+        ],
+        "23": [
+          "pon2_f23_L5_S0.svg"
+        ],
+        "24": [
+          "pon2_f24_L5_S0.svg"
+        ],
+        "25": [
+          "pon2_f24_L5_S0.svg"
+        ],
+        "26": [
+          "pon2_f26_L5_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 6,
+      "element_svg_files": {
+        "24": [
+          "pon2_f24_L6_S0.svg"
+        ],
+        "25": [
+          "pon2_f25_L6_S0.svg"
+        ],
+        "26": [
+          "pon2_f26_L6_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 7,
+      "element_svg_files": {
+        "0": [
+          "pon2_L7_S0.svg"
+        ],
+        "1": [
+          "pon2_f1_L7_S0.svg"
+        ],
+        "2": [
+          "pon2_f2_L7_S0.svg"
+        ],
+        "3": [
+          "pon2_f3_L7_S0.svg"
+        ],
+        "4": [
+          "pon2_f4_L7_S0.svg"
+        ],
+        "5": [
+          "pon2_f5_L7_S0.svg"
+        ],
+        "6": [
+          "pon2_f6_L7_S0.svg"
+        ],
+        "7": [
+          "pon2_f7_L7_S0.svg"
+        ],
+        "8": [
+          "pon2_f8_L7_S0.svg"
+        ],
+        "9": [
+          "pon2_f9_L7_S0.svg"
+        ],
+        "10": [
+          "pon2_f10_L7_S0.svg"
+        ],
+        "11": [
+          "pon2_f11_L7_S0.svg"
+        ],
+        "12": [
+          "pon2_f12_L7_S0.svg"
+        ],
+        "13": [
+          "pon2_f13_L7_S0.svg"
+        ],
+        "14": [
+          "pon2_f14_L7_S0.svg"
+        ],
+        "15": [
+          "pon2_f15_L7_S0.svg"
+        ],
+        "16": [
+          "pon2_f16_L7_S0.svg"
+        ],
+        "17": [
+          "pon2_f17_L7_S0.svg"
+        ],
+        "18": [
+          "pon2_f18_L7_S0.svg"
+        ],
+        "19": [
+          "pon2_f19_L7_S0.svg"
+        ],
+        "20": [
+          "pon2_f20_L7_S0.svg"
+        ],
+        "21": [
+          "pon2_f21_L7_S0.svg"
+        ],
+        "22": [
+          "pon2_f22_L7_S0.svg"
+        ],
+        "23": [
+          "pon2_f23_L7_S0.svg"
+        ],
+        "24": [
+          "pon2_f24_L7_S0.svg"
+        ],
+        "25": [
+          "pon2_f25_L7_S0.svg"
+        ],
+        "26": [
+          "pon2_f26_L7_S0.svg"
+        ],
+        "27": [
+          "pon2_f27_L7_S0.svg"
+        ],
+        "28": [
+          "pon2_f28_L7_S0.svg"
+        ],
+        "29": [
+          "pon2_f29_L7_S0.svg"
+        ],
+        "30": [
+          "pon2_f30_L7_S0.svg"
+        ],
+        "31": [
+          "pon2_f31_L7_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 8,
+      "element_svg_files": {
+        "0": [
+          "pon2_L8_S0.svg"
+        ],
+        "1": [
+          "pon2_f1_L8_S0.svg"
+        ],
+        "2": [
+          "pon2_f2_L8_S0.svg"
+        ],
+        "3": [
+          "pon2_f3_L8_S0.svg"
+        ],
+        "4": [
+          "pon2_f4_L8_S0.svg"
+        ],
+        "5": [
+          "pon2_f5_L8_S0.svg"
+        ],
+        "6": [
+          "pon2_f6_L8_S0.svg"
+        ],
+        "8": [
+          "pon2_f8_L8_S0.svg"
+        ],
+        "9": [
+          "pon2_f9_L8_S0.svg"
+        ],
+        "10": [
+          "pon2_f10_L8_S0.svg"
+        ],
+        "11": [
+          "pon2_f11_L8_S0.svg"
+        ],
+        "12": [
+          "pon2_f12_L8_S0.svg"
+        ],
+        "13": [
+          "pon2_f13_L8_S0.svg"
+        ],
+        "14": [
+          "pon2_f14_L8_S0.svg"
+        ],
+        "15": [
+          "pon2_f15_L8_S0.svg"
+        ],
+        "16": [
+          "pon2_f16_L8_S0.svg"
+        ],
+        "17": [
+          "pon2_f17_L8_S0.svg"
+        ],
+        "18": [
+          "pon2_f18_L8_S0.svg"
+        ],
+        "20": [
+          "pon2_f20_L8_S0.svg"
+        ],
+        "21": [
+          "pon2_f21_L8_S0.svg"
+        ],
+        "22": [
+          "pon2_f22_L8_S0.svg"
+        ],
+        "23": [
+          "pon2_f23_L8_S0.svg"
+        ],
+        "24": [
+          "pon2_f24_L8_S0.svg"
+        ],
+        "25": [
+          "pon2_f25_L8_S0.svg"
+        ],
+        "26": [
+          "pon2_f26_L8_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 9,
+      "element_svg_files": {
+        "0": [
+          "pon2_L9_S0.svg"
+        ],
+        "1": [
+          "pon2_f1_L9_S0.svg"
+        ],
+        "2": [
+          "pon2_f2_L9_S0.svg"
+        ],
+        "3": [
+          "pon2_f3_L9_S0.svg"
+        ],
+        "4": [
+          "pon2_f4_L9_S0.svg"
+        ],
+        "5": [
+          "pon2_f5_L9_S0.svg"
+        ],
+        "6": [
+          "pon2_f6_L9_S0.svg"
+        ],
+        "7": [
+          "pon2_f7_L9_S0.svg"
+        ],
+        "8": [
+          "pon2_f8_L9_S0.svg"
+        ],
+        "9": [
+          "pon2_f9_L9_S0.svg"
+        ],
+        "10": [
+          "pon2_f10_L9_S0.svg"
+        ],
+        "11": [
+          "pon2_f11_L9_S0.svg"
+        ],
+        "12": [
+          "pon2_f12_L9_S0.svg"
+        ],
+        "13": [
+          "pon2_f13_L9_S0.svg"
+        ],
+        "14": [
+          "pon2_f14_L9_S0.svg"
+        ],
+        "15": [
+          "pon2_f15_L9_S0.svg"
+        ],
+        "16": [
+          "pon2_f16_L9_S0.svg"
+        ],
+        "17": [
+          "pon2_f17_L9_S0.svg"
+        ],
+        "18": [
+          "pon2_f18_L9_S0.svg"
+        ],
+        "19": [
+          "pon2_f19_L9_S0.svg"
+        ],
+        "20": [
+          "pon2_f20_L9_S0.svg"
+        ],
+        "21": [
+          "pon2_f21_L9_S0.svg"
+        ],
+        "22": [
+          "pon2_f22_L9_S0.svg"
+        ],
+        "23": [
+          "pon2_f23_L9_S0.svg"
+        ],
+        "24": [
+          "pon2_f24_L9_S0.svg"
+        ],
+        "25": [
+          "pon2_f25_L9_S0.svg"
+        ],
+        "26": [
+          "pon2_f26_L9_S0.svg"
+        ],
+        "27": [
+          "pon2_f27_L9_S0.svg"
+        ],
+        "28": [
+          "pon2_f28_L9_S0.svg"
+        ],
+        "29": [
+          "pon2_f29_L9_S0.svg"
+        ],
+        "30": [
+          "pon2_f30_L9_S0.svg"
+        ],
+        "31": [
+          "pon2_f31_L9_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 10,
+      "element_svg_files": {
+        "0": [
+          "pon2_L10_S0.svg"
+        ],
+        "1": [
+          "pon2_f1_L10_S0.svg"
+        ],
+        "2": [
+          "pon2_f2_L10_S0.svg"
+        ],
+        "3": [
+          "pon2_f3_L10_S0.svg"
+        ],
+        "4": [
+          "pon2_f4_L10_S0.svg"
+        ],
+        "5": [
+          "pon2_f5_L10_S0.svg"
+        ],
+        "6": [
+          "pon2_f6_L10_S0.svg"
+        ],
+        "7": [
+          "pon2_f7_L10_S0.svg"
+        ],
+        "8": [
+          "pon2_f8_L10_S0.svg"
+        ],
+        "9": [
+          "pon2_f9_L10_S0.svg"
+        ],
+        "10": [
+          "pon2_f10_L10_S0.svg"
+        ],
+        "11": [
+          "pon2_f11_L10_S0.svg"
+        ],
+        "12": [
+          "pon2_f12_L10_S0.svg"
+        ],
+        "13": [
+          "pon2_f13_L10_S0.svg"
+        ],
+        "14": [
+          "pon2_f14_L10_S0.svg"
+        ],
+        "15": [
+          "pon2_f15_L10_S0.svg"
+        ],
+        "16": [
+          "pon2_f16_L10_S0.svg"
+        ],
+        "17": [
+          "pon2_f17_L10_S0.svg"
+        ],
+        "18": [
+          "pon2_f18_L10_S0.svg"
+        ],
+        "19": [
+          "pon2_f19_L10_S0.svg"
+        ],
+        "20": [
+          "pon2_f20_L10_S0.svg"
+        ],
+        "21": [
+          "pon2_f21_L10_S0.svg"
+        ],
+        "22": [
+          "pon2_f22_L10_S0.svg"
+        ],
+        "23": [
+          "pon2_f23_L10_S0.svg"
+        ],
+        "24": [
+          "pon2_f24_L10_S0.svg"
+        ],
+        "25": [
+          "pon2_f25_L10_S0.svg"
+        ],
+        "26": [
+          "pon2_f26_L10_S0.svg"
+        ],
+        "27": [
+          "pon2_f27_L10_S0.svg"
+        ],
+        "28": [
+          "pon2_f28_L10_S0.svg"
+        ],
+        "29": [
+          "pon2_f29_L10_S0.svg"
+        ],
+        "30": [
+          "pon2_f30_L10_S0.svg"
+        ],
+        "31": [
+          "pon2_f31_L10_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    }
+  ],
+  "svg_files": {
+    "0": "pon2_L1_S0.svg",
+    "1": "pon2_f1_L1_S0.svg",
+    "4": "pon2_f4_L1_S0.svg",
+    "5": "pon2_f5_L1_S0.svg",
+    "6": "pon2_f6_L1_S0.svg",
+    "7": "pon2_f7_L1_S0.svg",
+    "8": "pon2_f8_L1_S0.svg",
+    "10": "pon2_f10_L1_S0.svg",
+    "14": "pon2_f14_L1_S0.svg",
+    "15": "pon2_f15_L1_S0.svg",
+    "17": "pon2_f17_L1_S0.svg",
+    "19": "pon2_f19_L1_S0.svg",
+    "22": "pon2_f22_L1_S0.svg",
+    "27": "pon2_f27_L1_S0.svg",
+    "31": "pon2_f31_L1_S0.svg"
+  },
+  "children": [
+    {
+      "library": "ponpip",
+      "layer_index": 4,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 14.8,
+        "ty": 56.45
+      },
+      "frame_ranges": [
+        [
+          0,
+          15
+        ],
+        [
+          16,
+          17
+        ],
+        [
+          18,
+          18
+        ],
+        [
+          19,
+          25
+        ],
+        [
+          26,
+          26
+        ]
+      ],
+      "frame_start": 0,
+      "frame_end": 26,
+      "frame_transforms": {
+        "16": {
+          "tx": 16.95,
+          "ty": 56.45,
+          "rot": 0.0,
+          "sx": 0.729525,
+          "sy": 0.609979,
+          "skew": -0.0
+        },
+        "18": {
+          "tx": 16.95,
+          "ty": 56.45,
+          "rot": 0.0,
+          "sx": 0.804088,
+          "sy": 0.609979,
+          "skew": -0.0
+        },
+        "19": {
+          "tx": 17.95,
+          "ty": 56.45,
+          "rot": 0.0,
+          "sx": 0.729525,
+          "sy": 0.609979,
+          "skew": -0.0
+        },
+        "26": {
+          "tx": 17.95,
+          "ty": 57.85,
+          "rot": 0.0,
+          "sx": 0.729525,
+          "sy": 0.573717,
+          "skew": -0.0
+        }
+      }
+    },
+    {
+      "library": "glaz1",
+      "layer_index": 6,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 53.85,
+        "ty": -39.4
+      },
+      "frame_ranges": [
+        [
+          0,
+          0
+        ]
+      ],
+      "frame_start": 0,
+      "frame_end": 0
+    },
+    {
+      "library": "glaz2",
+      "layer_index": 6,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 53.85,
+        "ty": -39.4
+      },
+      "frame_ranges": [
+        [
+          1,
+          1
+        ],
+        [
+          6,
+          6
+        ]
+      ],
+      "frame_start": 1,
+      "frame_end": 6
+    },
+    {
+      "library": "glaz3",
+      "layer_index": 6,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 53.85,
+        "ty": -39.4
+      },
+      "frame_ranges": [
+        [
+          2,
+          2
+        ],
+        [
+          8,
+          8
+        ]
+      ],
+      "frame_start": 2,
+      "frame_end": 8
+    },
+    {
+      "library": "glaz4",
+      "layer_index": 6,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 53.85,
+        "ty": -39.4
+      },
+      "frame_ranges": [
+        [
+          3,
+          3
+        ]
+      ],
+      "frame_start": 3,
+      "frame_end": 3
+    },
+    {
+      "library": "glaz5",
+      "layer_index": 6,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 53.85,
+        "ty": -39.4
+      },
+      "frame_ranges": [
+        [
+          4,
+          4
+        ],
+        [
+          9,
+          9
+        ]
+      ],
+      "frame_start": 4,
+      "frame_end": 9
+    },
+    {
+      "library": "glaz6",
+      "layer_index": 6,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 53.85,
+        "ty": -39.4
+      },
+      "frame_ranges": [
+        [
+          5,
+          5
+        ]
+      ],
+      "frame_start": 5,
+      "frame_end": 5
+    },
+    {
+      "library": "glaz13",
+      "layer_index": 6,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 53.85,
+        "ty": -39.4
+      },
+      "frame_ranges": [
+        [
+          7,
+          7
+        ],
+        [
+          11,
+          11
+        ]
+      ],
+      "frame_start": 7,
+      "frame_end": 11
+    },
+    {
+      "library": "glaz14",
+      "layer_index": 6,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 53.85,
+        "ty": -39.4
+      },
+      "frame_ranges": [
+        [
+          10,
+          10
+        ],
+        [
+          14,
+          14
+        ]
+      ],
+      "frame_start": 10,
+      "frame_end": 14
+    },
+    {
+      "library": "glaz15",
+      "layer_index": 6,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 53.85,
+        "ty": -39.4
+      },
+      "frame_ranges": [
+        [
+          12,
+          12
+        ],
+        [
+          13,
+          13
+        ]
+      ],
+      "frame_start": 12,
+      "frame_end": 13
+    },
+    {
+      "library": "glaz8",
+      "layer_index": 6,
+      "matrix": {
+        "a": 0.931900024414063,
+        "b": 0.0,
+        "c": 0.123764038085938,
+        "d": 0.870468139648438,
+        "tx": 54.4,
+        "ty": -39.15
+      },
+      "frame_ranges": [
+        [
+          15,
+          15
+        ],
+        [
+          28,
+          28
+        ],
+        [
+          31,
+          31
+        ]
+      ],
+      "frame_start": 15,
+      "frame_end": 31,
+      "frame_transforms": {
+        "28": {
+          "tx": 33.5,
+          "ty": -5.65,
+          "rot": 0.0,
+          "sx": 1.0,
+          "sy": 1.0,
+          "skew": -0.0
+        },
+        "31": {
+          "tx": 33.5,
+          "ty": -5.65,
+          "rot": 0.0,
+          "sx": 1.0,
+          "sy": 1.0,
+          "skew": -0.0
+        }
+      }
+    },
+    {
+      "library": "glaz10",
+      "layer_index": 6,
+      "matrix": {
+        "a": 1.15599060058594,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.15599060058594,
+        "tx": 67.0,
+        "ty": -55.75
+      },
+      "frame_ranges": [
+        [
+          16,
+          16
+        ],
+        [
+          22,
+          22
+        ]
+      ],
+      "frame_start": 16,
+      "frame_end": 22,
+      "frame_transforms": {
+        "22": {
+          "tx": 65.05,
+          "ty": -49.65,
+          "rot": 0.0,
+          "sx": 1.098572,
+          "sy": 1.098572,
+          "skew": -0.0
+        }
+      }
+    },
+    {
+      "library": "glaz18",
+      "layer_index": 6,
+      "matrix": {
+        "a": 1.15599060058594,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.15599060058594,
+        "tx": 68.1,
+        "ty": -56.1
+      },
+      "frame_ranges": [
+        [
+          17,
+          17
+        ]
+      ],
+      "frame_start": 17,
+      "frame_end": 17
+    },
+    {
+      "library": "glaz11",
+      "layer_index": 6,
+      "matrix": {
+        "a": 1.15599060058594,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.15599060058594,
+        "tx": 63.35,
+        "ty": -60.6
+      },
+      "frame_ranges": [
+        [
+          18,
+          18
+        ],
+        [
+          23,
+          23
+        ]
+      ],
+      "frame_start": 18,
+      "frame_end": 23,
+      "frame_transforms": {
+        "23": {
+          "tx": 60.55,
+          "ty": -53.9,
+          "rot": 0.0,
+          "sx": 1.098572,
+          "sy": 1.098572,
+          "skew": -0.0
+        }
+      }
+    },
+    {
+      "library": "glaz19",
+      "layer_index": 6,
+      "matrix": {
+        "a": 1.15599060058594,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.15599060058594,
+        "tx": 68.1,
+        "ty": -56.1
+      },
+      "frame_ranges": [
+        [
+          19,
+          19
+        ]
+      ],
+      "frame_start": 19,
+      "frame_end": 19
+    },
+    {
+      "library": "glaz20",
+      "layer_index": 6,
+      "matrix": {
+        "a": 1.13662719726563,
+        "b": 0.210586547851563,
+        "c": -0.210586547851563,
+        "d": 1.13662719726563,
+        "tx": 65.0,
+        "ty": -54.75
+      },
+      "frame_ranges": [
+        [
+          20,
+          20
+        ]
+      ],
+      "frame_start": 20,
+      "frame_end": 20
+    },
+    {
+      "library": "glaz9",
+      "layer_index": 6,
+      "matrix": {
+        "a": 1.09857177734375,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.09857177734375,
+        "tx": 66.05,
+        "ty": -52.65
+      },
+      "frame_ranges": [
+        [
+          21,
+          21
+        ]
+      ],
+      "frame_start": 21,
+      "frame_end": 21
+    },
+    {
+      "library": "glaz21",
+      "layer_index": 6,
+      "matrix": {
+        "a": 1.0751953125,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0751953125,
+        "tx": 59.35,
+        "ty": -50.1
+      },
+      "frame_ranges": [
+        [
+          24,
+          24
+        ]
+      ],
+      "frame_start": 24,
+      "frame_end": 24
+    },
+    {
+      "library": "glaz22",
+      "layer_index": 6,
+      "matrix": {
+        "a": 1.0751953125,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0751953125,
+        "tx": 59.35,
+        "ty": -50.1
+      },
+      "frame_ranges": [
+        [
+          25,
+          25
+        ]
+      ],
+      "frame_start": 25,
+      "frame_end": 25
+    },
+    {
+      "library": "glaz16",
+      "layer_index": 6,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 33.5,
+        "ty": -5.65
+      },
+      "frame_ranges": [
+        [
+          27,
+          27
+        ]
+      ],
+      "frame_start": 27,
+      "frame_end": 27
+    },
+    {
+      "library": "glaz17",
+      "layer_index": 6,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 33.5,
+        "ty": -5.65
+      },
+      "frame_ranges": [
+        [
+          29,
+          29
+        ]
+      ],
+      "frame_start": 29,
+      "frame_end": 29
+    },
+    {
+      "library": "glaz7",
+      "layer_index": 6,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 33.5,
+        "ty": -5.65
+      },
+      "frame_ranges": [
+        [
+          30,
+          30
+        ]
+      ],
+      "frame_start": 30,
+      "frame_end": 30
+    }
+  ],
+  "timeline": {
+    "frames": 32,
+    "labels": {},
+    "scripts": {}
+  }
+}

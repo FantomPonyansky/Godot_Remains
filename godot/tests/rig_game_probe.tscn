@@ -1,0 +1,6 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://tests/rig_game_probe.gd" id="1"]
+
+[node name="RigGameProbe" type="Node"]
+script = ExtResource("1")

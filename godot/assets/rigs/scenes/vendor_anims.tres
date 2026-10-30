@@ -1,0 +1,14 @@
+[gd_resource type="AnimationLibrary" load_steps=5 format=3]
+
+[ext_resource type="Animation" path="res://assets/rigs/scenes/vendor_anims/T01_ALL_1.tres" id="ext_1"]
+[ext_resource type="Animation" path="res://assets/rigs/scenes/vendor_anims/T01_ALL_1_f42.tres" id="ext_2"]
+[ext_resource type="Animation" path="res://assets/rigs/scenes/vendor_anims/T01_ALL_1_move1.tres" id="ext_3"]
+[ext_resource type="Animation" path="res://assets/rigs/scenes/vendor_anims/T01_ALL_1_move2.tres" id="ext_4"]
+
+[resource]
+_data = {
+"T01_ALL_1": ExtResource("ext_1"),
+"T01_ALL_1_f42": ExtResource("ext_2"),
+"T01_ALL_1_move1": ExtResource("ext_3"),
+"T01_ALL_1_move2": ExtResource("ext_4")
+}

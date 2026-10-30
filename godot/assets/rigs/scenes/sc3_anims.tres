@@ -1,0 +1,8 @@
+[gd_resource type="AnimationLibrary" load_steps=2 format=3]
+
+[ext_resource type="Animation" path="res://assets/rigs/scenes/sc3_anims/visualSc3.tres" id="ext_1"]
+
+[resource]
+_data = {
+"visualSc3": ExtResource("ext_1")
+}

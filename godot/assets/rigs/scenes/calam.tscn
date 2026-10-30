@@ -1,0 +1,584 @@
+[gd_scene load_steps=42 format=3]
+
+[ext_resource type="Shader" path="res://assets/rigs/shaders/color_transform.gdshader" id="ext_1"]
+[ext_resource type="Shader" path="res://assets/rigs/shaders/color_transform_masked.gdshader" id="ext_2"]
+[ext_resource type="Shader" path="res://assets/rigs/shaders/color_transform_hardlight.gdshader" id="ext_3"]
+[ext_resource type="Shader" path="res://assets/rigs/shaders/color_transform_lighten.gdshader" id="ext_4"]
+[ext_resource type="Shader" path="res://assets/rigs/shaders/color_transform_screen.gdshader" id="ext_5"]
+[ext_resource type="Script" path="res://scripts/rig/rig_view.gd" id="ext_6"]
+
+[sub_resource type="ShaderMaterial" id="sub_1"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_2"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_3"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_4"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_5"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_6"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_7"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_8"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_9"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_10"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_11"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_12"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_13"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_14"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_15"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_16"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_17"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_18"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_19"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_20"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_21"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_22"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_23"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_24"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_25"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_26"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_27"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_28"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_29"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_30"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_31"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_32"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_33"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_34"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_35"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[node name="Calam" type="Node2D"]
+script = ExtResource("ext_6")
+metadata/data_dir = "res://assets/rigs/data/calam/"
+metadata/art_dir = "res://assets/rigs/art/calam/"
+metadata/anim_library = "res://assets/rigs/scenes/calam_anims.tres"
+metadata/idle_animation = "body_stay"
+
+[node name="osn" type="Node2D" parent="."]
+scale = Vector2(1.76907, 1.76904)
+
+[node name="body" type="CanvasGroup" parent="osn"]
+
+[node name="sleg3a_l" type="Node2D" parent="osn/body"]
+position = Vector2(-5.35, -16.25)
+rotation = -0.113006
+scale = Vector2(0.99929, 0.93847)
+skew = -0.047099
+
+[node name="spr_L2_S0" type="Sprite2D" parent="osn/body/sleg3a_l"]
+centered = false
+scale = Vector2(0.18253, 0.18253)
+material = SubResource("sub_1")
+metadata/artwork_layer = 2
+metadata/element_index = 0
+
+[node name="sleg1_l" type="Node2D" parent="osn/body"]
+position = Vector2(-4.95, -29.45)
+rotation = 3.11527
+scale = Vector2(0.21275, -0.19665)
+skew = 0.006149
+
+[node name="spr_L3_S0" type="Sprite2D" parent="osn/body/sleg1_l"]
+centered = false
+scale = Vector2(0.81274, 0.81274)
+material = SubResource("sub_2")
+metadata/artwork_layer = 3
+metadata/element_index = 0
+
+[node name="quti" type="Sprite2D" parent="osn/body/sleg1_l"]
+position = Vector2(-10.3, 25.7)
+visible = false
+centered = false
+scale = Vector2(1, 1)
+metadata/library = "quti"
+metadata/frame_start = 0
+metadata/frame_end = 0
+metadata/frame_ranges = PackedInt32Array(0, 0)
+metadata/vis_lib = "sleg1"
+metadata/layer_index = 2
+material = SubResource("sub_3")
+
+[node name="fleg1_l" type="Node2D" parent="osn/body"]
+position = Vector2(9.7, -22.4)
+rotation = -0.092567
+scale = Vector2(1.06259, 1.1)
+skew = 0.016282
+
+[node name="spr_L1_S0" type="Sprite2D" parent="osn/body/fleg1_l"]
+centered = false
+scale = Vector2(0.15542, 0.15542)
+material = SubResource("sub_4")
+metadata/artwork_layer = 1
+metadata/element_index = 0
+
+[node name="fleg2_l" type="Node2D" parent="osn/body"]
+position = Vector2(9.9, -18.05)
+rotation = -0.007368
+scale = Vector2(1.08316, 1.0789)
+skew = -0.009958
+
+[node name="spr_L1_S0" type="Sprite2D" parent="osn/body/fleg2_l"]
+centered = false
+scale = Vector2(0.15993, 0.15993)
+material = SubResource("sub_5")
+metadata/artwork_layer = 1
+metadata/element_index = 0
+
+[node name="spr_L0_S0" type="Sprite2D" parent="osn/body/fleg2_l"]
+centered = false
+scale = Vector2(0.15993, 0.15993)
+material = SubResource("sub_6")
+metadata/artwork_layer = 0
+metadata/element_index = 0
+
+[node name="flleg3" type="Node2D" parent="osn/body"]
+position = Vector2(10.1, -12.9)
+rotation = 0.018037
+scale = Vector2(1.10403, 0.92069)
+skew = -0.16556
+
+[node name="spr_L2_S0" type="Sprite2D" parent="osn/body/flleg3"]
+centered = false
+scale = Vector2(0.17086, 0.17086)
+material = SubResource("sub_7")
+metadata/artwork_layer = 2
+metadata/element_index = 0
+
+[node name="spr_L1_S0" type="Sprite2D" parent="osn/body/flleg3"]
+centered = false
+scale = Vector2(0.16492, 0.16492)
+material = SubResource("sub_8")
+metadata/artwork_layer = 1
+metadata/element_index = 0
+
+[node name="tail" type="Node2D" parent="osn/body"]
+position = Vector2(-8.2, -30.95)
+rotation = -2.99391
+scale = Vector2(0.20564, -0.20707)
+skew = 0.108917
+
+[node name="spr_L1_S0" type="Sprite2D" parent="osn/body/tail"]
+centered = false
+scale = Vector2(0.91308, 0.91308)
+material = SubResource("sub_9")
+metadata/artwork_layer = 1
+metadata/element_index = 0
+
+[node name="spr_L0_S0" type="Sprite2D" parent="osn/body/tail"]
+centered = false
+scale = Vector2(0.88285, 0.88285)
+material = SubResource("sub_10")
+metadata/artwork_layer = 0
+metadata/element_index = 0
+
+[node name="korpus" type="Node2D" parent="osn/body"]
+position = Vector2(0.8, -25.85)
+rotation = 3.073
+scale = Vector2(0.20815, -0.20405)
+skew = 0.039877
+
+[node name="spr_L1_S0" type="Sprite2D" parent="osn/body/korpus"]
+centered = false
+scale = Vector2(0.90934, 0.90934)
+material = SubResource("sub_11")
+metadata/artwork_layer = 1
+metadata/element_index = 0
+
+[node name="neck" type="Node2D" parent="osn/body"]
+position = Vector2(3.5, -29.35)
+rotation = 3.10886
+scale = Vector2(0.20046, -0.20042)
+skew = -0.019513
+
+[node name="spr_L2_S0" type="Sprite2D" parent="osn/body/neck"]
+centered = false
+scale = Vector2(0.91811, 0.91811)
+material = SubResource("sub_12")
+metadata/artwork_layer = 2
+metadata/element_index = 0
+
+[node name="spr_L1_S0" type="Sprite2D" parent="osn/body/neck"]
+centered = false
+scale = Vector2(0.91811, 0.91811)
+material = SubResource("sub_13")
+metadata/artwork_layer = 1
+metadata/element_index = 0
+
+[node name="mane" type="Node2D" parent="osn/body"]
+position = Vector2(3.55, -44)
+scale = Vector2(0.20171, 0.20171)
+
+[node name="head" type="Node2D" parent="osn/body"]
+position = Vector2(14.1, -43.8)
+rotation = 3.139
+scale = Vector2(0.2061, -0.20598)
+
+[node name="morda" type="Node2D" parent="osn/body/head"]
+position = Vector2(21.1, 13.9)
+visible = false
+metadata/library = "morda"
+metadata/frame_start = 0
+metadata/frame_end = 0
+metadata/frame_ranges = PackedInt32Array(0, 0)
+metadata/vis_lib = "head"
+metadata/layer_index = 2
+
+[node name="spr_L6_S0" type="Sprite2D" parent="osn/body/head/morda"]
+centered = false
+scale = Vector2(0.91258, 0.91258)
+material = SubResource("sub_14")
+metadata/artwork_layer = 6
+metadata/element_index = 0
+
+[node name="eye" type="Node2D" parent="osn/body/head/morda"]
+position = Vector2(-26.9, -7.8)
+visible = false
+metadata/library = "eye"
+metadata/frame_start = 0
+metadata/frame_end = 0
+metadata/frame_ranges = PackedInt32Array(0, 0)
+metadata/vis_lib = "morda"
+metadata/layer_index = 5
+
+[node name="spr_L1_S0" type="Sprite2D" parent="osn/body/head/morda/eye"]
+centered = false
+scale = Vector2(0.91258, 0.91258)
+material = SubResource("sub_15")
+metadata/artwork_layer = 1
+metadata/element_index = 0
+
+[node name="spr_L0_S0" type="Sprite2D" parent="osn/body/head/morda/eye"]
+centered = false
+scale = Vector2(0.91258, 0.91258)
+material = SubResource("sub_16")
+metadata/artwork_layer = 0
+metadata/element_index = 0
+
+[node name="spr_L4_S0" type="Sprite2D" parent="osn/body/head/morda"]
+centered = false
+scale = Vector2(0.91258, 0.91258)
+material = SubResource("sub_17")
+metadata/artwork_layer = 4
+metadata/element_index = 0
+
+[node name="spr_L3_S0" type="Sprite2D" parent="osn/body/head/morda"]
+centered = false
+scale = Vector2(0.91258, 0.91258)
+material = SubResource("sub_18")
+metadata/artwork_layer = 3
+metadata/element_index = 0
+
+[node name="mon" type="Sprite2D" parent="osn/body/head/morda"]
+position = Vector2(-58, 27.95)
+visible = false
+centered = false
+scale = Vector2(1, 1)
+metadata/library = "mon"
+metadata/frame_start = 0
+metadata/frame_end = 0
+metadata/frame_ranges = PackedInt32Array(0, 0)
+metadata/vis_lib = "morda"
+metadata/layer_index = 2
+material = SubResource("sub_19")
+
+[node name="spr_L1_S0" type="Sprite2D" parent="osn/body/head/morda"]
+centered = false
+scale = Vector2(0.91258, 0.91258)
+material = SubResource("sub_20")
+metadata/artwork_layer = 1
+metadata/element_index = 0
+
+[node name="fleg1_r" type="Node2D" parent="osn/body"]
+position = Vector2(7.95, -21.1)
+rotation = -0.09146
+scale = Vector2(1.07542, 1.09844)
+skew = 0.14608
+
+[node name="spr_L1_S0" type="Sprite2D" parent="osn/body/fleg1_r"]
+centered = false
+scale = Vector2(0.15542, 0.15542)
+material = SubResource("sub_21")
+metadata/artwork_layer = 1
+metadata/element_index = 0
+
+[node name="fleg2_r" type="Node2D" parent="osn/body"]
+position = Vector2(7.65, -17.25)
+rotation = -0.00736
+scale = Vector2(1.08423, 1.08569)
+skew = 0.120642
+
+[node name="spr_L1_S0" type="Sprite2D" parent="osn/body/fleg2_r"]
+centered = false
+scale = Vector2(0.15993, 0.15993)
+material = SubResource("sub_22")
+metadata/artwork_layer = 1
+metadata/element_index = 0
+
+[node name="spr_L0_S0" type="Sprite2D" parent="osn/body/fleg2_r"]
+centered = false
+scale = Vector2(0.15993, 0.15993)
+material = SubResource("sub_23")
+metadata/artwork_layer = 0
+metadata/element_index = 0
+
+[node name="frleg3" type="Node2D" parent="osn/body"]
+position = Vector2(7.2, -12.3)
+rotation = 0.01808
+scale = Vector2(1.10142, 0.91083)
+skew = -0.035571
+
+[node name="spr_L2_S0" type="Sprite2D" parent="osn/body/frleg3"]
+centered = false
+scale = Vector2(0.17086, 0.17086)
+material = SubResource("sub_24")
+metadata/artwork_layer = 2
+metadata/element_index = 0
+
+[node name="spr_L1_S0" type="Sprite2D" parent="osn/body/frleg3"]
+centered = false
+scale = Vector2(0.16492, 0.16492)
+material = SubResource("sub_25")
+metadata/artwork_layer = 1
+metadata/element_index = 0
+
+[node name="sleg3a_r" type="Node2D" parent="osn/body"]
+position = Vector2(-9.3, -16.3)
+rotation = -0.118995
+scale = Vector2(0.99999, 0.98698)
+skew = 0.012164
+
+[node name="spr_L2_S0" type="Sprite2D" parent="osn/body/sleg3a_r"]
+centered = false
+scale = Vector2(0.18253, 0.18253)
+material = SubResource("sub_26")
+metadata/artwork_layer = 2
+metadata/element_index = 0
+
+[node name="sleg1_r" type="Node2D" parent="osn/body"]
+position = Vector2(-8.9, -30.05)
+rotation = 3.11383
+scale = Vector2(0.21276, -0.20718)
+skew = 0.008608
+
+[node name="spr_L3_S0" type="Sprite2D" parent="osn/body/sleg1_r"]
+centered = false
+scale = Vector2(0.81274, 0.81274)
+material = SubResource("sub_27")
+metadata/artwork_layer = 3
+metadata/element_index = 0
+
+[node name="quti" type="Sprite2D" parent="osn/body/sleg1_r"]
+position = Vector2(-10.3, 25.7)
+visible = false
+centered = false
+scale = Vector2(1, 1)
+metadata/library = "quti"
+metadata/frame_start = 0
+metadata/frame_end = 0
+metadata/frame_ranges = PackedInt32Array(0, 0)
+metadata/vis_lib = "sleg1"
+metadata/layer_index = 2
+material = SubResource("sub_28")
+
+[node name="wing" type="Node2D" parent="osn/body"]
+position = Vector2(1.7, -27.4)
+
+[node name="spr_L0_S0" type="Sprite2D" parent="osn/body/wing"]
+centered = false
+scale = Vector2(0.18842, 0.18842)
+material = SubResource("sub_29")
+metadata/artwork_layer = 0
+metadata/element_index = 0
+
+[node name="wing_-_копия_2" type="Node2D" parent="osn/body"]
+position = Vector2(0.5, -26.55)
+rotation = 2.96634
+scale = Vector2(0.88303, -0.88303)
+
+[node name="spr_L1_S0" type="Sprite2D" parent="osn/body/wing_-_копия_2"]
+centered = false
+scale = Vector2(0.18842, 0.18842)
+material = SubResource("sub_30")
+metadata/artwork_layer = 1
+metadata/element_index = 0
+
+[node name="spr_L0_S0" type="Sprite2D" parent="osn/body/wing_-_копия_2"]
+centered = false
+scale = Vector2(0.18842, 0.18842)
+material = SubResource("sub_31")
+metadata/artwork_layer = 0
+metadata/element_index = 0
+
+[node name="wing_-_копия" type="Node2D" parent="osn/body"]
+position = Vector2(2.3, -27.85)
+rotation = -0.08652
+
+[node name="spr_L1_S0" type="Sprite2D" parent="osn/body/wing_-_копия"]
+centered = false
+scale = Vector2(0.18842, 0.18842)
+material = SubResource("sub_32")
+metadata/artwork_layer = 1
+metadata/element_index = 0
+
+[node name="spr_L0_S0" type="Sprite2D" parent="osn/body/wing_-_копия"]
+centered = false
+scale = Vector2(0.18842, 0.18842)
+material = SubResource("sub_33")
+metadata/artwork_layer = 0
+metadata/element_index = 0
+
+[node name="bron1" type="Node2D" parent="osn/body"]
+position = Vector2(6.55, -24.2)
+rotation = 0.205724
+
+[node name="spr_L0_S0" type="Sprite2D" parent="osn/body/bron1"]
+centered = false
+scale = Vector2(0.18842, 0.18842)
+material = SubResource("sub_34")
+metadata/artwork_layer = 0
+metadata/element_index = 0
+
+[node name="mah0" type="Node2D" parent="osn/body"]
+position = Vector2(-0.75, -10.3)
+
+[node name="spr_L0_S0" type="Sprite2D" parent="osn/body/mah0"]
+centered = false
+scale = Vector2(0.18842, 0.18842)
+material = SubResource("sub_35")
+metadata/artwork_layer = 0
+metadata/element_index = 0

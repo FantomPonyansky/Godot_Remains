@@ -1,0 +1,17 @@
+{
+  "artwork_layers": [
+    {
+      "layer_index": 0,
+      "element_svg_files": {
+        "0": [
+          "T01_Hd_Hat_L0_S0.svg",
+          "T01_Hd_Hat_L0_S1.svg"
+        ]
+      },
+      "max_elements": 2
+    }
+  ],
+  "svg_files": {
+    "0": "T01_Hd_Hat_L0_S0.svg"
+  }
+}

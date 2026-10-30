@@ -1,0 +1,33 @@
+{
+  "artwork_layers": [
+    {
+      "layer_index": 1,
+      "element_svg_files": {
+        "0": [
+          "magic_L1_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 2,
+      "element_svg_files": {
+        "0": [
+          "magic_L2_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    }
+  ],
+  "svg_files": {
+    "0": "magic_L1_S0.svg"
+  },
+  "timeline": {
+    "frames": 1,
+    "labels": {},
+    "scripts": {
+      "0": "import fe.Obj;\nObj.setColor(this,4);"
+    }
+  },
+  "color_channel": "trMagic"
+}

@@ -1,0 +1,37 @@
+{
+  "artwork_layers": [
+    {
+      "layer_index": 0,
+      "element_svg_files": {
+        "2": [
+          "konc_f2_L0_S0.svg"
+        ],
+        "3": [
+          "konc_f3_L0_S0.svg"
+        ],
+        "4": [
+          "konc_f4_L0_S0.svg"
+        ],
+        "5": [
+          "konc_f5_L0_S0.svg"
+        ],
+        "6": [
+          "konc_f6_L0_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    }
+  ],
+  "svg_files": {
+    "2": "konc_f2_L0_S0.svg",
+    "3": "konc_f3_L0_S0.svg",
+    "4": "konc_f4_L0_S0.svg",
+    "5": "konc_f5_L0_S0.svg",
+    "6": "konc_f6_L0_S0.svg"
+  },
+  "timeline": {
+    "frames": 7,
+    "labels": {},
+    "scripts": {}
+  }
+}

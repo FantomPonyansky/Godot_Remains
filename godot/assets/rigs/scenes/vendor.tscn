@@ -1,0 +1,1007 @@
+[gd_scene load_steps=64 format=3]
+
+[ext_resource type="Shader" path="res://assets/rigs/shaders/color_transform.gdshader" id="ext_1"]
+[ext_resource type="Shader" path="res://assets/rigs/shaders/color_transform_masked.gdshader" id="ext_2"]
+[ext_resource type="Shader" path="res://assets/rigs/shaders/color_transform_hardlight.gdshader" id="ext_3"]
+[ext_resource type="Shader" path="res://assets/rigs/shaders/color_transform_lighten.gdshader" id="ext_4"]
+[ext_resource type="Shader" path="res://assets/rigs/shaders/color_transform_screen.gdshader" id="ext_5"]
+[ext_resource type="Script" path="res://scripts/rig/rig_view.gd" id="ext_6"]
+
+[sub_resource type="ShaderMaterial" id="sub_1"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_2"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_3"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_4"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_5"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_6"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_7"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_8"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_9"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_10"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_11"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_12"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_13"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_14"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_15"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_16"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_17"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_18"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_19"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_20"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_21"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_22"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_23"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_24"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_25"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_26"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_27"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_28"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_29"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_30"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_31"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_32"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_33"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_34"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_35"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_36"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_37"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_38"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_39"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_40"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_41"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_42"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_43"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_44"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_45"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_46"]
+shader = ExtResource("ext_2")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_47"]
+shader = ExtResource("ext_2")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_48"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_49"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_50"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_51"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_52"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_53"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_54"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_55"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_56"]
+shader = ExtResource("ext_2")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_57"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[node name="Vendor" type="Node2D"]
+script = ExtResource("ext_6")
+metadata/data_dir = "res://assets/rigs/data/vendor/"
+metadata/art_dir = "res://assets/rigs/art/vendor/"
+metadata/anim_library = "res://assets/rigs/scenes/vendor_anims.tres"
+metadata/idle_animation = "T01_ALL_1"
+
+[node name="osn" type="Node2D" parent="."]
+position = Vector2(-0.4, -44.85)
+rotation = 3.14159
+scale = Vector2(0.31557, -0.31583)
+
+[node name="body" type="CanvasGroup" parent="osn"]
+
+[node name="C0m_02_2" type="Node2D" parent="osn/body"]
+position = Vector2(-44.35, 91.7)
+
+[node name="T01_lg_Part_03" type="Sprite2D" parent="osn/body/C0m_02_2"]
+position = Vector2(-1.9, 26.75)
+visible = false
+centered = false
+scale = Vector2(1, 1)
+metadata/library = "T01_lg_Part_03"
+metadata/frame_start = 0
+metadata/frame_end = 0
+metadata/frame_ranges = PackedInt32Array(0, 0)
+metadata/vis_lib = "C0m_02"
+metadata/layer_index = 0
+material = SubResource("sub_1")
+
+[node name="T01_lg_Part_02" type="Node2D" parent="osn/body/C0m_02_2"]
+position = Vector2(2.85, -38.3)
+visible = false
+metadata/library = "T01_lg_Part_02"
+metadata/frame_start = 0
+metadata/frame_end = 0
+metadata/frame_ranges = PackedInt32Array(0, 0)
+metadata/vis_lib = "C0m_02"
+metadata/layer_index = 0
+
+[node name="spr_L1_S0" type="Sprite2D" parent="osn/body/C0m_02_2/T01_lg_Part_02"]
+centered = false
+scale = Vector2(1, 1)
+material = SubResource("sub_2")
+metadata/artwork_layer = 1
+metadata/element_index = 0
+
+[node name="spr_L0_S0" type="Sprite2D" parent="osn/body/C0m_02_2/T01_lg_Part_02"]
+centered = false
+scale = Vector2(1, 1)
+material = SubResource("sub_3")
+metadata/artwork_layer = 0
+metadata/element_index = 0
+
+[node name="T01_lg_Part_01" type="Node2D" parent="osn/body/C0m_02_2"]
+position = Vector2(3.05, -9.6)
+visible = false
+metadata/library = "T01_lg_Part_01"
+metadata/frame_start = 0
+metadata/frame_end = 0
+metadata/frame_ranges = PackedInt32Array(0, 0)
+metadata/vis_lib = "C0m_02"
+metadata/layer_index = 0
+
+[node name="spr_L1_S0" type="Sprite2D" parent="osn/body/C0m_02_2/T01_lg_Part_01"]
+centered = false
+scale = Vector2(1, 1)
+material = SubResource("sub_4")
+metadata/artwork_layer = 1
+metadata/element_index = 0
+
+[node name="spr_L0_S0" type="Sprite2D" parent="osn/body/C0m_02_2/T01_lg_Part_01"]
+centered = false
+scale = Vector2(1, 1)
+material = SubResource("sub_5")
+metadata/artwork_layer = 0
+metadata/element_index = 0
+
+[node name="spr_L0_S1" type="Sprite2D" parent="osn/body/C0m_02_2/T01_lg_Part_01"]
+centered = false
+scale = Vector2(1, 1)
+material = SubResource("sub_6")
+metadata/artwork_layer = 0
+metadata/element_index = 1
+
+[node name="C0m_01_2" type="Node2D" parent="osn/body"]
+position = Vector2(44.8, 66.25)
+scale = Vector2(1, 0.94603)
+skew = 0.071465
+
+[node name="T01_lg_Part_05" type="Sprite2D" parent="osn/body/C0m_01_2"]
+position = Vector2(13.5, 31.45)
+visible = false
+centered = false
+scale = Vector2(1, 1)
+metadata/library = "T01_lg_Part_05"
+metadata/frame_start = 0
+metadata/frame_end = 0
+metadata/frame_ranges = PackedInt32Array(0, 0)
+metadata/vis_lib = "C0m_01"
+metadata/layer_index = 0
+material = SubResource("sub_7")
+
+[node name="T01_lg_Part_04" type="Node2D" parent="osn/body/C0m_01_2"]
+position = Vector2(-7.75, -46.85)
+visible = false
+metadata/library = "T01_lg_Part_04"
+metadata/frame_start = 0
+metadata/frame_end = 0
+metadata/frame_ranges = PackedInt32Array(0, 0)
+metadata/vis_lib = "C0m_01"
+metadata/layer_index = 0
+
+[node name="spr_L0_S0" type="Sprite2D" parent="osn/body/C0m_01_2/T01_lg_Part_04"]
+centered = false
+scale = Vector2(1, 1)
+material = SubResource("sub_8")
+metadata/artwork_layer = 0
+metadata/element_index = 0
+
+[node name="T1_CM" type="Sprite2D" parent="osn/body/C0m_01_2/T01_lg_Part_04"]
+position = Vector2(1.05, -8.4)
+rotation = -0.095063
+visible = false
+centered = false
+scale = Vector2(0.86341, 1.21476)
+metadata/library = "T1_CM"
+metadata/frame_start = 0
+metadata/frame_end = 0
+metadata/frame_ranges = PackedInt32Array(0, 0)
+metadata/vis_lib = "T01_lg_Part_04"
+metadata/layer_index = 0
+material = SubResource("sub_9")
+
+[node name="T01_Staff_Part_04" type="Node2D" parent="osn/body"]
+position = Vector2(4.65, 45.95)
+
+[node name="spr_L0_S0" type="Sprite2D" parent="osn/body/T01_Staff_Part_04"]
+centered = false
+scale = Vector2(1, 1)
+material = SubResource("sub_10")
+metadata/artwork_layer = 0
+metadata/element_index = 0
+
+[node name="spr_L0_S1" type="Sprite2D" parent="osn/body/T01_Staff_Part_04"]
+centered = false
+scale = Vector2(1, 1)
+material = SubResource("sub_11")
+metadata/artwork_layer = 0
+metadata/element_index = 1
+
+[node name="spr_L0_S2" type="Sprite2D" parent="osn/body/T01_Staff_Part_04"]
+centered = false
+scale = Vector2(1, 1)
+material = SubResource("sub_12")
+metadata/artwork_layer = 0
+metadata/element_index = 2
+
+[node name="spr_L0_S3" type="Sprite2D" parent="osn/body/T01_Staff_Part_04"]
+centered = false
+scale = Vector2(1, 1)
+material = SubResource("sub_13")
+metadata/artwork_layer = 0
+metadata/element_index = 3
+
+[node name="T01_Staff_Part_03" type="Node2D" parent="osn/body"]
+position = Vector2(-45.05, -3.3)
+scale = Vector2(0.96825, 1)
+
+[node name="spr_L0_S0" type="Sprite2D" parent="osn/body/T01_Staff_Part_03"]
+centered = false
+scale = Vector2(1, 1)
+material = SubResource("sub_14")
+metadata/artwork_layer = 0
+metadata/element_index = 0
+
+[node name="spr_L0_S1" type="Sprite2D" parent="osn/body/T01_Staff_Part_03"]
+centered = false
+scale = Vector2(1, 1)
+material = SubResource("sub_15")
+metadata/artwork_layer = 0
+metadata/element_index = 1
+
+[node name="T01_Bd_01" type="Node2D" parent="osn/body"]
+position = Vector2(-1.55, 19.25)
+
+[node name="spr_L0_S0" type="Sprite2D" parent="osn/body/T01_Bd_01"]
+centered = false
+scale = Vector2(1, 1)
+material = SubResource("sub_16")
+metadata/artwork_layer = 0
+metadata/element_index = 0
+
+[node name="T01_Tail" type="Node2D" parent="osn/body"]
+position = Vector2(71.15, 28.7)
+
+[node name="spr_L0_S0" type="Sprite2D" parent="osn/body/T01_Tail"]
+centered = false
+scale = Vector2(1, 1)
+material = SubResource("sub_17")
+metadata/artwork_layer = 0
+metadata/element_index = 0
+
+[node name="T01_Bd_02" type="Node2D" parent="osn/body"]
+position = Vector2(-39.15, -10.7)
+scale = Vector2(1, 0.94331)
+
+[node name="spr_L0_S0" type="Sprite2D" parent="osn/body/T01_Bd_02"]
+centered = false
+scale = Vector2(1, 1)
+material = SubResource("sub_18")
+metadata/artwork_layer = 0
+metadata/element_index = 0
+
+[node name="C0m_01" type="Node2D" parent="osn/body"]
+position = Vector2(48.2, 71.05)
+
+[node name="T01_lg_Part_05" type="Sprite2D" parent="osn/body/C0m_01"]
+position = Vector2(13.5, 31.45)
+visible = false
+centered = false
+scale = Vector2(1, 1)
+metadata/library = "T01_lg_Part_05"
+metadata/frame_start = 0
+metadata/frame_end = 0
+metadata/frame_ranges = PackedInt32Array(0, 0)
+metadata/vis_lib = "C0m_01"
+metadata/layer_index = 0
+material = SubResource("sub_19")
+
+[node name="T01_lg_Part_04" type="Node2D" parent="osn/body/C0m_01"]
+position = Vector2(-7.75, -46.85)
+visible = false
+metadata/library = "T01_lg_Part_04"
+metadata/frame_start = 0
+metadata/frame_end = 0
+metadata/frame_ranges = PackedInt32Array(0, 0)
+metadata/vis_lib = "C0m_01"
+metadata/layer_index = 0
+
+[node name="spr_L0_S0" type="Sprite2D" parent="osn/body/C0m_01/T01_lg_Part_04"]
+centered = false
+scale = Vector2(1, 1)
+material = SubResource("sub_20")
+metadata/artwork_layer = 0
+metadata/element_index = 0
+
+[node name="T1_CM" type="Sprite2D" parent="osn/body/C0m_01/T01_lg_Part_04"]
+position = Vector2(1.05, -8.4)
+rotation = -0.095063
+visible = false
+centered = false
+scale = Vector2(0.86341, 1.21476)
+metadata/library = "T1_CM"
+metadata/frame_start = 0
+metadata/frame_end = 0
+metadata/frame_ranges = PackedInt32Array(0, 0)
+metadata/vis_lib = "T01_lg_Part_04"
+metadata/layer_index = 0
+material = SubResource("sub_21")
+
+[node name="T01_Staff_Part_01" type="Node2D" parent="osn/body"]
+position = Vector2(25.2, 3.5)
+
+[node name="spr_L0_S0" type="Sprite2D" parent="osn/body/T01_Staff_Part_01"]
+centered = false
+scale = Vector2(1, 1)
+material = SubResource("sub_22")
+metadata/artwork_layer = 0
+metadata/element_index = 0
+
+[node name="spr_L0_S1" type="Sprite2D" parent="osn/body/T01_Staff_Part_01"]
+centered = false
+scale = Vector2(1, 1)
+material = SubResource("sub_23")
+metadata/artwork_layer = 0
+metadata/element_index = 1
+
+[node name="spr_L0_S2" type="Sprite2D" parent="osn/body/T01_Staff_Part_01"]
+centered = false
+scale = Vector2(1, 1)
+material = SubResource("sub_24")
+metadata/artwork_layer = 0
+metadata/element_index = 2
+
+[node name="T01_Staff_Part_02" type="Node2D" parent="osn/body"]
+position = Vector2(-29.8, 11.2)
+scale = Vector2(0.96825, 1)
+
+[node name="spr_L0_S0" type="Sprite2D" parent="osn/body/T01_Staff_Part_02"]
+centered = false
+scale = Vector2(1, 1)
+material = SubResource("sub_25")
+metadata/artwork_layer = 0
+metadata/element_index = 0
+
+[node name="spr_L0_S1" type="Sprite2D" parent="osn/body/T01_Staff_Part_02"]
+centered = false
+scale = Vector2(1, 1)
+material = SubResource("sub_26")
+metadata/artwork_layer = 0
+metadata/element_index = 1
+
+[node name="spr_L0_S2" type="Sprite2D" parent="osn/body/T01_Staff_Part_02"]
+centered = false
+scale = Vector2(1, 1)
+material = SubResource("sub_27")
+metadata/artwork_layer = 0
+metadata/element_index = 2
+
+[node name="spr_L0_S3" type="Sprite2D" parent="osn/body/T01_Staff_Part_02"]
+centered = false
+scale = Vector2(1, 1)
+material = SubResource("sub_28")
+metadata/artwork_layer = 0
+metadata/element_index = 3
+
+[node name="C0m_02" type="Node2D" parent="osn/body"]
+position = Vector2(-35.9, 99.55)
+
+[node name="T01_lg_Part_03" type="Sprite2D" parent="osn/body/C0m_02"]
+position = Vector2(-1.9, 26.75)
+visible = false
+centered = false
+scale = Vector2(1, 1)
+metadata/library = "T01_lg_Part_03"
+metadata/frame_start = 0
+metadata/frame_end = 37
+metadata/frame_ranges = PackedInt32Array(0, 10, 11, 17, 18, 23, 24, 37)
+metadata/vis_lib = "C0m_02_-_копия"
+metadata/layer_index = 3
+metadata/frame_transforms = "{\"1\":{\"tx\":-1.6409,\"ty\":26.8045,\"rot\":-0.013393,\"sx\":1.0,\"sy\":1.000017,\"skew\":-0.001733},\"2\":{\"tx\":-1.3818,\"ty\":26.8591,\"rot\":-0.026786,\"sx\":1.0,\"sy\":1.000034,\"skew\":-0.003465},\"3\":{\"tx\":-1.1227,\"ty\":26.9136,\"rot\":-0.040179,\"sx\":1.0,\"sy\":1.00005,\"skew\":-0.005199},\"4\":{\"tx\":-0.8636,\"ty\":26.9682,\"rot\":-0.053572,\"sx\":1.0,\"sy\":1.000068,\"skew\":-0.006932},\"5\":{\"tx\":-0.6045,\"ty\":27.0227,\"rot\":-0.066965,\"sx\":0.999999,\"sy\":1.000085,\"skew\":-0.008665},\"6\":{\"tx\":-0.3455,\"ty\":27.0773,\"rot\":-0.080358,\"sx\":0.999999,\"sy\":1.000102,\"skew\":-0.010398},\"7\":{\"tx\":-0.0864,\"ty\":27.1318,\"rot\":-0.09375,\"sx\":0.999999,\"sy\":1.000119,\"skew\":-0.012131},\"8\":{\"tx\":0.1727,\"ty\":27.1864,\"rot\":-0.107143,\"sx\":0.999999,\"sy\":1.000135,\"skew\":-0.013865},\"9\":{\"tx\":0.4318,\"ty\":27.2409,\"rot\":-0.120536,\"sx\":0.999999,\"sy\":1.000152,\"skew\":-0.015598},\"10\":{\"tx\":0.6909,\"ty\":27.2955,\"rot\":-0.133929,\"sx\":0.999999,\"sy\":1.00017,\"skew\":-0.01733},\"11\":{\"tx\":0.95,\"ty\":27.35,\"rot\":-0.147322,\"sx\":0.999999,\"sy\":1.000187,\"skew\":-0.019063},\"12\":{\"tx\":0.2714,\"ty\":27.1286,\"rot\":-0.106008,\"sx\":1.000125,\"sy\":1.00016,\"skew\":-0.022376},\"13\":{\"tx\":-0.4071,\"ty\":26.9071,\"rot\":-0.064694,\"sx\":1.000252,\"sy\":1.000133,\"skew\":-0.025689},\"14\":{\"tx\":-1.0857,\"ty\":26.6857,\"rot\":-0.02338,\"sx\":1.000378,\"sy\":1.000106,\"skew\":-0.029002},\"15\":{\"tx\":-1.7643,\"ty\":26.4643,\"rot\":0.017934,\"sx\":1.000506,\"sy\":1.000079,\"skew\":-0.032315},\"16\":{\"tx\":-2.4429,\"ty\":26.2429,\"rot\":0.059247,\"sx\":1.000633,\"sy\":1.000053,\"skew\":-0.035627},\"17\":{\"tx\":-3.1214,\"ty\":26.0214,\"rot\":0.100561,\"sx\":1.000759,\"sy\":1.000026,\"skew\":-0.038941},\"18\":{\"tx\":-3.8,\"ty\":25.8,\"rot\":0.141875,\"sx\":1.000886,\"sy\":0.999999,\"skew\":-0.042254},\"19\":{\"tx\":-3.4833,\"ty\":25.9583,\"rot\":0.118229,\"sx\":1.000738,\"sy\":0.999999,\"skew\":-0.035211},\"20\":{\"tx\":-3.1667,\"ty\":26.1167,\"rot\":0.094583,\"sx\":1.00059,\"sy\":1.0,\"skew\":-0.028168},\"21\":{\"tx\":-2.85,\"ty\":26.275,\"rot\":0.070938,\"sx\":1.000443,\"sy\":0.999999,\"skew\":-0.021127},\"22\":{\"tx\":-2.5333,\"ty\":26.4333,\"rot\":0.047292,\"sx\":1.000295,\"sy\":0.999999,\"skew\":-0.014085},\"23\":{\"tx\":-2.2167,\"ty\":26.5917,\"rot\":0.023646,\"sx\":1.000148,\"sy\":1.0,\"skew\":-0.007042}}"
+material = SubResource("sub_29")
+
+[node name="T01_lg_Part_02" type="Node2D" parent="osn/body/C0m_02"]
+position = Vector2(2.85, -38.3)
+visible = false
+metadata/library = "T01_lg_Part_02"
+metadata/frame_start = 0
+metadata/frame_end = 37
+metadata/frame_ranges = PackedInt32Array(0, 10, 11, 17, 18, 23, 24, 37)
+metadata/vis_lib = "C0m_02_-_копия"
+metadata/layer_index = 2
+metadata/frame_transforms = "{\"1\":{\"tx\":2.85,\"ty\":-38.3,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"2\":{\"tx\":2.85,\"ty\":-38.3,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"3\":{\"tx\":2.85,\"ty\":-38.3,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"4\":{\"tx\":2.85,\"ty\":-38.3,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"5\":{\"tx\":2.85,\"ty\":-38.3,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"6\":{\"tx\":2.85,\"ty\":-38.3,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"7\":{\"tx\":2.85,\"ty\":-38.3,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"8\":{\"tx\":2.85,\"ty\":-38.3,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"9\":{\"tx\":2.85,\"ty\":-38.3,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"10\":{\"tx\":2.85,\"ty\":-38.3,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"12\":{\"tx\":2.85,\"ty\":-38.3,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"13\":{\"tx\":2.85,\"ty\":-38.3,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"14\":{\"tx\":2.85,\"ty\":-38.3,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"15\":{\"tx\":2.85,\"ty\":-38.3,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"16\":{\"tx\":2.85,\"ty\":-38.3,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"17\":{\"tx\":2.85,\"ty\":-38.3,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"19\":{\"tx\":2.85,\"ty\":-38.3,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"20\":{\"tx\":2.85,\"ty\":-38.3,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"21\":{\"tx\":2.85,\"ty\":-38.3,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"22\":{\"tx\":2.85,\"ty\":-38.3,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"23\":{\"tx\":2.85,\"ty\":-38.3,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0}}"
+
+[node name="spr_L1_S0" type="Sprite2D" parent="osn/body/C0m_02/T01_lg_Part_02"]
+centered = false
+scale = Vector2(1, 1)
+material = SubResource("sub_30")
+metadata/artwork_layer = 1
+metadata/element_index = 0
+
+[node name="spr_L0_S0" type="Sprite2D" parent="osn/body/C0m_02/T01_lg_Part_02"]
+centered = false
+scale = Vector2(1, 1)
+material = SubResource("sub_31")
+metadata/artwork_layer = 0
+metadata/element_index = 0
+
+[node name="T01_lg_Part_01" type="Node2D" parent="osn/body/C0m_02"]
+position = Vector2(3.05, -9.6)
+visible = false
+metadata/library = "T01_lg_Part_01"
+metadata/frame_start = 0
+metadata/frame_end = 37
+metadata/frame_ranges = PackedInt32Array(0, 10, 11, 17, 18, 23, 24, 37)
+metadata/vis_lib = "C0m_02_-_копия"
+metadata/layer_index = 1
+metadata/frame_transforms = "{\"1\":{\"tx\":3.0091,\"ty\":-9.6,\"rot\":0.0,\"sx\":1.0,\"sy\":1.000039,\"skew\":0.002646},\"2\":{\"tx\":2.9682,\"ty\":-9.6,\"rot\":0.0,\"sx\":1.0,\"sy\":1.000077,\"skew\":0.005292},\"3\":{\"tx\":2.9273,\"ty\":-9.6,\"rot\":0.0,\"sx\":1.0,\"sy\":1.000116,\"skew\":0.007938},\"4\":{\"tx\":2.8864,\"ty\":-9.6,\"rot\":0.0,\"sx\":1.0,\"sy\":1.000154,\"skew\":0.010584},\"5\":{\"tx\":2.8455,\"ty\":-9.6,\"rot\":0.0,\"sx\":1.0,\"sy\":1.000193,\"skew\":0.01323},\"6\":{\"tx\":2.8045,\"ty\":-9.6,\"rot\":0.0,\"sx\":1.0,\"sy\":1.000231,\"skew\":0.015876},\"7\":{\"tx\":2.7636,\"ty\":-9.6,\"rot\":0.0,\"sx\":1.0,\"sy\":1.00027,\"skew\":0.018522},\"8\":{\"tx\":2.7227,\"ty\":-9.6,\"rot\":0.0,\"sx\":1.0,\"sy\":1.000308,\"skew\":0.021168},\"9\":{\"tx\":2.6818,\"ty\":-9.6,\"rot\":0.0,\"sx\":1.0,\"sy\":1.000347,\"skew\":0.023814},\"10\":{\"tx\":2.6409,\"ty\":-9.6,\"rot\":0.0,\"sx\":1.0,\"sy\":1.000385,\"skew\":0.02646},\"11\":{\"tx\":2.6,\"ty\":-9.6,\"rot\":0.0,\"sx\":1.0,\"sy\":1.000424,\"skew\":0.029106},\"12\":{\"tx\":2.6786,\"ty\":-9.6,\"rot\":-0.000789,\"sx\":1.0,\"sy\":1.000363,\"skew\":0.024948},\"13\":{\"tx\":2.7571,\"ty\":-9.6,\"rot\":-0.001578,\"sx\":1.0,\"sy\":1.000303,\"skew\":0.020789},\"14\":{\"tx\":2.8357,\"ty\":-9.6,\"rot\":-0.002367,\"sx\":1.0,\"sy\":1.000242,\"skew\":0.016631},\"15\":{\"tx\":2.9143,\"ty\":-9.6,\"rot\":-0.003156,\"sx\":1.0,\"sy\":1.000181,\"skew\":0.012473},\"16\":{\"tx\":2.9929,\"ty\":-9.6,\"rot\":-0.003945,\"sx\":1.0,\"sy\":1.000122,\"skew\":0.008315},\"17\":{\"tx\":3.0714,\"ty\":-9.6,\"rot\":-0.004735,\"sx\":1.0,\"sy\":1.00006,\"skew\":0.004158},\"18\":{\"tx\":3.15,\"ty\":-9.6,\"rot\":-0.005524,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"19\":{\"tx\":3.1333,\"ty\":-9.6,\"rot\":-0.004603,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"20\":{\"tx\":3.1167,\"ty\":-9.6,\"rot\":-0.003682,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"21\":{\"tx\":3.1,\"ty\":-9.6,\"rot\":-0.002762,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"22\":{\"tx\":3.0833,\"ty\":-9.6,\"rot\":-0.001841,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"23\":{\"tx\":3.0667,\"ty\":-9.6,\"rot\":-0.000921,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0}}"
+
+[node name="spr_L1_S0" type="Sprite2D" parent="osn/body/C0m_02/T01_lg_Part_01"]
+centered = false
+scale = Vector2(1, 1)
+material = SubResource("sub_32")
+metadata/artwork_layer = 1
+metadata/element_index = 0
+
+[node name="spr_L0_S0" type="Sprite2D" parent="osn/body/C0m_02/T01_lg_Part_01"]
+centered = false
+scale = Vector2(1, 1)
+material = SubResource("sub_33")
+metadata/artwork_layer = 0
+metadata/element_index = 0
+
+[node name="spr_L0_S1" type="Sprite2D" parent="osn/body/C0m_02/T01_lg_Part_01"]
+centered = false
+scale = Vector2(1, 1)
+material = SubResource("sub_34")
+metadata/artwork_layer = 0
+metadata/element_index = 1
+
+[node name="T01_lg_Part_03_2" type="Sprite2D" parent="osn/body/C0m_02"]
+position = Vector2(-1.9, 26.75)
+visible = false
+centered = false
+scale = Vector2(1, 1)
+metadata/library = "T01_lg_Part_03"
+metadata/frame_start = 0
+metadata/frame_end = 0
+metadata/frame_ranges = PackedInt32Array(0, 0)
+metadata/vis_lib = "C0m_02"
+metadata/layer_index = 0
+material = SubResource("sub_35")
+
+[node name="T01_lg_Part_02_2" type="Node2D" parent="osn/body/C0m_02"]
+position = Vector2(2.85, -38.3)
+visible = false
+metadata/library = "T01_lg_Part_02"
+metadata/frame_start = 0
+metadata/frame_end = 0
+metadata/frame_ranges = PackedInt32Array(0, 0)
+metadata/vis_lib = "C0m_02"
+metadata/layer_index = 0
+
+[node name="spr_L1_S0" type="Sprite2D" parent="osn/body/C0m_02/T01_lg_Part_02_2"]
+centered = false
+scale = Vector2(1, 1)
+material = SubResource("sub_36")
+metadata/artwork_layer = 1
+metadata/element_index = 0
+
+[node name="spr_L0_S0" type="Sprite2D" parent="osn/body/C0m_02/T01_lg_Part_02_2"]
+centered = false
+scale = Vector2(1, 1)
+material = SubResource("sub_37")
+metadata/artwork_layer = 0
+metadata/element_index = 0
+
+[node name="T01_lg_Part_01_2" type="Node2D" parent="osn/body/C0m_02"]
+position = Vector2(3.05, -9.6)
+visible = false
+metadata/library = "T01_lg_Part_01"
+metadata/frame_start = 0
+metadata/frame_end = 0
+metadata/frame_ranges = PackedInt32Array(0, 0)
+metadata/vis_lib = "C0m_02"
+metadata/layer_index = 0
+
+[node name="spr_L1_S0" type="Sprite2D" parent="osn/body/C0m_02/T01_lg_Part_01_2"]
+centered = false
+scale = Vector2(1, 1)
+material = SubResource("sub_38")
+metadata/artwork_layer = 1
+metadata/element_index = 0
+
+[node name="spr_L0_S0" type="Sprite2D" parent="osn/body/C0m_02/T01_lg_Part_01_2"]
+centered = false
+scale = Vector2(1, 1)
+material = SubResource("sub_39")
+metadata/artwork_layer = 0
+metadata/element_index = 0
+
+[node name="spr_L0_S1" type="Sprite2D" parent="osn/body/C0m_02/T01_lg_Part_01_2"]
+centered = false
+scale = Vector2(1, 1)
+material = SubResource("sub_40")
+metadata/artwork_layer = 0
+metadata/element_index = 1
+
+[node name="C0m_03" type="Node2D" parent="osn/body"]
+position = Vector2(10.15, 35.3)
+
+[node name="T01_Staff_Part_04" type="Sprite2D" parent="osn/body/C0m_03"]
+position = Vector2(0, 12.15)
+visible = false
+centered = false
+scale = Vector2(1, 1)
+metadata/library = "T01_Staff_Part_04"
+metadata/frame_start = 0
+metadata/frame_end = 0
+metadata/frame_ranges = PackedInt32Array(0, 0)
+metadata/vis_lib = "C0m_03"
+metadata/layer_index = 0
+material = SubResource("sub_41")
+
+[node name="T01_Staff_Part_05" type="Sprite2D" parent="osn/body/C0m_03"]
+position = Vector2(-2.2, -32.35)
+visible = false
+centered = false
+scale = Vector2(1, 1)
+metadata/library = "T01_Staff_Part_05"
+metadata/frame_start = 0
+metadata/frame_end = 0
+metadata/frame_ranges = PackedInt32Array(0, 0)
+metadata/vis_lib = "C0m_03"
+metadata/layer_index = 0
+material = SubResource("sub_42")
+
+[node name="T01_Hd_ALL_1" type="Node2D" parent="osn/body"]
+position = Vector2(-48.35, -74.15)
+
+[node name="T01_Hd_Base" type="Sprite2D" parent="osn/body/T01_Hd_ALL_1"]
+position = Vector2(-0.4, -2.2)
+visible = false
+centered = false
+scale = Vector2(1, 1)
+metadata/library = "T01_Hd_Base"
+metadata/frame_start = 0
+metadata/frame_end = 95
+metadata/frame_ranges = PackedInt32Array(0, 0, 1, 40, 41, 49, 50, 62, 63, 78, 79, 86, 87, 90, 91, 94, 95, 95)
+metadata/vis_lib = "T01_Hd_ALL_1"
+metadata/layer_index = 9
+metadata/frame_transforms = "{\"51\":{\"tx\":-0.4,\"ty\":-2.2,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"52\":{\"tx\":-0.4,\"ty\":-2.2,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"53\":{\"tx\":-0.4,\"ty\":-2.2,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"54\":{\"tx\":-0.4,\"ty\":-2.2,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"55\":{\"tx\":-0.4,\"ty\":-2.2,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"56\":{\"tx\":-0.4,\"ty\":-2.2,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"57\":{\"tx\":-0.4,\"ty\":-2.2,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"58\":{\"tx\":-0.4,\"ty\":-2.2,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"59\":{\"tx\":-0.4,\"ty\":-2.2,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"60\":{\"tx\":-0.4,\"ty\":-2.2,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"61\":{\"tx\":-0.4,\"ty\":-2.2,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"62\":{\"tx\":-0.4,\"ty\":-2.2,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"64\":{\"tx\":-0.4,\"ty\":-2.2,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"65\":{\"tx\":-0.4,\"ty\":-2.2,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"66\":{\"tx\":-0.4,\"ty\":-2.2,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"67\":{\"tx\":-0.4,\"ty\":-2.2,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"68\":{\"tx\":-0.4,\"ty\":-2.2,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"69\":{\"tx\":-0.4,\"ty\":-2.2,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"70\":{\"tx\":-0.4,\"ty\":-2.2,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"71\":{\"tx\":-0.4,\"ty\":-2.2,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"72\":{\"tx\":-0.4,\"ty\":-2.2,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"73\":{\"tx\":-0.4,\"ty\":-2.2,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"74\":{\"tx\":-0.4,\"ty\":-2.2,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"75\":{\"tx\":-0.4,\"ty\":-2.2,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"76\":{\"tx\":-0.4,\"ty\":-2.2,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"77\":{\"tx\":-0.4,\"ty\":-2.2,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"78\":{\"tx\":-0.4,\"ty\":-2.2,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"80\":{\"tx\":-0.4,\"ty\":-2.2,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"81\":{\"tx\":-0.4,\"ty\":-2.2,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"82\":{\"tx\":-0.4,\"ty\":-2.2,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"83\":{\"tx\":-0.4,\"ty\":-2.2,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"84\":{\"tx\":-0.4,\"ty\":-2.2,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"85\":{\"tx\":-0.4,\"ty\":-2.2,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"86\":{\"tx\":-0.4,\"ty\":-2.2,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"88\":{\"tx\":-0.4,\"ty\":-2.2,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"89\":{\"tx\":-0.4,\"ty\":-2.2,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"90\":{\"tx\":-0.4,\"ty\":-2.2,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"92\":{\"tx\":-0.4,\"ty\":-2.2,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"93\":{\"tx\":-0.4,\"ty\":-2.2,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"94\":{\"tx\":-0.4,\"ty\":-2.2,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0}}"
+material = SubResource("sub_43")
+
+[node name="T01_Hd_Mpuith" type="Sprite2D" parent="osn/body/T01_Hd_ALL_1"]
+position = Vector2(-13.05, 16.85)
+visible = false
+centered = false
+scale = Vector2(1, 1)
+metadata/library = "T01_Hd_Mpuith"
+metadata/frame_start = 0
+metadata/frame_end = 95
+metadata/frame_ranges = PackedInt32Array(0, 0, 1, 40, 41, 49, 50, 62, 63, 78, 79, 86, 87, 90, 91, 94, 95, 95)
+metadata/vis_lib = "T01_Hd_ALL_1"
+metadata/layer_index = 8
+metadata/frame_transforms = "{\"51\":{\"tx\":-13.05,\"ty\":16.85,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"52\":{\"tx\":-13.05,\"ty\":16.85,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"53\":{\"tx\":-13.05,\"ty\":16.85,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"54\":{\"tx\":-13.05,\"ty\":16.85,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"55\":{\"tx\":-13.05,\"ty\":16.85,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"56\":{\"tx\":-13.05,\"ty\":16.85,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"57\":{\"tx\":-13.05,\"ty\":16.85,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"58\":{\"tx\":-13.05,\"ty\":16.85,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"59\":{\"tx\":-13.05,\"ty\":16.85,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"60\":{\"tx\":-13.05,\"ty\":16.85,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"61\":{\"tx\":-13.05,\"ty\":16.85,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"62\":{\"tx\":-13.05,\"ty\":16.85,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"64\":{\"tx\":-13.05,\"ty\":16.85,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"65\":{\"tx\":-13.05,\"ty\":16.85,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"66\":{\"tx\":-13.05,\"ty\":16.85,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"67\":{\"tx\":-13.05,\"ty\":16.85,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"68\":{\"tx\":-13.05,\"ty\":16.85,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"69\":{\"tx\":-13.05,\"ty\":16.85,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"70\":{\"tx\":-13.05,\"ty\":16.85,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"71\":{\"tx\":-13.05,\"ty\":16.85,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"72\":{\"tx\":-13.05,\"ty\":16.85,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"73\":{\"tx\":-13.05,\"ty\":16.85,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"74\":{\"tx\":-13.05,\"ty\":16.85,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"75\":{\"tx\":-13.05,\"ty\":16.85,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"76\":{\"tx\":-13.05,\"ty\":16.85,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"77\":{\"tx\":-13.05,\"ty\":16.85,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"78\":{\"tx\":-13.05,\"ty\":16.85,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"80\":{\"tx\":-13.05,\"ty\":16.85,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"81\":{\"tx\":-13.05,\"ty\":16.85,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"82\":{\"tx\":-13.05,\"ty\":16.85,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"83\":{\"tx\":-13.05,\"ty\":16.85,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"84\":{\"tx\":-13.05,\"ty\":16.85,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"85\":{\"tx\":-13.05,\"ty\":16.85,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"86\":{\"tx\":-13.05,\"ty\":16.85,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"88\":{\"tx\":-13.05,\"ty\":16.85,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"89\":{\"tx\":-13.05,\"ty\":16.85,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"90\":{\"tx\":-13.05,\"ty\":16.85,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"92\":{\"tx\":-13.05,\"ty\":16.85,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"93\":{\"tx\":-13.05,\"ty\":16.85,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"94\":{\"tx\":-13.05,\"ty\":16.85,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0}}"
+material = SubResource("sub_44")
+
+[node name="T01_Hd_H_01" type="Sprite2D" parent="osn/body/T01_Hd_ALL_1"]
+position = Vector2(-21.95, -18.5)
+visible = false
+centered = false
+scale = Vector2(1, 1)
+metadata/library = "T01_Hd_H_01"
+metadata/frame_start = 0
+metadata/frame_end = 95
+metadata/frame_ranges = PackedInt32Array(0, 0, 1, 11, 12, 18, 19, 20, 21, 27, 28, 40, 41, 49, 50, 62, 63, 78, 79, 86, 87, 90, 91, 94, 95, 95)
+metadata/vis_lib = "T01_Hd_ALL_1"
+metadata/layer_index = 7
+metadata/frame_transforms = "{\"2\":{\"tx\":-21.957,\"ty\":-18.5107,\"rot\":0.000393,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"3\":{\"tx\":-21.9781,\"ty\":-18.543,\"rot\":0.001571,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"4\":{\"tx\":-22.0132,\"ty\":-18.5967,\"rot\":0.003534,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"5\":{\"tx\":-22.0624,\"ty\":-18.6719,\"rot\":0.006283,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"6\":{\"tx\":-22.1256,\"ty\":-18.7686,\"rot\":0.009818,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"7\":{\"tx\":-22.2029,\"ty\":-18.8868,\"rot\":0.014137,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"8\":{\"tx\":-22.2942,\"ty\":-19.0264,\"rot\":0.019243,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"9\":{\"tx\":-22.3996,\"ty\":-19.1876,\"rot\":0.025134,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"10\":{\"tx\":-22.519,\"ty\":-19.3702,\"rot\":0.03181,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"11\":{\"tx\":-22.6525,\"ty\":-19.5744,\"rot\":0.039271,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"12\":{\"tx\":-22.8,\"ty\":-19.8,\"rot\":0.047519,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"13\":{\"tx\":-22.6143,\"ty\":-19.5286,\"rot\":0.037674,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"14\":{\"tx\":-22.4286,\"ty\":-19.2571,\"rot\":0.027829,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"15\":{\"tx\":-22.2429,\"ty\":-18.9857,\"rot\":0.017984,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"16\":{\"tx\":-22.0571,\"ty\":-18.7143,\"rot\":0.00814,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"17\":{\"tx\":-21.8714,\"ty\":-18.4429,\"rot\":-0.001705,\"sx\":0.999999,\"sy\":0.999999,\"skew\":-0.0},\"18\":{\"tx\":-21.6857,\"ty\":-18.1714,\"rot\":-0.011549,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"19\":{\"tx\":-21.5,\"ty\":-17.9,\"rot\":-0.021394,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"20\":{\"tx\":-21.55,\"ty\":-17.95,\"rot\":-0.019465,\"sx\":0.999977,\"sy\":0.999977,\"skew\":-0.0},\"21\":{\"tx\":-21.6,\"ty\":-18.0,\"rot\":-0.017534,\"sx\":0.999955,\"sy\":0.999955,\"skew\":-0.0},\"22\":{\"tx\":-21.65,\"ty\":-18.0643,\"rot\":-0.014961,\"sx\":0.999962,\"sy\":0.999962,\"skew\":2e-06},\"23\":{\"tx\":-21.7,\"ty\":-18.1286,\"rot\":-0.012389,\"sx\":0.999968,\"sy\":0.999968,\"skew\":4e-06},\"24\":{\"tx\":-21.75,\"ty\":-18.1929,\"rot\":-0.009816,\"sx\":0.999974,\"sy\":0.999974,\"skew\":6e-06},\"25\":{\"tx\":-21.8,\"ty\":-18.2571,\"rot\":-0.007244,\"sx\":0.999981,\"sy\":0.999981,\"skew\":9e-06},\"26\":{\"tx\":-21.85,\"ty\":-18.3214,\"rot\":-0.004672,\"sx\":0.999987,\"sy\":0.999987,\"skew\":1.1e-05},\"27\":{\"tx\":-21.9,\"ty\":-18.3857,\"rot\":-0.002099,\"sx\":0.999994,\"sy\":0.999994,\"skew\":1.3e-05},\"28\":{\"tx\":-21.95,\"ty\":-18.45,\"rot\":0.000473,\"sx\":1.0,\"sy\":1.0,\"skew\":1.5e-05},\"29\":{\"tx\":-21.95,\"ty\":-18.4538,\"rot\":0.000437,\"sx\":1.0,\"sy\":1.0,\"skew\":1.4e-05},\"30\":{\"tx\":-21.95,\"ty\":-18.4577,\"rot\":0.0004,\"sx\":1.0,\"sy\":1.0,\"skew\":1.3e-05},\"31\":{\"tx\":-21.95,\"ty\":-18.4615,\"rot\":0.000364,\"sx\":1.0,\"sy\":1.0,\"skew\":1.2e-05},\"32\":{\"tx\":-21.95,\"ty\":-18.4654,\"rot\":0.000327,\"sx\":1.0,\"sy\":1.0,\"skew\":1.1e-05},\"33\":{\"tx\":-21.95,\"ty\":-18.4692,\"rot\":0.000291,\"sx\":1.0,\"sy\":1.0,\"skew\":9e-06},\"34\":{\"tx\":-21.95,\"ty\":-18.4731,\"rot\":0.000255,\"sx\":1.0,\"sy\":1.0,\"skew\":8e-06},\"35\":{\"tx\":-21.95,\"ty\":-18.4769,\"rot\":0.000218,\"sx\":1.0,\"sy\":1.0,\"skew\":7e-06},\"36\":{\"tx\":-21.95,\"ty\":-18.4808,\"rot\":0.000182,\"sx\":1.0,\"sy\":1.0,\"skew\":6e-06},\"37\":{\"tx\":-21.95,\"ty\":-18.4846,\"rot\":0.000146,\"sx\":1.0,\"sy\":1.0,\"skew\":4e-06},\"38\":{\"tx\":-21.95,\"ty\":-18.4885,\"rot\":0.000109,\"sx\":1.0,\"sy\":1.0,\"skew\":4e-06},\"39\":{\"tx\":-21.95,\"ty\":-18.4923,\"rot\":7.3e-05,\"sx\":1.0,\"sy\":1.0,\"skew\":2e-06},\"40\":{\"tx\":-21.95,\"ty\":-18.4962,\"rot\":3.6e-05,\"sx\":1.0,\"sy\":1.0,\"skew\":2e-06},\"51\":{\"tx\":-21.9962,\"ty\":-18.5692,\"rot\":0.002403,\"sx\":0.999993,\"sy\":0.999993,\"skew\":-0.0},\"52\":{\"tx\":-22.0423,\"ty\":-18.6385,\"rot\":0.004806,\"sx\":0.999986,\"sy\":0.999986,\"skew\":-0.0},\"53\":{\"tx\":-22.0885,\"ty\":-18.7077,\"rot\":0.00721,\"sx\":0.999979,\"sy\":0.999979,\"skew\":-0.0},\"54\":{\"tx\":-22.1346,\"ty\":-18.7769,\"rot\":0.009613,\"sx\":0.999972,\"sy\":0.999972,\"skew\":-0.0},\"55\":{\"tx\":-22.1808,\"ty\":-18.8462,\"rot\":0.012017,\"sx\":0.999964,\"sy\":0.999964,\"skew\":-0.0},\"56\":{\"tx\":-22.2269,\"ty\":-18.9154,\"rot\":0.01442,\"sx\":0.999958,\"sy\":0.999958,\"skew\":-0.0},\"57\":{\"tx\":-22.2731,\"ty\":-18.9846,\"rot\":0.016823,\"sx\":0.99995,\"sy\":0.99995,\"skew\":-0.0},\"58\":{\"tx\":-22.3192,\"ty\":-19.0538,\"rot\":0.019226,\"sx\":0.999944,\"sy\":0.999944,\"skew\":-0.0},\"59\":{\"tx\":-22.3654,\"ty\":-19.1231,\"rot\":0.021629,\"sx\":0.999937,\"sy\":0.999937,\"skew\":-0.0},\"60\":{\"tx\":-22.4115,\"ty\":-19.1923,\"rot\":0.024033,\"sx\":0.99993,\"sy\":0.99993,\"skew\":-0.0},\"61\":{\"tx\":-22.4577,\"ty\":-19.2615,\"rot\":0.026436,\"sx\":0.999922,\"sy\":0.999922,\"skew\":-0.0},\"62\":{\"tx\":-22.5038,\"ty\":-19.3308,\"rot\":0.028839,\"sx\":0.999915,\"sy\":0.999915,\"skew\":-0.0},\"63\":{\"tx\":-22.55,\"ty\":-19.4,\"rot\":0.031243,\"sx\":0.999908,\"sy\":0.999908,\"skew\":-0.0},\"64\":{\"tx\":-22.5625,\"ty\":-19.4156,\"rot\":0.031706,\"sx\":0.999914,\"sy\":0.999914,\"skew\":-0.0},\"65\":{\"tx\":-22.575,\"ty\":-19.4312,\"rot\":0.03217,\"sx\":0.999919,\"sy\":0.999919,\"skew\":-0.0},\"66\":{\"tx\":-22.5875,\"ty\":-19.4469,\"rot\":0.032633,\"sx\":0.999925,\"sy\":0.999925,\"skew\":-0.0},\"67\":{\"tx\":-22.6,\"ty\":-19.4625,\"rot\":0.033097,\"sx\":0.999931,\"sy\":0.999931,\"skew\":-0.0},\"68\":{\"tx\":-22.6125,\"ty\":-19.4781,\"rot\":0.03356,\"sx\":0.999937,\"sy\":0.999937,\"skew\":-0.0},\"69\":{\"tx\":-22.625,\"ty\":-19.4937,\"rot\":0.034025,\"sx\":0.999943,\"sy\":0.999943,\"skew\":-0.0},\"70\":{\"tx\":-22.6375,\"ty\":-19.5094,\"rot\":0.034488,\"sx\":0.999949,\"sy\":0.999949,\"skew\":-0.0},\"71\":{\"tx\":-22.65,\"ty\":-19.525,\"rot\":0.034952,\"sx\":0.999954,\"sy\":0.999954,\"skew\":-0.0},\"72\":{\"tx\":-22.6625,\"ty\":-19.5406,\"rot\":0.035415,\"sx\":0.99996,\"sy\":0.99996,\"skew\":-0.0},\"73\":{\"tx\":-22.675,\"ty\":-19.5562,\"rot\":0.035879,\"sx\":0.999966,\"sy\":0.999966,\"skew\":-0.0},\"74\":{\"tx\":-22.6875,\"ty\":-19.5719,\"rot\":0.036342,\"sx\":0.999971,\"sy\":0.999971,\"skew\":-0.0},\"75\":{\"tx\":-22.7,\"ty\":-19.5875,\"rot\":0.036806,\"sx\":0.999976,\"sy\":0.999976,\"skew\":-0.0},\"76\":{\"tx\":-22.7125,\"ty\":-19.6031,\"rot\":0.037269,\"sx\":0.999982,\"sy\":0.999982,\"skew\":-0.0},\"77\":{\"tx\":-22.725,\"ty\":-19.6187,\"rot\":0.037733,\"sx\":0.999988,\"sy\":0.999988,\"skew\":-0.0},\"78\":{\"tx\":-22.7375,\"ty\":-19.6344,\"rot\":0.038197,\"sx\":0.999993,\"sy\":0.999993,\"skew\":-0.0},\"79\":{\"tx\":-22.75,\"ty\":-19.65,\"rot\":0.03866,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"80\":{\"tx\":-22.8313,\"ty\":-19.8062,\"rot\":0.044213,\"sx\":0.999999,\"sy\":0.999999,\"skew\":-0.0},\"81\":{\"tx\":-22.9125,\"ty\":-19.9625,\"rot\":0.049768,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"82\":{\"tx\":-22.9937,\"ty\":-20.1187,\"rot\":0.05532,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"83\":{\"tx\":-23.075,\"ty\":-20.275,\"rot\":0.060875,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"84\":{\"tx\":-23.1562,\"ty\":-20.4312,\"rot\":0.066428,\"sx\":1.000001,\"sy\":1.000001,\"skew\":-0.0},\"85\":{\"tx\":-23.2375,\"ty\":-20.5875,\"rot\":0.071981,\"sx\":1.000001,\"sy\":1.000001,\"skew\":-0.0},\"86\":{\"tx\":-23.3188,\"ty\":-20.7437,\"rot\":0.077535,\"sx\":1.000001,\"sy\":1.000001,\"skew\":-0.0},\"87\":{\"tx\":-23.4,\"ty\":-20.9,\"rot\":0.083088,\"sx\":1.000001,\"sy\":1.000001,\"skew\":-0.0},\"88\":{\"tx\":-22.8375,\"ty\":-20.075,\"rot\":0.051441,\"sx\":1.000001,\"sy\":1.000001,\"skew\":-0.0},\"89\":{\"tx\":-22.275,\"ty\":-19.25,\"rot\":0.019793,\"sx\":1.000001,\"sy\":1.000001,\"skew\":-0.0},\"90\":{\"tx\":-21.7125,\"ty\":-18.425,\"rot\":-0.011854,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"91\":{\"tx\":-21.15,\"ty\":-17.6,\"rot\":-0.043501,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"92\":{\"tx\":-21.35,\"ty\":-17.825,\"rot\":-0.032626,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"93\":{\"tx\":-21.55,\"ty\":-18.05,\"rot\":-0.021751,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"94\":{\"tx\":-21.75,\"ty\":-18.275,\"rot\":-0.010875,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0}}"
+material = SubResource("sub_45")
+
+[node name="T01_Hd_Eye" type="Node2D" parent="osn/body/T01_Hd_ALL_1"]
+position = Vector2(-4.1, 3.65)
+visible = false
+metadata/library = "T01_Hd_Eye"
+metadata/frame_start = 0
+metadata/frame_end = 95
+metadata/frame_ranges = PackedInt32Array(0, 95)
+metadata/vis_lib = "T01_Hd_ALL_1"
+metadata/layer_index = 6
+
+[node name="mask_clip" type="Node2D" parent="osn/body/T01_Hd_ALL_1/T01_Hd_Eye"]
+metadata/mask_part = "T01_Hd_Eye"
+
+[node name="spr_L4_S0" type="Sprite2D" parent="osn/body/T01_Hd_ALL_1/T01_Hd_Eye/mask_clip"]
+centered = false
+scale = Vector2(1, 1)
+metadata/is_masked = true
+metadata/mask_part = "T01_Hd_Eye"
+material = SubResource("sub_46")
+metadata/artwork_layer = 4
+metadata/element_index = 0
+
+[node name="T1_Hd_Eye" type="Sprite2D" parent="osn/body/T01_Hd_ALL_1/T01_Hd_Eye/mask_clip"]
+position = Vector2(-5.85, 3.55)
+visible = false
+centered = false
+scale = Vector2(0.89131, 0.89131)
+metadata/library = "T1_Hd_Eye"
+metadata/frame_start = 0
+metadata/frame_end = 95
+metadata/frame_ranges = PackedInt32Array(0, 0, 1, 41, 42, 51, 52, 95)
+metadata/vis_lib = "T01_Hd_Eye"
+metadata/layer_index = 3
+metadata/is_masked = true
+metadata/mask_part = "T01_Hd_Eye"
+material = SubResource("sub_47")
+
+[node name="T1_Hd_Eye_Lid" type="Node2D" parent="osn/body/T01_Hd_ALL_1/T01_Hd_Eye"]
+position = Vector2(0.35, -9.75)
+visible = false
+metadata/library = "T1_Hd_Eye_Lid"
+metadata/frame_start = 0
+metadata/frame_end = 95
+metadata/frame_ranges = PackedInt32Array(0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 79, 80, 81, 82, 83, 84, 95)
+metadata/vis_lib = "T01_Hd_Eye"
+metadata/layer_index = 1
+
+[node name="spr_L2_S0" type="Sprite2D" parent="osn/body/T01_Hd_ALL_1/T01_Hd_Eye/T1_Hd_Eye_Lid"]
+centered = false
+scale = Vector2(1, 1)
+material = SubResource("sub_48")
+metadata/artwork_layer = 2
+metadata/element_index = 0
+
+[node name="spr_L1_S0" type="Sprite2D" parent="osn/body/T01_Hd_ALL_1/T01_Hd_Eye/T1_Hd_Eye_Lid"]
+centered = false
+scale = Vector2(1, 1)
+material = SubResource("sub_49")
+metadata/artwork_layer = 1
+metadata/element_index = 0
+
+[node name="spr_L0_S0" type="Sprite2D" parent="osn/body/T01_Hd_ALL_1/T01_Hd_Eye/T1_Hd_Eye_Lid"]
+centered = false
+scale = Vector2(1, 1)
+material = SubResource("sub_50")
+metadata/artwork_layer = 0
+metadata/element_index = 0
+
+[node name="T1_Hd_Eye_Brow" type="Sprite2D" parent="osn/body/T01_Hd_ALL_1/T01_Hd_Eye"]
+position = Vector2(-0.4, -13.25)
+rotation = 0.030248
+visible = false
+centered = false
+scale = Vector2(1, 1)
+metadata/library = "T1_Hd_Eye_Brow"
+metadata/frame_start = 0
+metadata/frame_end = 95
+metadata/frame_ranges = PackedInt32Array(0, 0, 1, 41, 42, 51, 52, 95)
+metadata/vis_lib = "T01_Hd_Eye"
+metadata/layer_index = 0
+material = SubResource("sub_51")
+
+[node name="T01_Staff_Part_06" type="Sprite2D" parent="osn/body/T01_Hd_ALL_1"]
+position = Vector2(-15.05, 36.5)
+visible = false
+centered = false
+scale = Vector2(1, 1)
+metadata/library = "T01_Staff_Part_06"
+metadata/frame_start = 0
+metadata/frame_end = 95
+metadata/frame_ranges = PackedInt32Array(0, 0, 1, 11, 12, 18, 19, 27, 28, 32, 33, 40, 41, 49, 50, 62, 63, 78, 79, 86, 87, 90, 91, 94, 95, 95)
+metadata/vis_lib = "T01_Hd_ALL_1"
+metadata/layer_index = 5
+metadata/frame_transforms = "{\"2\":{\"tx\":-15.2091,\"ty\":36.4591,\"rot\":0.0,\"sx\":1.0,\"sy\":0.998343,\"skew\":0.007588},\"3\":{\"tx\":-15.3682,\"ty\":36.4182,\"rot\":0.0,\"sx\":1.0,\"sy\":0.996685,\"skew\":0.015176},\"4\":{\"tx\":-15.5273,\"ty\":36.3773,\"rot\":0.0,\"sx\":1.0,\"sy\":0.995027,\"skew\":0.022763},\"5\":{\"tx\":-15.6864,\"ty\":36.3364,\"rot\":0.0,\"sx\":1.0,\"sy\":0.993369,\"skew\":0.030351},\"6\":{\"tx\":-15.8455,\"ty\":36.2955,\"rot\":0.0,\"sx\":1.0,\"sy\":0.991712,\"skew\":0.037938},\"7\":{\"tx\":-16.0045,\"ty\":36.2545,\"rot\":0.0,\"sx\":1.0,\"sy\":0.990054,\"skew\":0.045526},\"8\":{\"tx\":-16.1636,\"ty\":36.2136,\"rot\":0.0,\"sx\":1.0,\"sy\":0.988396,\"skew\":0.053114},\"9\":{\"tx\":-16.3227,\"ty\":36.1727,\"rot\":0.0,\"sx\":1.0,\"sy\":0.986738,\"skew\":0.060702},\"10\":{\"tx\":-16.4818,\"ty\":36.1318,\"rot\":0.0,\"sx\":1.0,\"sy\":0.985081,\"skew\":0.06829},\"11\":{\"tx\":-16.6409,\"ty\":36.0909,\"rot\":0.0,\"sx\":1.0,\"sy\":0.983424,\"skew\":0.075877},\"12\":{\"tx\":-16.8,\"ty\":36.05,\"rot\":0.0,\"sx\":1.0,\"sy\":0.981765,\"skew\":0.083465},\"13\":{\"tx\":-16.8071,\"ty\":36.1143,\"rot\":0.0,\"sx\":1.0,\"sy\":0.984832,\"skew\":0.083408},\"14\":{\"tx\":-16.8143,\"ty\":36.1786,\"rot\":0.0,\"sx\":1.0,\"sy\":0.987899,\"skew\":0.083351},\"15\":{\"tx\":-16.8214,\"ty\":36.2429,\"rot\":0.0,\"sx\":1.0,\"sy\":0.990965,\"skew\":0.083293},\"16\":{\"tx\":-16.8286,\"ty\":36.3071,\"rot\":0.0,\"sx\":1.0,\"sy\":0.994031,\"skew\":0.083236},\"17\":{\"tx\":-16.8357,\"ty\":36.3714,\"rot\":0.0,\"sx\":1.0,\"sy\":0.997097,\"skew\":0.083179},\"18\":{\"tx\":-16.8429,\"ty\":36.4357,\"rot\":0.0,\"sx\":1.0,\"sy\":1.000164,\"skew\":0.083121},\"19\":{\"tx\":-16.85,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.00323,\"skew\":0.083064},\"20\":{\"tx\":-16.85,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.00326,\"skew\":0.083109},\"21\":{\"tx\":-16.85,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.003289,\"skew\":0.083155},\"22\":{\"tx\":-16.85,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.003318,\"skew\":0.083199},\"23\":{\"tx\":-16.85,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.003347,\"skew\":0.083245},\"24\":{\"tx\":-16.85,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.003376,\"skew\":0.083289},\"25\":{\"tx\":-16.85,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.003406,\"skew\":0.083335},\"26\":{\"tx\":-16.85,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.003435,\"skew\":0.08338},\"27\":{\"tx\":-16.85,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.003465,\"skew\":0.083424},\"28\":{\"tx\":-16.85,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.003494,\"skew\":0.08347},\"29\":{\"tx\":-16.85,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.003494,\"skew\":0.08347},\"30\":{\"tx\":-16.85,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.003494,\"skew\":0.08347},\"31\":{\"tx\":-16.85,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.003494,\"skew\":0.08347},\"32\":{\"tx\":-16.85,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.003494,\"skew\":0.08347},\"33\":{\"tx\":-16.85,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.003494,\"skew\":0.08347},\"34\":{\"tx\":-16.625,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.003057,\"skew\":0.073036},\"35\":{\"tx\":-16.4,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.00262,\"skew\":0.062602},\"36\":{\"tx\":-16.175,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.002183,\"skew\":0.052169},\"37\":{\"tx\":-15.95,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.001747,\"skew\":0.041735},\"38\":{\"tx\":-15.725,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.00131,\"skew\":0.031301},\"39\":{\"tx\":-15.5,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.000874,\"skew\":0.020867},\"40\":{\"tx\":-15.275,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.000436,\"skew\":0.010434},\"51\":{\"tx\":-14.9692,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.000103,\"skew\":-0.003748},\"52\":{\"tx\":-14.8885,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.000206,\"skew\":-0.007496},\"53\":{\"tx\":-14.8077,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.000309,\"skew\":-0.011244},\"54\":{\"tx\":-14.7269,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.000412,\"skew\":-0.014991},\"55\":{\"tx\":-14.6462,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.000516,\"skew\":-0.018738},\"56\":{\"tx\":-14.5654,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.000619,\"skew\":-0.022487},\"57\":{\"tx\":-14.4846,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.000722,\"skew\":-0.026234},\"58\":{\"tx\":-14.4038,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.000825,\"skew\":-0.029982},\"59\":{\"tx\":-14.3231,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.000928,\"skew\":-0.03373},\"60\":{\"tx\":-14.2423,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.001031,\"skew\":-0.037478},\"61\":{\"tx\":-14.1615,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.001135,\"skew\":-0.041226},\"62\":{\"tx\":-14.0808,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.001237,\"skew\":-0.044974},\"63\":{\"tx\":-14.0,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.001341,\"skew\":-0.048721},\"64\":{\"tx\":-13.9875,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.001366,\"skew\":-0.049363},\"65\":{\"tx\":-13.975,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.001391,\"skew\":-0.050003},\"66\":{\"tx\":-13.9625,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.001416,\"skew\":-0.050645},\"67\":{\"tx\":-13.95,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.001441,\"skew\":-0.051287},\"68\":{\"tx\":-13.9375,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.001466,\"skew\":-0.051928},\"69\":{\"tx\":-13.925,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.001491,\"skew\":-0.052569},\"70\":{\"tx\":-13.9125,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.001516,\"skew\":-0.05321},\"71\":{\"tx\":-13.9,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.001542,\"skew\":-0.053852},\"72\":{\"tx\":-13.8875,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.001567,\"skew\":-0.054494},\"73\":{\"tx\":-13.875,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.001592,\"skew\":-0.055135},\"74\":{\"tx\":-13.8625,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.001617,\"skew\":-0.055776},\"75\":{\"tx\":-13.85,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.001642,\"skew\":-0.056417},\"76\":{\"tx\":-13.8375,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.001667,\"skew\":-0.057059},\"77\":{\"tx\":-13.825,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.001692,\"skew\":-0.0577},\"78\":{\"tx\":-13.8125,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.001717,\"skew\":-0.058342},\"79\":{\"tx\":-13.8,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.001742,\"skew\":-0.058983},\"80\":{\"tx\":-13.8,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.001742,\"skew\":-0.058984},\"81\":{\"tx\":-13.8,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.001742,\"skew\":-0.058984},\"82\":{\"tx\":-13.8,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.001742,\"skew\":-0.058984},\"83\":{\"tx\":-13.8,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.001742,\"skew\":-0.058984},\"84\":{\"tx\":-13.8,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.001742,\"skew\":-0.058984},\"85\":{\"tx\":-13.8,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.001742,\"skew\":-0.058984},\"86\":{\"tx\":-13.8,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.001742,\"skew\":-0.058984},\"87\":{\"tx\":-13.8,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.001742,\"skew\":-0.058983},\"88\":{\"tx\":-14.1125,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.001307,\"skew\":-0.044238},\"89\":{\"tx\":-14.425,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.000871,\"skew\":-0.029492},\"90\":{\"tx\":-14.7375,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.000436,\"skew\":-0.014746},\"92\":{\"tx\":-15.05,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"93\":{\"tx\":-15.05,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"94\":{\"tx\":-15.05,\"ty\":36.5,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0}}"
+material = SubResource("sub_52")
+
+[node name="T01_Hd_H_03" type="Sprite2D" parent="osn/body/T01_Hd_ALL_1"]
+position = Vector2(39.1, 15.75)
+visible = false
+centered = false
+scale = Vector2(1, 1)
+metadata/library = "T01_Hd_H_03"
+metadata/frame_start = 0
+metadata/frame_end = 95
+metadata/frame_ranges = PackedInt32Array(0, 0, 1, 11, 12, 18, 19, 20, 21, 27, 28, 40, 41, 49, 50, 62, 63, 78, 79, 86, 87, 90, 91, 94, 95, 95)
+metadata/vis_lib = "T01_Hd_ALL_1"
+metadata/layer_index = 4
+metadata/frame_transforms = "{\"2\":{\"tx\":39.0934,\"ty\":15.7583,\"rot\":0.000822,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"3\":{\"tx\":39.0736,\"ty\":15.7831,\"rot\":0.003288,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"4\":{\"tx\":39.0405,\"ty\":15.8244,\"rot\":0.007398,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"5\":{\"tx\":38.9942,\"ty\":15.8822,\"rot\":0.013152,\"sx\":0.999999,\"sy\":0.999999,\"skew\":-0.0},\"6\":{\"tx\":38.9347,\"ty\":15.9566,\"rot\":0.020551,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"7\":{\"tx\":38.862,\"ty\":16.0475,\"rot\":0.029594,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"8\":{\"tx\":38.776,\"ty\":16.155,\"rot\":0.040281,\"sx\":0.999999,\"sy\":0.999999,\"skew\":-0.0},\"9\":{\"tx\":38.6769,\"ty\":16.2789,\"rot\":0.052611,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"10\":{\"tx\":38.5645,\"ty\":16.4194,\"rot\":0.066586,\"sx\":0.999999,\"sy\":0.999999,\"skew\":-0.0},\"11\":{\"tx\":38.4388,\"ty\":16.5764,\"rot\":0.082206,\"sx\":0.999999,\"sy\":0.999999,\"skew\":-0.0},\"12\":{\"tx\":38.3,\"ty\":16.75,\"rot\":0.099468,\"sx\":0.999999,\"sy\":0.999999,\"skew\":-0.0},\"13\":{\"tx\":38.1214,\"ty\":16.7571,\"rot\":0.103169,\"sx\":0.999998,\"sy\":0.999998,\"skew\":-0.0},\"14\":{\"tx\":37.9429,\"ty\":16.7643,\"rot\":0.106871,\"sx\":0.999997,\"sy\":0.999997,\"skew\":-0.0},\"15\":{\"tx\":37.7643,\"ty\":16.7714,\"rot\":0.110572,\"sx\":0.999996,\"sy\":0.999996,\"skew\":-0.0},\"16\":{\"tx\":37.5857,\"ty\":16.7786,\"rot\":0.114272,\"sx\":0.999994,\"sy\":0.999994,\"skew\":-0.0},\"17\":{\"tx\":37.4071,\"ty\":16.7857,\"rot\":0.117973,\"sx\":0.999993,\"sy\":0.999993,\"skew\":-0.0},\"18\":{\"tx\":37.2286,\"ty\":16.7929,\"rot\":0.121674,\"sx\":0.999992,\"sy\":0.999992,\"skew\":-0.0},\"19\":{\"tx\":37.05,\"ty\":16.8,\"rot\":0.125375,\"sx\":0.999991,\"sy\":0.999991,\"skew\":-0.0},\"20\":{\"tx\":37.225,\"ty\":16.8,\"rot\":0.122025,\"sx\":0.999795,\"sy\":0.999795,\"skew\":-0.0},\"21\":{\"tx\":37.4,\"ty\":16.8,\"rot\":0.118673,\"sx\":0.9996,\"sy\":0.9996,\"skew\":-0.0},\"22\":{\"tx\":37.5286,\"ty\":16.7929,\"rot\":0.115929,\"sx\":0.999657,\"sy\":0.999657,\"skew\":-0.0},\"23\":{\"tx\":37.6571,\"ty\":16.7857,\"rot\":0.113186,\"sx\":0.999714,\"sy\":0.999714,\"skew\":-0.0},\"24\":{\"tx\":37.7857,\"ty\":16.7786,\"rot\":0.110443,\"sx\":0.999771,\"sy\":0.999771,\"skew\":-0.0},\"25\":{\"tx\":37.9143,\"ty\":16.7714,\"rot\":0.107699,\"sx\":0.999828,\"sy\":0.999828,\"skew\":-0.0},\"26\":{\"tx\":38.0429,\"ty\":16.7643,\"rot\":0.104956,\"sx\":0.999885,\"sy\":0.999885,\"skew\":-0.0},\"27\":{\"tx\":38.1714,\"ty\":16.7571,\"rot\":0.102212,\"sx\":0.999942,\"sy\":0.999942,\"skew\":-0.0},\"28\":{\"tx\":38.3,\"ty\":16.75,\"rot\":0.099468,\"sx\":0.999999,\"sy\":0.999999,\"skew\":-0.0},\"29\":{\"tx\":38.3615,\"ty\":16.6731,\"rot\":0.091817,\"sx\":0.999999,\"sy\":0.999999,\"skew\":-0.0},\"30\":{\"tx\":38.4231,\"ty\":16.5962,\"rot\":0.084165,\"sx\":0.999999,\"sy\":0.999999,\"skew\":-0.0},\"31\":{\"tx\":38.4846,\"ty\":16.5192,\"rot\":0.076514,\"sx\":0.999999,\"sy\":0.999999,\"skew\":-0.0},\"32\":{\"tx\":38.5462,\"ty\":16.4423,\"rot\":0.068862,\"sx\":0.999999,\"sy\":0.999999,\"skew\":-0.0},\"33\":{\"tx\":38.6077,\"ty\":16.3654,\"rot\":0.061211,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"34\":{\"tx\":38.6692,\"ty\":16.2885,\"rot\":0.05356,\"sx\":0.999999,\"sy\":0.999999,\"skew\":-0.0},\"35\":{\"tx\":38.7308,\"ty\":16.2115,\"rot\":0.045908,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"36\":{\"tx\":38.7923,\"ty\":16.1346,\"rot\":0.038257,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"37\":{\"tx\":38.8538,\"ty\":16.0577,\"rot\":0.030606,\"sx\":0.999999,\"sy\":0.999999,\"skew\":-0.0},\"38\":{\"tx\":38.9154,\"ty\":15.9808,\"rot\":0.022954,\"sx\":0.999999,\"sy\":0.999999,\"skew\":-0.0},\"39\":{\"tx\":38.9769,\"ty\":15.9038,\"rot\":0.015303,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"40\":{\"tx\":39.0385,\"ty\":15.8269,\"rot\":0.007651,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"51\":{\"tx\":39.1962,\"ty\":15.7462,\"rot\":-0.003773,\"sx\":0.999988,\"sy\":0.999988,\"skew\":-0.0},\"52\":{\"tx\":39.2923,\"ty\":15.7423,\"rot\":-0.007546,\"sx\":0.999976,\"sy\":0.999976,\"skew\":-0.0},\"53\":{\"tx\":39.3885,\"ty\":15.7385,\"rot\":-0.01132,\"sx\":0.999964,\"sy\":0.999964,\"skew\":-0.0},\"54\":{\"tx\":39.4846,\"ty\":15.7346,\"rot\":-0.015093,\"sx\":0.999952,\"sy\":0.999952,\"skew\":-0.0},\"55\":{\"tx\":39.5808,\"ty\":15.7308,\"rot\":-0.018867,\"sx\":0.99994,\"sy\":0.99994,\"skew\":-0.0},\"56\":{\"tx\":39.6769,\"ty\":15.7269,\"rot\":-0.022641,\"sx\":0.999928,\"sy\":0.999928,\"skew\":-0.0},\"57\":{\"tx\":39.7731,\"ty\":15.7231,\"rot\":-0.026413,\"sx\":0.999917,\"sy\":0.999917,\"skew\":-0.0},\"58\":{\"tx\":39.8692,\"ty\":15.7192,\"rot\":-0.030186,\"sx\":0.999905,\"sy\":0.999905,\"skew\":-0.0},\"59\":{\"tx\":39.9654,\"ty\":15.7154,\"rot\":-0.03396,\"sx\":0.999893,\"sy\":0.999893,\"skew\":-0.0},\"60\":{\"tx\":40.0615,\"ty\":15.7115,\"rot\":-0.037733,\"sx\":0.999881,\"sy\":0.999881,\"skew\":-0.0},\"61\":{\"tx\":40.1577,\"ty\":15.7077,\"rot\":-0.041507,\"sx\":0.999868,\"sy\":0.999868,\"skew\":-0.0},\"62\":{\"tx\":40.2538,\"ty\":15.7038,\"rot\":-0.04528,\"sx\":0.999857,\"sy\":0.999857,\"skew\":-0.0},\"63\":{\"tx\":40.35,\"ty\":15.7,\"rot\":-0.049054,\"sx\":0.999845,\"sy\":0.999845,\"skew\":-0.0},\"64\":{\"tx\":40.375,\"ty\":15.6969,\"rot\":-0.049771,\"sx\":0.999854,\"sy\":0.999854,\"skew\":-0.0},\"65\":{\"tx\":40.4,\"ty\":15.6937,\"rot\":-0.050487,\"sx\":0.999864,\"sy\":0.999864,\"skew\":-0.0},\"66\":{\"tx\":40.425,\"ty\":15.6906,\"rot\":-0.051204,\"sx\":0.999873,\"sy\":0.999873,\"skew\":-0.0},\"67\":{\"tx\":40.45,\"ty\":15.6875,\"rot\":-0.051921,\"sx\":0.999883,\"sy\":0.999883,\"skew\":-0.0},\"68\":{\"tx\":40.475,\"ty\":15.6844,\"rot\":-0.052638,\"sx\":0.999893,\"sy\":0.999893,\"skew\":-0.0},\"69\":{\"tx\":40.5,\"ty\":15.6813,\"rot\":-0.053354,\"sx\":0.999903,\"sy\":0.999903,\"skew\":-0.0},\"70\":{\"tx\":40.525,\"ty\":15.6781,\"rot\":-0.054071,\"sx\":0.999912,\"sy\":0.999912,\"skew\":-0.0},\"71\":{\"tx\":40.55,\"ty\":15.675,\"rot\":-0.054789,\"sx\":0.999922,\"sy\":0.999922,\"skew\":-0.0},\"72\":{\"tx\":40.575,\"ty\":15.6719,\"rot\":-0.055505,\"sx\":0.999932,\"sy\":0.999932,\"skew\":-0.0},\"73\":{\"tx\":40.6,\"ty\":15.6687,\"rot\":-0.056222,\"sx\":0.999942,\"sy\":0.999942,\"skew\":-0.0},\"74\":{\"tx\":40.625,\"ty\":15.6656,\"rot\":-0.056939,\"sx\":0.999951,\"sy\":0.999951,\"skew\":-0.0},\"75\":{\"tx\":40.65,\"ty\":15.6625,\"rot\":-0.057655,\"sx\":0.999962,\"sy\":0.999962,\"skew\":-0.0},\"76\":{\"tx\":40.675,\"ty\":15.6594,\"rot\":-0.058373,\"sx\":0.999971,\"sy\":0.999971,\"skew\":-0.0},\"77\":{\"tx\":40.7,\"ty\":15.6562,\"rot\":-0.05909,\"sx\":0.99998,\"sy\":0.99998,\"skew\":-0.0},\"78\":{\"tx\":40.725,\"ty\":15.6531,\"rot\":-0.059806,\"sx\":0.99999,\"sy\":0.99999,\"skew\":-0.0},\"79\":{\"tx\":40.75,\"ty\":15.65,\"rot\":-0.060523,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"80\":{\"tx\":40.5688,\"ty\":15.7063,\"rot\":-0.053517,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"81\":{\"tx\":40.3875,\"ty\":15.7625,\"rot\":-0.04651,\"sx\":0.999998,\"sy\":0.999998,\"skew\":-0.0},\"82\":{\"tx\":40.2062,\"ty\":15.8187,\"rot\":-0.039503,\"sx\":0.999998,\"sy\":0.999998,\"skew\":-0.0},\"83\":{\"tx\":40.025,\"ty\":15.875,\"rot\":-0.032497,\"sx\":0.999997,\"sy\":0.999997,\"skew\":-0.0},\"84\":{\"tx\":39.8438,\"ty\":15.9313,\"rot\":-0.02549,\"sx\":0.999997,\"sy\":0.999997,\"skew\":-0.0},\"85\":{\"tx\":39.6625,\"ty\":15.9875,\"rot\":-0.018484,\"sx\":0.999996,\"sy\":0.999996,\"skew\":-0.0},\"86\":{\"tx\":39.4813,\"ty\":16.0437,\"rot\":-0.011477,\"sx\":0.999996,\"sy\":0.999996,\"skew\":-0.0},\"87\":{\"tx\":39.3,\"ty\":16.1,\"rot\":-0.004471,\"sx\":0.999995,\"sy\":0.999995,\"skew\":-0.0},\"88\":{\"tx\":39.5125,\"ty\":15.975,\"rot\":-0.008702,\"sx\":0.999996,\"sy\":0.999996,\"skew\":-0.0},\"89\":{\"tx\":39.725,\"ty\":15.85,\"rot\":-0.012932,\"sx\":0.999998,\"sy\":0.999998,\"skew\":-0.0},\"90\":{\"tx\":39.9375,\"ty\":15.725,\"rot\":-0.017164,\"sx\":0.999998,\"sy\":0.999998,\"skew\":-0.0},\"91\":{\"tx\":40.15,\"ty\":15.6,\"rot\":-0.021394,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"92\":{\"tx\":39.8875,\"ty\":15.6375,\"rot\":-0.016046,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"93\":{\"tx\":39.625,\"ty\":15.675,\"rot\":-0.010697,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"94\":{\"tx\":39.3625,\"ty\":15.7125,\"rot\":-0.005349,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0}}"
+material = SubResource("sub_53")
+
+[node name="T01_Hd_Hat" type="Sprite2D" parent="osn/body/T01_Hd_ALL_1"]
+position = Vector2(3.85, -51.4)
+visible = false
+centered = false
+scale = Vector2(1, 1)
+metadata/library = "T01_Hd_Hat"
+metadata/frame_start = 0
+metadata/frame_end = 95
+metadata/frame_ranges = PackedInt32Array(0, 0, 1, 40, 41, 49, 50, 62, 63, 78, 79, 86, 87, 90, 91, 94, 95, 95)
+metadata/vis_lib = "T01_Hd_ALL_1"
+metadata/layer_index = 3
+metadata/frame_transforms = "{\"51\":{\"tx\":3.8769,\"ty\":-51.4,\"rot\":0.00176,\"sx\":0.999995,\"sy\":0.999995,\"skew\":-0.0},\"52\":{\"tx\":3.9038,\"ty\":-51.4,\"rot\":0.003519,\"sx\":0.999988,\"sy\":0.999988,\"skew\":-0.0},\"53\":{\"tx\":3.9308,\"ty\":-51.4,\"rot\":0.005279,\"sx\":0.999983,\"sy\":0.999983,\"skew\":-0.0},\"54\":{\"tx\":3.9577,\"ty\":-51.4,\"rot\":0.007039,\"sx\":0.999977,\"sy\":0.999977,\"skew\":-0.0},\"55\":{\"tx\":3.9846,\"ty\":-51.4,\"rot\":0.008798,\"sx\":0.999972,\"sy\":0.999972,\"skew\":-0.0},\"56\":{\"tx\":4.0115,\"ty\":-51.4,\"rot\":0.010559,\"sx\":0.999966,\"sy\":0.999966,\"skew\":-0.0},\"57\":{\"tx\":4.0385,\"ty\":-51.4,\"rot\":0.012318,\"sx\":0.99996,\"sy\":0.99996,\"skew\":-0.0},\"58\":{\"tx\":4.0654,\"ty\":-51.4,\"rot\":0.014078,\"sx\":0.999954,\"sy\":0.999954,\"skew\":-0.0},\"59\":{\"tx\":4.0923,\"ty\":-51.4,\"rot\":0.015837,\"sx\":0.999948,\"sy\":0.999948,\"skew\":-0.0},\"60\":{\"tx\":4.1192,\"ty\":-51.4,\"rot\":0.017597,\"sx\":0.999943,\"sy\":0.999943,\"skew\":-0.0},\"61\":{\"tx\":4.1462,\"ty\":-51.4,\"rot\":0.019357,\"sx\":0.999937,\"sy\":0.999937,\"skew\":-0.0},\"62\":{\"tx\":4.1731,\"ty\":-51.4,\"rot\":0.021117,\"sx\":0.999932,\"sy\":0.999932,\"skew\":-0.0},\"63\":{\"tx\":4.2,\"ty\":-51.4,\"rot\":0.022877,\"sx\":0.999926,\"sy\":0.999926,\"skew\":-0.0},\"64\":{\"tx\":4.2062,\"ty\":-51.4,\"rot\":0.023338,\"sx\":0.99993,\"sy\":0.99993,\"skew\":-0.0},\"65\":{\"tx\":4.2125,\"ty\":-51.4,\"rot\":0.023798,\"sx\":0.999935,\"sy\":0.999935,\"skew\":-0.0},\"66\":{\"tx\":4.2188,\"ty\":-51.4,\"rot\":0.024259,\"sx\":0.99994,\"sy\":0.99994,\"skew\":-0.0},\"67\":{\"tx\":4.225,\"ty\":-51.4,\"rot\":0.024719,\"sx\":0.999944,\"sy\":0.999944,\"skew\":-0.0},\"68\":{\"tx\":4.2313,\"ty\":-51.4,\"rot\":0.02518,\"sx\":0.999949,\"sy\":0.999949,\"skew\":-0.0},\"69\":{\"tx\":4.2375,\"ty\":-51.4,\"rot\":0.025641,\"sx\":0.999954,\"sy\":0.999954,\"skew\":-0.0},\"70\":{\"tx\":4.2438,\"ty\":-51.4,\"rot\":0.026101,\"sx\":0.999959,\"sy\":0.999959,\"skew\":-0.0},\"71\":{\"tx\":4.25,\"ty\":-51.4,\"rot\":0.026562,\"sx\":0.999963,\"sy\":0.999963,\"skew\":-0.0},\"72\":{\"tx\":4.2562,\"ty\":-51.4,\"rot\":0.027023,\"sx\":0.999967,\"sy\":0.999967,\"skew\":-0.0},\"73\":{\"tx\":4.2625,\"ty\":-51.4,\"rot\":0.027483,\"sx\":0.999972,\"sy\":0.999972,\"skew\":-0.0},\"74\":{\"tx\":4.2687,\"ty\":-51.4,\"rot\":0.027944,\"sx\":0.999976,\"sy\":0.999976,\"skew\":-0.0},\"75\":{\"tx\":4.275,\"ty\":-51.4,\"rot\":0.028404,\"sx\":0.999981,\"sy\":0.999981,\"skew\":-0.0},\"76\":{\"tx\":4.2812,\"ty\":-51.4,\"rot\":0.028865,\"sx\":0.999986,\"sy\":0.999986,\"skew\":-0.0},\"77\":{\"tx\":4.2875,\"ty\":-51.4,\"rot\":0.029326,\"sx\":0.99999,\"sy\":0.99999,\"skew\":-0.0},\"78\":{\"tx\":4.2938,\"ty\":-51.4,\"rot\":0.029787,\"sx\":0.999995,\"sy\":0.999995,\"skew\":-0.0},\"79\":{\"tx\":4.3,\"ty\":-51.4,\"rot\":0.030248,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"80\":{\"tx\":4.3,\"ty\":-51.4,\"rot\":0.030248,\"sx\":0.999999,\"sy\":0.999999,\"skew\":-0.0},\"81\":{\"tx\":4.3,\"ty\":-51.4,\"rot\":0.030248,\"sx\":0.999999,\"sy\":0.999999,\"skew\":-0.0},\"82\":{\"tx\":4.3,\"ty\":-51.4,\"rot\":0.030248,\"sx\":0.999999,\"sy\":0.999999,\"skew\":-0.0},\"83\":{\"tx\":4.3,\"ty\":-51.4,\"rot\":0.030248,\"sx\":0.999999,\"sy\":0.999999,\"skew\":-0.0},\"84\":{\"tx\":4.3,\"ty\":-51.4,\"rot\":0.030248,\"sx\":0.999999,\"sy\":0.999999,\"skew\":-0.0},\"85\":{\"tx\":4.3,\"ty\":-51.4,\"rot\":0.030248,\"sx\":0.999999,\"sy\":0.999999,\"skew\":-0.0},\"86\":{\"tx\":4.3,\"ty\":-51.4,\"rot\":0.030248,\"sx\":0.999999,\"sy\":0.999999,\"skew\":-0.0},\"87\":{\"tx\":4.3,\"ty\":-51.4,\"rot\":0.030248,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"88\":{\"tx\":4.1875,\"ty\":-51.4,\"rot\":0.022686,\"sx\":0.999999,\"sy\":0.999999,\"skew\":-0.0},\"89\":{\"tx\":4.075,\"ty\":-51.4,\"rot\":0.015124,\"sx\":0.999999,\"sy\":0.999999,\"skew\":-0.0},\"90\":{\"tx\":3.9625,\"ty\":-51.4,\"rot\":0.007562,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"92\":{\"tx\":3.85,\"ty\":-51.4,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"93\":{\"tx\":3.85,\"ty\":-51.4,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"94\":{\"tx\":3.85,\"ty\":-51.4,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0}}"
+material = SubResource("sub_54")
+
+[node name="T01_Hd_Horn" type="Sprite2D" parent="osn/body/T01_Hd_ALL_1"]
+position = Vector2(-36.6, -36.05)
+visible = false
+centered = false
+scale = Vector2(1, 1)
+metadata/library = "T01_Hd_Horn"
+metadata/frame_start = 0
+metadata/frame_end = 95
+metadata/frame_ranges = PackedInt32Array(0, 0, 1, 40, 41, 49, 50, 62, 63, 78, 79, 86, 87, 90, 91, 94, 95, 95)
+metadata/vis_lib = "T01_Hd_ALL_1"
+metadata/layer_index = 2
+metadata/frame_transforms = "{\"51\":{\"tx\":-36.6,\"ty\":-36.05,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"52\":{\"tx\":-36.6,\"ty\":-36.05,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"53\":{\"tx\":-36.6,\"ty\":-36.05,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"54\":{\"tx\":-36.6,\"ty\":-36.05,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"55\":{\"tx\":-36.6,\"ty\":-36.05,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"56\":{\"tx\":-36.6,\"ty\":-36.05,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"57\":{\"tx\":-36.6,\"ty\":-36.05,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"58\":{\"tx\":-36.6,\"ty\":-36.05,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"59\":{\"tx\":-36.6,\"ty\":-36.05,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"60\":{\"tx\":-36.6,\"ty\":-36.05,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"61\":{\"tx\":-36.6,\"ty\":-36.05,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"62\":{\"tx\":-36.6,\"ty\":-36.05,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"64\":{\"tx\":-36.6,\"ty\":-36.05,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"65\":{\"tx\":-36.6,\"ty\":-36.05,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"66\":{\"tx\":-36.6,\"ty\":-36.05,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"67\":{\"tx\":-36.6,\"ty\":-36.05,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"68\":{\"tx\":-36.6,\"ty\":-36.05,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"69\":{\"tx\":-36.6,\"ty\":-36.05,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"70\":{\"tx\":-36.6,\"ty\":-36.05,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"71\":{\"tx\":-36.6,\"ty\":-36.05,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"72\":{\"tx\":-36.6,\"ty\":-36.05,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"73\":{\"tx\":-36.6,\"ty\":-36.05,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"74\":{\"tx\":-36.6,\"ty\":-36.05,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"75\":{\"tx\":-36.6,\"ty\":-36.05,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"76\":{\"tx\":-36.6,\"ty\":-36.05,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"77\":{\"tx\":-36.6,\"ty\":-36.05,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"78\":{\"tx\":-36.6,\"ty\":-36.05,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"80\":{\"tx\":-36.6,\"ty\":-36.05,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"81\":{\"tx\":-36.6,\"ty\":-36.05,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"82\":{\"tx\":-36.6,\"ty\":-36.05,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"83\":{\"tx\":-36.6,\"ty\":-36.05,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"84\":{\"tx\":-36.6,\"ty\":-36.05,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"85\":{\"tx\":-36.6,\"ty\":-36.05,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"86\":{\"tx\":-36.6,\"ty\":-36.05,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"88\":{\"tx\":-36.6,\"ty\":-36.05,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"89\":{\"tx\":-36.6,\"ty\":-36.05,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"90\":{\"tx\":-36.6,\"ty\":-36.05,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"92\":{\"tx\":-36.6,\"ty\":-36.05,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"93\":{\"tx\":-36.6,\"ty\":-36.05,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"94\":{\"tx\":-36.6,\"ty\":-36.05,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0}}"
+material = SubResource("sub_55")
+
+[node name="T01_Hd_H_02" type="Node2D" parent="osn/body/T01_Hd_ALL_1"]
+position = Vector2(-21.95, -18.5)
+visible = false
+metadata/library = "T01_Hd_H_02"
+metadata/frame_start = 0
+metadata/frame_end = 95
+metadata/frame_ranges = PackedInt32Array(0, 0, 1, 11, 12, 18, 19, 20, 21, 27, 28, 40, 41, 49, 50, 62, 63, 78, 79, 86, 87, 90, 91, 94, 95, 95)
+metadata/vis_lib = "T01_Hd_ALL_1"
+metadata/layer_index = 1
+metadata/frame_transforms = "{\"2\":{\"tx\":-21.957,\"ty\":-18.5107,\"rot\":0.000393,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"3\":{\"tx\":-21.9781,\"ty\":-18.543,\"rot\":0.001571,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"4\":{\"tx\":-22.0132,\"ty\":-18.5967,\"rot\":0.003534,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"5\":{\"tx\":-22.0624,\"ty\":-18.6719,\"rot\":0.006283,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"6\":{\"tx\":-22.1256,\"ty\":-18.7686,\"rot\":0.009818,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"7\":{\"tx\":-22.2029,\"ty\":-18.8868,\"rot\":0.014137,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"8\":{\"tx\":-22.2942,\"ty\":-19.0264,\"rot\":0.019243,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"9\":{\"tx\":-22.3996,\"ty\":-19.1876,\"rot\":0.025134,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"10\":{\"tx\":-22.519,\"ty\":-19.3702,\"rot\":0.03181,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"11\":{\"tx\":-22.6525,\"ty\":-19.5744,\"rot\":0.039271,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"12\":{\"tx\":-22.8,\"ty\":-19.8,\"rot\":0.047519,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"13\":{\"tx\":-22.6143,\"ty\":-19.5286,\"rot\":0.037674,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"14\":{\"tx\":-22.4286,\"ty\":-19.2571,\"rot\":0.027829,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"15\":{\"tx\":-22.2429,\"ty\":-18.9857,\"rot\":0.017984,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"16\":{\"tx\":-22.0571,\"ty\":-18.7143,\"rot\":0.00814,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"17\":{\"tx\":-21.8714,\"ty\":-18.4429,\"rot\":-0.001705,\"sx\":0.999999,\"sy\":0.999999,\"skew\":-0.0},\"18\":{\"tx\":-21.6857,\"ty\":-18.1714,\"rot\":-0.011549,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"19\":{\"tx\":-21.5,\"ty\":-17.9,\"rot\":-0.021394,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"20\":{\"tx\":-21.55,\"ty\":-17.975,\"rot\":-0.019465,\"sx\":0.999977,\"sy\":0.999977,\"skew\":-0.0},\"21\":{\"tx\":-21.6,\"ty\":-18.05,\"rot\":-0.017534,\"sx\":0.999955,\"sy\":0.999955,\"skew\":-0.0},\"22\":{\"tx\":-21.6571,\"ty\":-18.1071,\"rot\":-0.014961,\"sx\":0.999962,\"sy\":0.999962,\"skew\":2e-06},\"23\":{\"tx\":-21.7143,\"ty\":-18.1643,\"rot\":-0.012389,\"sx\":0.999968,\"sy\":0.999968,\"skew\":4e-06},\"24\":{\"tx\":-21.7714,\"ty\":-18.2214,\"rot\":-0.009816,\"sx\":0.999974,\"sy\":0.999974,\"skew\":6e-06},\"25\":{\"tx\":-21.8286,\"ty\":-18.2786,\"rot\":-0.007244,\"sx\":0.999981,\"sy\":0.999981,\"skew\":9e-06},\"26\":{\"tx\":-21.8857,\"ty\":-18.3357,\"rot\":-0.004672,\"sx\":0.999987,\"sy\":0.999987,\"skew\":1.1e-05},\"27\":{\"tx\":-21.9429,\"ty\":-18.3929,\"rot\":-0.002099,\"sx\":0.999994,\"sy\":0.999994,\"skew\":1.3e-05},\"28\":{\"tx\":-22.0,\"ty\":-18.45,\"rot\":0.000473,\"sx\":1.0,\"sy\":1.0,\"skew\":1.5e-05},\"29\":{\"tx\":-21.9962,\"ty\":-18.4538,\"rot\":0.000437,\"sx\":1.0,\"sy\":1.0,\"skew\":1.4e-05},\"30\":{\"tx\":-21.9923,\"ty\":-18.4577,\"rot\":0.0004,\"sx\":1.0,\"sy\":1.0,\"skew\":1.3e-05},\"31\":{\"tx\":-21.9885,\"ty\":-18.4615,\"rot\":0.000364,\"sx\":1.0,\"sy\":1.0,\"skew\":1.2e-05},\"32\":{\"tx\":-21.9846,\"ty\":-18.4654,\"rot\":0.000327,\"sx\":1.0,\"sy\":1.0,\"skew\":1.1e-05},\"33\":{\"tx\":-21.9808,\"ty\":-18.4692,\"rot\":0.000291,\"sx\":1.0,\"sy\":1.0,\"skew\":9e-06},\"34\":{\"tx\":-21.9769,\"ty\":-18.4731,\"rot\":0.000255,\"sx\":1.0,\"sy\":1.0,\"skew\":8e-06},\"35\":{\"tx\":-21.9731,\"ty\":-18.4769,\"rot\":0.000218,\"sx\":1.0,\"sy\":1.0,\"skew\":7e-06},\"36\":{\"tx\":-21.9692,\"ty\":-18.4808,\"rot\":0.000182,\"sx\":1.0,\"sy\":1.0,\"skew\":6e-06},\"37\":{\"tx\":-21.9654,\"ty\":-18.4846,\"rot\":0.000146,\"sx\":1.0,\"sy\":1.0,\"skew\":4e-06},\"38\":{\"tx\":-21.9615,\"ty\":-18.4885,\"rot\":0.000109,\"sx\":1.0,\"sy\":1.0,\"skew\":4e-06},\"39\":{\"tx\":-21.9577,\"ty\":-18.4923,\"rot\":7.3e-05,\"sx\":1.0,\"sy\":1.0,\"skew\":2e-06},\"40\":{\"tx\":-21.9538,\"ty\":-18.4962,\"rot\":3.6e-05,\"sx\":1.0,\"sy\":1.0,\"skew\":2e-06},\"51\":{\"tx\":-21.9962,\"ty\":-18.5654,\"rot\":0.002403,\"sx\":0.999993,\"sy\":0.999993,\"skew\":-0.0},\"52\":{\"tx\":-22.0423,\"ty\":-18.6308,\"rot\":0.004806,\"sx\":0.999986,\"sy\":0.999986,\"skew\":-0.0},\"53\":{\"tx\":-22.0885,\"ty\":-18.6962,\"rot\":0.00721,\"sx\":0.999979,\"sy\":0.999979,\"skew\":-0.0},\"54\":{\"tx\":-22.1346,\"ty\":-18.7615,\"rot\":0.009613,\"sx\":0.999972,\"sy\":0.999972,\"skew\":-0.0},\"55\":{\"tx\":-22.1808,\"ty\":-18.8269,\"rot\":0.012017,\"sx\":0.999964,\"sy\":0.999964,\"skew\":-0.0},\"56\":{\"tx\":-22.2269,\"ty\":-18.8923,\"rot\":0.01442,\"sx\":0.999958,\"sy\":0.999958,\"skew\":-0.0},\"57\":{\"tx\":-22.2731,\"ty\":-18.9577,\"rot\":0.016823,\"sx\":0.99995,\"sy\":0.99995,\"skew\":-0.0},\"58\":{\"tx\":-22.3192,\"ty\":-19.0231,\"rot\":0.019226,\"sx\":0.999944,\"sy\":0.999944,\"skew\":-0.0},\"59\":{\"tx\":-22.3654,\"ty\":-19.0885,\"rot\":0.021629,\"sx\":0.999937,\"sy\":0.999937,\"skew\":-0.0},\"60\":{\"tx\":-22.4115,\"ty\":-19.1538,\"rot\":0.024033,\"sx\":0.99993,\"sy\":0.99993,\"skew\":-0.0},\"61\":{\"tx\":-22.4577,\"ty\":-19.2192,\"rot\":0.026436,\"sx\":0.999922,\"sy\":0.999922,\"skew\":-0.0},\"62\":{\"tx\":-22.5038,\"ty\":-19.2846,\"rot\":0.028839,\"sx\":0.999915,\"sy\":0.999915,\"skew\":-0.0},\"63\":{\"tx\":-22.55,\"ty\":-19.35,\"rot\":0.031243,\"sx\":0.999908,\"sy\":0.999908,\"skew\":-0.0},\"64\":{\"tx\":-22.5625,\"ty\":-19.3687,\"rot\":0.031706,\"sx\":0.999914,\"sy\":0.999914,\"skew\":-0.0},\"65\":{\"tx\":-22.575,\"ty\":-19.3875,\"rot\":0.03217,\"sx\":0.999919,\"sy\":0.999919,\"skew\":-0.0},\"66\":{\"tx\":-22.5875,\"ty\":-19.4062,\"rot\":0.032633,\"sx\":0.999925,\"sy\":0.999925,\"skew\":-0.0},\"67\":{\"tx\":-22.6,\"ty\":-19.425,\"rot\":0.033097,\"sx\":0.999931,\"sy\":0.999931,\"skew\":-0.0},\"68\":{\"tx\":-22.6125,\"ty\":-19.4438,\"rot\":0.03356,\"sx\":0.999937,\"sy\":0.999937,\"skew\":-0.0},\"69\":{\"tx\":-22.625,\"ty\":-19.4625,\"rot\":0.034025,\"sx\":0.999943,\"sy\":0.999943,\"skew\":-0.0},\"70\":{\"tx\":-22.6375,\"ty\":-19.4812,\"rot\":0.034488,\"sx\":0.999949,\"sy\":0.999949,\"skew\":-0.0},\"71\":{\"tx\":-22.65,\"ty\":-19.5,\"rot\":0.034952,\"sx\":0.999954,\"sy\":0.999954,\"skew\":-0.0},\"72\":{\"tx\":-22.6625,\"ty\":-19.5188,\"rot\":0.035415,\"sx\":0.99996,\"sy\":0.99996,\"skew\":-0.0},\"73\":{\"tx\":-22.675,\"ty\":-19.5375,\"rot\":0.035879,\"sx\":0.999966,\"sy\":0.999966,\"skew\":-0.0},\"74\":{\"tx\":-22.6875,\"ty\":-19.5562,\"rot\":0.036342,\"sx\":0.999971,\"sy\":0.999971,\"skew\":-0.0},\"75\":{\"tx\":-22.7,\"ty\":-19.575,\"rot\":0.036806,\"sx\":0.999976,\"sy\":0.999976,\"skew\":-0.0},\"76\":{\"tx\":-22.7125,\"ty\":-19.5938,\"rot\":0.037269,\"sx\":0.999982,\"sy\":0.999982,\"skew\":-0.0},\"77\":{\"tx\":-22.725,\"ty\":-19.6125,\"rot\":0.037733,\"sx\":0.999988,\"sy\":0.999988,\"skew\":-0.0},\"78\":{\"tx\":-22.7375,\"ty\":-19.6313,\"rot\":0.038197,\"sx\":0.999993,\"sy\":0.999993,\"skew\":-0.0},\"79\":{\"tx\":-22.75,\"ty\":-19.65,\"rot\":0.03866,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"80\":{\"tx\":-22.8313,\"ty\":-19.8062,\"rot\":0.044213,\"sx\":0.999999,\"sy\":0.999999,\"skew\":-0.0},\"81\":{\"tx\":-22.9125,\"ty\":-19.9625,\"rot\":0.049768,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"82\":{\"tx\":-22.9937,\"ty\":-20.1187,\"rot\":0.05532,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"83\":{\"tx\":-23.075,\"ty\":-20.275,\"rot\":0.060875,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"84\":{\"tx\":-23.1562,\"ty\":-20.4312,\"rot\":0.066428,\"sx\":1.000001,\"sy\":1.000001,\"skew\":-0.0},\"85\":{\"tx\":-23.2375,\"ty\":-20.5875,\"rot\":0.071981,\"sx\":1.000001,\"sy\":1.000001,\"skew\":-0.0},\"86\":{\"tx\":-23.3188,\"ty\":-20.7437,\"rot\":0.077535,\"sx\":1.000001,\"sy\":1.000001,\"skew\":-0.0},\"87\":{\"tx\":-23.4,\"ty\":-20.9,\"rot\":0.083088,\"sx\":1.000001,\"sy\":1.000001,\"skew\":-0.0},\"88\":{\"tx\":-22.8375,\"ty\":-20.075,\"rot\":0.051441,\"sx\":1.000001,\"sy\":1.000001,\"skew\":-0.0},\"89\":{\"tx\":-22.275,\"ty\":-19.25,\"rot\":0.019793,\"sx\":1.000001,\"sy\":1.000001,\"skew\":-0.0},\"90\":{\"tx\":-21.7125,\"ty\":-18.425,\"rot\":-0.011854,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"91\":{\"tx\":-21.15,\"ty\":-17.6,\"rot\":-0.043501,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"92\":{\"tx\":-21.35,\"ty\":-17.825,\"rot\":-0.032626,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"93\":{\"tx\":-21.55,\"ty\":-18.05,\"rot\":-0.021751,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"94\":{\"tx\":-21.75,\"ty\":-18.275,\"rot\":-0.010875,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0}}"
+
+[node name="mask_clip" type="Node2D" parent="osn/body/T01_Hd_ALL_1/T01_Hd_H_02"]
+metadata/mask_part = "T01_Hd_H_02"
+
+[node name="T01_Hd_H_01" type="Sprite2D" parent="osn/body/T01_Hd_ALL_1/T01_Hd_H_02/mask_clip"]
+position = Vector2(0, 0)
+visible = false
+centered = false
+scale = Vector2(1, 1)
+metadata/library = "T01_Hd_H_01"
+metadata/frame_start = 0
+metadata/frame_end = 0
+metadata/frame_ranges = PackedInt32Array(0, 0)
+metadata/vis_lib = "T01_Hd_H_02"
+metadata/layer_index = 1
+metadata/is_masked = true
+metadata/mask_part = "T01_Hd_H_02"
+material = SubResource("sub_56")
+
+[node name="T01_Hd_Ear" type="Sprite2D" parent="osn/body/T01_Hd_ALL_1"]
+position = Vector2(18.5, -34.7)
+visible = false
+centered = false
+scale = Vector2(1, 1)
+metadata/library = "T01_Hd_Ear"
+metadata/frame_start = 0
+metadata/frame_end = 95
+metadata/frame_ranges = PackedInt32Array(0, 0, 1, 11, 12, 27, 28, 40, 41, 49, 50, 62, 63, 78, 79, 86, 87, 90, 91, 94, 95, 95)
+metadata/vis_lib = "T01_Hd_ALL_1"
+metadata/layer_index = 0
+metadata/frame_transforms = "{\"2\":{\"tx\":18.5682,\"ty\":-34.7,\"rot\":0.003955,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"3\":{\"tx\":18.6364,\"ty\":-34.7,\"rot\":0.007909,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"4\":{\"tx\":18.7045,\"ty\":-34.7,\"rot\":0.011864,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"5\":{\"tx\":18.7727,\"ty\":-34.7,\"rot\":0.015819,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"6\":{\"tx\":18.8409,\"ty\":-34.7,\"rot\":0.019773,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"7\":{\"tx\":18.9091,\"ty\":-34.7,\"rot\":0.023728,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"8\":{\"tx\":18.9773,\"ty\":-34.7,\"rot\":0.027683,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"9\":{\"tx\":19.0455,\"ty\":-34.7,\"rot\":0.031637,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"10\":{\"tx\":19.1136,\"ty\":-34.7,\"rot\":0.035592,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"11\":{\"tx\":19.1818,\"ty\":-34.7,\"rot\":0.039546,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"12\":{\"tx\":19.25,\"ty\":-34.7,\"rot\":0.043501,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"13\":{\"tx\":19.2281,\"ty\":-34.7,\"rot\":0.042119,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"14\":{\"tx\":19.2063,\"ty\":-34.7,\"rot\":0.040738,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"15\":{\"tx\":19.1844,\"ty\":-34.7,\"rot\":0.039356,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"16\":{\"tx\":19.1625,\"ty\":-34.7,\"rot\":0.037974,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"17\":{\"tx\":19.1406,\"ty\":-34.7,\"rot\":0.036593,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"18\":{\"tx\":19.1187,\"ty\":-34.7,\"rot\":0.035211,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"19\":{\"tx\":19.0969,\"ty\":-34.7,\"rot\":0.033829,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"20\":{\"tx\":19.075,\"ty\":-34.7,\"rot\":0.032448,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"21\":{\"tx\":19.0531,\"ty\":-34.7,\"rot\":0.031066,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"22\":{\"tx\":19.0312,\"ty\":-34.7,\"rot\":0.029684,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"23\":{\"tx\":19.0094,\"ty\":-34.7,\"rot\":0.028303,\"sx\":0.999999,\"sy\":0.999999,\"skew\":-0.0},\"24\":{\"tx\":18.9875,\"ty\":-34.7,\"rot\":0.026921,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"25\":{\"tx\":18.9656,\"ty\":-34.7,\"rot\":0.02554,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"26\":{\"tx\":18.9438,\"ty\":-34.7,\"rot\":0.024157,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"27\":{\"tx\":18.9219,\"ty\":-34.7,\"rot\":0.022776,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"28\":{\"tx\":18.9,\"ty\":-34.7,\"rot\":0.021394,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"29\":{\"tx\":18.8692,\"ty\":-34.7,\"rot\":0.019748,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"30\":{\"tx\":18.8385,\"ty\":-34.7,\"rot\":0.018103,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"31\":{\"tx\":18.8077,\"ty\":-34.7,\"rot\":0.016458,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"32\":{\"tx\":18.7769,\"ty\":-34.7,\"rot\":0.014812,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"33\":{\"tx\":18.7462,\"ty\":-34.7,\"rot\":0.013165,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"34\":{\"tx\":18.7154,\"ty\":-34.7,\"rot\":0.01152,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"35\":{\"tx\":18.6846,\"ty\":-34.7,\"rot\":0.009874,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"36\":{\"tx\":18.6538,\"ty\":-34.7,\"rot\":0.008229,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"37\":{\"tx\":18.6231,\"ty\":-34.7,\"rot\":0.006583,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"38\":{\"tx\":18.5923,\"ty\":-34.7,\"rot\":0.004937,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"39\":{\"tx\":18.5615,\"ty\":-34.7,\"rot\":0.003291,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"40\":{\"tx\":18.5308,\"ty\":-34.7,\"rot\":0.001646,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"51\":{\"tx\":18.6885,\"ty\":-34.7308,\"rot\":0.001425,\"sx\":1.001812,\"sy\":1.000055,\"skew\":0.003298},\"52\":{\"tx\":18.8769,\"ty\":-34.7615,\"rot\":0.002851,\"sx\":1.003623,\"sy\":1.00011,\"skew\":0.006597},\"53\":{\"tx\":19.0654,\"ty\":-34.7923,\"rot\":0.004277,\"sx\":1.005435,\"sy\":1.000164,\"skew\":0.009895},\"54\":{\"tx\":19.2538,\"ty\":-34.8231,\"rot\":0.005702,\"sx\":1.007246,\"sy\":1.000219,\"skew\":0.013194},\"55\":{\"tx\":19.4423,\"ty\":-34.8538,\"rot\":0.007127,\"sx\":1.009059,\"sy\":1.000274,\"skew\":0.016492},\"56\":{\"tx\":19.6308,\"ty\":-34.8846,\"rot\":0.008553,\"sx\":1.01087,\"sy\":1.000329,\"skew\":0.01979},\"57\":{\"tx\":19.8192,\"ty\":-34.9154,\"rot\":0.009979,\"sx\":1.012682,\"sy\":1.000383,\"skew\":0.023089},\"58\":{\"tx\":20.0077,\"ty\":-34.9462,\"rot\":0.011404,\"sx\":1.014494,\"sy\":1.000438,\"skew\":0.026387},\"59\":{\"tx\":20.1962,\"ty\":-34.9769,\"rot\":0.012829,\"sx\":1.016306,\"sy\":1.000492,\"skew\":0.029687},\"60\":{\"tx\":20.3846,\"ty\":-35.0077,\"rot\":0.014255,\"sx\":1.018117,\"sy\":1.000547,\"skew\":0.032985},\"61\":{\"tx\":20.5731,\"ty\":-35.0385,\"rot\":0.01568,\"sx\":1.019928,\"sy\":1.000602,\"skew\":0.036284},\"62\":{\"tx\":20.7615,\"ty\":-35.0692,\"rot\":0.017106,\"sx\":1.02174,\"sy\":1.000656,\"skew\":0.039581},\"63\":{\"tx\":20.95,\"ty\":-35.1,\"rot\":0.018531,\"sx\":1.023552,\"sy\":1.000712,\"skew\":0.04288},\"64\":{\"tx\":20.9719,\"ty\":-35.1063,\"rot\":0.018992,\"sx\":1.023794,\"sy\":1.000735,\"skew\":0.043127},\"65\":{\"tx\":20.9937,\"ty\":-35.1125,\"rot\":0.019453,\"sx\":1.024035,\"sy\":1.000759,\"skew\":0.043375},\"66\":{\"tx\":21.0156,\"ty\":-35.1187,\"rot\":0.019914,\"sx\":1.024276,\"sy\":1.000782,\"skew\":0.043621},\"67\":{\"tx\":21.0375,\"ty\":-35.125,\"rot\":0.020375,\"sx\":1.024518,\"sy\":1.000807,\"skew\":0.043869},\"68\":{\"tx\":21.0594,\"ty\":-35.1313,\"rot\":0.020836,\"sx\":1.024759,\"sy\":1.00083,\"skew\":0.044116},\"69\":{\"tx\":21.0813,\"ty\":-35.1375,\"rot\":0.021296,\"sx\":1.025,\"sy\":1.000854,\"skew\":0.044363},\"70\":{\"tx\":21.1031,\"ty\":-35.1437,\"rot\":0.021757,\"sx\":1.025242,\"sy\":1.000877,\"skew\":0.044611},\"71\":{\"tx\":21.125,\"ty\":-35.15,\"rot\":0.022218,\"sx\":1.025483,\"sy\":1.000901,\"skew\":0.044857},\"72\":{\"tx\":21.1469,\"ty\":-35.1562,\"rot\":0.022679,\"sx\":1.025725,\"sy\":1.000925,\"skew\":0.045105},\"73\":{\"tx\":21.1687,\"ty\":-35.1625,\"rot\":0.023139,\"sx\":1.025966,\"sy\":1.000949,\"skew\":0.045351},\"74\":{\"tx\":21.1906,\"ty\":-35.1688,\"rot\":0.0236,\"sx\":1.026207,\"sy\":1.000973,\"skew\":0.045599},\"75\":{\"tx\":21.2125,\"ty\":-35.175,\"rot\":0.024061,\"sx\":1.026448,\"sy\":1.000996,\"skew\":0.045846},\"76\":{\"tx\":21.2344,\"ty\":-35.1812,\"rot\":0.024522,\"sx\":1.02669,\"sy\":1.00102,\"skew\":0.046093},\"77\":{\"tx\":21.2563,\"ty\":-35.1875,\"rot\":0.024983,\"sx\":1.026931,\"sy\":1.001043,\"skew\":0.04634},\"78\":{\"tx\":21.2781,\"ty\":-35.1938,\"rot\":0.025443,\"sx\":1.027172,\"sy\":1.001067,\"skew\":0.046587},\"79\":{\"tx\":21.3,\"ty\":-35.2,\"rot\":0.025904,\"sx\":1.027414,\"sy\":1.001091,\"skew\":0.046835},\"80\":{\"tx\":21.3,\"ty\":-35.2,\"rot\":0.025904,\"sx\":1.027414,\"sy\":1.001091,\"skew\":0.046835},\"81\":{\"tx\":21.3,\"ty\":-35.2,\"rot\":0.025904,\"sx\":1.027414,\"sy\":1.001091,\"skew\":0.046835},\"82\":{\"tx\":21.3,\"ty\":-35.2,\"rot\":0.025904,\"sx\":1.027414,\"sy\":1.001091,\"skew\":0.046835},\"83\":{\"tx\":21.3,\"ty\":-35.2,\"rot\":0.025904,\"sx\":1.027414,\"sy\":1.001091,\"skew\":0.046835},\"84\":{\"tx\":21.3,\"ty\":-35.2,\"rot\":0.025904,\"sx\":1.027414,\"sy\":1.001091,\"skew\":0.046835},\"85\":{\"tx\":21.3,\"ty\":-35.2,\"rot\":0.025904,\"sx\":1.027414,\"sy\":1.001091,\"skew\":0.046835},\"86\":{\"tx\":21.3,\"ty\":-35.2,\"rot\":0.025904,\"sx\":1.027414,\"sy\":1.001091,\"skew\":0.046835},\"87\":{\"tx\":21.3,\"ty\":-35.2,\"rot\":0.025904,\"sx\":1.027414,\"sy\":1.001091,\"skew\":0.046835},\"88\":{\"tx\":20.6,\"ty\":-35.075,\"rot\":0.019428,\"sx\":1.020561,\"sy\":1.000818,\"skew\":0.035127},\"89\":{\"tx\":19.9,\"ty\":-34.95,\"rot\":0.012952,\"sx\":1.013707,\"sy\":1.000546,\"skew\":0.023417},\"90\":{\"tx\":19.2,\"ty\":-34.825,\"rot\":0.006476,\"sx\":1.006853,\"sy\":1.000272,\"skew\":0.011709},\"92\":{\"tx\":18.5,\"ty\":-34.7,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"93\":{\"tx\":18.5,\"ty\":-34.7,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0},\"94\":{\"tx\":18.5,\"ty\":-34.7,\"rot\":0.0,\"sx\":1.0,\"sy\":1.0,\"skew\":-0.0}}"
+material = SubResource("sub_57")

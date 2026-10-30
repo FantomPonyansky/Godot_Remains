@@ -1,0 +1,14 @@
+[gd_resource type="AnimationLibrary" load_steps=5 format=3]
+
+[ext_resource type="Animation" path="res://assets/rigs/scenes/msp_anims/msp1.tres" id="ext_1"]
+[ext_resource type="Animation" path="res://assets/rigs/scenes/msp_anims/msp2.tres" id="ext_2"]
+[ext_resource type="Animation" path="res://assets/rigs/scenes/msp_anims/msp3.tres" id="ext_3"]
+[ext_resource type="Animation" path="res://assets/rigs/scenes/msp_anims/msp4.tres" id="ext_4"]
+
+[resource]
+_data = {
+"msp1": ExtResource("ext_1"),
+"msp2": ExtResource("ext_2"),
+"msp3": ExtResource("ext_3"),
+"msp4": ExtResource("ext_4")
+}

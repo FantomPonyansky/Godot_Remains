@@ -1,0 +1,30 @@
+{
+  "root": "osn",
+  "scale": 1.13273620605469,
+  "bones": [
+    {
+      "instance_name": "roll4",
+      "library_item": "roll4",
+      "library_path": "Objects/Units/Roller/roll4",
+      "layer_index": 0,
+      "layer_name": "Слой 1",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 0.0,
+        "ty": 0.0
+      },
+      "node_name": "roll4"
+    }
+  ],
+  "root_matrix": {
+    "a": 1.13273620605469,
+    "b": 0.0,
+    "c": 0.0,
+    "d": 1.13273620605469,
+    "tx": -0.05,
+    "ty": 0.0
+  }
+}

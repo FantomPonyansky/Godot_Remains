@@ -1,0 +1,319 @@
+{
+  "root": "osn",
+  "scale": 2.1583251953125,
+  "bones": [
+    {
+      "instance_name": "balon",
+      "library_item": "balon",
+      "library_path": "Objects/Units/RaiderBoss2/balon",
+      "layer_index": 1,
+      "layer_name": "Слой 3",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": -0.3,
+        "ty": -27.4
+      },
+      "node_name": "balon"
+    },
+    {
+      "instance_name": "sleg1",
+      "library_item": "sleg1",
+      "library_path": "Objects/Units/RaiderBoss2/sleg1",
+      "layer_index": 2,
+      "layer_name": "srleg1",
+      "matrix": {
+        "a": -0.212677001953125,
+        "b": 0.0059051513671875,
+        "c": 0.00396728515625,
+        "d": 0.207138061523438,
+        "tx": -8.9,
+        "ty": -30.05
+      },
+      "node_name": "sleg1_r"
+    },
+    {
+      "instance_name": "sleg3a",
+      "library_item": "sleg3a",
+      "library_path": "Objects/Units/RaiderBoss2/sleg3a",
+      "layer_index": 3,
+      "layer_name": "srleg3",
+      "matrix": {
+        "a": 0.992919921875,
+        "b": -0.11871337890625,
+        "c": 0.105239868164063,
+        "d": 0.981353759765625,
+        "tx": -9.3,
+        "ty": -16.3
+      },
+      "node_name": "sleg3a_r"
+    },
+    {
+      "instance_name": "fleg1",
+      "library_item": "fleg1",
+      "library_path": "Objects/Units/RaiderBoss2/fleg1",
+      "layer_index": 4,
+      "layer_name": "frleg",
+      "matrix": {
+        "a": 1.0709228515625,
+        "b": -0.0982208251953125,
+        "c": -0.059967041015625,
+        "d": 1.0968017578125,
+        "tx": 7.95,
+        "ty": -21.1
+      },
+      "node_name": "fleg1_r"
+    },
+    {
+      "instance_name": "fleg2",
+      "library_item": "fleg2",
+      "library_path": "Objects/Units/RaiderBoss2/fleg2",
+      "layer_index": 4,
+      "layer_name": "frleg",
+      "matrix": {
+        "a": 1.08419799804688,
+        "b": -0.0079803466796875,
+        "c": -0.122726440429688,
+        "d": 1.0787353515625,
+        "tx": 7.65,
+        "ty": -17.25
+      },
+      "node_name": "fleg2_r"
+    },
+    {
+      "instance_name": "frleg3",
+      "library_item": "fleg3a",
+      "library_path": "Objects/Units/RaiderBoss2/fleg3a",
+      "layer_index": 4,
+      "layer_name": "frleg",
+      "matrix": {
+        "a": 1.10124206542969,
+        "b": 0.0199127197265625,
+        "c": 0.01593017578125,
+        "d": 0.910690307617188,
+        "tx": 7.2,
+        "ty": -12.3
+      },
+      "named": true,
+      "node_name": "frleg3"
+    },
+    {
+      "instance_name": "bron1",
+      "library_item": "bron1",
+      "library_path": "Objects/Units/RaiderBoss2/bron1",
+      "layer_index": 5,
+      "layer_name": "Слой 2",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 6.75,
+        "ty": -22.05
+      },
+      "node_name": "bron1"
+    },
+    {
+      "instance_name": "head",
+      "library_item": "head",
+      "library_path": "Objects/Units/RaiderBoss2/head",
+      "layer_index": 8,
+      "layer_name": "head",
+      "matrix": {
+        "a": -0.206100463867188,
+        "b": 0.0005340576171875,
+        "c": 0.000518798828125,
+        "d": 0.205978393554688,
+        "tx": 14.1,
+        "ty": -43.8
+      },
+      "named": true,
+      "node_name": "head"
+    },
+    {
+      "instance_name": "mane",
+      "library_item": "mane",
+      "library_path": "Objects/Units/RaiderBoss2/mane",
+      "layer_index": 9,
+      "layer_name": "mane",
+      "matrix": {
+        "a": 0.201705932617188,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 0.201705932617188,
+        "tx": 3.55,
+        "ty": -44.0
+      },
+      "named": true,
+      "node_name": "mane"
+    },
+    {
+      "instance_name": "neck",
+      "library_item": "neck",
+      "library_path": "Objects/Units/RaiderBoss2/neck",
+      "layer_index": 10,
+      "layer_name": "neck",
+      "matrix": {
+        "a": -0.200347900390625,
+        "b": 0.006561279296875,
+        "c": 0.010467529296875,
+        "d": 0.200149536132813,
+        "tx": 3.5,
+        "ty": -29.35
+      },
+      "node_name": "neck"
+    },
+    {
+      "instance_name": "korpus",
+      "library_item": "korpus",
+      "library_path": "Objects/Units/RaiderBoss2/korpus",
+      "layer_index": 11,
+      "layer_name": "korpus",
+      "matrix": {
+        "a": -0.207656860351563,
+        "b": 0.0142669677734375,
+        "c": 0.005859375,
+        "d": 0.203964233398438,
+        "tx": 0.8,
+        "ty": -25.85
+      },
+      "node_name": "korpus"
+    },
+    {
+      "instance_name": "tail",
+      "library_item": "tail",
+      "library_path": "Objects/Units/RaiderBoss2/tail",
+      "layer_index": 12,
+      "layer_name": "tail",
+      "matrix": {
+        "a": -0.203399658203125,
+        "b": -0.0302581787109375,
+        "c": -0.05255126953125,
+        "d": 0.200286865234375,
+        "tx": -8.2,
+        "ty": -30.95
+      },
+      "named": true,
+      "node_name": "tail"
+    },
+    {
+      "instance_name": "fleg1",
+      "library_item": "fleg1",
+      "library_path": "Objects/Units/RaiderBoss2/fleg1",
+      "layer_index": 13,
+      "layer_name": "flleg3",
+      "matrix": {
+        "a": 1.05804443359375,
+        "b": -0.0982208251953125,
+        "c": 0.083831787109375,
+        "d": 1.0968017578125,
+        "tx": 9.7,
+        "ty": -22.7
+      },
+      "node_name": "fleg1_l"
+    },
+    {
+      "instance_name": "fleg2",
+      "library_item": "fleg2",
+      "library_path": "Objects/Units/RaiderBoss2/fleg2",
+      "layer_index": 13,
+      "layer_name": "flleg3",
+      "matrix": {
+        "a": 1.0831298828125,
+        "b": -0.0079803466796875,
+        "c": 0.0186920166015625,
+        "d": 1.0787353515625,
+        "tx": 9.9,
+        "ty": -18.85
+      },
+      "node_name": "fleg2_l"
+    },
+    {
+      "instance_name": "flleg3",
+      "library_item": "fleg3a",
+      "library_path": "Objects/Units/RaiderBoss2/fleg3a",
+      "layer_index": 13,
+      "layer_name": "flleg3",
+      "matrix": {
+        "a": 1.10385131835938,
+        "b": 0.0199127197265625,
+        "c": 0.135330200195313,
+        "d": 0.910690307617188,
+        "tx": 10.1,
+        "ty": -13.9
+      },
+      "named": true,
+      "node_name": "flleg3"
+    },
+    {
+      "instance_name": "sleg1",
+      "library_item": "sleg1",
+      "library_path": "Objects/Units/RaiderBoss2/sleg1",
+      "layer_index": 16,
+      "layer_name": "slleg2",
+      "matrix": {
+        "a": -0.212677001953125,
+        "b": 0.0055999755859375,
+        "c": 0.00396728515625,
+        "d": 0.196609497070313,
+        "tx": -4.95,
+        "ty": -30.15
+      },
+      "named": true,
+      "node_name": "sleg1_l"
+    },
+    {
+      "instance_name": "sleg3a",
+      "library_item": "sleg3a",
+      "library_path": "Objects/Units/RaiderBoss2/sleg3a",
+      "layer_index": 17,
+      "layer_name": "slleg1",
+      "matrix": {
+        "a": 0.992919921875,
+        "b": -0.112686157226563,
+        "c": 0.149612426757813,
+        "d": 0.926467895507813,
+        "tx": -5.35,
+        "ty": -17.25
+      },
+      "node_name": "sleg3a_l"
+    },
+    {
+      "instance_name": "mah0",
+      "library_item": "mah0",
+      "library_path": "Objects/Units/RaiderBoss2/mah0",
+      "layer_index": 0,
+      "layer_name": "pip",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": -0.75,
+        "ty": -10.3
+      },
+      "source": "body_derg",
+      "node_name": "mah0"
+    }
+  ],
+  "root_matrix": {
+    "a": 2.1583251953125,
+    "b": 0.0,
+    "c": 0.0,
+    "d": 2.15830993652344,
+    "tx": 0.0,
+    "ty": 0.0
+  },
+  "body_matrices": {
+    "body_laz": {
+      "a": 1.0,
+      "b": 0.0,
+      "c": 0.0,
+      "d": 1.0,
+      "tx": 0.0,
+      "ty": -13.9
+    }
+  }
+}

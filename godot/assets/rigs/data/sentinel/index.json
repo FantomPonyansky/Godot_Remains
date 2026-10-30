@@ -1,0 +1,210 @@
+{
+  "symbols": [
+    "korpus",
+    "korpus2",
+    "noga",
+    "ogn",
+    "ogn0",
+    "ruka"
+  ],
+  "unreachable_symbols": [],
+  "timelines": [
+    "body",
+    "body_die",
+    "body_jump",
+    "body_jump_f10"
+  ],
+  "nested_containers": [
+    "ogn"
+  ],
+  "default_colors": {},
+  "hide_mane_armors": [],
+  "color_channels": {},
+  "armor_bones": {},
+  "hair_bones": [],
+  "visible_bones": [],
+  "morda_bones": [],
+  "eye_bones": [],
+  "attachments": [
+    {
+      "name": "osn",
+      "library_item": "Objects/Units/Sentinel/_osn",
+      "layer_index": 1,
+      "layer_name": "Слой 2",
+      "frame": 0,
+      "matrix": {
+        "a": 0.235366821289063,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 0.235366821289063,
+        "tx": 1.7,
+        "ty": -49.45
+      },
+      "pivot": {
+        "x": -5.75,
+        "y": -12.95
+      },
+      "blend_mode": "normal",
+      "hidden": false,
+      "cache_as_bitmap": false,
+      "foreign": false
+    }
+  ],
+  "precomputed": {
+    "dups": [],
+    "extra_bones": {},
+    "bone_alt_libs": {
+      "korpus": [
+        "korpus2"
+      ]
+    },
+    "bone_tree_order": [
+      [
+        "ogn",
+        "ogn_2"
+      ]
+    ],
+    "library_scales": {
+      "korpus": 1.0,
+      "korpus2": 1.0,
+      "noga": 1.0,
+      "ogn": 1.0,
+      "ogn0": 1.0,
+      "ruka": 1.0
+    },
+    "library_hairlines": {
+      "korpus": 4.2481,
+      "korpus2": 4.2481,
+      "noga": 4.2481,
+      "ogn": 4.2481,
+      "ogn0": 4.2481,
+      "ruka": 4.2481
+    },
+    "bone_orders": {
+      "body": [
+        "noga_4",
+        "noga_3",
+        "korpus",
+        "noga_2",
+        "noga",
+        "ogn",
+        "ogn_2",
+        "ruka"
+      ],
+      "body_die": [
+        "noga_4",
+        "noga_3",
+        "korpus",
+        "noga_2",
+        "noga",
+        "ruka",
+        "ogn",
+        "ogn_2"
+      ],
+      "body_jump": [
+        "noga_4",
+        "noga_3",
+        "ogn",
+        "ogn_2",
+        "korpus",
+        "noga_2",
+        "noga",
+        "ruka"
+      ],
+      "body_jump_f10": [
+        "noga_4",
+        "noga_3",
+        "ogn",
+        "ogn_2",
+        "korpus",
+        "noga_2",
+        "noga",
+        "ruka"
+      ]
+    }
+  },
+  "rig": {
+    "name": "sentinel",
+    "config": "Godot_Transpilation/04_player_rig/rigs/sentinel.json",
+    "root_symbol": "Objects/Units/Sentinel/visualSentinel",
+    "state_kind": "label_timeline",
+    "root_node": "Sentinel",
+    "script": "res://scripts/entity/rig_base.gd",
+    "idle_animation": "body",
+    "shape_masks": {},
+    "runtime_synced_bones": [],
+    "runtime_visibility_bones": [],
+    "paths": {
+      "output": "Godot_Transpilation/04_player_rig/rigs_output/sentinel",
+      "godot_data": "Godot_project/data/rigs/sentinel",
+      "svg": "Assets/Art/rigs/sentinel",
+      "png": "Godot_project/art/rigs/sentinel",
+      "scene": "Godot_project/scenes/rigs/sentinel.tscn",
+      "anim_library": "Godot_project/scenes/rigs/sentinel_anims.tres"
+    },
+    "mark_libraries": [
+      "quti",
+      "mark"
+    ]
+  },
+  "tickers": {
+    "ogn": {
+      "frames": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23
+      ],
+      "loop_from": 14,
+      "idle_frame": -1,
+      "random_start": null
+    },
+    "ogn0": {
+      "frames": [
+        0,
+        1
+      ],
+      "loop_from": 0,
+      "idle_frame": -1,
+      "random_start": null
+    }
+  },
+  "symbol_paths": {
+    "korpus": "Objects/Units/Sentinel/korpus",
+    "korpus2": "Objects/Units/Sentinel/korpus2",
+    "noga": "Objects/Units/Sentinel/noga",
+    "ogn": "Objects/Units/Sentinel/ogn",
+    "ogn0": "Objects/Units/Sentinel/ogn0",
+    "ruka": "Objects/Units/Sentinel/ruka"
+  },
+  "stats": {
+    "symbols": 6,
+    "bones": 8,
+    "nested_containers": 1,
+    "timelines": 4,
+    "total_bone_keys": 86,
+    "attachments": 1,
+    "unreachable_symbols": 0,
+    "hidden_layer_entries": 0
+  }
+}

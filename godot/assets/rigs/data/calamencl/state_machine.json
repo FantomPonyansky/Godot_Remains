@@ -1,0 +1,27 @@
+[
+  {
+    "index": 0,
+    "label": "stay",
+    "animation": "body_stay"
+  },
+  {
+    "index": 1,
+    "label": "trot",
+    "animation": "body_trot"
+  },
+  {
+    "index": 2,
+    "label": "walk",
+    "animation": "body_walk"
+  },
+  {
+    "index": 3,
+    "label": "fly",
+    "animation": "body_fly"
+  },
+  {
+    "index": 4,
+    "label": "die",
+    "animation": "body_die"
+  }
+]

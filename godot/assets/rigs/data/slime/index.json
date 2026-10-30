@@ -1,0 +1,75 @@
+{
+  "symbols": [
+    "slime_osn"
+  ],
+  "unreachable_symbols": [],
+  "timelines": [
+    "visualSlime"
+  ],
+  "nested_containers": [],
+  "default_colors": {},
+  "hide_mane_armors": [],
+  "color_channels": {},
+  "armor_bones": {},
+  "hair_bones": [],
+  "visible_bones": [],
+  "morda_bones": [],
+  "eye_bones": [],
+  "attachments": [],
+  "precomputed": {
+    "dups": [],
+    "extra_bones": {},
+    "bone_alt_libs": {},
+    "bone_tree_order": [],
+    "library_scales": {
+      "slime_osn": 3.106
+    },
+    "library_hairlines": {
+      "slime_osn": 0.9659
+    },
+    "bone_orders": {
+      "visualSlime": [
+        "slime_osn"
+      ]
+    }
+  },
+  "rig": {
+    "name": "slime",
+    "config": "Godot_Transpilation/04_player_rig/rigs/slime.json",
+    "root_symbol": "Objects/Units/Slime/visualSlime",
+    "state_kind": "self",
+    "root_node": "Slime",
+    "script": "res://scripts/entity/rig_base.gd",
+    "idle_animation": "visualSlime",
+    "state_instance": "",
+    "shape_masks": {},
+    "runtime_synced_bones": [],
+    "runtime_visibility_bones": [],
+    "paths": {
+      "output": "Godot_Transpilation/04_player_rig/rigs_output/slime",
+      "godot_data": "Godot_project/data/rigs/slime",
+      "svg": "Assets/Art/rigs/slime",
+      "png": "Godot_project/art/rigs/slime",
+      "scene": "Godot_project/scenes/rigs/slime.tscn",
+      "anim_library": "Godot_project/scenes/rigs/slime_anims.tres"
+    },
+    "mark_libraries": [
+      "quti",
+      "mark"
+    ]
+  },
+  "tickers": {},
+  "symbol_paths": {
+    "slime_osn": "Objects/Units/Slime/slime_osn"
+  },
+  "stats": {
+    "symbols": 1,
+    "bones": 1,
+    "nested_containers": 0,
+    "timelines": 1,
+    "total_bone_keys": 120,
+    "attachments": 0,
+    "unreachable_symbols": 0,
+    "hidden_layer_entries": 0
+  }
+}

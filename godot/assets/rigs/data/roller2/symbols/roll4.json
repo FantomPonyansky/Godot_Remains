@@ -1,0 +1,127 @@
+{
+  "artwork_layers": [
+    {
+      "layer_index": 0,
+      "element_svg_files": {
+        "0": [
+          "roll4_L0_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 1,
+      "element_svg_files": {
+        "0": [
+          "roll4_L1_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    }
+  ],
+  "svg_files": {
+    "0": "roll4_L0_S0.svg"
+  },
+  "children": [
+    {
+      "library": "roller_pups1",
+      "layer_index": 0,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 0.0,
+        "ty": 0.0
+      },
+      "frame_ranges": [
+        [
+          0,
+          0
+        ]
+      ],
+      "frame_start": 0,
+      "frame_end": 0
+    },
+    {
+      "library": "roller_pups1",
+      "layer_index": 0,
+      "matrix": {
+        "a": 0.30902099609375,
+        "b": 0.9510498046875,
+        "c": -0.9510498046875,
+        "d": 0.30902099609375,
+        "tx": 0.0,
+        "ty": 0.0
+      },
+      "frame_ranges": [
+        [
+          0,
+          0
+        ]
+      ],
+      "frame_start": 0,
+      "frame_end": 0
+    },
+    {
+      "library": "roller_pups1",
+      "layer_index": 0,
+      "matrix": {
+        "a": -0.80902099609375,
+        "b": 0.587783813476563,
+        "c": -0.587783813476563,
+        "d": -0.80902099609375,
+        "tx": 0.0,
+        "ty": 0.0
+      },
+      "frame_ranges": [
+        [
+          0,
+          0
+        ]
+      ],
+      "frame_start": 0,
+      "frame_end": 0
+    },
+    {
+      "library": "roller_pups1",
+      "layer_index": 0,
+      "matrix": {
+        "a": -0.809005737304688,
+        "b": -0.587783813476563,
+        "c": 0.587783813476563,
+        "d": -0.809005737304688,
+        "tx": 0.1,
+        "ty": -0.1
+      },
+      "frame_ranges": [
+        [
+          0,
+          0
+        ]
+      ],
+      "frame_start": 0,
+      "frame_end": 0
+    },
+    {
+      "library": "roller_pups1",
+      "layer_index": 0,
+      "matrix": {
+        "a": 0.30902099609375,
+        "b": -0.9510498046875,
+        "c": 0.9510498046875,
+        "d": 0.30902099609375,
+        "tx": 0.1,
+        "ty": -0.1
+      },
+      "frame_ranges": [
+        [
+          0,
+          0
+        ]
+      ],
+      "frame_start": 0,
+      "frame_end": 0
+    }
+  ]
+}

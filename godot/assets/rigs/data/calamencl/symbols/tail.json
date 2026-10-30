@@ -1,0 +1,118 @@
+{
+  "artwork_layers": [
+    {
+      "layer_index": 0,
+      "element_svg_files": {
+        "0": [
+          "tail_L0_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    }
+  ],
+  "svg_files": {
+    "0": "tail_L0_S0.svg"
+  },
+  "children": [
+    {
+      "library": "hvost",
+      "layer_index": 1,
+      "matrix": {
+        "a": -0.387924194335938,
+        "b": -0.921585083007813,
+        "c": 0.921585083007813,
+        "d": -0.387924194335938,
+        "tx": 62.9,
+        "ty": -66.35
+      },
+      "frame_ranges": [
+        [
+          0,
+          0
+        ]
+      ],
+      "frame_start": 0,
+      "frame_end": 0
+    },
+    {
+      "library": "hvost",
+      "layer_index": 1,
+      "matrix": {
+        "a": 0.125244140625,
+        "b": -0.992050170898438,
+        "c": 0.992050170898438,
+        "d": 0.125244140625,
+        "tx": 63.6,
+        "ty": -38.0
+      },
+      "frame_ranges": [
+        [
+          0,
+          0
+        ]
+      ],
+      "frame_start": 0,
+      "frame_end": 0
+    },
+    {
+      "library": "hvost",
+      "layer_index": 1,
+      "matrix": {
+        "a": 0.563690185546875,
+        "b": -0.825927734375,
+        "c": 0.825927734375,
+        "d": 0.563690185546875,
+        "tx": 50.9,
+        "ty": -12.35
+      },
+      "frame_ranges": [
+        [
+          0,
+          0
+        ]
+      ],
+      "frame_start": 0,
+      "frame_end": 0
+    },
+    {
+      "library": "hvost",
+      "layer_index": 1,
+      "matrix": {
+        "a": 0.930221557617188,
+        "b": -0.366943359375,
+        "c": 0.366943359375,
+        "d": 0.930221557617188,
+        "tx": 26.4,
+        "ty": 4.6
+      },
+      "frame_ranges": [
+        [
+          0,
+          0
+        ]
+      ],
+      "frame_start": 0,
+      "frame_end": 0
+    },
+    {
+      "library": "hvost",
+      "layer_index": 1,
+      "matrix": {
+        "a": 0.990936279296875,
+        "b": 0.134323120117188,
+        "c": -0.134323120117188,
+        "d": 0.990936279296875,
+        "tx": -2.3,
+        "ty": 5.55
+      },
+      "frame_ranges": [
+        [
+          0,
+          0
+        ]
+      ],
+      "frame_start": 0,
+      "frame_end": 0
+    }
+  ]
+}

@@ -1,0 +1,168 @@
+{
+  "artwork_layers": [
+    {
+      "layer_index": 1,
+      "element_svg_files": {
+        "0": [
+          "eye0_L1_S0.svg"
+        ],
+        "1": [
+          "eye0_f1_L1_S0.svg"
+        ],
+        "2": [
+          "eye0_f2_L1_S0.svg"
+        ],
+        "3": [
+          "eye0_f3_L1_S0.svg"
+        ],
+        "4": [
+          "eye0_f4_L1_S0.svg"
+        ],
+        "5": [
+          "eye0_f5_L1_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 4,
+      "element_svg_files": {
+        "0": [
+          "eye0_L4_S0.svg"
+        ],
+        "1": [
+          "eye0_L4_S0.svg"
+        ],
+        "2": [
+          "eye0_L4_S0.svg"
+        ],
+        "3": [
+          "eye0_L4_S0.svg"
+        ],
+        "4": [
+          "eye0_L4_S0.svg"
+        ],
+        "5": [
+          "eye0_L4_S0.svg"
+        ]
+      },
+      "max_elements": 1,
+      "hidden": true
+    }
+  ],
+  "svg_files": {
+    "0": "eye0_L1_S0.svg",
+    "1": "eye0_f1_L1_S0.svg",
+    "2": "eye0_f2_L1_S0.svg",
+    "3": "eye0_f3_L1_S0.svg",
+    "4": "eye0_f4_L1_S0.svg",
+    "5": "eye0_f5_L1_S0.svg"
+  },
+  "mask_svg_files": {
+    "0": "eye0_mask.svg",
+    "1": "eye0_mask_f1.svg",
+    "2": "eye0_mask_f2.svg",
+    "3": "eye0_mask_f3.svg",
+    "4": "eye0_mask_f4.svg",
+    "5": "eye0_mask_f5.svg"
+  },
+  "mask_layers": {
+    "2": [
+      3,
+      4
+    ]
+  },
+  "children": [
+    {
+      "library": "zrak",
+      "layer_index": 3,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": -13.1,
+        "ty": -2.35
+      },
+      "frame_ranges": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          4,
+          4
+        ],
+        [
+          5,
+          5
+        ]
+      ],
+      "frame_start": 0,
+      "frame_end": 5,
+      "frame_transforms": {
+        "1": {
+          "tx": -11.7,
+          "ty": 2.4,
+          "rot": 0.07852,
+          "sx": 1.103375,
+          "sy": 1.103375,
+          "skew": -0.0
+        },
+        "2": {
+          "tx": -9.45,
+          "ty": 0.0,
+          "rot": -0.22213,
+          "sx": 1.18575,
+          "sy": 1.18575,
+          "skew": -0.0
+        },
+        "3": {
+          "tx": -10.85,
+          "ty": -3.35,
+          "rot": 0.009739,
+          "sx": 1.134392,
+          "sy": 1.020983,
+          "skew": -9e-06
+        },
+        "4": {
+          "tx": -12.55,
+          "ty": -1.0,
+          "rot": -0.252048,
+          "sx": 1.016713,
+          "sy": 1.059162,
+          "skew": -3e-06
+        },
+        "5": {
+          "tx": -10.4,
+          "ty": -4.75,
+          "rot": -0.134532,
+          "sx": 1.016709,
+          "sy": 1.059148,
+          "skew": -1.4e-05
+        }
+      },
+      "instance": "zrak"
+    }
+  ],
+  "timeline": {
+    "frames": 6,
+    "labels": {},
+    "scripts": {
+      "0": "import fe.Obj;\nObj.setEye(this);"
+    }
+  },
+  "is_eye": true
+}

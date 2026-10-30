@@ -1,0 +1,104 @@
+{
+  "root": "osn",
+  "scale": 0.370498657226563,
+  "bones": [
+    {
+      "instance_name": "noga1",
+      "library_item": "noga1",
+      "library_path": "Objects/Units/UltraSentinel/noga1",
+      "layer_index": 1,
+      "layer_name": "Слой 3",
+      "matrix": {
+        "a": -0.999984741210938,
+        "b": -0.000732421875,
+        "c": -0.000732421875,
+        "d": 0.999984741210938,
+        "tx": 41.35,
+        "ty": -93.9
+      },
+      "node_name": "noga1"
+    },
+    {
+      "instance_name": "noga1_2",
+      "library_item": "noga1",
+      "library_path": "Objects/Units/UltraSentinel/noga1",
+      "layer_index": 2,
+      "layer_name": "Слой 1",
+      "matrix": {
+        "a": 0.999969482421875,
+        "b": 0.00421142578125,
+        "c": -0.00421142578125,
+        "d": 0.999969482421875,
+        "tx": -67.55,
+        "ty": -94.85
+      },
+      "node_name": "noga1_2"
+    },
+    {
+      "instance_name": "korpus",
+      "library_item": "korpus",
+      "library_path": "Objects/Units/UltraSentinel/korpus",
+      "layer_index": 3,
+      "layer_name": "Слой 2",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": -11.45,
+        "ty": -159.2
+      },
+      "node_name": "korpus"
+    },
+    {
+      "instance_name": "noga1_3",
+      "library_item": "noga1",
+      "library_path": "Objects/Units/UltraSentinel/noga1",
+      "layer_index": 4,
+      "layer_name": "Слой 5",
+      "matrix": {
+        "a": 0.958343505859375,
+        "b": -0.0045623779296875,
+        "c": 0.0045623779296875,
+        "d": 0.958343505859375,
+        "tx": -51.4,
+        "ty": -108.2
+      },
+      "node_name": "noga1_3"
+    },
+    {
+      "instance_name": "noga1_4",
+      "library_item": "noga1",
+      "library_path": "Objects/Units/UltraSentinel/noga1",
+      "layer_index": 5,
+      "layer_name": "Слой 4",
+      "matrix": {
+        "a": -0.957931518554688,
+        "b": 0.028961181640625,
+        "c": 0.028961181640625,
+        "d": 0.957931518554688,
+        "tx": 75.3,
+        "ty": -88.35
+      },
+      "node_name": "noga1_4"
+    }
+  ],
+  "root_matrix": {
+    "a": 0.370498657226563,
+    "b": 0.0,
+    "c": 0.0,
+    "d": 0.370498657226563,
+    "tx": 0.0,
+    "ty": -50.0
+  },
+  "body_matrices": {
+    "body": {
+      "a": 1.0,
+      "b": 0.0,
+      "c": 0.0,
+      "d": 1.0,
+      "tx": -12.25,
+      "ty": 61.9
+    }
+  }
+}

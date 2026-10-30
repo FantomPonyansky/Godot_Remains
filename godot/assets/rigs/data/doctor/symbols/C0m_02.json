@@ -1,0 +1,70 @@
+{
+  "children": [
+    {
+      "library": "T01_lg_Part_03",
+      "layer_index": 0,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": -1.9,
+        "ty": 26.75
+      },
+      "frame_ranges": [
+        [
+          0,
+          0
+        ]
+      ],
+      "graphic": true,
+      "loop": "single frame",
+      "frame_start": 0,
+      "frame_end": 0
+    },
+    {
+      "library": "T01_lg_Part_02",
+      "layer_index": 0,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 2.85,
+        "ty": -38.3
+      },
+      "frame_ranges": [
+        [
+          0,
+          0
+        ]
+      ],
+      "graphic": true,
+      "loop": "single frame",
+      "frame_start": 0,
+      "frame_end": 0
+    },
+    {
+      "library": "T01_lg_Part_01",
+      "layer_index": 0,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 3.05,
+        "ty": -9.6
+      },
+      "frame_ranges": [
+        [
+          0,
+          0
+        ]
+      ],
+      "graphic": true,
+      "loop": "single frame",
+      "frame_start": 0,
+      "frame_end": 0
+    }
+  ]
+}

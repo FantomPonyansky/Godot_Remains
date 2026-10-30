@@ -1,0 +1,221 @@
+{
+  "artwork_layers": [
+    {
+      "layer_index": 0,
+      "element_svg_files": {
+        "0": [
+          "volna_L0_S0.svg"
+        ],
+        "1": [
+          "volna_L0_S0.svg"
+        ],
+        "2": [
+          "volna_L0_S0.svg"
+        ],
+        "3": [
+          "volna_L0_S0.svg"
+        ],
+        "4": [
+          "volna_L0_S0.svg"
+        ],
+        "5": [
+          "volna_L0_S0.svg"
+        ],
+        "6": [
+          "volna_L0_S0.svg"
+        ],
+        "7": [
+          "volna_L0_S0.svg"
+        ],
+        "8": [
+          "volna_L0_S0.svg"
+        ],
+        "9": [
+          "volna_L0_S0.svg"
+        ],
+        "10": [
+          "volna_L0_S0.svg"
+        ],
+        "11": [
+          "volna_L0_S0.svg"
+        ],
+        "12": [
+          "volna_L0_S0.svg"
+        ],
+        "13": [
+          "volna_L0_S0.svg"
+        ],
+        "14": [
+          "volna_L0_S0.svg"
+        ],
+        "15": [
+          "volna_L0_S0.svg"
+        ],
+        "16": [
+          "volna_L0_S0.svg"
+        ],
+        "17": [
+          "volna_L0_S0.svg"
+        ],
+        "18": [
+          "volna_L0_S0.svg"
+        ],
+        "19": [
+          "volna_f19_L0_S0.svg"
+        ],
+        "20": [
+          "volna_f19_L0_S0.svg"
+        ],
+        "21": [
+          "volna_f19_L0_S0.svg"
+        ],
+        "22": [
+          "volna_f19_L0_S0.svg"
+        ],
+        "23": [
+          "volna_f19_L0_S0.svg"
+        ],
+        "24": [
+          "volna_f19_L0_S0.svg"
+        ],
+        "25": [
+          "volna_f19_L0_S0.svg"
+        ],
+        "26": [
+          "volna_f19_L0_S0.svg"
+        ],
+        "27": [
+          "volna_f19_L0_S0.svg"
+        ],
+        "28": [
+          "volna_f19_L0_S0.svg"
+        ],
+        "29": [
+          "volna_f19_L0_S0.svg"
+        ],
+        "30": [
+          "volna_f19_L0_S0.svg"
+        ],
+        "31": [
+          "volna_f19_L0_S0.svg"
+        ],
+        "32": [
+          "volna_f19_L0_S0.svg"
+        ],
+        "33": [
+          "volna_f19_L0_S0.svg"
+        ],
+        "34": [
+          "volna_f19_L0_S0.svg"
+        ],
+        "35": [
+          "volna_f19_L0_S0.svg"
+        ],
+        "36": [
+          "volna_f19_L0_S0.svg"
+        ],
+        "37": [
+          "volna_f19_L0_S0.svg"
+        ],
+        "38": [
+          "volna_f19_L0_S0.svg"
+        ],
+        "39": [
+          "volna_f39_L0_S0.svg"
+        ],
+        "40": [
+          "volna_f39_L0_S0.svg"
+        ],
+        "41": [
+          "volna_f39_L0_S0.svg"
+        ],
+        "42": [
+          "volna_f39_L0_S0.svg"
+        ],
+        "43": [
+          "volna_f39_L0_S0.svg"
+        ],
+        "44": [
+          "volna_f39_L0_S0.svg"
+        ],
+        "45": [
+          "volna_f39_L0_S0.svg"
+        ],
+        "46": [
+          "volna_f39_L0_S0.svg"
+        ],
+        "47": [
+          "volna_f39_L0_S0.svg"
+        ],
+        "48": [
+          "volna_f39_L0_S0.svg"
+        ],
+        "49": [
+          "volna_f39_L0_S0.svg"
+        ],
+        "50": [
+          "volna_f50_L0_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    }
+  ],
+  "svg_files": {
+    "0": "volna_L0_S0.svg",
+    "1": "volna_L0_S0.svg",
+    "2": "volna_L0_S0.svg",
+    "3": "volna_L0_S0.svg",
+    "4": "volna_L0_S0.svg",
+    "5": "volna_L0_S0.svg",
+    "6": "volna_L0_S0.svg",
+    "7": "volna_L0_S0.svg",
+    "8": "volna_L0_S0.svg",
+    "9": "volna_L0_S0.svg",
+    "10": "volna_L0_S0.svg",
+    "11": "volna_L0_S0.svg",
+    "12": "volna_L0_S0.svg",
+    "13": "volna_L0_S0.svg",
+    "14": "volna_L0_S0.svg",
+    "15": "volna_L0_S0.svg",
+    "16": "volna_L0_S0.svg",
+    "17": "volna_L0_S0.svg",
+    "18": "volna_L0_S0.svg",
+    "19": "volna_f19_L0_S0.svg",
+    "20": "volna_f19_L0_S0.svg",
+    "21": "volna_f19_L0_S0.svg",
+    "22": "volna_f19_L0_S0.svg",
+    "23": "volna_f19_L0_S0.svg",
+    "24": "volna_f19_L0_S0.svg",
+    "25": "volna_f19_L0_S0.svg",
+    "26": "volna_f19_L0_S0.svg",
+    "27": "volna_f19_L0_S0.svg",
+    "28": "volna_f19_L0_S0.svg",
+    "29": "volna_f19_L0_S0.svg",
+    "30": "volna_f19_L0_S0.svg",
+    "31": "volna_f19_L0_S0.svg",
+    "32": "volna_f19_L0_S0.svg",
+    "33": "volna_f19_L0_S0.svg",
+    "34": "volna_f19_L0_S0.svg",
+    "35": "volna_f19_L0_S0.svg",
+    "36": "volna_f19_L0_S0.svg",
+    "37": "volna_f19_L0_S0.svg",
+    "38": "volna_f19_L0_S0.svg",
+    "39": "volna_f39_L0_S0.svg",
+    "40": "volna_f39_L0_S0.svg",
+    "41": "volna_f39_L0_S0.svg",
+    "42": "volna_f39_L0_S0.svg",
+    "43": "volna_f39_L0_S0.svg",
+    "44": "volna_f39_L0_S0.svg",
+    "45": "volna_f39_L0_S0.svg",
+    "46": "volna_f39_L0_S0.svg",
+    "47": "volna_f39_L0_S0.svg",
+    "48": "volna_f39_L0_S0.svg",
+    "49": "volna_f39_L0_S0.svg",
+    "50": "volna_f50_L0_S0.svg"
+  },
+  "timeline": {
+    "frames": 75,
+    "labels": {},
+    "scripts": {}
+  }
+}

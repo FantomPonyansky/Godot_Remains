@@ -1,0 +1,100 @@
+[gd_resource type="AnimationLibrary" load_steps=48 format=3]
+
+[ext_resource type="Animation" path="res://assets/rigs/player/player_rig_anims/body.tres" id="ext_1"]
+[ext_resource type="Animation" path="res://assets/rigs/player/player_rig_anims/body_crouch.tres" id="ext_2"]
+[ext_resource type="Animation" path="res://assets/rigs/player/player_rig_anims/body_derg.tres" id="ext_3"]
+[ext_resource type="Animation" path="res://assets/rigs/player/player_rig_anims/body_die.tres" id="ext_4"]
+[ext_resource type="Animation" path="res://assets/rigs/player/player_rig_anims/body_dieali.tres" id="ext_5"]
+[ext_resource type="Animation" path="res://assets/rigs/player/player_rig_anims/body_fall.tres" id="ext_6"]
+[ext_resource type="Animation" path="res://assets/rigs/player/player_rig_anims/body_fall2.tres" id="ext_7"]
+[ext_resource type="Animation" path="res://assets/rigs/player/player_rig_anims/body_free1.tres" id="ext_8"]
+[ext_resource type="Animation" path="res://assets/rigs/player/player_rig_anims/body_free2.tres" id="ext_9"]
+[ext_resource type="Animation" path="res://assets/rigs/player/player_rig_anims/body_free3.tres" id="ext_10"]
+[ext_resource type="Animation" path="res://assets/rigs/player/player_rig_anims/body_jump.tres" id="ext_11"]
+[ext_resource type="Animation" path="res://assets/rigs/player/player_rig_anims/body_jump_prep.tres" id="ext_12"]
+[ext_resource type="Animation" path="res://assets/rigs/player/player_rig_anims/body_kick.tres" id="ext_13"]
+[ext_resource type="Animation" path="res://assets/rigs/player/player_rig_anims/body_laz.tres" id="ext_14"]
+[ext_resource type="Animation" path="res://assets/rigs/player/player_rig_anims/body_levit_enter.tres" id="ext_15"]
+[ext_resource type="Animation" path="res://assets/rigs/player/player_rig_anims/body_levit_exit.tres" id="ext_16"]
+[ext_resource type="Animation" path="res://assets/rigs/player/player_rig_anims/body_levit_hover.tres" id="ext_17"]
+[ext_resource type="Animation" path="res://assets/rigs/player/player_rig_anims/body_levit_intro.tres" id="ext_18"]
+[ext_resource type="Animation" path="res://assets/rigs/player/player_rig_anims/body_lurk1.tres" id="ext_19"]
+[ext_resource type="Animation" path="res://assets/rigs/player/player_rig_anims/body_lurk1_un.tres" id="ext_20"]
+[ext_resource type="Animation" path="res://assets/rigs/player/player_rig_anims/body_lurk2.tres" id="ext_21"]
+[ext_resource type="Animation" path="res://assets/rigs/player/player_rig_anims/body_lurk2_un.tres" id="ext_22"]
+[ext_resource type="Animation" path="res://assets/rigs/player/player_rig_anims/body_lurk3.tres" id="ext_23"]
+[ext_resource type="Animation" path="res://assets/rigs/player/player_rig_anims/body_lurk3_un.tres" id="ext_24"]
+[ext_resource type="Animation" path="res://assets/rigs/player/player_rig_anims/body_pinok.tres" id="ext_25"]
+[ext_resource type="Animation" path="res://assets/rigs/player/player_rig_anims/body_plav.tres" id="ext_26"]
+[ext_resource type="Animation" path="res://assets/rigs/player/player_rig_anims/body_polz.tres" id="ext_27"]
+[ext_resource type="Animation" path="res://assets/rigs/player/player_rig_anims/body_punch.tres" id="ext_28"]
+[ext_resource type="Animation" path="res://assets/rigs/player/player_rig_anims/body_res.tres" id="ext_29"]
+[ext_resource type="Animation" path="res://assets/rigs/player/player_rig_anims/body_roll.tres" id="ext_30"]
+[ext_resource type="Animation" path="res://assets/rigs/player/player_rig_anims/body_run.tres" id="ext_31"]
+[ext_resource type="Animation" path="res://assets/rigs/player/player_rig_anims/body_shield.tres" id="ext_32"]
+[ext_resource type="Animation" path="res://assets/rigs/player/player_rig_anims/body_sit.tres" id="ext_33"]
+[ext_resource type="Animation" path="res://assets/rigs/player/player_rig_anims/body_sit_down.tres" id="ext_34"]
+[ext_resource type="Animation" path="res://assets/rigs/player/player_rig_anims/body_sit_up.tres" id="ext_35"]
+[ext_resource type="Animation" path="res://assets/rigs/player/player_rig_anims/body_sitjump.tres" id="ext_36"]
+[ext_resource type="Animation" path="res://assets/rigs/player/player_rig_anims/body_stay.tres" id="ext_37"]
+[ext_resource type="Animation" path="res://assets/rigs/player/player_rig_anims/body_trot.tres" id="ext_38"]
+[ext_resource type="Animation" path="res://assets/rigs/player/player_rig_anims/body_trot_222.tres" id="ext_39"]
+[ext_resource type="Animation" path="res://assets/rigs/player/player_rig_anims/body_trot_down.tres" id="ext_40"]
+[ext_resource type="Animation" path="res://assets/rigs/player/player_rig_anims/body_trot_down_idle.tres" id="ext_41"]
+[ext_resource type="Animation" path="res://assets/rigs/player/player_rig_anims/body_trot_idle.tres" id="ext_42"]
+[ext_resource type="Animation" path="res://assets/rigs/player/player_rig_anims/body_trot_up.tres" id="ext_43"]
+[ext_resource type="Animation" path="res://assets/rigs/player/player_rig_anims/body_trot_up_idle.tres" id="ext_44"]
+[ext_resource type="Animation" path="res://assets/rigs/player/player_rig_anims/body_vid.tres" id="ext_45"]
+[ext_resource type="Animation" path="res://assets/rigs/player/player_rig_anims/body_walk.tres" id="ext_46"]
+[ext_resource type="Animation" path="res://assets/rigs/player/player_rig_anims/body_walk_start.tres" id="ext_47"]
+
+[resource]
+_data = {
+"body": ExtResource("ext_1"),
+"body_crouch": ExtResource("ext_2"),
+"body_derg": ExtResource("ext_3"),
+"body_die": ExtResource("ext_4"),
+"body_dieali": ExtResource("ext_5"),
+"body_fall": ExtResource("ext_6"),
+"body_fall2": ExtResource("ext_7"),
+"body_free1": ExtResource("ext_8"),
+"body_free2": ExtResource("ext_9"),
+"body_free3": ExtResource("ext_10"),
+"body_jump": ExtResource("ext_11"),
+"body_jump_prep": ExtResource("ext_12"),
+"body_kick": ExtResource("ext_13"),
+"body_laz": ExtResource("ext_14"),
+"body_levit_enter": ExtResource("ext_15"),
+"body_levit_exit": ExtResource("ext_16"),
+"body_levit_hover": ExtResource("ext_17"),
+"body_levit_intro": ExtResource("ext_18"),
+"body_lurk1": ExtResource("ext_19"),
+"body_lurk1_un": ExtResource("ext_20"),
+"body_lurk2": ExtResource("ext_21"),
+"body_lurk2_un": ExtResource("ext_22"),
+"body_lurk3": ExtResource("ext_23"),
+"body_lurk3_un": ExtResource("ext_24"),
+"body_pinok": ExtResource("ext_25"),
+"body_plav": ExtResource("ext_26"),
+"body_polz": ExtResource("ext_27"),
+"body_punch": ExtResource("ext_28"),
+"body_res": ExtResource("ext_29"),
+"body_roll": ExtResource("ext_30"),
+"body_run": ExtResource("ext_31"),
+"body_shield": ExtResource("ext_32"),
+"body_sit": ExtResource("ext_33"),
+"body_sit_down": ExtResource("ext_34"),
+"body_sit_up": ExtResource("ext_35"),
+"body_sitjump": ExtResource("ext_36"),
+"body_stay": ExtResource("ext_37"),
+"body_trot": ExtResource("ext_38"),
+"body_trot_222": ExtResource("ext_39"),
+"body_trot_down": ExtResource("ext_40"),
+"body_trot_down_idle": ExtResource("ext_41"),
+"body_trot_idle": ExtResource("ext_42"),
+"body_trot_up": ExtResource("ext_43"),
+"body_trot_up_idle": ExtResource("ext_44"),
+"body_vid": ExtResource("ext_45"),
+"body_walk": ExtResource("ext_46"),
+"body_walk_start": ExtResource("ext_47")
+}

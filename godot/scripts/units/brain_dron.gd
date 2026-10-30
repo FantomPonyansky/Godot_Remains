@@ -11,6 +11,8 @@ var t_float := randf()
 var atk_rasst := 0.0
 var t_krut := 0
 var cur: UnitGun
+## vis.dis: the discharge flashes at a random angle every 15 ticks on a target and fades.
+var dis_alpha := 0.0
 
 
 func configure() -> void:
@@ -127,6 +129,19 @@ func animate() -> void:
 	# vis.scaleX = storona mirrors osn.rotation = br * storona back to br on screen.
 	tilt(br)
 	anim("stay")
+	var rig: RigView = u.get("rig")
+	var dis: Node2D = rig.attachment("dis") if rig else null
+	if dis == null:
+		return
+	if cel_unit != null and ai_tch % 15 == 1:
+		dis.visible = true
+		dis_alpha = 1.0
+		dis.rotation = randf() * TAU
+	if dis_alpha > 0.1:
+		dis_alpha -= 0.2
+	else:
+		dis.visible = false
+	dis.modulate.a = dis_alpha
 
 
 func expl() -> void:

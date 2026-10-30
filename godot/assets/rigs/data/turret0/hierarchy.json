@@ -1,0 +1,77 @@
+{
+  "root": "osn",
+  "scale": 1.0,
+  "bones": [
+    {
+      "instance_name": "light",
+      "library_item": "turret_light",
+      "library_path": "Objects/Units/turret/turret_light",
+      "layer_index": 3,
+      "layer_name": "Слой 4",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 0.0,
+        "ty": -16.5
+      },
+      "named": true,
+      "node_name": "light"
+    },
+    {
+      "instance_name": "puha",
+      "library_item": "turel_puha",
+      "library_path": "Objects/Units/turret/turel_puha",
+      "layer_index": 4,
+      "layer_name": "Слой 3",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": -0.35,
+        "ty": -13.8
+      },
+      "named": true,
+      "node_name": "puha"
+    },
+    {
+      "instance_name": "turel_osnova",
+      "library_item": "turel_osnova",
+      "library_path": "Objects/Units/turret/turel_osnova",
+      "layer_index": 5,
+      "layer_name": "Слой 1",
+      "matrix": {
+        "a": 0.20819091796875,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 0.20819091796875,
+        "tx": 0.0,
+        "ty": -24.75
+      },
+      "node_name": "turel_osnova"
+    },
+    {
+      "instance_name": "osn0_L5_F5",
+      "library_item": "osn0_L5_F5",
+      "library_path": "osn0_L5_F5",
+      "layer_index": 5,
+      "layer_name": "Слой 1",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 0.0,
+        "ty": 0.0
+      },
+      "source": "osn0",
+      "artwork": [
+        5,
+        5
+      ],
+      "node_name": "osn0_L5_F5"
+    }
+  ]
+}
