@@ -216,6 +216,10 @@ func rewatch(land: Node) -> void:
 func _state_of(land: Node) -> LandFog:
 	var id := land.get_instance_id()
 	if not _lands.has(id):
+		# A freed land's id never comes back, so its image and arrays are dropped here.
+		for old in _lands.keys():
+			if not is_instance_id_valid(old):
+				_lands.erase(old)
 		_lands[id] = _build_land(land)
 		if _restore.has(id):
 			var saved: Array = _restore[id]
@@ -338,18 +342,6 @@ func _saved_room(state: LandFog, key: Variant, cells: Variant) -> Room:
 ## Wall cells or anything else whose opacity changed inside rect (world px).
 func mark_dirty(rect: Rect2) -> void:
 	_pending.append(rect)
-
-
-## Unit.getTileVisi reads the drawn visibility of the tile at a point.
-## The cursor target needs at least 0.10.
-func tile_visibility(world_pos: Vector2) -> float:
-	if _state == null:
-		return 0.0
-	var i := floori(world_pos.x / TILE)
-	var j := floori(world_pos.y / TILE)
-	if i < 0 or j < 0 or i >= _state.tiles_w or j >= _state.tiles_h:
-		return 0.0
-	return _state.vis[j * _state.tiles_w + i]
 
 
 ## Tile.visibility as checkPort reads it: lit now or remembered from before.

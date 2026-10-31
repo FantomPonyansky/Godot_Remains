@@ -557,10 +557,6 @@ static func _enum_ids(pairs: Array) -> PackedStringArray:
 	return ids
 
 
-static func _cl(id: String) -> String:
-	return str(Reg.obj(id).get("cl", ""))
-
-
 static func _tip_of(id: String) -> String:
 	return str(Reg.obj(id).get("tip", ""))
 

@@ -203,10 +203,6 @@ static func xml_from_doc(doc: Dictionary) -> String:
 	return "\n".join(out) + "\n"
 
 
-static func xml_one_room(room: Dictionary) -> String:
-	return xml_rooms([room])
-
-
 static func xml_rooms(rooms: Array) -> String:
 	var out := PackedStringArray()
 	out.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>")

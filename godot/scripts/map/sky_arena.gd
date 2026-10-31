@@ -25,14 +25,6 @@ static func zoom_of(room: Dictionary) -> int:
 	return maxi(1, int(str(o.get("zoom", "1")).to_float()))
 
 
-static func has_sky(rooms: Array, start: Vector2i) -> bool:
-	for room_v in rooms:
-		var room: Dictionary = room_v
-		if int(room.x) == start.x and int(room.y) == start.y and (room.get("options", {}) as Dictionary).has("sky"):
-			return true
-	return false
-
-
 static func attach(land: Node, rooms: Array) -> void:
 	var found: Array[Rect2] = []
 	for room_v in rooms:

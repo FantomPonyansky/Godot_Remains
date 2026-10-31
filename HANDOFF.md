@@ -42,7 +42,7 @@ After each chunk of work: update `IMPLEMENTED.md`, tick `TODO.md`, and answer `P
 - Online co-op via Steam is planned after the port. Follow "Future multiplayer" in `docs/PORT_RULES.md` when choosing an architecture; do not build it now.
 - One writer at a time for `player.gd`, `land_props.gd`, `enemy.gd`, `bullet.gd`, `project.godot`. Re-read `player.gd` before saving.
 - FFDec: never export sprites from a whole swf; trim to symbol ids (see `KNOWLEDGE_BASE.md`).
-- Back up `%APPDATA%\Godot\app_userdata\FoE Remains` (copy at `%TEMP%\foe_ud_bk_main`) before test runs and restore it after. The shared user data has a damaged player; reset HP and organs at the start of damage tests. Delete `godot/tests/tmp_*.gd` afterwards.
+- Back up `%APPDATA%\Godot\app_userdata\FoE Remains` (copy at `%TEMP%\foe_ud_bk_main`) before test runs and restore it after. The shared user data has a damaged player; reset HP and organs at the start of damage tests. Move `godot/tests/tmp_*` to `_trash/` afterwards (user: nothing is deleted, only moved). The headless boot does not compile lazily loaded scripts; after removing code, `load()` each edited script from a throwaway `-s` test.
 - Do not pipe a long Godot export into `Select-Object -First`; it kills the export. Send its output to a file.
 
 ## How to check the game
@@ -92,7 +92,8 @@ Patches: testers drop them in `patches/` next to the exe; `user_dir._load_patche
 
 ```
 $b="D:/Games/FoE Remains Port/build"
-& $g --headless --path godot --export-patch "Windows Desktop" "$b/patch/patch_002.pck" --patches "$b/base/RemainsPort.pck,$b/patch/patch_001.pck" *> "$env:TEMP\foe_patch.log"
+# First patch after a full build; later ones add every earlier patch to --patches.
+& $g --headless --path godot --export-patch "Windows Desktop" "$b/patch/patch_001.pck" --patches "$b/base/RemainsPort.pck" *> "$env:TEMP\foe_patch.log"
 ```
 
 Shipped: full build 2026-10-31 (player rig, frame clips retired; `build/base` updated). Before that: 2026-10-26 (changes in `build/BUILD_2026-10-26_CHANGES.txt`, includes the `user_dir.gd` changes). Testers delete their old `patches/` folder. Patch numbering restarts: the next patch is `patch_001` with `--patches "$b/base/RemainsPort.pck"`. Old `patch_001` (2026-10-25) is superseded. `user_dir.gd` is the autoload that mounts patches, so a patch cannot replace it.

@@ -12,7 +12,7 @@ const SETTINGS_FILES: PackedStringArray = [
 const RUN_FILES: PackedStringArray = [
 	"inventory.cfg", "progression.cfg", "condition.cfg", "body_pools.cfg", "pets.cfg",
 ]
-const MAX_LOGS := 30
+const MAX_LOGS := 5
 
 static var _base: Variant = null
 static var _why := ""

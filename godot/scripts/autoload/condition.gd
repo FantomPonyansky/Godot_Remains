@@ -301,7 +301,6 @@ func _process(delta: float) -> void:
 		_save()
 		_dirty = false
 		_save_wait = 1.0
-	_refresh_label()
 
 
 func _exit_tree() -> void:
@@ -488,14 +487,9 @@ func _attach_label(hud: Node) -> void:
 	_label.name = "ConditionLabel"
 	_label.position = Vector2(24, 168)
 	_label.add_theme_color_override("font_color", Color(0.9, 0.82, 0.55))
-	host.add_child(_label)
-
-
-func _refresh_label() -> void:
 	# Weapon, armor, and use lines are the gameplay HUD, not this English strip.
-	if _label != null and is_instance_valid(_label):
-		_label.visible = false
-		_label.text = ""
+	_label.visible = false
+	host.add_child(_label)
 
 
 func _load_data() -> void:

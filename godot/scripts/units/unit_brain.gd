@@ -709,14 +709,6 @@ func explode(damage: float, dtype: String, radius: float, at: Variant = null) ->
 	b.global_position = (at as Vector2) if at is Vector2 else u.global_position + Vector2(0.0, -3.0)
 
 
-func hurt_player_radius(radius: float, amount: float, dtype: String) -> void:
-	var p := player_node()
-	if p == null or amount <= 0.0:
-		return
-	if center().distance_to(center_of(p)) <= radius and p.has_method("take_hit"):
-		p.take_hit(int(round(amount)), dtype)
-
-
 # ---------------------------------------------------------------- sprites
 
 func anim(clip: String) -> void:
@@ -787,10 +779,6 @@ func room_origin() -> Vector2:
 ## Game.globalDif, 0..4.
 func global_dif() -> int:
 	return GameState.difficulty()
-
-
-func vis_entry() -> Dictionary:
-	return vis_of(str(row.get("vis", "")))
 
 
 static func vis_of(key: String) -> Dictionary:

@@ -246,7 +246,6 @@ var _wep_blum: float = 0.0
 # Weapon presentation state (Weapon / WClub / UnitPlayer.changeWeapon), in 30 Hz ticks.
 var _armed: Dictionary = {}
 var _chw_left: float = 0.0
-var _chw_stage: int = 0
 var _chw_ready := false
 var _reload_hold: float = 0.0
 var _reload_filled := false
@@ -260,7 +259,6 @@ var _melee_power: float = 1.0
 var _melee_quake := Vector2.ZERO
 var _melee_vzz: Sprite2D
 var _melee_vis = null
-var _slot_down: Dictionary = {}
 var _reload_prev: float = 0.0
 # UnitPlayer.t_up and weapUp. Read by the puppet and the carried melee weapon.
 var _up_for: float = 0.0
@@ -1325,29 +1323,6 @@ func _tick_magic_key(delta: float) -> void:
 	_magic_cd = _shot_gap(w)
 	if str(w.get("id", "")) == _armed_id:
 		_fire_cd = _magic_cd
-
-
-func _spawn_shot(w: Dictionary, dir: Vector2, amount: float, from: Vector2 = Vector2.INF) -> void:
-	var bullet := bullet_scene.instantiate() as Area2D
-	bullet.global_position = muzzle.global_position if from == Vector2.INF else from
-	bullet.direction = dir
-	bullet.from_player = true
-	bullet.damage = int(round(amount))
-	bullet.damage_type = str(w.get("damage_type", "DAM_PIERCE"))
-	bullet.block_damage = _Block.of(str(w.get("id", "")))
-	bullet.hitscan = bool(w.get("hitscan", false))
-	bullet.speed = float(w.get("speed", bullet.speed))
-	bullet.blast_radius = float(w.get("radius", 0.0))
-	bullet.style = str(w.get("style", "bullet"))
-	if w.has("lifetime"):
-		bullet.lifetime = float(w["lifetime"])
-	# Firearm skill scaling is Progression's bullet hook. Spells are not guns.
-	if str(w.get("kind", "")) == "spell":
-		bullet.set_meta("prog_scaled", true)
-	bullet.weapon_id = str(w.get("id", ""))
-	# The caster already played the spell sound.
-	bullet.voice_key = 0
-	get_tree().current_scene.add_child(bullet)
 
 
 func _dry_fire() -> void:
@@ -3747,12 +3722,6 @@ func _steer_tele(cursor: Vector2, delta: float) -> void:
 	# A carried drop inside Loot.osnRad is granted this frame. The hold ends first.
 	if is_instance_valid(_tele_obj) and _tele_obj.is_in_group("ground_loot") and _tele_obj.has_method("try_autopick"):
 		_tele_obj.try_autopick()
-
-
-func _tele_level() -> int:
-	if Progression:
-		return Progression.skill_level_of("tele")
-	return 0
 
 
 func _tele_radius() -> float:

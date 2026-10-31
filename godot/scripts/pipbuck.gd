@@ -20,9 +20,6 @@ const YELLOW := Color("ffff33")
 const PINK := Color("fc7fed")
 const BUT := Color("004629")
 const BUT_ON := Color("006d40")
-const ROW := Color("004127")
-const FON_IN := Color("03513e")
-const FON_OUT := Color("393939")
 const SKIN := "res://assets/ui/pipbuck_skin.png"
 ## extracted_swf/export_pip_art.py.
 const ART := "res://assets/ui/pip/%s.png"
@@ -2592,7 +2589,6 @@ func _restore_scroll(v: int) -> void:
 	await get_tree().process_frame
 	if _scroll != null and is_instance_valid(_scroll):
 		_scroll.scroll_vertical = v
-
 
 
 ## PipPageOpt PAGE_CONTROLS: one row per Ctr keyObj, key1 / key2 edited

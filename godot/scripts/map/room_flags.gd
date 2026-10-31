@@ -268,5 +268,3 @@ static func set_air_opacity(land: Node, cells: Array, value: float) -> void:
 		land.get_tree().call_group("fog", "air_opacity_changed", land)
 
 
-static func color_of(env: Dictionary) -> Color:
-	return COLORS.get(str(env.get("color", "")), Color(1, 1, 1))

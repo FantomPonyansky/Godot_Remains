@@ -316,11 +316,6 @@ func weapon_visible() -> bool:
 	return _gun != null and _gun.visible
 
 
-## teleColor, the colour UnitPlayer.teleFilter glows with.
-func magic_color() -> Color:
-	return _magic_color
-
-
 func set_magic_activity(weapon_held: bool, telekinesis: bool, spell_active: bool, tele_heavy: bool = false) -> void:
 	# aMagic targets from UnitPlayer: held weapon 50, light telekinesis 50,
 	# heavy telekinesis (massa >= 1) 100, self-levitation 100. Spell cast is
@@ -624,18 +619,28 @@ func _play_span(clip: String, key: String, first: int, last: int, delta: float) 
 	return clampi(first + int(_clock), 1, maxi(_len(clip), 1))
 
 
+## Loops the clip's `loop` frames from pony_clips.json (walk 2-25, trots 2-17:
+## frame 1 is the entry frame and the last one carries the goto), else every frame.
 func _cycle(clip: String, delta: float) -> int:
-	var count := _len(clip)
+	var span := _loop_span(clip)
+	var count := span.y - span.x + 1
 	if count <= 0:
 		_clip = clip
 		return 1
-	var keep: bool = _clip in _GAITS and clip in _GAITS and _len(_clip) == count
+	var keep: bool = _clip in _GAITS and clip in _GAITS and _loop_span(_clip) == span
 	if _clip != clip and not keep:
 		_clock = 0.0
 	else:
 		_clock = fposmod(_clock + delta * FPS, float(count))
 	_clip = clip
-	return int(_clock) + 1
+	return span.x + int(_clock)
+
+
+func _loop_span(clip: String) -> Vector2i:
+	var loop: Array = _clip_data(clip).get("loop", [])
+	if loop.size() == 2:
+		return Vector2i(int(loop[0]), int(loop[1]))
+	return Vector2i(1, _len(clip))
 
 
 func _air_pick(state: String, motion: Vector2, delta: float) -> Array:

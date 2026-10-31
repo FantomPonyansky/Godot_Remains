@@ -70,33 +70,12 @@ func register(provider_id: String, get_callable: Callable, set_callable: Callabl
 			set_callable.call(data)
 
 
-func unregister(provider_id: String) -> void:
-	if not _providers.has(provider_id):
-		return
-	var getter: Callable = (_providers[provider_id] as Array)[0]
-	if getter.is_valid():
-		_provider_data[provider_id] = getter.call()
-	_providers.erase(provider_id)
-
-
 ## Drops what is known about a land; its next build starts fresh, from a new
 ## seed (Game.crea: a new Land, so a generated land gets a new layout).
 func forget_land(land_id: String) -> void:
 	_lands.erase(land_id)
 	_live.erase(land_id)
 	_builds[land_id] = {"seed": randi(), "lvl": -1}
-
-
-func has_land(land_id: String) -> bool:
-	return _lands.has(land_id) or _live.has(land_id)
-
-
-func land_ids() -> Array:
-	var out: Array = _lands.keys()
-	for id in _live:
-		if not out.has(id):
-			out.append(id)
-	return out
 
 
 # --- building ------------------------------------------------------------
@@ -157,11 +136,6 @@ func store(land_id: String, snapshot: Dictionary) -> void:
 	if _builds.has(land_id):
 		snapshot["build"] = (_builds[land_id] as Dictionary).duplicate(true)
 	_lands[land_id] = snapshot
-
-
-func snapshot_of(land_id: String) -> Dictionary:
-	_refresh(land_id)
-	return _lands.get(land_id, {})
 
 
 func _refresh(land_id: String) -> void:

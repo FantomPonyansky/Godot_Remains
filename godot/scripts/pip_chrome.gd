@@ -18,25 +18,6 @@ static func ui_pressed(event: InputEvent, action: String) -> bool:
 	return true
 
 
-static func focus_step(buttons: Array, step: int) -> void:
-	var live: Array[Control] = []
-	for item in buttons:
-		if item is Control and is_instance_valid(item) and (item as Control).is_visible_in_tree():
-			var control := item as Control
-			if control.focus_mode == Control.FOCUS_NONE:
-				continue
-			live.append(control)
-	if live.is_empty():
-		return
-	var owner := live[0].get_viewport().gui_get_focus_owner()
-	var idx := live.find(owner)
-	if idx < 0:
-		idx = 0
-	else:
-		idx = wrapi(idx + step, 0, live.size())
-	live[idx].grab_focus()
-
-
 static func build_screen(parent: Node) -> Control:
 	var root := Control.new()
 	root.set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -84,5 +65,3 @@ static func build_screen(parent: Node) -> Control:
 	return screen
 
 
-static func style_label(label: Label, dim := false) -> void:
-	label.add_theme_color_override("font_color", AMBER_DIM if dim else AMBER)

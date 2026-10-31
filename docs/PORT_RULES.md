@@ -96,5 +96,5 @@ Pad (Xbox names; the original has no pad):
 ## Builds and tools
 
 - Debug console is always available (key left of 1). Debug hotkeys F1, F6–F8 need the `--debug-keys` launch flag. Dev scenes are excluded from builds.
-- Release builds are one file per platform: Windows (`RemainsPort.exe` plus a console wrapper) and Linux x86_64. File logging is on, capped at 5 files.
+- Release builds are one executable per platform (Windows `RemainsPort.exe` plus a console wrapper, Linux x86_64) and one shared base `RemainsPort.pck` (not embedded). Small changes ship as patch pcks; the base pck is rebuilt from time to time (user, 2026-10-31). File logging is on, capped at 5 files (user, 2026-10-31). The room editor ships in tester and user builds (user, 2026-10-31); keep `scenes/room_editor.tscn` and `scripts/editor/` out of the export excludes.
 - Load-on-demand of art (Phase 9) must sit behind one switch: project setting, console command and launch flag. Off means preload as now. Default on (2026-10-25, user approved the plan).

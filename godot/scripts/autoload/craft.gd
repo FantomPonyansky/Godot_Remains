@@ -55,15 +55,6 @@ func is_open() -> bool:
 	return _open
 
 
-func nearest_prompt() -> String:
-	if _open:
-		return ""
-	var node := _nearest()
-	if node == null:
-		return ""
-	return "%s  %s" % [Prompts.action("interact"), _station_name(_station_of(node))]
-
-
 ## Interact allact work / lab / stove and the portable benches: PipBuck page 7
 ## (Ремесло) with workTip. Without a PipBuck host the own screen opens.
 func open_station(station_id: String) -> void:

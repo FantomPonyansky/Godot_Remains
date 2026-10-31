@@ -31,10 +31,6 @@ static func dialogue(id: String) -> Dictionary:
 	return _dials.get(id, {})
 
 
-static func has_dialogue(id: String) -> bool:
-	return not dialogue(id).is_empty()
-
-
 ## Lines of a dialogue; a plain <n> text is one line.
 static func lines(id: String) -> Array:
 	return dialogue(id).get("lines", [])

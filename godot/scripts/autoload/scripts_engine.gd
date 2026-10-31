@@ -281,10 +281,6 @@ func is_waiting() -> bool:
 	return false
 
 
-func is_known(act: String) -> bool:
-	return act in COMMANDS
-
-
 func current_land() -> String:
 	var land := get_tree().get_first_node_in_group("active_land") if is_inside_tree() else null
 	if land == null:

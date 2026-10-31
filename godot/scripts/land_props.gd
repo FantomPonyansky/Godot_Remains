@@ -1437,13 +1437,6 @@ func _set_door(uid: String, is_open: bool, lock: float) -> void:
 	_apply_door(body, is_open)
 
 
-func _toggle_door(uid: String) -> void:
-	var body: Node = _by_uid.get(uid)
-	if body == null:
-		return
-	_apply_door(body, not bool(body.get_meta("door_open", false)))
-
-
 func _apply_door(body: Node, is_open: bool) -> void:
 	if _wooden_wall(body):
 		if not bool(body.get_meta("dead", false)):
@@ -1479,27 +1472,6 @@ func _shut_wooden_walls() -> void:
 		_doors.erase(body)
 		if not bool(body.get_meta("dead", false)):
 			_DoorArt.apply(body, false)
-
-
-func _set_enabled(uid: String, enabled: bool) -> void:
-	if uid == "":
-		return
-	var node: Node = _areas.get(uid)
-	if node == null:
-		return
-	node.set_meta("enabled", enabled)
-	if node is Area2D:
-		(node as Area2D).set_deferred("monitoring", enabled)
-		if enabled:
-			var player := get_tree().get_first_node_in_group("player")
-			if player and (node as Area2D).overlaps_body(player):
-				_on_area.call_deferred(player, node)
-
-
-func _detonate(uid: String) -> void:
-	var node: Node = _hazards.get(uid)
-	if node and node.has_method("take_hit"):
-		node.take_hit(999)
 
 
 ## Interact.explosion: Bullet.iExpl from a fresh Unit (fraction 0, destroy 0).

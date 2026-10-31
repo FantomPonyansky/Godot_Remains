@@ -106,7 +106,6 @@ const ARM_CONE := PI * 0.25
 ## UnitBloat: attRasst 400 unless the id sets attr. bloat0 is 600, bloat4/6/7 are 700.
 ## Parent comb damage 8, charge and neujazMax both 20 ticks.
 const BLOAT_RANGE := 400.0
-const BLOAT_DAMAGE := 8
 const BLOAT_TICKS := 20.0
 ## ebloat (UnitBloatEmitter) comb damage. The nest has no cone and no attRasst.
 const EBLOAT_DAMAGE := 30
@@ -156,7 +155,6 @@ const STUN_RECHECK := 3.0
 ## GunAttack_Definition mazil (extra spread, degrees).
 const HOLD_SPREAD := 5.0
 const MOVE_SPREAD := 16.0
-const LEVIT_SPREAD := 25.0
 ## UnitRaider: surprise lasts tupizna to tupizna + 19; close fighters a quarter of tupizna.
 const TUPIZNA := 40
 const SURPRISE_SPREAD := 19
@@ -168,7 +166,6 @@ const DEATH_THROWS := 3
 const DROP_SCATTER := 15.0
 ## Unit.budilo: makeNoise(noiseRun * 1.2). Unit.noiseRun default 200.
 const UNIT_NOISE_RUN := 200.0
-const ALLIED_WAKE := 2000.0
 ## A Location is one room. Only units in the player's room act there; here the
 ## rooms next to it act too. Sight is capped at one room width for the same reason.
 const ACTIVE_REACH := 1
@@ -262,7 +259,6 @@ var _acid_dps: float = 2.0
 var _pink_left: float = 0.0
 var _pink_clock: float = 0.0
 var _pink_dps: float = 20.0
-var _backoff_wait: float = 0.0
 var _tint: Color = Color.WHITE
 ## Raider defaults. Turret / bloat / scorpion overrides come from the land's unit id.
 var _v_konus: float = V_KONUS
@@ -279,7 +275,6 @@ var _contact_bite: bool = false
 var _attack_reach: float = INF
 var _aim_down: bool = false
 var _windup_left: float = 0.0
-var _hold_roll_wait: float = 0.0
 var _species_id: String = ""
 var _friendly: bool = false
 ## Map unit with fraction F_PLAYER (UnitRaider.as L451-455): stands or strolls, never follows the player.
@@ -383,7 +378,6 @@ var _super_at := Vector2.ZERO
 var _super_tick := 0
 var _rad_left: float = 0.0
 var _rad_power: float = 20.0
-var _quake_left: float = 0.0
 var _quake_step: float = 0.0
 var _pink_death: bool = false
 var _dop_effect: String = ""
@@ -417,7 +411,6 @@ var _cel_dx: float = 0.0
 var _cel_dy: float = 0.0
 var _vert: int = 0
 var _jump_cd: float = 0.0
-var _motor_tick: int = 0
 var _wall_left: int = 10
 var _accel_tick: float = 3.0
 var _jump_tick: float = JUMP_TICK
@@ -2512,20 +2505,6 @@ func _velocity_of(body: Node) -> Vector2:
 	if body is CharacterBody2D:
 		return (body as CharacterBody2D).velocity
 	return Vector2.ZERO
-
-
-func _chase_gap() -> float:
-	if fight_style != "melee":
-		return BODY_SLACK
-	if _contact_bite:
-		var other := 48.0
-		if _player_valid():
-			other = _body_size(_player).x
-		return (body_size.x + other) * 0.5
-	# A scorpion that fails the hold roll keeps walking in. Critters stop at the swing edge.
-	if _strike_hold < 1.0:
-		return BODY_SLACK
-	return _swing_x
 
 
 func _aim_angle() -> float:

@@ -56,16 +56,8 @@ func setup(actors: Node, rooms: Array) -> void:
 		_fresh.append(child)
 
 
-func has_room(key: Vector2i) -> bool:
-	return _rooms.has(key)
-
-
 static func room_of(at: Vector2) -> Vector2i:
 	return Vector2i(floori(at.x / ROOM_W), floori(at.y / ROOM_H))
-
-
-func player_room() -> Vector2i:
-	return _player_room
 
 
 ## The player's room and the 8 around it simulate. A back room (same x,

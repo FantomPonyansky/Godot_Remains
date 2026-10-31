@@ -149,24 +149,6 @@ func label_block(title: Label, hint: Label, closer: Label, farther: Label) -> vo
 	farther.text = Locale.t("cam_farther")
 
 
-func handle_horizontal(slider: HSlider, event: InputEvent) -> bool:
-	if slider == null or not is_instance_valid(slider):
-		return false
-	if not event is InputEventJoypadMotion:
-		return false
-	var motion := event as InputEventJoypadMotion
-	if motion.axis != JOY_AXIS_LEFT_X:
-		return false
-	var viewport := slider.get_viewport()
-	if viewport == null or viewport.gui_get_focus_owner() != slider:
-		return false
-	if _Chrome.ui_pressed(event, "ui_left"):
-		slider.value = maxf(slider.min_value, slider.value - slider.step)
-	elif _Chrome.ui_pressed(event, "ui_right"):
-		slider.value = minf(slider.max_value, slider.value + slider.step)
-	return true
-
-
 func _clamp_distance(value: float) -> float:
 	if not is_finite(value):
 		return DEFAULT_DISTANCE

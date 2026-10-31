@@ -655,10 +655,6 @@ func cover() -> void:
 	_set_black(1.0)
 
 
-func fade_alpha() -> float:
-	return _black.color.a if _black.visible else 0.0
-
-
 ## Game.enterToCurLand with Land.enterLand.
 func _enter_cur_land() -> void:
 	_encounter()

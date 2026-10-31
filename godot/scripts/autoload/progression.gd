@@ -750,21 +750,6 @@ func note_applied_max(value: int) -> void:
 	_applied_max = maxi(1, value)
 
 
-func get_move_speed_multiplier() -> float:
-	var per := float(_perk_def("potion_speed").get("speed_per_rank", 0.05))
-	return 1.0 + float(perk_rank("potion_speed")) * per
-
-
-func get_jump_multiplier() -> float:
-	var base := float(_perk_def("jump").get("jump_base", 12.0))
-	if base <= 0.0:
-		return 1.0
-	var add := 0.0
-	if perk_rank("jump") > 0:
-		add = float(_perk_def("jump").get("jump_add", 2.0))
-	return (base + add) / base
-
-
 ## Pers.addPerk: infoText perk (name, or name-rank past the first) and Sound.ps skill.
 func _perk_info(id: String) -> void:
 	var r := perk_rank(id)

@@ -29,10 +29,6 @@ const WALLS: Array = [
 ]
 
 
-static func diag_pairs() -> Array:
-	return DIAG_PAIRS
-
-
 ## TileCatalog piece kind: "beam", "slope", or "".
 static func diag_kind(token: String) -> String:
 	var piece: Array = Catalog.OVERLAY.get(token, [])
