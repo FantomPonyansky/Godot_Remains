@@ -1,0 +1,136 @@
+{
+  "root": "osn",
+  "scale": 0.0999755859375,
+  "bones": [
+    {
+      "instance_name": "fish_head",
+      "library_item": "fish_head",
+      "library_path": "Objects/Units/Fish1/fish_head",
+      "layer_index": 0,
+      "layer_name": "plav",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 120.25,
+        "ty": 4.85
+      },
+      "node_name": "fish_head"
+    },
+    {
+      "instance_name": "fish_plav",
+      "library_item": "fish_plav",
+      "library_path": "Objects/Units/Fish1/fish_plav",
+      "layer_index": 1,
+      "layer_name": "head",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 46.55,
+        "ty": 40.55
+      },
+      "node_name": "fish_plav"
+    },
+    {
+      "instance_name": "fish_claw",
+      "library_item": "fish_claw",
+      "library_path": "Objects/Units/Fish1/fish_claw",
+      "layer_index": 2,
+      "layer_name": "claw",
+      "matrix": {
+        "a": 0.98486328125,
+        "b": 0.173324584960938,
+        "c": -0.173324584960938,
+        "d": 0.98486328125,
+        "tx": 110.75,
+        "ty": 42.55
+      },
+      "node_name": "fish_claw"
+    },
+    {
+      "instance_name": "fish_korpus",
+      "library_item": "fish_korpus",
+      "library_path": "Objects/Units/Fish1/fish_korpus",
+      "layer_index": 3,
+      "layer_name": "korpus",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 32.5,
+        "ty": -39.1
+      },
+      "node_name": "fish_korpus"
+    },
+    {
+      "instance_name": "fish_tail",
+      "library_item": "fish_tail",
+      "library_path": "Objects/Units/Fish1/fish_tail",
+      "layer_index": 4,
+      "layer_name": "tail",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": -116.3,
+        "ty": -7.95
+      },
+      "node_name": "fish_tail"
+    }
+  ],
+  "root_matrix": {
+    "a": 0.0999755859375,
+    "b": 0.0,
+    "c": 0.0,
+    "d": 0.0999755859375,
+    "tx": 0.95,
+    "ty": -18.9
+  },
+  "body_matrices": {
+    "body_stay": {
+      "a": 0.982498168945313,
+      "b": -0.186203002929688,
+      "c": 0.186203002929688,
+      "d": 0.982498168945313,
+      "tx": -53.1,
+      "ty": 96.7
+    },
+    "body_plav": {
+      "a": 1.0,
+      "b": 0.0,
+      "c": 0.0,
+      "d": 1.0,
+      "tx": -56.7,
+      "ty": 22.5
+    },
+    "body_run": {
+      "a": 1.0,
+      "b": 0.0,
+      "c": 0.0,
+      "d": 1.0,
+      "tx": -56.7,
+      "ty": 22.5
+    },
+    "body_attack": {
+      "a": 1.0,
+      "b": 0.0,
+      "c": 0.0,
+      "d": 1.0,
+      "tx": -56.7,
+      "ty": 22.5
+    },
+    "body_die": {
+      "a": -0.9439697265625,
+      "b": -0.329940795898438,
+      "c": 0.329940795898438,
+      "d": -0.9439697265625,
+      "tx": 65.65,
+      "ty": 59.5
+    }
+  }
+}

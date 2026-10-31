@@ -21,6 +21,8 @@ var _mat: ShaderMaterial
 var _saved := {}
 var _acc := 0.0
 var _alpha := 1.0
+var _rig_tinted: Node2D
+var _die_aura: Node2D
 
 
 static func of(player: Node) -> Node:
@@ -134,13 +136,29 @@ func _die_ali() -> void:
 
 ## vis.osn.transform.colorTransform offsets; glow < 0 keeps the dieFilter alpha.
 func _tint(add: Vector3, glow: float) -> void:
+	var puppet := _puppet()
+	var rig: Node2D = puppet.call("rig") if puppet != null and puppet.has_method("rig") else null
+	if rig != null:
+		# The rig's CanvasGroups and colour-transform materials must keep their own shaders.
+		rig.call("set_ct_offset", Color(add.x, add.y, add.z, 0.0))
+		_rig_tinted = rig
+		if glow >= 0.0:
+			if _die_aura == null or not is_instance_valid(_die_aura):
+				_die_aura = (load("res://scripts/magic_aura.gd") as GDScript).new() as Node2D
+				_die_aura.name = "DieAura"
+				_die_aura.set("host", puppet)
+				_die_aura.set("color", DIE_GLOW)
+				_die_aura.set("strength", 2.0)
+				_die_aura.set_meta("no_tele_glow", true)
+				puppet.add_child(_die_aura)
+			_die_aura.set("alpha", glow)
+		return
 	if _mat == null:
 		_mat = ShaderMaterial.new()
 		_mat.shader = SHADER
 		_mat.set_shader_parameter("mul_col", Vector3.ONE)
 		_mat.set_shader_parameter("dissolve", 0.0)
 		_mat.set_shader_parameter("glow", Vector4(DIE_GLOW.r, DIE_GLOW.g, DIE_GLOW.b, 0.0))
-		var puppet := _puppet()
 		if puppet != null:
 			_apply(puppet)
 	_mat.set_shader_parameter("add_col", add)
@@ -162,6 +180,12 @@ func _restore() -> void:
 			(item as CanvasItem).material = _saved[item]
 	_saved.clear()
 	_mat = null
+	if _rig_tinted != null and is_instance_valid(_rig_tinted):
+		_rig_tinted.call("set_ct_offset", Color(0.0, 0.0, 0.0, 0.0))
+	_rig_tinted = null
+	if _die_aura != null and is_instance_valid(_die_aura):
+		_die_aura.queue_free()
+	_die_aura = null
 	_alpha = 1.0
 	var puppet := _puppet()
 	if puppet != null:

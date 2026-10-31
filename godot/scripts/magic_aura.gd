@@ -78,9 +78,13 @@ func _process(_delta: float) -> void:
 	for node in found:
 		var id := (node as Node).get_instance_id()
 		seen[id] = true
-		if not _glows.has(id):
+		var fresh := not _glows.has(id)
+		if fresh:
 			_glows[id] = _make()
 		_update(node, _glows[id], tint)
+		# A new copy's first frame draws unplaced, a solid blob behind the body.
+		if fresh:
+			(_glows[id] as CanvasItem).visible = false
 	for id in _glows.keys():
 		if not seen.has(id):
 			var glow: Node = _glows[id]
@@ -111,7 +115,7 @@ func _make() -> Sprite2D:
 
 func _update(node: Node, glow: Sprite2D, color: Color) -> void:
 	var item := node as CanvasItem
-	var shown := item.is_visible_in_tree()
+	var shown := item.is_visible_in_tree() and _drawn_alpha(item) > 0.01
 	var region := Rect2(0, 0, 1, 1)
 	var flip := Vector2.ONE
 	if node is Polygon2D:
@@ -142,11 +146,27 @@ func _update(node: Node, glow: Sprite2D, color: Color) -> void:
 		return
 	glow.transform = global_transform.affine_inverse() * (node as Node2D).global_transform
 	var mat := glow.material as ShaderMaterial
+	# Rig parts are rasterised above display size: the blur is in host pixels, not texels.
+	var texel := absf(glow.transform.get_scale().x) if RigView.owns(node) else 1.0
+	texel = 1.0 if texel <= 0.0 else texel
+	mat.set_shader_parameter("spread", 1.0 / texel)
+	mat.set_shader_parameter("margin", MARGIN / texel)
 	mat.set_shader_parameter("glow_color", Color(color.r, color.g, color.b, alpha))
 	mat.set_shader_parameter("strength", strength)
 	mat.set_shader_parameter("sigma", sigma)
 	mat.set_shader_parameter("region", Vector4(region.position.x, region.position.y, region.end.x, region.end.y))
 	mat.set_shader_parameter("flip", flip)
+
+
+## Rig blend sources and their mirrors draw at alpha 0; they get no glow.
+func _drawn_alpha(item: CanvasItem) -> float:
+	var a := item.self_modulate.a
+	var node: Node = item
+	while node != null and node != host:
+		if node is CanvasItem:
+			a *= (node as CanvasItem).modulate.a
+		node = node.get_parent()
+	return a
 
 
 func _texture_of(node: Node) -> Texture2D:

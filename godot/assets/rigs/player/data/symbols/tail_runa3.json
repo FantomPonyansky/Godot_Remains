@@ -1,0 +1,59 @@
+{
+  "artwork_layers": [
+    {
+      "layer_index": 1,
+      "element_svg_files": {
+        "0": [
+          "tail_runa3_L1_S0.svg"
+        ],
+        "1": [
+          "tail_runa3_f1_L1_S0.svg"
+        ],
+        "2": [
+          "tail_runa3_f2_L1_S0.svg"
+        ],
+        "3": [
+          "tail_runa3_f3_L1_S0.svg"
+        ],
+        "4": [
+          "tail_runa3_f4_L1_S0.svg"
+        ],
+        "5": [
+          "tail_runa3_f5_L1_S0.svg"
+        ],
+        "6": [
+          "tail_runa3_f6_L1_S0.svg"
+        ],
+        "7": [
+          "tail_runa3_f7_L1_S0.svg"
+        ],
+        "8": [
+          "tail_runa3_f8_L1_S0.svg"
+        ],
+        "9": [
+          "tail_runa3_f9_L1_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    }
+  ],
+  "svg_files": {
+    "0": "tail_runa3_L1_S0.svg",
+    "1": "tail_runa3_f1_L1_S0.svg",
+    "2": "tail_runa3_f2_L1_S0.svg",
+    "3": "tail_runa3_f3_L1_S0.svg",
+    "4": "tail_runa3_f4_L1_S0.svg",
+    "5": "tail_runa3_f5_L1_S0.svg",
+    "6": "tail_runa3_f6_L1_S0.svg",
+    "7": "tail_runa3_f7_L1_S0.svg",
+    "8": "tail_runa3_f8_L1_S0.svg",
+    "9": "tail_runa3_f9_L1_S0.svg"
+  },
+  "timeline": {
+    "frames": 10,
+    "labels": {},
+    "scripts": {
+      "9": "gotoAndPlay(3)"
+    }
+  }
+}

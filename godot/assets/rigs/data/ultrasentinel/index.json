@@ -1,0 +1,165 @@
+{
+  "symbols": [
+    "korpus",
+    "noga0",
+    "noga1",
+    "ogn",
+    "ogn0"
+  ],
+  "unreachable_symbols": [],
+  "timelines": [
+    "body",
+    "body_jump",
+    "body_jump_f10"
+  ],
+  "nested_containers": [
+    "noga1",
+    "ogn"
+  ],
+  "default_colors": {},
+  "hide_mane_armors": [],
+  "color_channels": {},
+  "armor_bones": {},
+  "hair_bones": [],
+  "visible_bones": [],
+  "morda_bones": [],
+  "eye_bones": [],
+  "attachments": [
+    {
+      "name": "osn",
+      "library_item": "Objects/Units/UltraSentinel/_osn",
+      "layer_index": 1,
+      "layer_name": "Слой 2",
+      "frame": 0,
+      "matrix": {
+        "a": 0.370498657226563,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 0.370498657226563,
+        "tx": 0.0,
+        "ty": -50.0
+      },
+      "pivot": {
+        "x": -5.55,
+        "y": -13.25
+      },
+      "blend_mode": "normal",
+      "hidden": false,
+      "cache_as_bitmap": false,
+      "foreign": false
+    }
+  ],
+  "precomputed": {
+    "dups": [],
+    "extra_bones": {},
+    "bone_alt_libs": {},
+    "bone_tree_order": [],
+    "library_scales": {
+      "korpus": 1.1115,
+      "noga0": 1.1115,
+      "noga1": 1.1115,
+      "ogn": 1.1115,
+      "ogn0": 1.1115
+    },
+    "library_hairlines": {
+      "korpus": 2.6991,
+      "noga0": 2.699,
+      "noga1": 2.699,
+      "ogn": 2.699,
+      "ogn0": 2.699
+    },
+    "bone_orders": {
+      "body": [
+        "noga1_4",
+        "noga1_3",
+        "korpus",
+        "noga1_2",
+        "noga1"
+      ],
+      "body_jump": [
+        "noga1_4",
+        "noga1_3",
+        "korpus",
+        "noga1_2",
+        "noga1"
+      ],
+      "body_jump_f10": [
+        "noga1_4",
+        "noga1_3",
+        "korpus",
+        "noga1_2",
+        "noga1"
+      ]
+    }
+  },
+  "rig": {
+    "name": "ultrasentinel",
+    "config": "Godot_Transpilation/04_player_rig/rigs/ultrasentinel.json",
+    "root_symbol": "Objects/Units/UltraSentinel/visualSentinel",
+    "state_kind": "label_timeline",
+    "root_node": "UltraSentinel",
+    "script": "res://scripts/entity/rig_base.gd",
+    "idle_animation": "body",
+    "shape_masks": {},
+    "runtime_synced_bones": [],
+    "runtime_visibility_bones": [],
+    "paths": {
+      "output": "Godot_Transpilation/04_player_rig/rigs_output/ultrasentinel",
+      "godot_data": "Godot_project/data/rigs/ultrasentinel",
+      "svg": "Assets/Art/rigs/ultrasentinel",
+      "png": "Godot_project/art/rigs/ultrasentinel",
+      "scene": "Godot_project/scenes/rigs/ultrasentinel.tscn",
+      "anim_library": "Godot_project/scenes/rigs/ultrasentinel_anims.tres"
+    },
+    "mark_libraries": [
+      "quti",
+      "mark"
+    ]
+  },
+  "tickers": {
+    "ogn": {
+      "frames": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "loop_from": 0,
+      "idle_frame": -1,
+      "random_start": null
+    },
+    "ogn0": {
+      "frames": [
+        0,
+        1
+      ],
+      "loop_from": 0,
+      "idle_frame": -1,
+      "random_start": null
+    }
+  },
+  "symbol_paths": {
+    "korpus": "Objects/Units/UltraSentinel/korpus",
+    "noga0": "Objects/Units/UltraSentinel/noga0",
+    "noga1": "Objects/Units/UltraSentinel/noga1",
+    "ogn": "Objects/Units/UltraSentinel/ogn",
+    "ogn0": "Objects/Units/UltraSentinel/ogn0"
+  },
+  "stats": {
+    "symbols": 5,
+    "bones": 5,
+    "nested_containers": 2,
+    "timelines": 3,
+    "total_bone_keys": 34,
+    "attachments": 1,
+    "unreachable_symbols": 0,
+    "hidden_layer_entries": 0
+  }
+}

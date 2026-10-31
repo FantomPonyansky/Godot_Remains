@@ -1,0 +1,30 @@
+{
+  "artwork_layers": [],
+  "svg_files": {},
+  "source_symbol": "viscomm",
+  "artwork_selector": [
+    0,
+    0
+  ],
+  "bitmaps": [
+    {
+      "layer_index": 0,
+      "library_item": "Objects/NPC/mainframe1.png",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": -57.0,
+        "ty": -114.0
+      },
+      "frame_ranges": [
+        [
+          0,
+          0
+        ]
+      ],
+      "file": null
+    }
+  ]
+}

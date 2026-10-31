@@ -1,0 +1,40 @@
+{
+  "artwork_layers": [
+    {
+      "layer_index": 0,
+      "element_svg_files": {
+        "0": [
+          "T01_lg_Part_04_L0_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    }
+  ],
+  "svg_files": {
+    "0": "T01_lg_Part_04_L0_S0.svg"
+  },
+  "children": [
+    {
+      "library": "T1_CM",
+      "layer_index": 0,
+      "matrix": {
+        "a": 0.859512329101563,
+        "b": -0.0819549560546875,
+        "c": 0.115310668945313,
+        "d": 1.20927429199219,
+        "tx": 1.05,
+        "ty": -8.4
+      },
+      "frame_ranges": [
+        [
+          0,
+          0
+        ]
+      ],
+      "graphic": true,
+      "loop": "loop",
+      "frame_start": 0,
+      "frame_end": 0
+    }
+  ]
+}

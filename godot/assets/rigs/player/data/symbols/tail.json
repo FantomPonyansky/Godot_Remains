@@ -1,0 +1,63 @@
+{
+  "children": [
+    {
+      "library": "tail1",
+      "layer_index": 1,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 2.55,
+        "ty": 2.95
+      },
+      "frame_ranges": [
+        [
+          0,
+          0
+        ]
+      ],
+      "frame_start": 0,
+      "frame_end": 0,
+      "instance": "h1"
+    },
+    {
+      "library": "tail0",
+      "layer_index": 2,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 2.55,
+        "ty": 2.95
+      },
+      "frame_ranges": [
+        [
+          0,
+          0
+        ]
+      ],
+      "frame_start": 0,
+      "frame_end": 0,
+      "instance": "h0"
+    }
+  ],
+  "timeline": {
+    "frames": 1,
+    "labels": {},
+    "scripts": {
+      "0": "import fe.Obj;\nObj.setHair(h0);\nObj.setHair(h1);\nObj.setColor(h0,1);\nObj.setColor(h1,2);"
+    }
+  },
+  "child_roles": {
+    "tail0": {
+      "color_channel": "trHair",
+      "is_hair": true
+    },
+    "tail1": {
+      "color_channel": "trHair1",
+      "is_hair": true
+    }
+  }
+}

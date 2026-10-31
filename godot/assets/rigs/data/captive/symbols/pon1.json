@@ -1,0 +1,1023 @@
+{
+  "artwork_layers": [
+    {
+      "layer_index": 1,
+      "element_svg_files": {
+        "0": [
+          "pon1_L1_S0.svg"
+        ],
+        "1": [
+          "pon1_f1_L1_S0.svg"
+        ],
+        "4": [
+          "pon1_f4_L1_S0.svg"
+        ],
+        "5": [
+          "pon1_f5_L1_S0.svg"
+        ],
+        "7": [
+          "pon1_f7_L1_S0.svg"
+        ],
+        "9": [
+          "pon1_f9_L1_S0.svg"
+        ],
+        "12": [
+          "pon1_f12_L1_S0.svg"
+        ],
+        "13": [
+          "pon1_f13_L1_S0.svg"
+        ],
+        "14": [
+          "pon1_f14_L1_S0.svg"
+        ],
+        "16": [
+          "pon1_f16_L1_S0.svg"
+        ],
+        "19": [
+          "pon1_f19_L1_S0.svg"
+        ],
+        "23": [
+          "pon1_f23_L1_S0.svg"
+        ],
+        "25": [
+          "pon1_f25_L1_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 2,
+      "element_svg_files": {
+        "0": [
+          "pon1_L2_S0.svg"
+        ],
+        "1": [
+          "pon1_f1_L2_S0.svg"
+        ],
+        "2": [
+          "pon1_f2_L2_S0.svg"
+        ],
+        "3": [
+          "pon1_f3_L2_S0.svg"
+        ],
+        "4": [
+          "pon1_f4_L2_S0.svg"
+        ],
+        "5": [
+          "pon1_f5_L2_S0.svg"
+        ],
+        "6": [
+          "pon1_f6_L2_S0.svg"
+        ],
+        "7": [
+          "pon1_f7_L2_S0.svg"
+        ],
+        "8": [
+          "pon1_f8_L2_S0.svg"
+        ],
+        "9": [
+          "pon1_f9_L2_S0.svg"
+        ],
+        "10": [
+          "pon1_f10_L2_S0.svg"
+        ],
+        "11": [
+          "pon1_f11_L2_S0.svg"
+        ],
+        "12": [
+          "pon1_f12_L2_S0.svg"
+        ],
+        "13": [
+          "pon1_f13_L2_S0.svg"
+        ],
+        "14": [
+          "pon1_f14_L2_S0.svg"
+        ],
+        "15": [
+          "pon1_f15_L2_S0.svg"
+        ],
+        "16": [
+          "pon1_f16_L2_S0.svg"
+        ],
+        "17": [
+          "pon1_f17_L2_S0.svg"
+        ],
+        "18": [
+          "pon1_f18_L2_S0.svg"
+        ],
+        "19": [
+          "pon1_f19_L2_S0.svg"
+        ],
+        "20": [
+          "pon1_f20_L2_S0.svg"
+        ],
+        "21": [
+          "pon1_f21_L2_S0.svg"
+        ],
+        "22": [
+          "pon1_f22_L2_S0.svg"
+        ],
+        "23": [
+          "pon1_f23_L2_S0.svg"
+        ],
+        "24": [
+          "pon1_f24_L2_S0.svg"
+        ],
+        "25": [
+          "pon1_f25_L2_S0.svg"
+        ],
+        "26": [
+          "pon1_f26_L2_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 3,
+      "element_svg_files": {
+        "0": [
+          "pon1_L3_S0.svg"
+        ],
+        "1": [
+          "pon1_f1_L3_S0.svg"
+        ],
+        "2": [
+          "pon1_f2_L3_S0.svg"
+        ],
+        "3": [
+          "pon1_f3_L3_S0.svg"
+        ],
+        "4": [
+          "pon1_f4_L3_S0.svg"
+        ],
+        "5": [
+          "pon1_f5_L3_S0.svg"
+        ],
+        "6": [
+          "pon1_f6_L3_S0.svg"
+        ],
+        "7": [
+          "pon1_f7_L3_S0.svg"
+        ],
+        "8": [
+          "pon1_f8_L3_S0.svg"
+        ],
+        "9": [
+          "pon1_f9_L3_S0.svg"
+        ],
+        "10": [
+          "pon1_f10_L3_S0.svg"
+        ],
+        "11": [
+          "pon1_f11_L3_S0.svg"
+        ],
+        "12": [
+          "pon1_f12_L3_S0.svg"
+        ],
+        "13": [
+          "pon1_f13_L3_S0.svg"
+        ],
+        "14": [
+          "pon1_f14_L3_S0.svg"
+        ],
+        "15": [
+          "pon1_f15_L3_S0.svg"
+        ],
+        "16": [
+          "pon1_f16_L3_S0.svg"
+        ],
+        "17": [
+          "pon1_f17_L3_S0.svg"
+        ],
+        "18": [
+          "pon1_f18_L3_S0.svg"
+        ],
+        "19": [
+          "pon1_f19_L3_S0.svg"
+        ],
+        "20": [
+          "pon1_f20_L3_S0.svg"
+        ],
+        "21": [
+          "pon1_f21_L3_S0.svg"
+        ],
+        "22": [
+          "pon1_f22_L3_S0.svg"
+        ],
+        "23": [
+          "pon1_f23_L3_S0.svg"
+        ],
+        "24": [
+          "pon1_f24_L3_S0.svg"
+        ],
+        "25": [
+          "pon1_f25_L3_S0.svg"
+        ],
+        "26": [
+          "pon1_f26_L3_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 5,
+      "element_svg_files": {
+        "0": [
+          "pon1_L5_S0.svg"
+        ],
+        "1": [
+          "pon1_f1_L5_S0.svg"
+        ],
+        "2": [
+          "pon1_f2_L5_S0.svg"
+        ],
+        "3": [
+          "pon1_f3_L5_S0.svg"
+        ],
+        "4": [
+          "pon1_f4_L5_S0.svg"
+        ],
+        "5": [
+          "pon1_f5_L5_S0.svg"
+        ],
+        "6": [
+          "pon1_f6_L5_S0.svg"
+        ],
+        "7": [
+          "pon1_f7_L5_S0.svg"
+        ],
+        "8": [
+          "pon1_f8_L5_S0.svg"
+        ],
+        "9": [
+          "pon1_f9_L5_S0.svg"
+        ],
+        "10": [
+          "pon1_f10_L5_S0.svg"
+        ],
+        "11": [
+          "pon1_f11_L5_S0.svg"
+        ],
+        "12": [
+          "pon1_f12_L5_S0.svg"
+        ],
+        "13": [
+          "pon1_f13_L5_S0.svg"
+        ],
+        "14": [
+          "pon1_f14_L5_S0.svg"
+        ],
+        "15": [
+          "pon1_f15_L5_S0.svg"
+        ],
+        "16": [
+          "pon1_f16_L5_S0.svg"
+        ],
+        "17": [
+          "pon1_f17_L5_S0.svg"
+        ],
+        "18": [
+          "pon1_f18_L5_S0.svg"
+        ],
+        "19": [
+          "pon1_f19_L5_S0.svg"
+        ],
+        "20": [
+          "pon1_f20_L5_S0.svg"
+        ],
+        "21": [
+          "pon1_f21_L5_S0.svg"
+        ],
+        "22": [
+          "pon1_f22_L5_S0.svg"
+        ],
+        "23": [
+          "pon1_f23_L5_S0.svg"
+        ],
+        "24": [
+          "pon1_f24_L5_S0.svg"
+        ],
+        "25": [
+          "pon1_f25_L5_S0.svg"
+        ],
+        "26": [
+          "pon1_f26_L5_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 6,
+      "element_svg_files": {
+        "0": [
+          "pon1_L6_S0.svg"
+        ],
+        "1": [
+          "pon1_f1_L6_S0.svg"
+        ],
+        "2": [
+          "pon1_f2_L6_S0.svg"
+        ],
+        "3": [
+          "pon1_f3_L6_S0.svg"
+        ],
+        "4": [
+          "pon1_f4_L6_S0.svg"
+        ],
+        "5": [
+          "pon1_f5_L6_S0.svg"
+        ],
+        "8": [
+          "pon1_f8_L6_S0.svg"
+        ],
+        "9": [
+          "pon1_f9_L6_S0.svg"
+        ],
+        "10": [
+          "pon1_f10_L6_S0.svg"
+        ],
+        "11": [
+          "pon1_f11_L6_S0.svg"
+        ],
+        "12": [
+          "pon1_f12_L6_S0.svg"
+        ],
+        "13": [
+          "pon1_f13_L6_S0.svg"
+        ],
+        "14": [
+          "pon1_f14_L6_S0.svg"
+        ],
+        "15": [
+          "pon1_f15_L6_S0.svg"
+        ],
+        "16": [
+          "pon1_f16_L6_S0.svg"
+        ],
+        "17": [
+          "pon1_f17_L6_S0.svg"
+        ],
+        "18": [
+          "pon1_f18_L6_S0.svg"
+        ],
+        "22": [
+          "pon1_f22_L6_S0.svg"
+        ],
+        "23": [
+          "pon1_f23_L6_S0.svg"
+        ],
+        "24": [
+          "pon1_f24_L6_S0.svg"
+        ],
+        "26": [
+          "pon1_f26_L6_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 7,
+      "element_svg_files": {
+        "0": [
+          "pon1_L7_S0.svg"
+        ],
+        "1": [
+          "pon1_f1_L7_S0.svg"
+        ],
+        "2": [
+          "pon1_f2_L7_S0.svg"
+        ],
+        "3": [
+          "pon1_f3_L7_S0.svg"
+        ],
+        "4": [
+          "pon1_f4_L7_S0.svg"
+        ],
+        "5": [
+          "pon1_f5_L7_S0.svg"
+        ],
+        "6": [
+          "pon1_f6_L7_S0.svg"
+        ],
+        "7": [
+          "pon1_f7_L7_S0.svg"
+        ],
+        "8": [
+          "pon1_f8_L7_S0.svg"
+        ],
+        "9": [
+          "pon1_f9_L7_S0.svg"
+        ],
+        "10": [
+          "pon1_f10_L7_S0.svg"
+        ],
+        "11": [
+          "pon1_f11_L7_S0.svg"
+        ],
+        "12": [
+          "pon1_f12_L7_S0.svg"
+        ],
+        "13": [
+          "pon1_f13_L7_S0.svg"
+        ],
+        "14": [
+          "pon1_f14_L7_S0.svg"
+        ],
+        "15": [
+          "pon1_f15_L7_S0.svg"
+        ],
+        "16": [
+          "pon1_f16_L7_S0.svg"
+        ],
+        "17": [
+          "pon1_f17_L7_S0.svg"
+        ],
+        "18": [
+          "pon1_f18_L7_S0.svg"
+        ],
+        "19": [
+          "pon1_f19_L7_S0.svg"
+        ],
+        "20": [
+          "pon1_f20_L7_S0.svg"
+        ],
+        "21": [
+          "pon1_f21_L7_S0.svg"
+        ],
+        "22": [
+          "pon1_f22_L7_S0.svg"
+        ],
+        "23": [
+          "pon1_f23_L7_S0.svg"
+        ],
+        "24": [
+          "pon1_f24_L7_S0.svg"
+        ],
+        "25": [
+          "pon1_f25_L7_S0.svg"
+        ],
+        "26": [
+          "pon1_f26_L7_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 8,
+      "element_svg_files": {
+        "0": [
+          "pon1_L8_S0.svg"
+        ],
+        "1": [
+          "pon1_f1_L8_S0.svg"
+        ],
+        "2": [
+          "pon1_f2_L8_S0.svg"
+        ],
+        "3": [
+          "pon1_f3_L8_S0.svg"
+        ],
+        "4": [
+          "pon1_f4_L8_S0.svg"
+        ],
+        "5": [
+          "pon1_f5_L8_S0.svg"
+        ],
+        "6": [
+          "pon1_f6_L8_S0.svg"
+        ],
+        "7": [
+          "pon1_f7_L8_S0.svg"
+        ],
+        "8": [
+          "pon1_f8_L8_S0.svg"
+        ],
+        "9": [
+          "pon1_f9_L8_S0.svg"
+        ],
+        "10": [
+          "pon1_f10_L8_S0.svg"
+        ],
+        "11": [
+          "pon1_f11_L8_S0.svg"
+        ],
+        "12": [
+          "pon1_f12_L8_S0.svg"
+        ],
+        "13": [
+          "pon1_f13_L8_S0.svg"
+        ],
+        "14": [
+          "pon1_f14_L8_S0.svg"
+        ],
+        "15": [
+          "pon1_f15_L8_S0.svg"
+        ],
+        "16": [
+          "pon1_f16_L8_S0.svg"
+        ],
+        "17": [
+          "pon1_f17_L8_S0.svg"
+        ],
+        "18": [
+          "pon1_f18_L8_S0.svg"
+        ],
+        "19": [
+          "pon1_f19_L8_S0.svg"
+        ],
+        "20": [
+          "pon1_f20_L8_S0.svg"
+        ],
+        "21": [
+          "pon1_f21_L8_S0.svg"
+        ],
+        "22": [
+          "pon1_f22_L8_S0.svg"
+        ],
+        "23": [
+          "pon1_f23_L8_S0.svg"
+        ],
+        "24": [
+          "pon1_f24_L8_S0.svg"
+        ],
+        "25": [
+          "pon1_f25_L8_S0.svg"
+        ],
+        "26": [
+          "pon1_f26_L8_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    }
+  ],
+  "svg_files": {
+    "0": "pon1_L1_S0.svg",
+    "1": "pon1_f1_L1_S0.svg",
+    "4": "pon1_f4_L1_S0.svg",
+    "5": "pon1_f5_L1_S0.svg",
+    "7": "pon1_f7_L1_S0.svg",
+    "9": "pon1_f9_L1_S0.svg",
+    "12": "pon1_f12_L1_S0.svg",
+    "13": "pon1_f13_L1_S0.svg",
+    "14": "pon1_f14_L1_S0.svg",
+    "16": "pon1_f16_L1_S0.svg",
+    "19": "pon1_f19_L1_S0.svg",
+    "23": "pon1_f23_L1_S0.svg",
+    "25": "pon1_f25_L1_S0.svg"
+  },
+  "children": [
+    {
+      "library": "glaz1",
+      "layer_index": 4,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 53.85,
+        "ty": -39.4
+      },
+      "frame_ranges": [
+        [
+          0,
+          0
+        ]
+      ],
+      "frame_start": 0,
+      "frame_end": 0
+    },
+    {
+      "library": "glaz2",
+      "layer_index": 4,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 53.85,
+        "ty": -39.4
+      },
+      "frame_ranges": [
+        [
+          1,
+          1
+        ],
+        [
+          12,
+          12
+        ]
+      ],
+      "frame_start": 1,
+      "frame_end": 12
+    },
+    {
+      "library": "glaz3",
+      "layer_index": 4,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 53.85,
+        "ty": -39.4
+      },
+      "frame_ranges": [
+        [
+          2,
+          2
+        ],
+        [
+          14,
+          14
+        ]
+      ],
+      "frame_start": 2,
+      "frame_end": 14
+    },
+    {
+      "library": "glaz4",
+      "layer_index": 4,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 53.85,
+        "ty": -39.4
+      },
+      "frame_ranges": [
+        [
+          3,
+          3
+        ]
+      ],
+      "frame_start": 3,
+      "frame_end": 3
+    },
+    {
+      "library": "glaz5",
+      "layer_index": 4,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 53.85,
+        "ty": -39.4
+      },
+      "frame_ranges": [
+        [
+          4,
+          4
+        ],
+        [
+          15,
+          15
+        ]
+      ],
+      "frame_start": 4,
+      "frame_end": 15
+    },
+    {
+      "library": "glaz6",
+      "layer_index": 4,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 53.85,
+        "ty": -39.4
+      },
+      "frame_ranges": [
+        [
+          5,
+          5
+        ]
+      ],
+      "frame_start": 5,
+      "frame_end": 5
+    },
+    {
+      "library": "glaz7",
+      "layer_index": 4,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 33.5,
+        "ty": -5.65
+      },
+      "frame_ranges": [
+        [
+          6,
+          6
+        ]
+      ],
+      "frame_start": 6,
+      "frame_end": 6
+    },
+    {
+      "library": "glaz8",
+      "layer_index": 4,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 33.5,
+        "ty": -5.65
+      },
+      "frame_ranges": [
+        [
+          7,
+          7
+        ],
+        [
+          20,
+          20
+        ]
+      ],
+      "frame_start": 7,
+      "frame_end": 20
+    },
+    {
+      "library": "glaz9",
+      "layer_index": 4,
+      "matrix": {
+        "a": 1.09857177734375,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.09857177734375,
+        "tx": 61.05,
+        "ty": -50.65
+      },
+      "frame_ranges": [
+        [
+          8,
+          8
+        ]
+      ],
+      "frame_start": 8,
+      "frame_end": 8
+    },
+    {
+      "library": "glaz10",
+      "layer_index": 4,
+      "matrix": {
+        "a": 1.09857177734375,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.09857177734375,
+        "tx": 65.05,
+        "ty": -49.65
+      },
+      "frame_ranges": [
+        [
+          9,
+          9
+        ],
+        [
+          22,
+          22
+        ]
+      ],
+      "frame_start": 9,
+      "frame_end": 22,
+      "frame_transforms": {
+        "22": {
+          "tx": 67.0,
+          "ty": -55.75,
+          "rot": 0.0,
+          "sx": 1.155991,
+          "sy": 1.155991,
+          "skew": -0.0
+        }
+      }
+    },
+    {
+      "library": "glaz11",
+      "layer_index": 4,
+      "matrix": {
+        "a": 1.09857177734375,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.09857177734375,
+        "tx": 60.55,
+        "ty": -53.9
+      },
+      "frame_ranges": [
+        [
+          10,
+          10
+        ],
+        [
+          24,
+          24
+        ]
+      ],
+      "frame_start": 10,
+      "frame_end": 24,
+      "frame_transforms": {
+        "24": {
+          "tx": 63.35,
+          "ty": -60.6,
+          "rot": 0.0,
+          "sx": 1.155991,
+          "sy": 1.155991,
+          "skew": -0.0
+        }
+      }
+    },
+    {
+      "library": "glaz12",
+      "layer_index": 4,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 53.85,
+        "ty": -39.4
+      },
+      "frame_ranges": [
+        [
+          11,
+          11
+        ]
+      ],
+      "frame_start": 11,
+      "frame_end": 11
+    },
+    {
+      "library": "glaz13",
+      "layer_index": 4,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 53.85,
+        "ty": -39.4
+      },
+      "frame_ranges": [
+        [
+          13,
+          13
+        ],
+        [
+          17,
+          17
+        ]
+      ],
+      "frame_start": 13,
+      "frame_end": 17
+    },
+    {
+      "library": "glaz14",
+      "layer_index": 4,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 53.85,
+        "ty": -39.4
+      },
+      "frame_ranges": [
+        [
+          16,
+          16
+        ]
+      ],
+      "frame_start": 16,
+      "frame_end": 16
+    },
+    {
+      "library": "glaz15",
+      "layer_index": 4,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 53.85,
+        "ty": -39.4
+      },
+      "frame_ranges": [
+        [
+          18,
+          18
+        ]
+      ],
+      "frame_start": 18,
+      "frame_end": 18
+    },
+    {
+      "library": "glaz16",
+      "layer_index": 4,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 33.5,
+        "ty": -5.65
+      },
+      "frame_ranges": [
+        [
+          19,
+          19
+        ]
+      ],
+      "frame_start": 19,
+      "frame_end": 19
+    },
+    {
+      "library": "glaz17",
+      "layer_index": 4,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 33.5,
+        "ty": -5.65
+      },
+      "frame_ranges": [
+        [
+          21,
+          21
+        ]
+      ],
+      "frame_start": 21,
+      "frame_end": 21
+    },
+    {
+      "library": "glaz18",
+      "layer_index": 4,
+      "matrix": {
+        "a": 1.15599060058594,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.15599060058594,
+        "tx": 68.1,
+        "ty": -56.1
+      },
+      "frame_ranges": [
+        [
+          23,
+          23
+        ]
+      ],
+      "frame_start": 23,
+      "frame_end": 23
+    },
+    {
+      "library": "glaz19",
+      "layer_index": 4,
+      "matrix": {
+        "a": 1.15599060058594,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.15599060058594,
+        "tx": 68.1,
+        "ty": -56.1
+      },
+      "frame_ranges": [
+        [
+          25,
+          25
+        ]
+      ],
+      "frame_start": 25,
+      "frame_end": 25
+    },
+    {
+      "library": "glaz20",
+      "layer_index": 4,
+      "matrix": {
+        "a": 1.13662719726563,
+        "b": 0.210586547851563,
+        "c": -0.210586547851563,
+        "d": 1.13662719726563,
+        "tx": 65.0,
+        "ty": -54.75
+      },
+      "frame_ranges": [
+        [
+          26,
+          26
+        ]
+      ],
+      "frame_start": 26,
+      "frame_end": 26
+    }
+  ],
+  "timeline": {
+    "frames": 27,
+    "labels": {},
+    "scripts": {}
+  }
+}

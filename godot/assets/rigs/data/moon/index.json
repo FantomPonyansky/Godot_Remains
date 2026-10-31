@@ -1,0 +1,103 @@
+{
+  "symbols": [
+    "_osn_L0_F1",
+    "_osn_L1_F0"
+  ],
+  "unreachable_symbols": [],
+  "timelines": [
+    "_osn"
+  ],
+  "nested_containers": [],
+  "default_colors": {},
+  "hide_mane_armors": [],
+  "color_channels": {},
+  "armor_bones": {},
+  "hair_bones": [],
+  "visible_bones": [],
+  "morda_bones": [],
+  "eye_bones": [],
+  "attachments": [
+    {
+      "name": "osn",
+      "library_item": "Objects/Units/Moon/_osn",
+      "layer_index": 0,
+      "layer_name": "Слой 1",
+      "frame": 0,
+      "matrix": {
+        "a": 0.86602783203125,
+        "b": 0.499984741210938,
+        "c": -0.499984741210938,
+        "d": 0.86602783203125,
+        "tx": -1.5,
+        "ty": -0.95
+      },
+      "pivot": {
+        "x": -0.05,
+        "y": 0.0
+      },
+      "blend_mode": "normal",
+      "hidden": false,
+      "cache_as_bitmap": false,
+      "foreign": false
+    }
+  ],
+  "precomputed": {
+    "dups": [],
+    "extra_bones": {},
+    "bone_alt_libs": {},
+    "bone_tree_order": [],
+    "library_scales": {
+      "_osn_L0_F1": 3.0,
+      "_osn_L1_F0": 3.0
+    },
+    "library_hairlines": {
+      "_osn_L0_F1": 1.0,
+      "_osn_L1_F0": 1.0
+    },
+    "bone_orders": {
+      "_osn": [
+        "_osn_L1_F0",
+        "_osn_L0_F1"
+      ]
+    }
+  },
+  "rig": {
+    "name": "moon",
+    "config": "Godot_Transpilation/04_player_rig/rigs/moon.json",
+    "root_symbol": "Objects/Units/Moon/visualMoon",
+    "state_kind": "self",
+    "root_node": "Moon",
+    "script": "res://scripts/entity/rig_base.gd",
+    "idle_animation": "_osn",
+    "shape_masks": {},
+    "runtime_synced_bones": [],
+    "runtime_visibility_bones": [],
+    "paths": {
+      "output": "Godot_Transpilation/04_player_rig/rigs_output/moon",
+      "godot_data": "Godot_project/data/rigs/moon",
+      "svg": "Assets/Art/rigs/moon",
+      "png": "Godot_project/art/rigs/moon",
+      "scene": "Godot_project/scenes/rigs/moon.tscn",
+      "anim_library": "Godot_project/scenes/rigs/moon_anims.tres"
+    },
+    "mark_libraries": [
+      "quti",
+      "mark"
+    ]
+  },
+  "tickers": {},
+  "symbol_paths": {
+    "_osn_L0_F1": "Objects/Units/Moon/_osn",
+    "_osn_L1_F0": "Objects/Units/Moon/_osn"
+  },
+  "stats": {
+    "symbols": 2,
+    "bones": 2,
+    "nested_containers": 0,
+    "timelines": 1,
+    "total_bone_keys": 6,
+    "attachments": 1,
+    "unreachable_symbols": 0,
+    "hidden_layer_entries": 0
+  }
+}

@@ -1,0 +1,50 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Shader" path="res://assets/rigs/shaders/color_transform.gdshader" id="ext_1"]
+[ext_resource type="Shader" path="res://assets/rigs/shaders/color_transform_masked.gdshader" id="ext_2"]
+[ext_resource type="Shader" path="res://assets/rigs/shaders/color_transform_hardlight.gdshader" id="ext_3"]
+[ext_resource type="Shader" path="res://assets/rigs/shaders/color_transform_lighten.gdshader" id="ext_4"]
+[ext_resource type="Shader" path="res://assets/rigs/shaders/color_transform_screen.gdshader" id="ext_5"]
+[ext_resource type="Script" path="res://scripts/rig/rig_view.gd" id="ext_6"]
+
+[sub_resource type="ShaderMaterial" id="sub_1"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_2"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[node name="Transmitter" type="Node2D"]
+script = ExtResource("ext_6")
+metadata/data_dir = "res://assets/rigs/data/transmitter/"
+metadata/art_dir = "res://assets/rigs/art/transmitter/"
+metadata/anim_library = "res://assets/rigs/scenes/transmitter_anims.tres"
+metadata/idle_animation = "_osn"
+
+[node name="osn" type="Node2D" parent="."]
+position = Vector2(0, -15)
+
+[node name="body" type="CanvasGroup" parent="osn"]
+
+[node name="_osn_L0_F1" type="Node2D" parent="osn/body"]
+position = Vector2(0, 0)
+
+[node name="_osn_L0_F1_L0_B0" type="Sprite2D" parent="osn/body/_osn_L0_F1"]
+centered = false
+visible = true
+material = SubResource("sub_1")
+metadata/bitmap = "_osn_L0_F1_L0_B0"
+metadata/layer_index = 0
+
+[node name="_osn_L0_F0" type="Node2D" parent="osn/body"]
+position = Vector2(0, 0)
+
+[node name="_osn_L0_F0_L0_B0" type="Sprite2D" parent="osn/body/_osn_L0_F0"]
+centered = false
+visible = true
+material = SubResource("sub_2")
+metadata/bitmap = "_osn_L0_F0_L0_B0"
+metadata/layer_index = 0

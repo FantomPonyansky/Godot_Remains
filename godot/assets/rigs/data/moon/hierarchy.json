@@ -1,0 +1,55 @@
+{
+  "root": "osn",
+  "scale": 0.9999944736329874,
+  "bones": [
+    {
+      "instance_name": "_osn_L1_F0",
+      "library_item": "_osn_L1_F0",
+      "library_path": "_osn_L1_F0",
+      "layer_index": 1,
+      "layer_name": "Слой 2",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 0.0,
+        "ty": 0.0
+      },
+      "artwork": [
+        1,
+        0
+      ],
+      "node_name": "_osn_L1_F0"
+    },
+    {
+      "instance_name": "_osn_L0_F1",
+      "library_item": "_osn_L0_F1",
+      "library_path": "_osn_L0_F1",
+      "layer_index": 0,
+      "layer_name": "Слой 3",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 0.0,
+        "ty": 0.0
+      },
+      "source": "_osn",
+      "artwork": [
+        0,
+        1
+      ],
+      "node_name": "_osn_L0_F1"
+    }
+  ],
+  "root_matrix": {
+    "a": 0.86602783203125,
+    "b": 0.499984741210938,
+    "c": -0.499984741210938,
+    "d": 0.86602783203125,
+    "tx": -1.5,
+    "ty": -0.95
+  }
+}

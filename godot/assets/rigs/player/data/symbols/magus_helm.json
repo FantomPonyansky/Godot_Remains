@@ -1,0 +1,584 @@
+{
+  "artwork_layers": [
+    {
+      "layer_index": 1,
+      "element_svg_files": {
+        "0": [
+          "magus_helm_L1_S0.svg"
+        ],
+        "1": [
+          "magus_helm_L1_S0.svg"
+        ],
+        "2": [
+          "magus_helm_L1_S0.svg"
+        ],
+        "3": [
+          "magus_helm_L1_S0.svg"
+        ],
+        "4": [
+          "magus_helm_L1_S0.svg"
+        ],
+        "5": [
+          "magus_helm_L1_S0.svg"
+        ],
+        "6": [
+          "magus_helm_L1_S0.svg"
+        ],
+        "7": [
+          "magus_helm_L1_S0.svg"
+        ],
+        "8": [
+          "magus_helm_L1_S0.svg"
+        ],
+        "9": [
+          "magus_helm_L1_S0.svg"
+        ],
+        "10": [
+          "magus_helm_L1_S0.svg"
+        ],
+        "11": [
+          "magus_helm_L1_S0.svg"
+        ],
+        "12": [
+          "magus_helm_L1_S0.svg"
+        ],
+        "13": [
+          "magus_helm_L1_S0.svg"
+        ],
+        "14": [
+          "magus_helm_L1_S0.svg"
+        ],
+        "15": [
+          "magus_helm_L1_S0.svg"
+        ],
+        "16": [
+          "magus_helm_L1_S0.svg"
+        ],
+        "17": [
+          "magus_helm_L1_S0.svg"
+        ],
+        "18": [
+          "magus_helm_L1_S0.svg"
+        ],
+        "19": [
+          "magus_helm_L1_S0.svg"
+        ],
+        "20": [
+          "magus_helm_L1_S0.svg"
+        ],
+        "21": [
+          "magus_helm_L1_S0.svg"
+        ],
+        "22": [
+          "magus_helm_L1_S0.svg"
+        ],
+        "23": [
+          "magus_helm_L1_S0.svg"
+        ],
+        "24": [
+          "magus_helm_L1_S0.svg"
+        ],
+        "25": [
+          "magus_helm_L1_S0.svg"
+        ],
+        "26": [
+          "magus_helm_L1_S0.svg"
+        ],
+        "27": [
+          "magus_helm_L1_S0.svg"
+        ],
+        "28": [
+          "magus_helm_L1_S0.svg"
+        ],
+        "29": [
+          "magus_helm_L1_S0.svg"
+        ],
+        "30": [
+          "magus_helm_L1_S0.svg"
+        ],
+        "31": [
+          "magus_helm_L1_S0.svg"
+        ],
+        "32": [
+          "magus_helm_L1_S0.svg"
+        ],
+        "33": [
+          "magus_helm_L1_S0.svg"
+        ],
+        "34": [
+          "magus_helm_L1_S0.svg"
+        ],
+        "35": [
+          "magus_helm_L1_S0.svg"
+        ],
+        "36": [
+          "magus_helm_L1_S0.svg"
+        ],
+        "37": [
+          "magus_helm_L1_S0.svg"
+        ],
+        "38": [
+          "magus_helm_L1_S0.svg"
+        ],
+        "39": [
+          "magus_helm_L1_S0.svg"
+        ],
+        "40": [
+          "magus_helm_L1_S0.svg"
+        ],
+        "41": [
+          "magus_helm_L1_S0.svg"
+        ],
+        "42": [
+          "magus_helm_L1_S0.svg"
+        ],
+        "43": [
+          "magus_helm_L1_S0.svg"
+        ],
+        "44": [
+          "magus_helm_L1_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    }
+  ],
+  "svg_files": {
+    "0": "magus_helm_L1_S0.svg",
+    "1": "magus_helm_L1_S0.svg",
+    "2": "magus_helm_L1_S0.svg",
+    "3": "magus_helm_L1_S0.svg",
+    "4": "magus_helm_L1_S0.svg",
+    "5": "magus_helm_L1_S0.svg",
+    "6": "magus_helm_L1_S0.svg",
+    "7": "magus_helm_L1_S0.svg",
+    "8": "magus_helm_L1_S0.svg",
+    "9": "magus_helm_L1_S0.svg",
+    "10": "magus_helm_L1_S0.svg",
+    "11": "magus_helm_L1_S0.svg",
+    "12": "magus_helm_L1_S0.svg",
+    "13": "magus_helm_L1_S0.svg",
+    "14": "magus_helm_L1_S0.svg",
+    "15": "magus_helm_L1_S0.svg",
+    "16": "magus_helm_L1_S0.svg",
+    "17": "magus_helm_L1_S0.svg",
+    "18": "magus_helm_L1_S0.svg",
+    "19": "magus_helm_L1_S0.svg",
+    "20": "magus_helm_L1_S0.svg",
+    "21": "magus_helm_L1_S0.svg",
+    "22": "magus_helm_L1_S0.svg",
+    "23": "magus_helm_L1_S0.svg",
+    "24": "magus_helm_L1_S0.svg",
+    "25": "magus_helm_L1_S0.svg",
+    "26": "magus_helm_L1_S0.svg",
+    "27": "magus_helm_L1_S0.svg",
+    "28": "magus_helm_L1_S0.svg",
+    "29": "magus_helm_L1_S0.svg",
+    "30": "magus_helm_L1_S0.svg",
+    "31": "magus_helm_L1_S0.svg",
+    "32": "magus_helm_L1_S0.svg",
+    "33": "magus_helm_L1_S0.svg",
+    "34": "magus_helm_L1_S0.svg",
+    "35": "magus_helm_L1_S0.svg",
+    "36": "magus_helm_L1_S0.svg",
+    "37": "magus_helm_L1_S0.svg",
+    "38": "magus_helm_L1_S0.svg",
+    "39": "magus_helm_L1_S0.svg",
+    "40": "magus_helm_L1_S0.svg",
+    "41": "magus_helm_L1_S0.svg",
+    "42": "magus_helm_L1_S0.svg",
+    "43": "magus_helm_L1_S0.svg",
+    "44": "magus_helm_L1_S0.svg"
+  },
+  "children": [
+    {
+      "library": "sin",
+      "layer_index": 0,
+      "matrix": {
+        "a": 0.711105346679688,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 0.711105346679688,
+        "tx": -44.55,
+        "ty": -9.0
+      },
+      "frame_ranges": [
+        [
+          0,
+          21
+        ],
+        [
+          22,
+          43
+        ],
+        [
+          44,
+          44
+        ]
+      ],
+      "blend_mode": "lighten",
+      "frame_start": 0,
+      "frame_end": 44,
+      "frame_transforms": {
+        "1": {
+          "tx": -44.55,
+          "ty": -9.0,
+          "rot": 0.0,
+          "sx": 0.75353,
+          "sy": 0.75353,
+          "skew": -0.0
+        },
+        "2": {
+          "tx": -44.55,
+          "ty": -9.0,
+          "rot": 0.0,
+          "sx": 0.795954,
+          "sy": 0.795954,
+          "skew": -0.0
+        },
+        "3": {
+          "tx": -44.55,
+          "ty": -9.0,
+          "rot": 0.0,
+          "sx": 0.838378,
+          "sy": 0.838378,
+          "skew": -0.0
+        },
+        "4": {
+          "tx": -44.55,
+          "ty": -9.0,
+          "rot": 0.0,
+          "sx": 0.880803,
+          "sy": 0.880803,
+          "skew": -0.0
+        },
+        "5": {
+          "tx": -44.55,
+          "ty": -9.0,
+          "rot": 0.0,
+          "sx": 0.923227,
+          "sy": 0.923227,
+          "skew": -0.0
+        },
+        "6": {
+          "tx": -44.55,
+          "ty": -9.0,
+          "rot": 0.0,
+          "sx": 0.965651,
+          "sy": 0.965651,
+          "skew": -0.0
+        },
+        "7": {
+          "tx": -44.55,
+          "ty": -9.0,
+          "rot": 0.0,
+          "sx": 1.008075,
+          "sy": 1.008075,
+          "skew": -0.0
+        },
+        "8": {
+          "tx": -44.55,
+          "ty": -9.0,
+          "rot": 0.0,
+          "sx": 1.0505,
+          "sy": 1.0505,
+          "skew": -0.0
+        },
+        "9": {
+          "tx": -44.55,
+          "ty": -9.0,
+          "rot": 0.0,
+          "sx": 1.092924,
+          "sy": 1.092924,
+          "skew": -0.0
+        },
+        "10": {
+          "tx": -44.55,
+          "ty": -9.0,
+          "rot": 0.0,
+          "sx": 1.135348,
+          "sy": 1.135348,
+          "skew": -0.0
+        },
+        "11": {
+          "tx": -44.55,
+          "ty": -9.0,
+          "rot": 0.0,
+          "sx": 1.177773,
+          "sy": 1.177773,
+          "skew": -0.0
+        },
+        "12": {
+          "tx": -44.55,
+          "ty": -9.0,
+          "rot": 0.0,
+          "sx": 1.220197,
+          "sy": 1.220197,
+          "skew": -0.0
+        },
+        "13": {
+          "tx": -44.55,
+          "ty": -9.0,
+          "rot": 0.0,
+          "sx": 1.262621,
+          "sy": 1.262621,
+          "skew": -0.0
+        },
+        "14": {
+          "tx": -44.55,
+          "ty": -9.0,
+          "rot": 0.0,
+          "sx": 1.305045,
+          "sy": 1.305045,
+          "skew": -0.0
+        },
+        "15": {
+          "tx": -44.55,
+          "ty": -9.0,
+          "rot": 0.0,
+          "sx": 1.34747,
+          "sy": 1.34747,
+          "skew": -0.0
+        },
+        "16": {
+          "tx": -44.55,
+          "ty": -9.0,
+          "rot": 0.0,
+          "sx": 1.389894,
+          "sy": 1.389894,
+          "skew": -0.0
+        },
+        "17": {
+          "tx": -44.55,
+          "ty": -9.0,
+          "rot": 0.0,
+          "sx": 1.432318,
+          "sy": 1.432318,
+          "skew": -0.0
+        },
+        "18": {
+          "tx": -44.55,
+          "ty": -9.0,
+          "rot": 0.0,
+          "sx": 1.474743,
+          "sy": 1.474743,
+          "skew": -0.0
+        },
+        "19": {
+          "tx": -44.55,
+          "ty": -9.0,
+          "rot": 0.0,
+          "sx": 1.517167,
+          "sy": 1.517167,
+          "skew": -0.0
+        },
+        "20": {
+          "tx": -44.55,
+          "ty": -9.0,
+          "rot": 0.0,
+          "sx": 1.559591,
+          "sy": 1.559591,
+          "skew": -0.0
+        },
+        "21": {
+          "tx": -44.55,
+          "ty": -9.0,
+          "rot": 0.0,
+          "sx": 1.602015,
+          "sy": 1.602015,
+          "skew": -0.0
+        },
+        "22": {
+          "tx": -44.55,
+          "ty": -9.0,
+          "rot": 0.0,
+          "sx": 1.64444,
+          "sy": 1.64444,
+          "skew": -0.0
+        },
+        "23": {
+          "tx": -44.55,
+          "ty": -9.0,
+          "rot": 0.0,
+          "sx": 1.602015,
+          "sy": 1.602015,
+          "skew": -0.0
+        },
+        "24": {
+          "tx": -44.55,
+          "ty": -9.0,
+          "rot": 0.0,
+          "sx": 1.559591,
+          "sy": 1.559591,
+          "skew": -0.0
+        },
+        "25": {
+          "tx": -44.55,
+          "ty": -9.0,
+          "rot": 0.0,
+          "sx": 1.517167,
+          "sy": 1.517167,
+          "skew": -0.0
+        },
+        "26": {
+          "tx": -44.55,
+          "ty": -9.0,
+          "rot": 0.0,
+          "sx": 1.474743,
+          "sy": 1.474743,
+          "skew": -0.0
+        },
+        "27": {
+          "tx": -44.55,
+          "ty": -9.0,
+          "rot": 0.0,
+          "sx": 1.432318,
+          "sy": 1.432318,
+          "skew": -0.0
+        },
+        "28": {
+          "tx": -44.55,
+          "ty": -9.0,
+          "rot": 0.0,
+          "sx": 1.389894,
+          "sy": 1.389894,
+          "skew": -0.0
+        },
+        "29": {
+          "tx": -44.55,
+          "ty": -9.0,
+          "rot": 0.0,
+          "sx": 1.34747,
+          "sy": 1.34747,
+          "skew": -0.0
+        },
+        "30": {
+          "tx": -44.55,
+          "ty": -9.0,
+          "rot": 0.0,
+          "sx": 1.305045,
+          "sy": 1.305045,
+          "skew": -0.0
+        },
+        "31": {
+          "tx": -44.55,
+          "ty": -9.0,
+          "rot": 0.0,
+          "sx": 1.262621,
+          "sy": 1.262621,
+          "skew": -0.0
+        },
+        "32": {
+          "tx": -44.55,
+          "ty": -9.0,
+          "rot": 0.0,
+          "sx": 1.220197,
+          "sy": 1.220197,
+          "skew": -0.0
+        },
+        "33": {
+          "tx": -44.55,
+          "ty": -9.0,
+          "rot": 0.0,
+          "sx": 1.177773,
+          "sy": 1.177773,
+          "skew": -0.0
+        },
+        "34": {
+          "tx": -44.55,
+          "ty": -9.0,
+          "rot": 0.0,
+          "sx": 1.135348,
+          "sy": 1.135348,
+          "skew": -0.0
+        },
+        "35": {
+          "tx": -44.55,
+          "ty": -9.0,
+          "rot": 0.0,
+          "sx": 1.092924,
+          "sy": 1.092924,
+          "skew": -0.0
+        },
+        "36": {
+          "tx": -44.55,
+          "ty": -9.0,
+          "rot": 0.0,
+          "sx": 1.0505,
+          "sy": 1.0505,
+          "skew": -0.0
+        },
+        "37": {
+          "tx": -44.55,
+          "ty": -9.0,
+          "rot": 0.0,
+          "sx": 1.008075,
+          "sy": 1.008075,
+          "skew": -0.0
+        },
+        "38": {
+          "tx": -44.55,
+          "ty": -9.0,
+          "rot": 0.0,
+          "sx": 0.965651,
+          "sy": 0.965651,
+          "skew": -0.0
+        },
+        "39": {
+          "tx": -44.55,
+          "ty": -9.0,
+          "rot": 0.0,
+          "sx": 0.923227,
+          "sy": 0.923227,
+          "skew": -0.0
+        },
+        "40": {
+          "tx": -44.55,
+          "ty": -9.0,
+          "rot": 0.0,
+          "sx": 0.880803,
+          "sy": 0.880803,
+          "skew": -0.0
+        },
+        "41": {
+          "tx": -44.55,
+          "ty": -9.0,
+          "rot": 0.0,
+          "sx": 0.838378,
+          "sy": 0.838378,
+          "skew": -0.0
+        },
+        "42": {
+          "tx": -44.55,
+          "ty": -9.0,
+          "rot": 0.0,
+          "sx": 0.795954,
+          "sy": 0.795954,
+          "skew": -0.0
+        },
+        "43": {
+          "tx": -44.55,
+          "ty": -9.0,
+          "rot": 0.0,
+          "sx": 0.75353,
+          "sy": 0.75353,
+          "skew": -0.0
+        }
+      },
+      "tweened": [
+        [
+          1,
+          21
+        ],
+        [
+          23,
+          43
+        ]
+      ]
+    }
+  ],
+  "timeline": {
+    "frames": 45,
+    "labels": {},
+    "scripts": {}
+  }
+}

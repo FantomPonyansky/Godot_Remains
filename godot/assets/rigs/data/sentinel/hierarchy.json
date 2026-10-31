@@ -1,0 +1,171 @@
+{
+  "root": "osn",
+  "scale": 0.235366821289063,
+  "bones": [
+    {
+      "instance_name": "noga",
+      "library_item": "noga",
+      "library_path": "Objects/Units/Sentinel/noga",
+      "layer_index": 1,
+      "layer_name": "Слой 3",
+      "matrix": {
+        "a": -0.8343505859375,
+        "b": 0.551239013671875,
+        "c": 0.551239013671875,
+        "d": 0.8343505859375,
+        "tx": 41.4,
+        "ty": -93.9
+      },
+      "node_name": "noga"
+    },
+    {
+      "instance_name": "noga_2",
+      "library_item": "noga",
+      "library_path": "Objects/Units/Sentinel/noga",
+      "layer_index": 2,
+      "layer_name": "Слой 1",
+      "matrix": {
+        "a": 0.831771850585938,
+        "b": 0.555099487304688,
+        "c": -0.555099487304688,
+        "d": 0.831771850585938,
+        "tx": -67.6,
+        "ty": -94.85
+      },
+      "node_name": "noga_2"
+    },
+    {
+      "instance_name": "korpus",
+      "library_item": "korpus",
+      "library_path": "Objects/Units/Sentinel/korpus",
+      "layer_index": 3,
+      "layer_name": "Слой 2",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": -11.45,
+        "ty": -159.2
+      },
+      "node_name": "korpus"
+    },
+    {
+      "instance_name": "noga_3",
+      "library_item": "noga",
+      "library_path": "Objects/Units/Sentinel/noga",
+      "layer_index": 4,
+      "layer_name": "Слой 5",
+      "matrix": {
+        "a": 0.829986572265625,
+        "b": 0.47918701171875,
+        "c": -0.47918701171875,
+        "d": 0.829986572265625,
+        "tx": -51.45,
+        "ty": -108.15
+      },
+      "node_name": "noga_3"
+    },
+    {
+      "instance_name": "noga_4",
+      "library_item": "noga",
+      "library_path": "Objects/Units/Sentinel/noga",
+      "layer_index": 5,
+      "layer_name": "Слой 4",
+      "matrix": {
+        "a": -0.758163452148438,
+        "b": 0.586257934570313,
+        "c": 0.586257934570313,
+        "d": 0.758163452148438,
+        "tx": 75.35,
+        "ty": -88.3
+      },
+      "node_name": "noga_4"
+    },
+    {
+      "instance_name": "ruka",
+      "library_item": "ruka",
+      "library_path": "Objects/Units/Sentinel/ruka",
+      "layer_index": 1,
+      "layer_name": "Слой 7",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 13.05,
+        "ty": -226.65
+      },
+      "source": "body_die",
+      "node_name": "ruka"
+    },
+    {
+      "instance_name": "ogn",
+      "library_item": "ogn",
+      "library_path": "Objects/Units/Sentinel/ogn",
+      "layer_index": 4,
+      "layer_name": "Слой 7",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": -62.5,
+        "ty": -0.5
+      },
+      "source": "body_jump",
+      "node_name": "ogn"
+    },
+    {
+      "instance_name": "ogn_2",
+      "library_item": "ogn",
+      "library_path": "Objects/Units/Sentinel/ogn",
+      "layer_index": 4,
+      "layer_name": "Слой 7",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 48.5,
+        "ty": -0.5
+      },
+      "source": "body_jump",
+      "node_name": "ogn_2"
+    }
+  ],
+  "root_matrix": {
+    "a": 0.235366821289063,
+    "b": 0.0,
+    "c": 0.0,
+    "d": 0.235366821289063,
+    "tx": 1.7,
+    "ty": -49.45
+  },
+  "body_matrices": {
+    "body": {
+      "a": 1.0,
+      "b": 0.0,
+      "c": 0.0,
+      "d": 1.0,
+      "tx": -12.25,
+      "ty": 61.9
+    },
+    "body_jump": {
+      "a": 1.0,
+      "b": 0.0,
+      "c": 0.0,
+      "d": 1.0,
+      "tx": -12.25,
+      "ty": 61.9
+    },
+    "body_die": {
+      "a": 1.0,
+      "b": 0.0,
+      "c": 0.0,
+      "d": 1.0,
+      "tx": -12.25,
+      "ty": 61.9
+    }
+  }
+}

@@ -164,13 +164,16 @@ def parse_scripts(folder):
     return out
 
 
-def main():
+def main(only=None):
+    """only: clip names to (re)build; the other sheets and fx clips stay as they are."""
     mod = ew.load_mod()
     _data, _tags, chars, extras = mod.load()
     symbols = ew.load_symbols()
     manifest = json.loads((OUT / "manifest.json").read_text(encoding="utf-8"))
     clips = manifest["clips"]
     names = list(clips.keys()) + [n for n in EXTRA if n in symbols]
+    if only:
+        names = [n for n in only if n in symbols]
     info = {}
     for name in names:
         frames, labels = mod.walk_sprite(chars, symbols[name])
@@ -191,13 +194,16 @@ def main():
     subprocess.check_call([str(ew.FFDEC), "-ignorebackground", "-format", "sprite:png", "-select", sel,
                            "-export", "sprite", str(dest), str(swf)], stdout=subprocess.DEVNULL)
     animated = [n for n in names if info[n]["frames"] > 1]
-    script_dir = WORK / "as"
-    if not script_dir.exists():
+    script_dir = WORK / ("as_only" if only else "as")
+    if only and script_dir.exists():
+        for child in sorted(script_dir.rglob("*"), reverse=True):
+            child.unlink() if child.is_file() else child.rmdir()
+    if animated and not script_dir.exists():
         subprocess.check_call([str(ew.FFDEC), "-selectclass", ",".join(animated), "-export", "script",
                                str(script_dir), str(ROOT / "original" / "swf" / "pfe.swf")], stdout=subprocess.DEVNULL)
-    scripts = parse_scripts(script_dir)
+    scripts = parse_scripts(script_dir) if script_dir.exists() else {}
     SHEETS.mkdir(parents=True, exist_ok=True)
-    for old in SHEETS.glob("*.png"):
+    for old in SHEETS.glob("*.png") if not only else []:
         old.unlink()
     extra_out = {}
     for name in names:
@@ -252,7 +258,10 @@ def main():
         else:
             extra_out[name] = entry
         print(name, len(files), "frames", len(uniq), "unique", flush=True)
-    manifest["fx_clips"] = extra_out
+    if only:
+        manifest.setdefault("fx_clips", {}).update(extra_out)
+    else:
+        manifest["fx_clips"] = extra_out
     manifest["fx"] = build_fx(manifest["ids"])
     (OUT / "manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
 
@@ -279,4 +288,5 @@ def build_fx(ids):
 
 
 if __name__ == "__main__":
-    main()
+    import sys
+    main(sys.argv[1:] or None)

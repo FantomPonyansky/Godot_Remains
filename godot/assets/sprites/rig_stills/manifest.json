@@ -1,0 +1,272 @@
+{
+ "bloat0": {
+  "anchor": [
+   41.0,
+   50.0
+  ]
+ },
+ "bloat1": {
+  "anchor": [
+   50.0,
+   58.0
+  ]
+ },
+ "bloat10": {
+  "anchor": [
+   81.0,
+   87.0
+  ]
+ },
+ "bloat2": {
+  "anchor": [
+   50.0,
+   58.0
+  ]
+ },
+ "bloat3": {
+  "anchor": [
+   47.0,
+   50.0
+  ]
+ },
+ "bloat4": {
+  "anchor": [
+   50.0,
+   58.0
+  ]
+ },
+ "bloat5": {
+  "anchor": [
+   50.0,
+   58.0
+  ]
+ },
+ "bloat6": {
+  "anchor": [
+   50.0,
+   58.0
+  ]
+ },
+ "bloat7": {
+  "anchor": [
+   29.0,
+   41.0
+  ]
+ },
+ "bloat8": {
+  "anchor": [
+   43.0,
+   53.0
+  ]
+ },
+ "bloat9": {
+  "anchor": [
+   61.0,
+   69.0
+  ]
+ },
+ "bloodwing": {
+  "anchor": [
+   19.0,
+   46.0
+  ]
+ },
+ "bloodwing2": {
+  "anchor": [
+   21.0,
+   45.0
+  ]
+ },
+ "bossdron": {
+  "anchor": [
+   53.0,
+   73.0
+  ]
+ },
+ "bossnecr": {
+  "anchor": [
+   51.0,
+   98.0
+  ]
+ },
+ "bossraider": {
+  "anchor": [
+   59.0,
+   127.0
+  ]
+ },
+ "bossultra": {
+  "anchor": [
+   77.0,
+   150.0
+  ]
+ },
+ "cryoslime": {
+  "anchor": [
+   21.0,
+   32.0
+  ]
+ },
+ "destr1": {
+  "anchor": [
+   81.0,
+   700.0
+  ]
+ },
+ "dron1": {
+  "anchor": [
+   24.0,
+   44.0
+  ]
+ },
+ "dron2": {
+  "anchor": [
+   24.0,
+   44.0
+  ]
+ },
+ "dron3": {
+  "anchor": [
+   24.0,
+   44.0
+  ]
+ },
+ "eant": {
+  "anchor": [
+   49.0,
+   70.0
+  ]
+ },
+ "ebloat": {
+  "anchor": [
+   57.0,
+   121.0
+  ]
+ },
+ "fish1": {
+  "anchor": [
+   25.0,
+   24.0
+  ]
+ },
+ "fish2": {
+  "anchor": [
+   30.0,
+   30.0
+  ]
+ },
+ "fish3": {
+  "anchor": [
+   30.0,
+   30.0
+  ]
+ },
+ "msp": {
+  "anchor": [
+   18.0,
+   19.0
+  ]
+ },
+ "pinkslime": {
+  "anchor": [
+   21.0,
+   32.0
+  ]
+ },
+ "robobrain": {
+  "anchor": [
+   30.0,
+   72.0
+  ]
+ },
+ "roller": {
+  "anchor": [
+   17.0,
+   32.0
+  ]
+ },
+ "roller2": {
+  "anchor": [
+   18.0,
+   36.0
+  ]
+ },
+ "scythe": {
+  "anchor": [
+   21.0,
+   93.0
+  ]
+ },
+ "sentinel": {
+  "anchor": [
+   61.0,
+   113.0
+  ]
+ },
+ "slime": {
+  "anchor": [
+   21.0,
+   32.0
+  ]
+ },
+ "spritebot": {
+  "anchor": [
+   27.0,
+   50.0
+  ]
+ },
+ "transmitter": {
+  "anchor": [
+   15.0,
+   29.0
+  ]
+ },
+ "ttur": {
+  "anchor": [
+   89.0,
+   157.0
+  ]
+ },
+ "turret0": {
+  "anchor": [
+   20.0,
+   40.0
+  ]
+ },
+ "turret1": {
+  "anchor": [
+   23.0,
+   76.0
+  ]
+ },
+ "turret2": {
+  "anchor": [
+   36.0,
+   40.0
+  ]
+ },
+ "turret3": {
+  "anchor": [
+   44.0,
+   97.0
+  ]
+ },
+ "turret4": {
+  "anchor": [
+   41.0,
+   40.0
+  ]
+ },
+ "turret5": {
+  "anchor": [
+   32.0,
+   58.0
+  ]
+ },
+ "vortex": {
+  "anchor": [
+   24.0,
+   38.0
+  ]
+ }
+}

@@ -1,0 +1,22 @@
+{
+  "root": "osn",
+  "scale": 1.0,
+  "bones": [
+    {
+      "instance_name": "pon_zeb1",
+      "library_item": "pon_zeb1",
+      "library_path": "Objects/NPC/pon_zeb1",
+      "layer_index": 1,
+      "layer_name": "Слой 1",
+      "matrix": {
+        "a": 0.579971313476563,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 0.580230712890625,
+        "tx": -5.15,
+        "ty": -41.4
+      },
+      "node_name": "pon_zeb1"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+[gd_resource type="AnimationLibrary" load_steps=12 format=3]
+
+[ext_resource type="Animation" path="res://assets/rigs/scenes/calamencl_anims/body_die.tres" id="ext_1"]
+[ext_resource type="Animation" path="res://assets/rigs/scenes/calamencl_anims/body_die_jump.tres" id="ext_2"]
+[ext_resource type="Animation" path="res://assets/rigs/scenes/calamencl_anims/body_fly.tres" id="ext_3"]
+[ext_resource type="Animation" path="res://assets/rigs/scenes/calamencl_anims/body_fly2.tres" id="ext_4"]
+[ext_resource type="Animation" path="res://assets/rigs/scenes/calamencl_anims/body_stay.tres" id="ext_5"]
+[ext_resource type="Animation" path="res://assets/rigs/scenes/calamencl_anims/body_stay_down.tres" id="ext_6"]
+[ext_resource type="Animation" path="res://assets/rigs/scenes/calamencl_anims/body_stay_sit.tres" id="ext_7"]
+[ext_resource type="Animation" path="res://assets/rigs/scenes/calamencl_anims/body_stay_up.tres" id="ext_8"]
+[ext_resource type="Animation" path="res://assets/rigs/scenes/calamencl_anims/body_trot.tres" id="ext_9"]
+[ext_resource type="Animation" path="res://assets/rigs/scenes/calamencl_anims/body_trot_trot.tres" id="ext_10"]
+[ext_resource type="Animation" path="res://assets/rigs/scenes/calamencl_anims/body_walk.tres" id="ext_11"]
+
+[resource]
+_data = {
+"body_die": ExtResource("ext_1"),
+"body_die_jump": ExtResource("ext_2"),
+"body_fly": ExtResource("ext_3"),
+"body_fly2": ExtResource("ext_4"),
+"body_stay": ExtResource("ext_5"),
+"body_stay_down": ExtResource("ext_6"),
+"body_stay_sit": ExtResource("ext_7"),
+"body_stay_up": ExtResource("ext_8"),
+"body_trot": ExtResource("ext_9"),
+"body_trot_trot": ExtResource("ext_10"),
+"body_walk": ExtResource("ext_11")
+}

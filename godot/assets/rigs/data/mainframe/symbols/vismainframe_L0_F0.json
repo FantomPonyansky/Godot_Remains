@@ -1,0 +1,30 @@
+{
+  "artwork_layers": [],
+  "svg_files": {},
+  "source_symbol": "vismainframe",
+  "artwork_selector": [
+    0,
+    0
+  ],
+  "bitmaps": [
+    {
+      "layer_index": 0,
+      "library_item": "Objects/NPC/maneframe.png",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": -414.0,
+        "ty": -610.0
+      },
+      "frame_ranges": [
+        [
+          0,
+          0
+        ]
+      ],
+      "file": null
+    }
+  ]
+}

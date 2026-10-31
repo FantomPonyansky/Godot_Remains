@@ -1,0 +1,22 @@
+{
+  "root": "osn",
+  "scale": 1.0,
+  "bones": [
+    {
+      "instance_name": "pon_sc1",
+      "library_item": "pon_sc1",
+      "library_path": "Objects/NPC/pon_sc1",
+      "layer_index": 1,
+      "layer_name": "Слой 1",
+      "matrix": {
+        "a": 0.558853149414063,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 0.559097290039063,
+        "tx": -4.95,
+        "ty": -41.4
+      },
+      "node_name": "pon_sc1"
+    }
+  ]
+}

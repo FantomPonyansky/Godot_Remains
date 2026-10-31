@@ -1,0 +1,21 @@
+{
+  "artwork_layers": [
+    {
+      "layer_index": 5,
+      "element_svg_files": {
+        "0": [
+          "osn0_f5_L5_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    }
+  ],
+  "svg_files": {
+    "0": "osn0_f5_L5_S0.svg"
+  },
+  "source_symbol": "osn0",
+  "artwork_selector": [
+    5,
+    5
+  ]
+}

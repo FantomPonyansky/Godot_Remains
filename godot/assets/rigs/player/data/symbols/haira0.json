@@ -1,0 +1,39 @@
+{
+  "artwork_layers": [
+    {
+      "layer_index": 1,
+      "element_svg_files": {
+        "0": [
+          "haira0_L1_S0.svg"
+        ],
+        "1": [
+          "haira0_f1_L1_S0.svg"
+        ],
+        "2": [
+          "haira0_f2_L1_S0.svg"
+        ],
+        "3": [
+          "haira0_f3_L1_S0.svg"
+        ],
+        "4": [
+          "haira0_f4_L1_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    }
+  ],
+  "svg_files": {
+    "0": "haira0_L1_S0.svg",
+    "1": "haira0_f1_L1_S0.svg",
+    "2": "haira0_f2_L1_S0.svg",
+    "3": "haira0_f3_L1_S0.svg",
+    "4": "haira0_f4_L1_S0.svg"
+  },
+  "timeline": {
+    "frames": 5,
+    "labels": {},
+    "scripts": {
+      "0": "stop()"
+    }
+  }
+}

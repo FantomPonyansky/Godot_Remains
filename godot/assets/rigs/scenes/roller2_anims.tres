@@ -1,0 +1,8 @@
+[gd_resource type="AnimationLibrary" load_steps=2 format=3]
+
+[ext_resource type="Animation" path="res://assets/rigs/scenes/roller2_anims/roller_osn2.tres" id="ext_1"]
+
+[resource]
+_data = {
+"roller_osn2": ExtResource("ext_1")
+}

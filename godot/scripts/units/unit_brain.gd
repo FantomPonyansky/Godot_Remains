@@ -15,6 +15,7 @@ const NEUJAZ_MS := 667
 const MANIFEST := "res://assets/sprites/sheets/units/manifest.json"
 const _Bullet := preload("res://scenes/bullet.tscn")
 const _RoomFlags := preload("res://scripts/map/room_flags.gd")
+const _WeaponVis := preload("res://scripts/weapon_vis.gd")
 const _UnitWater := preload("res://scripts/map/unit_water.gd")
 const _UnitMassa := preload("res://scripts/unit_massa.gd")
 
@@ -146,6 +147,65 @@ func set_vision(v: float) -> void:
 ## Unit.setWeaponPos: where the class's guns sit.
 func weapon_pos() -> Vector2:
 	return u.global_position + Vector2(0.0, weapon_dy)
+
+
+## Weapon.vis of a gun with its own art (AllData `vweap`): drawn over the unit at the weapon
+## point; the gun's bullets leave its `emit`. `skin` draws another weapon's art.
+func make_gun_vis(g: UnitGun, skin := "") -> Sprite2D:
+	var art := skin if skin != "" else g.id if g != null else ""
+	if g == null or not _WeaponVis.has_art(art):
+		return null
+	g.vis_clip = _WeaponVis.clip(art)
+	if g.vis_clip == null:
+		return null
+	var spr := Sprite2D.new()
+	spr.name = "GunVis"
+	spr.z_index = 1
+	g.vis_clip.show(spr)
+	u.add_child(spr)
+	g.vis = spr
+	g.vis_shots = g.shots
+	return spr
+
+
+## Weapon.animate for an owner with krep > 0 (robots): scaleX = storona, rotation = rot +
+## 180° facing left; "shoot" plays on a shot, a gun with prep shows its spin-up frames.
+func animate_gun_vis(g: UnitGun) -> void:
+	if g == null or g.vis == null:
+		return
+	var c := g.vis_clip as _WeaponVis.Clip
+	c.advance()
+	if g.t_shoot > 0:
+		g.t_shoot -= 1
+	if g.shots != g.vis_shots:
+		g.vis_shots = g.shots
+		if g.t_shoot <= 1 and c.total > 1:
+			c.goto_play("shoot")
+			g.t_shoot = 3
+	if g.prep > 0 and g.t_shoot <= 0:
+		if g.t_prep < g.prep and g.t_prep > 1:
+			c.goto_stop(g.t_prep)
+		if g.t_prep >= g.prep and c.label("ready") > 0:
+			c.goto_stop("ready")
+		if g.t_prep <= 1 and g.t_reload == 0:
+			c.goto_stop(1)
+	c.show(g.vis)
+	if g.floating:
+		# krep 0: mirrored by the target's side, not the owner's facing.
+		var at := g.origin()
+		g.vis.global_position = at
+		var fs := g.vis.scale.x
+		if at.x > cel.x:
+			fs = -1.0
+		elif at.x < cel.x:
+			fs = 1.0
+		g.vis.scale = Vector2(fs, 1.0)
+		g.vis.rotation = g.rot + (PI if fs < 0.0 else 0.0)
+		return
+	g.vis.global_position = weapon_pos()
+	var s := 1.0 if storona >= 0.0 else -1.0
+	g.vis.scale = Vector2(s, 1.0)
+	g.vis.rotation = g.rot + (0.0 if s > 0.0 else PI)
 
 
 ## The host floats the held body; only control and the guns tick.
@@ -584,18 +644,16 @@ func boxes_touch(target: Node2D, grow: float = 0.0) -> bool:
 
 ## Unit.getXmlWeapon: one of the units.xml weapons, weighted by ch.
 func xml_gun() -> UnitGun:
-	var list: Array = row.get("weapons", [])
-	if list.is_empty():
-		return null
-	var total := 0.0
-	for wv in list:
-		total += float((wv as Dictionary).get("ch", 1.0))
-	var roll := randf() * total
-	for wv in list:
-		roll -= float((wv as Dictionary).get("ch", 1.0))
-		if roll <= 0.0:
-			return gun(str((wv as Dictionary).get("id", "")))
-	return gun(str((list[-1] as Dictionary).get("id", "")))
+	# Unit.getXmlWeapon: in list order, skip `f` (the class's own extra weapon) and take
+	# the first that passes its `ch` roll.
+	for wv: Dictionary in row.get("weapons", []):
+		if bool(wv.get("f", false)):
+			continue
+		if randf() < float(wv.get("ch", 1.0)):
+			var g := gun(str(wv.get("id", "")))
+			if g != null:
+				return g
+	return null
 
 
 ## A class weapon (Unit.currentWeapon / dopWeapon) that ticks with the brain.
@@ -687,32 +745,6 @@ func tilt(deg: float) -> void:
 
 func has_clip(clip: String) -> bool:
 	return u.call("_has_clip", clip)
-
-
-## A separately drawn part (turret gun) from the manifest, anchored at its pivot.
-func make_part(part: String) -> AnimatedSprite2D:
-	var entry := vis_entry()
-	var parts: Dictionary = entry.get("parts", {})
-	if not parts.has(part):
-		return null
-	var pdata: Dictionary = parts[part]
-	var tex := load("res://assets/sprites/sheets/units/%s" % str(pdata.get("sheet", ""))) as Texture2D
-	if tex == null:
-		return null
-	var node := AnimatedSprite2D.new()
-	node.name = part.capitalize()
-	node.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-	node.sprite_frames = frames_of(tex, pdata, {"all": {"frames": pdata.get("frames", []), "loop": false}})
-	node.centered = false
-	var anchor: Array = pdata.get("anchor", [0, 0])
-	var pivot: Array = pdata.get("pivot", [0, 0])
-	# The part's registration point sits on the pivot and it rotates about it.
-	node.position = Vector2(float(pivot[0]), float(pivot[1]))
-	node.offset = -Vector2(float(anchor[0]), float(anchor[1]))
-	node.animation = "all"
-	node.pause()
-	u.anim.add_child(node)
-	return node
 
 
 ## Another packed symbol (a shield bubble) drawn on top of the unit at its origin.

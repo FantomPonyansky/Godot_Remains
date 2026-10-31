@@ -47,6 +47,9 @@ Planned after the port is finished, as a separate mode: true online co-op, P2P, 
 - Levitation glow on everything held by telekinesis, matching the weapon glow.
 - Melee weapons stop at walls between the chest and the grip, and blades back off along their axis (`player._keep_out_of_walls`), beyond the original's target clamp.
 - UI text and art draw with linear filtering; world art stays nearest.
+- Units (player, enemies, NPCs) move to OTHER's part rigs: bone nodes with part sprites driven by an AnimationLibrary, armour swapped on the bones. Pre-baked per-clip, per-armour sheets are retired as each unit passes the side-by-side check in `tests/anim_probe.tscn` (user, 2026-10-28: priority; sheets cost memory and cause blur and broken frames).
+- Pony bosses' guns (raider boss carbine / flamer) stay on the side mount every tick (user, 2026-10-31). The original's krep 0 gun eases to weaponX / weaponY by 1/5 a tick and trails behind a moving boss (`Weapon.actions`). It still mirrors by the target's side.
+- Buch's carbine ("The Last Argument", carbine^1) draws the red-striped Patriot art `visassr_1` (user, 2026-10-29). The original has no `viscarbine_1` and falls back to the plain carbine (`Weapon.getXmlParam`). His stats and drop stay carbine^1.
 
 ## Combat
 

@@ -1,0 +1,31 @@
+{
+  "artwork_layers": [],
+  "svg_files": {},
+  "source_symbol": "patient",
+  "artwork_selector": [
+    8,
+    0
+  ],
+  "bitmaps": [
+    {
+      "layer_index": 8,
+      "library_item": "Objects/NPC/metalbed2.png",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": -59.0,
+        "ty": -25.0
+      },
+      "frame_ranges": [
+        [
+          0,
+          0
+        ]
+      ],
+      "file": null,
+      "hidden": true
+    }
+  ]
+}

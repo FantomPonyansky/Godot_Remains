@@ -1,0 +1,75 @@
+{
+  "symbols": [
+    "viscomm_L0_F0"
+  ],
+  "unreachable_symbols": [],
+  "timelines": [
+    "viscomm"
+  ],
+  "nested_containers": [],
+  "default_colors": {},
+  "hide_mane_armors": [],
+  "color_channels": {},
+  "armor_bones": {},
+  "hair_bones": [],
+  "visible_bones": [],
+  "morda_bones": [],
+  "eye_bones": [],
+  "attachments": [],
+  "precomputed": {
+    "dups": [],
+    "extra_bones": {},
+    "bone_alt_libs": {},
+    "bone_tree_order": [],
+    "library_scales": {
+      "viscomm_L0_F0": 3.0
+    },
+    "library_hairlines": {
+      "viscomm_L0_F0": 1.0
+    },
+    "bone_orders": {
+      "viscomm": [
+        "viscomm_L0_F0"
+      ]
+    }
+  },
+  "rig": {
+    "name": "comm",
+    "config": "Godot_Transpilation/04_player_rig/rigs/comm.json",
+    "root_symbol": "Objects/NPC/viscomm",
+    "state_kind": "self",
+    "root_node": "Comm",
+    "script": "res://scripts/entity/rig_base.gd",
+    "idle_animation": "viscomm",
+    "state_instance": "",
+    "shape_masks": {},
+    "runtime_synced_bones": [],
+    "runtime_visibility_bones": [],
+    "paths": {
+      "output": "Godot_Transpilation/04_player_rig/rigs_output/comm",
+      "godot_data": "Godot_project/data/rigs/comm",
+      "svg": "Assets/Art/rigs/comm",
+      "png": "Godot_project/art/rigs/comm",
+      "scene": "Godot_project/scenes/rigs/comm.tscn",
+      "anim_library": "Godot_project/scenes/rigs/comm_anims.tres"
+    },
+    "mark_libraries": [
+      "quti",
+      "mark"
+    ]
+  },
+  "tickers": {},
+  "symbol_paths": {
+    "viscomm_L0_F0": "Objects/NPC/viscomm"
+  },
+  "stats": {
+    "symbols": 1,
+    "bones": 1,
+    "nested_containers": 0,
+    "timelines": 1,
+    "total_bone_keys": 2,
+    "attachments": 0,
+    "unreachable_symbols": 0,
+    "hidden_layer_entries": 0
+  }
+}

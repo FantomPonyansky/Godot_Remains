@@ -48,10 +48,14 @@ func setup(row: Dictionary) -> void:
 
 
 ## A unit that is not run here (the home stable's player-fraction turrets) still
-## shows its packed sheet: the stay pose and the first frame of each part.
+## shows its stay pose: its rig held there, or its packed sheet and each part's first frame.
 func _unit_still(unit_id: String) -> bool:
 	if unit_id == "":
 		return false
+	var rig := _ObjArt.rig_still(unit_id)
+	if rig != null:
+		add_child(rig)
+		return true
 	var stills := _ObjArt.unit_still(_UNITS, unit_id)
 	for s in stills:
 		add_child(s)

@@ -1,0 +1,22 @@
+{
+  "root": "osn",
+  "scale": 1.0,
+  "bones": [
+    {
+      "instance_name": "pinkslime_osn",
+      "library_item": "pinkslime_osn",
+      "library_path": "Objects/Units/Slime/pinkslime_osn",
+      "layer_index": 0,
+      "layer_name": "Слой 1",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 0.05,
+        "ty": 0.05
+      },
+      "node_name": "pinkslime_osn"
+    }
+  ]
+}

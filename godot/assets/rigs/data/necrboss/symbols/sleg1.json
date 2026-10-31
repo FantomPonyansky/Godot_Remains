@@ -1,0 +1,39 @@
+{
+  "artwork_layers": [
+    {
+      "layer_index": 1,
+      "element_svg_files": {
+        "0": [
+          "sleg1_L1_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    }
+  ],
+  "svg_files": {
+    "0": "sleg1_L1_S0.svg"
+  },
+  "children": [
+    {
+      "library": "quti",
+      "layer_index": 0,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": -10.3,
+        "ty": 25.7
+      },
+      "frame_ranges": [
+        [
+          0,
+          0
+        ]
+      ],
+      "frame_start": 0,
+      "frame_end": 0,
+      "instance": "mark"
+    }
+  ]
+}

@@ -1,0 +1,463 @@
+{
+  "root": "osn",
+  "scale": 1.0,
+  "bones": [
+    {
+      "instance_name": "msp_lap1",
+      "library_item": "msp_lap1",
+      "library_path": "Objects/Units/Msp/msp_lap1",
+      "layer_index": 0,
+      "layer_name": "Слой 2",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": -0.05,
+        "ty": 2.4
+      },
+      "node_name": "msp_lap1"
+    },
+    {
+      "instance_name": "msp_korp",
+      "library_item": "msp_korp",
+      "library_path": "Objects/Units/Msp/msp_korp",
+      "layer_index": 1,
+      "layer_name": "Слой 3",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": -0.1,
+        "ty": -1.7
+      },
+      "node_name": "msp_korp"
+    },
+    {
+      "instance_name": "msp2_L0_F0",
+      "library_item": "msp2_L0_F0",
+      "library_path": "msp2_L0_F0",
+      "layer_index": 0,
+      "layer_name": "Слой 4",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 0.0,
+        "ty": 0.0
+      },
+      "source": "msp2",
+      "artwork": [
+        0,
+        0
+      ],
+      "node_name": "msp2_L0_F0"
+    },
+    {
+      "instance_name": "msp_lap2",
+      "library_item": "msp_lap2",
+      "library_path": "Objects/Units/Msp/msp_lap2",
+      "layer_index": 1,
+      "layer_name": "Слой 2",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": -0.05,
+        "ty": 2.4
+      },
+      "source": "msp2",
+      "node_name": "msp_lap2"
+    },
+    {
+      "instance_name": "msp_l",
+      "library_item": "msp_l",
+      "library_path": "Objects/Units/Msp/msp_l",
+      "layer_index": 0,
+      "layer_name": "Слой 4",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 2.2,
+        "ty": -18.15
+      },
+      "source": "msp3",
+      "node_name": "msp_l"
+    },
+    {
+      "instance_name": "msp3_L1_F0",
+      "library_item": "msp3_L1_F0",
+      "library_path": "msp3_L1_F0",
+      "layer_index": 1,
+      "layer_name": "Слой 5",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 0.0,
+        "ty": 0.0
+      },
+      "source": "msp3",
+      "artwork": [
+        1,
+        0
+      ],
+      "node_name": "msp3_L1_F0"
+    },
+    {
+      "instance_name": "msp3_L1_F1",
+      "library_item": "msp3_L1_F1",
+      "library_path": "msp3_L1_F1",
+      "layer_index": 1,
+      "layer_name": "Слой 5",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 0.0,
+        "ty": 0.0
+      },
+      "source": "msp3",
+      "artwork": [
+        1,
+        1
+      ],
+      "node_name": "msp3_L1_F1"
+    },
+    {
+      "instance_name": "msp3_L1_F2",
+      "library_item": "msp3_L1_F2",
+      "library_path": "msp3_L1_F2",
+      "layer_index": 1,
+      "layer_name": "Слой 5",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 0.0,
+        "ty": 0.0
+      },
+      "source": "msp3",
+      "artwork": [
+        1,
+        2
+      ],
+      "node_name": "msp3_L1_F2"
+    },
+    {
+      "instance_name": "msp3_L1_F3",
+      "library_item": "msp3_L1_F3",
+      "library_path": "msp3_L1_F3",
+      "layer_index": 1,
+      "layer_name": "Слой 5",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 0.0,
+        "ty": 0.0
+      },
+      "source": "msp3",
+      "artwork": [
+        1,
+        3
+      ],
+      "node_name": "msp3_L1_F3"
+    },
+    {
+      "instance_name": "msp3_L1_F4",
+      "library_item": "msp3_L1_F4",
+      "library_path": "msp3_L1_F4",
+      "layer_index": 1,
+      "layer_name": "Слой 5",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 0.0,
+        "ty": 0.0
+      },
+      "source": "msp3",
+      "artwork": [
+        1,
+        4
+      ],
+      "node_name": "msp3_L1_F4"
+    },
+    {
+      "instance_name": "msp3_L1_F5",
+      "library_item": "msp3_L1_F5",
+      "library_path": "msp3_L1_F5",
+      "layer_index": 1,
+      "layer_name": "Слой 5",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 0.0,
+        "ty": 0.0
+      },
+      "source": "msp3",
+      "artwork": [
+        1,
+        5
+      ],
+      "node_name": "msp3_L1_F5"
+    },
+    {
+      "instance_name": "msp3_L1_F6",
+      "library_item": "msp3_L1_F6",
+      "library_path": "msp3_L1_F6",
+      "layer_index": 1,
+      "layer_name": "Слой 5",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 0.0,
+        "ty": 0.0
+      },
+      "source": "msp3",
+      "artwork": [
+        1,
+        6
+      ],
+      "node_name": "msp3_L1_F6"
+    },
+    {
+      "instance_name": "msp3_L1_F7",
+      "library_item": "msp3_L1_F7",
+      "library_path": "msp3_L1_F7",
+      "layer_index": 1,
+      "layer_name": "Слой 5",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 0.0,
+        "ty": 0.0
+      },
+      "source": "msp3",
+      "artwork": [
+        1,
+        7
+      ],
+      "node_name": "msp3_L1_F7"
+    },
+    {
+      "instance_name": "msp3_L3_F0",
+      "library_item": "msp3_L3_F0",
+      "library_path": "msp3_L3_F0",
+      "layer_index": 3,
+      "layer_name": "Слой 6",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 0.0,
+        "ty": 0.0
+      },
+      "source": "msp3",
+      "artwork": [
+        3,
+        0
+      ],
+      "node_name": "msp3_L3_F0"
+    },
+    {
+      "instance_name": "msp3_L3_F1",
+      "library_item": "msp3_L3_F1",
+      "library_path": "msp3_L3_F1",
+      "layer_index": 3,
+      "layer_name": "Слой 6",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 0.0,
+        "ty": 0.0
+      },
+      "source": "msp3",
+      "artwork": [
+        3,
+        1
+      ],
+      "node_name": "msp3_L3_F1"
+    },
+    {
+      "instance_name": "msp3_L3_F2",
+      "library_item": "msp3_L3_F2",
+      "library_path": "msp3_L3_F2",
+      "layer_index": 3,
+      "layer_name": "Слой 6",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 0.0,
+        "ty": 0.0
+      },
+      "source": "msp3",
+      "artwork": [
+        3,
+        2
+      ],
+      "node_name": "msp3_L3_F2"
+    },
+    {
+      "instance_name": "msp3_L3_F3",
+      "library_item": "msp3_L3_F3",
+      "library_path": "msp3_L3_F3",
+      "layer_index": 3,
+      "layer_name": "Слой 6",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 0.0,
+        "ty": 0.0
+      },
+      "source": "msp3",
+      "artwork": [
+        3,
+        3
+      ],
+      "node_name": "msp3_L3_F3"
+    },
+    {
+      "instance_name": "msp3_L3_F4",
+      "library_item": "msp3_L3_F4",
+      "library_path": "msp3_L3_F4",
+      "layer_index": 3,
+      "layer_name": "Слой 6",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 0.0,
+        "ty": 0.0
+      },
+      "source": "msp3",
+      "artwork": [
+        3,
+        4
+      ],
+      "node_name": "msp3_L3_F4"
+    },
+    {
+      "instance_name": "msp3_L3_F5",
+      "library_item": "msp3_L3_F5",
+      "library_path": "msp3_L3_F5",
+      "layer_index": 3,
+      "layer_name": "Слой 6",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 0.0,
+        "ty": 0.0
+      },
+      "source": "msp3",
+      "artwork": [
+        3,
+        5
+      ],
+      "node_name": "msp3_L3_F5"
+    },
+    {
+      "instance_name": "msp3_L3_F6",
+      "library_item": "msp3_L3_F6",
+      "library_path": "msp3_L3_F6",
+      "layer_index": 3,
+      "layer_name": "Слой 6",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 0.0,
+        "ty": 0.0
+      },
+      "source": "msp3",
+      "artwork": [
+        3,
+        6
+      ],
+      "node_name": "msp3_L3_F6"
+    },
+    {
+      "instance_name": "msp3_L3_F7",
+      "library_item": "msp3_L3_F7",
+      "library_path": "msp3_L3_F7",
+      "layer_index": 3,
+      "layer_name": "Слой 6",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 0.0,
+        "ty": 0.0
+      },
+      "source": "msp3",
+      "artwork": [
+        3,
+        7
+      ],
+      "node_name": "msp3_L3_F7"
+    }
+  ],
+  "body_matrices": {
+    "msp1": {
+      "a": 1.0,
+      "b": 0.0,
+      "c": 0.0,
+      "d": 1.0,
+      "tx": 0.0,
+      "ty": -7.25
+    },
+    "msp2": {
+      "a": 1.0,
+      "b": 0.0,
+      "c": 0.0,
+      "d": 1.0,
+      "tx": 0.0,
+      "ty": -7.25
+    },
+    "msp3": {
+      "a": 1.0,
+      "b": 0.0,
+      "c": 0.0,
+      "d": 1.0,
+      "tx": 0.0,
+      "ty": -7.25
+    },
+    "msp4": {
+      "a": 1.0,
+      "b": 0.0,
+      "c": 0.0,
+      "d": 1.0,
+      "tx": 0.0,
+      "ty": -7.25
+    }
+  }
+}

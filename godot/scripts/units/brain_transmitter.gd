@@ -20,18 +20,24 @@ func configure() -> void:
 
 
 func ready() -> void:
+	# Two kinds: `stay` is the floor radio (osn frame 1), `wall` the loudspeaker hung on a
+	# ceiling or wall (osn frame 2), picked once by UnitTransmitter.putLoc.
 	var at := u.global_position
+	var shift := (40.0 - body().x) / 2.0 - 1.0
 	if cep < 0 and not solid_at(at + Vector2(0.0, 10.0)):
 		if solid_at(at + Vector2(0.0, -50.0)):
 			cep = 1
-			anim("on")
+			u.global_position.y -= 10.0
+			anim("wall")
 			u.anim.rotation = PI * 0.5
 		elif solid_at(at + Vector2(-40.0, -10.0)):
 			cep = 2
-			anim("on")
+			u.global_position.x -= shift
+			anim("wall")
 		elif solid_at(at + Vector2(40.0, -10.0)):
 			cep = 3
-			anim("on")
+			u.global_position.x += shift
+			anim("wall")
 			u.anim.flip_h = true
 
 

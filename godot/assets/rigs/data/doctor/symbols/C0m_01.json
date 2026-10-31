@@ -1,0 +1,48 @@
+{
+  "children": [
+    {
+      "library": "T01_lg_Part_05",
+      "layer_index": 0,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 13.5,
+        "ty": 31.45
+      },
+      "frame_ranges": [
+        [
+          0,
+          0
+        ]
+      ],
+      "graphic": true,
+      "loop": "single frame",
+      "frame_start": 0,
+      "frame_end": 0
+    },
+    {
+      "library": "T01_lg_Part_04",
+      "layer_index": 0,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": -7.75,
+        "ty": -46.85
+      },
+      "frame_ranges": [
+        [
+          0,
+          0
+        ]
+      ],
+      "graphic": true,
+      "loop": "single frame",
+      "frame_start": 0,
+      "frame_end": 0
+    }
+  ]
+}

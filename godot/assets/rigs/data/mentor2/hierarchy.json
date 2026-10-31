@@ -1,0 +1,22 @@
+{
+  "root": "osn",
+  "scale": 1.0,
+  "bones": [
+    {
+      "instance_name": "pon_mentor2",
+      "library_item": "pon_mentor2",
+      "library_path": "Objects/NPC/pon_mentor2",
+      "layer_index": 1,
+      "layer_name": "Слой 1",
+      "matrix": {
+        "a": 1.08953857421875,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.09001159667969,
+        "tx": -4.1,
+        "ty": -2.6
+      },
+      "node_name": "pon_mentor2"
+    }
+  ]
+}

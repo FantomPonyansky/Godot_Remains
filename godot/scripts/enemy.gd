@@ -402,6 +402,8 @@ var _do_backoff: bool = true
 var _chase_shot: bool = true
 var _can_lift: bool = true
 var _sheet_native: bool = false
+## OTHER rig drawing this unit (`_setup_rig`); null on sheet units.
+var rig: RigView = null
 var _sheet_offset: Vector2 = Vector2.ZERO
 var _sheet_cell: Vector2i = Vector2i(120, 120)
 var _sheet_clips: Dictionary = {}
@@ -769,6 +771,8 @@ func _dot_channel(which: String, delta: float) -> void:
 
 
 func _setup_animations() -> void:
+	if _setup_rig():
+		return
 	if not _unit_vis.is_empty() and sheet_texture != null:
 		var vkey := "unit:%s" % str(_unit_vis.get("sheet", ""))
 		var vframes := _shared_frames(sheet_texture, vkey)
@@ -2778,7 +2782,85 @@ static func _prefetch_sheet(path: String) -> void:
 	_sheet_lock.unlock()
 
 
+## Families drawn by OTHER rigs (`assets/rigs/scenes/<id>.tscn`, tools/import_rig.py).
+## Their old sheets are in `_trash/rig_sheets`.
+const RIG_FAMILIES := ["bloat", "bat", "slime", "fish", "dron", "vortex", "spritebot", "transmitter", "msp", "scythe", "roller", "robot", "turret"]
+## Units whose OTHER rig has another name.
+const RIG_IDS := {"ttur": "tturret", "eant": "antemitter", "ebloat": "bloatemitter", "destr1": "stolp",
+		"bossdron": "megadron", "bossultra": "ultrasentinel", "bossnecr": "necrboss", "bossraider": "raiderboss"}
+
+
+static func rig_path(id: String) -> String:
+	if not (RIG_IDS.has(id) or RIG_FAMILIES.has(str(_catalog_row(id).get("family", "")))):
+		return ""
+	var path := "res://assets/rigs/scenes/%s.tscn" % str(RIG_IDS.get(id, id))
+	return path if ResourceLoader.exists(path) else ""
+
+
+## The sheet's clips as frame counts with no textures: the sprite keeps the clock, names and
+## transform the game code drives, the rig child draws. Readers of the frame texture (fog
+## ghost, telekinesis glow, SATS) get null and use the rig's part sprites.
+static var _ghost_cache := {}
+
+
+static func _ghost_frames(key: String, clips: Dictionary) -> SpriteFrames:
+	if _ghost_cache.has(key):
+		return _ghost_cache[key]
+	var blank: Texture2D = null
+	var frames := SpriteFrames.new()
+	frames.remove_animation("default")
+	for clip_v in clips.keys():
+		var clip := str(clip_v)
+		var data: Dictionary = clips[clip_v]
+		frames.add_animation(clip)
+		frames.set_animation_speed(clip, float(data.get("speed", TPS)))
+		frames.set_animation_loop(clip, bool(data.get("loop", true)))
+		for _i in (data.get("frames", []) as Array).size():
+			frames.add_frame(clip, blank)
+	_ghost_cache[key] = frames
+	return frames
+
+
+func _setup_rig() -> bool:
+	var path := rig_path(_species_id)
+	# A brain can pick another rig of the same unit (bossraider tr 2: raiderboss2).
+	if path != "" and has_meta("rig_name"):
+		path = "res://assets/rigs/scenes/%s.tscn" % str(get_meta("rig_name"))
+	if path == "" or not ResourceLoader.exists(path) or not is_instance_valid(anim):
+		return false
+	var packed := _unit_vis.is_empty()
+	var entry := UnitBrain.vis_of(str(_catalog_row(_species_id).get("pack", _species_id))) if packed else _unit_vis
+	var clips: Dictionary = entry.get("clips", {}).duplicate()
+	# One loop for flying and hovering, as on the packed sheet.
+	if packed and clips.has("stay"):
+		clips.erase("fly")
+	anim.sprite_frames = _ghost_frames(_species_id, clips)
+	anim.centered = true
+	anim.position = Vector2.ZERO
+	anim.scale = Vector2.ONE
+	anim.offset = _sheet_offset
+	rig = (load(path) as PackedScene).instantiate() as RigView
+	# A unit_vis sheet puts the Flash origin on the node; a packed cell is centred on
+	# `offset` with the origin at `anchor` in the cell.
+	var cell: Array = entry.get("cell", [0, 0])
+	var anchor: Array = entry.get("anchor", [0, 0])
+	if not packed:
+		rig.position = Vector2.ZERO
+	else:
+		rig.position = _sheet_offset + Vector2(float(anchor[0]) - float(cell[0]) * 0.5,
+				float(anchor[1]) - float(cell[1]) * 0.5)
+	anim.add_child(rig)
+	var osn := {}
+	for c in clips:
+		if clips[c] is Dictionary and clips[c].has("osn"):
+			osn[c] = int(clips[c]["osn"])
+	rig.follow(anim, {}, osn)
+	return true
+
+
 static func _sheet_path(id: String) -> String:
+	if rig_path(id) != "":
+		return ""
 	var row := _catalog_row(id)
 	var tex_name := str(row.get("texture", ""))
 	if tex_name == "":
@@ -2891,6 +2973,11 @@ func _apply_catalog(row: Dictionary) -> void:
 		set_meta("robot", true)
 	var tex_name := str(row.get("texture", ""))
 	if tex_name == "":
+		return
+	if rig_path(_species_id) != "":
+		_sheet_native = true
+		_tint = Color.WHITE
+		body_tint = Color.WHITE
 		return
 	var tex := _sheet_tex(tex_name)
 	if tex == null:

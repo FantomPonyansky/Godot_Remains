@@ -3159,6 +3159,8 @@ func _step_jump(delta: float, jump_held: bool, jump_just: bool, move_x: float, k
 				_air_kicked = true
 				_jump_count = 3
 				kicked = true
+				# UnitPlayer.jump: Emitter.emit('quake') on the air jump's first push.
+				UnitFx.emit(get_tree(), "quake", global_position)
 			_did_jump = true
 		else:
 			velocity.y = _jump_velocity()

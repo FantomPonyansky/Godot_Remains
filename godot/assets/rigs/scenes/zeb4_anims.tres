@@ -1,0 +1,8 @@
+[gd_resource type="AnimationLibrary" load_steps=2 format=3]
+
+[ext_resource type="Animation" path="res://assets/rigs/scenes/zeb4_anims/visualZeb4.tres" id="ext_1"]
+
+[resource]
+_data = {
+"visualZeb4": ExtResource("ext_1")
+}

@@ -44,10 +44,8 @@ NESTED_DROP = {273: {"hair", "eye", "magic"}}
 
 
 def load_mod():
-    code = marshal.loads(PYC.read_bytes()[16:])
-    mod = types.ModuleType("ep")
-    exec(code, mod.__dict__)
-    return mod
+    import swf_parse
+    return swf_parse
 
 
 def read_tag(buf, pos):

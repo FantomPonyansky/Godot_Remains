@@ -1,0 +1,137 @@
+[gd_scene load_steps=14 format=3]
+
+[ext_resource type="Shader" path="res://assets/rigs/shaders/color_transform.gdshader" id="ext_1"]
+[ext_resource type="Shader" path="res://assets/rigs/shaders/color_transform_masked.gdshader" id="ext_2"]
+[ext_resource type="Shader" path="res://assets/rigs/shaders/color_transform_hardlight.gdshader" id="ext_3"]
+[ext_resource type="Shader" path="res://assets/rigs/shaders/color_transform_lighten.gdshader" id="ext_4"]
+[ext_resource type="Shader" path="res://assets/rigs/shaders/color_transform_screen.gdshader" id="ext_5"]
+[ext_resource type="Script" path="res://scripts/rig/rig_view.gd" id="ext_6"]
+
+[sub_resource type="ShaderMaterial" id="sub_1"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_2"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_3"]
+shader = ExtResource("ext_5")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_4"]
+shader = ExtResource("ext_5")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_5"]
+shader = ExtResource("ext_5")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_6"]
+shader = ExtResource("ext_5")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[node name="MegaDron" type="Node2D"]
+script = ExtResource("ext_6")
+metadata/data_dir = "res://assets/rigs/data/megadron/"
+metadata/art_dir = "res://assets/rigs/art/megadron/"
+metadata/anim_library = "res://assets/rigs/scenes/megadron_anims.tres"
+metadata/idle_animation = "_osn_mega"
+
+[node name="osn" type="Node2D" parent="."]
+position = Vector2(0, -20)
+
+[node name="body" type="CanvasGroup" parent="osn"]
+
+[node name="_osn_mega_L1_F0" type="Node2D" parent="osn/body"]
+position = Vector2(0, 0)
+
+[node name="spr_L1_S0" type="Sprite2D" parent="osn/body/_osn_mega_L1_F0"]
+centered = false
+scale = Vector2(0.33333, 0.33333)
+material = SubResource("sub_1")
+metadata/artwork_layer = 1
+metadata/element_index = 0
+
+[node name="_osn_mega_L0_F0" type="Node2D" parent="osn/body"]
+position = Vector2(0, 0)
+
+[node name="spr_L0_S0" type="Sprite2D" parent="osn/body/_osn_mega_L0_F0"]
+centered = false
+scale = Vector2(0.33333, 0.33333)
+material = SubResource("sub_2")
+metadata/artwork_layer = 0
+metadata/element_index = 0
+
+[node name="art_fx" type="Node2D" parent="."]
+metadata/mirrors = []
+metadata/filters = [{"sprite": "dis/dis1", "filters": [{"element": "GlowFilter", "blurX": "4", "blurY": "4", "color": "#FFCC00", "quality": "3", "strength": "5"}], "source": "", "frames": [], "blend": "screen"}, {"sprite": "dis/dis2", "filters": [{"element": "GlowFilter", "blurX": "4", "blurY": "4", "color": "#FFCC00", "quality": "3", "strength": "5"}], "source": "", "frames": [], "blend": "screen"}, {"sprite": "dis/dis3", "filters": [{"element": "GlowFilter", "blurX": "4", "blurY": "4", "color": "#FFCC00", "quality": "3", "strength": "5"}], "source": "", "frames": [], "blend": "screen"}, {"sprite": "dis/dis4", "filters": [{"element": "GlowFilter", "blurX": "4", "blurY": "4", "color": "#FFCC00", "quality": "3", "strength": "5"}], "source": "", "frames": [], "blend": "screen"}]
+
+[node name="dis" type="Node2D" parent="."]
+position = Vector2(-0.55, -18.95)
+visible = false
+metadata/attachment = "dis"
+metadata/library = "dronDis2"
+metadata/blend_mode = "screen"
+
+[node name="dis1" type="Sprite2D" parent="dis"]
+position = Vector2(0, 0.6)
+visible = false
+centered = false
+scale = Vector2(0.33333, 0.33333)
+metadata/library = "dis1"
+metadata/frame_start = 0
+metadata/frame_end = 4
+metadata/frame_ranges = PackedInt32Array(0, 3, 4, 4)
+metadata/vis_lib = "dronDis2"
+metadata/layer_index = 1
+metadata/frame_transforms = "{\"1\":{\"tx\":0.0,\"ty\":0.6,\"rot\":0.0,\"sx\":0.333333,\"sy\":0.333333,\"skew\":-0.0},\"2\":{\"tx\":0.0,\"ty\":0.6,\"rot\":0.0,\"sx\":0.333333,\"sy\":0.333333,\"skew\":-0.0},\"3\":{\"tx\":0.0,\"ty\":0.6,\"rot\":0.0,\"sx\":0.333333,\"sy\":0.333333,\"skew\":-0.0}}"
+material = SubResource("sub_3")
+
+[node name="dis2" type="Sprite2D" parent="dis"]
+position = Vector2(0, 0.6)
+visible = false
+centered = false
+scale = Vector2(0.33333, 0.33333)
+metadata/library = "dis2"
+metadata/frame_start = 9
+metadata/frame_end = 13
+metadata/frame_ranges = PackedInt32Array(9, 12, 13, 13)
+metadata/vis_lib = "dronDis2"
+metadata/layer_index = 1
+metadata/frame_transforms = "{\"10\":{\"tx\":0.0,\"ty\":0.6,\"rot\":0.0,\"sx\":0.333333,\"sy\":0.333333,\"skew\":-0.0},\"11\":{\"tx\":0.0,\"ty\":0.6,\"rot\":0.0,\"sx\":0.333333,\"sy\":0.333333,\"skew\":-0.0},\"12\":{\"tx\":0.0,\"ty\":0.6,\"rot\":0.0,\"sx\":0.333333,\"sy\":0.333333,\"skew\":-0.0}}"
+material = SubResource("sub_4")
+
+[node name="dis3" type="Sprite2D" parent="dis"]
+position = Vector2(0, 0.6)
+visible = false
+centered = false
+scale = Vector2(0.33333, 0.33333)
+metadata/library = "dis3"
+metadata/frame_start = 18
+metadata/frame_end = 22
+metadata/frame_ranges = PackedInt32Array(18, 21, 22, 22)
+metadata/vis_lib = "dronDis2"
+metadata/layer_index = 1
+metadata/frame_transforms = "{\"19\":{\"tx\":0.0,\"ty\":0.6,\"rot\":0.0,\"sx\":0.333333,\"sy\":0.333333,\"skew\":-0.0},\"20\":{\"tx\":0.0,\"ty\":0.6,\"rot\":0.0,\"sx\":0.333333,\"sy\":0.333333,\"skew\":-0.0},\"21\":{\"tx\":0.0,\"ty\":0.6,\"rot\":0.0,\"sx\":0.333333,\"sy\":0.333333,\"skew\":-0.0}}"
+material = SubResource("sub_5")
+
+[node name="dis4" type="Sprite2D" parent="dis"]
+position = Vector2(0, 0.6)
+visible = false
+centered = false
+scale = Vector2(0.33333, 0.33333)
+metadata/library = "dis4"
+metadata/frame_start = 27
+metadata/frame_end = 31
+metadata/frame_ranges = PackedInt32Array(27, 30, 31, 31)
+metadata/vis_lib = "dronDis2"
+metadata/layer_index = 1
+metadata/frame_transforms = "{\"28\":{\"tx\":0.0,\"ty\":0.6,\"rot\":0.0,\"sx\":0.333333,\"sy\":0.333333,\"skew\":-0.0},\"29\":{\"tx\":0.0,\"ty\":0.6,\"rot\":0.0,\"sx\":0.333333,\"sy\":0.333333,\"skew\":-0.0},\"30\":{\"tx\":0.0,\"ty\":0.6,\"rot\":0.0,\"sx\":0.333333,\"sy\":0.333333,\"skew\":-0.0}}"
+material = SubResource("sub_6")

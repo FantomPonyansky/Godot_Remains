@@ -1,0 +1,178 @@
+[gd_scene load_steps=18 format=3]
+
+[ext_resource type="Shader" path="res://assets/rigs/shaders/color_transform.gdshader" id="ext_1"]
+[ext_resource type="Shader" path="res://assets/rigs/shaders/color_transform_masked.gdshader" id="ext_2"]
+[ext_resource type="Shader" path="res://assets/rigs/shaders/color_transform_hardlight.gdshader" id="ext_3"]
+[ext_resource type="Shader" path="res://assets/rigs/shaders/color_transform_lighten.gdshader" id="ext_4"]
+[ext_resource type="Shader" path="res://assets/rigs/shaders/color_transform_screen.gdshader" id="ext_5"]
+[ext_resource type="Script" path="res://scripts/rig/rig_view.gd" id="ext_6"]
+
+[sub_resource type="ShaderMaterial" id="sub_1"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_2"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_3"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_4"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_5"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_6"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_7"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_8"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_9"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_10"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[node name="Bloodwing2" type="Node2D"]
+script = ExtResource("ext_6")
+metadata/data_dir = "res://assets/rigs/data/bloodwing2/"
+metadata/art_dir = "res://assets/rigs/art/bloodwing2/"
+metadata/anim_library = "res://assets/rigs/scenes/bloodwing2_anims.tres"
+metadata/idle_animation = "body_stay"
+
+[node name="osn" type="Node2D" parent="."]
+position = Vector2(-2.35, -22.3)
+scale = Vector2(0.32677, 0.32677)
+
+[node name="body" type="CanvasGroup" parent="osn"]
+
+[node name="lwing" type="Node2D" parent="osn/body"]
+position = Vector2(11.5, -14.05)
+rotation = -0.770748
+scale = Vector2(0.72915, 1)
+skew = -0.158061
+
+[node name="spr_L1_S0" type="Sprite2D" parent="osn/body/lwing"]
+centered = false
+scale = Vector2(1, 1)
+material = SubResource("sub_1")
+metadata/artwork_layer = 1
+metadata/element_index = 0
+
+[node name="spr_L0_S0" type="Sprite2D" parent="osn/body/lwing"]
+centered = false
+scale = Vector2(1, 1)
+material = SubResource("sub_2")
+metadata/artwork_layer = 0
+metadata/element_index = 0
+
+[node name="llap" type="Node2D" parent="osn/body"]
+position = Vector2(-38.1, 19.8)
+rotation = 0.768414
+
+[node name="spr_L0_S0" type="Sprite2D" parent="osn/body/llap"]
+centered = false
+scale = Vector2(1, 1)
+material = SubResource("sub_3")
+metadata/artwork_layer = 0
+metadata/element_index = 0
+
+[node name="tors" type="Node2D" parent="osn/body"]
+position = Vector2(-34.1, 0.9)
+rotation = 0.169202
+
+[node name="spr_L0_S0" type="Sprite2D" parent="osn/body/tors"]
+centered = false
+scale = Vector2(1, 1)
+material = SubResource("sub_4")
+metadata/artwork_layer = 0
+metadata/element_index = 0
+
+[node name="rlap" type="Node2D" parent="osn/body"]
+position = Vector2(-53.55, 21.95)
+rotation = 1.04719
+
+[node name="spr_L0_S0" type="Sprite2D" parent="osn/body/rlap"]
+centered = false
+scale = Vector2(1, 1)
+material = SubResource("sub_5")
+metadata/artwork_layer = 0
+metadata/element_index = 0
+
+[node name="claw" type="Node2D" parent="osn/body"]
+position = Vector2(35.35, 5.55)
+rotation = -0.082476
+
+[node name="spr_L0_S0" type="Sprite2D" parent="osn/body/claw"]
+centered = false
+scale = Vector2(1, 1)
+material = SubResource("sub_6")
+metadata/artwork_layer = 0
+metadata/element_index = 0
+
+[node name="head" type="Node2D" parent="osn/body"]
+position = Vector2(41.2, -11.6)
+rotation = -0.676075
+
+[node name="spr_L0_S0" type="Sprite2D" parent="osn/body/head"]
+centered = false
+scale = Vector2(1, 1)
+material = SubResource("sub_7")
+metadata/artwork_layer = 0
+metadata/element_index = 0
+
+[node name="rwing" type="Node2D" parent="osn/body"]
+position = Vector2(-1.45, -10.95)
+rotation = -0.785387
+
+[node name="spr_L1_S0" type="Sprite2D" parent="osn/body/rwing"]
+centered = false
+scale = Vector2(1, 1)
+material = SubResource("sub_8")
+metadata/artwork_layer = 1
+metadata/element_index = 0
+
+[node name="spr_L0_S0" type="Sprite2D" parent="osn/body/rwing"]
+centered = false
+scale = Vector2(1, 1)
+material = SubResource("sub_9")
+metadata/artwork_layer = 0
+metadata/element_index = 0
+
+[node name="svern" type="Node2D" parent="osn/body"]
+position = Vector2(-2.2, 1.8)
+
+[node name="spr_L0_S0" type="Sprite2D" parent="osn/body/svern"]
+centered = false
+scale = Vector2(1, 1)
+material = SubResource("sub_10")
+metadata/artwork_layer = 0
+metadata/element_index = 0
+
+[node name="art_fx" type="Node2D" parent="."]
+metadata/mirrors = []
+metadata/filters = [{"sprite": "osn/body/rwing/spr_L1_S0", "filters": [{"element": "BlurFilter", "blurX": "0", "blurY": "6"}], "source": "body_fly", "frames": [[1, 1], [2, 2], [4, 4], [5, 5]]}, {"sprite": "osn/body/rwing/spr_L0_S0", "filters": [{"element": "BlurFilter", "blurX": "0", "blurY": "6"}], "source": "body_fly", "frames": [[1, 1], [2, 2], [4, 4], [5, 5]]}, {"sprite": "osn/body/lwing/spr_L1_S0", "filters": [{"element": "BlurFilter", "blurX": "0", "blurY": "6"}], "source": "body_fly", "frames": [[1, 1], [2, 2], [4, 4], [5, 5]]}, {"sprite": "osn/body/lwing/spr_L0_S0", "filters": [{"element": "BlurFilter", "blurX": "0", "blurY": "6"}], "source": "body_fly", "frames": [[1, 1], [2, 2], [4, 4], [5, 5]]}]

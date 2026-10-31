@@ -72,6 +72,7 @@ The console is for testing only. It lets you skip ahead, give yourself items, an
 | `trial <id>` | Jump to that trial chamber (rebuilds the land if needed). Example: `trial buttons1`. |
 | `bosses` | List every boss arena ID and its land. |
 | `boss <id>` | Jump to that boss arena. Example: `boss ant_breeding`. |
+| `spawn <unit_id> [count] [tr=N]` | Put that enemy (an ID from `enemies.json`, for example `bloat3`, `turret0`, `sentinel`) 3 cells in front of you. Count is 1 to 20, default 1. `tr=N` picks the map variant: `spawn bossraider` is the carbine raider boss, `spawn bossraider tr=2` the flamer one. |
 | `die` | Kill the player (the real death, then respawn at the last checkpoint; in hardcore the run ends). |
 | `effect <name> [seconds]` | Apply a status: `cut`, `poison`, `igni` (fire), `ice`, `blind`, `acid`, `pink`, `stun`, `slow`, `potion_fly`, `alicorn`. Unit statuses need a selected unit; `potion_fly` and `alicorn` apply to the player. |
 | `eff <id> [ticks]` | Add a game effect (for example `burning`, `drunk`, `mint`, `curse`) to the selection, or to the player when nothing is selected. 30 ticks = 1 second. |

@@ -1,18 +1,15 @@
 extends Node2D
 
-## Side-view pony from the body clips in pfe.swf.
+## Side-view pony on OTHER's player rig (`assets/rigs/player`, driven through
+## `scripts/rig/player_rig_port.gd`). Each pose holds a frame of a Flash
+## `body_<clip>` timeline; clip lengths and labels are `assets/data/pony_clips.json`.
 ## Frames play at 30 fps. Feet sit on this node's origin. scale.x flips the pony.
-## The art node draws the body at BODY_DRAW. stay frame 1 is 65 opaque pixels
-## from hoof to ear, so 1.2 puts that span at 78px. The flip stays on this node.
+## The art node holds the rig and the markers at BODY_DRAW; the rig itself is
+## Flash size (1 / BODY_DRAW under it).
 ## A levitated gun uses the vis clip and UnitPlayer's hold, and points at the cursor.
-## Each strip is the body timeline with every limb held on its unlabeled frame.
 ## Idle holds stay frame 1, then free1/2/3 the way UnitPlayer rolls them.
 ## Crouch plays stay "down" into frame 2. Standing plays "up". Moving crouch is polz.
-## Wings are separate. They show only while pers.ableFly is set.
-## One PipBuck tracks the near foreleg after the stable grant. Mane, tail, and
-## eyes are overlays recolored the way Appear.as recolors those symbols.
-## The horn is morda.horn (setColor fur) and tracks the head. Its magic child
-## is hardlight in the magic color. Only the eye's gray iris takes the eye color.
+## Wings show only while pers.ableFly is set. The PipBuck shows after the stable grant.
 
 const FPS := 30.0
 const WALK_SPEED := 210.0
@@ -26,63 +23,18 @@ const HOVER_TO := 66
 const HOVER_ENTRY := 51
 const HOVER_ENTRY_END := 65
 const HOVER_STOP := 75
-# stay/1 opaque rows 4..68 are 65px. 65 * 1.2 = 78, inside a two-tile gap.
 const BODY_DRAW := 1.2
 const _GAITS: Array[String] = ["walk", "trot", "trot_up", "trot_down", "run"]
-
-# Flash registration point inside each clip's shared canvas, in pixels.
-const _ANCHOR := {
-	"stay": Vector2(43.5, 63.6),
-	"walk": Vector2(21.35, 60.75),
-	"trot": Vector2(24.95, 62.05),
-	"trot_up": Vector2(25.95, 66.8),
-	"trot_down": Vector2(23.95, 61.0),
-	"run": Vector2(30.3, 59.45),
-	"climb": Vector2(18.95, 62.1),
-	"jump": Vector2(28.55, 68.4),
-	"levit": Vector2(29.05, 65.55),
-	"polz": Vector2(36.65, 37.95),
-	"punch": Vector2(15.95, 64.15),
-	"kick": Vector2(51.25, 60.5),
-	"pinok": Vector2(26.3, 64.8),
-	"free1": Vector2(15.95, 63.25),
-	"free2": Vector2(15.95, 62.45),
-	"free3": Vector2(17.25, 61.55),
-	"roll": Vector2(32.05, 59.05),
-	"plav": Vector2(27.75, 65.55),
-	"die": Vector2(26.5, 69.6),
-	"dieali": Vector2(18.8, 69.6),
-	"res": Vector2(26.5, 60.5),
-	"lurk1": Vector2(15.95, 66.25),
-	"lurk2": Vector2(15.95, 69.3),
-	"lurk3": Vector2(25.25, 69.15),
-}
-# The lurk clips' colour transform on the hair layers, per frame. The body frames
-# already carry theirs.
-const _LURK_DIM := {
-	"lurk1": [1.0, 0.93, 0.86, 0.79, 0.71, 0.64, 0.57, 0.5, 0.43, 0.36,
-			0.42, 0.49, 0.55, 0.62, 0.68, 0.74, 0.81, 0.87, 0.94, 1.0],
-	"lurk2": [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-			0.9, 0.8, 0.7, 0.6, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
-	"lurk3": [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-			0.9, 0.8, 0.7, 0.6, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
-}
+const CLIPS := "res://assets/data/pony_clips.json"
 
 const Look := preload("res://scripts/pony_look.gd")
-const _EyeShader := preload("res://assets/shaders/eye_iris.gdshader")
-const _MagicShader := preload("res://assets/shaders/horn_magic.gdshader")
-const _Aura := preload("res://scripts/magic_aura.gd")
-# h0/h1 inside the mane clip, in pixels. Forelock is head * this.
-# Tail h0/h1 sit at (51, 59) twips. Horn and magic share morda (2, -221) twips.
-const _MANE_AT := Vector2(15.45, 54.1)
-const _FORE_AT := Vector2(28.6, -56.4)
-const _TAIL_AT := Vector2(2.55, 2.95)
-const _MAGIC_AT := Vector2(24.25, 6.05)
-const _MORDA_AT := Vector2(24.15, 17.1)
-## morda.konec (sprite 273): magicX/magicY, where spells and magic shots start.
-const _KONEC_IN := Vector2(-54.4, -75.15)
-const _EYE_IN := Vector2(4.6, 1.35)
-const _PARTS: PackedStringArray = ["h0", "h1", "fore0", "fore1", "tail0", "tail1", "eye", "pip", "magic", "horn", "helm"]
+const _WeaponVis := preload("res://scripts/weapon_vis.gd")
+const _WeaponFx := preload("res://scripts/weapon_fx.gd")
+const _PLAYER_RIG := "res://assets/rigs/player/player_rig.tscn"
+const _PLAYER_ART := "res://assets/rigs/player/art/"
+const _PlayerRigPort := preload("res://scripts/rig/player_rig_port.gd")
+## The rig's fuller tail, mane and helmets need more room than the old frame clips (user, 2026-10-31).
+const PREVIEW_FIT := 0.8
 
 var _clock: float = 0.0
 var _clip: String = ""
@@ -95,18 +47,9 @@ var _air_shown: int = 1
 ## A saved slot's look for the Load preview; empty uses the live appearance.
 var look_override: Dictionary = {}
 var _art: Node2D
-var _flat := false
-var _flat_saved: Array = []
-var _sprite: Sprite2D
-var _frames: Dictionary = {}
-## Menu previews set this before entering the tree: body frames come from
-## clips/<clip>/hd (HD_ZOOM times the pixels) where exported.
-var hd := false
-const HD_ZOOM := 3.0
-var _hd_frames: Dictionary = {}
-var _hd_parts: Dictionary = {}
-const _WeaponVis := preload("res://scripts/weapon_vis.gd")
-const _WeaponFx := preload("res://scripts/weapon_fx.gd")
+var _rig: Node2D
+## body_<clip> frame counts and labels, shared by every puppet.
+static var _clips: Dictionary = {}
 
 var _gun: Node2D
 var _gun_sprite: Sprite2D
@@ -137,58 +80,21 @@ var _weapon_hidden := false
 ## vis.osn.rotation while swimming, in degrees.
 var swim_tilt := 0.0
 var _armor_id: String = ""
-var _armor_frames: Dictionary = {}
-static var _armor_cache: Dictionary = {}
-static var _armor_tex: Dictionary = {}
-## Frame sequences by folder, shared by every puppet for the whole session: the
-## body alone is ~1,900 separate files, far too slow to reread per puppet on a
-## slow drive. Worker threads fill it (warm_up, _warm_suit); _lock guards these
-## three caches.
-static var _seq_cache: Dictionary = {}
+## The rig scene and art, loaded once on a worker (warm_up) and held for the session.
+static var _held: Array[Resource] = []
 static var _lock := Mutex.new()
 static var _warm_started := false
-static var _suits_warming: Dictionary = {}
 static var _tasks: Array[int] = []
 static var _on_quit: Array[Callable] = []
 static var _warm_task := -1
-var _armor_sprite: Sprite2D
-var _armor_anchor: Dictionary = {}
-## Body layers above pip2 (clips/<clip>/upper), drawn over the far-leg PipBuck when facing left.
-var _upper_frames: Dictionary = {}
-var _upper_anchor: Dictionary = {}
-var _upper_sprite: Sprite2D
 var _pose: String = "idle"
-var _wings: Node2D
-var _wing_near: Polygon2D
-var _wing_far: Polygon2D
 var _missing_attack: Dictionary = {}
-var _anchor: Dictionary = {}
-var _tracks: Dictionary = {}
-var _parts: Dictionary = {}
-var _part_anchor: Dictionary = {}
-var _mane: Sprite2D
-var _mane2: Sprite2D
-var _fore: Sprite2D
-var _fore2: Sprite2D
-var _tail_s: Sprite2D
-var _tail2: Sprite2D
-var _eye: Sprite2D
-var _pip: Sprite2D
-var _magic: Sprite2D
-var _horn: Sprite2D
-var _konec_ok := false
-## morda stops on the armour label: helm frame and whether the hair stays.
-var _helm: Sprite2D
-var _helm_labels: Dictionary = {}
 var _magic_color := Color(0.137, 1.0, 0.137)
 var _horn_alpha := 0.0
 var _want_weapon := false
 var _want_tele := false
 var _want_tele_heavy := false
 var _want_spell := false
-var _style_hair := 1
-var _style_eye := 1
-var _vis_hair1 := false
 var _magic_preview := false
 var _shown_clip := "stay"
 var _shown_frame := 1
@@ -200,9 +106,11 @@ var _idle_left := 0.0
 var _rng := RandomNumberGenerator.new()
 
 
-## Menu pony (visBodyStay instances): an HD puppet in a CanvasGroup carrying the
+## Menu pony (visBodyStay instances): the puppet in a CanvasGroup carrying the
 ## instance's GlowFilter (00FF99, strength 2.9; blur 4 on dialNew, 3 elsewhere).
-## z 1 keeps the tail (z -1) above the dialog panel it stands on.
+## z 1 keeps the tail above the dialog panel it stands on. The rig's own
+## CanvasGroups do not draw inside the glow group, so the rig renders in a
+## SubViewport and the group holds its texture.
 static func preview(holder_pos: Vector2, holder_scale: float, blur: float) -> Array:
 	var group := CanvasGroup.new()
 	group.position = holder_pos
@@ -213,8 +121,24 @@ static func preview(holder_pos: Vector2, holder_scale: float, blur: float) -> Ar
 	mat.set_shader_parameter("blur", blur)
 	group.material = mat
 	var puppet: Node2D = load("res://scripts/pony_puppet.gd").new()
-	puppet.hd = true
-	group.add_child(puppet)
+	var feet := Vector2(90, 130)
+	var view := SubViewport.new()
+	view.transparent_bg = true
+	view.disable_3d = true
+	view.size = Vector2i((Vector2(180, 160) * holder_scale).ceil())
+	view.render_target_update_mode = SubViewport.UPDATE_ALWAYS
+	var zoom := Node2D.new()
+	zoom.position = feet * holder_scale
+	zoom.scale = Vector2.ONE * holder_scale * PREVIEW_FIT
+	zoom.add_child(puppet)
+	view.add_child(zoom)
+	group.add_child(view)
+	var shown := Sprite2D.new()
+	shown.centered = false
+	shown.texture = view.get_texture()
+	shown.scale = Vector2.ONE / holder_scale
+	shown.position = -feet
+	group.add_child(shown)
 	return [group, puppet]
 
 
@@ -222,8 +146,6 @@ func _ready() -> void:
 	add_to_group("pony_puppet")
 	_rng.randomize()
 	_build()
-	if hd:
-		_flatten_z()
 	apply_appearance()
 	# The player's puppet starts in whatever suit is worn. Menu and PipBuck
 	# previews (no body parent) start bare.
@@ -239,24 +161,15 @@ func armor_id() -> String:
 	return _armor_id
 
 
+## Obj.setArmor: every armour symbol of the rig stops on the suit label (pip,
+## kombu, metal, ali, ...); an empty id is the unlabeled frame. The mane hides
+## under the suits with AllData hide='1'. lwing/rwing show while pers.ableFly
+## is set: ali armor, the alicorn effect, or potion_fly.
 func set_armor(id: String = "") -> void:
-	# Obj.setArmor. An empty id is the unlabeled limb frame. changeArmor
-	# stores the suit id (pip, kombu, metal, ali, and the rest) and the
-	# limb stops on that label. An overlay on disk is
-	# clips/<clip>/<id>/<frame>.png: the limbs on that label without the
-	# fur-class parts, drawn untinted above the fur-tinted body. A missing
-	# range draws nothing and the id is still stored.
-	# lwing/rwing show while pers.ableFly is set: ali armor (armors.json
-	# ableFly), the alicorn effect, or potion_fly. Dropping ali hides them
-	# when neither of the other two remains.
 	_armor_id = id
-	_warm_suit(id)
-	_armor_frames.clear()
-	_armor_anchor.clear()
-	if _sprite != null:
+	if _rig != null:
+		_rig.set_armor(id)
 		_show(_shown_clip, _shown_frame)
-	_place_wings(_pose)
-
 
 func get_muzzle_global() -> Vector2:
 	if _is_magic():
@@ -391,7 +304,12 @@ func set_magic_preview(on: bool) -> void:
 	if on:
 		_horn_alpha = 1.0
 	if _shown_clip != "":
-		_place_rig(_shown_clip, _shown_frame)
+		_show(_shown_clip, _shown_frame)
+
+
+## The player rig.
+func rig() -> Node2D:
+	return _rig
 
 
 func weapon_visible() -> bool:
@@ -415,35 +333,22 @@ func set_magic_activity(weapon_held: bool, telekinesis: bool, spell_active: bool
 
 func apply_appearance() -> void:
 	var look := look_override if not look_override.is_empty() else Look.state()
-	_style_hair = clampi(int(look.hair_style), 1, Look.MAX_HAIR)
-	_style_eye = clampi(int(look.eye_style), 1, Look.MAX_EYE)
-	_vis_hair1 = bool(look.vis_hair1)
-	var fur := Look.tint(look.fur)
-	var hair := Look.tint(look.hair)
-	var hair1 := Look.tint(look.hair1)
-	var eye := Look.tint(look.eye)
-	var magic := Look.tint(look.magic)
-	if _sprite != null:
-		_sprite.modulate = fur
-	if _upper_sprite != null:
-		_upper_sprite.modulate = fur
-	for part in [_mane, _fore, _tail_s]:
-		if part != null:
-			part.modulate = hair
-	for part in [_mane2, _fore2, _tail2]:
-		if part != null:
-			part.modulate = hair1
-	if _horn != null:
-		_horn.modulate = fur
-	_magic_color = magic
-	_paint_eye(eye)
-	_paint_magic()
+	_magic_color = Look.tint(look.magic)
+	if _rig == null:
+		return
+	for pair in [["trFur", look.fur], ["trHair", look.hair], ["trHair1", look.hair1],
+			["trEye", look.eye], ["trMagic", look.magic]]:
+		var rgb: Array = pair[1]
+		_rig.set_channel_color(pair[0], Color8(int(rgb[0]), int(rgb[1]), int(rgb[2])))
+	_rig.set_hair(clampi(int(look.hair_style), 1, Look.MAX_HAIR) - 1)
+	_rig.set_eye_style(clampi(int(look.eye_style), 1, Look.MAX_EYE) - 1)
+	_rig.set_hair1_visible(bool(look.vis_hair1))
 	if _shown_clip != "":
-		_place_rig(_shown_clip, _shown_frame)
+		_show(_shown_clip, _shown_frame)
 
 
 func update_pose(state: String, facing: float, aim_dir: Vector2, delta: float) -> void:
-	if _sprite == null:
+	if _rig == null:
 		return
 	# player.gd blinks by writing modulate.a after this, and expects it reset to 1.
 	modulate.a = 1.0
@@ -530,7 +435,7 @@ func update_pose(state: String, facing: float, aim_dir: Vector2, delta: float) -
 			# lurk(): osn goes to "lurkN" and stops on label "un"; unlurk plays from "un".
 			_clear_fidget()
 			clip = state.trim_prefix("un")
-			var un := int((_tracks.get(clip, {}) as Dictionary).get("labels", {}).get("un", _len(clip)))
+			var un := _label(clip, "un", _len(clip))
 			if _len(clip) <= 0:
 				_note_missing_clip(clip)
 				clip = "stay"
@@ -557,7 +462,6 @@ func update_pose(state: String, facing: float, aim_dir: Vector2, delta: float) -
 	_step_glow(delta, state)
 	_art.rotation_degrees = swim_tilt
 	_show(clip, frame)
-	_dim_hair(_LURK_DIM.get(clip, []), frame)
 	_place_markers(state, clip)
 	# Melee is carried in world space by the player. A shoulder parent would
 	# orbit the blade. The swing and its reach stay on the player.
@@ -567,7 +471,6 @@ func update_pose(state: String, facing: float, aim_dir: Vector2, delta: float) -
 	elif _gun != null and _gun.visible:
 		_place_gun(state, delta)
 	_pose = state
-	_place_wings(state)
 
 
 func _clear_fidget() -> void:
@@ -711,14 +614,6 @@ func _play_once(clip: String, delta: float) -> int:
 	return int(_clock) + 1
 
 
-func _dim_hair(table: Array, frame: int) -> void:
-	var k: float = float(table[clampi(frame, 1, table.size()) - 1]) if not table.is_empty() else 1.0
-	var tone := Color(k, k, k)
-	for part in [_tail_s, _tail2, _mane, _mane2, _fore, _fore2, _eye, _horn, _helm]:
-		if part != null:
-			(part as CanvasItem).self_modulate = tone
-
-
 ## Frames first..last once, then held on last. key restarts the clock when it changes.
 func _play_span(clip: String, key: String, first: int, last: int, delta: float) -> int:
 	if _clip != key:
@@ -820,61 +715,56 @@ func _note_missing_clip(clip_name: String) -> void:
 	push_warning("pony clip '%s' is missing under clips/; holding stay" % clip_name)
 
 
+## The rig holds frame `frame` of the Flash body_<clip> timeline (climb is body_laz).
 func _show(clip: String, frame: int) -> void:
-	var frames: Array = _frames.get(clip, [])
-	if frames.is_empty():
+	if _rig == null or _len(clip) == 0:
 		return
-	var idx := clampi(frame, 1, frames.size()) - 1
-	var hd_frames: Array = _hd_frames.get(clip, [])
-	var zoom := HD_ZOOM if idx < hd_frames.size() else 1.0
-	var tex: Texture2D = hd_frames[idx] if zoom > 1.0 else frames[idx]
-	if _sprite.texture != tex:
-		_sprite.texture = tex
-	_sprite.scale = Vector2.ONE / zoom
-	_sprite.offset = -_anchor_of(clip) * zoom
-	# Worn armour: the limb sub-clips on their armour label with the fur
-	# parts left out, same canvas as the body frame, drawn untinted on top.
-	var worn: Array = _worn_frames(clip)
-	if _armor_sprite != null:
-		_armor_sprite.visible = not worn.is_empty()
-		if not worn.is_empty():
-			var atex := _worn_tex(str(worn[clampi(frame, 1, worn.size()) - 1]))
-			if _armor_sprite.texture != atex:
-				_armor_sprite.texture = atex
-			_armor_sprite.offset = -_armor_anchor.get(clip, _anchor_of(clip))
+	var source := "body_laz" if clip == "climb" else "body_" + clip
+	if not _rig.hold_source_frame(source, frame):
+		_rig.hold_source_frame("body_stay", 1)
 	_shown_clip = clip
 	_shown_frame = frame
-	_place_rig(clip, frame)
+	var bags := get_node_or_null("/root/Inventory")
+	_rig.pip_shown = bags != null and bool(bags.get("leg_pip"))
+	_rig.set_facing_right(scale.x >= 0.0)
+	_rig.set_magic_intensity(1.0 if _magic_preview else _horn_alpha)
+	var fly := _able_fly()
+	_rig.set_wings_visible(fly)
+	_rig.set_wing_alicorn(fly and (_armor_id == "ali" or _effect_on("alicorn")))
+	# morda.konec: magicX/magicY, where spells and magic shots start.
+	_spell.position = _rig.get_spell_origin()
 
 
 func _place_markers(state: String, clip: String) -> void:
 	var shoulder := Vector2(10, -28)
-	var spell := Vector2(28, -42)
 	if state == "crouch":
 		shoulder = Vector2(8, -18)
-		spell = Vector2(26, -30)
 	elif clip == "climb":
 		shoulder = Vector2(6, -18)
-		spell = Vector2(6, -50)
 	elif clip == "trot_up":
 		shoulder = Vector2(10, -34)
-		spell = Vector2(26, -50)
 	_shoulder.position = shoulder
-	if not _konec_ok:
-		_spell.position = spell
 
 
-## vis.osn.body.totalFrames for a clip, 0 if it was not exported.
+## vis.osn.body.totalFrames for a clip, 0 if it is not in pony_clips.json.
 func clip_len(clip: String) -> int:
 	return _len(clip)
 
 
 func _len(clip: String) -> int:
-	var frames: Variant = _frames.get(clip)
-	if frames == null:
-		return 0
-	return (frames as Array).size()
+	return int((_clip_data(clip)).get("frames", 0))
 
+
+## A label's frame in body_<clip> (lurk "un"), or `fallback`.
+func _label(clip: String, label: String, fallback: int) -> int:
+	return int((_clip_data(clip).get("labels", {}) as Dictionary).get(label, fallback))
+
+
+static func _clip_data(clip: String) -> Dictionary:
+	if _clips.is_empty():
+		var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(CLIPS))
+		_clips = parsed if parsed is Dictionary else {"stay": {"frames": 1}}
+	return _clips.get(clip, {})
 
 func _body_velocity() -> Vector2:
 	var body := get_parent() as CharacterBody2D
@@ -884,27 +774,14 @@ func _body_velocity() -> Vector2:
 
 
 func _build() -> void:
-	_load_clips()
 	_art = Node2D.new()
 	_art.name = "Art"
 	_art.scale = Vector2(BODY_DRAW, BODY_DRAW)
 	add_child(_art)
-	_sprite = Sprite2D.new()
-	_sprite.centered = false
-	_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
-	_art.add_child(_sprite)
-	_upper_sprite = Sprite2D.new()
-	_upper_sprite.name = "Upper"
-	_upper_sprite.centered = false
-	_upper_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
-	_upper_sprite.visible = false
-	_art.add_child(_upper_sprite)
-	_armor_sprite = Sprite2D.new()
-	_armor_sprite.name = "Armor"
-	_armor_sprite.centered = false
-	_armor_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
-	_armor_sprite.visible = false
-	_art.add_child(_armor_sprite)
+	_rig = load(_PLAYER_RIG).instantiate()
+	_rig.set_script(_PlayerRigPort)
+	_rig.scale = Vector2.ONE / BODY_DRAW
+	_art.add_child(_rig)
 	_shoulder = Marker2D.new()
 	_shoulder.position = Vector2(10, -28)
 	_art.add_child(_shoulder)
@@ -921,8 +798,6 @@ func _build() -> void:
 	_gun_sprite.name = "Vis"
 	_gun.add_child(_gun_sprite)
 	_gun_glow = _WeaponVis.make_glow(_gun_sprite)
-	_build_wings()
-	_build_rig()
 	_muzzle = Marker2D.new()
 	_muzzle.position = Vector2(28, 0)
 	_gun.add_child(_muzzle)
@@ -931,97 +806,16 @@ func _build() -> void:
 	set_weapon(_weapon)
 
 
-func _load_clips() -> void:
-	for clip_name in _ANCHOR.keys():
-		var folder := "res://assets/sprites/pony/clips/%s" % clip_name
-		_frames[clip_name] = _load_sequence(folder)
-		if hd:
-			_hd_frames[clip_name] = _load_sequence(folder + "/hd")
-		var anchor: Variant = _read_json(folder + "/anchor.json")
-		if anchor is Array and (anchor as Array).size() >= 2:
-			_anchor[clip_name] = Vector2(float(anchor[0]), float(anchor[1]))
-		else:
-			_anchor[clip_name] = _ANCHOR[clip_name]
-		var tracks: Variant = _read_json(folder + "/tracks.json")
-		if tracks is Dictionary:
-			_tracks[clip_name] = tracks
-		var upper := _load_sequence(folder + "/upper")
-		var upper_anchor: Variant = _read_json(folder + "/upper/anchor.json")
-		if not upper.is_empty() and upper_anchor is Array and (upper_anchor as Array).size() >= 2:
-			_upper_frames[clip_name] = upper
-			_upper_anchor[clip_name] = Vector2(float(upper_anchor[0]), float(upper_anchor[1]))
-	for part in _PARTS:
-		var part_folder := "res://assets/sprites/pony/parts/%s" % part
-		_parts[part] = _load_sequence(part_folder)
-		if hd:
-			_hd_parts[part] = _load_sequence(part_folder + "/hd")
-		_part_anchor[part] = _load_part_anchors(part_folder + "/anchors.json")
-	var helm_labels: Variant = _read_json("res://assets/sprites/pony/parts/helm/labels.json")
-	if helm_labels is Dictionary:
-		_helm_labels = helm_labels
-
-
-## clip_name's frame paths on the worn suit, listed once per suit for every
-## puppet. A frame's texture loads when it is first drawn (_worn_tex).
-func _worn_frames(clip_name: String) -> Array:
-	if _armor_id == "":
-		return []
-	if _armor_frames.has(clip_name):
-		return _armor_frames[clip_name]
-	var entry: Array = _suit_entry(_armor_id, clip_name)
-	_armor_frames[clip_name] = entry[0]
-	if entry[1] is Vector2:
-		_armor_anchor[clip_name] = entry[1]
-	return entry[0]
-
-
-static func _suit_entry(armor: String, clip_name: String) -> Array:
-	var key := "%s/%s" % [armor, clip_name]
-	_lock.lock()
-	var cached: Variant = _armor_cache.get(key)
-	_lock.unlock()
-	if cached is Array:
-		return cached
-	var folder := "res://assets/sprites/pony/clips/%s/%s" % [clip_name, armor]
-	var paths: Array = []
-	var i := 1
-	while ResourceLoader.exists("%s/%d.png" % [folder, i]):
-		paths.append("%s/%d.png" % [folder, i])
-		i += 1
-	# A suit wider than the body frame carries its own origin.
-	var anchor: Variant = null
-	var parsed: Variant = _read_json(folder + "/anchor.json") if not paths.is_empty() else null
-	if parsed is Array and (parsed as Array).size() >= 2:
-		anchor = Vector2(float(parsed[0]), float(parsed[1]))
-	var entry := [paths, anchor]
-	_lock.lock()
-	_armor_cache[key] = entry
-	_lock.unlock()
-	return entry
-
-
-static func _worn_tex(path: String) -> Texture2D:
-	_lock.lock()
-	var tex: Texture2D = _armor_tex.get(path)
-	_lock.unlock()
-	if tex == null:
-		tex = load(path) as Texture2D
-		_lock.lock()
-		_armor_tex[path] = tex
-		_lock.unlock()
-	return tex
-
-
-## Loads every body clip and part sequence (normal and HD) on a worker thread,
-## then runs `after` on the same worker (warm_up.gd's groups: one loader at a
-## time). `on_quit` runs at shutdown once the task is done.
+## Loads the rig scene and its art on a worker thread, then runs `after` on the
+## same worker (warm_up.gd's groups: one loader at a time). `on_quit` runs at
+## shutdown once the task is done.
 static func warm_up(after := Callable(), on_quit := Callable()) -> void:
 	if _warm_started:
 		return
 	_warm_started = true
 	if on_quit.is_valid():
 		_on_quit.append(on_quit)
-	_start_task(_warm_body.bind(after))
+	_start_task(_warm_rig.bind(after))
 	_warm_task = _tasks[-1]
 
 
@@ -1045,246 +839,23 @@ static func _drop_on_quit() -> void:
 	_tasks.clear()
 	_warm_task = -1
 	_lock.lock()
-	_seq_cache.clear()
-	_armor_tex.clear()
-	_armor_cache.clear()
+	_held.clear()
 	_lock.unlock()
 	for job in _on_quit:
 		job.call()
 	_on_quit.clear()
 
 
-static func _warm_body(after: Callable) -> void:
-	for clip_name in _ANCHOR.keys():
-		var folder := "res://assets/sprites/pony/clips/%s" % clip_name
-		for sub in ["", "/upper", "/hd"]:
-			_load_sequence(folder + sub)
-	for part in _PARTS:
-		_load_sequence("res://assets/sprites/pony/parts/%s" % part)
-		_load_sequence("res://assets/sprites/pony/parts/%s/hd" % part)
+static func _warm_rig(after: Callable) -> void:
+	var loaded: Array[Resource] = [ResourceLoader.load(_PLAYER_RIG)]
+	for entry in ResourceLoader.list_directory(_PLAYER_ART):
+		if entry.get_extension() == "png":
+			loaded.append(ResourceLoader.load(_PLAYER_ART + entry))
+	_lock.lock()
+	_held.append_array(loaded)
+	_lock.unlock()
 	if after.is_valid():
 		after.call()
-
-## Loads a suit's frames for every clip off the main thread, so the first
-## time each frame is drawn does not stall the animation.
-static func _warm_suit(armor: String) -> void:
-	if armor == "":
-		return
-	_lock.lock()
-	var started: bool = _suits_warming.has(armor)
-	_suits_warming[armor] = true
-	_lock.unlock()
-	if not started:
-		_start_task(_warm_suit_frames.bind(armor))
-
-
-static func _warm_suit_frames(armor: String) -> void:
-	for clip_name in _ANCHOR.keys():
-		for path in _suit_entry(armor, clip_name)[0]:
-			_worn_tex(str(path))
-
-
-static func _load_sequence(folder: String) -> Array[Texture2D]:
-	_lock.lock()
-	var cached: Variant = _seq_cache.get(folder)
-	_lock.unlock()
-	if cached != null:
-		return cached
-	var frames: Array[Texture2D] = []
-	var i := 1
-	while true:
-		var path := "%s/%d.png" % [folder, i]
-		if not ResourceLoader.exists(path):
-			break
-		var tex := load(path) as Texture2D
-		if tex == null:
-			break
-		frames.append(tex)
-		i += 1
-	_lock.lock()
-	_seq_cache[folder] = frames
-	_lock.unlock()
-	return frames
-
-
-func _anchor_of(clip: String) -> Vector2:
-	if _anchor.has(clip):
-		return _anchor[clip] as Vector2
-	return _ANCHOR.get(clip, Vector2.ZERO) as Vector2
-
-
-static func _read_json(path: String) -> Variant:
-	if not FileAccess.file_exists(path):
-		return null
-	return JSON.parse_string(FileAccess.get_file_as_string(path))
-
-
-func _load_part_anchors(path: String) -> Array[Vector2]:
-	var out: Array[Vector2] = []
-	var parsed: Variant = _read_json(path)
-	if parsed is Array:
-		for item in parsed:
-			if item is Array and (item as Array).size() >= 2:
-				out.append(Vector2(float(item[0]), float(item[1])))
-	return out
-
-
-func _build_rig() -> void:
-	# Tail sits behind the coat. Mane and forelock sit on top of it.
-	# The PipBuck is the front-most leg device (pip1).
-	_tail_s = _make_part("Tail", -1)
-	_tail2 = _make_part("TailHighlight", -1)
-	_mane = _make_part("Mane", 1)
-	_mane2 = _make_part("ManeHighlight", 1)
-	_fore = _make_part("Forelock", 2)
-	_fore2 = _make_part("ForelockHighlight", 2)
-	_eye = _make_part("Eye", 3)
-	var eye_mat := ShaderMaterial.new()
-	eye_mat.shader = _EyeShader
-	_eye.material = eye_mat
-	_horn = _make_part("Horn", 4)
-	_magic = _make_part("Magic", 5)
-	var magic_mat := ShaderMaterial.new()
-	magic_mat.shader = _MagicShader
-	_magic.material = magic_mat
-	_helm = _make_part("Helm", 5)
-	_pip = _make_part("PipBuck", 6)
-	# Facing left it drops to z 0 between the body and the upper layers.
-	_art.move_child(_pip, _sprite.get_index() + 1)
-
-
-## A CanvasGroup only captures children on its own z, so the preview turns the
-## art layers' z order into tree order. The preview always faces right.
-func _flatten_z() -> void:
-	var layers: Array = _art.get_children().filter(func(n: Node) -> bool: return n is CanvasItem)
-	var order := range(layers.size())
-	order.sort_custom(func(a: int, b: int) -> bool:
-		var za: int = (layers[a] as CanvasItem).z_index
-		var zb: int = (layers[b] as CanvasItem).z_index
-		return za < zb or (za == zb and a < b))
-	for i in order.size():
-		var item: CanvasItem = layers[order[i]]
-		_art.move_child(item, i)
-		item.z_index = 0
-
-
-## Lurk: the parts keep their order but share the body's z, so a box raised over
-## the pony also covers the eye, horn and PipBuck. Off restores z and order.
-func set_flat_layers(on: bool) -> void:
-	if on == _flat:
-		return
-	_flat = on
-	if on:
-		_flat_saved.clear()
-		for item in _art.get_children():
-			if item is CanvasItem:
-				_flat_saved.append([item, (item as CanvasItem).z_index, item.get_index()])
-		_flatten_z()
-		return
-	for row_v in _flat_saved:
-		var row: Array = row_v
-		var item := row[0] as CanvasItem
-		if is_instance_valid(item):
-			item.z_index = int(row[1])
-	for row_v in _flat_saved:
-		var row: Array = row_v
-		if is_instance_valid(row[0]):
-			_art.move_child(row[0], mini(int(row[2]), _art.get_child_count() - 1))
-	_flat_saved.clear()
-
-
-func _make_part(part_name: String, z: int) -> Sprite2D:
-	var sprite := Sprite2D.new()
-	sprite.name = part_name
-	sprite.centered = false
-	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
-	sprite.z_index = z
-	sprite.visible = false
-	_art.add_child(sprite)
-	return sprite
-
-
-func _place_rig(clip: String, frame: int) -> void:
-	if _mane == null:
-		return
-	var hair := _style_hair
-	_place_matrix(_mane, "h0", hair, _track(clip, frame, "mane"), _MANE_AT)
-	_place_matrix(_fore, "fore0", hair, _track(clip, frame, "head"), _FORE_AT)
-	_place_matrix(_tail_s, "tail0", hair, _track(clip, frame, "tail"), _TAIL_AT)
-	if _vis_hair1:
-		_place_matrix(_mane2, "h1", hair, _track(clip, frame, "mane"), _MANE_AT)
-		_place_matrix(_fore2, "fore1", hair, _track(clip, frame, "head"), _FORE_AT)
-		_place_matrix(_tail2, "tail1", hair, _track(clip, frame, "tail"), _TAIL_AT)
-	else:
-		_mane2.visible = false
-		_fore2.visible = false
-		_tail2.visible = false
-	var helm: Dictionary = _helm_labels.get(_armor_id, {})
-	if not helm.is_empty() and not bool(helm.get("hair", true)):
-		_fore.visible = false
-		_fore2.visible = false
-	_place_eye(clip, frame)
-	_place_horn(clip, frame)
-	_place_magic(clip, frame)
-	_place_helm(clip, frame, helm)
-	var leg_key := "fr" if scale.x >= 0.0 else "fl"
-	_place_pip(_track(clip, frame, leg_key))
-	_place_upper(clip, frame, leg_key == "fl" and _pip.visible)
-
-
-func _place_matrix(sprite: Sprite2D, part: String, index: int, matrix: Array, extra: Vector2) -> void:
-	if matrix.size() < 6 or not _set_part(sprite, part, index):
-		sprite.visible = false
-		return
-	sprite.transform = _mat(matrix) * Transform2D(0.0, extra)
-	sprite.visible = true
-
-
-func _place_eye(clip: String, frame: int) -> void:
-	var head := _track(clip, frame, "head")
-	if head.size() < 6 or not _set_part(_eye, "eye", _style_eye):
-		_eye.visible = false
-		return
-	_eye.transform = _mat(head) * Transform2D(0.0, _MORDA_AT) * _eye_basis() * Transform2D(0.0, _EYE_IN)
-	_eye.visible = true
-
-
-func _place_horn(clip: String, frame: int) -> void:
-	var head := _track(clip, frame, "head")
-	_konec_ok = head.size() >= 6 and _spell != null
-	if _konec_ok:
-		_spell.position = _mat(head) * Transform2D(0.0, _MORDA_AT) * _KONEC_IN
-	if _horn == null or head.size() < 6 or not _set_part(_horn, "horn", 1):
-		if _horn != null:
-			_horn.visible = false
-		return
-	# morda.horn sits on the head instance, same chain as the magic oval.
-	_horn.transform = _mat(head) * Transform2D(0.0, _MAGIC_AT)
-	_horn.visible = true
-
-
-func _place_helm(clip: String, frame: int, helm: Dictionary) -> void:
-	if _helm == null:
-		return
-	var head := _track(clip, frame, "head")
-	if helm.is_empty() or head.size() < 6 or not _set_part(_helm, "helm", int(helm.get("frame", 0))):
-		_helm.visible = false
-		return
-	_helm.transform = _mat(head) * Transform2D(0.0, _MORDA_AT)
-	_helm.visible = true
-
-
-func _place_magic(clip: String, frame: int) -> void:
-	var head := _track(clip, frame, "head")
-	var alpha := 1.0 if _magic_preview else _horn_alpha
-	if _magic == null or head.size() < 6 or alpha <= 0.01 or not _set_part(_magic, "magic", 1):
-		if _magic != null:
-			_magic.visible = false
-		return
-	_magic.transform = _mat(head) * Transform2D(0.0, _MAGIC_AT)
-	_magic.modulate = Color(1.0, 1.0, 1.0, alpha)
-	_magic.visible = true
-
 
 func _step_glow(delta: float, state: String) -> void:
 	# aMC moves 5 points toward aMagic each 30 Hz tick. 5/100 per tick is 1.5/s.
@@ -1311,106 +882,6 @@ func _glow_target(state: String) -> float:
 		target = 1.0
 	return target
 
-
-func _paint_eye(eye: Color) -> void:
-	if _eye == null:
-		return
-	_eye.modulate = Color.WHITE
-	var mat := _eye.material as ShaderMaterial
-	if mat:
-		mat.set_shader_parameter("iris_mul", Vector3(eye.r, eye.g, eye.b))
-
-
-func _paint_magic() -> void:
-	if _magic == null:
-		return
-	var mat := _magic.material as ShaderMaterial
-	if mat:
-		mat.set_shader_parameter("magic_mul", Vector3(_magic_color.r, _magic_color.g, _magic_color.b))
-
-
-func _place_pip(leg: Array) -> void:
-	if leg.size() < 6 or not _set_part(_pip, "pip", 1):
-		_pip.visible = false
-		return
-	var bags := get_node_or_null("/root/Inventory")
-	if bags == null or not bool(bags.get("leg_pip")):
-		_pip.visible = false
-		return
-	_pip.visible = true
-	_pip.position = Vector2(float(leg[4]), float(leg[5]))
-	_pip.rotation = atan2(float(leg[1]), float(leg[0]))
-	_pip.scale = Vector2.ONE
-	var hd_pip: Array = _hd_parts.get("pip", [])
-	if not hd_pip.is_empty():
-		_pip.texture = hd_pip[0]
-		_pip.offset *= HD_ZOOM
-		_pip.scale = Vector2.ONE / HD_ZOOM
-
-
-func _place_upper(clip: String, frame: int, behind: bool) -> void:
-	var frames: Array = _upper_frames.get(clip, [])
-	behind = behind and not frames.is_empty()
-	_upper_sprite.visible = behind
-	if not hd and not _flat:
-		_pip.z_index = 0 if behind else 6
-	if not behind:
-		return
-	var tex: Texture2D = frames[clampi(frame, 1, frames.size()) - 1]
-	if _upper_sprite.texture != tex:
-		_upper_sprite.texture = tex
-	_upper_sprite.offset = -(_upper_anchor[clip] as Vector2)
-
-
-func _set_part(sprite: Sprite2D, part: String, index: int) -> bool:
-	var frames: Array = _parts.get(part, [])
-	if frames.is_empty() or sprite == null:
-		return false
-	var idx := clampi(index, 1, frames.size()) - 1
-	sprite.texture = frames[idx]
-	var anchors: Array = _part_anchor.get(part, [])
-	var anchor := Vector2.ZERO
-	if idx < anchors.size() and anchors[idx] is Vector2:
-		anchor = anchors[idx]
-	elif not anchors.is_empty() and anchors[0] is Vector2:
-		anchor = anchors[0]
-	sprite.offset = -anchor
-	return true
-
-
-func _track(clip: String, frame: int, key: String) -> Array:
-	var data: Variant = _tracks.get(clip, {})
-	if not (data is Dictionary):
-		return []
-	var frames: Variant = (data as Dictionary).get("frames", [])
-	if not (frames is Array) or (frames as Array).is_empty():
-		return []
-	var idx := clampi(frame, 1, (frames as Array).size()) - 1
-	var row: Variant = (frames as Array)[idx]
-	if row is Dictionary:
-		var value: Variant = (row as Dictionary).get(key, [])
-		if value is Array:
-			return value
-	return []
-
-
-func _mat(m: Array) -> Transform2D:
-	return Transform2D(
-		Vector2(float(m[0]), float(m[1])),
-		Vector2(float(m[2]), float(m[3])),
-		Vector2(float(m[4]), float(m[5]))
-	)
-
-
-func _eye_basis() -> Transform2D:
-	# morda places eye 220, then the shape clip sits inside that.
-	return Transform2D(
-		Vector2(0.9839477539, -0.0731658936),
-		Vector2(0.0859069824, 0.9957275391),
-		Vector2(-34.35, -18.3)
-	)
-
-
 func _able_fly() -> bool:
 	# pers.ableFly. ali is the only suit with ableFly. The alicorn effect
 	# and potion_fly set the same flag from effs.xml.
@@ -1424,58 +895,6 @@ func _effect_on(id: String) -> bool:
 	if state != null and state.has_method("effect_active"):
 		return bool(state.effect_active(id))
 	return false
-
-
-func _build_wings() -> void:
-	# The wing symbols are not in the body strips. UnitPlayer toggles
-	# lwing/rwing from pers.ableFly. These stand in for that pair.
-	_wings = Node2D.new()
-	_wings.name = "Wings"
-	_wings.z_index = -1
-	_wings.visible = false
-	_art.add_child(_wings)
-	_wing_near = Polygon2D.new()
-	_wing_near.color = Color(0.86, 0.9, 0.95, 0.92)
-	_wings.add_child(_wing_near)
-	_wing_far = Polygon2D.new()
-	_wing_far.color = Color(0.55, 0.66, 0.78, 0.88)
-	_wings.add_child(_wing_far)
-
-
-func _place_wings(state: String) -> void:
-	if _wings == null:
-		return
-	var fly := _able_fly()
-	_wings.visible = fly
-	if not fly:
-		return
-	# ali armor and the alicorn effect hold the wings on frame 11.
-	# potion_fly holds frame 1 on the ground and plays while airborne.
-	var spread := _armor_id == "ali" or _effect_on("alicorn")
-	if not spread and state in ["jump", "fall", "levitate"]:
-		spread = true
-	var y := -40.0
-	if state == "crouch":
-		y = -28.0
-	elif state == "climb":
-		y = -30.0
-	_wings.position = Vector2(-4, y)
-	if spread:
-		_wing_near.polygon = PackedVector2Array([
-			Vector2(8, -2), Vector2(-8, -28), Vector2(-40, -18),
-			Vector2(-28, -2), Vector2(-6, 8), Vector2(8, 6)
-		])
-		_wing_far.polygon = PackedVector2Array([
-			Vector2(4, -12), Vector2(-12, -34), Vector2(-32, -26),
-			Vector2(-20, -10), Vector2(2, -4)
-		])
-	else:
-		_wing_near.polygon = PackedVector2Array([
-			Vector2(6, 0), Vector2(-18, -8), Vector2(-20, 4), Vector2(-6, 8), Vector2(6, 4)
-		])
-		_wing_far.polygon = PackedVector2Array([
-			Vector2(4, -6), Vector2(-12, -12), Vector2(-14, -2), Vector2(2, 0)
-		])
 
 
 func _place_gun(state: String, delta: float) -> void:

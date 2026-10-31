@@ -1,0 +1,76 @@
+{
+  "root": "osn",
+  "scale": 1.0,
+  "bones": [
+    {
+      "instance_name": "_osn2_L0_F0",
+      "library_item": "_osn2_L0_F0",
+      "library_path": "_osn2_L0_F0",
+      "layer_index": 0,
+      "layer_name": "Слой 5",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 0.0,
+        "ty": 0.0
+      },
+      "artwork": [
+        0,
+        0
+      ],
+      "node_name": "_osn2_L0_F0"
+    },
+    {
+      "instance_name": "_osn2_L0_F1",
+      "library_item": "_osn2_L0_F1",
+      "library_path": "_osn2_L0_F1",
+      "layer_index": 0,
+      "layer_name": "Слой 5",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 0.0,
+        "ty": 0.0
+      },
+      "source": "_osn2",
+      "artwork": [
+        0,
+        1
+      ],
+      "node_name": "_osn2_L0_F1"
+    },
+    {
+      "instance_name": "_osn2_L0_F2",
+      "library_item": "_osn2_L0_F2",
+      "library_path": "_osn2_L0_F2",
+      "layer_index": 0,
+      "layer_name": "Слой 5",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 0.0,
+        "ty": 0.0
+      },
+      "source": "_osn2",
+      "artwork": [
+        0,
+        2
+      ],
+      "node_name": "_osn2_L0_F2"
+    }
+  ],
+  "root_matrix": {
+    "a": 1.0,
+    "b": 0.0,
+    "c": 0.0,
+    "d": 1.0,
+    "tx": -1.9,
+    "ty": -17.1
+  }
+}

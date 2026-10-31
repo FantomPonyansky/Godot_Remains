@@ -1,0 +1,696 @@
+[gd_scene load_steps=45 format=3]
+
+[ext_resource type="Shader" path="res://assets/rigs/shaders/color_transform.gdshader" id="ext_1"]
+[ext_resource type="Shader" path="res://assets/rigs/shaders/color_transform_masked.gdshader" id="ext_2"]
+[ext_resource type="Shader" path="res://assets/rigs/shaders/color_transform_hardlight.gdshader" id="ext_3"]
+[ext_resource type="Shader" path="res://assets/rigs/shaders/color_transform_lighten.gdshader" id="ext_4"]
+[ext_resource type="Shader" path="res://assets/rigs/shaders/color_transform_screen.gdshader" id="ext_5"]
+[ext_resource type="Script" path="res://scripts/rig/rig_view.gd" id="ext_6"]
+
+[sub_resource type="ShaderMaterial" id="sub_1"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_2"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_3"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_4"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_5"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_6"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_7"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_8"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_9"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_10"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_11"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_12"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_13"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_14"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_15"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_16"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_17"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_18"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_19"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_20"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_21"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_22"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_23"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_24"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_25"]
+shader = ExtResource("ext_5")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_26"]
+shader = ExtResource("ext_5")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_27"]
+shader = ExtResource("ext_5")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_28"]
+shader = ExtResource("ext_5")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_29"]
+shader = ExtResource("ext_5")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_30"]
+shader = ExtResource("ext_5")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_31"]
+shader = ExtResource("ext_5")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_32"]
+shader = ExtResource("ext_5")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_33"]
+shader = ExtResource("ext_5")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_34"]
+shader = ExtResource("ext_5")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_35"]
+shader = ExtResource("ext_5")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_36"]
+shader = ExtResource("ext_5")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_37"]
+shader = ExtResource("ext_5")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[node name="Turret3" type="Node2D"]
+script = ExtResource("ext_6")
+metadata/data_dir = "res://assets/rigs/data/turret3/"
+metadata/art_dir = "res://assets/rigs/art/turret3/"
+metadata/anim_library = "res://assets/rigs/scenes/turret3_anims.tres"
+metadata/idle_animation = "osn3"
+
+[node name="osn" type="Node2D" parent="."]
+
+[node name="body" type="CanvasGroup" parent="osn"]
+
+[node name="t2" type="Node2D" parent="osn/body"]
+position = Vector2(0, -59.05)
+
+[node name="spr_L0_S0" type="Sprite2D" parent="osn/body/t2"]
+centered = false
+scale = Vector2(0.33333, 0.33333)
+material = SubResource("sub_1")
+metadata/artwork_layer = 0
+metadata/element_index = 0
+
+[node name="puha" type="Node2D" parent="osn/body"]
+position = Vector2(0, -55)
+
+[node name="turel_puha1" type="Node2D" parent="osn/body/puha"]
+position = Vector2(0, 0)
+visible = false
+metadata/library = "turel_puha1"
+metadata/frame_start = 0
+metadata/frame_end = 0
+metadata/frame_ranges = PackedInt32Array(0, 0)
+metadata/vis_lib = "turel_puha"
+metadata/layer_index = 1
+
+[node name="turret_pulemet" type="Sprite2D" parent="osn/body/puha/turel_puha1"]
+position = Vector2(14.25, 0.25)
+visible = false
+centered = false
+scale = Vector2(0.33333, 0.33333)
+metadata/library = "turret_pulemet"
+metadata/frame_start = 0
+metadata/frame_end = 2
+metadata/frame_ranges = PackedInt32Array(0, 2)
+metadata/vis_lib = "turel_puha1"
+metadata/layer_index = 1
+material = SubResource("sub_2")
+
+[node name="flare" type="Node2D" parent="osn/body/puha/turel_puha1"]
+position = Vector2(43.75, 0.35)
+visible = false
+metadata/library = "flare"
+metadata/frame_start = 1
+metadata/frame_end = 2
+metadata/frame_ranges = PackedInt32Array(1, 2)
+metadata/vis_lib = "turel_puha1"
+metadata/layer_index = 0
+metadata/blend_mode = "screen"
+
+[node name="spr_L2_S0" type="Sprite2D" parent="osn/body/puha/turel_puha1/flare"]
+centered = false
+scale = Vector2(0.33333, 0.33333)
+self_modulate = Color(1, 1, 1, 0)
+metadata/blend_mirror = "m0"
+material = SubResource("sub_3")
+metadata/artwork_layer = 2
+metadata/element_index = 0
+
+[node name="spr_L1_S0" type="Sprite2D" parent="osn/body/puha/turel_puha1/flare"]
+centered = false
+scale = Vector2(0.33333, 0.33333)
+self_modulate = Color(1, 1, 1, 0)
+metadata/blend_mirror = "m1"
+material = SubResource("sub_4")
+metadata/artwork_layer = 1
+metadata/element_index = 0
+
+[node name="spr_L0_S0" type="Sprite2D" parent="osn/body/puha/turel_puha1/flare"]
+centered = false
+scale = Vector2(0.33333, 0.33333)
+self_modulate = Color(1, 1, 1, 0)
+metadata/blend_mirror = "m2"
+material = SubResource("sub_5")
+metadata/artwork_layer = 0
+metadata/element_index = 0
+
+[node name="turel_puha2" type="Node2D" parent="osn/body/puha"]
+position = Vector2(0, 0)
+visible = false
+metadata/library = "turel_puha2"
+metadata/frame_start = 1
+metadata/frame_end = 1
+metadata/frame_ranges = PackedInt32Array(1, 1)
+metadata/vis_lib = "turel_puha"
+metadata/layer_index = 1
+
+[node name="turret_laser" type="Sprite2D" parent="osn/body/puha/turel_puha2"]
+position = Vector2(14.25, 0.25)
+visible = false
+centered = false
+scale = Vector2(0.33333, 0.33333)
+metadata/library = "turret_laser"
+metadata/frame_start = 0
+metadata/frame_end = 4
+metadata/frame_ranges = PackedInt32Array(0, 4)
+metadata/vis_lib = "turel_puha2"
+metadata/layer_index = 1
+material = SubResource("sub_6")
+
+[node name="laser_flare" type="Sprite2D" parent="osn/body/puha/turel_puha2"]
+position = Vector2(45.6, 0.5)
+visible = false
+centered = false
+scale = Vector2(0.20066, 0.20066)
+metadata/library = "laser_flare"
+metadata/frame_start = 1
+metadata/frame_end = 3
+metadata/frame_ranges = PackedInt32Array(1, 1, 2, 2, 3, 3)
+metadata/vis_lib = "turel_puha2"
+metadata/layer_index = 0
+metadata/blend_mode = "screen"
+metadata/frame_transforms = "{\"2\":{\"tx\":44.4,\"ty\":0.6,\"rot\":0.0,\"sx\":0.106267,\"sy\":0.106267,\"skew\":-0.0},\"3\":{\"tx\":44.4,\"ty\":0.6,\"rot\":0.0,\"sx\":0.106267,\"sy\":0.106267,\"skew\":-0.0}}"
+self_modulate = Color(1, 1, 1, 0)
+metadata/blend_mirror = "m3"
+material = SubResource("sub_7")
+
+[node name="turel_puha3" type="Node2D" parent="osn/body/puha"]
+position = Vector2(0, 0)
+visible = false
+metadata/library = "turel_puha3"
+metadata/frame_start = 2
+metadata/frame_end = 2
+metadata/frame_ranges = PackedInt32Array(2, 2)
+metadata/vis_lib = "turel_puha"
+metadata/layer_index = 1
+
+[node name="turret_plasma" type="Sprite2D" parent="osn/body/puha/turel_puha3"]
+position = Vector2(14.25, 0.25)
+visible = false
+centered = false
+scale = Vector2(0.33333, 0.33333)
+metadata/library = "turret_plasma"
+metadata/frame_start = 0
+metadata/frame_end = 4
+metadata/frame_ranges = PackedInt32Array(0, 4)
+metadata/vis_lib = "turel_puha3"
+metadata/layer_index = 1
+material = SubResource("sub_8")
+
+[node name="plasma_flare" type="Sprite2D" parent="osn/body/puha/turel_puha3"]
+position = Vector2(43.1, 0.25)
+visible = false
+centered = false
+scale = Vector2(0.25414, 0.25414)
+metadata/library = "plasma_flare"
+metadata/frame_start = 1
+metadata/frame_end = 4
+metadata/frame_ranges = PackedInt32Array(1, 3, 4, 4)
+metadata/vis_lib = "turel_puha3"
+metadata/layer_index = 0
+metadata/blend_mode = "screen"
+metadata/frame_transforms = "{\"2\":{\"tx\":41.85,\"ty\":0.25,\"rot\":0.0,\"sx\":0.205143,\"sy\":0.205143,\"skew\":-0.0},\"3\":{\"tx\":40.6,\"ty\":0.25,\"rot\":0.0,\"sx\":0.15615,\"sy\":0.15615,\"skew\":-0.0},\"4\":{\"tx\":39.35,\"ty\":0.25,\"rot\":0.0,\"sx\":0.107157,\"sy\":0.107157,\"skew\":-0.0}}"
+self_modulate = Color(1, 1, 1, 0)
+metadata/blend_mirror = "m4"
+material = SubResource("sub_9")
+
+[node name="turel_puha4" type="Node2D" parent="osn/body/puha"]
+position = Vector2(0, 0)
+visible = false
+metadata/library = "turel_puha4"
+metadata/frame_start = 3
+metadata/frame_end = 3
+metadata/frame_ranges = PackedInt32Array(3, 3)
+metadata/vis_lib = "turel_puha"
+metadata/layer_index = 1
+
+[node name="turret_thermo" type="Sprite2D" parent="osn/body/puha/turel_puha4"]
+position = Vector2(14.25, 0.25)
+visible = false
+centered = false
+scale = Vector2(0.33333, 0.33333)
+metadata/library = "turret_thermo"
+metadata/frame_start = 0
+metadata/frame_end = 4
+metadata/frame_ranges = PackedInt32Array(0, 4)
+metadata/vis_lib = "turel_puha4"
+metadata/layer_index = 1
+material = SubResource("sub_10")
+
+[node name="nova_flare" type="Sprite2D" parent="osn/body/puha/turel_puha4"]
+position = Vector2(39.1, 0.25)
+visible = false
+centered = false
+scale = Vector2(0.25414, 0.25414)
+metadata/library = "nova_flare"
+metadata/frame_start = 1
+metadata/frame_end = 4
+metadata/frame_ranges = PackedInt32Array(1, 3, 4, 4)
+metadata/vis_lib = "turel_puha4"
+metadata/layer_index = 0
+metadata/blend_mode = "screen"
+metadata/frame_transforms = "{\"2\":{\"tx\":42.5167,\"ty\":0.25,\"rot\":0.0,\"sx\":0.205143,\"sy\":0.205143,\"skew\":-0.0},\"3\":{\"tx\":45.9333,\"ty\":0.25,\"rot\":0.0,\"sx\":0.15615,\"sy\":0.15615,\"skew\":-0.0},\"4\":{\"tx\":49.35,\"ty\":0.25,\"rot\":0.0,\"sx\":0.107157,\"sy\":0.107157,\"skew\":-0.0}}"
+self_modulate = Color(1, 1, 1, 0)
+metadata/blend_mirror = "m5"
+material = SubResource("sub_11")
+
+[node name="turel_puha5" type="Node2D" parent="osn/body/puha"]
+position = Vector2(0, 0)
+visible = false
+metadata/library = "turel_puha5"
+metadata/frame_start = 4
+metadata/frame_end = 4
+metadata/frame_ranges = PackedInt32Array(4, 4)
+metadata/vis_lib = "turel_puha"
+metadata/layer_index = 1
+
+[node name="turret_blaster" type="Sprite2D" parent="osn/body/puha/turel_puha5"]
+position = Vector2(14.25, 0.25)
+visible = false
+centered = false
+scale = Vector2(0.33333, 0.33333)
+metadata/library = "turret_blaster"
+metadata/frame_start = 0
+metadata/frame_end = 4
+metadata/frame_ranges = PackedInt32Array(0, 4)
+metadata/vis_lib = "turel_puha5"
+metadata/layer_index = 1
+material = SubResource("sub_12")
+
+[node name="plasma_flare2" type="Sprite2D" parent="osn/body/puha/turel_puha5"]
+position = Vector2(43.1, 0.25)
+visible = false
+centered = false
+scale = Vector2(0.25414, 0.25414)
+metadata/library = "plasma_flare2"
+metadata/frame_start = 1
+metadata/frame_end = 4
+metadata/frame_ranges = PackedInt32Array(1, 3, 4, 4)
+metadata/vis_lib = "turel_puha5"
+metadata/layer_index = 0
+metadata/blend_mode = "screen"
+metadata/frame_transforms = "{\"2\":{\"tx\":41.85,\"ty\":0.25,\"rot\":0.0,\"sx\":0.205143,\"sy\":0.205143,\"skew\":-0.0},\"3\":{\"tx\":40.6,\"ty\":0.25,\"rot\":0.0,\"sx\":0.15615,\"sy\":0.15615,\"skew\":-0.0},\"4\":{\"tx\":39.35,\"ty\":0.25,\"rot\":0.0,\"sx\":0.107157,\"sy\":0.107157,\"skew\":-0.0}}"
+self_modulate = Color(1, 1, 1, 0)
+metadata/blend_mirror = "m6"
+material = SubResource("sub_13")
+
+[node name="turel_puha6" type="Node2D" parent="osn/body/puha"]
+position = Vector2(0, 0)
+visible = false
+metadata/library = "turel_puha6"
+metadata/frame_start = 5
+metadata/frame_end = 5
+metadata/frame_ranges = PackedInt32Array(5, 5)
+metadata/vis_lib = "turel_puha"
+metadata/layer_index = 1
+
+[node name="turret_drandul" type="Sprite2D" parent="osn/body/puha/turel_puha6"]
+position = Vector2(14.25, 0.25)
+visible = false
+centered = false
+scale = Vector2(0.33333, 0.33333)
+metadata/library = "turret_drandul"
+metadata/frame_start = 0
+metadata/frame_end = 2
+metadata/frame_ranges = PackedInt32Array(0, 2)
+metadata/vis_lib = "turel_puha6"
+metadata/layer_index = 1
+material = SubResource("sub_14")
+
+[node name="flare" type="Node2D" parent="osn/body/puha/turel_puha6"]
+position = Vector2(43.05, 0.2)
+scale = Vector2(1.45537, 1.45537)
+visible = false
+metadata/library = "flare"
+metadata/frame_start = 1
+metadata/frame_end = 2
+metadata/frame_ranges = PackedInt32Array(1, 2)
+metadata/vis_lib = "turel_puha6"
+metadata/layer_index = 0
+metadata/blend_mode = "screen"
+
+[node name="spr_L2_S0" type="Sprite2D" parent="osn/body/puha/turel_puha6/flare"]
+centered = false
+scale = Vector2(0.33333, 0.33333)
+self_modulate = Color(1, 1, 1, 0)
+metadata/blend_mirror = "m7"
+material = SubResource("sub_15")
+metadata/artwork_layer = 2
+metadata/element_index = 0
+
+[node name="spr_L1_S0" type="Sprite2D" parent="osn/body/puha/turel_puha6/flare"]
+centered = false
+scale = Vector2(0.33333, 0.33333)
+self_modulate = Color(1, 1, 1, 0)
+metadata/blend_mirror = "m8"
+material = SubResource("sub_16")
+metadata/artwork_layer = 1
+metadata/element_index = 0
+
+[node name="spr_L0_S0" type="Sprite2D" parent="osn/body/puha/turel_puha6/flare"]
+centered = false
+scale = Vector2(0.33333, 0.33333)
+self_modulate = Color(1, 1, 1, 0)
+metadata/blend_mirror = "m9"
+material = SubResource("sub_17")
+metadata/artwork_layer = 0
+metadata/element_index = 0
+
+[node name="turel_puha7" type="Node2D" parent="osn/body/puha"]
+position = Vector2(0, 0)
+visible = false
+metadata/library = "turel_puha7"
+metadata/frame_start = 6
+metadata/frame_end = 8
+metadata/frame_ranges = PackedInt32Array(6, 8)
+metadata/vis_lib = "turel_puha"
+metadata/layer_index = 1
+
+[node name="turret_grom" type="Sprite2D" parent="osn/body/puha/turel_puha7"]
+position = Vector2(14.25, 0.25)
+visible = false
+centered = false
+scale = Vector2(0.33333, 0.33333)
+metadata/library = "turret_grom"
+metadata/frame_start = 0
+metadata/frame_end = 7
+metadata/frame_ranges = PackedInt32Array(0, 7)
+metadata/vis_lib = "turel_puha7"
+metadata/layer_index = 1
+material = SubResource("sub_18")
+
+[node name="plasma_flare2" type="Sprite2D" parent="osn/body/puha/turel_puha7"]
+position = Vector2(25.6, 0.25)
+visible = false
+centered = false
+scale = Vector2(0.25414, 0.25414)
+metadata/library = "plasma_flare2"
+metadata/frame_start = 1
+metadata/frame_end = 7
+metadata/frame_ranges = PackedInt32Array(1, 3, 4, 6, 7, 7)
+metadata/vis_lib = "turel_puha7"
+metadata/layer_index = 0
+metadata/blend_mode = "screen"
+metadata/frame_transforms = "{\"2\":{\"tx\":37.0167,\"ty\":0.25,\"rot\":0.0,\"sx\":0.235631,\"sy\":0.235631,\"skew\":-0.0},\"3\":{\"tx\":48.4333,\"ty\":0.25,\"rot\":0.0,\"sx\":0.217127,\"sy\":0.217127,\"skew\":-0.0},\"4\":{\"tx\":59.85,\"ty\":0.25,\"rot\":0.0,\"sx\":0.198624,\"sy\":0.198624,\"skew\":-0.0},\"5\":{\"tx\":59.8667,\"ty\":0.25,\"rot\":0.0,\"sx\":0.153271,\"sy\":0.153271,\"skew\":-0.0},\"6\":{\"tx\":59.8833,\"ty\":0.25,\"rot\":0.0,\"sx\":0.107919,\"sy\":0.107919,\"skew\":-0.0},\"7\":{\"tx\":59.9,\"ty\":0.25,\"rot\":0.0,\"sx\":0.062566,\"sy\":0.062566,\"skew\":-0.0}}"
+self_modulate = Color(1, 1, 1, 0)
+metadata/blend_mirror = "m10"
+material = SubResource("sub_19")
+
+[node name="turel_puha10" type="Node2D" parent="osn/body/puha"]
+position = Vector2(0, 0)
+visible = false
+metadata/library = "turel_puha10"
+metadata/frame_start = 9
+metadata/frame_end = 9
+metadata/frame_ranges = PackedInt32Array(9, 9)
+metadata/vis_lib = "turel_puha"
+metadata/layer_index = 1
+
+[node name="turret_plasma2" type="Sprite2D" parent="osn/body/puha/turel_puha10"]
+position = Vector2(14.25, 0.25)
+visible = false
+centered = false
+scale = Vector2(0.33333, 0.33333)
+metadata/library = "turret_plasma2"
+metadata/frame_start = 0
+metadata/frame_end = 4
+metadata/frame_ranges = PackedInt32Array(0, 4)
+metadata/vis_lib = "turel_puha10"
+metadata/layer_index = 1
+material = SubResource("sub_20")
+
+[node name="plasma_flare" type="Sprite2D" parent="osn/body/puha/turel_puha10"]
+position = Vector2(43.1, 0.25)
+visible = false
+centered = false
+scale = Vector2(0.25414, 0.25414)
+metadata/library = "plasma_flare"
+metadata/frame_start = 1
+metadata/frame_end = 4
+metadata/frame_ranges = PackedInt32Array(1, 3, 4, 4)
+metadata/vis_lib = "turel_puha10"
+metadata/layer_index = 0
+metadata/blend_mode = "screen"
+metadata/frame_transforms = "{\"2\":{\"tx\":41.85,\"ty\":0.25,\"rot\":0.0,\"sx\":0.205143,\"sy\":0.205143,\"skew\":-0.0},\"3\":{\"tx\":40.6,\"ty\":0.25,\"rot\":0.0,\"sx\":0.15615,\"sy\":0.15615,\"skew\":-0.0},\"4\":{\"tx\":39.35,\"ty\":0.25,\"rot\":0.0,\"sx\":0.107157,\"sy\":0.107157,\"skew\":-0.0}}"
+self_modulate = Color(1, 1, 1, 0)
+metadata/blend_mirror = "m11"
+material = SubResource("sub_21")
+
+[node name="t1" type="Node2D" parent="osn/body"]
+position = Vector2(0, -44.1)
+
+[node name="spr_L1_S0" type="Sprite2D" parent="osn/body/t1"]
+centered = false
+scale = Vector2(0.33333, 0.33333)
+material = SubResource("sub_22")
+metadata/artwork_layer = 1
+metadata/element_index = 0
+
+[node name="t3" type="Node2D" parent="osn/body"]
+position = Vector2(0, -55.5)
+scale = Vector2(1, 0.66985)
+metadata/blend_mode = "screen"
+
+[node name="spr_L0_S0" type="Sprite2D" parent="osn/body/t3"]
+centered = false
+scale = Vector2(0.40728, 0.40728)
+self_modulate = Color(1, 1, 1, 0)
+metadata/blend_mirror = "m12"
+material = SubResource("sub_23")
+metadata/artwork_layer = 0
+metadata/element_index = 0
+
+[node name="light" type="Node2D" parent="osn/body"]
+position = Vector2(0, -55)
+
+[node name="spr_L0_S0" type="Sprite2D" parent="osn/body/light"]
+centered = false
+scale = Vector2(0.33333, 0.33333)
+material = SubResource("sub_24")
+metadata/artwork_layer = 0
+metadata/element_index = 0
+
+[node name="art_fx" type="Node2D" parent="."]
+metadata/mirrors = [{"source": "osn/body/puha/turel_puha1/flare/spr_L2_S0", "mirror": "m0", "blend": "screen"}, {"source": "osn/body/puha/turel_puha1/flare/spr_L1_S0", "mirror": "m1", "blend": "screen"}, {"source": "osn/body/puha/turel_puha1/flare/spr_L0_S0", "mirror": "m2", "blend": "screen"}, {"source": "osn/body/puha/turel_puha2/laser_flare", "mirror": "m3", "blend": "screen"}, {"source": "osn/body/puha/turel_puha3/plasma_flare", "mirror": "m4", "blend": "screen"}, {"source": "osn/body/puha/turel_puha4/nova_flare", "mirror": "m5", "blend": "screen"}, {"source": "osn/body/puha/turel_puha5/plasma_flare2", "mirror": "m6", "blend": "screen"}, {"source": "osn/body/puha/turel_puha6/flare/spr_L2_S0", "mirror": "m7", "blend": "screen"}, {"source": "osn/body/puha/turel_puha6/flare/spr_L1_S0", "mirror": "m8", "blend": "screen"}, {"source": "osn/body/puha/turel_puha6/flare/spr_L0_S0", "mirror": "m9", "blend": "screen"}, {"source": "osn/body/puha/turel_puha7/plasma_flare2", "mirror": "m10", "blend": "screen"}, {"source": "osn/body/puha/turel_puha10/plasma_flare", "mirror": "m11", "blend": "screen"}, {"source": "osn/body/t3/spr_L0_S0", "mirror": "m12", "blend": "screen"}]
+metadata/filters = []
+
+[node name="m0" type="Sprite2D" parent="art_fx"]
+visible = false
+centered = false
+material = SubResource("sub_25")
+metadata/mirror_of = "osn/body/puha/turel_puha1/flare/spr_L2_S0"
+
+[node name="m1" type="Sprite2D" parent="art_fx"]
+visible = false
+centered = false
+material = SubResource("sub_26")
+metadata/mirror_of = "osn/body/puha/turel_puha1/flare/spr_L1_S0"
+
+[node name="m2" type="Sprite2D" parent="art_fx"]
+visible = false
+centered = false
+material = SubResource("sub_27")
+metadata/mirror_of = "osn/body/puha/turel_puha1/flare/spr_L0_S0"
+
+[node name="m3" type="Sprite2D" parent="art_fx"]
+visible = false
+centered = false
+material = SubResource("sub_28")
+metadata/mirror_of = "osn/body/puha/turel_puha2/laser_flare"
+
+[node name="m4" type="Sprite2D" parent="art_fx"]
+visible = false
+centered = false
+material = SubResource("sub_29")
+metadata/mirror_of = "osn/body/puha/turel_puha3/plasma_flare"
+
+[node name="m5" type="Sprite2D" parent="art_fx"]
+visible = false
+centered = false
+material = SubResource("sub_30")
+metadata/mirror_of = "osn/body/puha/turel_puha4/nova_flare"
+
+[node name="m6" type="Sprite2D" parent="art_fx"]
+visible = false
+centered = false
+material = SubResource("sub_31")
+metadata/mirror_of = "osn/body/puha/turel_puha5/plasma_flare2"
+
+[node name="m7" type="Sprite2D" parent="art_fx"]
+visible = false
+centered = false
+material = SubResource("sub_32")
+metadata/mirror_of = "osn/body/puha/turel_puha6/flare/spr_L2_S0"
+
+[node name="m8" type="Sprite2D" parent="art_fx"]
+visible = false
+centered = false
+material = SubResource("sub_33")
+metadata/mirror_of = "osn/body/puha/turel_puha6/flare/spr_L1_S0"
+
+[node name="m9" type="Sprite2D" parent="art_fx"]
+visible = false
+centered = false
+material = SubResource("sub_34")
+metadata/mirror_of = "osn/body/puha/turel_puha6/flare/spr_L0_S0"
+
+[node name="m10" type="Sprite2D" parent="art_fx"]
+visible = false
+centered = false
+material = SubResource("sub_35")
+metadata/mirror_of = "osn/body/puha/turel_puha7/plasma_flare2"
+
+[node name="m11" type="Sprite2D" parent="art_fx"]
+visible = false
+centered = false
+material = SubResource("sub_36")
+metadata/mirror_of = "osn/body/puha/turel_puha10/plasma_flare"
+
+[node name="m12" type="Sprite2D" parent="art_fx"]
+visible = false
+centered = false
+material = SubResource("sub_37")
+metadata/mirror_of = "osn/body/t3/spr_L0_S0"

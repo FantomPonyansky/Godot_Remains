@@ -1,0 +1,96 @@
+{
+  "root": "osn",
+  "scale": 1.0,
+  "bones": [
+    {
+      "instance_name": "cage2",
+      "library_item": "cage2",
+      "library_path": "Objects/NPC/PonPon/cage2",
+      "layer_index": 1,
+      "layer_name": "Layer 5",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": -30.65,
+        "ty": -7.65
+      },
+      "node_name": "cage2"
+    },
+    {
+      "instance_name": "cage2_2",
+      "library_item": "cage2",
+      "library_path": "Objects/NPC/PonPon/cage2",
+      "layer_index": 2,
+      "layer_name": "Layer 3",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": -30.65,
+        "ty": -7.65
+      },
+      "node_name": "cage2_2"
+    },
+    {
+      "instance_name": "cage3",
+      "library_item": "cage3",
+      "library_path": "Objects/NPC/PonPon/cage3",
+      "layer_index": 3,
+      "layer_name": "Layer 4",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 4.3,
+        "ty": -8.1
+      },
+      "node_name": "cage3"
+    },
+    {
+      "instance_name": "pon",
+      "library_item": "pon1",
+      "library_path": "Objects/NPC/PonPon/pon1",
+      "layer_index": 4,
+      "layer_name": "Layer 1",
+      "matrix": {
+        "a": 0.489990234375,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 0.49029541015625,
+        "tx": 0.15,
+        "ty": -5.5
+      },
+      "named": true,
+      "node_name": "pon"
+    },
+    {
+      "instance_name": "cage",
+      "library_item": "cage1",
+      "library_path": "Objects/NPC/PonPon/cage1",
+      "layer_index": 5,
+      "layer_name": "Layer 2",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 4.3,
+        "ty": -8.1
+      },
+      "named": true,
+      "node_name": "cage"
+    }
+  ],
+  "root_matrix": {
+    "a": 1.0,
+    "b": 0.0,
+    "c": 0.0,
+    "d": 1.0,
+    "tx": -3.0,
+    "ty": -37.0
+  }
+}

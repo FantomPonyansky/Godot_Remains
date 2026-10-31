@@ -1,0 +1,153 @@
+[gd_scene load_steps=17 format=3]
+
+[ext_resource type="Shader" path="res://assets/rigs/shaders/color_transform.gdshader" id="ext_1"]
+[ext_resource type="Shader" path="res://assets/rigs/shaders/color_transform_masked.gdshader" id="ext_2"]
+[ext_resource type="Shader" path="res://assets/rigs/shaders/color_transform_hardlight.gdshader" id="ext_3"]
+[ext_resource type="Shader" path="res://assets/rigs/shaders/color_transform_lighten.gdshader" id="ext_4"]
+[ext_resource type="Shader" path="res://assets/rigs/shaders/color_transform_screen.gdshader" id="ext_5"]
+[ext_resource type="Script" path="res://scripts/rig/rig_view.gd" id="ext_6"]
+
+[sub_resource type="ShaderMaterial" id="sub_1"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_2"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_3"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_4"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_5"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_6"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_7"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_8"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_9"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_10"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[node name="VendorMech" type="Node2D"]
+script = ExtResource("ext_6")
+metadata/data_dir = "res://assets/rigs/data/vendormech/"
+metadata/art_dir = "res://assets/rigs/art/vendormech/"
+metadata/anim_library = "res://assets/rigs/scenes/vendormech_anims.tres"
+metadata/idle_animation = "visualVendorMech"
+
+[node name="osn" type="Node2D" parent="."]
+
+[node name="body" type="CanvasGroup" parent="osn"]
+
+[node name="pon_mech" type="Node2D" parent="osn/body"]
+position = Vector2(-4.95, -41.4)
+scale = Vector2(0.55885, 0.5591)
+
+[node name="spr_L8_S0" type="Sprite2D" parent="osn/body/pon_mech"]
+centered = false
+scale = Vector2(0.59634, 0.59634)
+material = SubResource("sub_1")
+metadata/artwork_layer = 8
+metadata/element_index = 0
+
+[node name="spr_L7_S0" type="Sprite2D" parent="osn/body/pon_mech"]
+centered = false
+scale = Vector2(0.59634, 0.59634)
+material = SubResource("sub_2")
+metadata/artwork_layer = 7
+metadata/element_index = 0
+
+[node name="spr_L6_S0" type="Sprite2D" parent="osn/body/pon_mech"]
+centered = false
+scale = Vector2(0.59634, 0.59634)
+material = SubResource("sub_3")
+metadata/artwork_layer = 6
+metadata/element_index = 0
+
+[node name="spr_L5_S0" type="Sprite2D" parent="osn/body/pon_mech"]
+centered = false
+scale = Vector2(0.59634, 0.59634)
+material = SubResource("sub_4")
+metadata/artwork_layer = 5
+metadata/element_index = 0
+
+[node name="spr_L4_S0" type="Sprite2D" parent="osn/body/pon_mech"]
+centered = false
+scale = Vector2(0.59634, 0.59634)
+material = SubResource("sub_5")
+metadata/artwork_layer = 4
+metadata/element_index = 0
+
+[node name="glaz_mech" type="Node2D" parent="osn/body/pon_mech"]
+position = Vector2(53.85, -39.4)
+visible = false
+metadata/library = "glaz_mech"
+metadata/frame_start = 0
+metadata/frame_end = 0
+metadata/frame_ranges = PackedInt32Array(0, 0)
+metadata/vis_lib = "pon_mech"
+metadata/layer_index = 3
+
+[node name="spr_L2_S0" type="Sprite2D" parent="osn/body/pon_mech/glaz_mech"]
+centered = false
+scale = Vector2(0.59634, 0.59634)
+material = SubResource("sub_6")
+metadata/artwork_layer = 2
+metadata/element_index = 0
+
+[node name="spr_L1_S0" type="Sprite2D" parent="osn/body/pon_mech/glaz_mech"]
+centered = false
+scale = Vector2(0.59634, 0.59634)
+material = SubResource("sub_7")
+metadata/artwork_layer = 1
+metadata/element_index = 0
+
+[node name="spr_L2_S0" type="Sprite2D" parent="osn/body/pon_mech"]
+centered = false
+scale = Vector2(0.59634, 0.59634)
+material = SubResource("sub_8")
+metadata/artwork_layer = 2
+metadata/element_index = 0
+
+[node name="spr_L1_S0" type="Sprite2D" parent="osn/body/pon_mech"]
+centered = false
+scale = Vector2(0.59634, 0.59634)
+material = SubResource("sub_9")
+metadata/artwork_layer = 1
+metadata/element_index = 0
+
+[node name="spr_L0_S0" type="Sprite2D" parent="osn/body/pon_mech"]
+centered = false
+scale = Vector2(0.59634, 0.59634)
+material = SubResource("sub_10")
+metadata/artwork_layer = 0
+metadata/element_index = 0

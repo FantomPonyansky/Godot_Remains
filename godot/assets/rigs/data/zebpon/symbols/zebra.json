@@ -1,0 +1,346 @@
+{
+  "artwork_layers": [
+    {
+      "layer_index": 0,
+      "element_svg_files": {
+        "2": [
+          "zebra_f2_L0_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 1,
+      "element_svg_files": {
+        "0": [
+          "zebra_L1_S0.svg"
+        ],
+        "1": [
+          "zebra_f1_L1_S0.svg"
+        ],
+        "2": [
+          "zebra_f2_L1_S0.svg"
+        ],
+        "3": [
+          "zebra_f3_L1_S0.svg"
+        ],
+        "4": [
+          "zebra_f4_L1_S0.svg"
+        ],
+        "5": [
+          "zebra_f5_L1_S0.svg"
+        ],
+        "6": [
+          "zebra_f6_L1_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 2,
+      "element_svg_files": {
+        "1": [
+          "zebra_f1_L2_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 3,
+      "element_svg_files": {
+        "0": [
+          "zebra_L3_S0.svg"
+        ],
+        "1": [
+          "zebra_f1_L3_S0.svg"
+        ],
+        "2": [
+          "zebra_f2_L3_S0.svg"
+        ],
+        "3": [
+          "zebra_f3_L3_S0.svg"
+        ],
+        "4": [
+          "zebra_f4_L3_S0.svg"
+        ],
+        "5": [
+          "zebra_f5_L3_S0.svg"
+        ],
+        "6": [
+          "zebra_f6_L3_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 4,
+      "element_svg_files": {
+        "1": [
+          "zebra_f1_L4_S0.svg"
+        ],
+        "4": [
+          "zebra_f4_L4_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 5,
+      "element_svg_files": {
+        "0": [
+          "zebra_L5_S0.svg"
+        ],
+        "1": [
+          "zebra_f1_L5_S0.svg"
+        ],
+        "2": [
+          "zebra_f2_L5_S0.svg"
+        ],
+        "3": [
+          "zebra_f3_L5_S0.svg"
+        ],
+        "4": [
+          "zebra_f4_L5_S0.svg"
+        ],
+        "5": [
+          "zebra_f5_L5_S0.svg"
+        ],
+        "6": [
+          "zebra_f6_L5_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 6,
+      "element_svg_files": {
+        "0": [
+          "zebra_L6_S0.svg"
+        ],
+        "1": [
+          "zebra_f1_L6_S0.svg"
+        ],
+        "2": [
+          "zebra_f2_L6_S0.svg"
+        ],
+        "5": [
+          "zebra_f5_L6_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 7,
+      "element_svg_files": {
+        "0": [
+          "zebra_L7_S0.svg"
+        ],
+        "3": [
+          "zebra_f3_L7_S0.svg"
+        ],
+        "4": [
+          "zebra_f4_L7_S0.svg"
+        ],
+        "5": [
+          "zebra_f5_L7_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 8,
+      "element_svg_files": {
+        "0": [
+          "zebra_L8_S0.svg"
+        ],
+        "1": [
+          "zebra_f1_L8_S0.svg"
+        ],
+        "2": [
+          "zebra_f2_L8_S0.svg"
+        ],
+        "3": [
+          "zebra_f3_L8_S0.svg"
+        ],
+        "4": [
+          "zebra_f4_L8_S0.svg"
+        ],
+        "5": [
+          "zebra_f5_L8_S0.svg"
+        ],
+        "6": [
+          "zebra_f6_L8_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 9,
+      "element_svg_files": {
+        "0": [
+          "zebra_L9_S0.svg"
+        ],
+        "1": [
+          "zebra_f1_L9_S0.svg"
+        ],
+        "2": [
+          "zebra_f2_L9_S0.svg"
+        ],
+        "3": [
+          "zebra_f3_L9_S0.svg"
+        ],
+        "4": [
+          "zebra_f4_L9_S0.svg"
+        ],
+        "5": [
+          "zebra_f5_L9_S0.svg"
+        ],
+        "6": [
+          "zebra_f6_L9_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 10,
+      "element_svg_files": {
+        "1": [
+          "zebra_f1_L10_S0.svg"
+        ],
+        "3": [
+          "zebra_f3_L10_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    }
+  ],
+  "svg_files": {
+    "2": "zebra_f2_L0_S0.svg"
+  },
+  "children": [
+    {
+      "library": "zglaz1",
+      "layer_index": 4,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 53.6,
+        "ty": -39.4
+      },
+      "frame_ranges": [
+        [
+          0,
+          0
+        ]
+      ],
+      "foreign": true,
+      "frame_start": 0,
+      "frame_end": 0
+    },
+    {
+      "library": "zglaz2",
+      "layer_index": 4,
+      "matrix": {
+        "a": 0.975967407226563,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 0.975967407226563,
+        "tx": 50.75,
+        "ty": -36.5
+      },
+      "frame_ranges": [
+        [
+          1,
+          1
+        ],
+        [
+          5,
+          5
+        ]
+      ],
+      "foreign": true,
+      "frame_start": 1,
+      "frame_end": 5,
+      "frame_transforms": {
+        "5": {
+          "tx": 51.1,
+          "ty": -44.5,
+          "rot": 0.0,
+          "sx": 1.041855,
+          "sy": 1.041855,
+          "skew": -0.0
+        }
+      }
+    },
+    {
+      "library": "zglaz3",
+      "layer_index": 4,
+      "matrix": {
+        "a": 0.946029663085938,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 0.946029663085938,
+        "tx": 47.35,
+        "ty": -32.9
+      },
+      "frame_ranges": [
+        [
+          2,
+          2
+        ]
+      ],
+      "foreign": true,
+      "frame_start": 2,
+      "frame_end": 2
+    },
+    {
+      "library": "zglaz4",
+      "layer_index": 4,
+      "matrix": {
+        "a": 1.0751953125,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0751953125,
+        "tx": 51.6,
+        "ty": -48.35
+      },
+      "frame_ranges": [
+        [
+          3,
+          3
+        ]
+      ],
+      "foreign": true,
+      "frame_start": 3,
+      "frame_end": 3
+    },
+    {
+      "library": "zglaz6",
+      "layer_index": 4,
+      "matrix": {
+        "a": 1.0751953125,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0751953125,
+        "tx": 51.6,
+        "ty": -48.35
+      },
+      "frame_ranges": [
+        [
+          6,
+          6
+        ]
+      ],
+      "foreign": true,
+      "frame_start": 6,
+      "frame_end": 6
+    }
+  ],
+  "timeline": {
+    "frames": 7,
+    "labels": {},
+    "scripts": {}
+  }
+}

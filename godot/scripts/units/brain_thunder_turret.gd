@@ -17,7 +17,7 @@ var cur: UnitGun
 
 
 func configure() -> void:
-	var h: Variant = u.get_meta("head", null)
+	var h: Variant = u.get_meta("head") if u.has_meta("head") else null
 	if h is CharacterBody2D:
 		head = h
 	bind = u.get_meta("bind", Vector2.ZERO)
@@ -44,40 +44,21 @@ func ready() -> void:
 	cur = gun("ttweap%d" % tr)
 	if cur != null:
 		cur.find_cel = true
+	# The gun is Weapon.vis (visttweap<tr>) at the body centre, unscaled.
+	make_gun_vis(cur)
 	weapon_dy = -body().y * 0.5
-	u.anim.visible = false
-	var entry := vis_entry()
-	var parts: Dictionary = entry.get("parts", {})
-	var korp := _part(parts.get("korp", {}))
-	if korp != null:
-		korp.rotation = korp_rot * PI * 0.5
-	var pole := _part(parts.get("pole", {}))
+	var rig: RigView = u.get("rig")
+	if rig == null:
+		return
+	# osn at the body centre.
+	u.anim.position = Vector2(0.0, -body().y * 0.5)
+	var osn := rig.get_node_or_null("osn") as Node2D
+	if osn != null:
+		osn.scale = Vector2(SCALE, SCALE)
+	rig.set_part_rotation("korp", korp_rot * PI * 0.5)
+	var pole := rig.part("pole")
 	if pole != null:
 		pole.visible = mega
-
-
-func _part(p: Dictionary) -> Sprite2D:
-	if p.is_empty():
-		return null
-	var tex := load("res://assets/sprites/sheets/units/%s" % str(p.get("sheet", ""))) as Texture2D
-	if tex == null:
-		return null
-	var cell: Array = p.cell
-	var at := AtlasTexture.new()
-	at.atlas = tex
-	at.region = Rect2(0, 0, float(cell[0]), float(cell[1]))
-	var spr := Sprite2D.new()
-	spr.texture = at
-	spr.centered = false
-	spr.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
-	var anchor: Array = p.get("anchor", [0, 0])
-	var pivot: Array = p.get("pivot", [0, 0])
-	var m: Array = p.get("rot", [1, 0, 0, 1])
-	spr.offset = -Vector2(float(anchor[0]), float(anchor[1]))
-	spr.scale = Vector2(float(m[0]), float(m[3])) * SCALE
-	spr.position = Vector2(0.0, -body().y * 0.5) + Vector2(float(pivot[0]), float(pivot[1])) * SCALE
-	u.add_child(spr)
-	return spr
 
 
 func forces() -> void:
@@ -140,4 +121,4 @@ func expl() -> void:
 
 
 func animate() -> void:
-	pass
+	animate_gun_vis(cur)

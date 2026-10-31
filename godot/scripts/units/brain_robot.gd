@@ -36,6 +36,13 @@ func ready() -> void:
 		cur = gun("robomlau" if sentinel else "robolaser")
 	if sentinel:
 		dop = gun("robomlau")
+	make_gun_vis(cur)
+
+
+## UnitSentinel.dropLoot hides the arm; the robobrain keeps its gun on the wreck.
+func drop_loot() -> void:
+	if sentinel and cur != null and cur.vis != null:
+		cur.vis.visible = false
 
 
 func on_damage(amount: float, type: String, bullet: Node, tt: bool) -> float:
@@ -224,6 +231,7 @@ func animate() -> void:
 		anim("stay")
 	else:
 		anim("walk")
+	animate_gun_vis(cur)
 
 
 func expl() -> void:

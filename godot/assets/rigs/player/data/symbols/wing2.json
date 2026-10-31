@@ -1,0 +1,158 @@
+{
+  "artwork_layers": [
+    {
+      "layer_index": 0,
+      "element_svg_files": {
+        "0": [
+          "wing2_L0_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    }
+  ],
+  "svg_files": {
+    "0": "wing2_L0_S0.svg"
+  },
+  "children": [
+    {
+      "library": "pero",
+      "layer_index": 2,
+      "matrix": {
+        "a": 1.21722412109375,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": -64.95,
+        "ty": -5.5
+      },
+      "frame_ranges": [
+        [
+          0,
+          0
+        ]
+      ],
+      "frame_start": 0,
+      "frame_end": 0
+    },
+    {
+      "library": "pero",
+      "layer_index": 2,
+      "matrix": {
+        "a": 0.9893798828125,
+        "b": -0.34088134765625,
+        "c": 0.31591796875,
+        "d": 0.916915893554688,
+        "tx": -60.95,
+        "ty": -3.4
+      },
+      "frame_ranges": [
+        [
+          0,
+          0
+        ]
+      ],
+      "frame_start": 0,
+      "frame_end": 0
+    },
+    {
+      "library": "pero",
+      "layer_index": 2,
+      "matrix": {
+        "a": 0.776092529296875,
+        "b": -0.557968139648438,
+        "c": 0.557968139648438,
+        "d": 0.776092529296875,
+        "tx": -52.8,
+        "ty": -2.65
+      },
+      "frame_ranges": [
+        [
+          0,
+          0
+        ]
+      ],
+      "frame_start": 0,
+      "frame_end": 0
+    },
+    {
+      "library": "pero",
+      "layer_index": 2,
+      "matrix": {
+        "a": 0.471206665039063,
+        "b": -0.66534423828125,
+        "c": 0.899017333984375,
+        "d": 0.636703491210938,
+        "tx": -49.05,
+        "ty": 0.25
+      },
+      "frame_ranges": [
+        [
+          0,
+          0
+        ]
+      ],
+      "frame_start": 0,
+      "frame_end": 0
+    },
+    {
+      "library": "pero",
+      "layer_index": 2,
+      "matrix": {
+        "a": 0.165176391601563,
+        "b": -0.724380493164063,
+        "c": 0.960128784179688,
+        "d": 0.218917846679688,
+        "tx": -44.4,
+        "ty": -1.5
+      },
+      "frame_ranges": [
+        [
+          0,
+          0
+        ]
+      ],
+      "frame_start": 0,
+      "frame_end": 0
+    },
+    {
+      "library": "pero",
+      "layer_index": 2,
+      "matrix": {
+        "a": -0.125152587890625,
+        "b": -0.62359619140625,
+        "c": 0.965499877929688,
+        "d": -0.193801879882813,
+        "tx": -40.15,
+        "ty": -2.4
+      },
+      "frame_ranges": [
+        [
+          0,
+          0
+        ]
+      ],
+      "frame_start": 0,
+      "frame_end": 0
+    },
+    {
+      "library": "pero",
+      "layer_index": 2,
+      "matrix": {
+        "a": -0.33978271484375,
+        "b": -0.45758056640625,
+        "c": 0.563262939453125,
+        "d": -0.418289184570313,
+        "tx": -33.8,
+        "ty": -2.7
+      },
+      "frame_ranges": [
+        [
+          0,
+          0
+        ]
+      ],
+      "frame_start": 0,
+      "frame_end": 0
+    }
+  ]
+}

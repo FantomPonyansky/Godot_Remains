@@ -1,0 +1,47 @@
+{
+  "children": [
+    {
+      "library": "eye",
+      "layer_index": 1,
+      "matrix": {
+        "a": 0.916641235351563,
+        "b": -0.0681304931640625,
+        "c": 0.08001708984375,
+        "d": 0.9276123046875,
+        "tx": 21.45,
+        "ty": 13.6
+      },
+      "frame_ranges": [
+        [
+          0,
+          0
+        ]
+      ],
+      "frame_start": 0,
+      "frame_end": 0,
+      "instance": "eye"
+    },
+    {
+      "library": "morda",
+      "layer_index": 2,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 21.1,
+        "ty": 13.9
+      },
+      "frame_ranges": [
+        [
+          0,
+          0
+        ]
+      ],
+      "foreign": true,
+      "frame_start": 0,
+      "frame_end": 0,
+      "instance": "morda"
+    }
+  ]
+}

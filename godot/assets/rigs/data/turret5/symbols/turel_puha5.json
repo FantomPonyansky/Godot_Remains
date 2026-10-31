@@ -1,0 +1,89 @@
+{
+  "children": [
+    {
+      "library": "plasma_flare2",
+      "layer_index": 0,
+      "matrix": {
+        "a": 0.762405395507813,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 0.762405395507813,
+        "tx": 43.1,
+        "ty": 0.25
+      },
+      "frame_ranges": [
+        [
+          1,
+          3
+        ],
+        [
+          4,
+          4
+        ]
+      ],
+      "blend_mode": "screen",
+      "foreign": true,
+      "frame_start": 1,
+      "frame_end": 4,
+      "frame_transforms": {
+        "2": {
+          "tx": 41.85,
+          "ty": 0.25,
+          "rot": 0.0,
+          "sx": 0.205143,
+          "sy": 0.205143,
+          "skew": -0.0
+        },
+        "3": {
+          "tx": 40.6,
+          "ty": 0.25,
+          "rot": 0.0,
+          "sx": 0.15615,
+          "sy": 0.15615,
+          "skew": -0.0
+        },
+        "4": {
+          "tx": 39.35,
+          "ty": 0.25,
+          "rot": 0.0,
+          "sx": 0.107157,
+          "sy": 0.107157,
+          "skew": -0.0
+        }
+      },
+      "tweened": [
+        [
+          2,
+          3
+        ]
+      ]
+    },
+    {
+      "library": "turret_blaster",
+      "layer_index": 1,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 14.25,
+        "ty": 0.25
+      },
+      "frame_ranges": [
+        [
+          0,
+          4
+        ]
+      ],
+      "frame_start": 0,
+      "frame_end": 4
+    }
+  ],
+  "timeline": {
+    "frames": 5,
+    "labels": {},
+    "scripts": {
+      "0": "stop()"
+    }
+  }
+}

@@ -1,0 +1,16 @@
+[gd_resource type="AnimationLibrary" load_steps=6 format=3]
+
+[ext_resource type="Animation" path="res://assets/rigs/scenes/fish2_anims/body_attack.tres" id="ext_1"]
+[ext_resource type="Animation" path="res://assets/rigs/scenes/fish2_anims/body_die.tres" id="ext_2"]
+[ext_resource type="Animation" path="res://assets/rigs/scenes/fish2_anims/body_plav.tres" id="ext_3"]
+[ext_resource type="Animation" path="res://assets/rigs/scenes/fish2_anims/body_run.tres" id="ext_4"]
+[ext_resource type="Animation" path="res://assets/rigs/scenes/fish2_anims/body_stay.tres" id="ext_5"]
+
+[resource]
+_data = {
+"body_attack": ExtResource("ext_1"),
+"body_die": ExtResource("ext_2"),
+"body_plav": ExtResource("ext_3"),
+"body_run": ExtResource("ext_4"),
+"body_stay": ExtResource("ext_5")
+}

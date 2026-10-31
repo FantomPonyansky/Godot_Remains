@@ -1,0 +1,17 @@
+[
+  {
+    "index": 0,
+    "label": "stay",
+    "animation": "T01_ALL_1"
+  },
+  {
+    "index": 1,
+    "label": "move1",
+    "animation": "T01_ALL_1_move1"
+  },
+  {
+    "index": 50,
+    "label": "move2",
+    "animation": "T01_ALL_1_move2"
+  }
+]

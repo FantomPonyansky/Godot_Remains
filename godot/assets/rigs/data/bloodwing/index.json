@@ -1,0 +1,285 @@
+{
+  "symbols": [
+    "claw",
+    "head",
+    "lapa",
+    "lwing1",
+    "lwing2",
+    "rwing1",
+    "rwing2",
+    "svern",
+    "tors"
+  ],
+  "unreachable_symbols": [],
+  "timelines": [
+    "body_attack",
+    "body_die",
+    "body_fly",
+    "body_stay"
+  ],
+  "nested_containers": [],
+  "default_colors": {},
+  "hide_mane_armors": [],
+  "color_channels": {},
+  "armor_bones": {},
+  "hair_bones": [],
+  "visible_bones": [],
+  "morda_bones": [],
+  "eye_bones": [],
+  "attachments": [
+    {
+      "name": "osn",
+      "library_item": "Objects/Units/BloodWing/_osn",
+      "layer_index": 0,
+      "layer_name": "Слой 1",
+      "frame": 0,
+      "matrix": {
+        "a": 0.287399291992188,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 0.287399291992188,
+        "tx": -2.3,
+        "ty": -22.4
+      },
+      "pivot": {
+        "x": 2.25,
+        "y": -2.1
+      },
+      "blend_mode": "normal",
+      "hidden": false,
+      "cache_as_bitmap": false,
+      "foreign": false
+    }
+  ],
+  "precomputed": {
+    "dups": [],
+    "extra_bones": {},
+    "bone_alt_libs": {
+      "lwing": [
+        "lwing1"
+      ],
+      "rwing": [
+        "rwing1"
+      ]
+    },
+    "bone_tree_order": [],
+    "library_scales": {
+      "claw": 1.0,
+      "head": 1.0,
+      "lapa": 1.0,
+      "lwing1": 1.0,
+      "lwing2": 1.0,
+      "rwing1": 1.0,
+      "rwing2": 1.0,
+      "svern": 1.0,
+      "tors": 1.0
+    },
+    "library_hairlines": {
+      "claw": 3.4795,
+      "head": 3.4795,
+      "lapa": 3.4795,
+      "lwing1": 3.4795,
+      "lwing2": 3.4795,
+      "rwing1": 3.4795,
+      "rwing2": 3.4795,
+      "svern": 3.4795,
+      "tors": 3.4795
+    },
+    "bone_orders": {
+      "body_attack": [
+        "lwing",
+        "llap",
+        "tors",
+        "rlap",
+        "claw",
+        "head",
+        "rwing",
+        "svern"
+      ],
+      "body_die": [
+        "lwing",
+        "llap",
+        "tors",
+        "rlap",
+        "claw",
+        "head",
+        "rwing",
+        "svern"
+      ],
+      "body_fly": [
+        "lwing",
+        "llap",
+        "tors",
+        "rlap",
+        "claw",
+        "head",
+        "rwing",
+        "svern"
+      ],
+      "body_stay": [
+        "lwing",
+        "llap",
+        "tors",
+        "rlap",
+        "claw",
+        "head",
+        "rwing",
+        "svern"
+      ]
+    }
+  },
+  "rig": {
+    "name": "bloodwing",
+    "config": "Godot_Transpilation/04_player_rig/rigs/bloodwing.json",
+    "root_symbol": "Objects/Units/BloodWing/visualBloodwing",
+    "state_kind": "label_timeline",
+    "root_node": "Bloodwing",
+    "script": "res://scripts/entity/rig_base.gd",
+    "idle_animation": "body_stay",
+    "shape_masks": {},
+    "runtime_synced_bones": [],
+    "runtime_visibility_bones": [],
+    "paths": {
+      "output": "Godot_Transpilation/04_player_rig/rigs_output/bloodwing",
+      "godot_data": "Godot_project/data/rigs/bloodwing",
+      "svg": "Assets/Art/rigs/bloodwing",
+      "png": "Godot_project/art/rigs/bloodwing",
+      "scene": "Godot_project/scenes/rigs/bloodwing.tscn",
+      "anim_library": "Godot_project/scenes/rigs/bloodwing_anims.tres"
+    },
+    "mark_libraries": [
+      "quti",
+      "mark"
+    ]
+  },
+  "tickers": {},
+  "symbol_paths": {
+    "claw": "Objects/Units/BloodWing/claw",
+    "head": "Objects/Units/BloodWing/head",
+    "lapa": "Objects/Units/BloodWing/lapa",
+    "lwing1": "Objects/Units/BloodWing/lwing1",
+    "lwing2": "Objects/Units/BloodWing/lwing2",
+    "rwing1": "Objects/Units/BloodWing/rwing1",
+    "rwing2": "Objects/Units/BloodWing/rwing2",
+    "svern": "Objects/Units/BloodWing/svern",
+    "tors": "Objects/Units/BloodWing/tors"
+  },
+  "stats": {
+    "symbols": 9,
+    "bones": 8,
+    "nested_containers": 0,
+    "timelines": 4,
+    "total_bone_keys": 96,
+    "attachments": 1,
+    "unreachable_symbols": 0,
+    "hidden_layer_entries": 0
+  },
+  "bone_filters": {
+    "body_fly": [
+      {
+        "bone": "rwing",
+        "library": "rwing2",
+        "type": "BlurFilter",
+        "attrs": {
+          "blurX": "0",
+          "blurY": "6"
+        },
+        "frames": [
+          1,
+          1
+        ]
+      },
+      {
+        "bone": "rwing",
+        "library": "rwing1",
+        "type": "BlurFilter",
+        "attrs": {
+          "blurX": "0",
+          "blurY": "6"
+        },
+        "frames": [
+          2,
+          2
+        ]
+      },
+      {
+        "bone": "rwing",
+        "library": "rwing1",
+        "type": "BlurFilter",
+        "attrs": {
+          "blurX": "0",
+          "blurY": "6"
+        },
+        "frames": [
+          4,
+          4
+        ]
+      },
+      {
+        "bone": "rwing",
+        "library": "rwing2",
+        "type": "BlurFilter",
+        "attrs": {
+          "blurX": "0",
+          "blurY": "6"
+        },
+        "frames": [
+          5,
+          5
+        ]
+      },
+      {
+        "bone": "lwing",
+        "library": "lwing2",
+        "type": "BlurFilter",
+        "attrs": {
+          "blurX": "0",
+          "blurY": "6"
+        },
+        "frames": [
+          1,
+          1
+        ]
+      },
+      {
+        "bone": "lwing",
+        "library": "lwing1",
+        "type": "BlurFilter",
+        "attrs": {
+          "blurX": "0",
+          "blurY": "6"
+        },
+        "frames": [
+          2,
+          2
+        ]
+      },
+      {
+        "bone": "lwing",
+        "library": "lwing1",
+        "type": "BlurFilter",
+        "attrs": {
+          "blurX": "0",
+          "blurY": "6"
+        },
+        "frames": [
+          4,
+          4
+        ]
+      },
+      {
+        "bone": "lwing",
+        "library": "lwing2",
+        "type": "BlurFilter",
+        "attrs": {
+          "blurX": "0",
+          "blurY": "6"
+        },
+        "frames": [
+          5,
+          5
+        ]
+      }
+    ]
+  }
+}

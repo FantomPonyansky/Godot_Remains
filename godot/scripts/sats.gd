@@ -470,7 +470,11 @@ func _draw_unit(row: Dictionary) -> void:
 		mat.set_shader_parameter("glow_color", Color(1, 0, 0, 1))
 		mat.set_shader_parameter("strength", 4.0)
 		mat.set_shader_parameter("sigma", 0.9)
-		mat.set_shader_parameter("margin", 4.0)
+		# Rig parts are rasterised above display size: the glow is in unit pixels, not texels.
+		var texel := absf(part.global_transform.get_scale().x / maxf(absf(unit.global_transform.get_scale().x), 0.0001)) if RigView.owns(part) else 1.0
+		texel = 1.0 if texel <= 0.0 else texel
+		mat.set_shader_parameter("spread", 1.0 / texel)
+		mat.set_shader_parameter("margin", 4.0 / texel)
 		mat.set_shader_parameter("region", _region_of(part, tex))
 		mat.set_shader_parameter("flip", Vector2(-1.0 if glow.flip_h else 1.0, -1.0 if glow.flip_v else 1.0))
 		glow.material = mat
@@ -552,7 +556,7 @@ func _copy(part: Node2D, tex: Texture2D) -> Sprite2D:
 		copy.region_enabled = true
 		copy.region_rect = (part as Sprite2D).region_rect
 	copy.global_transform = part.global_transform
-	copy.texture_filter = part.texture_filter
+	copy.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR if RigView.owns(part) else part.texture_filter
 	return copy
 
 

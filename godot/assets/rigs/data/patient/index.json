@@ -1,0 +1,143 @@
+{
+  "symbols": [
+    "patient_L1_F0",
+    "patient_L2_F0",
+    "patient_L3_F0",
+    "patient_L4_F0",
+    "patient_L5_F0",
+    "patient_L5_F1",
+    "patient_L6_F0",
+    "patient_L6_F1",
+    "patient_L7_F0",
+    "patient_L8_F0"
+  ],
+  "unreachable_symbols": [],
+  "timelines": [
+    "patient"
+  ],
+  "nested_containers": [],
+  "default_colors": {},
+  "hide_mane_armors": [],
+  "color_channels": {},
+  "armor_bones": {},
+  "hair_bones": [],
+  "visible_bones": [],
+  "morda_bones": [],
+  "eye_bones": [],
+  "attachments": [
+    {
+      "name": "osn",
+      "library_item": "Objects/NPC/patient",
+      "layer_index": 0,
+      "layer_name": "Слой 1",
+      "frame": 0,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 0.0,
+        "ty": -25.0
+      },
+      "pivot": {
+        "x": 0.0,
+        "y": 0.0
+      },
+      "blend_mode": "normal",
+      "hidden": false,
+      "cache_as_bitmap": false,
+      "foreign": false
+    }
+  ],
+  "precomputed": {
+    "dups": [],
+    "extra_bones": {},
+    "bone_alt_libs": {},
+    "bone_tree_order": [],
+    "library_scales": {
+      "patient_L1_F0": 3.0,
+      "patient_L2_F0": 3.0,
+      "patient_L3_F0": 3.0,
+      "patient_L4_F0": 3.0,
+      "patient_L5_F0": 3.0,
+      "patient_L5_F1": 3.0,
+      "patient_L6_F0": 3.0,
+      "patient_L6_F1": 3.0,
+      "patient_L7_F0": 3.0,
+      "patient_L8_F0": 3.0
+    },
+    "library_hairlines": {
+      "patient_L1_F0": 1.0,
+      "patient_L2_F0": 1.0,
+      "patient_L3_F0": 1.0,
+      "patient_L4_F0": 1.0,
+      "patient_L5_F0": 1.0,
+      "patient_L5_F1": 1.0,
+      "patient_L6_F0": 1.0,
+      "patient_L6_F1": 1.0,
+      "patient_L7_F0": 1.0,
+      "patient_L8_F0": 1.0
+    },
+    "bone_orders": {
+      "patient": [
+        "patient_L8_F0",
+        "patient_L7_F0",
+        "patient_L6_F1",
+        "patient_L6_F0",
+        "patient_L5_F1",
+        "patient_L5_F0",
+        "patient_L4_F0",
+        "patient_L3_F0",
+        "patient_L2_F0",
+        "patient_L1_F0"
+      ]
+    }
+  },
+  "rig": {
+    "name": "patient",
+    "config": "Godot_Transpilation/04_player_rig/rigs/patient.json",
+    "root_symbol": "Objects/NPC/visualPatient",
+    "state_kind": "self",
+    "root_node": "Patient",
+    "script": "res://scripts/entity/rig_base.gd",
+    "idle_animation": "patient",
+    "shape_masks": {},
+    "runtime_synced_bones": [],
+    "runtime_visibility_bones": [],
+    "paths": {
+      "output": "Godot_Transpilation/04_player_rig/rigs_output/patient",
+      "godot_data": "Godot_project/data/rigs/patient",
+      "svg": "Assets/Art/rigs/patient",
+      "png": "Godot_project/art/rigs/patient",
+      "scene": "Godot_project/scenes/rigs/patient.tscn",
+      "anim_library": "Godot_project/scenes/rigs/patient_anims.tres"
+    },
+    "mark_libraries": [
+      "quti",
+      "mark"
+    ]
+  },
+  "tickers": {},
+  "symbol_paths": {
+    "patient_L1_F0": "Objects/NPC/patient",
+    "patient_L2_F0": "Objects/NPC/patient",
+    "patient_L3_F0": "Objects/NPC/patient",
+    "patient_L4_F0": "Objects/NPC/patient",
+    "patient_L5_F0": "Objects/NPC/patient",
+    "patient_L5_F1": "Objects/NPC/patient",
+    "patient_L6_F0": "Objects/NPC/patient",
+    "patient_L6_F1": "Objects/NPC/patient",
+    "patient_L7_F0": "Objects/NPC/patient",
+    "patient_L8_F0": "Objects/NPC/patient"
+  },
+  "stats": {
+    "symbols": 10,
+    "bones": 10,
+    "nested_containers": 0,
+    "timelines": 1,
+    "total_bone_keys": 28,
+    "attachments": 1,
+    "unreachable_symbols": 0,
+    "hidden_layer_entries": 0
+  }
+}

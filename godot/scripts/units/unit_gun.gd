@@ -5,6 +5,7 @@ extends RefCounted
 ## the barrel turns at drot toward the target (or forceRot), and shots leave
 ## along the barrel. Times are ticks.
 
+const _WeaponVis := preload("res://scripts/weapon_vis.gd")
 const SIXTH := PI / 6.0
 const FIVE_SIXTH := PI * 5.0 / 6.0
 
@@ -36,6 +37,13 @@ var t_rech := 0
 var ready := false
 var is_shoot := false
 var shots := 0
+## Weapon.vis drawn by the brain (UnitBrain.make_gun_vis), its clip, the shots it has shown,
+## and the frames left on its "shoot" clip.
+var vis: Sprite2D
+var vis_clip: RefCounted
+var vis_shots := 0
+var t_shoot := 0
+var floating := false
 
 
 func _init(brain: UnitBrain, row: Dictionary) -> void:
@@ -57,8 +65,14 @@ func _init(brain: UnitBrain, row: Dictionary) -> void:
 	rot = 0.0 if b.storona >= 0.0 else PI
 
 
+## Where the gun is. Weapon.actions with krep 0 eases it to weaponX / weaponY by 1/5 a
+## tick; the port keeps it on the mount (PORT_RULES.md, boss guns).
+func origin() -> Vector2:
+	return b.weapon_pos()
+
+
 func actions() -> void:
-	var at := b.weapon_pos()
+	var at := origin()
 	var rot2 := force_rot
 	if find_cel:
 		if fixed_to_owner:
@@ -158,8 +172,11 @@ func shoot() -> void:
 		rounds -= rashod
 		if rounds < rashod:
 			init_reload()
-	var at := b.weapon_pos()
+	var at := origin()
 	var start := at + dir() * minf(length, 40.0)
+	# Weapon.getBulXY: from the vis clip's `emit` point.
+	if vis != null and vis.is_visible_in_tree():
+		start = vis.to_global(_WeaponVis.emit(id))
 	start = _clear(at, start)
 	var reach := maxf(at.distance_to(b.cel), 60.0) if find_cel else 200.0
 	var target := start + dir() * reach

@@ -1,0 +1,75 @@
+{
+  "symbols": [
+    "train"
+  ],
+  "unreachable_symbols": [],
+  "timelines": [
+    "visualTrain"
+  ],
+  "nested_containers": [],
+  "default_colors": {},
+  "hide_mane_armors": [],
+  "color_channels": {},
+  "armor_bones": {},
+  "hair_bones": [],
+  "visible_bones": [],
+  "morda_bones": [],
+  "eye_bones": [],
+  "attachments": [],
+  "precomputed": {
+    "dups": [],
+    "extra_bones": {},
+    "bone_alt_libs": {},
+    "bone_tree_order": [],
+    "library_scales": {
+      "train": 1.6769
+    },
+    "library_hairlines": {
+      "train": 1.789
+    },
+    "bone_orders": {
+      "visualTrain": [
+        "train"
+      ]
+    }
+  },
+  "rig": {
+    "name": "train",
+    "config": "Godot_Transpilation/04_player_rig/rigs/train.json",
+    "root_symbol": "Objects/NPC/visualTrain",
+    "state_kind": "self",
+    "root_node": "Train",
+    "script": "res://scripts/entity/rig_base.gd",
+    "idle_animation": "visualTrain",
+    "state_instance": "",
+    "shape_masks": {},
+    "runtime_synced_bones": [],
+    "runtime_visibility_bones": [],
+    "paths": {
+      "output": "Godot_Transpilation/04_player_rig/rigs_output/train",
+      "godot_data": "Godot_project/data/rigs/train",
+      "svg": "Assets/Art/rigs/train",
+      "png": "Godot_project/art/rigs/train",
+      "scene": "Godot_project/scenes/rigs/train.tscn",
+      "anim_library": "Godot_project/scenes/rigs/train_anims.tres"
+    },
+    "mark_libraries": [
+      "quti",
+      "mark"
+    ]
+  },
+  "tickers": {},
+  "symbol_paths": {
+    "train": "Objects/NPC/train"
+  },
+  "stats": {
+    "symbols": 1,
+    "bones": 1,
+    "nested_containers": 0,
+    "timelines": 1,
+    "total_bone_keys": 2,
+    "attachments": 0,
+    "unreachable_symbols": 0,
+    "hidden_layer_entries": 0
+  }
+}

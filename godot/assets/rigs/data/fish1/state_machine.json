@@ -1,0 +1,27 @@
+[
+  {
+    "index": 0,
+    "label": "stay",
+    "animation": "body_stay"
+  },
+  {
+    "index": 1,
+    "label": "plav",
+    "animation": "body_plav"
+  },
+  {
+    "index": 2,
+    "label": "run",
+    "animation": "body_run"
+  },
+  {
+    "index": 3,
+    "label": "attack",
+    "animation": "body_attack"
+  },
+  {
+    "index": 4,
+    "label": "die",
+    "animation": "body_die"
+  }
+]

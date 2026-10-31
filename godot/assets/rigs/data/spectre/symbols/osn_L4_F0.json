@@ -1,0 +1,21 @@
+{
+  "artwork_layers": [
+    {
+      "layer_index": 4,
+      "element_svg_files": {
+        "0": [
+          "osn_L4_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    }
+  ],
+  "svg_files": {
+    "0": "osn_L4_S0.svg"
+  },
+  "source_symbol": "osn",
+  "artwork_selector": [
+    4,
+    0
+  ]
+}

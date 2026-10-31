@@ -1,0 +1,115 @@
+{
+  "symbols": [
+    "bloat_vzmah",
+    "bloat_wing",
+    "korpus10"
+  ],
+  "unreachable_symbols": [],
+  "timelines": [
+    "_osn10"
+  ],
+  "nested_containers": [],
+  "default_colors": {},
+  "hide_mane_armors": [],
+  "color_channels": {},
+  "armor_bones": {},
+  "hair_bones": [],
+  "visible_bones": [],
+  "morda_bones": [],
+  "eye_bones": [],
+  "attachments": [
+    {
+      "name": "osn",
+      "library_item": "Objects/Units/BloatSprite/_osn10",
+      "layer_index": 0,
+      "layer_name": "Слой 1",
+      "frame": 0,
+      "matrix": {
+        "a": 1.74996948242188,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.74993896484375,
+        "tx": -1.85,
+        "ty": -17.05
+      },
+      "pivot": {
+        "x": -0.15,
+        "y": -0.15
+      },
+      "blend_mode": "normal",
+      "hidden": false,
+      "cache_as_bitmap": false,
+      "foreign": false
+    }
+  ],
+  "precomputed": {
+    "dups": [],
+    "extra_bones": {},
+    "bone_alt_libs": {},
+    "bone_tree_order": [
+      [
+        "bloat_wing",
+        "bloat_wing_2"
+      ]
+    ],
+    "library_scales": {
+      "bloat_vzmah": 4.0876,
+      "bloat_wing": 4.0876,
+      "korpus10": 8.6786
+    },
+    "library_hairlines": {
+      "bloat_vzmah": 0.7339,
+      "bloat_wing": 0.7339,
+      "korpus10": 0.3457
+    },
+    "bone_orders": {
+      "_osn10": [
+        "bloat_wing_3",
+        "korpus10",
+        "bloat_wing",
+        "bloat_wing_2",
+        "bloat_vzmah"
+      ]
+    }
+  },
+  "rig": {
+    "name": "bloat10",
+    "config": "Godot_Transpilation/04_player_rig/rigs/bloat10.json",
+    "root_symbol": "Objects/Units/BloatSprite/visualBloat10",
+    "state_kind": "self",
+    "root_node": "Bloat10",
+    "script": "res://scripts/entity/rig_base.gd",
+    "idle_animation": "_osn10",
+    "shape_masks": {},
+    "runtime_synced_bones": [],
+    "runtime_visibility_bones": [],
+    "paths": {
+      "output": "Godot_Transpilation/04_player_rig/rigs_output/bloat10",
+      "godot_data": "Godot_project/data/rigs/bloat10",
+      "svg": "Assets/Art/rigs/bloat10",
+      "png": "Godot_project/art/rigs/bloat10",
+      "scene": "Godot_project/scenes/rigs/bloat10.tscn",
+      "anim_library": "Godot_project/scenes/rigs/bloat10_anims.tres"
+    },
+    "mark_libraries": [
+      "quti",
+      "mark"
+    ]
+  },
+  "tickers": {},
+  "symbol_paths": {
+    "bloat_vzmah": "Objects/Units/BloatSprite/bloat_vzmah",
+    "bloat_wing": "Objects/Units/BloatSprite/bloat_wing",
+    "korpus10": "Objects/Units/BloatSprite/korpus10"
+  },
+  "stats": {
+    "symbols": 3,
+    "bones": 5,
+    "nested_containers": 0,
+    "timelines": 1,
+    "total_bone_keys": 26,
+    "attachments": 1,
+    "unreachable_symbols": 0,
+    "hidden_layer_entries": 0
+  }
+}

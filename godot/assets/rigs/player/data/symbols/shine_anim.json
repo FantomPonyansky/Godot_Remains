@@ -1,0 +1,177 @@
+{
+  "artwork_layers": [
+    {
+      "layer_index": 1,
+      "element_svg_files": {
+        "0": [
+          "shine_anim_L1_S0.svg"
+        ],
+        "1": [
+          "shine_anim_f1_L1_S0.svg"
+        ],
+        "2": [
+          "shine_anim_f2_L1_S0.svg"
+        ],
+        "3": [
+          "shine_anim_f3_L1_S0.svg"
+        ],
+        "4": [
+          "shine_anim_f4_L1_S0.svg"
+        ],
+        "5": [
+          "shine_anim_f5_L1_S0.svg"
+        ],
+        "6": [
+          "shine_anim_f6_L1_S0.svg"
+        ],
+        "7": [
+          "shine_anim_f7_L1_S0.svg"
+        ],
+        "8": [
+          "shine_anim_f8_L1_S0.svg"
+        ],
+        "9": [
+          "shine_anim_f9_L1_S0.svg"
+        ],
+        "10": [
+          "shine_anim_f10_L1_S0.svg"
+        ],
+        "11": [
+          "shine_anim_f11_L1_S0.svg"
+        ],
+        "12": [
+          "shine_anim_f12_L1_S0.svg"
+        ],
+        "13": [
+          "shine_anim_f13_L1_S0.svg"
+        ],
+        "14": [
+          "shine_anim_f14_L1_S0.svg"
+        ],
+        "15": [
+          "shine_anim_f15_L1_S0.svg"
+        ],
+        "16": [
+          "shine_anim_f16_L1_S0.svg"
+        ],
+        "17": [
+          "shine_anim_f17_L1_S0.svg"
+        ],
+        "18": [
+          "shine_anim_f18_L1_S0.svg"
+        ],
+        "19": [
+          "shine_anim_f19_L1_S0.svg"
+        ],
+        "20": [
+          "shine_anim_f20_L1_S0.svg"
+        ],
+        "21": [
+          "shine_anim_f21_L1_S0.svg"
+        ],
+        "22": [
+          "shine_anim_f22_L1_S0.svg"
+        ],
+        "23": [
+          "shine_anim_f23_L1_S0.svg"
+        ],
+        "24": [
+          "shine_anim_f24_L1_S0.svg"
+        ],
+        "25": [
+          "shine_anim_f25_L1_S0.svg"
+        ],
+        "26": [
+          "shine_anim_f26_L1_S0.svg"
+        ],
+        "27": [
+          "shine_anim_f27_L1_S0.svg"
+        ],
+        "28": [
+          "shine_anim_f28_L1_S0.svg"
+        ],
+        "29": [
+          "shine_anim_f29_L1_S0.svg"
+        ],
+        "30": [
+          "shine_anim_f30_L1_S0.svg"
+        ],
+        "31": [
+          "shine_anim_f31_L1_S0.svg"
+        ],
+        "32": [
+          "shine_anim_f32_L1_S0.svg"
+        ],
+        "33": [
+          "shine_anim_f33_L1_S0.svg"
+        ],
+        "34": [
+          "shine_anim_f34_L1_S0.svg"
+        ],
+        "35": [
+          "shine_anim_f35_L1_S0.svg"
+        ],
+        "36": [
+          "shine_anim_f36_L1_S0.svg"
+        ],
+        "37": [
+          "shine_anim_f37_L1_S0.svg"
+        ],
+        "38": [
+          "shine_anim_f38_L1_S0.svg"
+        ],
+        "39": [
+          "shine_anim_f39_L1_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    }
+  ],
+  "svg_files": {
+    "0": "shine_anim_L1_S0.svg",
+    "1": "shine_anim_f1_L1_S0.svg",
+    "2": "shine_anim_f2_L1_S0.svg",
+    "3": "shine_anim_f3_L1_S0.svg",
+    "4": "shine_anim_f4_L1_S0.svg",
+    "5": "shine_anim_f5_L1_S0.svg",
+    "6": "shine_anim_f6_L1_S0.svg",
+    "7": "shine_anim_f7_L1_S0.svg",
+    "8": "shine_anim_f8_L1_S0.svg",
+    "9": "shine_anim_f9_L1_S0.svg",
+    "10": "shine_anim_f10_L1_S0.svg",
+    "11": "shine_anim_f11_L1_S0.svg",
+    "12": "shine_anim_f12_L1_S0.svg",
+    "13": "shine_anim_f13_L1_S0.svg",
+    "14": "shine_anim_f14_L1_S0.svg",
+    "15": "shine_anim_f15_L1_S0.svg",
+    "16": "shine_anim_f16_L1_S0.svg",
+    "17": "shine_anim_f17_L1_S0.svg",
+    "18": "shine_anim_f18_L1_S0.svg",
+    "19": "shine_anim_f19_L1_S0.svg",
+    "20": "shine_anim_f20_L1_S0.svg",
+    "21": "shine_anim_f21_L1_S0.svg",
+    "22": "shine_anim_f22_L1_S0.svg",
+    "23": "shine_anim_f23_L1_S0.svg",
+    "24": "shine_anim_f24_L1_S0.svg",
+    "25": "shine_anim_f25_L1_S0.svg",
+    "26": "shine_anim_f26_L1_S0.svg",
+    "27": "shine_anim_f27_L1_S0.svg",
+    "28": "shine_anim_f28_L1_S0.svg",
+    "29": "shine_anim_f29_L1_S0.svg",
+    "30": "shine_anim_f30_L1_S0.svg",
+    "31": "shine_anim_f31_L1_S0.svg",
+    "32": "shine_anim_f32_L1_S0.svg",
+    "33": "shine_anim_f33_L1_S0.svg",
+    "34": "shine_anim_f34_L1_S0.svg",
+    "35": "shine_anim_f35_L1_S0.svg",
+    "36": "shine_anim_f36_L1_S0.svg",
+    "37": "shine_anim_f37_L1_S0.svg",
+    "38": "shine_anim_f38_L1_S0.svg",
+    "39": "shine_anim_f39_L1_S0.svg"
+  },
+  "timeline": {
+    "frames": 40,
+    "labels": {},
+    "scripts": {}
+  }
+}

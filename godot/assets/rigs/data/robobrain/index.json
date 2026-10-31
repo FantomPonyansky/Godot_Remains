@@ -1,0 +1,152 @@
+{
+  "symbols": [
+    "gusen",
+    "gusen2",
+    "head",
+    "head_d",
+    "korpus",
+    "korpus_d",
+    "ruka"
+  ],
+  "unreachable_symbols": [],
+  "timelines": [
+    "body_die",
+    "body_stay",
+    "body_walk"
+  ],
+  "nested_containers": [],
+  "default_colors": {},
+  "hide_mane_armors": [],
+  "color_channels": {},
+  "armor_bones": {},
+  "hair_bones": [],
+  "visible_bones": [],
+  "morda_bones": [],
+  "eye_bones": [],
+  "attachments": [
+    {
+      "name": "osn",
+      "library_item": "Objects/Units/Robomozg/_osn",
+      "layer_index": 1,
+      "layer_name": "Слой 1",
+      "frame": 0,
+      "matrix": {
+        "a": 0.651870727539063,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 0.651870727539063,
+        "tx": -1.05,
+        "ty": -27.5
+      },
+      "pivot": {
+        "x": 14.35,
+        "y": -11.5
+      },
+      "blend_mode": "normal",
+      "hidden": false,
+      "cache_as_bitmap": false,
+      "foreign": false
+    }
+  ],
+  "precomputed": {
+    "dups": [],
+    "extra_bones": {},
+    "bone_alt_libs": {
+      "gusen": [
+        "gusen2"
+      ],
+      "head": [
+        "head_d"
+      ],
+      "korpus": [
+        "korpus_d"
+      ]
+    },
+    "bone_tree_order": [],
+    "library_scales": {
+      "gusen": 1.9557,
+      "gusen2": 1.9557,
+      "head": 1.9557,
+      "head_d": 1.9557,
+      "korpus": 1.9557,
+      "korpus_d": 1.9557,
+      "ruka": 1.9557
+    },
+    "library_hairlines": {
+      "gusen": 1.534,
+      "gusen2": 1.534,
+      "head": 1.534,
+      "head_d": 1.534,
+      "korpus": 1.534,
+      "korpus_d": 1.534,
+      "ruka": 1.534
+    },
+    "bone_orders": {
+      "body_die": [
+        "ruka_2",
+        "korpus",
+        "gusen",
+        "head",
+        "ruka"
+      ],
+      "body_stay": [
+        "ruka_2",
+        "korpus",
+        "gusen",
+        "head",
+        "ruka"
+      ],
+      "body_walk": [
+        "ruka_2",
+        "korpus",
+        "gusen",
+        "head",
+        "ruka"
+      ]
+    }
+  },
+  "rig": {
+    "name": "robobrain",
+    "config": "Godot_Transpilation/04_player_rig/rigs/robobrain.json",
+    "root_symbol": "Objects/Units/Robomozg/visualRobobrain",
+    "state_kind": "label_timeline",
+    "root_node": "Robobrain",
+    "script": "res://scripts/entity/rig_base.gd",
+    "idle_animation": "body_stay",
+    "shape_masks": {},
+    "runtime_synced_bones": [],
+    "runtime_visibility_bones": [],
+    "paths": {
+      "output": "Godot_Transpilation/04_player_rig/rigs_output/robobrain",
+      "godot_data": "Godot_project/data/rigs/robobrain",
+      "svg": "Assets/Art/rigs/robobrain",
+      "png": "Godot_project/art/rigs/robobrain",
+      "scene": "Godot_project/scenes/rigs/robobrain.tscn",
+      "anim_library": "Godot_project/scenes/rigs/robobrain_anims.tres"
+    },
+    "mark_libraries": [
+      "quti",
+      "mark"
+    ]
+  },
+  "tickers": {},
+  "symbol_paths": {
+    "gusen": "Objects/Units/Robomozg/gusen",
+    "gusen2": "Objects/Units/Robomozg/gusen2",
+    "head": "Objects/Units/Robomozg/head",
+    "head_d": "Objects/Units/Robomozg/head_d",
+    "korpus": "Objects/Units/Robomozg/korpus",
+    "korpus_d": "Objects/Units/Robomozg/korpus_d",
+    "ruka": "Objects/Units/Robomozg/ruka"
+  },
+  "stats": {
+    "symbols": 7,
+    "bones": 5,
+    "nested_containers": 0,
+    "timelines": 3,
+    "total_bone_keys": 75,
+    "attachments": 1,
+    "unreachable_symbols": 0,
+    "hidden_layer_entries": 0
+  }
+}

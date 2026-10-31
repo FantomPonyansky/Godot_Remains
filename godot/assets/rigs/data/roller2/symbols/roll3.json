@@ -1,0 +1,323 @@
+{
+  "artwork_layers": [
+    {
+      "layer_index": 0,
+      "element_svg_files": {
+        "2": [
+          "roll3_f2_L0_S0.svg"
+        ],
+        "3": [
+          "roll3_f2_L0_S0.svg"
+        ],
+        "6": [
+          "roll3_f6_L0_S0.svg"
+        ],
+        "7": [
+          "roll3_f6_L0_S0.svg"
+        ],
+        "8": [
+          "roll3_f6_L0_S0.svg"
+        ],
+        "9": [
+          "roll3_f6_L0_S0.svg"
+        ],
+        "12": [
+          "roll3_f12_L0_S0.svg"
+        ],
+        "13": [
+          "roll3_f12_L0_S0.svg"
+        ],
+        "14": [
+          "roll3_f12_L0_S0.svg"
+        ],
+        "17": [
+          "roll3_f17_L0_S0.svg"
+        ],
+        "18": [
+          "roll3_f17_L0_S0.svg"
+        ],
+        "19": [
+          "roll3_f17_L0_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 1,
+      "element_svg_files": {
+        "0": [
+          "roll3_L1_S0.svg"
+        ],
+        "1": [
+          "roll3_L1_S0.svg"
+        ],
+        "2": [
+          "roll3_L1_S0.svg"
+        ],
+        "3": [
+          "roll3_L1_S0.svg"
+        ],
+        "4": [
+          "roll3_L1_S0.svg"
+        ],
+        "5": [
+          "roll3_L1_S0.svg"
+        ],
+        "6": [
+          "roll3_L1_S0.svg"
+        ],
+        "7": [
+          "roll3_L1_S0.svg"
+        ],
+        "8": [
+          "roll3_L1_S0.svg"
+        ],
+        "9": [
+          "roll3_L1_S0.svg"
+        ],
+        "10": [
+          "roll3_L1_S0.svg"
+        ],
+        "11": [
+          "roll3_L1_S0.svg"
+        ],
+        "12": [
+          "roll3_L1_S0.svg"
+        ],
+        "13": [
+          "roll3_L1_S0.svg"
+        ],
+        "14": [
+          "roll3_L1_S0.svg"
+        ],
+        "15": [
+          "roll3_L1_S0.svg"
+        ],
+        "16": [
+          "roll3_L1_S0.svg"
+        ],
+        "17": [
+          "roll3_L1_S0.svg"
+        ],
+        "18": [
+          "roll3_L1_S0.svg"
+        ],
+        "19": [
+          "roll3_L1_S0.svg"
+        ],
+        "20": [
+          "roll3_L1_S0.svg"
+        ],
+        "21": [
+          "roll3_L1_S0.svg"
+        ],
+        "22": [
+          "roll3_L1_S0.svg"
+        ],
+        "23": [
+          "roll3_L1_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 2,
+      "element_svg_files": {
+        "0": [
+          "roll3_L2_S0.svg"
+        ],
+        "1": [
+          "roll3_L2_S0.svg"
+        ],
+        "2": [
+          "roll3_L2_S0.svg"
+        ],
+        "3": [
+          "roll3_L2_S0.svg"
+        ],
+        "4": [
+          "roll3_L2_S0.svg"
+        ],
+        "5": [
+          "roll3_L2_S0.svg"
+        ],
+        "6": [
+          "roll3_L2_S0.svg"
+        ],
+        "7": [
+          "roll3_L2_S0.svg"
+        ],
+        "8": [
+          "roll3_L2_S0.svg"
+        ],
+        "9": [
+          "roll3_L2_S0.svg"
+        ],
+        "10": [
+          "roll3_L2_S0.svg"
+        ],
+        "11": [
+          "roll3_L2_S0.svg"
+        ],
+        "12": [
+          "roll3_L2_S0.svg"
+        ],
+        "13": [
+          "roll3_L2_S0.svg"
+        ],
+        "14": [
+          "roll3_L2_S0.svg"
+        ],
+        "15": [
+          "roll3_L2_S0.svg"
+        ],
+        "16": [
+          "roll3_L2_S0.svg"
+        ],
+        "17": [
+          "roll3_L2_S0.svg"
+        ],
+        "18": [
+          "roll3_L2_S0.svg"
+        ],
+        "19": [
+          "roll3_L2_S0.svg"
+        ],
+        "20": [
+          "roll3_L2_S0.svg"
+        ],
+        "21": [
+          "roll3_L2_S0.svg"
+        ],
+        "22": [
+          "roll3_L2_S0.svg"
+        ],
+        "23": [
+          "roll3_L2_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    }
+  ],
+  "svg_files": {
+    "2": "roll3_f2_L0_S0.svg",
+    "3": "roll3_f2_L0_S0.svg",
+    "6": "roll3_f6_L0_S0.svg",
+    "7": "roll3_f6_L0_S0.svg",
+    "8": "roll3_f6_L0_S0.svg",
+    "9": "roll3_f6_L0_S0.svg",
+    "12": "roll3_f12_L0_S0.svg",
+    "13": "roll3_f12_L0_S0.svg",
+    "14": "roll3_f12_L0_S0.svg",
+    "17": "roll3_f17_L0_S0.svg",
+    "18": "roll3_f17_L0_S0.svg",
+    "19": "roll3_f17_L0_S0.svg"
+  },
+  "children": [
+    {
+      "library": "roller_pups3",
+      "layer_index": 1,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 0.0,
+        "ty": 0.0
+      },
+      "frame_ranges": [
+        [
+          0,
+          23
+        ]
+      ],
+      "frame_start": 0,
+      "frame_end": 23
+    },
+    {
+      "library": "roller_pups3",
+      "layer_index": 1,
+      "matrix": {
+        "a": 0.30902099609375,
+        "b": 0.9510498046875,
+        "c": -0.9510498046875,
+        "d": 0.30902099609375,
+        "tx": 0.0,
+        "ty": 0.0
+      },
+      "frame_ranges": [
+        [
+          0,
+          23
+        ]
+      ],
+      "frame_start": 0,
+      "frame_end": 23
+    },
+    {
+      "library": "roller_pups3",
+      "layer_index": 1,
+      "matrix": {
+        "a": -0.80902099609375,
+        "b": 0.587783813476563,
+        "c": -0.587783813476563,
+        "d": -0.80902099609375,
+        "tx": 0.0,
+        "ty": 0.0
+      },
+      "frame_ranges": [
+        [
+          0,
+          23
+        ]
+      ],
+      "frame_start": 0,
+      "frame_end": 23
+    },
+    {
+      "library": "roller_pups3",
+      "layer_index": 1,
+      "matrix": {
+        "a": -0.809005737304688,
+        "b": -0.587783813476563,
+        "c": 0.587783813476563,
+        "d": -0.809005737304688,
+        "tx": 0.1,
+        "ty": -0.1
+      },
+      "frame_ranges": [
+        [
+          0,
+          23
+        ]
+      ],
+      "frame_start": 0,
+      "frame_end": 23
+    },
+    {
+      "library": "roller_pups3",
+      "layer_index": 1,
+      "matrix": {
+        "a": 0.30902099609375,
+        "b": -0.9510498046875,
+        "c": 0.9510498046875,
+        "d": 0.30902099609375,
+        "tx": 0.1,
+        "ty": -0.1
+      },
+      "frame_ranges": [
+        [
+          0,
+          23
+        ]
+      ],
+      "frame_start": 0,
+      "frame_end": 23
+    }
+  ],
+  "timeline": {
+    "frames": 24,
+    "labels": {},
+    "scripts": {}
+  }
+}

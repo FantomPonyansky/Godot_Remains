@@ -1,0 +1,21 @@
+{
+  "artwork_layers": [
+    {
+      "layer_index": 1,
+      "element_svg_files": {
+        "0": [
+          "patient_L1_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    }
+  ],
+  "svg_files": {
+    "0": "patient_L1_S0.svg"
+  },
+  "source_symbol": "patient",
+  "artwork_selector": [
+    1,
+    0
+  ]
+}

@@ -1,0 +1,140 @@
+{
+  "artwork_layers": [
+    {
+      "layer_index": 2,
+      "element_svg_files": {
+        "0": [
+          "pon_mentor2_L2_S0.svg"
+        ],
+        "1": [
+          "pon_mentor2_L2_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 3,
+      "element_svg_files": {
+        "0": [
+          "pon_mentor2_L3_S0.svg"
+        ],
+        "1": [
+          "pon_mentor2_L3_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 4,
+      "element_svg_files": {
+        "0": [
+          "pon_mentor2_L4_S0.svg"
+        ],
+        "1": [
+          "pon_mentor2_L4_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 5,
+      "element_svg_files": {
+        "0": [
+          "pon_mentor2_L5_S0.svg"
+        ],
+        "1": [
+          "pon_mentor2_L5_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 6,
+      "element_svg_files": {
+        "0": [
+          "pon_mentor2_L6_S0.svg"
+        ],
+        "1": [
+          "pon_mentor2_L6_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 7,
+      "element_svg_files": {
+        "0": [
+          "pon_mentor2_L7_S0.svg"
+        ],
+        "1": [
+          "pon_mentor2_L7_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 8,
+      "element_svg_files": {
+        "0": [
+          "pon_mentor2_L8_S0.svg"
+        ],
+        "1": [
+          "pon_mentor2_f1_L8_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 9,
+      "element_svg_files": {
+        "0": [
+          "pon_mentor2_L9_S0.svg"
+        ],
+        "1": [
+          "pon_mentor2_L9_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 10,
+      "element_svg_files": {
+        "0": [
+          "pon_mentor2_L10_S0.svg"
+        ],
+        "1": [
+          "pon_mentor2_L10_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 11,
+      "element_svg_files": {
+        "0": [
+          "pon_mentor2_L11_S0.svg"
+        ],
+        "1": [
+          "pon_mentor2_L11_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    }
+  ],
+  "svg_files": {
+    "0": "pon_mentor2_L2_S0.svg",
+    "1": "pon_mentor2_L2_S0.svg"
+  },
+  "armor_labels": {
+    "0": "stay"
+  },
+  "timeline": {
+    "frames": 2,
+    "labels": {
+      "stay": 0
+    },
+    "scripts": {
+      "0": "stop()"
+    }
+  }
+}

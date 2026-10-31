@@ -28,7 +28,7 @@ const LINES: PackedStringArray = [
 	"god [0|1] — Toggle (or set) god mode: no damage or radiation, magic and mana stay full, spells cost nothing. Port debug only.",
 	"artcache [0|1] — Print or set load on demand: on a land change, art only the old land used is freed (setting foe/art/load_on_demand, flags --art-on-demand / --art-preload). Takes effect at the next land change.",
 	"tp <room_x> <room_y> [cell_x] [cell_y] — Put the player in that room of the current land (rooms 48 x 25 cells; room y from the top). Two numbers land near the floor of the room; four pick a cell. Port debug only.",
-	"spawn <unit_id> [count] — Put that enemy (enemies.json id: bloat3, turret0, alicorn1, ...) calm, 3 cells in front of the player. Count defaults to 1. Port debug only.",
+	"spawn <unit_id> [count] [tr=N] — Put that enemy (enemies.json id: bloat3, turret0, alicorn1, ...) calm, 3 cells in front of the player. Count defaults to 1. tr=N is the map variant (bossraider tr=2: the flamer boss). Port debug only.",
 	"trials — List every trial (tip 1) id and the land that can hold it.",
 	"trial <id> — Go to that trial chamber (rebuilds the land and plants the room if it is missing). Port debug only.",
 	"bosses — List every boss arena (tip 2) id and the land that can hold it.",
@@ -857,6 +857,14 @@ func _cmd_tp(console, args: PackedStringArray) -> String:
 
 
 func _cmd_spawn(console, args: PackedStringArray) -> String:
+	var tr := -1
+	var rest := PackedStringArray()
+	for a in args:
+		if a.begins_with("tr=") and a.substr(3).is_valid_int():
+			tr = int(a.substr(3))
+		else:
+			rest.append(a)
+	args = rest
 	if args.is_empty() or args.size() > 2 or (args.size() == 2 and not args[1].is_valid_int()):
 		return usage("spawn")
 	var uid := args[0]
@@ -874,6 +882,8 @@ func _cmd_spawn(console, args: PackedStringArray) -> String:
 	for i in count:
 		var node := packed.instantiate() as CharacterBody2D
 		node.set_meta("unit_id", uid)
+		if tr >= 0:
+			node.set_meta("tr", tr)
 		var at := who.global_position + Vector2(facing * (120.0 + 40.0 * i), 0.0)
 		node.position = at
 		host.add_child(node)

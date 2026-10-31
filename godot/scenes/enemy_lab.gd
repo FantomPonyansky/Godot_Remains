@@ -1,25 +1,20 @@
 extends Node2D
 
-## Sandbox for enemy sheets already imported under assets/sprites/sheets.
-## Clip rows, lengths, and speeds come from the Remains spritesheets manifest.
-## Frames are cut with SheetFrames, the same cutter the game uses.
+## Sandbox for every unit the game can draw: the list is `enemies.json` order (units with a
+## sheet or a rig), and each one is the game's own `enemy.tscn` set up from its id, so its
+## clips, frame counts, speeds and loops are the game's (sheet frames, or a rig following
+## the ghost frames). New units, rigs and clips show up with no change here.
 ## AI stays off. Enter replays the clip and, when this enemy script actually
 ## has a matching act, runs that act once at the dummy.
 
 const _EnemyScript := preload("res://scripts/enemy.gd")
 const _EnemyScene := preload("res://scenes/enemy.tscn")
 
-const SHEET_DIR := "res://assets/sprites/sheets"
 const SPAWN := Vector2(480, 520)
 const DUMMY_GAP := 340.0
-const TPS := 30.0
 
-var _sheets: Dictionary = {}
 var _catalog: Dictionary = {}
-var _sizes: Dictionary = {}
 var _enemies: Array[String] = []
-var _cell := Vector2i(120, 120)
-var _sheet_rows := 0
 
 var _enemy_list: ItemList
 var _action_list: ItemList
@@ -31,10 +26,6 @@ var _action_i := 0
 var _actor: CharacterBody2D
 var _dummy: Target
 var _clip := ""
-var _meta: Dictionary = {}
-var _f := 0.0
-var _acc := 0.0
-var _hold := false
 var _hopping := false
 var _left_floor := false
 var _hop_time := 0.0
@@ -44,26 +35,19 @@ var _hit := ""
 
 func _ready() -> void:
 	_build_stage()
-	_load_manifest()
 	_load_catalog()
 	_collect_enemies()
 	_fill_enemy_list()
 	if _enemies.is_empty():
-		_status.text = "No enemy sheet under assets/sprites/sheets."
+		_status.text = "No unit in enemies.json has a sheet or a rig."
 		return
 	_select_enemy(0)
 
 
 func _process(delta: float) -> void:
 	_stick_lock = maxf(0.0, _stick_lock - delta)
-	if _clip == "":
-		return
-	_acc += delta
-	var step := 1.0 / TPS
-	while _acc >= step:
-		_acc -= step
-		_advance()
-	_show_frame()
+	if _clip != "":
+		_show_frame()
 
 
 func _physics_process(delta: float) -> void:
@@ -125,6 +109,7 @@ func _build_stage() -> void:
 	var cam := Camera2D.new()
 	cam.position = Vector2(640, 380)
 	cam.enabled = true
+	cam.process_callback = Camera2D.CAMERA2D_PROCESS_PHYSICS
 	add_child(cam)
 	cam.make_current()
 
@@ -263,53 +248,6 @@ func _make_list(root: Control, left: float, right: float) -> ItemList:
 	return list
 
 
-func _repo_file(rel: String) -> String:
-	var godot_dir := ProjectSettings.globalize_path("res://").trim_suffix("/").trim_suffix("\\")
-	return godot_dir.get_base_dir().path_join(rel)
-
-
-func _load_manifest() -> void:
-	var path := _repo_file("reference/Remains-Source2/Modules/core/spritesheets/spritesheets.json")
-	if not FileAccess.file_exists(path):
-		push_error("Enemy lab: missing spritesheets.json at %s" % path)
-		return
-	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
-	if parsed is Dictionary:
-		_sheets = parsed
-
-
-func _load_cell_sizes() -> void:
-	var path := _repo_file("reference/Remains-Source2/Modules/core/AllData/units.xml")
-	var parser := XMLParser.new()
-	if parser.open(path) != OK:
-		return
-	var id := ""
-	var parent := ""
-	while parser.read() == OK:
-		if parser.get_node_type() != XMLParser.NODE_ELEMENT:
-			continue
-		var node := parser.get_node_name()
-		if node == "unit":
-			id = _attr(parser, "id")
-			parent = _attr(parser, "parent")
-		elif node == "vis" and id != "":
-			var sx := _attr(parser, "sprX")
-			if sx == "":
-				continue
-			var sy := _attr(parser, "sprY")
-			var size := Vector2i(int(sx), int(sy) if sy != "" else int(sx))
-			var sheet := parent if parent != "" else id
-			if not _sizes.has(sheet):
-				_sizes[sheet] = []
-			(_sizes[sheet] as Array).append(size)
-
-
-func _attr(parser: XMLParser, key: String) -> String:
-	if not parser.has_attribute(key):
-		return ""
-	return parser.get_named_attribute_value(key)
-
-
 func _load_catalog() -> void:
 	var path := "res://assets/data/enemies.json"
 	if not FileAccess.file_exists(path):
@@ -320,33 +258,27 @@ func _load_catalog() -> void:
 		_catalog = parsed
 
 
+## `order` first, then any unit added to `units` but not yet ordered.
 func _collect_enemies() -> void:
 	_enemies.clear()
 	var units: Dictionary = _catalog.get("units", {})
-	var order: Array = _catalog.get("order", [])
-	for key in order:
+	var ids: Array = (_catalog.get("order", []) as Array).duplicate()
+	var rest: Array = units.keys().filter(func(k: Variant) -> bool: return not ids.has(k))
+	rest.sort()
+	ids.append_array(rest)
+	for key in ids:
 		var id := str(key)
-		var row: Variant = units.get(id, {})
-		if row is not Dictionary:
+		if not units.get(id, null) is Dictionary:
 			continue
-		var tex := str(row.get("texture", ""))
-		if tex == "":
-			continue
-		if ResourceLoader.exists("%s/%s" % [SHEET_DIR, tex]):
+		var sheet := str(_EnemyScript._sheet_path(id))
+		if str(_EnemyScript.rig_path(id)) != "" or (sheet != "" and ResourceLoader.exists(sheet)):
 			_enemies.append(id)
-
-
-func _is_enemy_sheet(sheet: String) -> bool:
-	if _sizes.has(sheet):
-		return true
-	# A parent with no sprX of its own still owns the sheet (raider).
-	return _sheets.has(sheet) and sheet != "pony"
 
 
 func _fill_enemy_list() -> void:
 	_enemy_list.clear()
 	for name in _enemies:
-		_enemy_list.add_item(name)
+		_enemy_list.add_item(name + ("  [rig]" if str(_EnemyScript.rig_path(name)) != "" else ""))
 
 
 func _select_enemy(index: int) -> void:
@@ -361,20 +293,23 @@ func _select_enemy(index: int) -> void:
 	_restart_clip()
 
 
+func _anim() -> AnimatedSprite2D:
+	return _actor.get("anim") as AnimatedSprite2D if _actor != null else null
+
+
 func _fill_actions() -> void:
 	_action_list.clear()
-	_meta.clear()
-	var spec := _clip_spec(_enemies[_enemy_i])
-	for key in spec.keys():
-		var clip := str(key)
-		var data: Dictionary = spec[key] if spec[key] is Dictionary else {}
-		_meta[clip] = data
-		_action_list.add_item(clip)
+	var anim := _anim()
+	if anim == null or anim.sprite_frames == null:
+		return
+	for clip in anim.sprite_frames.get_animation_names():
+		if anim.sprite_frames.get_frame_count(clip) > 0:
+			_action_list.add_item(clip)
 	if _action_list.item_count > 0:
 		_action_i = 0
 
 
-func _spawn_actor(sheet: String) -> void:
+func _spawn_actor(id: String) -> void:
 	_hopping = false
 	_hit = ""
 	if _actor != null and is_instance_valid(_actor):
@@ -384,89 +319,19 @@ func _spawn_actor(sheet: String) -> void:
 		_actor = null
 	var before := int(GameState.enemies_remaining)
 	var actor := _EnemyScene.instantiate() as CharacterBody2D
-	var row := _unit_row(sheet)
-	var tex_name := str(row.get("texture", ""))
-	var tex := load("%s/%s" % [SHEET_DIR, tex_name]) as Texture2D
-	actor.set("sheet_texture", tex)
-	actor.set_meta("unit_id", sheet)
-	actor.name = sheet
+	actor.set_meta("unit_id", id)
+	actor.name = id
 	actor.position = SPAWN
-	actor.add_to_group(sheet)
+	actor.add_to_group(id)
 	add_child(actor)
 	GameState.enemies_remaining = before
+	# The body and its AI stay put; the sprite (and a rig following it) animates.
 	actor.set_physics_process(false)
+	actor.set_process(false)
 	_actor = actor
 	_actor.set("_player", _dummy)
-	var cell: Array = row.get("cell", [120, 120])
-	_cell = Vector2i(int(cell[0]), int(cell[1])) if cell.size() >= 2 else Vector2i(120, 120)
-	_sheet_rows = int(tex.get_height() / _cell.y) if tex != null and _cell.y > 0 else 0
-	_apply_sheet(_clip_spec(sheet), tex)
 	_place_dummy(false)
 	_face_dummy()
-
-
-func _pick_cell(sheet: String, tex: Texture2D) -> Vector2i:
-	var found: Array = _sizes.get(sheet, [])
-	for entry in found:
-		var size: Vector2i = entry
-		if size.x > 0 and size.y > 0 and tex.get_width() % size.x == 0 and tex.get_height() % size.y == 0:
-			return size
-	if tex.get_width() % 120 == 0 and tex.get_height() % 120 == 0:
-		return Vector2i(120, 120)
-	if not found.is_empty():
-		return found[0] as Vector2i
-	return Vector2i(120, 120)
-
-
-func _unit_row(id: String) -> Dictionary:
-	var units: Dictionary = _catalog.get("units", {})
-	var row: Variant = units.get(id, {})
-	return row if row is Dictionary else {}
-
-
-func _clip_spec(id: String) -> Dictionary:
-	var spec := {}
-	var keys: Array = _unit_row(id).get("clip_sheets", [])
-	for key in keys:
-		var part: Variant = _sheets.get(str(key), {})
-		if part is Dictionary:
-			for clip in part.keys():
-				spec[str(clip)] = part[clip]
-	if spec.is_empty():
-		var baked: Variant = _unit_row(id).get("clips", {})
-		if baked is Dictionary:
-			return baked
-	return spec
-
-
-func _apply_sheet(spec: Dictionary, tex: Texture2D) -> void:
-	var clips := {}
-	var speeds := {}
-	var loops := {}
-	for key in spec.keys():
-		var clip := str(key)
-		var data: Dictionary = spec[key] if spec[key] is Dictionary else {}
-		var row := int(data.get("y", 0))
-		var length := maxi(int(data.get("len", 1)), 1)
-		var start := int(data.get("ff", 0))
-		var df := float(data.get("df", 1.0))
-		clips[clip] = SheetFrames.row_clip(row, length, start)
-		speeds[clip] = df * TPS
-		loops[clip] = _loops(clip, data)
-	var anim := _actor.get_node("AnimatedSprite2D") as AnimatedSprite2D
-	anim.sprite_frames = SheetFrames.build(tex, _cell.x, _cell.y, clips, speeds, loops)
-	anim.centered = true
-	anim.scale = Vector2.ONE
-	anim.position = Vector2.ZERO
-	var off: Array = _unit_row(_enemies[_enemy_i]).get("offset", [])
-	if off.size() >= 2:
-		anim.offset = Vector2(float(off[0]), float(off[1]))
-
-
-func _loops(clip: String, data: Dictionary) -> bool:
-	if clip == "die" or clip == "fall":
-		return false
-	return int(data.get("rep", 0)) == 1
 
 
 func _restart_clip() -> void:
@@ -475,63 +340,35 @@ func _restart_clip() -> void:
 		return
 	_action_i = clampi(_action_i, 0, _action_list.item_count - 1)
 	_clip = _action_list.get_item_text(_action_i)
-	var data: Dictionary = _meta.get(_clip, {})
-	_f = float(int(data.get("ff", 0)))
-	_acc = 0.0
-	_hold = false
 	_actor.position = SPAWN
 	_actor.velocity = Vector2.ZERO
 	_hopping = false
 	_place_dummy(false)
 	_face_dummy()
+	var anim := _anim()
+	if anim:
+		anim.play(_clip)
+		anim.frame = 0
 	_show_frame()
 	_mark_lists()
 
 
-func _advance() -> void:
-	if _clip == "" or _hold:
-		return
-	var data: Dictionary = _meta.get(_clip, {})
-	var start := int(data.get("ff", 0))
-	var length := maxi(int(data.get("len", 1)), 1)
-	var last := float(start + length - 1)
-	var df := float(data.get("df", 1.0))
-	if _f < last:
-		_f += df
-		return
-	if _loops(_clip, data):
-		_f = float(int(data.get("rf", 0)))
-	else:
-		_f = last
-		_hold = true
-
-
 func _show_frame() -> void:
-	if _actor == null or _clip == "":
+	var anim := _anim()
+	if anim == null or _clip == "" or anim.sprite_frames == null:
 		return
-	var data: Dictionary = _meta.get(_clip, {})
-	var start := int(data.get("ff", 0))
-	var length := maxi(int(data.get("len", 1)), 1)
-	var row := int(data.get("y", 0))
-	var col := clampi(int(_f), start, start + length - 1)
-	var local := col - start
-	var anim := _actor.get_node("AnimatedSprite2D") as AnimatedSprite2D
-	if anim.sprite_frames and anim.sprite_frames.has_animation(_clip):
-		anim.animation = _clip
-		anim.frame = local
-		anim.pause()
+	var frames := anim.sprite_frames
+	var count := frames.get_frame_count(_clip)
 	var kind := _behaviour(_clip)
 	var act := "visual" if kind == "" else "Enter: %s" % kind
-	var outside := ""
-	if row >= _sheet_rows:
-		outside = " · row outside sheet"
-	var fps := float(data.get("df", 1.0)) * TPS
-	var span := "loop" if _loops(_clip, data) else "once"
+	var span := "loop" if frames.get_animation_loop(_clip) else "once"
+	var src := "rig" if _actor.get("rig") != null else "sheet"
 	var hit := ""
 	if _hit != "":
 		hit = " · dummy %s" % _hit
-	_status.text = "%s · %s · frame %d / %d · col %d row %d · %s fps · %s · %s%s%s" % [
-		_enemies[_enemy_i], _clip, local, length - 1, col, row, _num(fps), span, act, outside, hit
+	_status.text = "%s · %s · %s · frame %d / %d · %s fps · %s · %s%s" % [
+		_enemies[_enemy_i], src, _clip, anim.frame, count - 1,
+		_num(frames.get_animation_speed(_clip)), span, act, hit
 	]
 
 
@@ -661,6 +498,11 @@ func _leave() -> void:
 
 class Target extends StaticBody2D:
 	signal struck(amount: int)
+
+	# In group "player", so Condition's per-tick gun-wear check reads these.
+	var _reload_left := 0.0
+	var _fire_cd := 0.0
+	var _semi_lock := false
 
 	func take_hit(amount: int = 15, _type: String = "") -> void:
 		struck.emit(amount)

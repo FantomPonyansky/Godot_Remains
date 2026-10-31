@@ -1,0 +1,80 @@
+{
+  "symbols": [
+    "visualAntEmitter_L0_F0",
+    "visualAntEmitter_L1_F0"
+  ],
+  "unreachable_symbols": [],
+  "timelines": [
+    "visualAntEmitter"
+  ],
+  "nested_containers": [],
+  "default_colors": {},
+  "hide_mane_armors": [],
+  "color_channels": {},
+  "armor_bones": {},
+  "hair_bones": [],
+  "visible_bones": [],
+  "morda_bones": [],
+  "eye_bones": [],
+  "attachments": [],
+  "precomputed": {
+    "dups": [],
+    "extra_bones": {},
+    "bone_alt_libs": {},
+    "bone_tree_order": [],
+    "library_scales": {
+      "visualAntEmitter_L0_F0": 3.0,
+      "visualAntEmitter_L1_F0": 3.0
+    },
+    "library_hairlines": {
+      "visualAntEmitter_L0_F0": 1.0,
+      "visualAntEmitter_L1_F0": 1.0
+    },
+    "bone_orders": {
+      "visualAntEmitter": [
+        "visualAntEmitter_L1_F0",
+        "visualAntEmitter_L0_F0"
+      ]
+    }
+  },
+  "rig": {
+    "name": "antemitter",
+    "config": "Godot_Transpilation/04_player_rig/rigs/antemitter.json",
+    "root_symbol": "Objects/Units/Emitter/visualAntEmitter",
+    "state_kind": "self",
+    "root_node": "AntEmitter",
+    "script": "res://scripts/entity/rig_base.gd",
+    "idle_animation": "visualAntEmitter",
+    "state_instance": "",
+    "shape_masks": {},
+    "runtime_synced_bones": [],
+    "runtime_visibility_bones": [],
+    "paths": {
+      "output": "Godot_Transpilation/04_player_rig/rigs_output/antemitter",
+      "godot_data": "Godot_project/data/rigs/antemitter",
+      "svg": "Assets/Art/rigs/antemitter",
+      "png": "Godot_project/art/rigs/antemitter",
+      "scene": "Godot_project/scenes/rigs/antemitter.tscn",
+      "anim_library": "Godot_project/scenes/rigs/antemitter_anims.tres"
+    },
+    "mark_libraries": [
+      "quti",
+      "mark"
+    ]
+  },
+  "tickers": {},
+  "symbol_paths": {
+    "visualAntEmitter_L0_F0": "Objects/Units/Emitter/visualAntEmitter",
+    "visualAntEmitter_L1_F0": "Objects/Units/Emitter/visualAntEmitter"
+  },
+  "stats": {
+    "symbols": 2,
+    "bones": 2,
+    "nested_containers": 0,
+    "timelines": 1,
+    "total_bone_keys": 4,
+    "attachments": 0,
+    "unreachable_symbols": 0,
+    "hidden_layer_entries": 0
+  }
+}

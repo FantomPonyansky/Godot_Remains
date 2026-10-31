@@ -17,7 +17,6 @@ var period := 120
 var a_rot: Array = []
 var n_rot := 0
 var cur: UnitGun
-var puha: AnimatedSprite2D
 
 
 func configure() -> void:
@@ -89,9 +88,11 @@ func ready() -> void:
 		ai_state = 0
 		if has_clip("hidden"):
 			anim("hidden")
-	puha = make_part("puha")
-	if puha != null:
-		puha.frame = clampi(tr - 1, 0, puha.sprite_frames.get_frame_count("all") - 1)
+	var rig: RigView = u.get("rig")
+	if rig != null:
+		rig.hold("puha", tr - 1)
+		# UnitTurret flips only the mounts t1..t3; the gun angle stays absolute.
+		flips_sprite = false
 
 
 func v_angle() -> float:
@@ -318,9 +319,20 @@ func animate() -> void:
 			anim("open")
 	elif not u.anim.is_playing():
 		anim("hidden" if clip == "hide" else "stay")
-	if puha != null:
-		puha.visible = str(u.anim.animation) == "stay"
-		puha.rotation = cur.rot
+	var rig: RigView = u.get("rig")
+	if rig != null:
+		# osn frame 1: gun angle, light frame aiState + 1, muzzle clip played from 2 on a shot.
+		if str(u.anim.animation) == "stay":
+			rig.set_part_rotation("puha", cur.rot)
+			rig.hold("light", ai_state)
+			if cur.is_shoot:
+				cur.is_shoot = false
+				rig.play_children("puha", 1)
+		if turrettip == 3:
+			for t in ["t1", "t2", "t3"]:
+				var p := rig.part(t)
+				if p != null:
+					p.scale.x = absf(p.scale.x) * (1.0 if storona >= 0.0 else -1.0)
 	# UnitTurret.animate: a fixed turret held by telekinesis shakes by up to 3 degrees.
 	if bool(u.get("levitated")) and bool(u.get("fixed_post")):
 		u.anim.rotation = deg_to_rad(randf() * 6.0 - 3.0)

@@ -1,0 +1,149 @@
+{
+  "symbols": [
+    "roll1",
+    "roll2",
+    "roller_pups",
+    "roller_pups2"
+  ],
+  "unreachable_symbols": [],
+  "timelines": [
+    "roller_osn"
+  ],
+  "nested_containers": [
+    "roll1",
+    "roll2"
+  ],
+  "default_colors": {},
+  "hide_mane_armors": [],
+  "color_channels": {},
+  "armor_bones": {},
+  "hair_bones": [],
+  "visible_bones": [],
+  "morda_bones": [],
+  "eye_bones": [],
+  "attachments": [
+    {
+      "name": "osn",
+      "library_item": "Objects/Units/Roller/roller_osn",
+      "layer_index": 0,
+      "layer_name": "Слой 1",
+      "frame": 0,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 0.0,
+        "ty": 0.0
+      },
+      "pivot": {
+        "x": 0.65,
+        "y": -0.05
+      },
+      "blend_mode": "normal",
+      "hidden": false,
+      "cache_as_bitmap": false,
+      "foreign": false
+    }
+  ],
+  "precomputed": {
+    "dups": [],
+    "extra_bones": {},
+    "bone_alt_libs": {
+      "roll1": [
+        "roll2"
+      ]
+    },
+    "bone_tree_order": [],
+    "library_scales": {
+      "roll1": 3.0,
+      "roll2": 3.0,
+      "roller_pups": 3.0,
+      "roller_pups2": 3.0
+    },
+    "library_hairlines": {
+      "roll1": 1.0,
+      "roll2": 1.0,
+      "roller_pups": 1.0,
+      "roller_pups2": 1.0
+    },
+    "bone_orders": {
+      "roller_osn": [
+        "roll1"
+      ]
+    }
+  },
+  "rig": {
+    "name": "roller",
+    "config": "Godot_Transpilation/04_player_rig/rigs/roller.json",
+    "root_symbol": "Objects/Units/Roller/visualRoller",
+    "state_kind": "self",
+    "root_node": "Roller",
+    "script": "res://scripts/entity/rig_base.gd",
+    "idle_animation": "roller_osn",
+    "shape_masks": {},
+    "runtime_synced_bones": [],
+    "runtime_visibility_bones": [],
+    "paths": {
+      "output": "Godot_Transpilation/04_player_rig/rigs_output/roller",
+      "godot_data": "Godot_project/data/rigs/roller",
+      "svg": "Assets/Art/rigs/roller",
+      "png": "Godot_project/art/rigs/roller",
+      "scene": "Godot_project/scenes/rigs/roller.tscn",
+      "anim_library": "Godot_project/scenes/rigs/roller_anims.tres"
+    },
+    "mark_libraries": [
+      "quti",
+      "mark"
+    ]
+  },
+  "tickers": {
+    "roll2": {
+      "frames": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23
+      ],
+      "loop_from": 0,
+      "idle_frame": -1,
+      "random_start": null
+    }
+  },
+  "symbol_paths": {
+    "roll1": "Objects/Units/Roller/roll1",
+    "roll2": "Objects/Units/Roller/roll2",
+    "roller_pups": "Objects/Units/Roller/roller_pups",
+    "roller_pups2": "Objects/Units/Roller/roller_pups2"
+  },
+  "stats": {
+    "symbols": 4,
+    "bones": 1,
+    "nested_containers": 2,
+    "timelines": 1,
+    "total_bone_keys": 4,
+    "attachments": 1,
+    "unreachable_symbols": 0,
+    "hidden_layer_entries": 0
+  }
+}

@@ -1,0 +1,150 @@
+{
+  "symbols": [
+    "fish_claw",
+    "fish_head",
+    "fish_korpus",
+    "fish_plav",
+    "fish_tail"
+  ],
+  "unreachable_symbols": [],
+  "timelines": [
+    "body_attack",
+    "body_die",
+    "body_plav",
+    "body_run",
+    "body_stay"
+  ],
+  "nested_containers": [],
+  "default_colors": {},
+  "hide_mane_armors": [],
+  "color_channels": {},
+  "armor_bones": {},
+  "hair_bones": [],
+  "visible_bones": [],
+  "morda_bones": [],
+  "eye_bones": [],
+  "attachments": [
+    {
+      "name": "osn",
+      "library_item": "Objects/Units/Fish3/_osn",
+      "layer_index": 0,
+      "layer_name": "Слой 1",
+      "frame": 0,
+      "matrix": {
+        "a": 0.11773681640625,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 0.11773681640625,
+        "tx": 1.0,
+        "ty": -18.95
+      },
+      "pivot": {
+        "x": 0.0,
+        "y": 0.0
+      },
+      "blend_mode": "normal",
+      "hidden": false,
+      "cache_as_bitmap": false,
+      "foreign": false
+    }
+  ],
+  "precomputed": {
+    "dups": [],
+    "extra_bones": {},
+    "bone_alt_libs": {},
+    "bone_tree_order": [],
+    "library_scales": {
+      "fish_claw": 1.0,
+      "fish_head": 1.0,
+      "fish_korpus": 1.0,
+      "fish_plav": 1.0,
+      "fish_tail": 1.0
+    },
+    "library_hairlines": {
+      "fish_claw": 8.4962,
+      "fish_head": 8.4962,
+      "fish_korpus": 8.4962,
+      "fish_plav": 8.4962,
+      "fish_tail": 8.4962
+    },
+    "bone_orders": {
+      "body_attack": [
+        "fish_tail",
+        "fish_korpus",
+        "fish_claw",
+        "fish_plav",
+        "fish_head"
+      ],
+      "body_die": [
+        "fish_tail",
+        "fish_korpus",
+        "fish_claw",
+        "fish_plav",
+        "fish_head"
+      ],
+      "body_plav": [
+        "fish_tail",
+        "fish_korpus",
+        "fish_claw",
+        "fish_plav",
+        "fish_head"
+      ],
+      "body_run": [
+        "fish_tail",
+        "fish_korpus",
+        "fish_claw",
+        "fish_plav",
+        "fish_head"
+      ],
+      "body_stay": [
+        "fish_tail",
+        "fish_korpus",
+        "fish_claw",
+        "fish_plav",
+        "fish_head"
+      ]
+    }
+  },
+  "rig": {
+    "name": "fish3",
+    "config": "Godot_Transpilation/04_player_rig/rigs/fish3.json",
+    "root_symbol": "Objects/Units/Fish3/visualFish",
+    "state_kind": "label_timeline",
+    "root_node": "Fish3",
+    "script": "res://scripts/entity/rig_base.gd",
+    "idle_animation": "body_stay",
+    "shape_masks": {},
+    "runtime_synced_bones": [],
+    "runtime_visibility_bones": [],
+    "paths": {
+      "output": "Godot_Transpilation/04_player_rig/rigs_output/fish3",
+      "godot_data": "Godot_project/data/rigs/fish3",
+      "svg": "Assets/Art/rigs/fish3",
+      "png": "Godot_project/art/rigs/fish3",
+      "scene": "Godot_project/scenes/rigs/fish3.tscn",
+      "anim_library": "Godot_project/scenes/rigs/fish3_anims.tres"
+    },
+    "mark_libraries": [
+      "quti",
+      "mark"
+    ]
+  },
+  "tickers": {},
+  "symbol_paths": {
+    "fish_claw": "Objects/Units/Fish3/fish_claw",
+    "fish_head": "Objects/Units/Fish3/fish_head",
+    "fish_korpus": "Objects/Units/Fish3/fish_korpus",
+    "fish_plav": "Objects/Units/Fish3/fish_plav",
+    "fish_tail": "Objects/Units/Fish3/fish_tail"
+  },
+  "stats": {
+    "symbols": 5,
+    "bones": 5,
+    "nested_containers": 0,
+    "timelines": 5,
+    "total_bone_keys": 73,
+    "attachments": 1,
+    "unreachable_symbols": 0,
+    "hidden_layer_entries": 0
+  }
+}

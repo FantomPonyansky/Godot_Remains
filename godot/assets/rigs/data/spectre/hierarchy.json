@@ -1,0 +1,114 @@
+{
+  "root": "osn",
+  "scale": 1.0,
+  "bones": [
+    {
+      "instance_name": "osn_L0_F0",
+      "library_item": "osn_L0_F0",
+      "library_path": "osn_L0_F0",
+      "layer_index": 0,
+      "layer_name": "Слой 4",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 0.0,
+        "ty": 0.0
+      },
+      "artwork": [
+        0,
+        0
+      ],
+      "node_name": "osn_L0_F0"
+    },
+    {
+      "instance_name": "osn_L1_F0",
+      "library_item": "osn_L1_F0",
+      "library_path": "osn_L1_F0",
+      "layer_index": 1,
+      "layer_name": "Слой 1",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 0.0,
+        "ty": 0.0
+      },
+      "artwork": [
+        1,
+        0
+      ],
+      "node_name": "osn_L1_F0"
+    },
+    {
+      "instance_name": "osn_L2_F0",
+      "library_item": "osn_L2_F0",
+      "library_path": "osn_L2_F0",
+      "layer_index": 2,
+      "layer_name": "Слой 3",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 0.0,
+        "ty": 0.0
+      },
+      "artwork": [
+        2,
+        0
+      ],
+      "node_name": "osn_L2_F0"
+    },
+    {
+      "instance_name": "osn_L3_F0",
+      "library_item": "osn_L3_F0",
+      "library_path": "osn_L3_F0",
+      "layer_index": 3,
+      "layer_name": "Слой 2",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 0.0,
+        "ty": 0.0
+      },
+      "artwork": [
+        3,
+        0
+      ],
+      "node_name": "osn_L3_F0"
+    },
+    {
+      "instance_name": "osn_L4_F0",
+      "library_item": "osn_L4_F0",
+      "library_path": "osn_L4_F0",
+      "layer_index": 4,
+      "layer_name": "Слой 5",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 0.0,
+        "ty": 0.0
+      },
+      "artwork": [
+        4,
+        0
+      ],
+      "node_name": "osn_L4_F0"
+    }
+  ],
+  "root_matrix": {
+    "a": 1.0,
+    "b": 0.0,
+    "c": 0.0,
+    "d": 1.0,
+    "tx": -4.15,
+    "ty": -52.45
+  }
+}

@@ -1,0 +1,218 @@
+{
+  "root": "osn",
+  "scale": 0.315567016601563,
+  "bones": [
+    {
+      "instance_name": "T01_Hd_ALL_1",
+      "library_item": "T01_Hd_ALL_1",
+      "library_path": "Objects/NPC/Doctor/T01_Hd_ALL_1",
+      "layer_index": 1,
+      "layer_name": "T01_Hd_ALL",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": -48.35,
+        "ty": -74.15
+      },
+      "graphic": true,
+      "node_name": "T01_Hd_ALL_1"
+    },
+    {
+      "instance_name": "C0m_03",
+      "library_item": "Other/C0m/C0m_03",
+      "library_path": "Objects/NPC/Doctor/Other/C0m/C0m_03",
+      "layer_index": 2,
+      "layer_name": "C0m_03",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 10.15,
+        "ty": 35.3
+      },
+      "graphic": true,
+      "node_name": "C0m_03"
+    },
+    {
+      "instance_name": "C0m_02",
+      "library_item": "Other/C0m/C0m_02",
+      "library_path": "Objects/NPC/Doctor/Other/C0m/C0m_02",
+      "layer_index": 3,
+      "layer_name": "C0m_02",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": -35.9,
+        "ty": 99.55
+      },
+      "graphic": true,
+      "node_name": "C0m_02"
+    },
+    {
+      "instance_name": "T01_Staff_Part_02",
+      "library_item": "Other/staf/T01_Staff_Part_02",
+      "library_path": "Objects/NPC/Doctor/Other/staf/T01_Staff_Part_02",
+      "layer_index": 4,
+      "layer_name": "T01_Staff_Part_02",
+      "matrix": {
+        "a": 0.968246459960938,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": -29.8,
+        "ty": 11.2
+      },
+      "graphic": true,
+      "node_name": "T01_Staff_Part_02"
+    },
+    {
+      "instance_name": "C0m_01",
+      "library_item": "Other/C0m/C0m_01",
+      "library_path": "Objects/NPC/Doctor/Other/C0m/C0m_01",
+      "layer_index": 6,
+      "layer_name": "C0m_01",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 48.2,
+        "ty": 71.05
+      },
+      "graphic": true,
+      "node_name": "C0m_01"
+    },
+    {
+      "instance_name": "T01_Bd_02",
+      "library_item": "Bd/T01_Bd_02",
+      "library_path": "Objects/NPC/Doctor/Bd/T01_Bd_02",
+      "layer_index": 7,
+      "layer_name": "T01_Bd_02",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 0.943313598632813,
+        "tx": -39.15,
+        "ty": -10.7
+      },
+      "graphic": true,
+      "node_name": "T01_Bd_02"
+    },
+    {
+      "instance_name": "T01_Tail",
+      "library_item": "Other/T01_Tail",
+      "library_path": "Objects/NPC/Doctor/Other/T01_Tail",
+      "layer_index": 8,
+      "layer_name": "T01_Tail",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 71.15,
+        "ty": 28.7
+      },
+      "graphic": true,
+      "node_name": "T01_Tail"
+    },
+    {
+      "instance_name": "T01_Bd_01",
+      "library_item": "Bd/T01_Bd_01",
+      "library_path": "Objects/NPC/Doctor/Bd/T01_Bd_01",
+      "layer_index": 9,
+      "layer_name": "T01_Bd_01",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": -1.55,
+        "ty": 19.25
+      },
+      "graphic": true,
+      "node_name": "T01_Bd_01"
+    },
+    {
+      "instance_name": "T01_Staff_Part_03",
+      "library_item": "Other/staf/T01_Staff_Part_03",
+      "library_path": "Objects/NPC/Doctor/Other/staf/T01_Staff_Part_03",
+      "layer_index": 10,
+      "layer_name": "T01_Staff_Part_03",
+      "matrix": {
+        "a": 0.968246459960938,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": -45.05,
+        "ty": -3.3
+      },
+      "graphic": true,
+      "node_name": "T01_Staff_Part_03"
+    },
+    {
+      "instance_name": "T01_Staff_Part_04",
+      "library_item": "Other/staf/T01_Staff_Part_04",
+      "library_path": "Objects/NPC/Doctor/Other/staf/T01_Staff_Part_04",
+      "layer_index": 11,
+      "layer_name": "T01_Staff_Part_04",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 4.65,
+        "ty": 45.95
+      },
+      "graphic": true,
+      "node_name": "T01_Staff_Part_04"
+    },
+    {
+      "instance_name": "C0m_01_2",
+      "library_item": "Other/C0m/C0m_01",
+      "library_path": "Objects/NPC/Doctor/Other/C0m/C0m_01",
+      "layer_index": 12,
+      "layer_name": "C0m_01",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": -0.0675506591796875,
+        "d": 0.943618774414063,
+        "tx": 44.8,
+        "ty": 66.25
+      },
+      "graphic": true,
+      "node_name": "C0m_01_2"
+    },
+    {
+      "instance_name": "C0m_02_2",
+      "library_item": "Other/C0m/C0m_02",
+      "library_path": "Objects/NPC/Doctor/Other/C0m/C0m_02",
+      "layer_index": 13,
+      "layer_name": "C0m_02",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": -44.35,
+        "ty": 91.7
+      },
+      "graphic": true,
+      "node_name": "C0m_02_2"
+    }
+  ],
+  "root_matrix": {
+    "a": -0.315567016601563,
+    "b": 0.0,
+    "c": 0.0,
+    "d": 0.315826416015625,
+    "tx": -0.4,
+    "ty": -44.85
+  }
+}

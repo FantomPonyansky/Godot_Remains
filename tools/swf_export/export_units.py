@@ -82,7 +82,7 @@ UNITS = {
     **{m: {"sym": "vis" + m, "clips": {"stay": ["rootframe", 1, False], "armed": ["rootframe", 2, False],
                                         "f3": ["rootframe", 3, False], "f4": ["rootframe", 4, False], "f5": ["rootframe", 5, False]}}
        for m in ("mine", "hmine", "plamine", "impmine", "zebmine", "balemine")},
-    "transmitter": {"sym": "visualTransmitter", "clips": {"stay": [1, None, True], "on": [2, None, True]}},
+    "transmitter": {"sym": "visualTransmitter", "clips": {"stay": [1, None, True], "wall": [2, None, True]}},
     "scythe": {"sym": "visualScythe", "clips": {"stay": ["rootframe", 1, False]}},
     "ttur": {"sym": "visualTTurret", "drop": ["korp", "pole"], "clips": {"stay": [1, 1, False]},
              "parts": {"korp": {"path": ["osn", "korp"], "frames": "each"}, "pole": {"path": ["osn", "pole"], "frames": "each"}}},
@@ -481,6 +481,9 @@ def export_unit(mod, chars, extras, symbols, unit, spec):
         swf.write_bytes(rewrite_swf(raw, edits))
         files = render(swf, sid, work / clip)
         clips[clip] = {"files": [str(f) for f in files[:n]], "loop": loop}
+        if where not in ("root", "rootframe"):
+            # osn holds this frame (1-based); the clip's frames are its children playing.
+            clips[clip]["osn"] = frame
     parts = {}
     for pname, pspec in spec.get("parts", {}).items():
         m = (1, 0, 0, 1, 0, 0)

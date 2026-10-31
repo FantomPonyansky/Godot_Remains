@@ -1,0 +1,42 @@
+{
+  "artwork_layers": [
+    {
+      "layer_index": 1,
+      "element_svg_files": {
+        "1": [
+          "cage1_f1_L1_S0.svg"
+        ],
+        "2": [
+          "cage1_f2_L1_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 2,
+      "element_svg_files": {
+        "0": [
+          "cage1_L2_S0.svg"
+        ],
+        "1": [
+          "cage1_L2_S0.svg"
+        ],
+        "2": [
+          "cage1_L2_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    }
+  ],
+  "svg_files": {
+    "1": "cage1_f1_L1_S0.svg",
+    "2": "cage1_f2_L1_S0.svg"
+  },
+  "timeline": {
+    "frames": 3,
+    "labels": {},
+    "scripts": {
+      "0": "stop()"
+    }
+  }
+}

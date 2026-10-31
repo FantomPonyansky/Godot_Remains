@@ -1,0 +1,44 @@
+{
+  "children": [
+    {
+      "library": "noga0",
+      "layer_index": 0,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": -43.9,
+        "ty": 65.3
+      },
+      "frame_ranges": [
+        [
+          0,
+          0
+        ]
+      ],
+      "frame_start": 0,
+      "frame_end": 0
+    },
+    {
+      "library": "ogn",
+      "layer_index": 1,
+      "matrix": {
+        "a": 0.999908447265625,
+        "b": 0.011871337890625,
+        "c": -0.011871337890625,
+        "d": 0.999908447265625,
+        "tx": -68.3,
+        "ty": 127.85
+      },
+      "frame_ranges": [
+        [
+          0,
+          0
+        ]
+      ],
+      "frame_start": 0,
+      "frame_end": 0
+    }
+  ]
+}

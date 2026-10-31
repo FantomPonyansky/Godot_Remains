@@ -1,0 +1,247 @@
+[gd_scene load_steps=16 format=3]
+
+[ext_resource type="Shader" path="res://assets/rigs/shaders/color_transform.gdshader" id="ext_1"]
+[ext_resource type="Shader" path="res://assets/rigs/shaders/color_transform_masked.gdshader" id="ext_2"]
+[ext_resource type="Shader" path="res://assets/rigs/shaders/color_transform_hardlight.gdshader" id="ext_3"]
+[ext_resource type="Shader" path="res://assets/rigs/shaders/color_transform_lighten.gdshader" id="ext_4"]
+[ext_resource type="Shader" path="res://assets/rigs/shaders/color_transform_screen.gdshader" id="ext_5"]
+[ext_resource type="Script" path="res://scripts/rig/rig_view.gd" id="ext_6"]
+
+[sub_resource type="ShaderMaterial" id="sub_1"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_2"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_3"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_4"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_5"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_6"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_7"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_8"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_9"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[node name="UltraSentinel" type="Node2D"]
+script = ExtResource("ext_6")
+metadata/data_dir = "res://assets/rigs/data/ultrasentinel/"
+metadata/art_dir = "res://assets/rigs/art/ultrasentinel/"
+metadata/anim_library = "res://assets/rigs/scenes/ultrasentinel_anims.tres"
+metadata/idle_animation = "body"
+
+[node name="osn" type="Node2D" parent="."]
+position = Vector2(0, -50)
+scale = Vector2(0.3705, 0.3705)
+
+[node name="body" type="CanvasGroup" parent="osn"]
+
+[node name="noga1_4" type="Node2D" parent="osn/body"]
+position = Vector2(75.3, -88.35)
+rotation = 3.11137
+scale = Vector2(0.95837, -0.95837)
+
+[node name="ogn" type="Node2D" parent="osn/body/noga1_4"]
+position = Vector2(-68.3, 127.85)
+rotation = 0.011872
+visible = false
+metadata/library = "ogn"
+metadata/frame_start = 0
+metadata/frame_end = 0
+metadata/frame_ranges = PackedInt32Array(0, 0)
+metadata/vis_lib = "noga1"
+metadata/layer_index = 1
+
+[node name="ogn0" type="Sprite2D" parent="osn/body/noga1_4/ogn"]
+position = Vector2(0, 0)
+visible = false
+centered = false
+scale = Vector2(0.89969, 0.89969)
+metadata/library = "ogn0"
+metadata/frame_start = 0
+metadata/frame_end = 10
+metadata/frame_ranges = PackedInt32Array(0, 4, 5, 9, 10, 10)
+metadata/vis_lib = "ogn"
+metadata/layer_index = 0
+metadata/frame_transforms = "{\"1\":{\"tx\":0.0,\"ty\":0.0,\"rot\":0.0,\"sx\":0.872874,\"sy\":0.872874,\"skew\":-0.0},\"2\":{\"tx\":0.0,\"ty\":0.0,\"rot\":0.0,\"sx\":0.846063,\"sy\":0.846063,\"skew\":-0.0},\"3\":{\"tx\":0.0,\"ty\":0.0,\"rot\":0.0,\"sx\":0.819252,\"sy\":0.819252,\"skew\":-0.0},\"4\":{\"tx\":0.0,\"ty\":0.0,\"rot\":0.0,\"sx\":0.792441,\"sy\":0.792441,\"skew\":-0.0},\"5\":{\"tx\":0.0,\"ty\":0.0,\"rot\":0.0,\"sx\":0.76563,\"sy\":0.76563,\"skew\":-0.0},\"6\":{\"tx\":0.0,\"ty\":0.0,\"rot\":0.0,\"sx\":0.792441,\"sy\":0.792441,\"skew\":-0.0},\"7\":{\"tx\":0.0,\"ty\":0.0,\"rot\":0.0,\"sx\":0.819252,\"sy\":0.819252,\"skew\":-0.0},\"8\":{\"tx\":0.0,\"ty\":0.0,\"rot\":0.0,\"sx\":0.846063,\"sy\":0.846063,\"skew\":-0.0},\"9\":{\"tx\":0.0,\"ty\":0.0,\"rot\":0.0,\"sx\":0.872874,\"sy\":0.872874,\"skew\":-0.0}}"
+material = SubResource("sub_1")
+
+[node name="noga0" type="Sprite2D" parent="osn/body/noga1_4"]
+position = Vector2(-43.9, 65.3)
+visible = false
+centered = false
+scale = Vector2(0.89969, 0.89969)
+metadata/library = "noga0"
+metadata/frame_start = 0
+metadata/frame_end = 0
+metadata/frame_ranges = PackedInt32Array(0, 0)
+metadata/vis_lib = "noga1"
+metadata/layer_index = 0
+material = SubResource("sub_2")
+
+[node name="noga1_3" type="Node2D" parent="osn/body"]
+position = Vector2(-51.4, -108.2)
+rotation = -0.004761
+scale = Vector2(0.95835, 0.95835)
+
+[node name="ogn" type="Node2D" parent="osn/body/noga1_3"]
+position = Vector2(-68.3, 127.85)
+rotation = 0.011872
+visible = false
+metadata/library = "ogn"
+metadata/frame_start = 0
+metadata/frame_end = 0
+metadata/frame_ranges = PackedInt32Array(0, 0)
+metadata/vis_lib = "noga1"
+metadata/layer_index = 1
+
+[node name="ogn0" type="Sprite2D" parent="osn/body/noga1_3/ogn"]
+position = Vector2(0, 0)
+visible = false
+centered = false
+scale = Vector2(0.89969, 0.89969)
+metadata/library = "ogn0"
+metadata/frame_start = 0
+metadata/frame_end = 10
+metadata/frame_ranges = PackedInt32Array(0, 4, 5, 9, 10, 10)
+metadata/vis_lib = "ogn"
+metadata/layer_index = 0
+metadata/frame_transforms = "{\"1\":{\"tx\":0.0,\"ty\":0.0,\"rot\":0.0,\"sx\":0.872874,\"sy\":0.872874,\"skew\":-0.0},\"2\":{\"tx\":0.0,\"ty\":0.0,\"rot\":0.0,\"sx\":0.846063,\"sy\":0.846063,\"skew\":-0.0},\"3\":{\"tx\":0.0,\"ty\":0.0,\"rot\":0.0,\"sx\":0.819252,\"sy\":0.819252,\"skew\":-0.0},\"4\":{\"tx\":0.0,\"ty\":0.0,\"rot\":0.0,\"sx\":0.792441,\"sy\":0.792441,\"skew\":-0.0},\"5\":{\"tx\":0.0,\"ty\":0.0,\"rot\":0.0,\"sx\":0.76563,\"sy\":0.76563,\"skew\":-0.0},\"6\":{\"tx\":0.0,\"ty\":0.0,\"rot\":0.0,\"sx\":0.792441,\"sy\":0.792441,\"skew\":-0.0},\"7\":{\"tx\":0.0,\"ty\":0.0,\"rot\":0.0,\"sx\":0.819252,\"sy\":0.819252,\"skew\":-0.0},\"8\":{\"tx\":0.0,\"ty\":0.0,\"rot\":0.0,\"sx\":0.846063,\"sy\":0.846063,\"skew\":-0.0},\"9\":{\"tx\":0.0,\"ty\":0.0,\"rot\":0.0,\"sx\":0.872874,\"sy\":0.872874,\"skew\":-0.0}}"
+material = SubResource("sub_3")
+
+[node name="noga0" type="Sprite2D" parent="osn/body/noga1_3"]
+position = Vector2(-43.9, 65.3)
+visible = false
+centered = false
+scale = Vector2(0.89969, 0.89969)
+metadata/library = "noga0"
+metadata/frame_start = 0
+metadata/frame_end = 0
+metadata/frame_ranges = PackedInt32Array(0, 0)
+metadata/vis_lib = "noga1"
+metadata/layer_index = 0
+material = SubResource("sub_4")
+
+[node name="korpus" type="Node2D" parent="osn/body"]
+position = Vector2(-11.45, -159.2)
+
+[node name="spr_L0_S0" type="Sprite2D" parent="osn/body/korpus"]
+centered = false
+scale = Vector2(0.89969, 0.89969)
+material = SubResource("sub_5")
+metadata/artwork_layer = 0
+metadata/element_index = 0
+
+[node name="noga1_2" type="Node2D" parent="osn/body"]
+position = Vector2(-67.55, -94.85)
+rotation = 0.004212
+
+[node name="ogn" type="Node2D" parent="osn/body/noga1_2"]
+position = Vector2(-68.3, 127.85)
+rotation = 0.011872
+visible = false
+metadata/library = "ogn"
+metadata/frame_start = 0
+metadata/frame_end = 0
+metadata/frame_ranges = PackedInt32Array(0, 0)
+metadata/vis_lib = "noga1"
+metadata/layer_index = 1
+
+[node name="ogn0" type="Sprite2D" parent="osn/body/noga1_2/ogn"]
+position = Vector2(0, 0)
+visible = false
+centered = false
+scale = Vector2(0.89969, 0.89969)
+metadata/library = "ogn0"
+metadata/frame_start = 0
+metadata/frame_end = 10
+metadata/frame_ranges = PackedInt32Array(0, 4, 5, 9, 10, 10)
+metadata/vis_lib = "ogn"
+metadata/layer_index = 0
+metadata/frame_transforms = "{\"1\":{\"tx\":0.0,\"ty\":0.0,\"rot\":0.0,\"sx\":0.872874,\"sy\":0.872874,\"skew\":-0.0},\"2\":{\"tx\":0.0,\"ty\":0.0,\"rot\":0.0,\"sx\":0.846063,\"sy\":0.846063,\"skew\":-0.0},\"3\":{\"tx\":0.0,\"ty\":0.0,\"rot\":0.0,\"sx\":0.819252,\"sy\":0.819252,\"skew\":-0.0},\"4\":{\"tx\":0.0,\"ty\":0.0,\"rot\":0.0,\"sx\":0.792441,\"sy\":0.792441,\"skew\":-0.0},\"5\":{\"tx\":0.0,\"ty\":0.0,\"rot\":0.0,\"sx\":0.76563,\"sy\":0.76563,\"skew\":-0.0},\"6\":{\"tx\":0.0,\"ty\":0.0,\"rot\":0.0,\"sx\":0.792441,\"sy\":0.792441,\"skew\":-0.0},\"7\":{\"tx\":0.0,\"ty\":0.0,\"rot\":0.0,\"sx\":0.819252,\"sy\":0.819252,\"skew\":-0.0},\"8\":{\"tx\":0.0,\"ty\":0.0,\"rot\":0.0,\"sx\":0.846063,\"sy\":0.846063,\"skew\":-0.0},\"9\":{\"tx\":0.0,\"ty\":0.0,\"rot\":0.0,\"sx\":0.872874,\"sy\":0.872874,\"skew\":-0.0}}"
+material = SubResource("sub_6")
+
+[node name="noga0" type="Sprite2D" parent="osn/body/noga1_2"]
+position = Vector2(-43.9, 65.3)
+visible = false
+centered = false
+scale = Vector2(0.89969, 0.89969)
+metadata/library = "noga0"
+metadata/frame_start = 0
+metadata/frame_end = 0
+metadata/frame_ranges = PackedInt32Array(0, 0)
+metadata/vis_lib = "noga1"
+metadata/layer_index = 0
+material = SubResource("sub_7")
+
+[node name="noga1" type="Node2D" parent="osn/body"]
+position = Vector2(41.35, -93.9)
+rotation = -3.14086
+scale = Vector2(0.99999, -0.99999)
+
+[node name="ogn" type="Node2D" parent="osn/body/noga1"]
+position = Vector2(-68.3, 127.85)
+rotation = 0.011872
+visible = false
+metadata/library = "ogn"
+metadata/frame_start = 0
+metadata/frame_end = 0
+metadata/frame_ranges = PackedInt32Array(0, 0)
+metadata/vis_lib = "noga1"
+metadata/layer_index = 1
+
+[node name="ogn0" type="Sprite2D" parent="osn/body/noga1/ogn"]
+position = Vector2(0, 0)
+visible = false
+centered = false
+scale = Vector2(0.89969, 0.89969)
+metadata/library = "ogn0"
+metadata/frame_start = 0
+metadata/frame_end = 10
+metadata/frame_ranges = PackedInt32Array(0, 4, 5, 9, 10, 10)
+metadata/vis_lib = "ogn"
+metadata/layer_index = 0
+metadata/frame_transforms = "{\"1\":{\"tx\":0.0,\"ty\":0.0,\"rot\":0.0,\"sx\":0.872874,\"sy\":0.872874,\"skew\":-0.0},\"2\":{\"tx\":0.0,\"ty\":0.0,\"rot\":0.0,\"sx\":0.846063,\"sy\":0.846063,\"skew\":-0.0},\"3\":{\"tx\":0.0,\"ty\":0.0,\"rot\":0.0,\"sx\":0.819252,\"sy\":0.819252,\"skew\":-0.0},\"4\":{\"tx\":0.0,\"ty\":0.0,\"rot\":0.0,\"sx\":0.792441,\"sy\":0.792441,\"skew\":-0.0},\"5\":{\"tx\":0.0,\"ty\":0.0,\"rot\":0.0,\"sx\":0.76563,\"sy\":0.76563,\"skew\":-0.0},\"6\":{\"tx\":0.0,\"ty\":0.0,\"rot\":0.0,\"sx\":0.792441,\"sy\":0.792441,\"skew\":-0.0},\"7\":{\"tx\":0.0,\"ty\":0.0,\"rot\":0.0,\"sx\":0.819252,\"sy\":0.819252,\"skew\":-0.0},\"8\":{\"tx\":0.0,\"ty\":0.0,\"rot\":0.0,\"sx\":0.846063,\"sy\":0.846063,\"skew\":-0.0},\"9\":{\"tx\":0.0,\"ty\":0.0,\"rot\":0.0,\"sx\":0.872874,\"sy\":0.872874,\"skew\":-0.0}}"
+material = SubResource("sub_8")
+
+[node name="noga0" type="Sprite2D" parent="osn/body/noga1"]
+position = Vector2(-43.9, 65.3)
+visible = false
+centered = false
+scale = Vector2(0.89969, 0.89969)
+metadata/library = "noga0"
+metadata/frame_start = 0
+metadata/frame_end = 0
+metadata/frame_ranges = PackedInt32Array(0, 0)
+metadata/vis_lib = "noga1"
+metadata/layer_index = 0
+material = SubResource("sub_9")

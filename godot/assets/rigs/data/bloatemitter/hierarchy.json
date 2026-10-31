@@ -1,0 +1,22 @@
+{
+  "root": "osn",
+  "scale": 1.0,
+  "bones": [
+    {
+      "instance_name": "_osn",
+      "library_item": "_osn",
+      "library_path": "Objects/Units/Emitter/_osn",
+      "layer_index": 0,
+      "layer_name": "Слой 2",
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 0.0,
+        "ty": 0.0
+      },
+      "node_name": "_osn"
+    }
+  ]
+}

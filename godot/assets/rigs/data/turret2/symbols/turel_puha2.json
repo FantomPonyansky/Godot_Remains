@@ -1,0 +1,79 @@
+{
+  "children": [
+    {
+      "library": "laser_flare",
+      "layer_index": 0,
+      "matrix": {
+        "a": 0.601974487304688,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 0.601974487304688,
+        "tx": 45.6,
+        "ty": 0.5
+      },
+      "frame_ranges": [
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          3
+        ]
+      ],
+      "blend_mode": "screen",
+      "foreign": true,
+      "frame_start": 1,
+      "frame_end": 3,
+      "frame_transforms": {
+        "2": {
+          "tx": 44.4,
+          "ty": 0.6,
+          "rot": 0.0,
+          "sx": 0.106267,
+          "sy": 0.106267,
+          "skew": -0.0
+        },
+        "3": {
+          "tx": 44.4,
+          "ty": 0.6,
+          "rot": 0.0,
+          "sx": 0.106267,
+          "sy": 0.106267,
+          "skew": -0.0
+        }
+      }
+    },
+    {
+      "library": "turret_laser",
+      "layer_index": 1,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": 14.25,
+        "ty": 0.25
+      },
+      "frame_ranges": [
+        [
+          0,
+          4
+        ]
+      ],
+      "frame_start": 0,
+      "frame_end": 4
+    }
+  ],
+  "timeline": {
+    "frames": 5,
+    "labels": {},
+    "scripts": {
+      "0": "stop()"
+    }
+  }
+}

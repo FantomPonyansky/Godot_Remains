@@ -384,6 +384,12 @@ func _collect(node: Node, out: Array, depth: int) -> void:
 		return
 	if node is CanvasItem and not (node as CanvasItem).visible:
 		return
+	# A rig nests its parts deeper than the walk goes: take every shown part.
+	if node is RigView:
+		for spr in node.find_children("*", "Sprite2D", true, false):
+			if (spr as Sprite2D).texture != null and (spr as Sprite2D).is_visible_in_tree():
+				out.append(spr)
+		return
 	if node is Sprite2D and (node as Sprite2D).texture != null:
 		out.append(node)
 	elif node is AnimatedSprite2D and (node as AnimatedSprite2D).sprite_frames != null:
@@ -435,8 +441,19 @@ func _part_of(item: Node2D) -> Dictionary:
 	part["xf"] = (_ghosts.global_transform.affine_inverse() * item.global_transform) if _ghosts else item.global_transform
 	part["z"] = _abs_z(item)
 	part["m"] = _tint(item)
-	part["filter"] = item.texture_filter
+	part["filter"] = _filter_of(item)
 	return part
+
+
+## The filter the item draws with: an inherited one is read up the tree.
+func _filter_of(item: CanvasItem) -> int:
+	var node: Node = item
+	while node is CanvasItem:
+		var f := (node as CanvasItem).texture_filter
+		if f != CanvasItem.TEXTURE_FILTER_PARENT_NODE:
+			return f
+		node = node.get_parent()
+	return CanvasItem.TEXTURE_FILTER_PARENT_NODE
 
 
 func _abs_z(item: CanvasItem) -> int:

@@ -1,0 +1,77 @@
+[gd_scene load_steps=11 format=3]
+
+[ext_resource type="Shader" path="res://assets/rigs/shaders/color_transform.gdshader" id="ext_1"]
+[ext_resource type="Shader" path="res://assets/rigs/shaders/color_transform_masked.gdshader" id="ext_2"]
+[ext_resource type="Shader" path="res://assets/rigs/shaders/color_transform_hardlight.gdshader" id="ext_3"]
+[ext_resource type="Shader" path="res://assets/rigs/shaders/color_transform_lighten.gdshader" id="ext_4"]
+[ext_resource type="Shader" path="res://assets/rigs/shaders/color_transform_screen.gdshader" id="ext_5"]
+[ext_resource type="Script" path="res://scripts/rig/rig_view.gd" id="ext_6"]
+
+[sub_resource type="ShaderMaterial" id="sub_1"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_2"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_3"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="sub_4"]
+shader = ExtResource("ext_1")
+shader_parameter/ct_multiply = Color(1, 1, 1, 1)
+shader_parameter/ct_offset = Color(0, 0, 0, 0)
+
+[node name="Vortex" type="Node2D"]
+script = ExtResource("ext_6")
+metadata/data_dir = "res://assets/rigs/data/vortex/"
+metadata/art_dir = "res://assets/rigs/art/vortex/"
+metadata/anim_library = "res://assets/rigs/scenes/vortex_anims.tres"
+metadata/idle_animation = "_osn"
+
+[node name="osn" type="Node2D" parent="."]
+position = Vector2(0, -20)
+
+[node name="body" type="CanvasGroup" parent="osn"]
+
+[node name="korp2" type="Node2D" parent="osn/body"]
+position = Vector2(0.05, 13.65)
+
+[node name="spr_L0_S0" type="Sprite2D" parent="osn/body/korp2"]
+centered = false
+scale = Vector2(0.33333, 0.33333)
+material = SubResource("sub_1")
+metadata/artwork_layer = 0
+metadata/element_index = 0
+
+[node name="vert1" type="Node2D" parent="osn/body"]
+position = Vector2(0.15, 2.95)
+
+[node name="spr_L1_S0" type="Sprite2D" parent="osn/body/vert1"]
+centered = false
+scale = Vector2(0.33333, 0.33333)
+material = SubResource("sub_2")
+metadata/artwork_layer = 1
+metadata/element_index = 0
+
+[node name="spr_L0_S0" type="Sprite2D" parent="osn/body/vert1"]
+centered = false
+scale = Vector2(0.33333, 0.33333)
+material = SubResource("sub_3")
+metadata/artwork_layer = 0
+metadata/element_index = 0
+
+[node name="korp1" type="Node2D" parent="osn/body"]
+position = Vector2(1, -7.5)
+
+[node name="spr_L0_S0" type="Sprite2D" parent="osn/body/korp1"]
+centered = false
+scale = Vector2(0.33333, 0.33333)
+material = SubResource("sub_4")
+metadata/artwork_layer = 0
+metadata/element_index = 0

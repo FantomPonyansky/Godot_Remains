@@ -53,8 +53,8 @@ func _setup(spec: Dictionary) -> void:
 	if rsc != 0.0:
 		scale = Vector2.ONE * (1.0 - rsc + randf() * rsc)
 	if bool(spec.get("multiply", false)):
-		var mat := CanvasItemMaterial.new()
-		mat.blend_mode = CanvasItemMaterial.BLEND_MODE_MUL
+		var mat := ShaderMaterial.new()
+		mat.shader = preload("res://assets/shaders/alpha_mul.gdshader")
 		material = mat
 	var v := float(spec.get("minv", 0.0)) + randf() * float(spec.get("rv", 0.0))
 	_vel = Vector2.from_angle(randf() * TAU) * v

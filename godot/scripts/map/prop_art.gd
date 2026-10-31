@@ -13,6 +13,8 @@ const _Registry := preload("res://scripts/map/land_registry.gd")
 const _PROPS := "res://assets/sprites/props/"
 const _DOORS := "res://assets/sprites/doors/"
 const _UNITS := "res://assets/sprites/sheets/units/"
+## Rigged units: tests/rig_stills.gd.
+const _RIG_STILLS := "res://assets/sprites/rig_stills/"
 const _TRAPS := "res://assets/sprites/sheets/traps/"
 const _NPCS := "res://assets/sprites/npcs/"
 const _SHEETS := "res://assets/sprites/sheets/"
@@ -246,6 +248,12 @@ static func _variant(cid: String, fallback: int) -> int:
 static func _from_sheets(key: String) -> Dictionary:
 	if key == "":
 		return {}
+	var still: Dictionary = _manifest(_RIG_STILLS).get(key, {})
+	if not still.is_empty():
+		var tex := _load(_RIG_STILLS + key + ".png")
+		if tex != null:
+			var a: Array = still.get("anchor", [0, 0])
+			return {"tex": tex, "anchor": Vector2(float(a[0]), float(a[1]))}
 	for dir in [_UNITS, _TRAPS, _NPCS]:
 		var pic := _packed(dir, key)
 		if not pic.is_empty():

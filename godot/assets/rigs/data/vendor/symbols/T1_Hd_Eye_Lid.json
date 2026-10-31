@@ -1,0 +1,66 @@
+{
+  "artwork_layers": [
+    {
+      "layer_index": 0,
+      "element_svg_files": {
+        "0": [
+          "T1_Hd_Eye_Lid_L0_S0.svg"
+        ],
+        "1": [
+          "T1_Hd_Eye_Lid_f1_L0_S0.svg"
+        ],
+        "2": [
+          "T1_Hd_Eye_Lid_f2_L0_S0.svg"
+        ],
+        "3": [
+          "T1_Hd_Eye_Lid_f3_L0_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 1,
+      "element_svg_files": {
+        "0": [
+          "T1_Hd_Eye_Lid_L1_S0.svg"
+        ],
+        "1": [
+          "T1_Hd_Eye_Lid_f1_L1_S0.svg"
+        ],
+        "2": [
+          "T1_Hd_Eye_Lid_f2_L1_S0.svg"
+        ],
+        "3": [
+          "T1_Hd_Eye_Lid_f3_L1_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    },
+    {
+      "layer_index": 2,
+      "element_svg_files": {
+        "0": [
+          "T1_Hd_Eye_Lid_L2_S0.svg"
+        ],
+        "1": [
+          "T1_Hd_Eye_Lid_f1_L2_S0.svg"
+        ],
+        "3": [
+          "T1_Hd_Eye_Lid_f3_L2_S0.svg"
+        ]
+      },
+      "max_elements": 1
+    }
+  ],
+  "svg_files": {
+    "0": "T1_Hd_Eye_Lid_L0_S0.svg",
+    "1": "T1_Hd_Eye_Lid_f1_L0_S0.svg",
+    "2": "T1_Hd_Eye_Lid_f2_L0_S0.svg",
+    "3": "T1_Hd_Eye_Lid_f3_L0_S0.svg"
+  },
+  "timeline": {
+    "frames": 4,
+    "labels": {},
+    "scripts": {}
+  }
+}

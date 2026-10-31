@@ -1,0 +1,64 @@
+{
+  "children": [
+    {
+      "library": "mane_run1",
+      "layer_index": 1,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": -23.4,
+        "ty": 20.6
+      },
+      "frame_ranges": [
+        [
+          0,
+          0
+        ]
+      ],
+      "frame_start": 0,
+      "frame_end": 0,
+      "instance": "h1"
+    },
+    {
+      "library": "mane_run0",
+      "layer_index": 2,
+      "matrix": {
+        "a": 1.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": 1.0,
+        "tx": -23.4,
+        "ty": 20.6
+      },
+      "frame_ranges": [
+        [
+          0,
+          0
+        ]
+      ],
+      "frame_start": 0,
+      "frame_end": 0,
+      "instance": "h0"
+    }
+  ],
+  "timeline": {
+    "frames": 1,
+    "labels": {},
+    "scripts": {
+      "0": "import fe.Obj;\nObj.setVisible(this);\nObj.setHair(h0);\nObj.setHair(h1);\nObj.setColor(h0,1);\nObj.setColor(h1,2);"
+    }
+  },
+  "is_visible": true,
+  "child_roles": {
+    "mane_run0": {
+      "color_channel": "trHair",
+      "is_hair": true
+    },
+    "mane_run1": {
+      "color_channel": "trHair1",
+      "is_hair": true
+    }
+  }
+}
