@@ -70,6 +70,9 @@ var _plav := false
 var _plav2 := false
 var _fix_plav := false
 var _ddy_plav := 1.0
+## Port rule: mass standing on a floater (units and stacked boxes) and the load it was fixed under.
+var _load := 0.0
+var _fix_load := 0.0
 
 ## GameContainer.ddy is 1 px/tick and maxdy is 20. At 30 Hz that is 900 and 600.
 const TICK := 1.0 / 30.0
@@ -129,6 +132,8 @@ const _TRIM := {
 	"detonator": Vector2(36, 30), "reactor": Vector2(0, 220),
 	"case": Vector2(36, 0), "ammobox": Vector2(36, 0),
 }
+## Empty rows under the art in props/<id>.png; the picture moves down by them so it sits on the floor.
+const _ART_DY := {"ammobox": 6.0}
 
 
 func _ready() -> void:
@@ -184,7 +189,7 @@ func _ready() -> void:
 		sprite.texture = art
 		sprite.centered = false
 		sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-		sprite.position = get_meta("art_at", Vector2.ZERO)
+		sprite.position = get_meta("art_at", Vector2.ZERO) + Vector2(0, float(_ART_DY.get(id, 0.0)))
 		add_child(sprite)
 	else:
 		var poly := Polygon2D.new()
@@ -277,7 +282,12 @@ func _sim(delta: float) -> void:
 		cdy = 0.0
 		return
 	_ride()
-	if _fix_plav and not _Flags.water_at(Vector2(crate_center_x(), crate_bottom() - _hit.y * 0.45)):
+	_load = 0.0
+	if _ddy_plav < 0.0 and _Flags.water_at(Vector2(crate_center_x(), crate_bottom() - 1.0)):
+		_load = load_on()
+	if _fix_plav and absf(_load - _fix_load) > 0.01:
+		_fix_plav = false
+	if _fix_plav and not _Flags.water_at(Vector2(crate_center_x(), crate_bottom() - _hit.y * _probe(0.45))):
 		_fix_plav = false
 	# Box.step skips forces when stay and velocity.X == 0, or while fixPlav.
 	if (resting and absf(_vx) < 1.0) or _fix_plav:
@@ -332,8 +342,8 @@ func _original_tick() -> void:
 	# Box.forces: no gravity while isPlav unless isPlav2, then ddy * ddyPlav; velocity * 0.65 afloat.
 	if not _plav and _vy < MAX_FALL:
 		_vy = minf(MAX_FALL, _vy + GRAVITY * TICK)
-	elif _plav and _plav2:
-		_vy += GRAVITY * _ddy_plav * TICK
+	elif _plav and (_plav2 or _sinks()):
+		_vy += GRAVITY * _buoy_ddy() * TICK
 	if _plav:
 		_vx *= 0.65
 		_vy *= 0.65
@@ -346,14 +356,52 @@ func _original_tick() -> void:
 		if not _sub(sx, sy):
 			break
 	_check_water()
-	if not _fix_plav and _plav and not _plav2 and absf(_vy) < 60.0 and _ddy_plav < 0.0:
+	if not _fix_plav and _plav and not _plav2 and absf(_vy) < 60.0 and _ddy_plav < 0.0 and not _sinks():
 		_vx = 0.0
 		_vy = 0.0
 		_fix_plav = true
+		_fix_load = _load
 	if absf(_vx) > 150.0 or absf(_vy) > 150.0:
 		_att_drop()
 	if t_throw > 0:
 		t_throw -= 1
+
+
+## Mass resting on top: units whose feet are on the lid, plus boxes whose osnova is this one.
+func load_on(depth: int = 0) -> float:
+	if depth > 8:
+		return 0.0
+	var total := 0.0
+	var lid := Rect2(crate_left(), crate_top() - 4.0, _hit.x, 8.0)
+	var units: Array = Units.in_rect(lid).duplicate()
+	units.append_array(get_tree().get_nodes_in_group("player"))
+	for unit in units:
+		if not unit is CharacterBody2D or unit.get("_dead") == true:
+			continue
+		var r := _unit_rect(unit as Node2D)
+		if r.end.x > lid.position.x and r.position.x < lid.end.x and absf(r.end.y - crate_top()) <= 4.0:
+			total += _unit_massa(unit)
+	for box in get_tree().get_nodes_in_group("floor_box"):
+		if box != self and box.get("_osnova") == self and box.get("held") != true:
+			total += float(box.get("massa")) + float(box.call("load_on", depth + 1))
+	return total
+
+
+## Port rule: the load pushes the waterline probes up to 0.4 of the height, at full capacity.
+func _probe(base: float) -> float:
+	if _load <= 0.0 or _ddy_plav >= 0.0:
+		return base
+	return base + 0.4 * minf(1.0, _load / (massa * -_ddy_plav))
+
+
+func _sinks() -> bool:
+	return _ddy_plav < 0.0 and _load >= massa * -_ddy_plav
+
+
+func _buoy_ddy() -> float:
+	if _load <= 0.0:
+		return _ddy_plav
+	return (massa * _ddy_plav + _load) / (massa + _load)
 
 
 ## Box.checkWater: isPlav at 0.45 of the height, isPlav2 at 0.55; 'kap' and the
@@ -361,8 +409,8 @@ func _original_tick() -> void:
 func _check_water() -> void:
 	var was := _plav
 	var at := Vector2(crate_center_x(), crate_bottom())
-	_plav = _Flags.water_at(at - Vector2(0, _hit.y * 0.45))
-	_plav2 = _Flags.water_at(at - Vector2(0, _hit.y * 0.55))
+	_plav = _Flags.water_at(at - Vector2(0, _hit.y * _probe(0.45)))
+	_plav2 = _Flags.water_at(at - Vector2(0, _hit.y * _probe(0.55)))
 	if was == _plav:
 		return
 	var vy := _vy / 30.0

@@ -161,7 +161,7 @@ func activate(first: bool = false, restored: bool = false) -> void:
 		return
 	if active == 0 and not first:
 		GameState.restore_mana(CP_MANA)
-		Progression.add_xp(un_xp * 3)
+		Progression.add_xp(un_xp * 3, global_position)
 	active = 2
 	var glow := Travel.m_return() and tele_on and not used
 	if first:

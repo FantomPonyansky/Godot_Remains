@@ -154,6 +154,7 @@ static func _forget_solids(body: Node) -> void:
 static func break_open(body: Node) -> void:
 	if not bool(_PS.getv(body, "dead", false)):
 		preload("res://scripts/prop_sfx.gd").node_obj(body, "die")
+		_debris(body)
 	_PS.put(body, "dead", true)
 	_PS.put(body, "door_open", true)
 	_PS.put(body, "blocks_sight", false)
@@ -177,6 +178,16 @@ static func break_open(body: Node) -> void:
 		return
 	visual.texture = tex
 	visual.visible = true
+
+
+## Box.die: 12 pieces by material over the footprint (iskr when untagged).
+static func _debris(body: Node) -> void:
+	var shape := body.get_node_or_null("CollisionShape2D") as CollisionShape2D
+	if shape == null or not shape.shape is RectangleShape2D:
+		return
+	var size := (shape.shape as RectangleShape2D).size
+	var kind: String = {"wood": "schep", "metal": "metal", "glass": "steklo", "force": "pole"}.get(str(body.get_meta("surface", "")), "iskr")
+	Fx.particles(kind, shape.global_position, {"kol": 12, "rx": size.x, "ry": size.y, "source": body})
 
 
 static func _sprite_at(id: String) -> Vector2:

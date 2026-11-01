@@ -92,6 +92,18 @@ Vendors, doctors, crafting, vault, weapon stand (`^1` cycle, armour stored), rep
 
 ## Presentation (Phase 6)
 
+- Polish pass (2026-11-01; rules in `PORT_RULES.md` Visuals, Combat, Controls):
+  - Draw order: `DOOR_Z` for beams, ladder rails and stairs (`play_land.gd`, `begin_land.gd`); `ObjArt.shade` shadow at z −1 with a shared `shadow_material()`.
+  - Ammo box art 6 px lower (`held_prop._ART_DY`).
+  - Wall chips: `ImpactFx.popadalo(..., chips)`, set by `bullet._play_impact` for non-unit bodies without `hit_tile`.
+  - Fog: ghosts keep the shadow material, which stopped the 6 px shift; units leave no ghost (`fog_sight.gd`). SATS adds its own `BackBufferCopy` and skips fog-hidden units (`sats.gd`).
+  - Input: `LocalInput.ui_hold` / `ui_held` blank the local command; `dialogue_box.gd` holds while waiting; `sats._poll_sats_key` ignores the key while paused.
+  - HP bars `units/unit_hp_bar.gd` (added in `enemy._ready`). Red enemy tip `hud.ENEMY_TIP`.
+  - Rebar: `land_props._trap_touch` reads `player_move.pre_slide_vy`, because landing zeroes `velocity.y` in the same tick.
+  - "miss": `bullet._show_miss`. "+Nxp": `Progression.add_xp(amount, at)`, `add_kill_xp` / `enemy_defeated` take `at`; HUD kind `xp`.
+  - Floaters: `held_prop.load_on`, `_probe`, `_sinks`, `_buoy_ddy`.
+  - Door debris: `door_art._debris`.
+
 - Camera: `player_camera.gd` on `Player/Camera2D` (top_level, own follow): free zone radius view_h / 6, catch-up 4 × overshoot per second, hard limit 0.4 view_h, snaps on a jump over 400 px. Look-ahead and showOn still use `offset`.
 
 - Player puppet `pony_puppet.gd`: death / res / lurk clips, edge poses (`_overhang`, `_edge_frame`), PipBuck upper layer (`_place_upper`, `export_body_clips.py --upper`), armour overlay `clips/<clip>/<id>/` (lazy `_worn_frames` / `_worn_tex` caches), helmets `_place_helm` (`export_helms.py`), held-gun snap after teleports, HD preview `PonyPuppet.preview`.
@@ -240,3 +252,5 @@ Aim assist (`aim_cursor.gd`): no lock; near a target the cursor slows (`assist_s
 - Land rooms sit at world `(gx * 1920, gy * 1000)` with `gy` from the land grid, not the file's room name (surf `room_10_1` is at y 0).
 - `BackBufferCopy` rect mode partly off screen leaves stale buffer: room tints use one viewport copy.
 - Scripts are CRLF: deleting a whole line with an edit that starts at `\n` can glue the next line onto the previous one.
+- Replay goldens are committed with CRLF; `replay_check.gd` strips `\r` before comparing.
+- `bool(node.get("x"))` errors when the node has no `x` (null). Use `node.get("x") == true`.

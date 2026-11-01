@@ -158,6 +158,13 @@ static func _cell(sheets_dir: String, e: Dictionary, frame: int) -> Sprite2D:
 	return s
 
 
+static func shadow_material() -> ShaderMaterial:
+	if _shadow_mat == null:
+		_shadow_mat = ShaderMaterial.new()
+		_shadow_mat.shader = load("res://assets/shaders/obj_shadow.gdshader")
+	return _shadow_mat
+
+
 ## Box.shad: a second copy of vis with dsf (hideObject), so only the blurred black
 ## silhouette shows, 6 px lower (2 for wall objects) and behind every object;
 ## wall > 1 has alpha 0. The copy follows the visual's frame and visibility.
@@ -167,14 +174,13 @@ static func shade(visual: CanvasItem, id: String) -> void:
 	var wall := int(str(_Registry.obj(id).get("wall", "0"))) if id != "" else 0
 	if wall > 1:
 		return
-	if _shadow_mat == null:
-		_shadow_mat = ShaderMaterial.new()
-		_shadow_mat.shader = load("res://assets/shaders/obj_shadow.gdshader")
 	var v := visual as Sprite2D
 	var s := Sprite2D.new()
 	s.name = "Shadow"
-	s.material = _shadow_mat
+	s.material = shadow_material()
 	s.show_behind_parent = true
+	# One z below its object: a neighbour on the same plane draws over this shadow.
+	s.z_index = -1
 	s.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
 	s.centered = v.centered
 	s.offset = v.offset

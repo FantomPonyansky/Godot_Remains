@@ -638,9 +638,15 @@ func _trap_touch(area: Area2D, body: Node) -> void:
 		return
 	if bool(body.get("_is_fly")):
 		return
-	var dy := (body as CharacterBody2D).velocity.y / 30.0
+	var vy := (body as CharacterBody2D).velocity.y
+	var mv: Variant = body.get("_move")
+	var ceiling := bool(_PS.getv(area, "ceiling", false))
+	if mv != null and mv.get("pre_slide_vy") != null:
+		var pre := float(mv.pre_slide_vy)
+		vy = minf(vy, pre) if ceiling else maxf(vy, pre)
+	var dy := vy / 30.0
 	var amount := 0.0
-	if bool(_PS.getv(area, "ceiling", false)):
+	if ceiling:
 		if dy < 0.0:
 			amount = float(_PS.getv(area, "damage", 15))
 	elif dy > 8.0:
@@ -1945,11 +1951,11 @@ func _on_bonus(body: Node, area: Area2D, row: Dictionary) -> void:
 	_xp_left[key] = left
 	var top := int(row.get("max", 0))
 	var each := int(row.get("xp", 100))
-	Progression.add_xp(each * top if left == 0 and top > 1 else each)
+	Progression.add_xp(each * top if left == 0 and top > 1 else each, area.global_position)
 	if left == 0 and top > 1 and not _detected_rooms.has(key):
 		var summ := _room_xp_left(key)
 		if summ > 0:
-			Progression.add_xp(summ)
+			Progression.add_xp(summ, area.global_position)
 			_notice(OriginalLines.info("sneakBonus"))
 	Fx.sound("bonus2" if left == 0 and top > 1 else "bonus1", (body as Node2D).global_position, {"source": body})
 

@@ -7,6 +7,7 @@ extends CanvasLayer
 
 const _PS := preload("res://scripts/prop_state.gd")
 const GREEN := Color("00ff99")
+const ENEMY_TIP := Color("ff4c4c")
 const MANA_TEXT := Color("9999ff")
 const YELLOW := Color("ffff33")
 const ORANGE := Color("ff9900")
@@ -47,6 +48,7 @@ const NUMB := {
 	"miss": {"color": Color("999999"), "size": 10},
 	"pink": {"color": Color("fab0f7"), "size": 17},
 	"status": {"color": Color("b4ff17"), "size": 10},
+	"xp": {"color": Color("00ff99"), "size": 14},
 }
 
 ## Info log lines for PipBuck Меню → Лог (World.w.log in the original).
@@ -781,6 +783,8 @@ func _tick_prompt() -> void:
 		_prompt.visible = false
 		return
 	_prompt.text = text
+	# Port rule: a hostile unit's tip is red.
+	_prompt.add_theme_color_override("font_color", ENEMY_TIP if node.is_in_group("enemies") else GREEN)
 	_prompt.visible = true
 	var screen := _to_screen(_object_base(player, node))
 	var ratio := _action_ratio(player, node, held)

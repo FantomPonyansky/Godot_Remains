@@ -51,6 +51,8 @@ Planned after the port is finished, as a separate mode: true online co-op, P2P, 
 - Fog layout memory: remembered layout and static objects stay visible, dimmed. Trial rooms with `retdark` (`labirint`, `floating`) hide everything outside line of sight.
 - Camps (`tip base`): normal fog, but seen tiles never fade and line-of-sight hiding is off. The full camp reveal was tried and reverted.
 - Line-of-sight fog never hides the object the player holds with telekinesis.
+- Fog leaves no ghost of units outside live sight; only static objects keep their last view (user, 2026-11-01).
+- A floating box carries its load (user, 2026-11-01): units on its lid and boxes stacked on it push the waterline deeper, up to 0.4 of its height at full capacity (`massa * -plav`); a heavier load sinks it (`held_prop.load_on`). The original ignores the load.
 - Lift positions are saved (the original does not).
 - Chunked lands (2026-11-01, user; architecture step R5):
   - Random lands use a per-cell RNG (same tables and odds, different layout per seed). A save made inside a random land before the change rebuilds that land with the new generator and puts the player at its entrance; that land's room memory is dropped. Fixed and story lands are not affected.
@@ -67,12 +69,24 @@ Planned after the port is finished, as a separate mode: true online co-op, P2P, 
 - Units (player, enemies, NPCs) move to OTHER's part rigs: bone nodes with part sprites driven by an AnimationLibrary, armour swapped on the bones. Pre-baked per-clip, per-armour sheets are retired as each unit passes the side-by-side check in `tests/anim_probe.tscn` (user, 2026-10-28: priority; sheets cost memory and cause blur and broken frames).
 - Pony bosses' guns (raider boss carbine / flamer) stay on the side mount every tick (user, 2026-10-31). The original's krep 0 gun eases to weaponX / weaponY by 1/5 a tick and trails behind a moving boss (`Weapon.actions`). It still mirrors by the target's side.
 - Buch's carbine ("The Last Argument", carbine^1) draws the red-striped Patriot art `visassr_1` (user, 2026-10-29). The original has no `viscarbine_1` and falls back to the plain carbine (`Weapon.getXmlParam`). His stats and drop stay carbine^1.
+- Polish (user, 2026-11-01):
+  - Beams, ladder rails and stairs draw at door depth (z −3), behind units and held objects.
+  - An object's shadow draws one z below its object, so neighbours on the same plane are not shaded.
+  - A shot that hits a non-sparking wall (wood, brick, earth, untagged) shows a small chip puff; the original shows nothing (`ImpactFx.popadalo` `chips`).
+  - Units show an HP bar when hurt, armoured or a hero: 40 × 4, empties from both sides to the centre, green to yellow to red, armour bar below (`units/unit_hp_bar.gd`). The original shows a plain bar only with the `hpbar` option.
+  - Enemy names in the cursor tip are red.
+  - Broken doors burst into 12 pieces by material, as `Box.die` does.
 
 ## Combat
 
+- SATS keeps the fog on.
+- "+Nxp" (Pers.expa) floats at the object that gave it: checkpoint, XP bonus and freed captive too, where the original floats it at the player. Script and quest XP stay at the player.
+- A unit that dodges a bullet floats "miss" (Unit.udarBullet), under the damage-number setting.
 - Explosives on every land damage walls in the blast disk (`wall_span.apply_blast`). They also smash `explcrack` safes and crowbar-eligible crates in that disk (`land_props.blast_boxes`). Original `Bullet.explosion` only `Box.damage`s the aimed / sticky `targetObj`; ordinary boxes still take no blast.
 
 ## Controls
+
+While a dialogue waits for input or a menu pauses the game, gameplay sees no input from the local player (`LocalInput.ui_hold`), and SATS does not toggle (user, 2026-11-01).
 
 Game logic stays at 30 Hz (the original's rate); there is no 60 / 120 Hz simulation option. Input is sampled on every rendered frame and applied on the next tick, so presses between ticks are not lost and latency is at most one tick (user, 2026-10-31; architecture step R1.7).
 

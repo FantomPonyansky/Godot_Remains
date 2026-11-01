@@ -217,6 +217,10 @@ func _input(event: InputEvent) -> void:
 ## waits HOLD, same as the old event path. A press and release in one tick
 ## starts the wait and then cancels it.
 func _poll_sats_key() -> void:
+	# A dialog, the PipBuck or a menu holds the pause: the press is theirs (pad B is also back / skip).
+	if not active and get_tree().paused:
+		_hold_left = -1.0
+		return
 	if LocalInput.just_pressed(&"sats"):
 		if active or not Travel.control_off():
 			if _pad_sats_shared():
@@ -469,7 +473,7 @@ func _get_units() -> void:
 		if not node is Node2D or not is_instance_valid(node):
 			continue
 		var unit := node as Node2D
-		if not unit.is_visible_in_tree() or not _alive(unit) or bool(unit.get("_invis")) or bool(unit.get("_buried")) or unit.get_meta("no_vis", false):
+		if not unit.is_visible_in_tree() or not _alive(unit) or bool(unit.get("_invis")) or bool(unit.get("_buried")) or unit.get_meta("no_vis", false) or unit.has_meta("fog_layer"):
 			continue
 		var at: Vector2 = _player.call("_body_center", unit)
 		if not shown.has_point(at):
@@ -841,6 +845,10 @@ func _ensure_world() -> void:
 	_world.z_index = 4000
 	_world.visible = false
 	(host if host != null else get_tree().root).add_child(_world)
+	# The blur must read the frame with the fog on it; the fog's own copy was taken before the fog drew.
+	var copy := BackBufferCopy.new()
+	copy.copy_mode = BackBufferCopy.COPY_MODE_VIEWPORT
+	_world.add_child(copy)
 	_blur = ColorRect.new()
 	var blur_mat := ShaderMaterial.new()
 	blur_mat.shader = _BLUR

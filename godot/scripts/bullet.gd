@@ -481,6 +481,13 @@ func _connects(dex: float = -1.0) -> bool:
 	return Rng.randf(&"combat") < acc
 
 
+# Unit.udarBullet txtMiss: a live, visible unit shows "miss" unless the shot is flame.
+func _show_miss(unit: Node) -> void:
+	if style == "flame" or unit.get("_dead") == true or unit.get("_invis") == true or not (unit is Node2D):
+		return
+	Fx.float_number(OriginalLines.gui("miss"), (unit as Node2D).global_position, "miss", {"source": unit})
+
+
 func _dexter_of(body: Object) -> float:
 	if body is Node and (body as Node).is_in_group("player") and body.has_method("dexter_now"):
 		return float(body.call("dexter_now"))
@@ -505,6 +512,8 @@ func _impact(body: Object) -> bool:
 	# Unit.dopTest: some units let most bullets through (the thunderhead).
 	var passes: bool = body is Node and (body as Node).has_method("dop_test") and not (body as Node).call("dop_test", self)
 	if passes or (body is Node and _is_unit(body as Node) and not _connects(_dexter_of(body))):
+		if not passes:
+			_show_miss(body as Node)
 		if body is CollisionObject2D:
 			_skip.append((body as CollisionObject2D).get_rid())
 		return false
@@ -664,7 +673,8 @@ func _play_impact(body: Object) -> void:
 	var tip := _tip()
 	if blast_radius <= 0.0:
 		var flare_id := str(_WeaponVis.fx(weapon_id).get("flare", "")) if weapon_id != "" else ""
-		_ImpactFx.popadalo(get_tree(), global_position, mat, tip, float(damage), flare_id)
+		var chips := not (body is Node and (_is_unit(body as Node) or (body as Node).has_method("hit_tile")))
+		_ImpactFx.popadalo(get_tree(), global_position, mat, tip, float(damage), flare_id, chips)
 	_ImpactFx.sound(mat, damage_type, weapon_id, tip)
 
 

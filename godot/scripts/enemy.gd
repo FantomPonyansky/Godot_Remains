@@ -13,6 +13,7 @@ extends CharacterBody2D
 
 const _Resistances := preload("res://scripts/resistances.gd")
 const _Block := preload("res://scripts/block_destroy.gd")
+const _HpBar := preload("res://scripts/units/unit_hp_bar.gd")
 const _UnitWater := preload("res://scripts/map/unit_water.gd")
 const _UnitMassa := preload("res://scripts/unit_massa.gd")
 const _HeldWeapon := preload("res://scripts/units/held_weapon.gd")
@@ -769,6 +770,7 @@ func _ready() -> void:
 	hp = max_hp
 	if _armor_hp <= 0.0:
 		_armor_hp = float(max_hp)
+	add_child(_HpBar.new(self))
 	Units.touch()
 	if _friendly:
 		remove_from_group("enemies")
@@ -2815,7 +2817,7 @@ func _begin_death() -> void:
 		_revive_left = _ticks(300.0 / TPS)
 		velocity = Vector2.ZERO
 		return
-	GameState.enemy_defeated(points)
+	GameState.enemy_defeated(points, global_position)
 	# Unit.die: an exotic death disintegrates; trup leaves a body unless the hit
 	# overkilled it past -2 * maxhp; an overkilled bloody body dissolves in blood.
 	var burn := _Desintegr.sposob(_die_tip, hp, max_hp, _trup)

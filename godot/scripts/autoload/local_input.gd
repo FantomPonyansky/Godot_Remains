@@ -39,6 +39,9 @@ var _edge_gen := 0
 var _idle_seen_gen := -1
 var _idle_seen_frame := -1
 var _applied_tick := -1
+## reason -> true. A screen that takes every key while the world runs (a story
+## dialogue waiting for a key); gameplay then reads an empty command.
+var _ui_holds: Dictionary = {}
 
 
 func _ready() -> void:
@@ -117,12 +120,25 @@ func _physics_process(_delta: float) -> void:
 		_freeze()
 
 
+func ui_hold(reason: StringName, on: bool) -> void:
+	if on:
+		_ui_holds[reason] = true
+	else:
+		_ui_holds.erase(reason)
+
+
+func ui_held() -> bool:
+	return not _ui_holds.is_empty()
+
+
 ## pid 0 or the local player's id reads this device. Any other id reads
 ## commands[pid] in every frame.
 func held(action: StringName, pid := 0) -> bool:
 	var other := _other(pid)
 	if other != null:
 		return bool(other.held.get(action, false))
+	if ui_held():
+		return false
 	# Physics reads the frozen command. UI and _process (the weapon wheel,
 	# a PipBuck favourite assign) read the device, which already includes
 	# a PadGestures inject from this frame.
@@ -135,6 +151,8 @@ func just_pressed(action: StringName, pid := 0) -> bool:
 	var other := _other(pid)
 	if other != null:
 		return bool(other.pressed.get(action, false))
+	if ui_held():
+		return false
 	if Engine.is_in_physics_frame():
 		return bool(command.pressed.get(action, false))
 	_idle_seen_gen = _edge_gen
@@ -146,6 +164,8 @@ func just_released(action: StringName, pid := 0) -> bool:
 	var other := _other(pid)
 	if other != null:
 		return bool(other.released.get(action, false))
+	if ui_held():
+		return false
 	if Engine.is_in_physics_frame():
 		return bool(command.released.get(action, false))
 	_idle_seen_gen = _edge_gen
@@ -190,6 +210,11 @@ func _freeze() -> void:
 	_poll()
 	var cmd := PlayerCommand.new()
 	cmd.tick = Sim.tick
+	if ui_held():
+		cmd.aim = _live_aim
+		_drop_edges()
+		command = cmd
+		return
 	cmd.held = _live_held.duplicate()
 	cmd.strength = _live_strength.duplicate()
 	cmd.aim = _live_aim

@@ -2,9 +2,8 @@ extends Node
 
 ## What things look like outside live sight, for fog.gd's memory layer (a
 ## port feature). Moving things (awake units, shots, falling loot, thrown or
-## carried bodies) are not drawn outside live sight. Things that stay put
-## (containers, doors, props, corpses, loot at rest, units that have not moved
-## or turrets) leave a ghost as they go out of sight: plain sprites of their
+## carried bodies) and units are not drawn outside live sight. Things that stay
+## put (containers, doors, props, corpses, loot at rest) leave a ghost as they go out of sight: plain sprites of their
 ## last seen frame where they were, dimmed by the fog like the tiles. The real
 ## node is hidden until its own spot is seen again, and the ghost goes when
 ## its spot is. @retdark rooms keep no ghosts.
@@ -12,6 +11,7 @@ extends Node
 ## not draw; the node keeps its own visible flag. Static things are looked at
 ## only when fog.gd reports their tile crossed SEEN; moving ones are polled.
 
+const _ObjArt := preload("res://scripts/map/obj_art.gd")
 const SEEN := 0.2
 const HIDE_LAYER := 19
 const GHOSTS := "FogGhosts"
@@ -187,7 +187,8 @@ func poll() -> void:
 			var unit: Node2D = units[k]
 			if unit.is_physics_processing() or (_tick + k) % SLEEP_POLL < 2:
 				var at := unit.global_position
-				_poll(unit, at.x, at.y - UNIT_LIFT, true)
+				# Port rule: units leave no ghost; they are only drawn in live sight.
+				_poll(unit, at.x, at.y - UNIT_LIFT, false)
 	for group in SHOT_GROUPS:
 		for shot in tree.get_nodes_in_group(group):
 			var at: Vector2 = (shot as Node2D).global_position
@@ -442,6 +443,8 @@ func _part_of(item: Node2D) -> Dictionary:
 	part["z"] = _abs_z(item)
 	part["m"] = _tint(item)
 	part["filter"] = _filter_of(item)
+	if item.name == "Shadow" and item.material != null:
+		part["shadow"] = true
 	return part
 
 
@@ -504,6 +507,10 @@ static func make_ghost(root: Node2D, parts: Array, probe: Vector2, wid: String) 
 		sprite.modulate = part.get("m", Color.WHITE)
 		sprite.texture_filter = int(part.get("filter", CanvasItem.TEXTURE_FILTER_PARENT_NODE))
 		sprite.transform = part.xf
+		if bool(part.get("shadow", false)):
+			# Without its blur material the shadow copy is the full picture, a few px lower.
+			sprite.material = _ObjArt.shadow_material()
+			sprite.set_meta("fog_shadow", true)
 		ghost.add_child(sprite)
 	return ghost
 
@@ -544,6 +551,8 @@ static func capture_ghosts(land: Node) -> Array:
 			if sprite.region_enabled:
 				var r := sprite.region_rect
 				row["region"] = [r.position.x, r.position.y, r.size.x, r.size.y]
+			if sprite.has_meta("fog_shadow"):
+				row["shadow"] = true
 			parts.append(row)
 		if parts.is_empty():
 			continue

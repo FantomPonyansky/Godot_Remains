@@ -88,10 +88,17 @@ static func unit_material(node: Node, damage_type: String) -> int:
 	return MEAT
 
 
-static func popadalo(_tree: SceneTree, at: Vector2, mat: int, tip: int, damage: float, flare: String) -> void:
+## chips: the body has no tile chips of its own (dyrka), so a non-sparking hit still shows.
+static func popadalo(_tree: SceneTree, at: Vector2, mat: int, tip: int, damage: float, flare: String, chips := false) -> void:
 	if tip >= BULLET_SMALL and tip <= BLOW_LARGE:
 		if mat == METAL or mat == STONE or mat == GLASS or mat == FORCE_FIELD:
-			Fx.particles("spark", at, {"sparks": mini(Rng.randi_range(&"fx", 0, 5) + int(damage / 5.0), 20)})
+			Fx.particles("spark", at, {"sparks": clampi(Rng.randi_range(&"fx", 0, 5) + int(damage / 5.0), 1, 20)})
+			if flare != "":
+				Fx.particles(flare, at, {"flare": true})
+		elif chips and mat < MEAT:
+			# Port rule: wood, brick, earth and untagged walls get a chip puff; the original shows nothing.
+			var chip: String = {WOOD: "schep", BRICK: "kusokB", EARTH: "kusokD"}.get(mat, "kusok")
+			Fx.particles(chip, at, {"kol": clampi(1 + int(damage / 10.0), 1, 4)})
 			if flare != "":
 				Fx.particles(flare, at, {"flare": true})
 	elif flare != "" and mat != NONE:

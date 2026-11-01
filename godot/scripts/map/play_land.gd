@@ -32,6 +32,8 @@ const _RoomActivity := preload("res://scripts/map/room_activity.gd")
 const _Addr := preload("res://scripts/map/room_address.gd")
 const _RoomNodes := preload("res://scripts/map/room_nodes.gd")
 const COLLISION_ROOTS := ["Solids", "Platforms", "Ladders", "Slopes"]
+## Beams, ladders and stairs draw with the doors (door_art z), behind units and held props.
+const DOOR_Z := -3
 
 const TILE := 40.0
 const COLS := 48
@@ -887,7 +889,9 @@ func _add_platform(parent: Node, row: Dictionary) -> Node:
 		if art:
 			var draw := size
 			draw.y = minf(float(art.get_height()), size.y)
-			body.add_child(_tiled_sprite(art, draw))
+			var beam := _tiled_sprite(art, draw)
+			beam.z_index = DOOR_Z
+			body.add_child(beam)
 	parent.add_child(body)
 	return body
 
@@ -929,7 +933,7 @@ func _add_ladder(parent: Node, row: Dictionary) -> Node:
 			sprite.texture = rail
 			sprite.centered = false
 			sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-			sprite.z_index = 2
+			sprite.z_index = DOOR_Z
 			sprite.position = origin + Vector2(0, float(i) * TILE) - Catalog.FRONT_ORIGIN
 			area.add_child(sprite)
 	parent.add_child(area)
@@ -963,7 +967,7 @@ func _add_slope(parent: Node, row: Dictionary) -> Node:
 		sprite.centered = false
 		sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 		sprite.position = -Catalog.FRONT_ORIGIN
-		sprite.z_index = -5
+		sprite.z_index = DOOR_Z
 		body.add_child(sprite)
 	parent.add_child(body)
 	return body

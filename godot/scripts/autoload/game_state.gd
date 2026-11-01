@@ -1306,13 +1306,13 @@ func register_enemy() -> void:
 	enemies_remaining += 1
 
 
-func enemy_defeated(points: int = 100) -> void:
+func enemy_defeated(points: int = 100, at: Variant = null) -> void:
 	enemies_remaining = maxi(0, enemies_remaining - 1)
 	foe_died()
 	add_score(points)
 	var prog := Progression
 	if prog and prog.has_method("add_kill_xp"):
-		prog.add_kill_xp(points)
+		prog.add_kill_xp(points, at)
 	if enemies_remaining == 0:
 		slice_completed.emit()
 

@@ -11,6 +11,8 @@ func _init(host: _Body) -> void:
 	p = host
 
 var facing: float = 1.0
+## velocity.y before the last move_and_slide; a landing zeroes velocity in the same tick.
+var pre_slide_vy: float = 0.0
 
 ## ggControl false (UnitPlayer.controlOff): no keys, invulner, the body still falls.
 var control_off: bool = false
@@ -945,6 +947,7 @@ func _tick_pinok(delta: float, on_floor: bool) -> void:
 	_pinok = maxf(0.0, _pinok - rate * delta)
 
 func _landed(was_on_floor: bool, fall_vy: float) -> void:
+	pre_slide_vy = fall_vy
 	# Unit.run on touchdown: sndFall above 5 px/tick, makeNoise(noiseRun) above 16, half above 9.
 	if was_on_floor or not p.is_on_floor() or _climbing:
 		return

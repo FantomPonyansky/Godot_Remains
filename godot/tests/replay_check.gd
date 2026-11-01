@@ -89,7 +89,7 @@ class Runner extends Node:
 			out.close()
 			print("GOLDEN wrote %s (%d)" % [_golden, rows.size()])
 			return 0
-		var lines := FileAccess.get_file_as_string(_golden).split("\n", false)
+		var lines := FileAccess.get_file_as_string(_golden).replace("\r", "").split("\n", false)
 		var bad := absi(rows.size() - lines.size())
 		var told := false
 		var n := mini(rows.size(), lines.size())
@@ -112,8 +112,14 @@ class Runner extends Node:
 			elif part == "enemies":
 				shown = str(row.enemies)
 			print("GOLDEN mismatch tick %d (%s)" % [i * HASH_EVERY, part])
-			print("  run 1 ", shown.left(160))
-			print("  file  ", (parts[part_index(part)] if parts.size() >= 3 else lines[i]).left(160))
+			var want: String = parts[part_index(part)] if parts.size() >= 3 else lines[i]
+			var at := 0
+			while at < mini(shown.length(), want.length()) and shown[at] == want[at]:
+				at += 1
+			at = maxi(0, at - 40)
+			print("  run 1 ", shown.substr(at, 160))
+			print("  file  ", want.substr(at, 160))
+			print("  length run %d file %d" % [shown.length(), want.length()])
 		if rows.size() != lines.size() and not told:
 			print("GOLDEN mismatch count run %d file %d" % [rows.size(), lines.size()])
 		print("GOLDEN %s mismatches %d" % [_golden, bad])

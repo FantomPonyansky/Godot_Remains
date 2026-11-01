@@ -34,6 +34,7 @@ Done phases (gamepad UI, lands, world map, saves, story, vendors, crafting, rig 
 8. **Script travel on the load screen.** `Travel.goto_land` during `_loading` returns without storing the land id, so a script-driven travel then is dropped.
 9. **Unwired HUD.** `hud.gd` draws a boss HP bar, AP label, hook progress and item line, but nothing calls `set_boss_hp`, `set_ap`, `set_action_progress`, `set_item_line`, `show_subtitle`. Wire them where the original shows them (boss fights, SATS AP, hold-to-use) or drop the draw code.
 10. **Sheet prefetch race.** `boot_game` failed once with `Initializing already initialized RID` in `enemy._prefetch_sheet` (`ResourceLoader.load` on a `WorkerThreadPool` task, `enemy.gd` ~1744), then passed on rerun. Likely two loads of the same texture, or a load racing the main thread; load through `ResourceLoader.load_threaded_request` or serialise the prefetch.
+11. **Container unlock XP.** `Interact.loot` (~2016) grants `round(xp * (allDif + 1))` at the container when an unbroken locked container is looted. `Progression.add_container_xp(xp, all_dif, at)` exists but nothing calls it; wire it in the loot path with the container position.
 
 ## 2. Smoke-play `begin` to `surf` (block)
 

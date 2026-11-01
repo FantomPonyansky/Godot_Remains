@@ -137,7 +137,7 @@ func otryv() -> void:
 		cur.find_cel = false
 		var xp := int(u.get("points"))
 		if xp > 0:
-			Progression.add_kill_xp(xp)
+			Progression.add_kill_xp(xp, (u as Node2D).global_position)
 		u.set("points", 0)
 	u.set("fixed_post", false)
 
@@ -215,7 +215,7 @@ func hack(sposob: int) -> void:
 		reprog = true
 		# sposob 1 (the security terminal) pays the unit's xp; it is spent either way.
 		if sposob == 1 and not bool(u.get("_friendly")) and int(u.get("points")) > 0 and Progression.has_method("add_kill_xp"):
-			Progression.add_kill_xp(int(u.get("points")))
+			Progression.add_kill_xp(int(u.get("points")), (u as Node2D).global_position)
 		u.set("points", 0)
 		u.set("_friendly", true)
 		ai_state = 1

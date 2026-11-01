@@ -217,7 +217,7 @@ func on_die() -> bool:
 	var host := u.get_tree().get_first_node_in_group("land_props")
 	if host != null and host.has_method("run_actions"):
 		WorldOps.run_actions(host, u.get("die_actions"))
-	GameState.enemy_defeated(int(u.get("points")))
+	GameState.enemy_defeated(int(u.get("points")), (u as Node2D).global_position)
 	u.hp = 0
 	u.collision_layer = 0
 	u.remove_from_group("enemies")

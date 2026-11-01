@@ -7,6 +7,8 @@ extends Node2D
 const Catalog := preload("res://scripts/map/tile_catalog.gd")
 const _Wall := preload("res://scripts/wall_span.gd")
 const _DoorArt := preload("res://scripts/door_art.gd")
+## Beams, ladders and stairs draw with the doors (door_art z), behind units and held props.
+const DOOR_Z := -3
 const Decor := preload("res://scripts/map/back_decor.gd")
 const RoomFile := preload("res://scripts/map/room_file.gd")
 const _Stair := preload("res://scripts/stair_slope.gd")
@@ -143,6 +145,8 @@ func _add_box(parent: Node, entry: Dictionary, layer: int, one_way: bool, blocks
 			if one_way:
 				draw.y = minf(float(texture.get_height()), size.y)
 			visual = _tiled_sprite(texture, draw)
+			if one_way:
+				visual.z_index = DOOR_Z
 			body.add_child(visual)
 		else:
 			body.add_child(_quad(size, color))
@@ -208,7 +212,7 @@ func _add_slope(parent: Node, entry: Dictionary) -> void:
 		sprite.centered = false
 		sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 		sprite.position = -Catalog.FRONT_ORIGIN
-		sprite.z_index = -5
+		sprite.z_index = DOOR_Z
 		body.add_child(sprite)
 	else:
 		var poly := Polygon2D.new()
@@ -330,7 +334,7 @@ func _add_ladder_sprite(area: Node, texture: Texture2D, at: Vector2) -> void:
 	sprite.texture = texture
 	sprite.centered = false
 	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-	sprite.z_index = 2
+	sprite.z_index = DOOR_Z
 	sprite.position = at
 	area.add_child(sprite)
 

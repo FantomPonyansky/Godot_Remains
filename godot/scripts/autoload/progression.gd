@@ -303,12 +303,19 @@ func xp_progress(lvl: int) -> int:
 	return int(round(raw)) * XP_ROUND
 
 
-func add_xp(amount: int) -> void:
+## `at` is the world point of the source (Location.takeXP x, y); null is the player.
+func add_xp(amount: int, at: Variant = null) -> void:
 	# Pers.expa: one upLevel per grant, even when the XP passes two thresholds.
 	if amount <= 0:
 		return
 	xp += amount
 	xp_gained.emit(amount, xp)
+	# Pers.expa numbEmit "+Nxp" at the source.
+	var me := Run.local_player() as Node2D
+	if at is not Vector2 and me != null:
+		at = me.global_position
+	if at is Vector2:
+		Fx.float_number("+%dxp" % amount, at, "xp", {"source": me, "separate": true})
 	var leveled := false
 	if xp >= xp_next:
 		level += 1
@@ -330,17 +337,17 @@ func add_xp(amount: int) -> void:
 			Fx.particles("gold_spark", p.global_position + Vector2(0, -39), {"kol": 25, "source": p})
 
 
-func add_kill_xp(unit_xp: int) -> void:
+func add_kill_xp(unit_xp: int, at: Variant = null) -> void:
 	_ensure_balance()
 	# Unit.xp = units.xml xp * unitXPMult, granted through Location.takeXP on death.
-	add_xp(int(round(float(unit_xp) * UNIT_XP_MULT)))
+	add_xp(int(round(float(unit_xp) * UNIT_XP_MULT)), at)
 
 
-func add_container_xp(base_xp: int, all_dif: float) -> void:
+func add_container_xp(base_xp: int, all_dif: float, at: Variant = null) -> void:
 	# Interact.loot: an unbroken container with allDif > 0 gives round(xp * (allDif + 1)).
 	if base_xp <= 0 or all_dif <= 0.0:
 		return
-	add_xp(int(round(float(base_xp) * (all_dif + 1.0))))
+	add_xp(int(round(float(base_xp) * (all_dif + 1.0))), at)
 
 
 func skill_cap(id: String) -> int:

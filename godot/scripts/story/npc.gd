@@ -431,7 +431,7 @@ func _free() -> void:
 	status_capt = 1
 	_set_flag("captive", 1)
 	set_meta("usable", false)
-	Progression.add_xp(500)
+	Progression.add_xp(500, global_position)
 	_play("open")
 	if _body != null:
 		_body.color = Color(0.45, 0.45, 0.5, 0.5)

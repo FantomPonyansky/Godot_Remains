@@ -126,9 +126,14 @@ func hide_all() -> void:
 	_dial.visible = false
 	_inform.visible = false
 	_wait = false
+	LocalInput.ui_hold(&"dialogue", false)
 	_dial_bb = ""
 	_inform_bb = ""
 	_last = {}
+
+
+func _exit_tree() -> void:
+	LocalInput.ui_hold(&"dialogue", false)
 
 
 func dial_visible() -> bool:
@@ -170,6 +175,8 @@ func _input(event: InputEvent) -> void:
 
 
 func _process(delta: float) -> void:
+	# The keys that advance or skip the box must not also act in the world.
+	LocalInput.ui_hold(&"dialogue", _root.visible and _wait and ScriptsEngine.is_waiting())
 	if not _wait or not _hint.visible:
 		return
 	_blink += delta
