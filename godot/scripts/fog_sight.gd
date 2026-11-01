@@ -178,7 +178,7 @@ func poll() -> void:
 	_tw = state.tiles_w
 	_th = state.tiles_h
 	var tree := get_tree()
-	var player := tree.get_first_node_in_group("player")
+	var player := Run.local_player()
 	var carried: Variant = player.get("_tele_obj") if player != null else null
 	_carried = carried if is_instance_valid(carried) and carried is Node else null
 	for group in UNIT_GROUPS:

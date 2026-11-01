@@ -9,6 +9,7 @@ extends Control
 ## Mouse: drag pans, the wheel zooms at the cursor. Pad: the right stick pans,
 ## the triggers zoom, A centres on the player.
 
+const _PS := preload("res://scripts/prop_state.gd")
 const AT := Vector2(12, 75)
 const FON_AT := Vector2(15.5, 15.0)
 const FRAME := Vector2(707, 570)
@@ -184,7 +185,7 @@ func _build() -> void:
 	var props := get_tree().get_first_node_in_group("land_props")
 	if props != null:
 		for crate in props.get("_loot"):
-			if is_instance_valid(crate) and not bool(crate.get_meta("spent", false)) and crate is Node2D:
+			if is_instance_valid(crate) and not bool(_PS.getv(crate, "spent", false)) and crate is Node2D:
 				_mark(img, crate as Node2D, COLOR_CONTAINER, seen, w)
 		for exit in props.get("_passages"):
 			if is_instance_valid(exit) and exit is Node2D and str((exit as Node).get_meta("dest_prob", "")) != "":
@@ -197,7 +198,7 @@ func _build() -> void:
 			_mark(img, npc as Node2D, COLOR_NPC, seen, w)
 	_tex = ImageTexture.create_from_image(img)
 	_size = Vector2i(w, h)
-	var player := get_tree().get_first_node_in_group("player") as Node2D
+	var player := Run.local_player() as Node2D
 	if player != null:
 		_player_px = (player.global_position - Vector2(0, 35)) / TILE
 

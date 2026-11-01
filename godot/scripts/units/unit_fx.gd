@@ -5,96 +5,25 @@ class_name UnitFx
 ## One host per scene in group "unit_fx"; parts tick at the original 30 Hz.
 
 const _WeaponFx := preload("res://scripts/weapon_fx.gd")
+const _StatusPart := preload("res://scripts/status_part.gd")
 const TPS := 30.0
 const MAX_PARTS := 400
 const SHEETS := "res://assets/sprites/sheets/units/"
 const BLITS := "res://assets/fx_blits/"
 
 ## parts.xml: vis = packed fx_* symbol, blit = [png, cell w, cell h].
-const PARTS := {
-	"shmatok": {"vis": "fx_shmatok", "alph": true, "minliv": 20, "rliv": 40, "grav": 0.8, "minv": 2, "rv": 10, "rot": true, "dy": -5},
-	"bloat_kap": {"vis": "fx_bloat_kap", "alph": true, "minliv": 20, "rliv": 40, "grav": 0.8, "minv": 2, "rv": 10, "dy": -5},
-	"metal": {"vis": "fx_metal", "alph": true, "minliv": 20, "rliv": 40, "grav": 1.0, "minv": 2, "rv": 10, "rot": true, "dy": -5, "rsc": 0.4},
-	"pole": {"vis": "fx_pole", "alph": true, "minliv": 20, "rliv": 10, "add": true, "minv": 3, "rv": 8, "rsc": 0.4, "brake": 0.92},
-	"fake": {"blit": ["visualFake.png", 140, 142], "cols": 3, "cells": [0, 1, 2, 3, 4, 5, 6, 7, 7, 7, 7, 7, 7, 7, 7], "origin": [69.4, 72.6], "tex_scale": 0.5, "anim": true, "alph": true, "minliv": 8, "add": true},
-	"blast": {"vis": "fx_blast", "anim": true, "minliv": 10},
-	"gwall": {"vis": "fx_gwall", "anim": true, "minliv": 12, "add": true},
-	"slow": {"blit": ["visualSlow.png", 51, 51], "origin": [25.4, 25.4], "tex_scale": 0.5, "alph": true, "minliv": 20, "rliv": 10, "rsc": 0.2, "brake": 0.91},
-	"black": {"vis": "fx_black", "alph": true, "minliv": 20, "rliv": 10, "minv": 3, "rv": 8, "rsc": 0.4, "brake": 0.92},
-	"miniexpl": {"vis": "fx_miniexpl", "anim": true, "minliv": 5},
-	"expl": {"blit": ["17_sprExpl.png", 240, 240], "anim": true, "minliv": 15},
-	"explw": {"blit": ["15_sprExplW.png", 240, 240], "anim": true, "minliv": 15, "add": true},
-	"baleblast": {"vis": "fx_baleblast", "anim": true, "minliv": 30},
-	"bloodblast": {"vis": "fx_bloodblast", "anim": true, "minliv": 30},
-	"bloodexpl1": {"blit": ["21_sprBl1.png", 240, 240], "anim": true, "minliv": 20},
-	"bloodexpl2": {"blit": ["20_sprBl2.png", 240, 240], "anim": true, "minliv": 20},
-	"bloodexpl3": {"blit": ["19_sprBl3.png", 240, 240], "anim": true, "minliv": 20},
-	"buma": {"vis": "fx_buma", "anim": true, "minliv": 5},
-	"pole2": {"blit": ["visualPole2.png", 252, 240], "cols": 2, "nframes": 3, "origin": [128.0, 120.0], "tex_scale": 0.5, "alph": true, "minliv": 10, "rliv": 5},
-	"discharge": {"vis": "fx_discharge", "alph": true, "minliv": 5, "rot": true, "add": true},
-	"bloodblast2": {"vis": "fx_bloodblast2", "anim": true, "minliv": 120},
-	"necrblast": {"vis": "fx_necrblast", "anim": true, "minliv": 30},
-	"necrblast2": {"vis": "fx_necrblast2", "anim": true, "minliv": 120},
-	"necrblast3": {"vis": "fx_necrblast3", "anim": true, "minliv": 30},
-	"iskr_bul": {"blit": ["29_sprIskr.png", 3, 3], "alph": true, "minliv": 15, "rliv": 5, "grav": 0.7, "minv": 5, "rv": 3, "dy": -5, "add": true},
-	"blood": {"blit": ["41_sprBlood.png", 5, 5], "alph": true, "minliv": 20, "rliv": 20, "grav": 1.0, "rv": 5, "dy": -6},
-	"tele": {"blit": ["40_sprBSpark.png", 9, 9], "alph": true, "minliv": 10, "rliv": 20, "rv": 5, "add": true},
-	"telered": {"blit": ["23_sprRSpark.png", 9, 9], "alph": true, "minliv": 10, "rliv": 20, "rv": 5, "add": true},
-	"lift": {"blit": ["40_sprBSpark.png", 9, 9], "alph": true, "minliv": 20, "rliv": 20, "dy": -5, "rdy": -5, "add": true},
-	"teleport": {"vis": "fx_teleport", "anim": true, "minliv": 12},
-	"quake": {"vis": "fx_quake", "anim": true, "minliv": 10, "add": true},
-	"necronoise": {"vis": "fx_necronoise", "anim": true, "minliv": 9},
-	"vsos": {"blit": ["visualVsos.png", 134, 134], "origin": [70.0, 70.0], "tex_scale": 0.5, "alph": true, "minliv": 30, "rsc": 0.2},
-	"green_spark": {"vis": "fx_green_spark", "alph": true, "minliv": 20, "rliv": 10, "add": true, "minv": 8, "rv": 1, "rsc": 0.4, "brake": 0.92},
-	"blue_spark": {"vis": "fx_blue_spark", "alph": true, "minliv": 20, "rliv": 10, "add": true, "minv": 8, "rv": 1, "rsc": 0.4, "brake": 0.92},
-	"orange_spark": {"vis": "fx_orange_spark", "alph": true, "minliv": 20, "rliv": 10, "add": true, "minv": 8, "rv": 1, "rsc": 0.4, "brake": 0.92},
-	# Wall chips (Grafon.dyrka) stay one PNG per frame. Chunks kusok / steklo / schep
-	# are the OTHER strips (random frame, Part.isAnim 0).
-	"kusok": {"blit": ["visualKusok.png", 54, 60], "cols": 3, "nframes": 5, "origin": [24.0, 38.0], "tex_scale": 0.5, "alph": true, "minliv": 20, "rliv": 40, "grav": 1.0, "minv": 2, "rv": 10, "rot": true, "dy": -5},
-	"kusokB": {"debris": "kusokB", "alph": true, "minliv": 20, "rliv": 40, "grav": 1.0, "minv": 2, "rv": 10, "rot": true, "dy": -5},
-	"kusokD": {"debris": "kusokD", "alph": true, "minliv": 20, "rliv": 40, "grav": 1.0, "minv": 2, "rv": 10, "rot": true, "dy": -5},
-	"steklo": {"blit": ["visualSteklo.png", 48, 47], "cols": 3, "nframes": 5, "origin": [22.2, 33.2], "tex_scale": 0.5, "alph": true, "minliv": 20, "rliv": 40, "grav": 1.0, "minv": 2, "rv": 10, "rot": true, "dy": -5},
-	"kusoch": {"debris": "kusoch", "alph": true, "minliv": 20, "rliv": 40, "grav": 1.0, "minv": 2, "rv": 6, "rot": true, "dy": -5},
-	"kusochB": {"debris": "kusochB", "alph": true, "minliv": 20, "rliv": 40, "grav": 1.0, "minv": 2, "rv": 6, "rot": true, "dy": -5},
-	"schep": {"blit": ["visualSchep.png", 46, 96], "cols": 3, "nframes": 5, "origin": [19.0, 52.0], "tex_scale": 0.5, "alph": true, "minliv": 20, "rliv": 40, "grav": 1.0, "minv": 2, "rv": 10, "rot": true, "dy": -5},
-	"schepoch": {"debris": "schepoch", "alph": true, "minliv": 20, "rliv": 40, "grav": 1.0, "minv": 2, "rv": 6, "rot": true, "dy": -5},
-	# Bullet.explVis, Desintegr, Pers.upLevel, UnitPlayer and status parts.
-	"fireexpl": {"blit": ["17_sprExpl.png", 240, 240], "anim": true, "minliv": 15, "add": true},
-	"balefire": {"blit": ["16_sprBale.png", 240, 360], "anim": true, "minliv": 60, "fstep": 0.5},
-	"plaexpl": {"vis": "fx_plaexpl", "anim": true, "minliv": 25},
-	"impexpl": {"vis": "fx_impexpl", "anim": true, "minliv": 25},
-	"iceexpl": {"vis": "fx_iceexpl", "anim": true, "minliv": 25},
-	"sparkleexpl": {"vis": "fx_sparkleexpl", "anim": true, "minliv": 25},
-	"acidexpl": {"vis": "fx_acidexpl", "anim": true, "minliv": 10},
-	"radioblast": {"vis": "fx_radioblast", "anim": true, "minliv": 30},
-	"react": {"blit": ["24_sprReact.png", 60, 60], "anim": true, "minliv": 15, "add": true},
-	"ttexpl": {"blit": ["17_sprExpl.png", 240, 240], "anim": true, "minliv": 15, "scale": 2.0, "rsc": 0.5},
-	"ttplaexpl": {"vis": "fx_plaexpl", "anim": true, "minliv": 25, "scale": 2.0, "rsc": 0.5},
-	"gas": {"vis": "fx_gas", "alph": true, "prealph": true, "minliv": 60, "rdy": 1, "rot": true, "maxkol": 1},
-	"pinkgas": {"vis": "fx_pinkgas", "alph": true, "prealph": true, "minliv": 60, "rdy": 1, "rot": true, "maxkol": 1},
-	"steam": {"vis": "fx_steam", "minliv": 30, "rdy": 1, "grav": -0.2, "rot": true, "anim": true, "rsc": 0.3, "maxkol": 1},
-	"snow": {"blit": ["visualSnow.png", 55, 64], "cols": 2, "nframes": 4, "origin": [27.6, 31.6], "tex_scale": 0.5, "alph": true, "minliv": 20, "rliv": 10, "minv": 15, "rv": 5, "rot": true, "rsc": 0.6, "brake": 0.95},
-	"bubble": {"blit": ["visualBubble.png", 35, 35], "origin": [17.4, 17.4], "tex_scale": 0.5, "alph": true, "minliv": 20, "rliv": 10, "grav": -0.4, "rv": 3, "rsc": 0.6, "brake": 0.95},
-	"fire": {"blit": ["32_sprFire.png", 50, 67], "loop": 17, "alph": true, "prealph": true, "minliv": 100, "rliv": 30},
-	"iskr": {"blit": ["29_sprIskr.png", 3, 3], "alph": true, "minliv": 20, "rliv": 20, "grav": 0.5, "minv": 10, "rv": 5, "dy": -5, "add": true},
-	"iskr_wall": {"blit": ["29_sprIskr.png", 3, 3], "alph": true, "minliv": 10, "rliv": 10, "grav": 0.5, "minv": 1, "rv": 2, "dy": -2, "add": true},
-	"burn": {"blit": ["29_sprIskr.png", 3, 3], "alph": true, "minliv": 20, "rliv": 20, "grav": -0.5, "rv": 5, "dy": -3, "add": true},
-	"kap": {"blit": ["28_sprKap.png", 3, 3], "alph": true, "minliv": 15, "rliv": 5, "grav": 1.0, "minv": 3, "rv": 3, "dy": -5},
-	"magrun": {"blit": ["28_sprKap.png", 3, 3], "alph": true, "minliv": 15, "rliv": 5},
-	"acidkap": {"blit": ["31_sprGBlood.png", 5, 5], "alph": true, "minliv": 20, "rliv": 20, "grav": 1.0, "rv": 10, "dy": -6},
-	"gblood": {"blit": ["31_sprGBlood.png", 5, 5], "alph": true, "minliv": 20, "rliv": 20, "grav": 1.0, "rv": 5, "dy": -5},
-	"pblood": {"blit": ["25_sprPBlood.png", 5, 5], "alph": true, "minliv": 20, "rliv": 20, "grav": 1.0, "rv": 5, "dy": -6},
-	"krupa": {"blit": ["27_sprKrupa.png", 5, 5], "alph": true, "minliv": 20, "rliv": 20, "grav": 0.5, "rv": 5, "dy": 3},
-	"plakap": {"blit": ["PlasmaKap.png", 14, 22], "origin": [6.0, 14.0], "tex_scale": 0.5, "alph": true, "minliv": 15, "rliv": 5, "grav": 0.6, "rgrav": 0.4, "rdx": 1, "rdy": 2},
-	"die_spark": {"vis": "fx_die_spark", "alph": true, "minliv": 20, "rliv": 20, "grav": -0.1, "rgrav": -0.2, "rdx": 1, "rdy": 1, "rsc": 0.7, "add": true},
-	"gold_spark": {"vis": "fx_gold_spark", "alph": true, "minliv": 20, "rliv": 10, "add": true, "minv": 8, "rv": 1, "rsc": 0.4, "brake": 0.92},
-	"redray": {"vis": "fx_redray", "minliv": 50, "rot": true, "rsc": 0.7, "anim": true, "otklad": 15},
-	"sign1": {"vis": "fx_sign1", "minliv": 20, "anim": true},
-	"magsymbol": {"vis": "fx_magsymbol", "minliv": 30, "anim": true},
-	"zzz": {"vis": "fx_zzz", "alph": true, "minliv": 20, "rliv": 10, "grav": -0.2, "rv": 3, "rsc": 0.6, "brake": 0.95},
-	"throw": {"vis": "fx_throw", "anim": true, "minliv": 5},
-	"unlock": {"vis": "fx_unlock", "anim": true, "minliv": 17, "add": true},
-}
+const PARTS_PATH := "res://assets/data/unit_parts.json"
+static var PARTS: Dictionary = {}
+
+
+static func _load_parts() -> bool:
+	var data: Variant = DataLib.load(PARTS_PATH)
+	if data is Dictionary:
+		PARTS = data
+	return true
+
+
+static var _parts_ready: bool = _load_parts()
 ## Emitter maxkol: at most 12 live parts per group (gas clouds, steam).
 const MAXKOL := 12
 const DEBRIS := "res://assets/sprites/debris/"
@@ -149,20 +78,20 @@ static func snd(id: String, volume: float = 1.0) -> void:
 	var stem := id
 	var n := int(VARIANTS.get(id, 0))
 	if n > 0:
-		stem = "%s%d" % [id, randi_range(1, n)]
+		stem = "%s%d" % [id, Rng.randi_range(&"fx", 1, n)]
 	# units.xml names some die sounds ('expl') that Sounds.xml lacks; the original stays silent.
 	if not ResourceLoader.exists("res://assets/sfx/%s.mp3" % stem) and not ResourceLoader.exists("res://assets/sfx/%s.wav" % stem):
 		return
-	SfxBank.play(stem, volume)
+	Fx.sound(stem, Vector2.ZERO, {"volume": volume})
 
 
 ## Sound.pshum(id, vol): a looped hum held at the loudest volume asked this tick.
 static func hum(tree: SceneTree, id: String, volume: float) -> void:
-	if id == "" or volume <= 0.0:
+	if id == "" or volume <= 0.0 or tree == null:
 		return
-	var h := host(tree)
-	if h != null:
-		h._hum(id, volume)
+	if host(tree) == null:
+		return
+	Fx.sound(id, Vector2.ZERO, {"volume": volume, "hum": true})
 
 
 ## Unit sndRun: k = (800 - dist) / 800, doubled under 0.5, else full.
@@ -176,12 +105,88 @@ static func hum_volume(dist: float, radius: float = 800.0) -> float:
 static func _spread(param: Dictionary) -> Vector2:
 	var rx := float(param.get("rx", 0))
 	var ry := float(param.get("ry", 0))
-	return Vector2((randf() - 0.5) * rx, (randf() - 0.5) * ry)
+	return Vector2((Rng.randf(&"fx") - 0.5) * rx, (Rng.randf(&"fx") - 0.5) * ry)
+
+
+var _playing := false
 
 
 func _ready() -> void:
 	_add_mat = CanvasItemMaterial.new()
 	_add_mat.blend_mode = CanvasItemMaterial.BLEND_MODE_ADD
+	if not Fx.particled.is_connected(_on_fx_particles):
+		Fx.particled.connect(_on_fx_particles)
+	if not Fx.sounded.is_connected(_on_fx_hum):
+		Fx.sounded.connect(_on_fx_hum)
+	if not Fx.flashed.is_connected(_on_fx_flash):
+		Fx.flashed.connect(_on_fx_flash)
+
+
+## Playback must not emit Fx again. _playing drops a re-entrant particle.
+func _on_fx_particles(kind: String, at: Vector2, opts: Dictionary, _eid: String, _local: bool) -> void:
+	if _playing:
+		return
+	_playing = true
+	if opts.has("sparks"):
+		_WeaponFx.sparks(get_tree(), at, int(opts.sparks))
+	elif bool(opts.get("flare", false)):
+		_WeaponFx.flare(get_tree(), at, kind)
+	elif bool(opts.get("status", false)):
+		_StatusPart.emit(get_tree(), kind, at)
+	else:
+		UnitFx.emit(get_tree(), kind, at, opts)
+	_playing = false
+
+
+## Bullet tracer ghost. Same sprite (or the thin line when the shot has no texture)
+## that bullet.gd used to parent on the current scene for 0.06 s.
+func _on_fx_flash(at: Vector2, opts: Dictionary, _eid: String, _local: bool) -> void:
+	if not bool(opts.get("tracer", false)):
+		return
+	var host := get_tree().current_scene
+	if host == null:
+		return
+	var life := float(opts.get("life", 0.06))
+	if bool(opts.get("line", false)):
+		var line := Line2D.new()
+		line.width = float(opts.get("width", 2.0))
+		var color: Variant = opts.get("color", Color(1.0, 0.28, 0.18))
+		line.default_color = color if color is Color else Color(1.0, 0.28, 0.18)
+		var a: Vector2 = opts.get("from", at)
+		var b: Vector2 = opts.get("to", at)
+		line.points = PackedVector2Array([host.to_local(a), host.to_local(b)])
+		host.add_child(line)
+		get_tree().create_timer(life).timeout.connect(line.queue_free)
+		return
+	var ghost := Sprite2D.new()
+	var tex: Variant = opts.get("texture")
+	if tex is Texture2D:
+		ghost.texture = tex
+	ghost.centered = bool(opts.get("centered", false))
+	var off: Variant = opts.get("offset", Vector2.ZERO)
+	if off is Vector2:
+		ghost.offset = off
+	ghost.texture_filter = int(opts.get("filter", CanvasItem.TEXTURE_FILTER_PARENT_NODE))
+	var mat: Variant = opts.get("material")
+	if mat is Material:
+		ghost.material = mat
+	var mod: Variant = opts.get("modulate", Color.WHITE)
+	if mod is Color:
+		ghost.modulate = mod
+	ghost.rotation = float(opts.get("rotation", 0.0))
+	var sc: Variant = opts.get("scale", Vector2.ONE)
+	if sc is Vector2:
+		ghost.scale = sc
+	host.add_child(ghost)
+	var tip: Vector2 = opts.get("to", at)
+	ghost.global_position = tip
+	get_tree().create_timer(life).timeout.connect(ghost.queue_free)
+
+
+func _on_fx_hum(id: String, _at: Vector2, opts: Dictionary, _eid: String, _local: bool) -> void:
+	if not bool(opts.get("hum", false)):
+		return
+	_hum(id, float(opts.get("volume", 1.0)))
 
 
 func _cast(id: String, at: Vector2, param: Dictionary) -> void:
@@ -220,7 +225,7 @@ func _make(def: Dictionary, frames: Array, at: Vector2, param: Dictionary) -> Di
 	spr.centered = false
 	var anim := bool(def.get("anim", false))
 	var loop := mini(int(def.get("loop", 0)), frames.size())
-	var fr := 0 if anim else randi() % (loop if loop > 0 else frames.size())
+	var fr := 0 if anim else Rng.randi(&"fx") % (loop if loop > 0 else frames.size())
 	if int(param.get("frame", 0)) > 0:
 		fr = mini(int(param.frame) - 1, frames.size() - 1)
 	var f: Dictionary = frames[fr]
@@ -230,12 +235,12 @@ func _make(def: Dictionary, frames: Array, at: Vector2, param: Dictionary) -> Di
 	var dsc := float(def.get("scale", 1.0))
 	var rsc := float(def.get("rsc", 0))
 	if rsc > 0.0:
-		dsc = dsc - rsc + randf() * rsc
+		dsc = dsc - rsc + Rng.randf(&"fx") * rsc
 	sc *= dsc
 	sc *= float(param.get("scale", 1.0))
 	spr.scale = Vector2(-sc if int(param.get("mirr", 0)) == 1 else sc, sc)
 	if bool(def.get("rot", false)):
-		spr.rotation = randf() * TAU
+		spr.rotation = Rng.randf(&"fx") * TAU
 	if bool(def.get("add", false)):
 		spr.material = _add_mat
 	spr.modulate.a = float(param.get("alpha", 1.0))
@@ -248,22 +253,22 @@ func _make(def: Dictionary, frames: Array, at: Vector2, param: Dictionary) -> Di
 	var minv := float(def.get("minv", 0))
 	var rv := float(def.get("rv", 0))
 	if minv > 0.0 or rv > 0.0:
-		var a := randf() * TAU
-		vel = Vector2(sin(a), cos(a)) * (randf() * rv + minv)
+		var a := Rng.randf(&"fx") * TAU
+		vel = Vector2(sin(a), cos(a)) * (Rng.randf(&"fx") * rv + minv)
 	vel += Vector2(float(def.get("dx", 0)) + float(param.get("dx", 0)), float(def.get("dy", 0)) + float(param.get("dy", 0)))
-	vel.x += (randf() - 0.5) * float(def.get("rdx", 0))
-	vel.y += (randf() - 0.5) * float(def.get("rdy", 0))
-	var liv := int(randf() * float(def.get("rliv", 0)) + float(def.get("minliv", 10)))
+	vel.x += (Rng.randf(&"fx") - 0.5) * float(def.get("rdx", 0))
+	vel.y += (Rng.randf(&"fx") - 0.5) * float(def.get("rdy", 0))
+	var liv := int(Rng.randf(&"fx") * float(def.get("rliv", 0)) + float(def.get("minliv", 10)))
 	var otklad := int(def.get("otklad", 0))
 	if otklad > 0:
-		otklad = int(randf() * otklad + 1)
+		otklad = int(Rng.randf(&"fx") * otklad + 1)
 		spr.visible = false
 	return {
 		"node": spr, "vel": vel, "liv": liv, "mliv": liv, "frames": frames, "fr": fr, "fp": float(fr), "anim": anim,
 		"loop": loop, "fstep": float(def.get("fstep", 1.0)), "otklad": otklad,
-		"grav": float(def.get("grav", 0)) + randf() * float(def.get("rgrav", 0)), "brake": float(def.get("brake", 1)),
+		"grav": float(def.get("grav", 0)) + Rng.randf(&"fx") * float(def.get("rgrav", 0)), "brake": float(def.get("brake", 1)),
 		"alph": bool(def.get("alph", false)), "prealph": bool(def.get("prealph", false)), "alpha": alpha,
-		"dr": (randf() - 0.5) * 0.3 if bool(def.get("rot", false)) else 0.0,
+		"dr": (Rng.randf(&"fx") - 0.5) * 0.3 if bool(def.get("rot", false)) else 0.0,
 	}
 
 
@@ -273,7 +278,7 @@ func _frames(def: Dictionary) -> Array:
 		return _frames_cache[key]
 	var out: Array = []
 	if def.has("debris"):
-		var table: Variant = JSON.parse_string(FileAccess.get_file_as_string(DEBRIS + "debris.json")) if FileAccess.file_exists(DEBRIS + "debris.json") else null
+		var table: Variant = DataLib.load(DEBRIS + "debris.json") if FileAccess.file_exists(DEBRIS + "debris.json") else null
 		var row: Dictionary = (table as Dictionary).get(key, {}) if table is Dictionary else {}
 		var anchor: Array = row.get("anchor", [0, 0])
 		for i in int(row.get("frames", 0)):

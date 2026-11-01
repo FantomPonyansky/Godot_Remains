@@ -63,7 +63,7 @@ func setup(row: Dictionary, ctx: Dictionary, owner_land: String) -> void:
 	rnd = bool(ctx.get("rnd", false))
 	un_xp = int(ctx.get("xp", 100))
 	var dif := GameState.difficulty()
-	if dif <= 1 or (rnd and dif == 2 and randf() < 0.33):
+	if dif <= 1 or (rnd and dif == 2 and Rng.randf(&"spawn") < 0.33):
 		tele_on = true
 	_start_active = str(attrs.get("active", "")) == "1"
 	if _start_active and int(ctx.get("stage", 0)) == 0:
@@ -223,7 +223,7 @@ func use_object(from_timer: bool) -> void:
 		if from_timer:
 			teleport()
 			return
-		var player := get_tree().get_first_node_in_group("player")
+		var player := Run.local_player()
 		if player != null and player.has_method("begin_use_timer"):
 			player.begin_use_timer(self)
 		return

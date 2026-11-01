@@ -23,7 +23,7 @@ func configure() -> void:
 	turrettip = int(id.trim_prefix("turret")) if id.trim_prefix("turret").is_valid_int() else 0
 	hidden = int(u.get_meta("hidden", 0))
 	if tr <= 0:
-		tr = randi_range(1, 3)
+		tr = Rng.randi_range(&"ai", 1, 3)
 	flips_sprite = false
 	u.set("fixed_post", true)
 	u.set("_can_lift", hidden == 0)
@@ -77,7 +77,7 @@ func ready() -> void:
 		u.set("_v_konus", PI * 0.25)
 		no_turn = true
 		flips_sprite = true
-	n_rot = randi() % a_rot.size()
+	n_rot = Rng.randi(&"ai") % a_rot.size()
 	cur.rot = deg_to_rad(float(a_rot[n_rot]))
 	cur.force_rot = cur.rot
 	cur.find_cel = false
@@ -254,7 +254,7 @@ func control() -> void:
 				cur.force_rot = deg_to_rad(float(a_rot[n_rot]))
 			ai_tch = period
 		else:
-			ai_tch = randi_range(40, 89)
+			ai_tch = Rng.randi_range(&"ai", 40, 89)
 		if ai_spok > 0:
 			ai_state = 4
 		if ai_spok >= max_spok:
@@ -263,11 +263,11 @@ func control() -> void:
 		if not stunned() and find_cel():
 			if ai_state <= 1:
 				ai_state = 2
-				ai_tch = randi_range(30, 39)
+				ai_tch = Rng.randi_range(&"ai", 30, 39)
 			elif ai_state >= 3:
 				ai_state = 3
 		else:
-			set_cel(null, cel + Vector2(randf_range(-40.0, 40.0), randf_range(-40.0, 40.0)))
+			set_cel(null, cel + Vector2(Rng.randf_range(&"ai", -40.0, 40.0), Rng.randf_range(&"ai", -40.0, 40.0)))
 		_state_look()
 	if ai_state == 3 and not stunned():
 		cur.attack()
@@ -335,6 +335,6 @@ func animate() -> void:
 					p.scale.x = absf(p.scale.x) * (1.0 if storona >= 0.0 else -1.0)
 	# UnitTurret.animate: a fixed turret held by telekinesis shakes by up to 3 degrees.
 	if bool(u.get("levitated")) and bool(u.get("fixed_post")):
-		u.anim.rotation = deg_to_rad(randf() * 6.0 - 3.0)
+		u.anim.rotation = deg_to_rad(Rng.randf(&"ai") * 6.0 - 3.0)
 	elif u.anim.rotation != 0.0:
 		u.anim.rotation = 0.0

@@ -24,7 +24,7 @@ static func entry(key: String) -> Dictionary:
 		_loaded = true
 		var path := DIR + "manifest.json"
 		if FileAccess.file_exists(path):
-			var v: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
+			var v: Variant = DataLib.load(path)
 			if v is Dictionary:
 				_manifest = v
 	return _manifest.get(key, {})

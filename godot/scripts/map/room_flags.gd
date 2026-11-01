@@ -133,12 +133,25 @@ static func cell_of(at: Vector2) -> Vector2i:
 
 static func active_land() -> Node:
 	var tree := Engine.get_main_loop() as SceneTree
-	return tree.get_first_node_in_group("active_land") if tree else null
+	if tree == null:
+		return null
+	# editor_validate loads this script with -s, which has no autoloads.
+	var run := tree.root.get_node_or_null("/root/Run")
+	if run != null:
+		return run.call("land") as Node
+	return tree.get_first_node_in_group("active_land")
 
 
 static func player_pos() -> Vector2:
 	var tree := Engine.get_main_loop() as SceneTree
-	var player := tree.get_first_node_in_group("player") as Node2D if tree else null
+	if tree == null:
+		return Vector2.INF
+	var run := tree.root.get_node_or_null("/root/Run")
+	var player: Node2D = null
+	if run != null:
+		player = run.call("local_player") as Node2D
+	else:
+		player = tree.get_first_node_in_group("player") as Node2D
 	return player.global_position if player else Vector2.INF
 
 

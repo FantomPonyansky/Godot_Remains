@@ -19,6 +19,7 @@ extends AnimatableBody2D
 ## Pickup: pickup() -> land_props.grant_dropped -> Inventory.add. One grant.
 ## Autopick (Loot.osnRad) grants on the same frame inside 50px, including a held drop.
 
+const _PS := preload("res://scripts/prop_state.gd")
 const GRAVITY := 900.0
 const TERMINAL := 600.0
 const STEP := 10.0
@@ -63,6 +64,8 @@ static var _fall: Variant = null
 ## Loot.auto: LootGen drops take part in autopick; items the player drops do not.
 @export var auto: bool = true
 
+var eid: String = ""
+var kind: StringName = &"drop"
 var held: bool = false
 var velocity: Vector2 = Vector2.ZERO
 
@@ -75,7 +78,39 @@ var _skip_frame: int = -1
 var _in_water := false
 
 
+## The drop row land_memory stores: id, n, pos, and eid when one is stamped.
+func snapshot() -> Dictionary:
+	var at := position
+	var rec := {"id": item_id, "n": stack, "pos": [at.x, at.y]}
+	if has_meta("mult_hp"):
+		rec["mult_hp"] = float(get_meta("mult_hp"))
+	if not auto:
+		rec["auto"] = false
+	var id := Entity.eid_of(self)
+	if id != "":
+		rec["eid"] = id
+	return rec
+
+
+func restore(d: Dictionary) -> void:
+	if d.has("id"):
+		item_id = str(d.id)
+	if d.has("n"):
+		stack = maxi(1, int(d.n))
+	if d.has("auto"):
+		auto = bool(d.auto)
+	if d.has("mult_hp"):
+		set_meta("mult_hp", float(d.mult_hp))
+	if d.has("eid"):
+		set_meta("eid", str(d.eid))
+		eid = str(d.eid)
+	var pos: Array = d.get("pos", [])
+	if pos.size() == 2:
+		position = Vector2(float(pos[0]), float(pos[1]))
+
+
 func _ready() -> void:
+	Entity.claim(self, &"drop")
 	add_to_group("ground_loot")
 	z_index = 3
 	# Static sync would pin the body where it spawned. Layer 0 keeps it from
@@ -108,7 +143,7 @@ func _ready() -> void:
 		sprite.position = -_registration(item_id, tex)
 		sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 		add_child(sprite)
-	velocity = Vector2(randf_range(-5.0, 5.0) * 30.0, randf_range(-10.0, -5.0) * 30.0)
+	velocity = Vector2(Rng.randf_range(&"loot", -5.0, 5.0) * 30.0, Rng.randf_range(&"loot", -10.0, -5.0) * 30.0)
 	collision_layer = 0
 	collision_mask = WORLD_MASK
 	_ignore_crates()
@@ -182,8 +217,8 @@ func _check_water() -> void:
 	_in_water = wet
 	var vy := velocity.y / 30.0
 	if vy > 5.0:
-		UnitFx.emit(get_tree(), "kap", global_position, {"dy": -absf(vy) * (randf() * 0.3 + 0.3), "kol": 5})
-		SfxBank.play("fall_item_water", minf(vy / 10.0, 1.0))
+		Fx.particles("kap", global_position, {"dy": -absf(vy) * (Rng.randf(&"fx") * 0.3 + 0.3), "kol": 5, "source": self})
+		Fx.sound("fall_item_water", global_position, {"volume": minf(vy / 10.0, 1.0), "source": self})
 
 
 ## Loot.run on touchdown: sndFall above 5 px/tick at volume vy / 15.
@@ -192,10 +227,10 @@ func _land_sound() -> void:
 	if vy <= 5.0:
 		return
 	if _fall == null:
-		_fall = JSON.parse_string(FileAccess.get_file_as_string(FALL_PATH)) if FileAccess.file_exists(FALL_PATH) else {}
+		_fall = DataLib.load(FALL_PATH) if FileAccess.file_exists(FALL_PATH) else {}
 	var snd := str((_fall as Dictionary).get(item_id, "fall_item")) if _fall is Dictionary else "fall_item"
 	if snd != "":
-		SfxBank.play(snd, minf(vy / 15.0, 1.0))
+		Fx.sound(snd, global_position, {"volume": minf(vy / 15.0, 1.0), "source": self})
 
 
 ## Loot.osnRad. Both axes, not a circle. Grants immediately when autopick is on.
@@ -204,7 +239,7 @@ func try_autopick() -> void:
 		return
 	if Autopick == null or not Autopick.enabled:
 		return
-	var player := get_tree().get_first_node_in_group("player") as Node2D
+	var player := Run.local_player() as Node2D
 	if player == null or not _within_osn(player):
 		return
 	if not Autopick.wants(item_id, maxi(1, stack)):
@@ -600,7 +635,7 @@ func _is_crate(node: Node) -> bool:
 	if node.is_in_group("enemies") or node.is_in_group("player") or node.is_in_group("ground_loot"):
 		return false
 	# Closed doors and the wooden septum stay solid. They are not crates.
-	if node.has_meta("door_id") or node.has_meta("door_open"):
+	if node.has_meta("door_id") or ("door_open" in node):
 		return false
 	var parent := node.get_parent()
 	var pname := str(parent.name) if parent else ""
@@ -620,9 +655,9 @@ func _is_floor(node: Node) -> bool:
 func _is_door(node: Node) -> bool:
 	if node == null:
 		return false
-	if not node.has_meta("door_id") and not node.has_meta("door_open"):
+	if not node.has_meta("door_id") and not ("door_open" in node):
 		return false
-	if bool(node.get_meta("dead", false)) or bool(node.get_meta("door_open", false)):
+	if bool(_PS.getv(node, "dead", false)) or bool(_PS.getv(node, "door_open", false)):
 		return false
 	if node is CollisionObject2D and (node as CollisionObject2D).collision_layer == 0:
 		return false

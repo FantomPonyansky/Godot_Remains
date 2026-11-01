@@ -182,8 +182,18 @@ func binding_text(action: String, pad: bool = false) -> String:
 	return " / ".join(parts)
 
 
+var _event_label: Callable = Callable()
+
+
+## Prompts registers the glyph text. No listener means an empty label.
+func bind_event_label(label_of: Callable) -> void:
+	_event_label = label_of
+
+
 func event_text(event: InputEvent) -> String:
-	return Prompts.event_label(event)
+	if _event_label.is_valid():
+		return str(_event_label.call(event))
+	return ""
 
 
 ## A key replaces keys, a mouse button replaces mouse buttons, and a pad

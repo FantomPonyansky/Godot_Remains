@@ -88,13 +88,14 @@ static func unit_material(node: Node, damage_type: String) -> int:
 	return MEAT
 
 
-static func popadalo(tree: SceneTree, at: Vector2, mat: int, tip: int, damage: float, flare: String) -> void:
+static func popadalo(_tree: SceneTree, at: Vector2, mat: int, tip: int, damage: float, flare: String) -> void:
 	if tip >= BULLET_SMALL and tip <= BLOW_LARGE:
 		if mat == METAL or mat == STONE or mat == GLASS or mat == FORCE_FIELD:
-			_WeaponFx.sparks(tree, at, mini(randi_range(0, 5) + int(damage / 5.0), 20))
-			_WeaponFx.flare(tree, at, flare)
+			Fx.particles("spark", at, {"sparks": mini(Rng.randi_range(&"fx", 0, 5) + int(damage / 5.0), 20)})
+			if flare != "":
+				Fx.particles(flare, at, {"flare": true})
 	elif flare != "" and mat != NONE:
-		_WeaponFx.flare(tree, at, flare)
+		Fx.particles(flare, at, {"flare": true})
 
 
 static func sound(mat: int, damage_type: String, weapon_id: String, tip: int) -> void:
@@ -127,38 +128,38 @@ static func sound(mat: int, damage_type: String, weapon_id: String, tip: int) ->
 
 
 ## Unit.udarUnit: a body attack lands; the part and Sound.ps follow the attacker's tipDamage.
-static func udar_unit(tree: SceneTree, victim: Vector2, attacker: Vector2, damage_type: String) -> void:
+static func udar_unit(_tree: SceneTree, victim: Vector2, attacker: Vector2, damage_type: String) -> void:
 	var mid := (victim + attacker) * 0.5
 	match damage_type:
 		"DAM_ELECTRIC":
-			UnitFx.emit(tree, "moln", victim)
-			SfxBank.play("electro")
+			Fx.particles("moln", victim)
+			Fx.sound("electro", victim)
 		"DAM_ACID":
-			UnitFx.emit(tree, "buma", mid)
-			SfxBank.play("acid")
+			Fx.particles("buma", mid)
+			Fx.sound("acid", mid)
 		"DAM_DEATH":
-			_WeaponFx.flare(tree, mid, "bumn")
-			SfxBank.play("hit_necr")
+			Fx.particles("bumn", mid, {"flare": true})
+			Fx.sound("hit_necr", mid)
 		"DAM_BITE":
-			_WeaponFx.flare(tree, mid, "bum")
-			SfxBank.play("fang_hit")
+			Fx.particles("bum", mid, {"flare": true})
+			Fx.sound("fang_hit", mid)
 		_:
-			_WeaponFx.flare(tree, mid, "bum")
-			SfxBank.play("hit_flesh")
+			Fx.particles("bum", mid, {"flare": true})
+			Fx.sound("hit_flesh", mid)
 
 
 static func hit_sound(clip: String, volume: float, weapon_id: String, tip: int) -> void:
 	var own := str(_WeaponVis.fx(weapon_id).get("snd_hit", "")) if weapon_id != "" else ""
 	if own != "":
-		SfxBank.play(own)
+		Fx.sound(own, Vector2.ZERO)
 	if tip < BULLET_SMALL or tip > BLOW_LARGE:
 		return
 	var now := Time.get_ticks_msec()
 	if now < _hit_ready_at:
 		return
 	if clip != "":
-		SfxBank.play(clip, volume)
-	_hit_ready_at = now + int(randi_range(3, 6) * TICK_MS)
+		Fx.sound(clip, Vector2.ZERO, {"volume": volume})
+	_hit_ready_at = now + int(Rng.randi_range(&"fx", 3, 6) * TICK_MS)
 
 
 ## Grafon.dyrka on the span that was hit and every span the decal reaches.
@@ -168,13 +169,13 @@ static func dyrka(wall: Node, at: Vector2, tip: int, mat: int, soft: bool, ver: 
 	var erase := ""
 	var draw := ""
 	var blend := "normal"
-	var sc := randf() * 0.5 + 0.5
-	var rc := randf() * 360.0
+	var sc := Rng.randf(&"fx") * 0.5 + 0.5
+	var rc := Rng.randf(&"fx") * 360.0
 	match mat:
 		METAL:
 			if tip >= BULLET_SMALL and tip <= BLOW_LARGE:
 				draw = "bullet_metal"
-			elif tip == EXPLOSION and not soft and randf() * 0.5 < ver:
+			elif tip == EXPLOSION and not soft and Rng.randf(&"fx") * 0.5 < ver:
 				draw = "metal_tre"
 		STONE, BRICK, EARTH, WOOD:
 			if tip >= BULLET_SMALL and tip <= BULLET_LARGE:
@@ -183,7 +184,7 @@ static func dyrka(wall: Node, at: Vector2, tip: int, mat: int, soft: bool, ver: 
 					draw = "bullet_wood"
 					rc = 0.0
 				else:
-					if tip != BULLET_SMALL and randf() > 0.5:
+					if tip != BULLET_SMALL and Rng.randf(&"fx") > 0.5:
 						erase = "bullet_dyr"
 					draw = "bullet_tre"
 				sc += 0.5 * float(tip - BULLET_SMALL)
@@ -191,20 +192,20 @@ static func dyrka(wall: Node, at: Vector2, tip: int, mat: int, soft: bool, ver: 
 				if not soft:
 					draw = "punch_tre"
 				sc += 0.5 * float(tip - BLOW_SMALL)
-			elif tip == EXPLOSION and not soft and randf() * 0.5 < ver:
+			elif tip == EXPLOSION and not soft and Rng.randf(&"fx") * 0.5 < ver:
 				draw = "expl_tre"
 	if wall.is_inside_tree():
 		if mat == FORCE_FIELD:
-			UnitFx.emit(wall.get_tree(), "pole", at, {"kol": 5})
+			Fx.particles("pole", at, {"kol": 5})
 		elif tip <= EXPLOSION and not soft and mat in [STONE, BRICK, EARTH, WOOD]:
 			var chip := "schepoch" if mat == WOOD else ("kusoch" if mat == STONE else "kusochB")
-			UnitFx.emit(wall.get_tree(), chip, at, {"kol": 3})
+			Fx.particles(chip, at, {"kol": 3})
 	match tip:
 		FIRE:
-			if randf() < 0.1:
+			if Rng.randf(&"fx") < 0.1:
 				draw = "fire_soft"
 		LASER, LASER_SMALL:
-			draw = "fire_soft" if soft and randf() * 0.2 > ver else "laser_tre"
+			draw = "fire_soft" if soft and Rng.randf(&"fx") * 0.2 > ver else "laser_tre"
 			if tip == LASER_SMALL:
 				sc *= 0.6
 			blend = "hardlight"
@@ -219,7 +220,7 @@ static func dyrka(wall: Node, at: Vector2, tip: int, mat: int, soft: bool, ver: 
 			draw = "cryo_soft"
 			blend = "hardlight"
 		ENERGY_EXPLOSION:
-			if not soft and randf() * 0.5 < ver:
+			if not soft and Rng.randf(&"fx") * 0.5 < ver:
 				draw = "plaexpl_tre"
 	if erase == "" and draw == "":
 		return
@@ -233,16 +234,15 @@ static func tile_die(wall: Node, at: Vector2, tip: int, mat: int, fake: bool = f
 	# Tile.isFakeWall (Area tilehp <= 1): it crumbles to dust, no debris.
 	if fake:
 		if wall.is_inside_tree():
-			UnitFx.emit(wall.get_tree(), "fake", at)
+			Fx.particles("fake", at)
 		place(wall, decal(erase, "block_bur", at, 1.0, 0.0, "hardlight"))
 		return
 	if wall.is_inside_tree():
-		var tree := wall.get_tree()
 		if mat == FORCE_FIELD:
-			UnitFx.emit(tree, "pole", at, {"kol": 10, "rx": 40, "ry": 40})
+			Fx.particles("pole", at, {"kol": 10, "rx": 40, "ry": 40})
 		elif tip <= EXPLOSION and mat >= METAL and mat <= EARTH:
 			var chunk: String = ["", "metal", "kusok", "schep", "kusokB", "steklo", "kusokD"][mat]
-			UnitFx.emit(tree, chunk, at, {"kol": 6, "rx": 40, "ry": 40})
+			Fx.particles(chunk, at, {"kol": 6, "rx": 40, "ry": 40})
 	if mat == FORCE_FIELD:
 		draw = ""
 	elif tip >= PLASMA:
@@ -331,7 +331,7 @@ static func _frame(name: String) -> int:
 	var info := _info(name)
 	if info.is_empty():
 		return 0
-	return randi() % maxi(int(info.frames), 1)
+	return Rng.randi(&"fx") % maxi(int(info.frames), 1)
 
 
 static func _info(name: String) -> Dictionary:
@@ -340,7 +340,7 @@ static func _info(name: String) -> Dictionary:
 	if _table.is_empty():
 		var path := _DECALS + "decals.json"
 		if FileAccess.file_exists(path):
-			var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
+			var parsed: Variant = DataLib.load(path)
 			if parsed is Dictionary:
 				_table = parsed
 	var info: Variant = _table.get(name, {})

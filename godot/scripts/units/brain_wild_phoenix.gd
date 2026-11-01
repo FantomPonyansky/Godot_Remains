@@ -130,6 +130,8 @@ func _trigger(key: String) -> Variant:
 
 
 func _mess(key: String) -> void:
-	var hud := u.get_tree().get_first_node_in_group("hud")
-	if hud != null and hud.has_method("show_message"):
-		hud.show_message(OriginalLines.text("txt", key), u.global_position.y - room_origin().y < 300.0)
+	Fx.notice(OriginalLines.text("txt", key), {
+		"message": true,
+		"down": u.global_position.y - room_origin().y < 300.0,
+		"source": u,
+	})

@@ -85,7 +85,7 @@ static func _place(drawn: Dictionary, kinds: Dictionary, obj: Dictionary, origin
 	var flip := false
 	var mirr := str(spec.get("mirr", ""))
 	if mirrored:
-		if mirr == "2" and randf() < 0.5:
+		if mirr == "2" and Rng.randf(&"fx") < 0.5:
 			px = COLS * TILE - px
 			flip = true
 		elif mirr == "1":
@@ -93,7 +93,7 @@ static func _place(drawn: Dictionary, kinds: Dictionary, obj: Dictionary, origin
 			flip = true
 		else:
 			px = COLS * TILE - px - wid
-	elif mirr == "2" and randf() < 0.5:
+	elif mirr == "2" and Rng.randf(&"fx") < 0.5:
 		px += wid
 		flip = true
 	if flip:
@@ -128,7 +128,7 @@ static func _frame(spec: Dictionary, attrs: Dictionary, frames: Array, light_on:
 	elif light_on < 0 and int(spec.get("loff", 0)) > 0:
 		frame = int(spec.loff)
 	else:
-		frame = randi() % count + 1
+		frame = Rng.randi(&"fx") % count + 1
 	if attrs.has("fr"):
 		frame = int(attrs.fr)
 	if attrs.has("lon"):
@@ -195,7 +195,7 @@ static func _catalog() -> Dictionary:
 		return _kinds
 	if not FileAccess.file_exists(DATA):
 		return {}
-	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(DATA))
+	var parsed: Variant = DataLib.load(DATA)
 	if typeof(parsed) != TYPE_DICTIONARY:
 		return {}
 	_kinds = (parsed as Dictionary).get("kinds", {})

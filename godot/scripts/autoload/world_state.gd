@@ -11,30 +11,52 @@ extends Node
 ##
 ## Other systems persist their own state with
 ##   WorldState.register(provider_id, get_callable, set_callable)
+##   WorldState.register_run(provider_id, get_callable, set_callable)
+## register is world.json (lands and the providers that travel with them).
+## register_run is run.json. A blob carries its own version key.
+## The mods provider (run version 2) records active mod ids and versions.
+## A save with no mods key still loads. Loading does not switch mods.
 ## get_callable() -> Variant returns JSON-safe data; set_callable(data) gets it
-## back after a load (at once if the save was loaded before registering).
-## Data of providers that never register in a run is kept and saved again.
+## back after a load (at once if the save was loaded before registering) and
+## accepts that provider's older blobs. Data of providers that never register
+## in a run is kept and saved again.
 
 signal run_reset
 signal restored
+## The saved spot is applied (or given up); the player stands where the save was.
+signal resumed
 
 const VERSION := 2
-## Version 2 took the 2021 room files: these lands' room pools changed, so a
+const RUN_VERSION := 2
+const _Mods = preload("res://scripts/mod_loader.gd")
+## World version 2 took the 2021 room files: these lands' room pools changed, so a
 ## version 1 snapshot (rows named by plan placement) no longer fits their plan.
+## Run version 2 adds the mods provider. A run document at version 1 still loads.
 const REPLANNED_V2 := ["random_canter", "random_mane", "random_stable", "random_encl", "random_plant", "random_sewer"]
 const FILE := "world.json"
+const RUN_FILE := "run.json"
+## Body before game: the hp cap uses rad and the level. Vendor money is applied
+## again when the stock provider builds, so it can sit anywhere in this list.
+const RUN_ORDER: PackedStringArray = [
+	"progression", "condition", "inventory", "body", "pets", "game", "vendor_meta",
+]
 const LandGen := preload("res://scripts/map/land_gen.gd")
 const RESUME_FRAMES := 600
 const AUTOSAVE_SLOT := 0
 
 var run_seed := 0
 var autosave_on_travel := true
+## >= 0: every new run uses this seed for run_seed (replay checks; later
+## lockstep play). -1: a random seed per run. Gameplay draws use Rng streams.
+var fixed_seed := -1
 
 var _lands := {}
 var _builds := {}
 var _live := {}
 var _providers := {}
 var _provider_data := {}
+var _run_providers := {}
+var _run_data := {}
 var _resume := {}
 var _resume_left := 0
 var _resume_sent := false
@@ -45,6 +67,17 @@ var _autosave_in := -1
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	reset_run()
+	register_run("mods", _mods_get, _mods_set)
+
+
+func _mods_get() -> Dictionary:
+	return {"version": 1, "active": _Mods.applied()}
+
+
+## The boot set is what the next save records. Applying a blob does not
+## enable or disable mods; old blobs without `active` are accepted.
+func _mods_set(_data: Variant) -> void:
+	pass
 
 
 ## A new run: every land is forgotten. game.gd calls this as the run starts.
@@ -56,8 +89,10 @@ func reset_run() -> void:
 	_resume_sent = false
 	_active_id = ""
 	_autosave_in = -1
-	randomize()
-	run_seed = randi()
+	if fixed_seed >= 0:
+		run_seed = fixed_seed
+	else:
+		run_seed = _fresh_seed()
 	run_reset.emit()
 
 
@@ -70,26 +105,45 @@ func register(provider_id: String, get_callable: Callable, set_callable: Callabl
 			set_callable.call(data)
 
 
+func register_run(provider_id: String, get_callable: Callable, set_callable: Callable) -> void:
+	_run_providers[provider_id] = [get_callable, set_callable]
+	if _run_data.has(provider_id):
+		var data: Variant = _run_data[provider_id]
+		_run_data.erase(provider_id)
+		if set_callable.is_valid():
+			set_callable.call(data)
+
+
 ## Drops what is known about a land; its next build starts fresh, from a new
 ## seed (Game.crea: a new Land, so a generated land gets a new layout).
 func forget_land(land_id: String) -> void:
 	_lands.erase(land_id)
 	_live.erase(land_id)
-	_builds[land_id] = {"seed": randi(), "lvl": -1}
+	_builds[land_id] = {"seed": _fresh_seed(), "lvl": -1}
 
 
 # --- building ------------------------------------------------------------
 
-## play_land.gd make(): seeds the global RNG so the land plans the same way again.
+## play_land.gd make(): the build stream repeats this land's stored seed.
 func begin_build(land_id: String) -> void:
 	var info := _build_info(land_id)
 	LandGen.keep_seed = true
-	seed(int(info.seed))
+	var rng := Rng
+	if rng != null:
+		rng.bind_land(land_id)
+		rng.seed_build(int(info.seed))
+	else:
+		seed(int(info.seed))
 
 
 func end_build(_land_id: String) -> void:
 	LandGen.keep_seed = false
-	randomize()
+
+
+func _fresh_seed() -> int:
+	var rng := RandomNumberGenerator.new()
+	rng.randomize()
+	return rng.randi()
 
 
 ## The level a land was first planned at. lvl is the level it would use now.
@@ -170,7 +224,7 @@ func to_save() -> Dictionary:
 		"providers": providers,
 	}
 	var land := _active_land()
-	var player := get_tree().get_first_node_in_group("player") as Node2D
+	var player := Run.local_player()
 	if land and player:
 		var at := player.global_position
 		out["land"] = _id_of(land)
@@ -234,6 +288,63 @@ func read(dir: String) -> bool:
 	return from_save(parsed)
 
 
+func run_document() -> Dictionary:
+	var providers := _run_data.duplicate(true)
+	for id in _run_providers:
+		var getter: Callable = (_run_providers[id] as Array)[0]
+		if getter.is_valid():
+			providers[id] = getter.call()
+	return {"version": RUN_VERSION, "providers": providers}
+
+
+func apply_run(data: Dictionary) -> bool:
+	var ver := int(data.get("version", 0))
+	if ver < 1 or ver > RUN_VERSION:
+		push_warning("run save version %s not supported" % str(data.get("version")))
+		return false
+	var providers: Dictionary = data.get("providers", {})
+	_run_data.clear()
+	var done := {}
+	for id in RUN_ORDER:
+		if providers.has(id):
+			_apply_run_provider(id, providers[id])
+			done[id] = true
+	for id in providers:
+		if done.has(id):
+			continue
+		_apply_run_provider(str(id), providers[id])
+	return true
+
+
+func write_run(dir: String) -> bool:
+	var file := FileAccess.open(dir + RUN_FILE, FileAccess.WRITE)
+	if file == null:
+		return false
+	file.store_string(JSON.stringify(run_document()))
+	file.close()
+	return true
+
+
+func read_run(dir: String) -> bool:
+	if not FileAccess.file_exists(dir + RUN_FILE):
+		push_warning("run save missing: %s" % (dir + RUN_FILE))
+		return false
+	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(dir + RUN_FILE))
+	if not parsed is Dictionary:
+		push_warning("run save unreadable: %s" % (dir + RUN_FILE))
+		return false
+	return apply_run(parsed)
+
+
+func _apply_run_provider(id: String, data: Variant) -> void:
+	if _run_providers.has(id):
+		var setter: Callable = (_run_providers[id] as Array)[1]
+		if setter.is_valid():
+			setter.call(data)
+	else:
+		_run_data[id] = data
+
+
 func current_land_id() -> String:
 	var land := _active_land()
 	return _id_of(land) if land else ""
@@ -242,7 +353,7 @@ func current_land_id() -> String:
 func _active_land() -> Node:
 	if not is_inside_tree():
 		return null
-	return get_tree().get_first_node_in_group("active_land")
+	return Run.land()
 
 
 func _id_of(land: Node) -> String:
@@ -260,6 +371,10 @@ func _process(_delta: float) -> void:
 	if id != _active_id:
 		var was := _active_id
 		_active_id = id
+		if id != "":
+			var rng := Rng
+			if rng != null:
+				rng.bind_land(id)
 		if was != "" and id != "" and autosave_on_travel:
 			_autosave_in = 2
 	if _autosave_in > 0:
@@ -278,19 +393,21 @@ func _tick_resume() -> void:
 	_resume_left -= 1
 	if _resume_left <= 0:
 		_resume.clear()
+		resumed.emit()
 		return
 	var target := str(_resume.land)
 	var id := current_land_id()
 	if id == "":
 		return
 	# Travel picks the land a save resumes in (a generated land goes back to
-	# the camp); the saved spot only counts in the saved land.
-	var travel := get_node_or_null("/root/Travel")
-	if travel != null:
-		if str(travel.get("cur_land_id")) != target:
+	# the camp); the saved spot only counts in the saved land. The two fields
+	# are mirrored on Run so this autoload does not name Travel.
+	if Run.travel_on:
+		if Run.cur_land_id != target:
 			_resume.clear()
+			resumed.emit()
 			return
-		if int(travel.get("exit_state")) != 0 or id != target:
+		if Run.exit_state != 0 or id != target:
 			return
 	elif id != target:
 		if not _resume_sent:
@@ -299,7 +416,7 @@ func _tick_resume() -> void:
 				_resume_sent = true
 				host.goto_land(target)
 		return
-	var player := get_tree().get_first_node_in_group("player") as CharacterBody2D
+	var player := Run.local_player() as CharacterBody2D
 	if player == null:
 		return
 	player.global_position = _resume.pos
@@ -310,3 +427,4 @@ func _tick_resume() -> void:
 		camera.reset_smoothing()
 	_resume.clear()
 	_active_id = id
+	resumed.emit()

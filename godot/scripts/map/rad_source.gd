@@ -41,7 +41,7 @@ func _physics_process(delta: float) -> void:
 
 func _step() -> void:
 	var host := get_parent() as Node2D
-	var player := get_tree().get_first_node_in_group("player") as Node2D
+	var player := Run.local_player() as Node2D
 	if host == null or player == null or GameState.is_dead():
 		return
 	_t += 1

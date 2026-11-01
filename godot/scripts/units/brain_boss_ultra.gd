@@ -101,7 +101,7 @@ func control() -> void:
 		if ai_state > 3:
 			ai_state = 2 if att_state == 4 else 1
 		if ai_state == 1:
-			var nmp := randi() % 5
+			var nmp := Rng.randi(&"ai") % 5
 			if nmp == mp:
 				nmp += 1
 			if nmp >= 5:
@@ -116,7 +116,7 @@ func control() -> void:
 			if att_state != 4 and rnd(0.33):
 				att_state = 4
 			else:
-				att_state = randi() % 2
+				att_state = Rng.randi(&"ai") % 2
 			if u.global_position.y - origin.y < 17 * 40 and cel.y - origin.y > 16 * 40 and rnd(0.33):
 				att_state = 2
 				ai_tch = 5
@@ -133,7 +133,7 @@ func control() -> void:
 				4:
 					ai_tch = 60
 				_:
-					ai_tch = randi_range(150, 249)
+					ai_tch = Rng.randi_range(&"ai", 150, 249)
 	if (ai_state == 1 or (ai_state > 1 and att_state == 1)) and ai_tch % 10 == 1:
 		set_cel(p)
 	var dist := u.global_position.distance_squared_to(move)
@@ -152,11 +152,11 @@ func control() -> void:
 	if ai_state == 2 and ai_tch % 5 == 1:
 		match att_state:
 			0:
-				emit_part("laser", cel + Vector2(randf_range(-50.0, 50.0), -randf() * 50.0))
+				emit_part("laser", cel + Vector2(Rng.randf_range(&"fx", -50.0, 50.0), -Rng.randf(&"fx") * 50.0))
 			1:
-				emit_part("plasma", cel + Vector2(randf_range(-25.0, 25.0), -randf() * 20.0))
+				emit_part("plasma", cel + Vector2(Rng.randf_range(&"fx", -25.0, 25.0), -Rng.randf(&"fx") * 20.0))
 			4:
-				emit_part("spark", cel + Vector2(randf_range(-50.0, 50.0), -randf() * 50.0))
+				emit_part("spark", cel + Vector2(Rng.randf_range(&"fx", -50.0, 50.0), -Rng.randf(&"fx") * 50.0))
 	if ai_state > 0 and not (ai_state == 3 and att_state == 2):
 		ai_napr = 1.0 if cel.x > u.global_position.x else -1.0
 		if storona == ai_napr:
@@ -226,6 +226,6 @@ func expl() -> void:
 
 func dying_tick() -> void:
 	if rnd(0.3 - timer_die / 500.0):
-		emit_part("expl", u.global_position + Vector2(randf_range(-60.0, 60.0), -randf() * 120.0))
+		emit_part("expl", u.global_position + Vector2(Rng.randf_range(&"fx", -60.0, 60.0), -Rng.randf(&"fx") * 120.0))
 		new_part("metal")
 		sound("expl_e")

@@ -15,7 +15,7 @@ var alert_left := 0
 
 
 func configure() -> void:
-	max_speed += randf_range(-1.0, 1.0)
+	max_speed += Rng.randf_range(&"ai", -1.0, 1.0)
 	walk_speed = max_speed
 	run_speed = max_speed
 	elast = 0.8
@@ -24,7 +24,7 @@ func configure() -> void:
 
 
 func ready() -> void:
-	u.anim.rotation = randf() * TAU
+	u.anim.rotation = Rng.randf(&"ai") * TAU
 	# setVisPos draws the ball at the body centre, and the sheet's origin is the ball's.
 	u.anim.position = Vector2(0.0, -body().y * 0.5)
 
@@ -40,7 +40,7 @@ func control() -> void:
 	if ai_tch % 10 == 1:
 		if find_cel():
 			ai_spok = max_spok
-			alert_left = randi_range(40, 90)
+			alert_left = Rng.randi_range(&"ai", 40, 90)
 	if ai_tch > 0:
 		ai_tch -= 1
 	else:
@@ -59,7 +59,7 @@ func control() -> void:
 				vel.x += walk * accel
 		var reach := body().x * 0.5 + 40.0
 		if stay and cel_unit != null and absf(dx) < reach * 4.0 and cel.y < center().y - 20.0 and rnd(0.1):
-			vel.y = -jumpdy * randf_range(0.5, 1.0)
+			vel.y = -jumpdy * Rng.randf_range(&"ai", 0.5, 1.0)
 	if turn_x != 0.0:
 		turn_x = 0.0
 	var p := player_node()

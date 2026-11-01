@@ -13,6 +13,7 @@ extends CanvasLayer
 ## stick leaves the marker where it is.
 ## A menu draws the arrow at the mouse. A pad keeps this marker. Sats still aims.
 
+const _PS := preload("res://scripts/prop_state.gd")
 const STICK_SPEED := 720.0
 const _WARP := 200.0
 const ASSIST_GROUPS := ["enemies", "tk_use", "levitatable", "pickups", "ground_loot"]
@@ -165,7 +166,7 @@ func _paint(frame: String, at: Vector2) -> void:
 func _aim_frame() -> String:
 	if _foe_tracking():
 		return "combat"
-	var player := get_tree().get_first_node_in_group("player") as Node2D
+	var player := Run.local_player() as Node2D
 	if player == null:
 		return "target"
 	var carried: Variant = player.get("_tele_obj")
@@ -210,7 +211,7 @@ func _under_cursor(player: Node2D) -> Node2D:
 				continue
 			if not body.is_visible_in_tree() or body.has_meta(_FOG_HIDDEN):
 				continue
-			if bool(body.get_meta("dead", false)) or bool(body.get_meta("spent", false)) or body.get("_dead") == true:
+			if bool(_PS.getv(body, "dead", false)) or bool(_PS.getv(body, "spent", false)) or body.get("_dead") == true:
 				continue
 			var got: Variant = player.call("_aim_rect", body)
 			if not got is Rect2 or not (got as Rect2).has_point(at):
@@ -226,7 +227,7 @@ func _under_cursor(player: Node2D) -> Node2D:
 func _action_target(player: Node2D, body: Node2D) -> bool:
 	if bool(player.get("rat")) or not body.is_in_group("tk_use"):
 		return false
-	if body.has_meta("usable") and not bool(body.get_meta("usable")):
+	if not bool(_PS.getv(body, "usable", true)):
 		return false
 	var point := body.global_position
 	if player.has_method("_use_point"):
@@ -237,7 +238,7 @@ func _action_target(player: Node2D, body: Node2D) -> bool:
 
 
 func _assist_target() -> Vector2:
-	var player := get_tree().get_first_node_in_group("player")
+	var player := Run.local_player()
 	var to_screen := get_viewport().get_canvas_transform()
 	var best := Vector2.INF
 	var best_d := ASSIST_RADIUS
@@ -248,7 +249,7 @@ func _assist_target() -> Vector2:
 			var body := node as Node2D
 			if (to_screen * body.global_position).distance_to(screen_pos) > best_d + PICK_REACH:
 				continue
-			if not body.is_visible_in_tree() or body.has_meta(_FOG_HIDDEN) or bool(body.get_meta("dead", false)) or bool(body.get_meta("spent", false)) or body.get_meta("no_vis", false):
+			if not body.is_visible_in_tree() or body.has_meta(_FOG_HIDDEN) or bool(_PS.getv(body, "dead", false)) or bool(_PS.getv(body, "spent", false)) or body.get_meta("no_vis", false):
 				continue
 			var at := body.global_position
 			if player != null and player.has_method("_body_center"):

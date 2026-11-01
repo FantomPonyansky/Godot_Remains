@@ -54,10 +54,10 @@ static func table_key(id: String, sex: String) -> String:
 static func _load() -> void:
 	if not _data.is_empty() or not FileAccess.file_exists(DATA):
 		return
-	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(DATA))
+	var parsed: Variant = DataLib.load(DATA)
 	if parsed is Dictionary:
 		_data = parsed
-	var arms: Variant = JSON.parse_string(FileAccess.get_file_as_string(ARM_DIR + "arm.json")) if FileAccess.file_exists(ARM_DIR + "arm.json") else null
+	var arms: Variant = DataLib.load(ARM_DIR + "arm.json") if FileAccess.file_exists(ARM_DIR + "arm.json") else null
 	if arms is Dictionary:
 		_arms = arms
 
@@ -224,7 +224,7 @@ func _melee(ticks: int, krep: int, s: float, point: Vector2, cel: Vector2) -> vo
 
 func _fired(cd: float) -> void:
 	if _tip == 1:
-		_rapid = maxi(1, int(round(cd * TPS)))
+		_rapid = maxi(1, int(round(cd)))
 		_t_attack = _rapid
 	elif _clip.label("shoot") > 0:
 		_clip.goto_play("shoot")

@@ -27,6 +27,8 @@ var _next := 0
 func _ready() -> void:
 	# Pause menu clicks happen while the tree is paused.
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	if not Fx.sounded.is_connected(_on_fx_sound):
+		Fx.sounded.connect(_on_fx_sound)
 	for _i in _VOICES:
 		var player := AudioStreamPlayer.new()
 		player.bus = "Master"
@@ -34,11 +36,17 @@ func _ready() -> void:
 		_players.append(player)
 
 
+func _on_fx_sound(id: String, _at: Vector2, opts: Dictionary, _eid: String, _local: bool) -> void:
+	if bool(opts.get("hum", false)):
+		return
+	play(id, float(opts.get("volume", 1.0)))
+
+
 func play(name: String, volume: float = 1.0) -> void:
 	if volume <= 0.0:
 		return
 	if VARIANTS.has(name):
-		name = "%s%d" % [name, randi_range(1, int(VARIANTS[name]))]
+		name = "%s%d" % [name, Rng.randi_range(&"fx", 1, int(VARIANTS[name]))]
 	var stream := _stream(name)
 	if stream == null:
 		return

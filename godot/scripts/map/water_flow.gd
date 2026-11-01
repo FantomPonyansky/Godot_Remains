@@ -11,7 +11,6 @@ extends Node
 const TILE := 40.0
 const COLS := 48
 const ROWS := 25
-const TPS := 30.0
 const FLAG := "water"
 const _Flags := preload("res://scripts/map/room_flags.gd")
 const _Look := preload("res://scripts/map/room_look.gd")
@@ -21,7 +20,8 @@ var land: Node2D
 var _queue: Array[Vector2i] = []
 var _delta: Dictionary = {}
 var _walls: Array = []
-var _acc := 0.0
+## Physics frame of the last fill. Extra sim steps in that frame are dropped.
+var _flow_frame := -1
 
 
 static func of(owner_props: Node) -> Node:
@@ -110,16 +110,23 @@ func _ready() -> void:
 		for child in solids.get_children():
 			if child.has_method("solid_at"):
 				_walls.append(child)
+	Sim.register(Sim.Phase.WORLD, _sim_tick)
 
 
-func _physics_process(delta: float) -> void:
+func _exit_tree() -> void:
+	if is_instance_valid(Sim):
+		Sim.unregister(_sim_tick)
+
+
+## One fill per physics frame. A catch-up of several sim steps drops the rest,
+## which is what the old accumulator did when it zeroed itself.
+func _sim_tick() -> void:
 	if _queue.is_empty():
-		_acc = 0.0
 		return
-	_acc += delta * TPS
-	if _acc < 1.0:
+	var frame := Engine.get_physics_frames()
+	if frame == _flow_frame:
 		return
-	_acc = 0.0
+	_flow_frame = frame
 	_recalc()
 
 

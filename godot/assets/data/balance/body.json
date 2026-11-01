@@ -1,0 +1,20 @@
+{
+  "rec_mana": 0.025,
+  "organ_base": 200.0,
+  "organ_per_level": 40.0,
+  "stam_max": 1000.0,
+  "stam_regen": 2.0,
+  "stam_run": 5.0,
+  "stam_jump": 100.0,
+  "breath_max": 1000.0,
+  "breath_regen": 10.0,
+  "breath_drain": 1.0,
+  "channel_ticks": 3,
+  "battle_no_out": 120.0,
+  "max_health": 100,
+  "max_ammo": 60,
+  "max_magic": 1000,
+  "tele_mana_mult": 0.04,
+  "rad_drad2_decay": 0.1,
+  "save_ticks": 15
+}

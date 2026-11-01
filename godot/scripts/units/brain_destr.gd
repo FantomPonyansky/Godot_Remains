@@ -41,7 +41,7 @@ func control() -> void:
 	if t_part == 0:
 		t_part = 10
 	var b := body()
-	var at := u.global_position + Vector2((randf() - 0.5) * b.x, -randf() * b.y)
+	var at := u.global_position + Vector2((Rng.randf(&"ai") - 0.5) * b.x, -Rng.randf(&"ai") * b.y)
 	if not wrecked:
 		emit_part("lift", at)
 	elif t_part == 3:

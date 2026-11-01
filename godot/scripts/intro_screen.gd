@@ -51,7 +51,7 @@ func _on_loaded() -> void:
 	if not _loading:
 		return
 	_loading = false
-	GameState.set_paused(true)
+	Sim.set_paused(true, &"intro")
 	_refresh_hint()
 
 
@@ -128,7 +128,7 @@ func _ready() -> void:
 	_fit()
 	UiNav.add_screen(root, {"default": root, "back": _done})
 	root.grab_focus()
-	GameState.set_paused(true)
+	Sim.set_paused(true, &"intro")
 
 
 ## story.lmb shows and plays once loading is over (waitLoadClick). The pad
@@ -158,7 +158,7 @@ func _input(event: InputEvent) -> void:
 func _done() -> void:
 	if is_queued_for_deletion() or _loading:
 		return
-	GameState.set_paused(false)
+	Sim.set_paused(false, &"intro")
 	queue_free()
 
 

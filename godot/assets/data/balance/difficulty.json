@@ -1,0 +1,38 @@
+{
+  "price_hp": 0.5,
+  "price_mana": 1.0,
+  "doctor_raz": 200.0,
+  "doctor_raz_mana": 100.0,
+  "rows": [
+    {
+      "id": "dif0",
+      "beg_hp": 200, "lvl_hp": 25, "pet_res": 20, "organ_mult": 0.2, "tele_mana": 0.0, "caps_mult": 1.0, "neujaz": 30, "die_damage": 0.0,
+      "him_bad_dif": 1.0, "bonus_heal_mult": 1.0, "price_blood": 0.5, "price_organ": 0.5, "price_rad": 1.0, "price_poison": 4.0, "price_cut": 4.0,
+      "enemy_hp": 0.4, "enemy_ear": 0.5
+    },
+    {
+      "id": "dif1",
+      "beg_hp": 150, "lvl_hp": 25, "pet_res": 20, "organ_mult": 0.5, "tele_mana": 0.0, "caps_mult": 1.0, "neujaz": 30, "die_damage": 0.0,
+      "him_bad_dif": 1.0, "bonus_heal_mult": 1.0, "price_blood": 0.5, "price_organ": 0.5, "price_rad": 1.0, "price_poison": 4.0, "price_cut": 4.0,
+      "enemy_hp": 0.7, "enemy_ear": 0.5
+    },
+    {
+      "id": "dif2",
+      "beg_hp": 100, "lvl_hp": 20, "pet_res": 30, "organ_mult": 1.0, "tele_mana": 0.5, "caps_mult": 1.0, "neujaz": 30, "die_damage": 0.15,
+      "him_bad_dif": 1.3, "bonus_heal_mult": 1.0, "price_blood": 0.5, "price_organ": 0.5, "price_rad": 1.0, "price_poison": 4.0, "price_cut": 4.0,
+      "enemy_hp": 1.0, "enemy_ear": 1.0
+    },
+    {
+      "id": "dif3",
+      "beg_hp": 70, "lvl_hp": 15, "pet_res": 60, "organ_mult": 1.0, "tele_mana": 1.0, "caps_mult": 1.0, "neujaz": 20, "die_damage": 0.25,
+      "him_bad_dif": 2.0, "bonus_heal_mult": 0.75, "price_blood": 1.0, "price_organ": 1.0, "price_rad": 1.5, "price_poison": 6.0, "price_cut": 6.0,
+      "enemy_hp": 1.0, "enemy_ear": 1.0
+    },
+    {
+      "id": "dif4",
+      "beg_hp": 40, "lvl_hp": 10, "pet_res": 90, "organ_mult": 1.0, "tele_mana": 1.0, "caps_mult": 0.5, "neujaz": 15, "die_damage": 0.35,
+      "him_bad_dif": 2.5, "bonus_heal_mult": 0.5, "price_blood": 1.0, "price_organ": 1.0, "price_rad": 1.5, "price_poison": 6.0, "price_cut": 6.0,
+      "enemy_hp": 1.0, "enemy_ear": 1.0
+    }
+  ]
+}

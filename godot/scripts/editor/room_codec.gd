@@ -176,11 +176,15 @@ static func _door_width(rows: Array, n: int) -> int:
 
 
 ## Editor.code: 16 chars from 0-9A-Za-z, first char a letter.
+## Local generator so editor ids do not pull from the gameplay RNG.
+static var _code_rng := RandomNumberGenerator.new()
+
+
 static func object_code() -> String:
 	const CHARS := "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
-	var s := CHARS[10 + randi() % 52]
+	var s := CHARS[10 + _code_rng.randi() % 52]
 	for _i in 15:
-		s += CHARS[randi() % 62]
+		s += CHARS[_code_rng.randi() % 62]
 	return s
 
 

@@ -55,14 +55,23 @@ func heal_full() -> void:
 	hp = max_hp
 
 
-func take_hit(amount: int = 15, type: String = "") -> void:
-	if type != "":
-		var resistances := preload("res://scripts/resistances.gd")
-		resistances.apply(self, float(amount), type)
+func take_hit(hit: HitInfo) -> void:
+	if hit == null:
 		return
-	hp -= amount
+	if hit.tip != "" and not hit.resisted:
+		preload("res://scripts/resistances.gd").apply_hit(self, hit)
+		return
+	hp -= int(round(hit.amount))
 	if hp <= 0.0:
 		queue_free()
+
+
+func snapshot() -> Dictionary:
+	return Entity.captured(self)
+
+
+func restore(d: Dictionary) -> void:
+	Entity.apply_captured(self, d)
 
 
 func _physics_process(delta: float) -> void:
@@ -124,11 +133,11 @@ func _try_hit(foe: Node2D) -> void:
 		return
 	_hit_until[key] = now + HIT_GAP
 	_recover = RECOVER
-	var sila := randf() * 0.4 + 0.8
+	var sila := Rng.randf(&"combat") * 0.4 + 0.8
 	var dealt := blade_damage * sila
 	if foe.has_method("take_hit"):
-		foe.take_hit(maxi(1, int(round(dealt))), "DAM_CUT")
-		SfxBank.play("hit")
+		foe.take_hit(HitInfo.melee_hit(maxi(1, int(round(dealt))), self, "DAM_CUT"))
+		Fx.sound("hit", global_position, {"source": self})
 	# attKorp then damages the pet for 2% as internal. Round stays under 1 at base dam.
 	hp -= blade_damage * 0.02
 	if hp <= 0.0:

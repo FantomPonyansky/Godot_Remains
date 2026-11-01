@@ -25,7 +25,21 @@ extends Node
 signal changed
 signal effect_started(target: Node, id: String)
 signal effect_ended(target: Node, id: String)
+## Player body changes. GameState listens. kind is raw, organs, blood or long.
+signal player_harm(amount: float, tip: String, periodic: bool)
+signal player_heal(kind: String, amount: float)
+signal player_stam_empty
+signal params_dirty
+signal player_spared(last: float)
+## Progression fills these. Effects does not name Progression.
+signal max_health_query(reply: Dictionary)
+signal perk_rank_query(id: String, reply: Dictionary)
+signal grant_perk_asked(id: String)
+## Pets connects. Effects does not name Pets.
+signal pet_uncall_asked(force: bool)
+signal pet_recall_asked
 
+const Difficulty := preload("res://scripts/difficulty.gd")
 const DATA_PATH := "res://assets/data/effects.json"
 const ITEMS_PATH := "res://assets/data/effect_items.json"
 const TPS := 30
@@ -56,7 +70,6 @@ const UNIT_NATIVE := {
 const TINT_FREEZE := Color(0.86, 0.86, 1.0)
 const TINT_INV := Color(1.0, 0.55, 0.55)
 const TINT_SHADOW := Color(0.25, 0.25, 0.3)
-const _StatusPart := preload("res://scripts/status_part.gd")
 ## land_props ROOM_W x ROOM_H tiles of TILE px: Location maxX / maxY.
 const ROOM_PX := Vector2(48 * 40, 25 * 40)
 
@@ -76,7 +89,6 @@ var _units: Dictionary = {}
 var _ops: Dictionary = {}
 var _res: Dictionary = {}
 var _dirty := true
-var _acc := 0.0
 var _t_hp := 0
 var _bleed_carry := 0.0
 var _poison_carry := 0.0
@@ -89,11 +101,16 @@ var _vote_cel := Vector2.ZERO
 
 func _ready() -> void:
 	_load()
+	Sim.register(Sim.Phase.EFFECTS, _tick)
 	call_deferred("_bind")
 
 
+func _exit_tree() -> void:
+	Sim.unregister(_tick)
+
+
 func _bind() -> void:
-	var world := get_node_or_null("/root/WorldState")
+	var world := WorldState
 	if world == null:
 		return
 	world.register("effects", save_data, load_data)
@@ -118,7 +135,7 @@ func _read_json(path: String) -> Variant:
 	if not FileAccess.file_exists(path):
 		push_error("Effects: missing %s" % path)
 		return null
-	return JSON.parse_string(FileAccess.get_file_as_string(path))
+	return DataLib.load(path)
 
 
 # --- public API ---------------------------------------------------------
@@ -310,7 +327,7 @@ func _set_eff(e: Dictionary, unit: Node) -> void:
 	var p := _player()
 	match str(e.id):
 		"stupor":
-			GameState.stam = 0.0
+			player_stam_empty.emit()
 		"fetter":
 			if p is Node2D:
 				_fet = (p as Node2D).global_position
@@ -320,9 +337,9 @@ func _set_eff(e: Dictionary, unit: Node) -> void:
 			_part(p, "black", 15)
 		"potion_shadow":
 			_part(p, "black", 15)
-			Pets.uncall_pet(true)
+			pet_uncall_asked.emit(true)
 		"potion_rat":
-			Pets.uncall_pet(true)
+			pet_uncall_asked.emit(true)
 			_part(p, "black", 30)
 			if p != null and p.has_method("rat_on"):
 				p.call("rat_on")
@@ -362,8 +379,7 @@ func _unset(e: Dictionary, unit: Node, on_post: bool = true, inf: bool = true, s
 			if int(e.t) < 20:
 				e.t = 29
 			return
-		if Pets.ret_pet != "":
-			Pets.call_pet(Pets.ret_pet, true)
+		pet_recall_asked.emit()
 	e.vse = true
 	if unit == null and inf and e.se:
 		var name := OriginalLines.eff(was)
@@ -395,8 +411,7 @@ func _unset(e: Dictionary, unit: Node, on_post: bool = true, inf: bool = true, s
 		"potion_fly":
 			_part(_player(), "black", 15)
 		"potion_shadow":
-			if Pets.ret_pet != "":
-				Pets.call_pet(Pets.ret_pet, true)
+			pet_recall_asked.emit()
 	_visuals()
 	changed.emit()
 	if set_param:
@@ -406,21 +421,9 @@ func _unset(e: Dictionary, unit: Node, on_post: bool = true, inf: bool = true, s
 
 # --- ticking ------------------------------------------------------------
 
-func _process(delta: float) -> void:
-	if GameState.paused:
-		return
-	_acc += delta * TPS
-	var n := mini(int(_acc), 10)
-	if n <= 0:
-		return
-	_acc -= float(n)
-	for _i in n:
-		_tick()
-
-
 func _tick() -> void:
 	var p := _player()
-	if p != null and not GameState.is_dead():
+	if p != null and not Run.player_dead:
 		_tick_player(p)
 	if not _units.is_empty():
 		_tick_units()
@@ -454,11 +457,11 @@ func _tick_vote(p: Node) -> void:
 		_auto_attack = false
 		_vote_aim = false
 		return
-	if randf() < 0.05 and p is Node2D:
+	if Rng.randf(&"combat") < 0.05 and p is Node2D:
 		var room := ((p as Node2D).global_position / ROOM_PX).floor() * ROOM_PX
-		_vote_cel = room + Vector2(randf() * ROOM_PX.x, randf() * ROOM_PX.y)
+		_vote_cel = room + Vector2(Rng.randf(&"combat") * ROOM_PX.x, Rng.randf(&"combat") * ROOM_PX.y)
 		_vote_aim = true
-	if randf() < 0.1:
+	if Rng.randf(&"combat") < 0.1:
 		_auto_attack = not _auto_attack
 
 
@@ -490,7 +493,7 @@ func _step(e: Dictionary, unit: Node, p: Node) -> void:
 		return
 	if str(e.id) == "sacrifice" and int(e.t) == 5:
 		if unit == null:
-			GameState.apply_damage(int(round(float(GameState._max_health()) * 0.5)), "DAM_INTERNAL", true)
+			player_harm.emit(float(int(round(_asked_max_health() * 0.5))), "DAM_INTERNAL", true)
 		else:
 			_unit_hit(unit, _unit_max_hp(unit) * 0.5, "DAM_INTERNAL")
 	e.t = int(e.t) - 1
@@ -516,17 +519,17 @@ func _sec(e: Dictionary, unit: Node, p: Node) -> void:
 			_hit(unit, v, "DAM_ACID")
 		"blindness":
 			if unit == null and p is Node2D:
-				var at := (p as Node2D).global_position + Vector2(randf() * 600.0 - 300.0, randf() * 400.0 - 200.0)
-				_StatusPart.emit(get_tree(), "blind", at)
+				var at := (p as Node2D).global_position + Vector2(Rng.randf(&"combat") * 600.0 - 300.0, Rng.randf(&"combat") * 400.0 - 200.0)
+				Fx.particles("blind", at, {"status": true, "source": p})
 		"drunk":
 			if int(e.lvl) > 3:
 				_hit(unit, v, "DAM_POISON")
 		"hydra":
 			if unit == null:
-				GameState.heal_raw(v)
+				player_heal.emit("raw", v)
 				heal_cut(v / 2.0)
-				GameState.heal_organs(v)
-				GameState.heal_blood(v)
+				player_heal.emit("organs", v)
+				player_heal.emit("blood", v)
 		"inhibitor":
 			var from: Node2D = (p if unit == null else unit) as Node2D
 			if from != null and v > 0.0:
@@ -537,16 +540,15 @@ func _sec(e: Dictionary, unit: Node, p: Node) -> void:
 
 func _hit(unit: Node, amount: float, tip: String) -> void:
 	if unit == null:
-		GameState.apply_damage_f(amount, tip, true)
+		player_harm.emit(amount, tip, true)
 	else:
 		_unit_hit(unit, amount, tip)
 
 
 func _unit_hit(unit: Node, amount: float, tip: String) -> void:
-	if unit.has_method("_receive"):
-		unit.call("_receive", amount, tip, null, true)
-	elif unit.has_method("take_hit"):
-		unit.take_hit(int(round(amount)), tip)
+	if unit.has_method("take_hit"):
+		# tt: the old _receive path (no armor). A player hit still goes through Resistances.
+		unit.take_hit(HitInfo.dot(amount, tip))
 
 
 ## Unit.actions periodic block: every 30 ticks sqrt(cut) as BLEED and sqrt(poison) as POISON.
@@ -557,20 +559,20 @@ func _tick_pools() -> void:
 		_t_hp -= 1
 		return
 	_t_hp = TPS
-	var heal := CRIT_HEAL[clampi(GameState.difficulty(), 0, CRIT_HEAL.size() - 1)]
+	var heal := CRIT_HEAL[clampi(Difficulty.level(), 0, CRIT_HEAL.size() - 1)]
 	if cut > 0.0:
 		_bleed_carry += sqrt(cut)
 		var n := int(_bleed_carry)
 		_bleed_carry -= float(n)
 		if n > 0:
-			GameState.apply_damage(n, "DAM_BLEED", true)
+			player_harm.emit(float(n), "DAM_BLEED", true)
 		cut = maxf(0.0, cut - heal)
 	if poison > 0.0:
 		_poison_carry += sqrt(poison)
 		var m := int(_poison_carry)
 		_poison_carry -= float(m)
 		if m > 0:
-			GameState.apply_damage(m, "DAM_POISON", true)
+			player_harm.emit(float(m), "DAM_POISON", true)
 		poison = maxf(0.0, poison - heal)
 	if cut <= 0.0 and poison <= 0.0:
 		changed.emit()
@@ -644,8 +646,7 @@ static func _res_id(raw: String) -> String:
 
 func _params_moved() -> void:
 	_refresh()
-	if GameState.has_method("refresh_params"):
-		GameState.refresh_params()
+	params_dirty.emit()
 
 
 func _apply_player_meta() -> void:
@@ -808,12 +809,12 @@ func unit_damaged(unit: Node, dealt: float, tip: String, tt: bool, bullet: Node)
 	if unit == null or dealt <= 0.0:
 		return
 	if tip == "DAM_EXPLOSION" and not tt and not bool(unit.get_meta("mech", false)) and not bool(unit.get_meta("robot", false)):
-		if randf() < dealt / maxf(1.0, _unit_max_hp(unit)):
+		if Rng.randf(&"combat") < dealt / maxf(1.0, _unit_max_hp(unit)):
 			add(unit, "contusion")
 	if bullet != null and bool(bullet.get("from_player")):
 		var relat := stat("relat", 0.0)
 		if relat > 0.0:
-			GameState.apply_damage_f(dealt * relat, "DAM_INTERNAL", false)
+			player_harm.emit(dealt * relat, "DAM_INTERNAL", false)
 
 
 # --- player hits --------------------------------------------------------
@@ -822,9 +823,9 @@ func unit_damaged(unit: Node, dealt: float, tip: String, tt: bool, bullet: Node)
 func player_hit(effect: String, dop: float, dealt: float) -> void:
 	match effect:
 		"psy":
-			if randf() < 0.33:
+			if Rng.randf(&"combat") < 0.33:
 				add(null, "horror")
-			elif randf() < 0.5:
+			elif Rng.randf(&"combat") < 0.5:
 				add(null, "vote")
 			else:
 				add(null, "disorient")
@@ -850,7 +851,7 @@ func player_hit(effect: String, dop: float, dealt: float) -> void:
 			if player_vulner("DAM_BLEED") > 0.1:
 				add_cut(dop)
 		"stun":
-			if randf() < dealt / maxf(1.0, float(GameState._max_health())):
+			if Rng.randf(&"combat") < dealt / maxf(1.0, _asked_max_health()):
 				_stun_hit(int(dop))
 
 
@@ -862,7 +863,7 @@ func player_vulner(tip: String) -> float:
 ## Unit.damage on the player: explosions can stun (contusion).
 func player_damaged(dealt: float, tip: String, tt: bool) -> void:
 	if tip == "DAM_EXPLOSION" and not tt and dealt > 0.0:
-		if randf() < dealt / maxf(1.0, float(GameState._max_health())):
+		if Rng.randf(&"combat") < dealt / maxf(1.0, _asked_max_health()):
 			add(null, "contusion")
 
 
@@ -905,17 +906,29 @@ func heal_poison(v: float) -> void:
 
 # --- items, addictions, death -------------------------------------------
 
+func _asked_max_health() -> float:
+	var reply := {"v": 1.0}
+	max_health_query.emit(reply)
+	return float(reply.v)
+
+
+func _asked_perk_rank(id: String) -> int:
+	var reply := {"v": 0}
+	perk_rank_query.emit(id, reply)
+	return int(reply.v)
+
+
 ## Pers.himLevel / himTimeMult / himBadMult (perks fightstim, longtime).
 func him_level() -> int:
-	return 2 if Progression.perk_rank("fightstim") > 0 else 1
+	return 2 if _asked_perk_rank("fightstim") > 0 else 1
 
 
 func him_time_mult() -> float:
-	return 2.0 if Progression.perk_rank("longtime") > 0 else 1.0
+	return 2.0 if _asked_perk_rank("longtime") > 0 else 1.0
 
 
 func him_bad_mult() -> float:
-	return 0.5 if Progression.perk_rank("fightstim") > 0 else 1.0
+	return 0.5 if _asked_perk_rank("fightstim") > 0 else 1.0
 
 
 ## ItemInteraction.usePotion tail: detox, purification, effect, alcohol, chem
@@ -932,7 +945,7 @@ func use_item(id: String, pot: Dictionary) -> void:
 		_dirty = true
 		_params_moved()
 	if str(pot.get("perk", "")) != "":
-		Progression.grant_perk(str(pot.perk))
+		grant_perk_asked.emit(str(pot.perk))
 	if str(pot.get("effect", "")) != "":
 		var e := add(null, str(pot.effect))
 		if not e.is_empty() and str(pot.get("tip", "")) == "him":
@@ -956,7 +969,7 @@ func use_item(id: String, pot: Dictionary) -> void:
 
 
 func _addict(item: String, ad: String, n1: int, n2: int) -> void:
-	var n := int(round(randf() * float(n2 - n1) + float(n1)) * him_bad_mult() * GameState.dif_value("him_bad_dif"))
+	var n := int(round(Rng.randf(&"combat") * float(n2 - n1) + float(n1)) * him_bad_mult() * Difficulty.value("him_bad_dif"))
 	var prev := int(addictions.get(ad, 0))
 	addictions[ad] = mini(prev + n, ADMAX)
 	var name := OriginalLines.name_of(item)
@@ -975,7 +988,7 @@ func _detox(budget: int) -> void:
 	for _j in 5:
 		for ad in addictions.keys():
 			if int(addictions[ad]) > 0:
-				var red := int(round(randf() * 50.0 + 25.0))
+				var red := int(round(Rng.randf(&"combat") * 50.0 + 25.0))
 				if red > int(addictions[ad]):
 					lim -= int(addictions[ad])
 					addictions[ad] = 0
@@ -1030,9 +1043,7 @@ func death_cheat() -> bool:
 	var last := stat("lastCh", 0.0)
 	if last <= 0.0:
 		return false
-	GameState.health = 1
-	GameState.heal_raw(last * 0.1)
-	GameState.heal_long(last * 0.9)
+	player_spared.emit(last)
 	remove(null, "potion_chance")
 	add(null, "post_chance")
 	return true
@@ -1067,8 +1078,7 @@ func reset_run() -> void:
 	_refresh()
 	_visuals()
 	changed.emit()
-	if GameState.has_method("refresh_params"):
-		GameState.refresh_params()
+	params_dirty.emit()
 
 
 # --- save ---------------------------------------------------------------
@@ -1079,7 +1089,7 @@ func save_data() -> Dictionary:
 		if e.vse:
 			continue
 		rows.append({"id": e.id, "t": e.t, "forever": e.forever, "lvl": e.lvl, "val": e.val, "ad": e.ad, "se": e.se})
-	return {"list": rows, "cut": cut, "poison": poison, "addictions": addictions.duplicate(), "curse": curse_trigger}
+	return {"version": 1, "list": rows, "cut": cut, "poison": poison, "addictions": addictions.duplicate(), "curse": curse_trigger}
 
 
 func load_data(data: Variant) -> void:
@@ -1230,21 +1240,19 @@ static func _unit_max_hp(unit: Node) -> float:
 func _player() -> Node:
 	if not is_inside_tree():
 		return null
-	return get_tree().get_first_node_in_group("player")
+	return Run.local_player()
 
 
 func _notice(text: String) -> void:
 	if text == "" or not is_inside_tree():
 		return
-	var hud := get_tree().get_first_node_in_group("hud")
-	if hud and hud.has_method("show_notice"):
-		hud.show_notice(text)
+	Fx.notice(text, {"source": _player()})
 
 
 ## Unit.newPart: kol particles at the middle of the player's 78 px body.
 func _part(p: Node, id: String, kol: int) -> void:
 	if p is Node2D and is_inside_tree():
-		UnitFx.emit(get_tree(), id, (p as Node2D).global_position + Vector2(0, -39), {"kol": kol})
+		Fx.particles(id, (p as Node2D).global_position + Vector2(0, -39), {"kol": kol, "source": p})
 
 
 ## Unit.damage dop stun on the player: the message and the floating mess, then the
@@ -1257,8 +1265,6 @@ func _stun_hit(st: int) -> void:
 		return
 	var at := (p as Node2D).global_position
 	if st > 1:
-		var hud := get_tree().get_first_node_in_group("hud")
-		if hud and hud.has_method("float_number"):
-			hud.float_number(at, OriginalLines.gui("stun"), "status")
+		Fx.float_number(OriginalLines.gui("stun"), at, "status")
 	if st > 0 and (st - 1) % 10 == 0:
-		_StatusPart.emit(get_tree(), "stun", at + Vector2(0, -58))
+		Fx.particles("stun", at + Vector2(0, -58), {"status": true, "source": p})

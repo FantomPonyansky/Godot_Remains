@@ -16,7 +16,6 @@ const _StoryText := preload("res://scripts/story/story_text.gd")
 static var _data: Dictionary = {}
 
 var _left := BULB
-var _was_paused := false
 var _root: Control
 
 
@@ -66,7 +65,7 @@ static func _body(row: Dictionary) -> String:
 
 static func _ensure() -> void:
 	if _data.is_empty() and FileAccess.file_exists(DATA):
-		var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(DATA))
+		var parsed: Variant = DataLib.load(DATA)
 		if parsed is Dictionary:
 			_data = parsed
 
@@ -74,12 +73,11 @@ static func _ensure() -> void:
 func _open(title: String, body: String, mess: String) -> void:
 	layer = 95
 	process_mode = Node.PROCESS_MODE_ALWAYS
-	_was_paused = GameState.paused
-	GameState.set_paused(true)
+	Sim.set_paused(true, &"dialogue")
 	var font: Font = load(FONT) if ResourceLoader.exists(FONT) else null
 	var anchors: Dictionary = {}
 	if FileAccess.file_exists(DIR + "anchors.json"):
-		var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(DIR + "anchors.json"))
+		var parsed: Variant = DataLib.load(DIR + "anchors.json")
 		if parsed is Dictionary:
 			anchors = parsed
 	_root = Control.new()
@@ -168,6 +166,5 @@ func _close() -> void:
 		return
 	UiNav.remove_screen(_root)
 	_root = null
-	if not _was_paused:
-		GameState.set_paused(false)
+	Sim.set_paused(false, &"dialogue")
 	queue_free()

@@ -10,6 +10,19 @@ extends Node
 ## grants it here when GameState.reset_run() runs.
 
 signal changed
+## GameState fills reply (yes, block, keeps) and applies the item. Inventory
+## does not call GameState.
+signal consume_query(id: String, reply: Dictionary)
+signal consumed(id: String)
+## Condition and Progression fill these. Inventory does not name them.
+signal is_armor_query(id: String, reply: Dictionary)
+signal armor_usable_query(id: String, reply: Dictionary)
+signal perk_rank_query(id: String, reply: Dictionary)
+## Stash fills hidden and armor. Vendors fills the armor tip. Inventory names neither.
+signal stash_hidden_query(id: String, reply: Dictionary)
+signal stash_armor_change_query(id: String, reply: Dictionary)
+signal stash_armor_worn(id: String)
+signal armor_tip_query(id: String, reply: Dictionary)
 
 const _UserDir := preload("res://scripts/user_dir.gd")
 static var SAVE_PATH := _UserDir.run("inventory.cfg")
@@ -56,9 +69,19 @@ var _jump_mult := 1.0
 var _mana_res := 1.0
 
 
+const STATE_VERSION := 1
+
+
 func _ready() -> void:
 	_load_catalogs()
 	_load()
+	call_deferred("_register_run")
+
+
+func _register_run() -> void:
+	var world := WorldState
+	if world != null and world.has_method("register_run"):
+		world.call("register_run", "inventory", get_state, set_state)
 
 
 func _physics_process(_delta: float) -> void:
@@ -101,20 +124,22 @@ func casts_spell(id: String) -> bool:
 
 
 func is_consumable(id: String) -> bool:
-	return GameState != null and GameState.has_method("is_consumable") and GameState.is_consumable(id)
+	var reply := {"yes": false}
+	consume_query.emit(id, reply)
+	return bool(reply.yes)
 
 
 func use(id: String) -> bool:
 	# One Accept spends one stack charge. Guns and spells are not consumed.
 	if not is_consumable(id) or count(id) <= 0:
 		return false
-	var block := str(GameState.consume_block(id))
+	var reply := {"block": "", "keeps": false}
+	consume_query.emit(id, reply)
+	var block := str(reply.block)
 	if block != "":
-		var hud := get_tree().get_first_node_in_group("hud")
-		if hud and hud.has_method("show_notice"):
-			hud.show_notice(block)
+		Fx.notice(block, {"source": Run.local_player()})
 		return false
-	if not GameState.consume_keeps(id):
+	if not bool(reply.keeps):
 		_counts[id] = count(id) - 1
 		if count(id) <= 0:
 			_counts.erase(id)
@@ -122,9 +147,8 @@ func use(id: String) -> bool:
 		_save()
 		changed.emit()
 		if id in POT_USE:
-			SfxBank.play("pot_use")
-	if GameState.has_method("apply_consumable"):
-		GameState.apply_consumable(id)
+			Fx.sound("pot_use", Vector2.ZERO)
+	consumed.emit(id)
 	return true
 
 
@@ -137,7 +161,7 @@ func weapon_def(id: String) -> Dictionary:
 func owned_weapon_ids() -> Array[String]:
 	var out: Array[String] = []
 	for id in _order:
-		if (is_gun(id) or is_spell(id)) and not casts_spell(id) and not Stash.is_hidden(id) and not alicorn_locked(id):
+		if (is_gun(id) or is_spell(id)) and not casts_spell(id) and not _stash_hidden(id) and not alicorn_locked(id):
 			out.append(id)
 	return out
 
@@ -145,24 +169,62 @@ func owned_weapon_ids() -> Array[String]:
 ## PipPageInv skips spells while the alicorn is on.
 func owned_spell_ids() -> Array[String]:
 	var out: Array[String] = []
-	if ScriptsEngine.alicorn:
+	if Run.alicorn:
 		return out
 	for id in _order:
-		if casts_spell(id) and not Stash.is_hidden(id):
+		if casts_spell(id) and not _stash_hidden(id):
 			out.append(id)
 	return out
 
 
 ## Weapon.alicorn: the a_* set stays in the bag after alicornOff, usable only as the alicorn.
 func alicorn_locked(id: String) -> bool:
-	return not ScriptsEngine.alicorn and id in _AlicornForm.WEAPONS
+	return not Run.alicorn and id in _AlicornForm.WEAPONS
+
+
+func _is_armor(id: String) -> bool:
+	var reply := {"v": false}
+	is_armor_query.emit(id, reply)
+	return bool(reply.v)
+
+
+func _armor_usable(id: String) -> bool:
+	var reply := {"v": false}
+	armor_usable_query.emit(id, reply)
+	return bool(reply.v)
+
+
+func _perk_rank(id: String) -> int:
+	var reply := {"v": 0}
+	perk_rank_query.emit(id, reply)
+	return int(reply.v)
+
+
+## No listener: nothing is hidden.
+func _stash_hidden(id: String) -> bool:
+	var reply := {"v": false}
+	stash_hidden_query.emit(id, reply)
+	return bool(reply.v)
+
+
+## No listener: nothing blocks a change (the absent check allowed it).
+func _can_change_armor(id: String) -> bool:
+	var reply := {"v": true}
+	stash_armor_change_query.emit(id, reply)
+	return bool(reply.v)
+
+
+## No listener: tip 1, so only an amul_ id counts as an amulet.
+func _armor_tip(id: String) -> int:
+	var reply := {"v": 1}
+	armor_tip_query.emit(id, reply)
+	return int(reply.v)
 
 
 func can_wear(id: String) -> bool:
 	if id == PIP_ID:
 		return true
-	var cond := get_node_or_null("/root/Condition")
-	return cond != null and cond.has_method("is_armor") and bool(cond.call("is_armor", id))
+	return _is_armor(id)
 
 
 func add(id: String, n: int = 1) -> void:
@@ -185,8 +247,7 @@ func body_armor_id(id: String) -> String:
 	# game wears it: ItemInteraction.addBegin, UnitPlayer.as:339).
 	if id == "" or id.begins_with("amul_"):
 		return ""
-	var cond := get_node_or_null("/root/Condition")
-	if cond != null and cond.has_method("is_armor") and bool(cond.call("is_armor", id)):
+	if _is_armor(id):
 		return id
 	return ""
 
@@ -194,18 +255,13 @@ func body_armor_id(id: String) -> String:
 func wear(id: String) -> bool:
 	if not can_wear(id) or count(id) <= 0:
 		return false
-	if ScriptsEngine.alicorn:
-		var hud_a := get_tree().get_first_node_in_group("hud")
-		if hud_a and hud_a.has_method("show_notice"):
-			hud_a.show_notice(OriginalLines.info("alicornNot"))
+	if Run.alicorn:
+		Fx.notice(OriginalLines.info("alicornNot"), {"source": Run.local_player()})
 		return false
-	if not Stash.can_change_armor(id):
+	if not _can_change_armor(id):
 		return false
-	var cond := get_node_or_null("/root/Condition")
-	if cond and cond.has_method("armor_usable") and bool(cond.call("is_armor", id)) and not bool(cond.call("armor_usable", id)):
-		var hud := get_tree().get_first_node_in_group("hud")
-		if hud and hud.has_method("show_notice"):
-			hud.show_notice(OriginalLines.gui("abr"))
+	if _is_armor(id) and not _armor_usable(id):
+		Fx.notice(OriginalLines.gui("abr"), {"source": Run.local_player()})
 		return false
 	# changeArmor: an amulet (tip 3) is currentAmul, apart from the suit.
 	if is_amulet(id):
@@ -222,7 +278,7 @@ func wear(id: String) -> bool:
 		_push_armor("")
 		return true
 	worn = id
-	Stash.armor_worn(id)
+	stash_armor_worn.emit(id)
 	_save()
 	changed.emit()
 	_push_armor(visual)
@@ -242,7 +298,7 @@ func unworn(id: String = "") -> void:
 
 
 func is_amulet(id: String) -> bool:
-	return id != "" and (id.begins_with("amul_") or int(Vendors.armor_data(id).get("tip", 1)) == 3)
+	return id != "" and (id.begins_with("amul_") or _armor_tip(id) == 3)
 
 
 func is_worn(id: String) -> bool:
@@ -262,23 +318,19 @@ func worn_ids() -> Array[String]:
 func equip(id: String) -> bool:
 	if count(id) <= 0 or not (is_gun(id) or is_spell(id)):
 		return false
-	if Stash.is_hidden(id) or alicorn_locked(id):
-		var hud := get_tree().get_first_node_in_group("hud")
-		if hud and hud.has_method("show_notice"):
-			hud.show_notice(OriginalLines.info("disSpell" if is_spell(id) else "disWeapon"))
+	if _stash_hidden(id) or alicorn_locked(id):
+		Fx.notice(OriginalLines.info("disSpell" if is_spell(id) else "disWeapon"), {"source": Run.local_player()})
 		if casts_spell(id):
-			SfxBank.play("nomagic")
+			Fx.sound("nomagic", Vector2.ZERO)
 		return false
-	if casts_spell(id) and ScriptsEngine.alicorn:
-		var hud_a := get_tree().get_first_node_in_group("hud")
-		if hud_a and hud_a.has_method("show_notice"):
-			hud_a.show_notice(OriginalLines.info("alicornNot"))
+	if casts_spell(id) and Run.alicorn:
+		Fx.notice(OriginalLines.info("alicornNot"), {"source": Run.local_player()})
 		return false
 	if casts_spell(id):
 		change_spell(id)
 		return true
 	# UnitPlayer.changeWeapon returns early while attackForever or atkPoss 0.
-	if Effects.attack_forever() or not GameState.attack_allowed():
+	if Effects.attack_forever() or Effects.stat("atkPoss", 1.0) <= 0.0:
 		return false
 	weapon_id = id
 	_applied_player = 0
@@ -305,9 +357,7 @@ func change_spell(id: String, inform: bool = true) -> void:
 	_save()
 	changed.emit()
 	if inform and spell_id != "":
-		var hud := get_tree().get_first_node_in_group("hud")
-		if hud and hud.has_method("show_notice"):
-			hud.show_notice(OriginalLines.info("usedSpell", OriginalLines.name_of(spell_id)))
+		Fx.notice(OriginalLines.info("usedSpell", OriginalLines.name_of(spell_id)), {"source": Run.local_player()})
 
 
 func reset_run() -> void:
@@ -365,7 +415,7 @@ func _push_armor(id: String) -> void:
 func _pony() -> Node:
 	if not is_inside_tree():
 		return null
-	var player := get_tree().get_first_node_in_group("player")
+	var player := Run.local_player()
 	if player == null:
 		return null
 	return player.get_node_or_null("Puppet")
@@ -390,7 +440,7 @@ func _role(id: String) -> String:
 
 
 func _apply_weapon() -> void:
-	var player := get_tree().get_first_node_in_group("player")
+	var player := Run.local_player()
 	if player == null or not player.has_method("_publish_weapon"):
 		return
 	var iid := player.get_instance_id()
@@ -476,7 +526,7 @@ func _doc(path: String) -> Dictionary:
 	if not FileAccess.file_exists(path):
 		push_error("Inventory missing %s" % path)
 		return {}
-	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
+	var parsed: Variant = DataLib.load(path)
 	if typeof(parsed) != TYPE_DICTIONARY:
 		push_error("Inventory could not parse %s" % path)
 		return {}
@@ -509,24 +559,35 @@ func _save() -> void:
 	cfg.save(SAVE_PATH)
 
 
+func get_state() -> Dictionary:
+	return {
+		"version": STATE_VERSION,
+		"worn": worn,
+		"amulet": amulet,
+		"weapon": weapon_id,
+		"spell": spell_id,
+		"leg_pip": leg_pip,
+		"kit_granted": kit_granted,
+		"order": _order.duplicate(),
+		"items": _counts.duplicate(),
+	}
+
+
+## version 0 has the same fields and simply no version key.
+func set_state(data: Variant) -> void:
+	if typeof(data) != TYPE_DICTIONARY:
+		return
+	_apply_state(data)
+	_save()
+
+
 func _load() -> void:
-	_counts.clear()
-	_order.clear()
-	worn = ""
-	amulet = ""
-	weapon_id = ""
-	spell_id = ""
-	leg_pip = false
-	kit_granted = false
 	var cfg := ConfigFile.new()
 	if cfg.load(SAVE_PATH) != OK:
+		_apply_state({})
 		return
-	worn = str(cfg.get_value("gear", "worn", ""))
-	amulet = str(cfg.get_value("gear", "amulet", ""))
-	weapon_id = str(cfg.get_value("gear", "weapon", ""))
-	spell_id = str(cfg.get_value("gear", "spell", ""))
-	leg_pip = bool(cfg.get_value("gear", "leg_pip", false))
-	kit_granted = bool(cfg.get_value("gear", "kit_granted", false))
+	var items := {}
+	var order: Array = []
 	if cfg.has_section("order"):
 		var indexes: Array[int] = []
 		for key in cfg.get_section_keys("order"):
@@ -534,13 +595,41 @@ func _load() -> void:
 		indexes.sort()
 		for i in indexes:
 			var id := str(cfg.get_value("order", str(i), ""))
-			var n := int(cfg.get_value("items", id, 0))
-			if id != "" and n > 0 and id not in _order:
-				if _role(id) == "stack":
-					_counts[id] = n
-				else:
-					_counts[id] = n if n > 1 else 1
-				_order.append(id)
+			if id == "":
+				continue
+			order.append(id)
+			items[id] = int(cfg.get_value("items", id, 0))
+	_apply_state({
+		"worn": str(cfg.get_value("gear", "worn", "")),
+		"amulet": str(cfg.get_value("gear", "amulet", "")),
+		"weapon": str(cfg.get_value("gear", "weapon", "")),
+		"spell": str(cfg.get_value("gear", "spell", "")),
+		"leg_pip": bool(cfg.get_value("gear", "leg_pip", false)),
+		"kit_granted": bool(cfg.get_value("gear", "kit_granted", false)),
+		"order": order,
+		"items": items,
+	})
+
+
+func _apply_state(data: Dictionary) -> void:
+	_counts.clear()
+	_order.clear()
+	worn = str(data.get("worn", ""))
+	amulet = str(data.get("amulet", ""))
+	weapon_id = str(data.get("weapon", ""))
+	spell_id = str(data.get("spell", ""))
+	leg_pip = bool(data.get("leg_pip", false))
+	kit_granted = bool(data.get("kit_granted", false))
+	var items: Dictionary = data.get("items", {})
+	for id_v in data.get("order", []):
+		var id := str(id_v)
+		var n := int(items.get(id, 0))
+		if id != "" and n > 0 and id not in _order:
+			if _role(id) == "stack":
+				_counts[id] = n
+			else:
+				_counts[id] = n if n > 1 else 1
+			_order.append(id)
 	if worn != "" and is_amulet(worn):
 		if amulet == "":
 			amulet = worn
@@ -594,7 +683,7 @@ func mass(cat: int) -> float:
 func mass_w() -> int:
 	var total := 0
 	for id in _order:
-		if str(weapon_def_kind(id)) in DURABLE_KINDS and not Stash.is_hidden(id):
+		if str(weapon_def_kind(id)) in DURABLE_KINDS and not _stash_hidden(id):
 			total += int((_slice[id] as Dictionary).get("mass", 1))
 	return total
 
@@ -603,7 +692,7 @@ func mass_w() -> int:
 func mass_m() -> int:
 	var total := 0
 	for id in _order:
-		if weapon_def_kind(id) == "magic" and not Stash.is_hidden(id):
+		if weapon_def_kind(id) == "magic" and not _stash_hidden(id):
 			total += int((_slice[id] as Dictionary).get("mass", 1))
 	return total
 
@@ -619,7 +708,7 @@ func max_mass(key: String) -> float:
 	var total := float((_hard.get("base", {}) as Dictionary).get(key, 0.0))
 	var perks: Dictionary = _hard.get("perks", {})
 	for pid in perks:
-		var lvl := int(Progression.perk_rank(str(pid)))
+		var lvl := _perk_rank(str(pid))
 		for row_v in perks[pid]:
 			var row: Dictionary = row_v
 			if str(row.get("id", "")) != key:
@@ -694,9 +783,8 @@ func _inv_mass_param() -> void:
 			_max_speed = 0.0
 			_jump_mult = 0.0
 			if was > 0.0:
-				var hud := get_tree().get_first_node_in_group("hud") if is_inside_tree() else null
-				if hud and hud.has_method("show_notice"):
-					hud.show_notice(OriginalLines.info("overMass"))
+				if is_inside_tree():
+					Fx.notice(OriginalLines.info("overMass"), {"source": Run.local_player()})
 		elif shtr == 2:
 			_max_speed = 3.5
 			_jump_mult = 0.5
@@ -725,8 +813,8 @@ func overload_mana_mult() -> float:
 func _in_safe_room() -> bool:
 	if not is_inside_tree():
 		return true
-	var player := get_tree().get_first_node_in_group("player") as Node2D
-	var land := get_tree().get_first_node_in_group("active_land")
+	var player := Run.local_player() as Node2D
+	var land := Run.land()
 	if player == null or land == null:
 		return true
 	var props := land.get_node_or_null("Actors")

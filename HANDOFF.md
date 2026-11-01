@@ -12,7 +12,13 @@ Godot 4.7.2 port of Fallout Equestria: Remains (Flash). Goal: a faithful port wi
 | `docs/PLAYER_FEEDBACK.md` | Reports from play and their status. |
 | `docs/PORT_RULES.md` | User decisions that differ from the original. Do not revert them. |
 | `docs/ENEMY_AI.md` | Enemy behaviour now (states, senses, targets, movement, engage / disengage) and the list of differences from the original. |
-| `docs/MULTIPLAYER_PLAN.md` | Step-by-step refactoring plan for online co-op (after the port). |
+| `docs/ARCHITECTURE_PLAN.md` | Architecture refactoring (R0–R6) for co-op readiness, liquid/gas simulation, modding, seamless endless maps and enemy directors: current state, ordered steps, dependencies. |
+| `docs/AUTOLOADS.md` | Autoload order, Sim phase, and which autoload calls which. Cycles that remain are marked on the line. |
+| `docs/ARCHITECTURE.md` | How the port is built now: Sim tick, input commands, Rng, entities, Fx, run document, checks. |
+| `docs/MODDING.md` | Mod folders, `mod.json`, data merge rules, art override and its limits, saves and mods. |
+| `docs/DATA_SCHEMA.md` | Every data file's schema. Generated: `python tools/data_schema_doc.py`; do not edit by hand. |
+| `docs/GLOSSARY.md` | Flash transliterated names, their meaning, and whether each mirrors an original field. |
+| `docs/MULTIPLAYER_PLAN.md` | Step-by-step refactoring plan for online co-op (after the port). `ARCHITECTURE_PLAN.md` R1 and R3 schedule it. |
 | `docs/EDITOR_PORT_PLAN.md` | Room editor plan. Debug `map_builder` is retired in `_trash/map_builder/`. |
 | `godot/DEBUG_COMMANDS.md` | Console commands. Update whenever they change. |
 | `verify/README.md` | Human verify kit: one folder per hand check with a launcher straight into the situation and a verdict file. A "Verify in play" note in `PLAYER_FEEDBACK.md` should get a row here. |
@@ -47,7 +53,15 @@ After each chunk of work: update `IMPLEMENTED.md`, tick `TODO.md`, and answer `P
 
 ## How to check the game
 
-Headless boot (autoloads load; `-s` / `--check-only` scripts do not, so their autoload errors are false):
+Every automatic check in one command (about 7 minutes). It prints one `CHECK <name>: ok N fail M` line per check (any `SCRIPT ERROR` or `push_error` line fails it), writes logs to `tmp/checks/<name>.log`, gives each run a sandbox user dir and exits 1 on any failure. `xfail` counts known gaps that are not failures (save gaps are closed; the seeded replay matches, `EXPECT_SAME`, after R1.3). Options: `--list`, `--only a,b`, `--skip a,b`, `--import`. Run it before and after every refactor step. The replays also compare against `godot/tests/fixtures/replay_golden_*.txt`; after an intended gameplay change, delete those files and run the replays once to record new ones. `replay_check.gd` also takes `golden=<path>`: a missing file records the run-1 hash list, and an existing file is compared (mismatches count as failures).
+
+```
+python tools/run_checks.py
+```
+
+`python tools/autoload_graph.py` prints the autoload dependency graph and its cycles (only `Rng, Run, WorldState` is allowed); `--write` refreshes the dependency lines in `docs/AUTOLOADS.md`.
+
+Single runs, headless boot (autoloads load; `-s` / `--check-only` scripts do not, so their autoload errors are false):
 
 ```
 & $g --headless --path godot res://scenes/game.tscn --quit-after 240

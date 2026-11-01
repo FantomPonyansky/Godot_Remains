@@ -14,6 +14,15 @@ If an earlier request blocks an accurate port or causes bugs or performance issu
 
 - Fully non-commercial (user, 2026-10-26). Own code: PolyForm Noncommercial 1.0.0 with the same kind of additional permissions as Remains: Unity (`LICENSE`, `LICENSING.md`, `ADDITIONAL_PERMISSIONS.md`). List any adapted file in `THIRD_PARTY_NOTICES.md`. Code adapted from Remains: Unity (PolyForm Noncommercial) is allowed with its notices; see `KNOWLEDGE_BASE.md` "Other remake".
 
+## Modding (2026-11-01, user)
+
+- Mods live in `user://mods/<mod>/`. `user://mods/rooms/` keeps working as a built-in "loose rooms" mod, so editor rooms need no move; new mods put rooms in `mods/<mod>/rooms/`.
+- A mod may replace built-in art and sounds by the same path, and add new ones. Replacing only loads the mod file in place of the built-in one; no mod can delete or overwrite a built-in asset, so turning the mod off restores the original.
+- A save records the active mods. Loading it with a different set warns and still loads.
+- Mod controls (on/off now, more options later) are a Mods tab in the main-menu settings, in the fifth sub-tab slot that the main menu leaves free. Not in the in-game PipBuck: mods load with the game data.
+- The DLC 1.0.4 rebalance mode is a built-in data overlay that the mode switches on.
+- Flash transliterated names (`kol`, `sost`, `razn`, …) are renamed only where they do not mirror an original field; `docs/GLOSSARY.md` maps every one.
+
 ## Future multiplayer (2026-10-26, user)
 
 Planned after the port is finished, as a separate mode: true online co-op, P2P, several players, via Steam. Do not implement it now. When making architectural choices, prefer the option that does not block it:
@@ -56,6 +65,8 @@ Planned after the port is finished, as a separate mode: true online co-op, P2P, 
 - Explosives on every land damage walls in the blast disk (`wall_span.apply_blast`). They also smash `explcrack` safes and crowbar-eligible crates in that disk (`land_props.blast_boxes`). Original `Bullet.explosion` only `Box.damage`s the aimed / sticky `targetObj`; ordinary boxes still take no blast.
 
 ## Controls
+
+Game logic stays at 30 Hz (the original's rate); there is no 60 / 120 Hz simulation option. Input is sampled on every rendered frame and applied on the next tick, so presses between ticks are not lost and latency is at most one tick (user, 2026-10-31; `ARCHITECTURE_PLAN.md` R1.7).
 
 Keyboard follows the original `Ctr.as keyXML`, except: arrows removed from gameplay (menu focus only), shoot is left mouse only (J is quests), telekinesis is Q and right mouse.
 

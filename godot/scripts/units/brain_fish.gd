@@ -14,7 +14,7 @@ var water_y := 0.0
 
 
 func configure() -> void:
-	max_speed += randf() * 2.0 - 1.0
+	max_speed += Rng.randf(&"ai") * 2.0 - 1.0
 	walk_speed = max_speed
 	run_speed = max_speed * 2.0
 	elast = 0.2
@@ -55,8 +55,8 @@ func command(com: String, _val: String = "") -> void:
 
 func jump() -> void:
 	if stay:
-		vel.y = -jumpdy * randf()
-		vel.x = jumpdy * (randf() - 0.5) * 0.5
+		vel.y = -jumpdy * Rng.randf(&"ai")
+		vel.x = jumpdy * (Rng.randf(&"ai") - 0.5) * 0.5
 
 
 func control() -> void:
@@ -67,19 +67,19 @@ func control() -> void:
 		ai_tch -= 1
 	elif ai_state == 6:
 		ai_state = 4
-		ai_tch = randi_range(100, 199)
+		ai_tch = Rng.randi_range(&"ai", 100, 199)
 	elif ai_state == 7 and is_plav:
 		ai_state = 4
-		ai_tch = randi_range(100, 199)
+		ai_tch = Rng.randi_range(&"ai", 100, 199)
 	elif ai_state == 5:
 		ai_state = 6
 		ai_tch = 20
 	elif ai_spok == 0:
-		ai_state = randi() % 2
+		ai_state = Rng.randi(&"ai") % 2
 		ai_dx = 1.0 if rnd() else -1.0
 		storona = ai_dx
-		ai_dy = randf() * 0.2 + 0.1
-		ai_tch = randi_range(40, 89)
+		ai_dy = Rng.randf(&"ai") * 0.2 + 0.1
+		ai_tch = Rng.randi_range(&"ai", 40, 89)
 	elif ai_spok >= max_spok:
 		if ai_rasst < 380.0:
 			if not is_plav and rnd():
@@ -87,13 +87,13 @@ func control() -> void:
 				ai_tch = 20
 			else:
 				ai_state = 4
-				ai_tch = randi_range(100, 199)
+				ai_tch = Rng.randi_range(&"ai", 100, 199)
 		else:
 			ai_state = 4 if hurt else 3
-			ai_tch = randi_range(100, 199)
+			ai_tch = Rng.randi_range(&"ai", 100, 199)
 	else:
 		ai_state = 2
-		ai_tch = randi_range(100, 199)
+		ai_tch = Rng.randi_range(&"ai", 100, 199)
 	if ai_tch % 10 == 1 and ai_state < 6:
 		if find_cel() and cel_unit != null and in_water(cel_unit):
 			ai_spok = max_spok + 10
@@ -142,7 +142,7 @@ func control() -> void:
 	if (ai_state in [3, 4, 7] and shok <= 0) or ai_state == 6:
 		if att_korp(cel_unit, 2.0 if ai_state == 6 else 1.0) and rnd(0.25):
 			ai_state = 8
-			set_cel(null, cel + Vector2(randf_range(-400.0, 400.0), randf_range(-400.0, 400.0)))
+			set_cel(null, cel + Vector2(Rng.randf_range(&"ai", -400.0, 400.0), Rng.randf_range(&"ai", -400.0, 400.0)))
 			ai_tch = 40
 
 

@@ -1,0 +1,24 @@
+{
+  "ldist1": 300,
+  "ldist2": 1000,
+  "move_px": 0.5,
+  "fog_returns": true,
+  "fade": 0.025,
+  "mem_level": 0.4,
+  "mem_saturation": 0.55,
+  "land_vis": {
+    "surf": 10.0,
+    "raiders": 10.0,
+    "garages": 10.0,
+    "random_mane": 2.0,
+    "mtn": 2.0,
+    "way": 10.0,
+    "covert": 10.0,
+    "src": 10.0,
+    "hql": 10.0,
+    "post": 10.0,
+    "stable_pi_surf": 3.0,
+    "thunder": 3.0,
+    "grave": 10.0
+  }
+}

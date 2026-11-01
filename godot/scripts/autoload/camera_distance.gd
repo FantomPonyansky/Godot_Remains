@@ -8,14 +8,16 @@ signal changed(zoom: float)
 
 const _UserDir := preload("res://scripts/user_dir.gd")
 static var PATH := _UserDir.settings("camera.cfg")
-const MIN_DISTANCE := 0.5
-const MAX_DISTANCE := 2.0
-const DEFAULT_DISTANCE := 1.0
-const STEP := 0.1
+const _OPTIONS := "res://assets/data/balance/options.json"
+static var MIN_DISTANCE := 0.5
+static var MAX_DISTANCE := 2.0
+static var DEFAULT_DISTANCE := 1.0
+static var STEP := 0.1
+static var _limits_loaded := false
 
 const _Chrome := preload("res://scripts/pip_chrome.gd")
 
-var distance: float = DEFAULT_DISTANCE
+var distance: float = 1.0
 ## Camera.setZoom(2) in a sky room fits the whole room on screen; 0 is off.
 var room_zoom := 0.0
 ## Camera.isZoom from keyZoom: 0 the distance above, 1 fill the screen with
@@ -24,7 +26,25 @@ var zoom_mode := 0
 
 
 func _init() -> void:
+	_load_limits()
 	_load()
+
+
+static func _load_limits() -> void:
+	if _limits_loaded:
+		return
+	_limits_loaded = true
+	var raw: Variant = DataLib.load(_OPTIONS)
+	if raw is not Dictionary:
+		return
+	var cam: Variant = (raw as Dictionary).get("camera", {})
+	if cam is not Dictionary:
+		return
+	var c := cam as Dictionary
+	MIN_DISTANCE = float(c.get("min", MIN_DISTANCE))
+	MAX_DISTANCE = float(c.get("max", MAX_DISTANCE))
+	DEFAULT_DISTANCE = float(c.get("default", DEFAULT_DISTANCE))
+	STEP = float(c.get("step", STEP))
 
 
 func current_zoom() -> float:
@@ -51,7 +71,7 @@ func apply() -> void:
 	var tree := get_tree()
 	if tree == null:
 		return
-	var body := tree.get_first_node_in_group("player")
+	var body := Run.local_player()
 	if body == null:
 		return
 	var cam := body.get_node_or_null("Camera2D") as Camera2D

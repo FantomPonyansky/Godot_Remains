@@ -65,11 +65,11 @@ func _exit_tree() -> void:
 func _process(_delta: float) -> void:
 	if active == "":
 		for action in ["weapon_wheel", "spell_wheel"]:
-			if InputMap.has_action(action) and Input.is_action_just_pressed(action):
+			if InputMap.has_action(action) and LocalInput.just_pressed(StringName(action)):
 				_open(action)
 				return
 		return
-	if not Input.is_action_pressed(active):
+	if not LocalInput.held(StringName(active)):
 		_close(true)
 		return
 	if not get_tree().paused:
@@ -127,7 +127,7 @@ func _open(action: String) -> void:
 	page = _page_of_current()
 	_mouse = Vector2.ZERO
 	_paused_by_us = true
-	GameState.set_paused(true)
+	Sim.set_paused(true, &"wheel")
 	var cursor := _cursor()
 	if cursor != null:
 		cursor.set_meta("wheel", true)
@@ -145,7 +145,7 @@ func _close(apply: bool) -> void:
 		cursor.remove_meta("wheel")
 		cursor.set_meta("stick_lock", true)
 	if _paused_by_us and get_tree().paused:
-		GameState.set_paused(false)
+		Sim.set_paused(false, &"wheel")
 	_paused_by_us = false
 	if not picked.is_empty():
 		_apply(picked)

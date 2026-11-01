@@ -34,7 +34,7 @@ func configure() -> void:
 	if mega:
 		mult *= 10.0
 	u.set("max_hp", int(round(float(u.get("max_hp")) * mult)))
-	t_wait = randi_range(0, 100)
+	t_wait = Rng.randi_range(&"ai", 0, 100)
 
 
 func ready() -> void:

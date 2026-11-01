@@ -139,6 +139,10 @@ static func _unpause() -> void:
 	var tree := Engine.get_main_loop() as SceneTree
 	if tree == null:
 		return
+	var sim := tree.root.get_node_or_null("Sim")
+	if sim != null and sim.has_method("clear_paused"):
+		sim.call("clear_paused")
+		return
 	var state := tree.root.get_node_or_null("GameState")
 	if state != null and state.has_method("set_paused"):
 		state.set_paused(false)

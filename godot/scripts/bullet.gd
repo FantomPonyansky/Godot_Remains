@@ -1,5 +1,12 @@
 extends Area2D
 
+## Projectile (scenes/bullet.tscn). The player, enemy._launch_one, land_props,
+## traps, NPCs, and unit brains spawn it. A hit calls take_hit with
+## HitInfo.of_bullet; the 0.7-1.3 roll stays on the target.
+## fraction is the shooter's faction (F_PLAYER is 100). Groups: player_bullets or
+## enemy_bullets. Friendly blast damage scales by FRIENDLY_EXPL.
+## Fuse time is Sim ticks and does not advance while the tree is paused.
+
 const _Resistances := preload("res://scripts/resistances.gd")
 const _Proj := preload("res://scripts/projectile_vis.gd")
 const _WeaponVis := preload("res://scripts/weapon_vis.gd")
@@ -14,47 +21,18 @@ const FRIENDLY_EXPL := 0.25
 ## Enemy and pet bodies (collision layer 3).
 const ENEMY_LAYER := 4
 ## units.xml fraction. A child id such as raider1 keeps the parent's prefix.
-const _SPECIES_FRACTION := {
-	"thunderhead": 4,
-	"robobrain": 4,
-	"spritebot": 4,
-	"hellhound": 4,
-	"bossraider": 2,
-	"bossencl": 4,
-	"bossdron": 4,
-	"bossultra": 4,
-	"bossnecr": 2,
-	"sentinel": 4,
-	"triglaser": 4,
-	"trigridge": 2,
-	"trigplate": 2,
-	"trigcans": 2,
-	"damexpl": 2,
-	"damshot": 2,
-	"damgren": 2,
-	"spectre": 0,
-	"raider": 2,
-	"slaver": 2,
-	"zebra": 2,
-	"ranger": 4,
-	"protect": 4,
-	"gutsy": 4,
-	"roller": 4,
-	"turret": 4,
-	"encl": 4,
-	"merc": 2,
-	"vortex": 2,
-	"dront": 4,
-	"dron": 4,
-	"eqd": 4,
-	"msp": 4,
-	"ttur": 4,
-	"npc": 100,
-	"vendor": 100,
-	"doctor": 100,
-	"captive": 100,
-	"ponpon": 100,
-}
+const SPECIES_PATH := "res://assets/data/species_fractions.json"
+static var _SPECIES_FRACTION: Dictionary = {}
+
+
+static func _load_species_fraction() -> bool:
+	var data: Variant = DataLib.load(SPECIES_PATH)
+	if data is Dictionary:
+		_SPECIES_FRACTION = data
+	return true
+
+
+static var _fraction_ready: bool = _load_species_fraction()
 
 const ROOM_PX := 1920.0
 const OPEN_ROOMS := 6.0
@@ -67,6 +45,8 @@ var direction: Vector2 = Vector2.RIGHT
 var from_player: bool = true
 ## Shooter's Unit.fraction. -1 until the shot is fired. Unit.F_PLAYER is 100.
 var fraction: int = -1
+var eid: String = ""
+var kind: StringName = &"bullet"
 var damage_type: String = "DAM_PIERCE"
 ## weapons.json char_destroy. -1 until the shot is fired. Doors use this, not damage.
 var block_damage: int = -1
@@ -125,6 +105,9 @@ var _stay := false
 var _prilip := false
 ## Bullet.targetObj when it is a Box: explosion() deals it destroy.
 var _target_box: Node = null
+## Sim.run_tick when a fuse flight times out. -1 means no fuse. Paused ticks
+## do not spend it (the old timer ignored the tree pause flag).
+var _die_at := -1
 static var _voiced := 0
 
 @onready var sprite: Sprite2D = $Sprite2D
@@ -151,8 +134,28 @@ func _ready() -> void:
 	set_collision_mask_value(8, true)
 	if hitscan:
 		sprite.visible = false
-	# Fuses stop with the world (pause, Sats).
-	get_tree().create_timer(lifetime, false).timeout.connect(_on_timeout)
+	# Fuses stop with the world (pause, Sats): run_tick does not move while paused.
+	if _fuse_flight():
+		arm_fuse(int(round(lifetime * 30.0)))
+	var owner := ""
+	if has_meta("owner_unit") and get_meta("owner_unit") is Node:
+		owner = Entity.eid_of(get_meta("owner_unit"))
+	elif from_player:
+		owner = Entity.eid_of(Run.local_player())
+	Entity.claim(self, &"bullet", owner)
+
+
+func snapshot() -> Dictionary:
+	return Entity.captured(self)
+
+
+func restore(d: Dictionary) -> void:
+	Entity.apply_captured(self, d)
+
+
+## det_time and fuse lengths are already tick counts. Round a second-valued lifetime.
+func arm_fuse(ticks: int) -> void:
+	_die_at = Sim.run_tick + maxi(ticks, 0)
 
 
 func _on_timeout() -> void:
@@ -179,6 +182,12 @@ func _range_limit() -> float:
 
 
 func _physics_process(delta: float) -> void:
+	if _die_at >= 0 and Sim.run_tick >= _die_at:
+		_die_at = -1
+		if not _dead:
+			_on_timeout()
+			if _dead or not is_inside_tree():
+				return
 	if _fade > 0.0:
 		_fade -= delta * 30.0
 		if _fade <= 0.0:
@@ -270,13 +279,13 @@ func _water_check(at: Vector2) -> bool:
 	var physical := damage_type in ["DAM_PIERCE", "DAM_BLUNT", "DAM_CUT"]
 	if _part_emit and physical and _in_water != 0 and wet != (_in_water == 1):
 		var d := direction.normalized() * (-10.0 if wet else 10.0)
-		UnitFx.emit(get_tree(), "kap", at, {"dx": d.x, "dy": d.y, "kol": randi_range(0, 3) + int(damage / 5.0)})
+		Fx.particles("kap", at, {"dx": d.x, "dy": d.y, "kol": Rng.randi_range(&"fx", 0, 3) + int(damage / 5.0), "source": self})
 		_ImpactFx.hit_sound("hit_water", 0.5, weapon_id, _tip())
 		_part_emit = false
 	_in_water = 1 if wet else 2
 	if wet and damage_type in ["DAM_BURN", "DAM_LASER", "DAM_PLASMA", "DAM_ELECTRIC", "DAM_ACID"]:
 		if _part_emit:
-			UnitFx.emit(get_tree(), "steam", at)
+			Fx.particles("steam", at, {"source": self})
 		return true
 	return false
 
@@ -364,7 +373,7 @@ func _phis_step(delta: float) -> void:
 
 func _stick_to_box() -> bool:
 	var props := get_tree().get_first_node_in_group("land_props")
-	var player := get_tree().get_first_node_in_group("player")
+	var player := Run.local_player()
 	if props == null or player == null or not props.has_method("sticky_box") or not player.has_method("_cursor_world"):
 		return false
 	_target_box = props.call("sticky_box", global_position, player.call("_cursor_world"))
@@ -381,8 +390,8 @@ func _phis_blow() -> void:
 
 ## PhisBullet.sensor: any live unit of another fraction whose box holds the grenade.
 func _sensor_hit() -> bool:
-	var group := "enemies" if from_player else "player"
-	for node in get_tree().get_nodes_in_group(group):
+	var nodes: Array = get_tree().get_nodes_in_group("enemies") if from_player else Run.players()
+	for node in nodes:
 		if not node is Node2D or not is_instance_valid(node):
 			continue
 		var unit := node as Node2D
@@ -425,7 +434,7 @@ func _knock_unit(node: Node) -> void:
 ## Bullet.explBlast reaches the player too: a player blast does damage * pers.autoExpl
 ## (friendly 0.25), walls shield, and the fragment's knock is capped at 10.
 func _self_blast() -> void:
-	var player := get_tree().get_first_node_in_group("player") as Node2D
+	var player := Run.local_player() as Node2D
 	if player == null or blast_radius <= 0.0:
 		return
 	var box: Rect2 = player.call("_aim_rect", player) if player.has_method("_aim_rect") else Rect2(player.global_position - Vector2(20, 60), Vector2(40, 60))
@@ -438,7 +447,7 @@ func _self_blast() -> void:
 	var query := PhysicsRayQueryParameters2D.create(global_position, box.get_center(), 1)
 	if not space.intersect_ray(query).is_empty():
 		return
-	var dealt := float(damage) * randf_range(0.7, 1.3)
+	var dealt := float(damage) * Rng.randf_range(&"combat", 0.7, 1.3)
 	if rasst > er * 0.5:
 		dealt *= 2.0 - rasst * 2.0 / er
 	dealt *= Progression.pers("autoExpl", 1.0)
@@ -456,7 +465,7 @@ func _self_blast() -> void:
 
 ## Unit.udarBullet: dexter 0 is always hit; otherwise accuracy / (dexter + 0.05). -1 skips dodge.
 func _connects(dex: float = -1.0) -> bool:
-	if miss_chance > 0.0 and randf() < miss_chance:
+	if miss_chance > 0.0 and Rng.randf(&"combat") < miss_chance:
 		return false
 	if range_px <= 0.0 or dex == 0.0:
 		return true
@@ -468,7 +477,7 @@ func _connects(dex: float = -1.0) -> bool:
 		acc /= dex + 0.05
 	if acc >= 1.0:
 		return true
-	return randf() < acc
+	return Rng.randf(&"combat") < acc
 
 
 func _dexter_of(body: Object) -> float:
@@ -530,19 +539,19 @@ func _strike(node: Node, health: float, soften: bool) -> void:
 		var gap := global_position.distance_to((node as Node2D).global_position)
 		if gap > blast_radius * 0.5:
 			dealt *= maxf(0.0, 2.0 - gap * 2.0 / blast_radius)
-	if not node.is_in_group("destructibles") and node.has_method("hit_by_bullet"):
+	if not node.is_in_group("destructibles") and Entity.kind_of(node) == &"unit":
 		# Bullet.explBlast: an enemy blast on its own fraction does friendlyExpl (0.25).
 		if blast_radius > 0.0 and not from_player and node.is_in_group("enemies"):
 			var side: Variant = node.get("fraction")
 			if (side is int or side is float) and int(side) == fraction and fraction != F_PLAYER:
 				dealt *= FRIENDLY_EXPL
-		node.hit_by_bullet(self, dealt, blast_radius > 0.0)
+		node.take_hit(HitInfo.of_bullet(self, dealt, blast_radius > 0.0))
 		_knock_unit(node)
 		return
 	# knop2 (actdam) and charges (trap_units) only have take_hit; Resistances
 	# does nothing on them, so shots and the detonator blast never fired them.
 	if node.has_method("take_hit") and (node.is_in_group("actdam") or node.is_in_group("trap_units")):
-		node.take_hit(maxi(1, int(round(dealt))), damage_type)
+		node.take_hit(HitInfo.make(maxi(1, int(round(dealt))), damage_type, self))
 		return
 	_Resistances.apply(node, dealt, damage_type)
 
@@ -558,7 +567,7 @@ func _block_amount() -> int:
 func _roll_status(node: Node) -> void:
 	if dop_effect == "" or dop_chance <= 0.0 or not node.has_method("apply_on_hit"):
 		return
-	if dop_chance < 1.0 and randf() >= dop_chance:
+	if dop_chance < 1.0 and Rng.randf(&"combat") >= dop_chance:
 		return
 	node.apply_on_hit(dop_effect, dop_damage, damage)
 
@@ -596,9 +605,9 @@ func _explode(direct_body: Object = null) -> void:
 	for node in hits:
 		var soften := node != direct_body
 		if soften and from_player and node.is_in_group("enemies"):
-			SfxBank.play("hit")
+			Fx.sound("hit", global_position, {"source": self})
 		elif soften and node.is_in_group("destructibles"):
-			SfxBank.play(_surface_clip(node))
+			Fx.sound(_surface_clip(node), global_position, {"source": self})
 		_strike(node, float(damage), soften)
 	if from_player:
 		_self_blast()
@@ -662,7 +671,8 @@ func _play_impact(body: Object) -> void:
 func _quake() -> void:
 	var knock := float(_WeaponVis.fx(weapon_id).get("knock", 0)) * knock_mult if weapon_id != "" else 0.0
 	if knock > 0.0 and CamShake != null:
-		CamShake.quake(randf_range(-4.0, 4.0) * knock, knock * 0.8)
+		var qx := Rng.randf_range(&"fx", -4.0, 4.0) * knock
+		Fx.shake(knock, global_position, {"x": qx, "y": knock * 0.8, "source": self})
 
 
 func _tip() -> int:
@@ -895,7 +905,7 @@ func _announce() -> void:
 		if _voiced == voice_key:
 			return
 		_voiced = voice_key
-	SfxBank.play(snd, float(_shot.get("volume", 1.0)))
+	Fx.sound(snd, global_position, {"volume": float(_shot.get("volume", 1.0)), "source": self})
 
 
 ## spring 1 and vel > 100 stretches the tracer. A laser child stretches with distance.
@@ -936,28 +946,29 @@ func _fit_sprite(delta: float) -> void:
 
 
 func _stamp_tracer(start: Vector2, tip: Vector2) -> void:
+	var tree := get_tree()
+	if tree == null:
+		return
+	UnitFx.host(tree)
+	var opts := {"tracer": true, "from": start, "to": tip, "life": 0.06, "source": self}
 	if _shot.is_empty() or sprite.texture == null:
-		_flash(start, tip, Color(1.0, 0.28, 0.18))
-		return
-	var host := get_tree().current_scene
-	if host == null:
-		return
-	var ghost := Sprite2D.new()
-	ghost.texture = sprite.texture
-	ghost.centered = false
-	ghost.offset = sprite.offset
-	ghost.texture_filter = sprite.texture_filter
-	ghost.material = sprite.material
-	ghost.modulate = sprite.modulate
-	var dir := tip - start
-	ghost.rotation = dir.angle() if dir.length_squared() > 0.01 else direction.angle()
-	if _beam:
-		ghost.scale = Vector2(maxf(start.distance_to(tip) * 0.01, 0.02), 1.0)
+		opts["line"] = true
+		opts["color"] = Color(1.0, 0.28, 0.18)
+		opts["width"] = 2.0
 	else:
-		ghost.scale = sprite.scale
-	host.add_child(ghost)
-	ghost.global_position = tip
-	get_tree().create_timer(0.06).timeout.connect(ghost.queue_free)
+		var dir := tip - start
+		opts["texture"] = sprite.texture
+		opts["centered"] = false
+		opts["offset"] = sprite.offset
+		opts["filter"] = sprite.texture_filter
+		opts["material"] = sprite.material
+		opts["modulate"] = sprite.modulate
+		opts["rotation"] = dir.angle() if dir.length_squared() > 0.01 else direction.angle()
+		if _beam:
+			opts["scale"] = Vector2(maxf(start.distance_to(tip) * 0.01, 0.02), 1.0)
+		else:
+			opts["scale"] = sprite.scale
+	Fx.flash(tip, opts)
 
 
 func _apply_style() -> void:

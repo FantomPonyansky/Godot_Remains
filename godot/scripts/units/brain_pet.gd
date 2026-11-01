@@ -241,13 +241,13 @@ func control() -> void:
 			if rasst2 > RASST_GG * RASST_GG * 9.0:
 				get_fly_point()
 			if cel_unit == null:
-				set_cel(null, cel + Vector2(randf() * 300.0 - 150.0, randf() * 120.0 - 60.0))
+				set_cel(null, cel + Vector2(Rng.randf(&"ai") * 300.0 - 150.0, Rng.randf(&"ai") * 120.0 - 60.0))
 		elif ai_state == 4 or ai_state == 5:
 			ai_state = 2
 		elif ai_state == 3:
 			ai_state = 2 if _battle() else 1
 		var gvx := (gg as CharacterBody2D).velocity.x / TPS if gg is CharacterBody2D else 0.0
-		ai_tch = randi_range(10, 29) if absf(gvx) > 2.0 else randi_range(30, 129)
+		ai_tch = Rng.randi_range(&"ai", 10, 29) if absf(gvx) > 2.0 else Rng.randi_range(&"ai", 30, 129)
 	var fd := fly - u.global_position
 	var fly_r := fd.length()
 	if ai_state == 0:
@@ -267,10 +267,10 @@ func control() -> void:
 			vel *= 0.85
 			spd = Vector2.ZERO
 		if turn_x != 0.0:
-			vel.y += randf() * 8.0 - 4.0
+			vel.y += Rng.randf(&"ai") * 8.0 - 4.0
 			turn_x = 0.0
 		if turn_y != 0.0:
-			vel.x += randf() * 8.0 - 4.0
+			vel.x += Rng.randf(&"ai") * 8.0 - 4.0
 			turn_y = 0.0
 	elif ai_state == 5:
 		spd *= 0.95
@@ -314,7 +314,7 @@ func control() -> void:
 				spd *= 0.5
 				ai_state = 5
 				ai_tch = 15
-				u.call("_receive", dam * 0.02, "DAM_INTERNAL", null, true)
+				u.call("take_hit", HitInfo.dot(dam * 0.02, "DAM_INTERNAL"))
 		else:
 			ai_state = 2
 	max_speed = walk_speed if ai_state <= 1 else run_speed

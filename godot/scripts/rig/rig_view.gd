@@ -73,7 +73,7 @@ func _ready() -> void:
 	_png_meta = _json(_art_dir + "png_metadata.json")
 	_index = _json(_data_dir + "index.json")
 	var sm_path := _data_dir + "state_machine.json"
-	var sm: Variant = JSON.parse_string(FileAccess.get_file_as_string(sm_path)) if FileAccess.file_exists(sm_path) else null
+	var sm: Variant = DataLib.load(sm_path) if FileAccess.file_exists(sm_path) else null
 	for st in (sm if sm is Array else []):
 		_states[str(st.get("label", ""))] = str(st.get("animation", ""))
 	var osn := get_node_or_null("osn")
@@ -448,7 +448,7 @@ func _step_clip(node: Node, lib: String, tick: int) -> void:
 	# The one frame script the rigs carry besides stop() (megadron `dronDis2`).
 	var script := str(_symbol(lib).get("timeline", {}).get("scripts", {}).get(str(f), ""))
 	if "rotation=Math.random()*360" in script and node is Node2D:
-		(node as Node2D).rotation = randf() * TAU
+		(node as Node2D).rotation = Rng.randf(&"fx") * TAU
 
 
 ## Movie clip libraries on the bones, attachments and nested containers play their own timeline;
@@ -824,5 +824,5 @@ static func owns(node: Node) -> bool:
 static func _json(path: String) -> Dictionary:
 	if not FileAccess.file_exists(path):
 		return {}
-	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
+	var parsed: Variant = DataLib.load(path)
 	return parsed if parsed is Dictionary else {}

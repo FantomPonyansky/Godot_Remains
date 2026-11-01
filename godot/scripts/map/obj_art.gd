@@ -26,11 +26,9 @@ static func drop_cache() -> void:
 static func _all() -> Dictionary:
 	if not _loaded:
 		_loaded = true
-		var f := FileAccess.open(DIR + "manifest.json", FileAccess.READ)
-		if f != null:
-			var parsed: Variant = JSON.parse_string(f.get_as_text())
-			if parsed is Dictionary:
-				_manifest = parsed
+		var parsed: Variant = DataLib.load(DIR + "manifest.json")
+		if parsed is Dictionary:
+			_manifest = parsed
 	return _manifest
 
 
@@ -90,8 +88,7 @@ static func sprite(key: String, frame: int = 1) -> Sprite2D:
 ## One cell of a packed unit/trap sheet (sheets/<kind>/manifest.json), drawn from its anchor.
 static func sheet_still(sheets_dir: String, key: String, frame: int = -1) -> Sprite2D:
 	if not _sheets.has(sheets_dir):
-		var f := FileAccess.open(sheets_dir + "manifest.json", FileAccess.READ)
-		var parsed: Variant = JSON.parse_string(f.get_as_text()) if f != null else null
+		var parsed: Variant = DataLib.load(sheets_dir + "manifest.json")
 		_sheets[sheets_dir] = parsed if parsed is Dictionary else {}
 	var e: Dictionary = (_sheets[sheets_dir] as Dictionary).get(key, {})
 	if e.is_empty():

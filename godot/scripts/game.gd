@@ -27,12 +27,13 @@ func _ready() -> void:
 		_job = _ed.install()
 	var boot := DebugConsole.take_land().split(":")
 	var start := _start_land(_job, boot[0], _ed.ID)
+	# Before the begin scene plans its rows, so that plan uses this run's seed.
+	WorldState.reset_run()
 	if start == "begin":
 		_show_begin()
 	camera.make_current()
 	CameraDistance.apply()
 	GameState.reset_run()
-	WorldState.reset_run()
 	# reset_run clears the cover. Put it back once the run state is reset,
 	# and keep it until the land fade. A save's land is not built yet.
 	if start != "begin":
@@ -55,6 +56,11 @@ func _ready() -> void:
 	var _preview := load("res://scripts/editor/editor_preview.gd")
 	if _preview.running():
 		_preview.attach(self)
+	var shown_id := WorldState.current_land_id()
+	if shown_id != "":
+		var rng := get_node_or_null("/root/Rng")
+		if rng != null:
+			rng.bind_land(shown_id)
 
 
 ## The land this scene opens on. Only begin is built here; any other start (a

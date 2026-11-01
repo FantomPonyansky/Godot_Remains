@@ -58,10 +58,10 @@ func control() -> void:
 			ai_state = 1
 		else:
 			ai_state = 2
-		ai_tch = randi_range(100, 199)
+		ai_tch = Rng.randi_range(&"ai", 100, 199)
 		if ai_state == 0:
 			if rnd():
-				cel = Vector2(u.global_position.x + randf_range(400.0, 700.0) * (1.0 if rnd() else -1.0), u.global_position.y + randf_range(-100.0, 100.0))
+				cel = Vector2(u.global_position.x + Rng.randf_range(&"ai", 400.0, 700.0) * (1.0 if rnd() else -1.0), u.global_position.y + Rng.randf_range(&"ai", -100.0, 100.0))
 			else:
 				cel = center()
 	if ai_tch % 10 == 1:
@@ -72,7 +72,7 @@ func control() -> void:
 		vel += norma(cel - center(), accel / 2.0 if ai_state == 0 else accel)
 	max_speed = walk_speed if ai_state == 0 else run_speed
 	if turn_x != 0.0:
-		emit_part("iskr_bul", u.global_position + Vector2(15.0 * storona, -15.0), {"dx": vel.x, "kol": randi_range(3, 7)})
+		emit_part("iskr_bul", u.global_position + Vector2(15.0 * storona, -15.0), {"dx": vel.x, "kol": Rng.randi_range(&"fx", 3, 7)})
 		sound("vortex_cut", UnitFx.hum_volume(sqrt(dist2_to_player())))
 		storona = turn_x
 		ai_tch = 0

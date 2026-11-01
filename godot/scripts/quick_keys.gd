@@ -1,4 +1,5 @@
 extends Node
+const _PS := preload("res://scripts/prop_state.gd")
 
 ## The original keys the player node has no other home for (UnitPlayer.control,
 ## ItemInteraction, Camera.calc, Ctr keyFull). Child of the player.
@@ -80,7 +81,7 @@ func _physics_process(delta: float) -> void:
 
 
 func _just(action: String) -> bool:
-	return InputMap.has_action(action) and Input.is_action_just_pressed(action)
+	return InputMap.has_action(action) and LocalInput.just_pressed(StringName(action))
 
 
 func _keys() -> void:
@@ -96,7 +97,7 @@ func _keys() -> void:
 		use_potion("mana")
 	if _just("armor_ability"):
 		armor_ability()
-	if _just("crack") and not Input.is_action_pressed("interact"):
+	if _just("crack") and not LocalInput.held(&"interact"):
 		crack()
 	if _just("zoom"):
 		_zoom()
@@ -108,7 +109,7 @@ func _tick(control: bool) -> void:
 		if _t_item <= 0:
 			_layer.visible = false
 	_tick_armor()
-	var look := control and InputMap.has_action("look") and Input.is_action_pressed("look")
+	var look := control and InputMap.has_action("look") and LocalInput.held(&"look")
 	if look and _otryv < 1.0:
 		_otryv = minf(1.0, _otryv + 0.05)
 	elif not look and _otryv > 0.0:
@@ -209,7 +210,7 @@ func _pot(id: String) -> Dictionary:
 static func _load_pots() -> void:
 	if not _pots.is_empty() or not FileAccess.file_exists(CONSUMABLES):
 		return
-	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(CONSUMABLES))
+	var parsed: Variant = DataLib.load(CONSUMABLES)
 	if typeof(parsed) != TYPE_DICTIONARY:
 		return
 	for row_v in (parsed as Dictionary).get("items", []):
@@ -272,7 +273,7 @@ func crack() -> bool:
 				props.trip_alarm(best)
 				return true
 		return false
-	best.set_meta("lock", 0.0)
+	_PS.put(best, "lock", 0.0)
 	Inventory.spend(item, 1)
 	_notice(OriginalLines.info("useRuna" if item == "runa" else "useReboot"))
 	return true
@@ -304,13 +305,13 @@ func _crack_target() -> Node2D:
 
 ## The item that would open this lock, or "".
 func _need_runa(node: Node) -> String:
-	if int(node.get_meta("mine_tip", 3)) == 6 and int(node.get_meta("mine", 0)) > 0:
+	if int(_PS.getv(node, "mine_tip", 3)) == 6 and int(_PS.getv(node, "mine", 0)) > 0:
 		return "alarm"
-	var lock := int(round(float(node.get_meta("lock", 0.0))))
-	if lock <= 0 or int(node.get_meta("mine", 0)) > 0 or bool(node.get_meta("no_runa", false)):
+	var lock := int(round(float(_PS.getv(node, "lock", 0.0))))
+	if lock <= 0 or int(_PS.getv(node, "mine", 0)) > 0 or bool(node.get_meta("no_runa", false)):
 		return ""
-	var tip := int(node.get_meta("locktip", 1))
-	var level := int(node.get_meta("lock_level", 0))
+	var tip := int(_PS.getv(node, "locktip", 1))
+	var level := int(_PS.getv(node, "lock_level", 0))
 	if tip == 1 and Inventory.count("runa") > 0:
 		var pick := _LockUse._pick_points() if _LockUse._can_pick() else -100
 		if lock - pick > 1 or level > _LockUse._master("lockpick"):

@@ -101,7 +101,7 @@ func _emit() -> void:
 	children = children.filter(func(c: Variant) -> bool: return is_instance_valid(c) and not bool((c as Node).get("_dead")))
 	if children.size() >= KOL_EMIT:
 		return
-	var un := spawn_unit("dron%d" % randi_range(1, 2), center(), {"tr": 0})
+	var un := spawn_unit("dron%d" % Rng.randi_range(&"spawn", 1, 2), center(), {"tr": 0})
 	if un != null:
 		un.set("fraction", int(u.get("fraction")))
 		un.set("_detect_delay", 0.0)
@@ -115,7 +115,7 @@ func attack() -> void:
 		att_korp(cel_unit, 1.0)
 	t_atk -= 1
 	if t_atk <= 0:
-		t_atk = randi_range(40, 99)
+		t_atk = Rng.randi_range(&"ai", 40, 99)
 		if rnd():
 			cur.attack()
 		else:
@@ -149,6 +149,6 @@ func expl() -> void:
 
 func dying_tick() -> void:
 	if rnd(0.3 - timer_die / 500.0):
-		emit_part("expl", u.global_position + Vector2(randf_range(-60.0, 60.0), -randf() * 120.0))
+		emit_part("expl", u.global_position + Vector2(Rng.randf_range(&"fx", -60.0, 60.0), -Rng.randf(&"fx") * 120.0))
 		new_part("metal")
 		sound("expl_e")

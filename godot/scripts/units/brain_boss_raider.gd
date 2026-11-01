@@ -64,7 +64,7 @@ func on_damage(amount: float, type: String, bullet: Node, tt: bool) -> float:
 		if tc > called:
 			called += 1
 			for i in 2:
-				spawn_unit(RAIDERS[randi() % RAIDERS.size()], beg + Vector2(randf_range(-300.0, 300.0), 0.0))
+				spawn_unit(RAIDERS[Rng.randi(&"spawn") % RAIDERS.size()], beg + Vector2(Rng.randf_range(&"spawn", -300.0, 300.0), 0.0))
 	return left
 
 
@@ -87,7 +87,7 @@ func command(com: String, _val: String = "") -> void:
 
 
 func jump(v: float = 1.0) -> void:
-	ai_jump = randi_range(30, 79)
+	ai_jump = Rng.randi_range(&"ai", 30, 79)
 	if stay:
 		vel.y = -jumpdy * v
 		if ai_napr < 0.0:
@@ -117,7 +117,7 @@ func control() -> void:
 		ai_state += 1
 		if ai_state > 5:
 			ai_state = 1
-		ai_tch = 30 if ai_state in [2, 4, 5] else randi_range(150, 249)
+		ai_tch = 30 if ai_state in [2, 4, 5] else Rng.randi_range(&"ai", 150, 249)
 	if ai_tch % 10 == 1:
 		set_cel(p)
 	var cdx := cel.x - u.global_position.x
@@ -163,13 +163,13 @@ func control() -> void:
 			if cdx * ai_napr < 0.0:
 				ai_napr = turn_x
 				storona = turn_x
-				ai_t_turn = randi_range(5, 24)
+				ai_t_turn = Rng.randi_range(&"ai", 5, 24)
 			else:
 				ai_t_turn -= 1
 				if ai_t_turn < 0:
 					ai_napr = turn_x
 					storona = turn_x
-					ai_t_turn = randi_range(5, 24)
+					ai_t_turn = Rng.randi_range(&"ai", 5, 24)
 			turn_x = 0.0
 			turn_y = 0.0
 		if jmp > 0.0 and ai_jump <= 0:
@@ -190,7 +190,7 @@ func attack(cdx: float, cdy: float) -> void:
 		att_korp(cel_unit, 1.0 if absf(vel.x - other.x / TPS) > 8.0 else 0.5)
 	elif ai_state == 3:
 		if ai_attack_t <= 0:
-			ai_attack_t = int(round((randf() * 0.4 + 0.8) * ai_attack_och))
+			ai_attack_t = int(round((Rng.randf(&"ai") * 0.4 + 0.8) * ai_attack_och))
 		if ai_attack_t > ai_attack_och * 0.25:
 			cur.attack()
 		ai_attack_t -= 1
@@ -198,8 +198,8 @@ func attack(cdx: float, cdy: float) -> void:
 			att_korp(cel_unit, 0.5)
 	elif ai_state == 4:
 		if ai_tch == 5:
-			CamShake.add(QUAKE_TICKS, QUAKE_TICKS)
-			emit_part("quake", u.global_position + Vector2(randf_range(-20.0, 20.0), 0.0))
+			Fx.shake(float(QUAKE_TICKS), u.global_position, {"ticks": QUAKE_TICKS, "source": u})
+			emit_part("quake", u.global_position + Vector2(Rng.randf_range(&"fx", -20.0, 20.0), 0.0))
 	elif ai_state == 5:
 		if ai_tch == 5 and kol_emit > 0 and tr == 1:
 			var un := spawn_unit("vortex", center(), {"vortex_minion": true})
@@ -215,14 +215,14 @@ func attack(cdx: float, cdy: float) -> void:
 ## UnitPlayer.run: while loc.quake counts down a standing player (massa 1) is tossed
 ## by 1.5 * quake, at most 10.
 func _quake_tick() -> void:
-	var q := CamShake.quake_left()
+	var q := Fx.quake_left()
 	if q <= 0:
 		return
 	var p := player_node()
 	if p != null and p.is_on_floor():
 		var pun := minf(10.0, 1.5 * q)
-		p.velocity.y = -pun * randf() * TPS
-		p.velocity.x += pun * (randf() * 2.0 - 1.0) * TPS
+		p.velocity.y = -pun * Rng.randf(&"combat") * TPS
+		p.velocity.x += pun * (Rng.randf(&"combat") * 2.0 - 1.0) * TPS
 
 
 var _jump_f := -1

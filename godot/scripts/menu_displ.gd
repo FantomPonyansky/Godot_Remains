@@ -58,7 +58,7 @@ var _rng := RandomNumberGenerator.new()
 
 
 func _init() -> void:
-	var raw: Variant = JSON.parse_string(FileAccess.get_file_as_string(DIR + "anim.json"))
+	var raw: Variant = DataLib.load(DIR + "anim.json")
 	_info = raw if raw is Dictionary else {}
 	_rng.randomize()
 

@@ -1,5 +1,16 @@
 extends CharacterBody2D
 
+## Unit body for enemies, allies, and pets. land_props spawns scenes/enemy.tscn;
+## brains in units/brain_*.gd call this body, and a unit with no catalog brain
+## runs _decide, _sense, and _act here. Movement, guns, melee, and senses are
+## enemy_move.gd, enemy_weapons.gd, enemy_melee.gd, and enemy_senses.gd on this
+## same body; this script keeps the node and forwards only names other scripts use. Water is
+## unit_water.gd.
+## Groups: enemies and foe_bodies, or allies when _friendly. Outside room reach
+## the body sleeps with physics off; state and position are kept.
+## fraction is the faction. take_hit rolls 0.7-1.3 on Rng combat. Snapshot is
+## Entity.captured.
+
 const _Resistances := preload("res://scripts/resistances.gd")
 const _Block := preload("res://scripts/block_destroy.gd")
 const _UnitWater := preload("res://scripts/map/unit_water.gd")
@@ -7,57 +18,69 @@ const _UnitMassa := preload("res://scripts/unit_massa.gd")
 const _HeldWeapon := preload("res://scripts/units/held_weapon.gd")
 const _Desintegr := preload("res://scripts/desintegr_fx.gd")
 const _Tele := preload("res://scripts/units/unit_telekinesis.gd")
-const SPEED := 90.0
+const _PS := preload("res://scripts/prop_state.gd")
+const _Move := preload("res://scripts/enemy_move.gd")
+var _move: _Move
+const _Senses := preload("res://scripts/enemy_senses.gd")
+var _senses: _Senses
+const _Weapons := preload("res://scripts/enemy_weapons.gd")
+var _weapons: _Weapons
+const _Melee := preload("res://scripts/enemy_melee.gd")
+var _melee: _Melee
+const _Difficulty := preload("res://scripts/difficulty.gd")
+## Unit comb / loc.earMult from the difficulty row. Read once per unit.
+var _hp_mult: float = 1.0
+static var SPEED: float = 0.0
 const TILE_W := 40.0
 ## The player's ladder box width (player.gd CLIMB_BOX_W).
 const CLIMB_BOX_W := 28.0
 const PLATFORM_LAYER_BIT := 7
 ## play_land._add_ladder grab above the tile. Not part of the stair tile.
 const LADDER_GRAB_UP := 36.0
-const GRAVITY := 900.0
-const ATTACK_COOLDOWN := 1.1
+static var GRAVITY: float = 0.0
+static var ATTACK_COOLDOWN: float = 0.0
 ## Gunners (UnitRaider): 70% chance to hold and shoot inside 1000px when the
 ## sighting is fresh, and a 60% chance per tick to hop back inside 200px.
 ## Melee stops in the 50–100px band. Chase slack is only so bodies don't stack.
-const HOLD_RANGE := 1000.0
-const HOLD_CHANCE := 0.7
-const HOLD_FRESH := 8
-const BACK_OFF_RANGE := 200.0
-const BACK_OFF_CHANCE := 0.6
-const SWING_MIN := 50.0
-const SWING_MAX := 100.0
-const SWING_HEIGHT := 80.0
-const BODY_SLACK := 36.0
+static var HOLD_RANGE: float = 0.0
+static var HOLD_CHANCE: float = 0.0
+static var HOLD_FRESH: int = 0
+static var BACK_OFF_RANGE: float = 0.0
+static var BACK_OFF_CHANCE: float = 0.0
+static var SWING_MIN: float = 0.0
+static var SWING_MAX: float = 0.0
+static var SWING_HEIGHT: float = 0.0
+static var BODY_SLACK: float = 0.0
 ## WalkMotor / Brain alert movement. Distances are original pixels.
-const LEVEL_SLACK := 40.0
-const REAIM_EVERY := 15
-const REAIM_DIST := 100.0
-const DURAK_REAIM := 0.5
-const SMART_REAIM := 0.8
-const JUMP_TICK := 18.0
-const ACCEL_RATIO := 0.75
-const AIR_CONTROL := 0.25
-const JUMP_BOOST := 2.0
-const HOP_POWER := 0.5
-const LEAP_POWER := 0.4
-const LEAP_SPEED := 2.0
-const JUMP_CD_MIN := 30.0
-const JUMP_CD_MAX := 79.0
-const HEAD_NEAR := 85.0
-const HEAD_FAR := 125.0
-const HEAD_AHEAD := 40.0
-const FAR_BELOW := 100.0
-const LEDGE_BRAKE := 0.6
-const LEDGE_BRAKE_AT := 5.0
-const TURN_MIN := 5
-const TURN_MAX := 24
-const SINGLE_SHOT := 0.1
-const BLIND_SHOT := 0.03
-const THROW_CHANCE := 0.02
-const SWING_CHANCE := 0.3
-const SWING_REACH := 120.0
-const CHARGE_SPEED := 1.5
-const WALL_GIVE := 0.1
+static var LEVEL_SLACK: float = 0.0
+static var REAIM_EVERY: int = 0
+static var REAIM_DIST: float = 0.0
+static var DURAK_REAIM: float = 0.0
+static var SMART_REAIM: float = 0.0
+static var JUMP_TICK: float = 0.0
+static var ACCEL_RATIO: float = 0.0
+static var AIR_CONTROL: float = 0.0
+static var JUMP_BOOST: float = 0.0
+static var HOP_POWER: float = 0.0
+static var LEAP_POWER: float = 0.0
+static var LEAP_SPEED: float = 0.0
+static var JUMP_CD_MIN: float = 0.0
+static var JUMP_CD_MAX: float = 0.0
+static var HEAD_NEAR: float = 0.0
+static var HEAD_FAR: float = 0.0
+static var HEAD_AHEAD: float = 0.0
+static var FAR_BELOW: float = 0.0
+static var LEDGE_BRAKE: float = 0.0
+static var LEDGE_BRAKE_AT: float = 0.0
+static var TURN_MIN: int = 0
+static var TURN_MAX: int = 0
+static var SINGLE_SHOT: float = 0.0
+static var BLIND_SHOT: float = 0.0
+static var THROW_CHANCE: float = 0.0
+static var SWING_CHANCE: float = 0.0
+static var SWING_REACH: float = 0.0
+static var CHARGE_SPEED: float = 0.0
+static var WALL_GIVE: float = 0.0
 ## One land is a continuous grid. A room is 48?25 tiles at 40px.
 const ROOM_W := 1920.0
 const ROOM_H := 1000.0
@@ -65,37 +88,37 @@ const ROOM_H := 1000.0
 ## Original sim is 30 ticks/second (Engine.TPS). Distances below are in those pixels.
 const TPS := 30.0
 const SENSE_INTERVAL := 10.0 / TPS
-const REST_RECHECK := 8
-const GOAL_EVERY := 5
+static var REST_RECHECK: int = 0
+static var GOAL_EVERY: int = 0
 
 ## Raider family senses. Scene enemies are generic raiders (units.xml id="raider"),
 ## not separate raider1–raider9 spawns. None of those variants set vision, ear, or
 ## vKonus, so they share this profile. raider7's observ="3" is the only sense
 ## tweak; these instances use observ 0. vKonus stays 0: raiders have no sight cone.
 ## Turrets are the units that set one (90° or 45°).
-const CALM_VISION := 1.0
-const ALERT_VISION := 1.5
-const V_KONUS := 0.0
-const V_ANGLE := 0.0
-const DETECTING := 80.0
-const EAR := 1.0
-const MAX_SPOK := 30
-const SIGHT_BONUS := 10
-const TARGET_MEMORY := 6
-const DRIFT_INTERVAL := 5
-const SEARCH_DRIFT := 40.0
-const GIVE_UP_SPOK := 15
-const MAX_OBS := 20.0
-const MINUS_OBS := 0.10
-const OBS_GRACE := 30.0
-const SURPRISE_MIN := 40.0
-const SURPRISE_MAX := 59.0
-const IDLE_MIN := 40.0
-const IDLE_MAX := 90.0
-const ALERT_MIN := 100.0
-const ALERT_MAX := 200.0
-const DETECT_DELAY := 100.0
-const WAKE_RADIUS := 500.0
+static var CALM_VISION: float = 0.0
+static var ALERT_VISION: float = 0.0
+static var V_KONUS: float = 0.0
+static var V_ANGLE: float = 0.0
+static var DETECTING: float = 0.0
+static var EAR: float = 0.0
+static var MAX_SPOK: int = 0
+static var SIGHT_BONUS: int = 0
+static var TARGET_MEMORY: int = 0
+static var DRIFT_INTERVAL: int = 0
+static var SEARCH_DRIFT: float = 0.0
+static var GIVE_UP_SPOK: int = 0
+static var MAX_OBS: float = 0.0
+static var MINUS_OBS: float = 0.0
+static var OBS_GRACE: float = 0.0
+static var SURPRISE_MIN: float = 0.0
+static var SURPRISE_MAX: float = 0.0
+static var IDLE_MIN: float = 0.0
+static var IDLE_MAX: float = 0.0
+static var ALERT_MIN: float = 0.0
+static var ALERT_MAX: float = 0.0
+static var DETECT_DELAY: float = 0.0
+static var WAKE_RADIUS: float = 0.0
 ## UnitTurret cone width is vKonus, tested at half that angle. Wall and boss
 ## turrets set HALF_PI (90°). The arm turret (turrettip 3, id turret3) sets
 ## QUARTER_PI (45°). The ceiling turret on this land is id "turret" (cid floor,
@@ -105,26 +128,26 @@ const TURRET_CONE := PI * 0.5
 const ARM_CONE := PI * 0.25
 ## UnitBloat: attRasst 400 unless the id sets attr. bloat0 is 600, bloat4/6/7 are 700.
 ## Parent comb damage 8, charge and neujazMax both 20 ticks.
-const BLOAT_RANGE := 400.0
-const BLOAT_TICKS := 20.0
+static var BLOAT_RANGE: float = 0.0
+static var BLOAT_TICKS: float = 0.0
 ## ebloat (UnitBloatEmitter) comb damage. The nest has no cone and no attRasst.
 const EBLOAT_DAMAGE := 30
 ## UnitMonstrik scorpion claw. closeRange 80 / 80 above / 40 below, hold chance 0.7.
 ## PUNCH_TIME is 15 ticks. WPunch connects when t_attack == rapid - 5.
 ## Map id "scorp" is rolled to scorp1 here (hp 40); scorppunch damage is 12.
-const SCORP_X := 80.0
-const SCORP_ABOVE := 80.0
-const SCORP_BELOW := 40.0
-const SCORP_HOLD := 0.7
-const PUNCH_TICKS := 15.0
-const PUNCH_HIT := 5.0
-const PLAYER_VIS_STILL := 1500.0
-const PLAYER_VIS_MOVE := 2000.0
-const NOISE_RUN := 200.0
-const NOISE_DECAY := 20.0
-const DEMASK_DECAY := 5.0
-const FAST_DEMASK := 200.0
-const SHOT_DEMASK := 500.0
+static var SCORP_X: float = 0.0
+static var SCORP_ABOVE: float = 0.0
+static var SCORP_BELOW: float = 0.0
+static var SCORP_HOLD: float = 0.0
+static var PUNCH_TICKS: float = 0.0
+static var PUNCH_HIT: float = 0.0
+static var PLAYER_VIS_STILL: float = 0.0
+static var PLAYER_VIS_MOVE: float = 0.0
+static var NOISE_RUN: float = 0.0
+static var NOISE_DECAY: float = 0.0
+static var DEMASK_DECAY: float = 0.0
+static var FAST_DEMASK: float = 0.0
+static var SHOT_DEMASK: float = 0.0
 
 const ST_IDLE := 0
 const ST_PATROL := 1
@@ -142,70 +165,185 @@ const ARMOR_MAGIC := ["DAM_BURN", "DAM_LASER", "DAM_PLASMA", "DAM_ELECTRIC", "DA
 const ARMOR_WEAR := ["DAM_PIERCE", "DAM_CUT", "DAM_BLUNT", "DAM_BURN", "DAM_EXPLOSION", "DAM_LASER",
 	"DAM_PLASMA", "DAM_VENOM", "DAM_ELECTRIC", "DAM_ACID", "DAM_COLD", "DAM_BITE", "DAM_BALEFIRE", "DAM_ASTRO"]
 ## Unit.maxShok. A hit shocks for round((rand*0.8+0.2) * maxShok*4 * dam/maxhp), under 5 is none.
-const MAX_SHOK := 30
+static var MAX_SHOK: int = 0
 ## Brain.alarm shock, ticks. UnitMonstrik and UnitAnt use 3–8.
-const ALARM_SHOCK_MIN := 5
-const ALARM_SHOCK_MAX := 20
+static var ALARM_SHOCK_MIN: int = 0
+static var ALARM_SHOCK_MAX: int = 0
 ## Brain_Definition levitWakeShock / levitHoldShock. UnitRaider: 45 and 0.
-const LEVIT_WAKE_SHOCK := 15
-const LEVIT_HOLD_SHOCK := 15
-const RAIDER_LEVIT_WAKE := 45
+static var LEVIT_WAKE_SHOCK: int = 0
+static var LEVIT_HOLD_SHOCK: int = 0
+static var RAIDER_LEVIT_WAKE: int = 0
 ## Brain.STUN_RECHECK: a stunned unit idles and decides again 3 ticks after.
-const STUN_RECHECK := 3.0
+static var STUN_RECHECK: float = 0.0
 ## GunAttack_Definition mazil (extra spread, degrees).
-const HOLD_SPREAD := 5.0
-const MOVE_SPREAD := 16.0
+static var HOLD_SPREAD: float = 0.0
+static var MOVE_SPREAD: float = 0.0
 ## UnitRaider: surprise lasts tupizna to tupizna + 19; close fighters a quarter of tupizna.
-const TUPIZNA := 40
-const SURPRISE_SPREAD := 19
+static var TUPIZNA: int = 0
+static var SURPRISE_SPREAD: int = 0
 ## Brain_Definition default surprise for Brain units outside the raider family.
-const BRAIN_SURPRISE_MIN := 10.0
-const BRAIN_SURPRISE_MAX := 50.0
+static var BRAIN_SURPRISE_MIN: float = 0.0
+static var BRAIN_SURPRISE_MAX: float = 0.0
 ## UnitRaider.DEATH_THROWS and DROP_SCATTER.
-const DEATH_THROWS := 3
-const DROP_SCATTER := 15.0
+static var DEATH_THROWS: int = 0
+static var DROP_SCATTER: float = 0.0
 ## Unit.budilo: makeNoise(noiseRun * 1.2). Unit.noiseRun default 200.
-const UNIT_NOISE_RUN := 200.0
+static var UNIT_NOISE_RUN: float = 0.0
 ## A Location is one room. Only units in the player's room act there; here the
 ## rooms next to it act too. Sight is capped at one room width for the same reason.
-const ACTIVE_REACH := 1
-const CHASE_REACH := 2
+static var ACTIVE_REACH: int = 0
+static var CHASE_REACH: int = 0
 const SIGHT_CAP := ROOM_W
-const ROOM_CHECK_TICKS := 15
+static var ROOM_CHECK_TICKS: int = 0
 ## WalkMotor: porog step-up, Brain DROP_THROUGH / FLOOR_MARGIN / STEP_UP_OFF.
-const STEP_UP := 10.0
-const STEP_UP_OFF := 70.0
-const DROP_THROUGH := 80.0
-const FLOOR_MARGIN := 80.0
+static var STEP_UP: float = 0.0
+static var STEP_UP_OFF: float = 0.0
+static var DROP_THROUGH: float = 0.0
+static var FLOOR_MARGIN: float = 0.0
 ## UnitRaider dangers: GRENADE_CHECK 10 ticks at 0.2, MINE_CHECK 30, flee 20–84 ticks.
-const GRENADE_CHECK := 10
-const GRENADE_CHECK_CHANCE := 0.2
-const MINE_CHECK := 30
-const MINE_FLEE_RANGE := 400.0
-const MINE_SUSPICION := 8
-const FLEE_TIME_MIN := 20.0
-const FLEE_TIME_MAX := 84.0
-const FLEE_SLACK := 30.0
-const FLEE_SPEED := 1.5
-const DASH_CHANCE := 0.3
-const DASH_SPEED := 2.5
-const DASH_PREP_TIME := 20.0
-const DASH_TIME := 35.0
+static var GRENADE_CHECK: int = 0
+static var GRENADE_CHECK_CHANCE: float = 0.0
+static var MINE_CHECK: int = 0
+static var MINE_FLEE_RANGE: float = 0.0
+static var MINE_SUSPICION: int = 0
+static var FLEE_TIME_MIN: float = 0.0
+static var FLEE_TIME_MAX: float = 0.0
+static var FLEE_SLACK: float = 0.0
+static var FLEE_SPEED: float = 0.0
+static var DASH_CHANCE: float = 0.0
+static var DASH_SPEED: float = 0.0
+static var DASH_PREP_TIME: float = 0.0
+static var DASH_TIME: float = 0.0
 
-static var _sense_frame: int = -1
-static var _known_shots: Dictionary = {}
+const AI_PATH := "res://assets/data/balance/ai.json"
+
+
+static func _load_ai() -> bool:
+	var data: Variant = DataLib.load(AI_PATH)
+	var d: Dictionary = data if data is Dictionary else {}
+	SPEED = float(d["speed"])
+	GRAVITY = float(d["gravity"])
+	ATTACK_COOLDOWN = float(d["attack_cooldown"])
+	HOLD_RANGE = float(d["hold_range"])
+	HOLD_CHANCE = float(d["hold_chance"])
+	HOLD_FRESH = int(d["hold_fresh"])
+	BACK_OFF_RANGE = float(d["back_off_range"])
+	BACK_OFF_CHANCE = float(d["back_off_chance"])
+	SWING_MIN = float(d["swing_min"])
+	SWING_MAX = float(d["swing_max"])
+	SWING_HEIGHT = float(d["swing_height"])
+	BODY_SLACK = float(d["body_slack"])
+	LEVEL_SLACK = float(d["level_slack"])
+	REAIM_EVERY = int(d["reaim_every"])
+	REAIM_DIST = float(d["reaim_dist"])
+	DURAK_REAIM = float(d["durak_reaim"])
+	SMART_REAIM = float(d["smart_reaim"])
+	JUMP_TICK = float(d["jump_tick"])
+	ACCEL_RATIO = float(d["accel_ratio"])
+	AIR_CONTROL = float(d["air_control"])
+	JUMP_BOOST = float(d["jump_boost"])
+	HOP_POWER = float(d["hop_power"])
+	LEAP_POWER = float(d["leap_power"])
+	LEAP_SPEED = float(d["leap_speed"])
+	JUMP_CD_MIN = float(d["jump_cd_min"])
+	JUMP_CD_MAX = float(d["jump_cd_max"])
+	HEAD_NEAR = float(d["head_near"])
+	HEAD_FAR = float(d["head_far"])
+	HEAD_AHEAD = float(d["head_ahead"])
+	FAR_BELOW = float(d["far_below"])
+	LEDGE_BRAKE = float(d["ledge_brake"])
+	LEDGE_BRAKE_AT = float(d["ledge_brake_at"])
+	TURN_MIN = int(d["turn_min"])
+	TURN_MAX = int(d["turn_max"])
+	SINGLE_SHOT = float(d["single_shot"])
+	BLIND_SHOT = float(d["blind_shot"])
+	THROW_CHANCE = float(d["throw_chance"])
+	SWING_CHANCE = float(d["swing_chance"])
+	SWING_REACH = float(d["swing_reach"])
+	CHARGE_SPEED = float(d["charge_speed"])
+	WALL_GIVE = float(d["wall_give"])
+	REST_RECHECK = int(d["rest_recheck"])
+	GOAL_EVERY = int(d["goal_every"])
+	CALM_VISION = float(d["calm_vision"])
+	ALERT_VISION = float(d["alert_vision"])
+	V_KONUS = float(d["v_konus"])
+	V_ANGLE = float(d["v_angle"])
+	DETECTING = float(d["detecting"])
+	EAR = float(d["ear"])
+	MAX_SPOK = int(d["max_spok"])
+	SIGHT_BONUS = int(d["sight_bonus"])
+	TARGET_MEMORY = int(d["target_memory"])
+	DRIFT_INTERVAL = int(d["drift_interval"])
+	SEARCH_DRIFT = float(d["search_drift"])
+	GIVE_UP_SPOK = int(d["give_up_spok"])
+	MAX_OBS = float(d["max_obs"])
+	MINUS_OBS = float(d["minus_obs"])
+	OBS_GRACE = float(d["obs_grace"])
+	SURPRISE_MIN = float(d["surprise_min"])
+	SURPRISE_MAX = float(d["surprise_max"])
+	IDLE_MIN = float(d["idle_min"])
+	IDLE_MAX = float(d["idle_max"])
+	ALERT_MIN = float(d["alert_min"])
+	ALERT_MAX = float(d["alert_max"])
+	DETECT_DELAY = float(d["detect_delay"])
+	WAKE_RADIUS = float(d["wake_radius"])
+	BLOAT_RANGE = float(d["bloat_range"])
+	BLOAT_TICKS = float(d["bloat_ticks"])
+	SCORP_X = float(d["scorp_x"])
+	SCORP_ABOVE = float(d["scorp_above"])
+	SCORP_BELOW = float(d["scorp_below"])
+	SCORP_HOLD = float(d["scorp_hold"])
+	PUNCH_TICKS = float(d["punch_ticks"])
+	PUNCH_HIT = float(d["punch_hit"])
+	PLAYER_VIS_STILL = float(d["player_vis_still"])
+	PLAYER_VIS_MOVE = float(d["player_vis_move"])
+	NOISE_RUN = float(d["noise_run"])
+	NOISE_DECAY = float(d["noise_decay"])
+	DEMASK_DECAY = float(d["demask_decay"])
+	FAST_DEMASK = float(d["fast_demask"])
+	SHOT_DEMASK = float(d["shot_demask"])
+	MAX_SHOK = int(d["max_shok"])
+	ALARM_SHOCK_MIN = int(d["alarm_shock_min"])
+	ALARM_SHOCK_MAX = int(d["alarm_shock_max"])
+	LEVIT_WAKE_SHOCK = int(d["levit_wake_shock"])
+	LEVIT_HOLD_SHOCK = int(d["levit_hold_shock"])
+	RAIDER_LEVIT_WAKE = int(d["raider_levit_wake"])
+	STUN_RECHECK = float(d["stun_recheck"])
+	HOLD_SPREAD = float(d["hold_spread"])
+	MOVE_SPREAD = float(d["move_spread"])
+	TUPIZNA = int(d["tupizna"])
+	SURPRISE_SPREAD = int(d["surprise_spread"])
+	BRAIN_SURPRISE_MIN = float(d["brain_surprise_min"])
+	BRAIN_SURPRISE_MAX = float(d["brain_surprise_max"])
+	DEATH_THROWS = int(d["death_throws"])
+	DROP_SCATTER = float(d["drop_scatter"])
+	UNIT_NOISE_RUN = float(d["unit_noise_run"])
+	ACTIVE_REACH = int(d["active_reach"])
+	CHASE_REACH = int(d["chase_reach"])
+	ROOM_CHECK_TICKS = int(d["room_check_ticks"])
+	STEP_UP = float(d["step_up"])
+	STEP_UP_OFF = float(d["step_up_off"])
+	DROP_THROUGH = float(d["drop_through"])
+	FLOOR_MARGIN = float(d["floor_margin"])
+	GRENADE_CHECK = int(d["grenade_check"])
+	GRENADE_CHECK_CHANCE = float(d["grenade_check_chance"])
+	MINE_CHECK = int(d["mine_check"])
+	MINE_FLEE_RANGE = float(d["mine_flee_range"])
+	MINE_SUSPICION = int(d["mine_suspicion"])
+	FLEE_TIME_MIN = float(d["flee_time_min"])
+	FLEE_TIME_MAX = float(d["flee_time_max"])
+	FLEE_SLACK = float(d["flee_slack"])
+	FLEE_SPEED = float(d["flee_speed"])
+	DASH_CHANCE = float(d["dash_chance"])
+	DASH_SPEED = float(d["dash_speed"])
+	DASH_PREP_TIME = float(d["dash_prep_time"])
+	DASH_TIME = float(d["dash_time"])
+	return true
+
+
+static var _ai_ready: bool = _load_ai()
 static var _combat_catalog: Dictionary = {}
 static var _combat_loaded: bool = false
-## Per-frame world facts every enemy shares: player room, room darkness, sneak.
-static var _world_room := Vector2i(-99999, -99999)
-static var _world_vis_mult: float = 1.0
-static var _world_sneak: float = 0.0
-static var _world_stealth: float = 1.0
-static var _world_visi: float = 1.0
-static var _world_crit_invis: float = 0.0
-static var _world_danger: Array = []
-static var _gap_cache: Dictionary = {}
-static var _gap_frame: int = -1
 static var _watch: Node = null
 static var _unit_catalog: Dictionary = {}
 static var _unit_aliases: Dictionary = {}
@@ -230,138 +368,160 @@ static var _prefetch_busy: int = 0
 ## gunner, melee, or turret. Authored creatures set this before they enter the tree.
 var fight_style: String = "gunner"
 var fixed_post: bool = false
-var move_speed: float = SPEED
-var run_speed: float = 180.0
-var melee_damage: int = 12
+var move_speed: float:
+	get:
+		return _move.move_speed
+	set(v):
+		_move.move_speed = v
+var run_speed: float:
+	get:
+		return _move.run_speed
+	set(v):
+		_move.run_speed = v
+var melee_damage: int:
+	get:
+		return _melee.melee_damage
+	set(v):
+		_melee.melee_damage = v
 var body_size: Vector2 = Vector2(48, 56)
 var body_tint: Color = Color.WHITE
 var die_actions: Array = []
-var _slow_t: float = 0.0
+var _slow_t: int = 0
 var _slow_emit: float = 0.0
-## Unit.otbros push in px/s. The AI rewrites velocity.x every tick, so this rides on top and brakes away.
-var _knock_x: float = 0.0
-var _rest_skips := 0
-var _rest_fixed := -1
-var _rest_static_floor := false
-var _stun_t: float = 0.0
-var _ice_t: float = 0.0
-var _blind_t: float = 0.0
+var _stun_t: int = 0
+## Variant so Effects can set seconds (e.t / TPS) or 0.0. The setter stores ticks.
+var _ice_t: Variant = 0:
+	set(v):
+		_ice_t = _as_ticks(v)
+var _blind_t: Variant = 0:
+	set(v):
+		_blind_t = _as_ticks(v)
 var _cut: float = 0.0
 var _poison: float = 0.0
-var _cut_clock: float = 0.0
-var _poison_clock: float = 0.0
-var _burn_left: float = 0.0
-var _burn_clock: float = 0.0
+var _cut_clock: int = 0
+var _poison_clock: int = 0
+var _burn_left: Variant = 0:
+	set(v):
+		_burn_left = _as_ticks(v)
+var _burn_clock: int = 0
 var _burn_dps: float = 2.0
-var _acid_left: float = 0.0
-var _acid_clock: float = 0.0
+var _acid_left: Variant = 0:
+	set(v):
+		_acid_left = _as_ticks(v)
+var _acid_clock: int = 0
 var _acid_dps: float = 2.0
-var _pink_left: float = 0.0
-var _pink_clock: float = 0.0
+var _pink_left: Variant = 0:
+	set(v):
+		_pink_left = _as_ticks(v)
+var _pink_clock: int = 0
 var _pink_dps: float = 20.0
 var _tint: Color = Color.WHITE
-## Raider defaults. Turret / bloat / scorpion overrides come from the land's unit id.
-var _v_konus: float = V_KONUS
-var _ear: float = EAR
-var _calm_vision: float = CALM_VISION
-var _alert_vision: float = ALERT_VISION
-var _swing_x: float = SWING_MAX
-var _swing_above: float = SWING_HEIGHT
-var _swing_below: float = SWING_HEIGHT
-var _strike_cd: float = ATTACK_COOLDOWN
-var _strike_windup: float = 0.0
-var _strike_hold: float = 1.0
-var _contact_bite: bool = false
-var _attack_reach: float = INF
+var _v_konus: float:
+	get:
+		return _senses._v_konus
+	set(v):
+		_senses._v_konus = v
+var _ear: float:
+	get:
+		return _senses._ear
+	set(v):
+		_senses._ear = v
+var _calm_vision: float:
+	get:
+		return _senses._calm_vision
+	set(v):
+		_senses._calm_vision = v
+var _alert_vision: float:
+	get:
+		return _senses._alert_vision
+	set(v):
+		_senses._alert_vision = v
 var _aim_down: bool = false
-var _windup_left: float = 0.0
 var _species_id: String = ""
 var _friendly: bool = false
 ## Map unit with fraction F_PLAYER (UnitRaider.as L451-455): stands or strolls, never follows the player.
 var _ground_ally: bool = false
-var _flying: bool = false
-var _loose_fly: bool = false
-var _wander_left: float = 0.0
-var _sim: float = 0.0
-var _frame_ticks: int = 1
+var _flying: bool:
+	get:
+		return _move._flying
+	set(v):
+		_move._flying = v
+var _frame_ticks: int:
+	get:
+		return _move._frame_ticks
+	set(v):
+		_move._frame_ticks = v
 var _pole_t := 0
 var _necro_shot: bool = false
-var _necro_cd: float = 0.0
-var _jump_free: bool = false
+var _necro_cd: int = 0
 var _fire_down: bool = false
-var _climb: bool = false
-var _climbing: bool = false
-var _climb_locked: bool = false
-var _climb_face: float = -1.0
-## On a ladder rail: the body box is narrowed to CLIMB_BOX_W and pinned to the rail side.
-var _on_rail: bool = false
-var _narrow: bool = false
-## UnitRaider.t_laz / aiLaz / r_laz. Off-ladder t_laz must drop below -30 before a new grab.
-var _t_laz: int = 0
-var _ai_laz: int = 0
-var _r_laz: int = 0
-var _climb_y: float = 0.0
-var _climb_stuck: int = 0
-var _hop_vy: float = 0.0
-var _can_crawl: bool = false
-var _crawling: bool = false
-var _smash: bool = false
-var _body_damage: int = 0
-var _body_cd: float = 0.0
+var _climbing: bool:
+	get:
+		return _move._climbing
+	set(v):
+		_move._climbing = v
 var _comb: int = 0
 var _krep: int = 0
 var _held_weapon: _HeldWeapon
 var _class_anim := false
-var _flyer := false
-var _t_fall := 0
-var _t_landing := 0
 var _anim_class := ""
-var _last_attack_left := 0.0
-var _walker := false
-var _swimming := false
-var _thrown: bool = false
-var _blast: float = 0.0
-var _fuse: float = 2.5
-var _weapon: Dictionary = {}
-var _burst_len: int = 0
-var _burst_left: int = 0
+var _last_attack_left := 0
+var _swimming:
+	get:
+		return _move._swimming
+	set(v):
+		_move._swimming = v
+var _thrown: bool:
+	get:
+		return _weapons._thrown
+	set(v):
+		_weapons._thrown = v
+var _blast: float:
+	get:
+		return _weapons._blast
+	set(v):
+		_weapons._blast = v
+var _weapon: Dictionary:
+	get:
+		return _weapons._weapon
+	set(v):
+		_weapons._weapon = v
+var _burst_left: int:
+	get:
+		return _weapons._burst_left
+	set(v):
+		_weapons._burst_left = v
 var _show_attack: bool = false
-var _attack_left: float = 0.0
+var _attack_left: int = 0
 var _cast: String = ""
-var _cast_ready: float = 3.0
+var _cast_ready: int = 91
 var _cast_gap: float = 16.7
-var _cast_left: float = 0.0
+var _cast_left: int = 0
 var _invis: bool = false
-var _side_id: String = ""
-var _side_ammo: int = 0
-var _side_wait: float = 1.0
-var _side_chance: float = 1.0
-var _gutsy_fire: bool = false
-var _gutsy_scale: float = 1.0
-var _gutsy_burst: int = 0
-var _gutsy_cd: float = 0.0
-var _ranger_side: bool = false
 var _vortex_left: int = 0
-var _vortex_wait: float = 0.0
+var _vortex_wait: int = 0
 var _drop_id: String = ""
 var _buried: bool = false
-var _dig_left: float = -1.0
+var _dig_left: int = -1
 var _downed: bool = false
-var _revive_left: float = 0.0
+var _revive_left: int = 0
 var _revives: bool = false
 var _pet_revive: bool = false
 var _pet_range: float = 200.0
 var _prior: Node2D = null
-## _sense is tracking the prior pet rather than the player.
-var _on_prior := false
+var _on_prior:
+	get:
+		return _senses._on_prior
+	set(v):
+		_senses._on_prior = v
 var _super: String = ""
 var _spit_id: String = ""
 var _rage: float = 0.0
 var _zlo: float = 0.0
 var _prep_need: float = 0.0
 var _super_need: float = 0.0
-var _prep_left: float = 0.0
-var _super_left: float = 0.0
+var _prep_left: int = 0
+var _super_left: int = 0
 var _super_v: float = 900.0
 ## Telekinesis: UnitAlicorn tr 1-3 ("alicorn") or UnitZombie ss 2 / 7 ("ghoul").
 var _tele: RefCounted = null
@@ -378,23 +538,23 @@ var _super_at := Vector2.ZERO
 var _super_tick := 0
 var _rad_left: float = 0.0
 var _rad_power: float = 20.0
-var _quake_step: float = 0.0
+var _quake_step: int = 0
 var _pink_death: bool = false
-var _dop_effect: String = ""
-var _dop_damage: float = 0.0
-var _dop_chance: float = 1.0
-var _encl_bonus: bool = false
-var _hover: float = 70.0
-## Raider gunners hold and hop back. Other families set these from their own class.
-var _bullet_damage: int = 10
-var _bullet_type: String = "DAM_PIERCE"
-var _bullet_speed: float = 360.0
-var _gunner_hold: bool = true
-var _hold_range: float = HOLD_RANGE
-var _hold_chance: float = HOLD_CHANCE
-var _do_backoff: bool = true
-var _chase_shot: bool = true
-var _can_lift: bool = true
+var _hover: float:
+	get:
+		return _move._hover
+	set(v):
+		_move._hover = v
+var _bullet_damage: int:
+	get:
+		return _weapons._bullet_damage
+	set(v):
+		_weapons._bullet_damage = v
+var _can_lift: bool:
+	get:
+		return _move._can_lift
+	set(v):
+		_move._can_lift = v
 var _sheet_native: bool = false
 ## OTHER rig drawing this unit (`_setup_rig`); null on sheet units.
 var rig: RigView = null
@@ -402,53 +562,16 @@ var _sheet_offset: Vector2 = Vector2.ZERO
 var _sheet_cell: Vector2i = Vector2i(120, 120)
 var _sheet_clips: Dictionary = {}
 var _move_clip: String = "walk"
-var _jet := false
-var _jet_n := 100
-var _jet_max := 90
-## WalkMotor.pursue heading (aiNapr). It is not the way the sprite faces.
-var _heading: float = -1.0
-var _cel_dx: float = 0.0
-var _cel_dy: float = 0.0
-var _vert: int = 0
-var _jump_cd: float = 0.0
-var _wall_left: int = 10
-var _accel_tick: float = 3.0
-var _jump_tick: float = JUMP_TICK
-var _jump_reach: bool = true
-var _hop_gaps: bool = true
-var _brake_ledge: bool = false
-var _backpedal: bool = false
-var _air_frac: float = AIR_CONTROL
-var _jump_boost: float = JUMP_BOOST
-var _wall_give: float = WALL_GIVE
-var _turn_at_wall: bool = true
-var _reaim_every: int = REAIM_EVERY
-var _reaim_chance: float = DURAK_REAIM
-var _reaim_dist: float = REAIM_DIST
-var _runs_alert: bool = true
-var _runs_seen: bool = false
-var _chase_mul: float = 1.0
-var _freeze_aim: bool = true
-var _shot_chance: float = SINGLE_SHOT
-var _blind_chance: float = BLIND_SHOT
-var _swing_chance: float = SWING_CHANCE
-var _band_min: float = SWING_MIN
-var _band_max: float = SWING_MAX
-var _band_up: float = SWING_HEIGHT
-var _band_down: float = SWING_HEIGHT
+var _jump_tick: float:
+	get:
+		return _move._jump_tick
+	set(v):
+		_move._jump_tick = v
 var _close_chance: float = 0.0
 var _close_release: bool = false
 var _close_search: bool = true
-var _close_tmin: float = ALERT_MIN
-var _close_tmax: float = ALERT_MAX
-var _leap_above: float = 0.0
-var _ram_while_chase: bool = false
-var _melee_while_chase: bool = false
-var _ram_x: float = 0.0
-var _ram_y: float = 0.0
-var _bite_hop: float = 0.0
-var _shoot_climb: bool = false
-var _need_sight: bool = false
+var _close_tmin: float = 0.0
+var _close_tmax: float = 0.0
 ## units.xml comb / un / vis / param values (enemy_combat.json).
 var _shok: int = 0
 var _skin: float = 0.0
@@ -458,56 +581,41 @@ var _armor_qual: float = 0.0
 var _armor_hp: float = 0.0
 ## Unit.dexter: 1 is standard, 0 is always hit. Bullets read it.
 var dexter: float = 1.0
-var _observ: float = 0.0
 var _weapon_skill: float = 1.0
 var _levit_attack: float = 1.0
 ## Classes whose control pushes dx by levitaccel toward the target while held.
 var _levit_struggle: bool = false
 var _levitaccel: float = 1.6
-var _ai_dist: float = HOLD_RANGE
-var _stroll: bool = true
+var _ai_dist: float = 0.0
 var _trup: bool = true
 ## Unit.damage tip of the last hit, for Desintegr sposob.
 var _die_tip := ""
 var _loot_cont: String = ""
 var fraction: int = 0
-var _noise_run: float = UNIT_NOISE_RUN
+var eid: String = ""
+var kind: StringName = &"unit"
+var faction: int:
+	get:
+		return fraction
+	set(value):
+		fraction = value
 var _drop_arm: bool = false
 var _raider_type: bool = false
 var _fear_grenade: bool = false
-var _can_dash: bool = false
-var _sniper: bool = false
-var _opens_doors: bool = false
-var _climbs_ladders: bool = false
-var _wake_radius: float = WAKE_RADIUS
-var _alarm_radius: float = 0.0
-var _alarm_shock_min: int = ALARM_SHOCK_MIN
-var _alarm_shock_max: int = ALARM_SHOCK_MAX
-var _levit_wake_shock: int = LEVIT_WAKE_SHOCK
-var _levit_hold_shock: int = LEVIT_HOLD_SHOCK
-var _surprise_min: float = SURPRISE_MIN
-var _surprise_max: float = SURPRISE_MAX
-var _mag_cap: int = 0
-var _mag: int = 0
-var _reload_left: float = 0.0
-var _reload_time: float = 0.0
-var _rashod: int = 1
-var _pellets: int = 1
-var _deviation: float = 0.0
-var _mazil: float = 0.0
+var _levit_wake_shock: int = 0
+var _levit_hold_shock: int = 0
+var _surprise_min: float = 0.0
+var _surprise_max: float = 0.0
+var _reload_left: int:
+	get:
+		return _weapons._reload_left
+	set(v):
+		_weapons._reload_left = v
 var _ai_tick: int = 0
 var _dead: bool = false
 var _asleep: bool = false
 var _room_check: int = 0
-var _goal_tick: int = -1
-var _goal_cached: Vector2 = Vector2.ZERO
-var _goal_is_target := false
 var _base_snap: float = 1.0
-var _porog: float = STEP_UP
-var _unit_porog: float = STEP_UP
-var _throu: bool = false
-var _throu_left: float = 0.0
-var _flee_dir: float = 0.0
 ## Dying units still let go of their last throws (UnitRaider.dropLoot).
 var _last_rites: bool = false
 ## vclass units (turrets, drones, bats, bosses, mines...) run their own class's
@@ -522,7 +630,7 @@ var _unit_vis: Dictionary = {}
 
 var hp: int
 var facing: float = -1.0
-var _attack_cd: float = 0.0
+var _attack_cd: int = 0
 var _player: Node2D
 var _current_anim: String = ""
 var levitated: bool = false
@@ -532,17 +640,79 @@ var _dropping: bool = false
 
 var ai_state: int = ST_PATROL
 var ai_spok: int = 0
-var _vision: float = CALM_VISION
-var _overlook: bool = false
-var _track_player: bool = false
-var _aware: bool = false
-var _scene_areas: Variant = null
-var _goal: Vector2 = Vector2.ZERO
-var _memory_left: int = 0
-var _unseen_looks: int = 0
-var _state_left: float = 1.0
-var _sense_left: float = 0.3
-var _detect_delay: float = DETECT_DELAY / TPS
+var _vision: float:
+	get:
+		return _senses._vision
+	set(v):
+		_senses._vision = v
+var _overlook: bool:
+	get:
+		return _senses._overlook
+	set(v):
+		_senses._overlook = v
+var _track_player: bool:
+	get:
+		return _senses._track_player
+	set(v):
+		_senses._track_player = v
+var _goal: Vector2:
+	get:
+		return _move._goal
+	set(v):
+		_move._goal = v
+var _state_left: int = 31
+var _detect_delay: Variant:
+	get:
+		return _senses._detect_delay
+	set(v):
+		_senses._detect_delay = v
+
+
+
+func _init() -> void:
+	_move = _Move.new(self)
+	_senses = _Senses.new(self)
+	_weapons = _Weapons.new(self)
+	_melee = _Melee.new(self)
+	move_speed = SPEED
+	_v_konus = V_KONUS
+	_ear = EAR
+	_calm_vision = CALM_VISION
+	_alert_vision = ALERT_VISION
+	_melee._swing_x = SWING_MAX
+	_melee._swing_above = SWING_HEIGHT
+	_melee._swing_below = SWING_HEIGHT
+	_melee._strike_cd = ATTACK_COOLDOWN
+	_weapons._hold_range = HOLD_RANGE
+	_weapons._hold_chance = HOLD_CHANCE
+	_jump_tick = JUMP_TICK
+	_move._air_frac = AIR_CONTROL
+	_move._jump_boost = JUMP_BOOST
+	_move._wall_give = WALL_GIVE
+	_weapons._reaim_every = REAIM_EVERY
+	_weapons._reaim_chance = DURAK_REAIM
+	_weapons._reaim_dist = REAIM_DIST
+	_weapons._shot_chance = SINGLE_SHOT
+	_weapons._blind_chance = BLIND_SHOT
+	_melee._swing_chance = SWING_CHANCE
+	_melee._band_min = SWING_MIN
+	_melee._band_max = SWING_MAX
+	_melee._band_up = SWING_HEIGHT
+	_melee._band_down = SWING_HEIGHT
+	_close_tmin = ALERT_MIN
+	_close_tmax = ALERT_MAX
+	_ai_dist = HOLD_RANGE
+	_senses._noise_run = UNIT_NOISE_RUN
+	_senses._wake_radius = WAKE_RADIUS
+	_senses._alarm_shock_min = ALARM_SHOCK_MIN
+	_senses._alarm_shock_max = ALARM_SHOCK_MAX
+	_levit_wake_shock = LEVIT_WAKE_SHOCK
+	_levit_hold_shock = LEVIT_HOLD_SHOCK
+	_surprise_min = SURPRISE_MIN
+	_surprise_max = SURPRISE_MAX
+	_move._porog = STEP_UP
+	_move._unit_porog = STEP_UP
+	_vision = CALM_VISION
 
 
 func _notification(what: int) -> void:
@@ -580,9 +750,11 @@ func _prior_target() -> Node2D:
 func _ready() -> void:
 	_tint = body_tint
 	_base_snap = floor_snap_length
+	_hp_mult = _Difficulty.value("enemy_hp")
+	_senses._ear_mult = _Difficulty.value("enemy_ear")
 	_apply_species()
-	if not _friendly:
-		max_hp = GameState.enemy_max_hp(max_hp)
+	if not _friendly and _hp_mult < 1.0:
+		max_hp = maxi(1, int(round(float(max_hp) * _hp_mult)))
 	hp = max_hp
 	if _armor_hp <= 0.0:
 		_armor_hp = float(max_hp)
@@ -602,13 +774,13 @@ func _ready() -> void:
 	if _buried:
 		visible = false
 		set_collision_layer_value(3, false)
-	_player = get_tree().get_first_node_in_group("player")
+	_player = Run.nearest_player(global_position)
 	_goal = global_position
-	_state_left = randf_range(IDLE_MIN, IDLE_MAX) / TPS
-	_sense_left = randf_range(0.05, SENSE_INTERVAL)
-	_fit_body()
+	_state_left = _ticks(Rng.randf_range(&"ai", IDLE_MIN, IDLE_MAX) / TPS)
+	_senses._sense_left = _ticks(Rng.randf_range(&"ai", 0.05, SENSE_INTERVAL))
+	_move._fit_body()
 	_setup_animations()
-	_heading = facing
+	_move._heading = facing
 	_play_anim("idle")
 	anim.modulate = _tint
 	if _brain != null:
@@ -621,14 +793,33 @@ func is_alert() -> bool:
 	return not _is_calm()
 
 
+## Steps a `left -= 1/30` countdown takes before it is <= 0.
+## 30 * (1/30) is a hair under 1, so 1.0 s lasts 31 steps.
+func _ticks(seconds: float) -> int:
+	var left := seconds
+	var n := 0
+	var step := 1.0 / TPS
+	while left > 0.0 and n < 100000:
+		left -= step
+		n += 1
+	return n
+
+
+## Effects and a few brains still pass seconds (or 0.0). Int writes are already ticks.
+func _as_ticks(value: Variant) -> int:
+	if value is float:
+		return _ticks(value)
+	return int(value)
+
+
 func apply_slow(seconds: float) -> void:
-	_slow_t = maxf(_slow_t, seconds)
+	_slow_t = maxi(_slow_t, _ticks(seconds))
 
 
 func apply_stun(ticks: int) -> void:
 	if ticks <= 0 or _is_machine():
 		return
-	_stun_t += float(ticks) / 30.0
+	_stun_t += ticks
 
 
 func apply_on_hit(effect: String, dop: float, dealt: int) -> void:
@@ -641,47 +832,47 @@ func apply_on_hit(effect: String, dop: float, dealt: int) -> void:
 			if _resist("DAM_BLEED") <= 0.1 or _is_machine():
 				return
 			if _cut <= 0.0:
-				_cut_clock = 1.0
+				_cut_clock = 30
 			_cut += dop
 		"poison":
 			if _resist("DAM_POISON") <= 0.1:
 				return
 			if _poison <= 0.0:
-				_poison_clock = 1.0
+				_poison_clock = 30
 			_poison += dop
 		"igni":
 			if _resist("DAM_BURN") <= 0.1:
 				return
-			_ice_t = 0.0
-			_burn_left = 7.0
-			_burn_clock = 0.0
+			_ice_t = 0
+			_burn_left = _ticks(7.0)
+			_burn_clock = 0
 			_burn_dps = dop if dop > 0.0 else 2.0
 		"ice":
 			if _resist("DAM_COLD") <= 0.1 or _is_machine():
 				return
-			_burn_left = 0.0
-			_ice_t = 15.0
+			_burn_left = 0
+			_ice_t = _ticks(15.0)
 		"blind":
 			if _resist("DAM_LASER") <= 0.1 or _is_machine():
 				return
-			_blind_t = 15.0
+			_blind_t = _ticks(15.0)
 		"acid":
 			if _resist("DAM_ACID") <= 0.1:
 				return
-			_acid_left = 15.0
-			_acid_clock = 0.0
+			_acid_left = _ticks(15.0)
+			_acid_clock = 0
 			_acid_dps = dop if dop > 0.0 else 2.0
 		"pink":
 			if _resist("DAM_PINKCLOUD") <= 0.1:
 				return
-			_pink_left = 15.0
-			_pink_clock = 0.0
+			_pink_left = _ticks(15.0)
+			_pink_clock = 0
 			_pink_dps = dop if dop > 0.0 else 20.0
 		"stun":
 			if _is_machine():
 				return
-			if randf() < float(dealt) / maxf(1.0, float(max_hp)):
-				_stun_t = float(dop) / 30.0
+			if Rng.randf(&"combat") < float(dealt) / maxf(1.0, float(max_hp)):
+				_stun_t = _ticks(float(dop) / 30.0)
 
 
 func _is_machine() -> bool:
@@ -695,59 +886,59 @@ func _resist(tip: String) -> float:
 	return 1.0
 
 
-func _tick_ailments(delta: float) -> void:
-	if _ice_t > 0.0:
-		_ice_t = maxf(0.0, _ice_t - delta)
-	if _blind_t > 0.0:
-		_blind_t = maxf(0.0, _blind_t - delta)
-	_cut_clock += delta
-	if _cut > 0.0 and _cut_clock >= 1.0:
-		_cut_clock -= 1.0
+func _tick_ailments(_delta: float) -> void:
+	if _ice_t > 0:
+		_ice_t = maxi(0, int(_ice_t) - _frame_ticks)
+	if _blind_t > 0:
+		_blind_t = maxi(0, int(_blind_t) - _frame_ticks)
+	_cut_clock += _frame_ticks
+	if _cut > 0.0 and _cut_clock >= 31:
+		_cut_clock -= 30
 		var bleed := int(round(sqrt(_cut)))
 		if bleed > 0:
 			_take_dot(bleed, "DAM_BLEED")
 		_cut = maxf(0.0, _cut - 0.2)
-	_poison_clock += delta
-	if _poison > 0.0 and _poison_clock >= 1.0:
-		_poison_clock -= 1.0
+	_poison_clock += _frame_ticks
+	if _poison > 0.0 and _poison_clock >= 31:
+		_poison_clock -= 30
 		var venom := int(round(sqrt(_poison)))
 		if venom > 0:
 			_take_dot(venom, "DAM_POISON")
 		_poison = maxf(0.0, _poison - 0.2)
-	_dot_channel("burn", delta)
-	_dot_channel("acid", delta)
-	_dot_channel("pink", delta)
+	_dot_channel("burn")
+	_dot_channel("acid")
+	_dot_channel("pink")
 
 
-func _dot_channel(which: String, delta: float) -> void:
-	var left := 0.0
-	var clock := 0.0
+func _dot_channel(which: String) -> void:
+	var left := 0
+	var clock := 0
 	var dps := 0.0
 	var tip := ""
 	match which:
 		"burn":
-			left = _burn_left
+			left = int(_burn_left)
 			clock = _burn_clock
 			dps = _burn_dps
 			tip = "DAM_BURN"
 		"acid":
-			left = _acid_left
+			left = int(_acid_left)
 			clock = _acid_clock
 			dps = _acid_dps
 			tip = "DAM_ACID"
 		"pink":
-			left = _pink_left
+			left = int(_pink_left)
 			clock = _pink_clock
 			dps = _pink_dps
 			tip = "DAM_PINKCLOUD"
 		_:
 			return
-	if left <= 0.0:
+	if left <= 0:
 		return
-	clock += delta
-	left = maxf(0.0, left - delta)
-	if clock >= 1.0:
-		clock -= 1.0
+	clock += _frame_ticks
+	left = maxi(0, left - _frame_ticks)
+	if clock >= 31:
+		clock -= 30
 		var pulse := int(round(dps))
 		if pulse > 0:
 			_take_dot(pulse, tip)
@@ -851,13 +1042,24 @@ func set_levitated(active: bool, target: Vector2 = Vector2.ZERO, speed: float = 
 		_brain.command("alarma", "")
 	if active and not was and not _dead and _is_calm():
 		# Brain.reactToLevitation: a calm unit wakes, shocked. Movement stays frozen until release.
-		_wake_allies()
+		_senses._wake_allies()
 		_become_alert(_feet(self))
 		_shok = maxi(_shok, _levit_wake_shock)
 
 
+func _actors_live() -> bool:
+	var run := get_node_or_null("/root/Run")
+	if run == null:
+		return true
+	return run.land() != null and run.local_player() != null
+
+
 func _physics_process(delta: float) -> void:
 	if GameState.paused:
+		return
+	# Loading used to tick units for a variable number of frames before the
+	# player existed. They stay put until the land and the local player are in.
+	if not _actors_live():
 		return
 	if _dead:
 		_corpse_process(delta)
@@ -868,17 +1070,7 @@ func _physics_process(delta: float) -> void:
 	_tick_ailments(delta)
 	_tick_tele()
 	if levitated:
-		if _downed:
-			_revive_left -= delta
-			if _revive_left <= 0.0:
-				_rise()
-		elif _levit_hold_shock > 0 and _shok < _levit_hold_shock:
-			_shok = _levit_hold_shock
-		if _brain != null and _brain.acts_held:
-			_brain.held(delta)
-			if _dead or not levitated:
-				return
-		_float_to_cursor()
+		_physics_levitated(delta)
 		return
 	if not GameState.enemies_think:
 		velocity.x = 0.0
@@ -898,127 +1090,65 @@ func _physics_process(delta: float) -> void:
 		_brain.physics(delta)
 		return
 	if _downed:
-		var was_left := _revive_left
-		_revive_left -= delta
-		# UnitZombie.control: t_res == 25 plays zombie_res.
-		if was_left > 25.0 / TPS and _revive_left <= 25.0 / TPS and _species_id.begins_with("zombie"):
-			UnitFx.snd("zombie_res")
-		if not is_on_floor() and not _flying:
-			velocity.y += GRAVITY * delta
-		_commit_move()
-		_play_anim("die")
-		# UnitZombie.animate: the last 20 ticks of t_res play the die row backwards, with sparks.
-		var t_res := _revive_left * TPS
-		if _anim_class == "zombie" and t_res < 20.0 and t_res >= 0.0 and _current_anim == "die":
-			anim.pause()
-			anim.frame = clampi(int(t_res), 0, anim.sprite_frames.get_frame_count("die") - 1)
-			for _i in _frame_ticks * 3:
-				UnitFx.emit(get_tree(), "die_spark", global_position + Vector2((randf() - 0.5) * body_size.x, -randf() * 10.0))
-		if _revive_left <= 0.0:
-			_rise()
+		_physics_downed(delta)
 		return
 	if _stun_t > 0.0:
-		# Brain.tick with obeysStun: idle, decide again 3 ticks after the stun. No attacks.
-		var was_tick := int(ceil(_stun_t * 30.0))
-		_stun_t = maxf(0.0, _stun_t - delta)
-		if bool(get_meta("robot", false)) and was_tick / 10 != int(ceil(_stun_t * 30.0)) / 10:
-			var mid := _feet(self) - Vector2(0.0, _body_size(self).y * 0.5)
-			UnitFx.emit(get_tree(), "discharge", mid)
-			UnitFx.emit(get_tree(), "iskr", mid, {"kol": 5})
-		_windup_left = 0.0
-		_burst_left = 0
-		ai_state = ST_IDLE
-		_state_left = STUN_RECHECK / TPS
-		velocity.x = 0.0
-		if not is_on_floor() and not _flying:
-			velocity.y += GRAVITY * delta
-		_commit_move()
-		_present(false)
+		_physics_stunned(delta)
 		return
-	_tick_role(delta)
-	if _buried and _dig_left <= 0.0:
-		velocity = Vector2.ZERO
+	if _senses._physics_senses(delta):
 		return
-	_attack_cd = maxf(0.0, _attack_cd - delta)
-	if _windup_left > 0.0:
-		if _cannot_fight():
-			_windup_left = 0.0
-		else:
-			_windup_left = maxf(0.0, _windup_left - delta)
-			if _windup_left <= 0.0:
-				_deliver_strike()
-	if _slow_t > 0.0:
-		_slow_t = maxf(0.0, _slow_t - delta)
-		_slow_emit -= delta
-		if _slow_emit <= 0.0:
-			_slow_emit = 10.0 / 30.0
-			if visible and (absf(velocity.x) > 90.0 or absf(velocity.y) > 150.0):
-				UnitFx.emit(get_tree(), "slow", _feet(self) - Vector2(0.0, _body_size(self).y * 0.25))
-		if _slow_t <= 0.0 and is_instance_valid(anim) and not levitated:
-			anim.modulate = _tint
-		elif is_instance_valid(anim) and not levitated:
-			anim.modulate = Color(_tint.r * 0.7, _tint.g * 0.82, minf(1.0, _tint.b + 0.25))
-	if _player == null or not is_instance_valid(_player):
-		_player = get_tree().get_first_node_in_group("player")
-	if _player != null:
-		_tick_world_senses(_player, delta)
-	if _detect_delay > 0.0:
-		_detect_delay = maxf(0.0, _detect_delay - delta)
-	_sense_left -= delta
-	if _sense_left <= 0.0:
-		_sense_left = SENSE_INTERVAL
-		_sense()
-	_state_left -= delta
-	if _state_left <= 0.0:
-		_decide()
-	_refresh_overlook()
-	_tick_reload(delta)
-	if _frame_ticks > 0 and _species_id == "eqd":
-		_eqd_port()
-	if _frame_ticks > 0 and _raider_type:
-		_watch_for_danger()
-	_apply_throu()
+	_move._physics_move(delta)
 
-	var use_grav := not _flying and not _climbing and not _jump_free and not _buried
-	_swimming = false
-	if use_grav and _UnitWater.swim(self, delta, body_size.y):
-		_swimming = true
-	elif use_grav:
-		var dvy := _UnitWater.fall(self, delta, body_size.y)
-		if dvy < 0.0 or not is_on_floor():
-			velocity.y += dvy
-	if _jet and not _dead:
-		for _i in _frame_ticks:
-			_tick_jet()
-	if _dropping:
-		velocity.x = move_toward(velocity.x, 0.0, 240.0 * delta)
-		_commit_move()
-		anim.flip_h = facing < 0.0
-		if is_on_floor():
-			_dropping = false
-			velocity.x = 0.0
-		elif _class_anim:
-			_present_class()
+func _physics_levitated(delta: float) -> void:
+	if _downed:
+		_revive_left -= _frame_ticks
+		if _revive_left <= 0.0:
+			_rise()
+	elif _levit_hold_shock > 0 and _shok < _levit_hold_shock:
+		_shok = _levit_hold_shock
+	if _brain != null and _brain.acts_held:
+		_brain.held(delta)
+		if _dead or not levitated:
 			return
-		else:
-			_play_anim("fall")
-			return
+	_move._float_to_cursor()
 
-	if _call_is_held():
-		velocity.x = 0.0
-		_commit_move()
-		anim.flip_h = facing < 0.0
-		_play_anim("idle")
-		return
-
-	_crawling = _can_crawl and is_on_floor() and not _climbing and _low_ceiling()
-	var moving := _act()
-	if _crawling:
-		velocity.x = clampf(velocity.x, -2.0 * TPS, 2.0 * TPS)
+func _physics_downed(delta: float) -> void:
+	var was_left := _revive_left
+	_revive_left -= _frame_ticks
+	# UnitZombie.control: t_res == 25 plays zombie_res.
+	if was_left > 25 and _revive_left <= 25 and _species_id.begins_with("zombie"):
+		UnitFx.snd("zombie_res")
+	if not is_on_floor() and not _flying:
+		velocity.y += GRAVITY * delta
 	_commit_move()
-	_present(moving)
+	_play_anim("die")
+	# UnitZombie.animate: the last 20 ticks of t_res play the die row backwards, with sparks.
+	var t_res := float(_revive_left)
+	if _anim_class == "zombie" and t_res < 20.0 and t_res >= 0.0 and _current_anim == "die":
+		anim.pause()
+		anim.frame = clampi(int(t_res), 0, anim.sprite_frames.get_frame_count("die") - 1)
+		for _i in _frame_ticks * 3:
+			Fx.particles("die_spark", global_position + Vector2((Rng.randf(&"fx") - 0.5) * body_size.x, -Rng.randf(&"fx") * 10.0), {"source": self})
+	if _revive_left <= 0.0:
+		_rise()
 
-
+func _physics_stunned(delta: float) -> void:
+	# Brain.tick with obeysStun: idle, decide again 3 ticks after the stun. No attacks.
+	var was_tick := _stun_t
+	_stun_t = maxi(0, _stun_t - _frame_ticks)
+	if bool(get_meta("robot", false)) and was_tick / 10 != _stun_t / 10:
+		var mid := _feet(self) - Vector2(0.0, _body_size(self).y * 0.5)
+		Fx.particles("discharge", mid, {"source": self})
+		Fx.particles("iskr", mid, {"kol": 5, "source": self})
+	_melee._windup_left = 0
+	_burst_left = 0
+	ai_state = ST_IDLE
+	_state_left = _ticks(STUN_RECHECK / TPS)
+	velocity.x = 0.0
+	if not is_on_floor() and not _flying:
+		velocity.y += GRAVITY * delta
+	_commit_move()
+	_present(false)
 func _call_is_held() -> bool:
 	if not has_method("is_held"):
 		return false
@@ -1036,59 +1166,6 @@ func _is_calm() -> bool:
 ## UnitRaider.isAttacking / SideWeaponAttack.isActive.
 func _is_attacking() -> bool:
 	return ai_state == ST_CHASE or ai_state == ST_HOLD or ai_state == ST_FLEE or ai_state == ST_DASH
-
-
-func _refresh_overlook() -> void:
-	# looksBehindWhenAlert: 360° while searching, chasing, fleeing, or dashing. Calm stays forward.
-	# Surprise does not change the flag.
-	if ai_state == ST_SEARCH or ai_state == ST_CHASE or ai_state == ST_FLEE or ai_state == ST_DASH:
-		_overlook = true
-	elif _is_calm():
-		_overlook = false
-
-
-func _patrol() -> bool:
-	if _climb and wall_check.is_colliding():
-		_climbing = true
-		return _climb_step()
-	if _hop_vy > 0.0 and not floor_check.is_colliding() and is_on_floor():
-		velocity.y = -_hop_vy
-	elif not floor_check.is_colliding() or wall_check.is_colliding():
-		facing *= -1.0
-		floor_check.position.x = absf(floor_check.position.x) * facing
-		wall_check.target_position.x = absf(wall_check.target_position.x) * facing
-		_aim_probes()
-	velocity.x = facing * (move_speed if move_speed > 0.0 else SPEED) * 0.6
-	_heading = facing
-	return true
-
-
-func _float_to_cursor() -> void:
-	# The player integrates Telekinesis.hold and writes the position.
-	if bool(get_meta("tele_driven", false)):
-		velocity = Vector2.ZERO
-		floor_snap_length = 0.0
-		if is_instance_valid(anim):
-			anim.flip_h = facing < 0.0
-			anim.modulate = preload("res://scripts/magic_aura.gd").tele_tint()
-		_lev_anim()
-		return
-	var center_offset := Vector2.ZERO
-	var shape_node := get_node_or_null("CollisionShape2D") as Node2D
-	if shape_node:
-		center_offset = shape_node.position
-	var to := _lev_point - (global_position + center_offset)
-	var dist := to.length()
-	if dist > 2.0:
-		velocity = to * (_lev_speed / dist)
-	else:
-		velocity = Vector2.ZERO
-	_commit_move()
-	anim.flip_h = facing < 0.0
-	anim.modulate = Color(0.75, 0.9, 1.2)
-	_lev_anim()
-
-
 func _lev_anim() -> void:
 	if _brain != null:
 		_brain.animate()
@@ -1111,7 +1188,7 @@ func levit_pull(vel: Vector2) -> Vector2:
 	if not _levit_struggle or _is_calm():
 		return Vector2.ZERO
 	var target := _goal
-	if _track_player and _player_valid():
+	if _track_player and _senses._player_valid():
 		target = _player.global_position
 	var dir := signf(target.x - global_position.x)
 	var cap := (run_speed if ai_spok >= MAX_SPOK else move_speed) / TPS
@@ -1127,400 +1204,70 @@ func _act() -> bool:
 		return _pet_act()
 	if _dig_left > 0.0 or _prep_left > 0.0:
 		velocity.x = 0.0
-		if _player_valid():
+		if _senses._player_valid():
 			facing = signf(_player.global_position.x - global_position.x)
 		return false
-	if _jump_free:
+	if _move._jump_free:
 		return absf(velocity.x) > 8.0
 	if _super_left > 0.0 and _super != "jump":
 		velocity.x = 0.0
 		return false
-	if _loose_fly:
-		_wander_left -= get_physics_process_delta_time()
-		if not _track_player and _wander_left <= 0.0:
-			_wander_left = randf_range(100.0, 200.0) / TPS
-			_goal = global_position + Vector2(randf_range(-700.0, 700.0), randf_range(-100.0, 200.0))
+	if _move._loose_fly:
+		_move._wander_left -= _frame_ticks
+		if not _track_player and _move._wander_left <= 0.0:
+			_move._wander_left = _ticks(Rng.randf_range(&"ai", 100.0, 200.0) / TPS)
+			_goal = global_position + Vector2(Rng.randf_range(&"ai", -700.0, 700.0), Rng.randf_range(&"ai", -100.0, 200.0))
 	elif _track_player and _player != null and is_instance_valid(_player):
-		_goal = _player_goal()
-	if _climbing or (_climb and wall_check.is_colliding() and not _flying):
+		_goal = _move._player_goal()
+	if _climbing or (_move._climb and wall_check.is_colliding() and not _flying):
 		_climbing = true
-		return _climb_step()
-	if _flyer:
-		_tick_flyer()
+		return _move._climb_step()
+	if _move._flyer:
+		_move._tick_flyer()
 	if _flying:
 		var point := _goal
-		if _flyer and not _track_player:
+		if _move._flyer and not _track_player:
 			# UnitRaider: a calm flyer's celY is its floor line, so it sinks and lands.
 			point = Vector2(_goal.x, global_position.y + 40.0)
-		elif not _loose_fly:
+		elif not _move._loose_fly:
 			point += Vector2(0.0, -_hover)
-		return _fly_toward(point, fight_style != "melee" and _chase_shot and not _gutsy_fire)
+		return _move._fly_toward(point, fight_style != "melee" and _weapons._chase_shot and not _weapons._gutsy_fire)
 	if fixed_post:
 		velocity.x = 0.0
 		if ai_state == ST_HOLD or ai_state == ST_CHASE:
-			_aim()
+			_weapons._aim()
 			return _hold()
 		return false
 	# Brain.act while alert: aim, maybe stop in reach, then chase or hold.
 	if not _is_calm() and ai_state != ST_SURPRISED:
-		_aim()
+		_weapons._aim()
 		if ai_state == ST_SEARCH or ai_state == ST_CHASE or ai_state == ST_DASH:
-			_reaim()
-		elif ai_state == ST_FLEE and _flee_dir != 0.0:
-			_heading = _flee_dir
-		_hold_if_close()
+			_weapons._reaim()
+		elif ai_state == ST_FLEE and _move._flee_dir != 0.0:
+			_move._heading = _move._flee_dir
+		_move._hold_if_close()
 	match ai_state:
 		ST_IDLE:
 			velocity.x = 0.0
 			return false
 		ST_PATROL, ST_SURPRISED:
 			# Raiders set turnsWhenSurprised = false, so surprise keeps the patrol.
-			return _patrol()
+			return _move._patrol()
 		ST_SEARCH, ST_CHASE, ST_FLEE, ST_DASH:
-			return _pursue()
+			return _move._pursue()
 		ST_DASH_PREP:
 			velocity.x = move_toward(velocity.x, 0.0, 900.0 * get_physics_process_delta_time())
-			if absf(_cel_dx) > 1.0:
-				facing = signf(_cel_dx)
-			_aim_probes()
+			if absf(_move._cel_dx) > 1.0:
+				facing = signf(_move._cel_dx)
+			_weapons._aim_probes()
 			return false
 		ST_HOLD:
 			return _hold()
 		_:
 			velocity.x = 0.0
 			return false
-
-
 func _hold() -> bool:
-	# WalkMotor.hold: stop, face the target. Brain.backOffIfCrowded may leave hold.
-	var delta := get_physics_process_delta_time()
-	velocity.x = move_toward(velocity.x, 0.0, 900.0 * delta)
-	if absf(_cel_dx) > 1.0:
-		facing = signf(_cel_dx)
-		_heading = facing
-	elif _target_dx() != 0.0:
-		facing = signf(_target_dx())
-		_heading = facing
-	_aim_probes()
-	var left := _back_off_if_crowded()
-	_tick_attacks()
-	return left
-
-
-func _leap_back() -> void:
-	# WalkMotor.leapBack: runSpeed * LEAP_BACK_SPEED away, then jump(LEAP_BACK).
-	var dx := _cel_dx if absf(_cel_dx) > 1.0 else _target_dx()
-	var away := -signf(dx) if dx != 0.0 else -facing
-	var spd := run_speed if run_speed > 0.0 else move_speed
-	velocity.x = away * spd * LEAP_SPEED
-	_do_jump(LEAP_POWER)
-
-
-func _melee_swing() -> void:
-	if not _player_valid() or _attack_cd > 0.0 or _windup_left > 0.0 or not _in_swing_band():
-		return
-	_attack_cd = _strike_cd
-	if _show_attack:
-		_attack_left = PUNCH_TICKS / TPS
-	if _strike_windup > 0.0:
-		_windup_left = _strike_windup
-		return
-	_deliver_strike()
-
-
-func _deliver_strike() -> void:
-	if not _player_valid() or not _in_swing_band():
-		return
-	if _player.has_method("take_hit") and not _player_dodges():
-		_udar_fx(_bullet_type)
-		_player.take_hit(melee_damage)
-	if _zlo > 0.0 and _rage > 80.0:
-		_rage = maxf(0.0, _rage - 25.0)
-
-
-func _in_swing_band() -> bool:
-	if not _player_valid():
-		return false
-	if _contact_bite:
-		if _target_distance() > _attack_reach:
-			return false
-		return _boxes_touch()
-	var dx := absf(_player.global_position.x - global_position.x)
-	var dy := _player.global_position.y - global_position.y
-	if dx > _swing_x:
-		return false
-	if dy >= 0.0:
-		return dy <= _swing_below
-	return -dy <= _swing_above
-
-
-func _boxes_touch() -> bool:
-	var mine := _body_size(self)
-	var theirs := _body_size(_player)
-	var dx := absf(_player.global_position.x - global_position.x)
-	if dx > (mine.x + theirs.x) * 0.5:
-		return false
-	var dy := _player.global_position.y - global_position.y
-	return -mine.y < dy and dy - theirs.y < 0.0
-
-
-## Brain.aim. Horizontal aim uses the doorway gap when the target is in another room.
-## Vertical aim is the original celDY, and raiders freeze it in the air.
-func _aim() -> void:
-	var my := _body_center(self)
-	var point := _goal
-	if _track_player and _player_valid():
-		point = _player_goal()
-		_cel_dx = point.x - my.x
-		if is_on_floor() or not _freeze_aim:
-			var their := _body_center(_player)
-			var top := their.y - _body_size(_player).y * 0.5
-			_cel_dy = top - my.y + body_size.y
-	else:
-		_cel_dx = point.x - my.x
-		if is_on_floor() or not _freeze_aim:
-			_cel_dy = point.y - my.y + body_size.y
-	if is_on_floor() or not _freeze_aim:
-		if _cel_dy > LEVEL_SLACK:
-			_vert = 1
-		elif _cel_dy < -LEVEL_SLACK:
-			_vert = -1
-		else:
-			_vert = 0
-	# Brain.aim: porog off while the target is far below.
-	_porog = 0.0 if _cel_dy > STEP_UP_OFF else _unit_porog
-
-
-## Brain.reaim. Durak raiders turn toward a far target only half the time.
-## The original tests aiTCh % reaimInterval == 1 once per tick.
-func _reaim() -> void:
-	if _frame_ticks <= 0 or _reaim_every <= 0:
-		return
-	var fire := false
-	for k in _frame_ticks:
-		if (_ai_tick - k) % _reaim_every == 1:
-			fire = true
-	if not fire:
-		return
-	if randf() >= _reaim_chance:
-		return
-	if _cel_dx > _reaim_dist:
-		_heading = 1.0
-	elif _cel_dx < -_reaim_dist:
-		_heading = -1.0
-
-
-## Brain.holdIfClose. Melee and scorpions stop inside their band. A miss keeps chasing.
-func _hold_if_close() -> void:
-	if _close_chance <= 0.0:
-		return
-	var ax := absf(_cel_dx)
-	var in_band := ax >= _band_min and ax <= _band_max and _cel_dy >= -_band_up and _cel_dy <= _band_down
-	if ai_state == ST_HOLD and _close_release and not in_band:
-		ai_state = ST_CHASE
-		return
-	var searching := ai_state == ST_SEARCH and _close_search
-	if ai_state != ST_CHASE and not searching:
-		return
-	if not _track_player or not in_band or _frame_ticks <= 0:
-		return
-	if randf() < _close_chance:
-		if ai_state != ST_HOLD:
-			_state_left = randf_range(_close_tmin, _close_tmax) / TPS
-		ai_state = ST_HOLD
-
-
-## Brain.backOffIfCrowded. Inside the range the gunner always leaves hold, and sometimes hops back.
-func _back_off_if_crowded() -> bool:
-	if not _do_backoff or fixed_post or fight_style == "melee" or fight_style == "turret":
-		return false
-	if _cel_dx * _cel_dx + _cel_dy * _cel_dy >= BACK_OFF_RANGE * BACK_OFF_RANGE:
-		return false
-	if _frame_ticks > 0 and randf() < BACK_OFF_CHANCE:
-		_leap_back()
-	ai_state = ST_CHASE
-	return true
-
-
-## WalkMotor.pursue. Accelerate along aiNapr, hop gaps, jump to a target above, hop a wall.
-func _pursue() -> bool:
-	var delta := get_physics_process_delta_time()
-	if _jump_cd > 0.0:
-		_jump_cd -= delta
-	var jump_power := 0.0
-	if _frame_ticks > 0 and _jump_reach and _vert < 0 and _jump_cd <= 0.0 and _ai_tick % 2 == 1 and _can_jump_up():
-		jump_power = 1.0
-	_aim_heading_probes()
-	if _frame_ticks > 0 and is_on_floor() and _over_ledge():
-		if _hop_gaps and _vert != 1 and randf() < 0.5:
-			jump_power = HOP_POWER
-		elif _brake_ledge and absf(velocity.x) > LEDGE_BRAKE_AT * TPS:
-			velocity.x *= LEDGE_BRAKE
-	if _frame_ticks > 0 and is_on_floor() and _into_wall() and not _step_up():
-		if _opens_doors:
-			_open_door_ahead()
-		jump_power = _bump_wall(jump_power)
-	if ai_state == ST_SEARCH or ai_state == ST_CHASE:
-		_climb_toward_target()
-		if _climbing:
-			return _climb_step()
-	var cap := _speed_cap()
-	var add := _accel_tick * 900.0 * delta
-	if not is_on_floor() and not _climbing:
-		add *= _air_frac
-	var dir := _heading if _heading != 0.0 else facing
-	if dir < 0.0:
-		if velocity.x > -cap:
-			velocity.x -= add
-		elif velocity.x < -cap:
-			velocity.x = minf(velocity.x + 900.0 * delta, -cap)
-	elif dir > 0.0:
-		if velocity.x < cap:
-			velocity.x += add
-		elif velocity.x > cap:
-			velocity.x = maxf(velocity.x - 900.0 * delta, cap)
-	if jump_power > 0.0:
-		facing = dir
-		_do_jump(jump_power)
-	elif _backpedal and absf(_cel_dx) > 1.0:
-		facing = signf(_cel_dx)
-	else:
-		facing = dir
-	_aim_probes()
-	_maybe_smash()
-	if ai_state == ST_CHASE or ai_state == ST_FLEE or ai_state == ST_DASH:
-		_tick_attacks()
-	return absf(velocity.x) > 8.0
-
-
-func _speed_cap() -> float:
-	# Brain.speedFor + WalkMotor backpedal slowdown.
-	var spd_run := run_speed if run_speed > 0.0 else (move_speed if move_speed > 0.0 else SPEED)
-	if ai_state == ST_FLEE:
-		return spd_run * FLEE_SPEED
-	if ai_state == ST_DASH:
-		return spd_run * DASH_SPEED
-	var running := _runs_alert or (_runs_seen and ai_spok >= MAX_SPOK)
-	var cap := move_speed if move_speed > 0.0 else SPEED
-	if running and run_speed > 0.0:
-		cap = run_speed
-		if ai_state == ST_CHASE:
-			cap *= _chase_mul
-	if _backpedal and facing * _heading < 0.0:
-		cap = move_speed if move_speed > 0.0 else SPEED
-	return cap
-
-
-func _into_wall() -> bool:
-	if not is_on_wall():
-		return false
-	var dir := _heading if _heading != 0.0 else facing
-	for i in get_slide_collision_count():
-		var normal := get_slide_collision(i).get_normal()
-		if normal.x * dir < -0.5:
-			return true
-	return false
-
-
-func _bump_wall(jump_power: float) -> float:
-	# WalkMotor.bumpWall. A target behind turns us at once. Otherwise hop the wall, then give up.
-	var away := -_heading if _heading != 0.0 else -facing
-	if _turn_at_wall and _cel_dx * _heading < 0.0:
-		_heading = away
-		_wall_left = randi_range(TURN_MIN, TURN_MAX)
-		return jump_power
-	_wall_left -= _frame_ticks
-	var blocked := randf() < _wall_give or _cel_dy > FAR_BELOW or not _can_jump_up()
-	if blocked:
-		_wall_left -= 10
-	else:
-		jump_power = 1.0
-	if _wall_left < 0 and is_on_floor():
-		_heading = away
-		_wall_left = randi_range(TURN_MIN, TURN_MAX)
-	return jump_power
-
-
-## UnitAIRobot.control: walking into a wall calls jump(1) every tick.
-func _tick_jet() -> void:
-	if is_on_floor():
-		_jet_n = _jet_max
-	var ahead := _heading if _heading != 0.0 else facing
-	if ai_state != ST_IDLE and is_on_wall() and get_wall_normal().x * ahead < 0.0:
-		_jet_jump(1.0)
-
-
-## UnitProtect.jump: on the floor jump_n refills, in the air it counts down;
-## each call lifts by jumpdy / 4 while rising slower than jumpdy.
-func _jet_jump(v: float) -> void:
-	if is_on_floor():
-		_jet_n = _jet_max
-	else:
-		_jet_n -= 1
-	if velocity.y > -_jump_tick * TPS and _jet_n > 0:
-		velocity.y -= _jump_tick * TPS * v / 4.0
-
-
-func _do_jump(power: float) -> void:
-	if _jet:
-		_jump_cd = randf_range(JUMP_CD_MIN, JUMP_CD_MAX) / TPS
-		_jet_jump(power)
-		return
-	# WalkMotor.jump. Hop strength is half; a leap back is 0.4. Rats keep their own hop.
-	_jump_cd = randf_range(JUMP_CD_MIN, JUMP_CD_MAX) / TPS
-	if is_on_floor() or _climbing:
-		if power <= HOP_POWER and _hop_vy > 0.0:
-			velocity.y = -_hop_vy
-		else:
-			velocity.y = -_jump_tick * TPS * power
-		velocity.x += facing * _accel_tick * TPS * _jump_boost
-		_end_climb()
-
-
-func _can_jump_up() -> bool:
-	# WalkMotor.canJumpUp. Clear at 85 and 125 above the feet, and the same a step ahead.
-	var ahead := _heading if _heading != 0.0 else facing
-	var feet := global_position
-	var spots: Array[Vector2] = [
-		feet + Vector2(0.0, -HEAD_NEAR),
-		feet + Vector2(0.0, -HEAD_FAR),
-		feet + Vector2(HEAD_AHEAD * ahead, -HEAD_NEAR),
-		feet + Vector2(HEAD_AHEAD * ahead, -HEAD_FAR),
-	]
-	for spot in spots:
-		if not _point_clear(spot):
-			return false
-	return true
-
-
-func _point_clear(at: Vector2) -> bool:
-	var space := get_world_2d().direct_space_state
-	if space == null:
-		return true
-	var query := PhysicsPointQueryParameters2D.new()
-	query.position = at
-	query.collision_mask = 1
-	query.collide_with_areas = false
-	query.collide_with_bodies = true
-	return space.intersect_point(query, 1).is_empty()
-
-
-func _over_ledge() -> bool:
-	return is_on_floor() and not floor_check.is_colliding()
-
-
-func _aim_heading_probes() -> void:
-	var side := _heading if _heading != 0.0 else facing
-	floor_check.position.x = absf(floor_check.position.x) * side
-	wall_check.target_position.x = absf(wall_check.target_position.x) * side
-	floor_check.force_raycast_update()
-	wall_check.force_raycast_update()
-
-
-func _udar_fx(damage_type: String) -> void:
-	preload("res://scripts/impact_fx.gd").udar_unit(get_tree(), _body_center(_player), _body_center(self), damage_type)
-
-
+	return _move._hold()
 func _body_center(body: Node2D) -> Vector2:
 	var feet := _feet(body)
 	return Vector2(feet.x, feet.y - _body_size(body).y * 0.5)
@@ -1528,329 +1275,59 @@ func _body_center(body: Node2D) -> Vector2:
 
 ## GunAttack.tick and WeaponAttack.tick, plus BodyAttack while chasing.
 func _tick_attacks() -> void:
-	if _frame_ticks <= 0 or _cannot_fight() or _gutsy_fire:
+	if _frame_ticks <= 0 or _cannot_fight() or _weapons._gutsy_fire:
 		return
 	var chasing := ai_state == ST_CHASE
 	var holding := ai_state == ST_HOLD
 	var fleeing := ai_state == ST_FLEE
-	if fight_style != "melee" and (holding or fleeing or (chasing and _chase_shot)):
-		_gun_try()
-	if fight_style == "melee" and (holding or ((chasing or fleeing) and _melee_while_chase)):
-		_melee_try()
-	if _ram_while_chase and (chasing or fleeing or ai_state == ST_DASH or (holding and fight_style == "melee")):
-		_ram_hit()
-
-
-func _gun_try() -> void:
-	# GunAttack: bursts while chase, hold, or flee. Single shots are a roll each tick, only unshocked.
-	if _climbing and not _shoot_climb:
-		return
-	if _v_konus > 0.0 and _player_valid() and _look(_player) <= 0.0:
-		return
-	var seen := _track_player and _player_valid()
-	if _need_sight and not seen:
-		return
-	if _sniper:
-		_mazil = 0.0
-	else:
-		_mazil = HOLD_SPREAD if ai_state == ST_HOLD else MOVE_SPREAD
-	var target := _player.global_position if seen else _goal
-	# Turrets keep the weapon's own rate. Raider GunAttack rolls single shots.
-	if fight_style == "turret":
-		if _attack_cd <= 0.0:
-			_shoot_at(target)
-		return
-	if _burst_len > 0:
-		if _sniper and not seen:
-			return
-		if _gun_ready():
-			_shoot_at(target)
-		return
-	if _attack_cd > 0.0:
-		return
-	if _shok > 0 and not _thrown:
-		return
-	var chance := _shot_chance if seen else _blind_chance
-	if chance <= 0.0:
-		return
-	for _i in _frame_ticks:
-		if randf() < chance:
-			_shoot_at(target)
-			return
-
-
-func _melee_try() -> void:
-	# WeaponAttack: chance per tick inside the weapon's reach. Scorpions leap at a target above.
-	# A raider's levitated swing stops while shocked (stopsWhenShocked).
-	if _attack_cd > 0.0 or _windup_left > 0.0:
-		return
-	if _raider_type and _shok > 0:
-		return
-	if not _in_swing_band():
-		return
-	var swung := false
-	for _i in _frame_ticks:
-		if randf() < _swing_chance:
-			swung = true
-			break
-	if not swung:
-		return
-	if _leap_above > 0.0 and _cel_dy < -_leap_above and is_on_floor():
-		_do_jump(1.0)
-		velocity.x = 0.0
-	_melee_swing()
-
-
-## Unit.udarUnit returns at once while the target's neujaz runs: no hit, no udar sound.
-func _player_dodges() -> bool:
-	if _player.has_method("can_be_hit") and not bool(_player.call("can_be_hit")):
-		return true
-	return _player.has_method("dodge_roll") and bool(_player.call("dodge_roll"))
-
-
-func _ram_hit() -> void:
-	# BodyAttack.attKorp when the boxes overlap. The player's own invuln spaces the hits.
-	if not _player_valid():
-		return
-	if _ram_x > 0.0 and absf(_cel_dx) > _ram_x:
-		return
-	if _ram_y > 0.0 and absf(_cel_dy) > _ram_y:
-		return
-	if not _boxes_touch():
-		return
-	if _player.has_method("take_hit") and not _player_dodges():
-		var dmg := _body_damage if _body_damage > 0 else melee_damage
-		_udar_fx(_bullet_type)
-		_player.take_hit(dmg)
-	if _bite_hop > 0.0 and is_on_floor():
-		_do_jump(_bite_hop)
-
-
-## The doorway-aware goal toward the player, worked out once per 30 Hz tick.
-func _player_goal() -> Vector2:
-	if not _player_valid():
-		return _goal
-	var target := _player.global_position
-	if floori(target.x / ROOM_W) == floori(global_position.x / ROOM_W) and floori(target.y / ROOM_H) == floori(global_position.y / ROOM_H):
-		return target
-	# Another room: the opening search casts rays, so it is redone every GOAL_EVERY ticks.
-	if _goal_tick < 0 or _ai_tick < _goal_tick or _ai_tick - _goal_tick >= GOAL_EVERY:
-		_goal_tick = _ai_tick
-		_goal_cached = _opening_goal(target)
-		_goal_is_target = _goal_cached == target
-	return target if _goal_is_target else _goal_cached
-
-
-## Chase across a carved opening. A side gap at body height is already on the
-## way to the player's x. A floor hole is not, so aim at that gap. A closed
-## door is solid on the same ray and is left alone.
-func _opening_goal(target: Vector2) -> Vector2:
-	var dx := int(floor(target.x / ROOM_W)) - int(floor(global_position.x / ROOM_W))
-	var dy := int(floor(target.y / ROOM_H)) - int(floor(global_position.y / ROOM_H))
-	if dx == 0 and dy == 0:
-		return target
-	if _ray_clear(_eye_pos(), target + Vector2(0.0, -28.0), 1):
-		return target
-	if dx != 0 and _side_open(signf(float(dx))):
-		return target
-	if dy != 0:
-		var hole := _floor_gap_x(target, signf(float(dy)))
-		if is_finite(hole):
-			return Vector2(hole, target.y)
-	return target
-
-
-func _side_open(dir: float) -> bool:
-	var edge: float = (floor(global_position.x / ROOM_W) + (1.0 if dir > 0.0 else 0.0)) * ROOM_W
-	var chest_y := _eye_pos().y
-	var foot_y := global_position.y - 8.0
-	return _ray_clear(Vector2(edge - 10.0, chest_y), Vector2(edge + 10.0, chest_y), 1) \
-		or _ray_clear(Vector2(edge - 10.0, foot_y), Vector2(edge + 10.0, foot_y), 1)
-
-
-func _floor_gap_x(target: Vector2, dir: float) -> float:
-	var edge_y: float = (floor(global_position.y / ROOM_H) + (1.0 if dir > 0.0 else 0.0)) * ROOM_H
-	var x0: float = floor(global_position.x / ROOM_W) * ROOM_W
-	# One scan of a room edge serves every enemy for a second. Doors opening there show up after.
-	var frame := Engine.get_physics_frames()
-	if frame - _gap_frame > 60:
-		_gap_frame = frame
-		_gap_cache.clear()
-	var key := Vector2i(int(x0), int(edge_y))
-	if not _gap_cache.has(key):
-		var open: PackedFloat32Array = PackedFloat32Array()
-		for i in 48:
-			var gx: float = x0 + (float(i) + 0.5) * 40.0
-			if _ray_clear(Vector2(gx, edge_y - 12.0), Vector2(gx, edge_y + 12.0), 65):
-				open.append(gx)
-		_gap_cache[key] = open
-	var best := INF
-	var best_d := INF
-	for x in (_gap_cache[key] as PackedFloat32Array):
-		var d := absf(x - target.x)
-		if d < best_d:
-			best_d = d
-			best = x
-	return best
-
-
-func _ray_clear(a: Vector2, b: Vector2, mask: int) -> bool:
-	var world := get_world_2d()
-	if world == null:
-		return true
-	var query := PhysicsRayQueryParameters2D.create(a, b, mask)
-	query.collide_with_areas = false
-	query.hit_from_inside = false
-	return world.direct_space_state.intersect_ray(query).is_empty()
-
-
-func _player_valid() -> bool:
-	return _player != null and is_instance_valid(_player)
-
-
-func _target_dx() -> float:
-	if _on_prior and _prior_target() != null:
-		return _prior.global_position.x - global_position.x
-	if _player_valid():
-		return _player.global_position.x - global_position.x
-	return _goal.x - global_position.x
-
-
-func _target_distance() -> float:
-	if _on_prior and _prior_target() != null:
-		return global_position.distance_to(_prior.global_position)
-	if _player_valid():
-		return global_position.distance_to(_player.global_position)
-	return global_position.distance_to(_goal)
-
-
+	if fight_style != "melee" and (holding or fleeing or (chasing and _weapons._chase_shot)):
+		_weapons._gun_try()
+	if fight_style == "melee" and (holding or ((chasing or fleeing) and _melee._melee_while_chase)):
+		_melee._melee_try()
+	if _melee._ram_while_chase and (chasing or fleeing or ai_state == ST_DASH or (holding and fight_style == "melee")):
+		_melee._ram_hit()
 ## Brain.pickAttack. Gunners hold for a fresh sighting inside aiDist (holdRange).
 ## Dashers (zebras) sometimes get ready to dash at a target in sight.
 func _pick_attack() -> int:
 	if fixed_post or fight_style == "turret":
 		return ST_HOLD
 	var state := ST_CHASE
-	if fight_style == "gunner" and _gunner_hold and ai_spok >= MAX_SPOK + HOLD_FRESH:
-		var range := _ai_dist if _raider_type else _hold_range
-		if _cel_dx * _cel_dx + _cel_dy * _cel_dy < range * range and randf() < _hold_chance:
+	if fight_style == "gunner" and _weapons._gunner_hold and ai_spok >= MAX_SPOK + HOLD_FRESH:
+		var range := _ai_dist if _raider_type else _weapons._hold_range
+		if _move._cel_dx * _move._cel_dx + _move._cel_dy * _move._cel_dy < range * range and Rng.randf(&"ai") < _weapons._hold_chance:
 			state = ST_HOLD
-	if _can_dash and _track_player and randf() < DASH_CHANCE:
+	if _move._can_dash and _track_player and Rng.randf(&"ai") < DASH_CHANCE:
 		state = ST_DASH_PREP
 	return state
-
-
 func _commit_move() -> void:
-	if not _climbing:
-		_on_rail = false
-	if _narrow and not _on_rail:
-		_sync_climb_box()
-	if _slow_t > 0.0:
-		velocity *= 0.75
-	# freezing tormoz is 0.75 and stacks with the distortion slow.
-	if _ice_t > 0.0:
-		velocity *= 0.75
-	if _knock_x == 0.0:
-		if _at_rest():
-			return
-		move_and_slide()
-		_note_rest_floor()
-		return
-	velocity.x += _knock_x
-	move_and_slide()
-	velocity.x -= _knock_x
-	if is_on_wall():
-		_knock_x = 0.0
-	else:
-		var brake := float(_catalog_row(_species_id).get("move", {}).get("brake", 1.0))
-		_knock_x = move_toward(_knock_x, 0.0, maxf(brake, 0.5) * TPS * TPS * get_physics_process_delta_time())
-
-
-## A still unit on a static floor (or a fixed one) has nothing to slide; skip
-## move_and_slide, but run it every REST_RECHECK calls so a floor that broke or
-## moved away is noticed.
-func _at_rest() -> bool:
-	# throu turns the shelf off; skipping move_and_slide would leave them standing on it.
-	if _throu or _throu_left > 0.0:
-		_rest_skips = 0
-		return false
-	if velocity != Vector2.ZERO:
-		_rest_skips = 0
-		return false
-	if _rest_fixed < 0:
-		_rest_fixed = 1 if bool(_catalog_row(_species_id).get("fixed", false)) else 0
-	if _rest_fixed == 0 and not (_rest_static_floor and is_on_floor()):
-		return false
-	_rest_skips += 1
-	if _rest_skips >= REST_RECHECK:
-		_rest_skips = 0
-		return false
-	return true
-
-
-func _note_rest_floor() -> void:
-	_rest_static_floor = false
-	if not is_on_floor() or get_platform_velocity() != Vector2.ZERO:
-		return
-	for i in get_slide_collision_count():
-		var col := get_slide_collision(i)
-		if col.get_normal().y < -0.5:
-			var body := col.get_collider()
-			_rest_static_floor = body is StaticBody2D and not body is AnimatableBody2D
-			return
-
-
+	_move._commit_move()
 ## Unit.otbros: sila = rnd(0.8..1.2) * knocked / massa, at most 3; velocity += knock * otbros * sila.
 func otbros(knock: Vector2, power: float) -> void:
-	if knock != Vector2.ZERO and _brain != null:
-		_brain.on_knock()
-	if power <= 0.0 or knock == Vector2.ZERO or _dead or bool(_catalog_row(_species_id).get("fixed", false)):
+	_move.otbros(knock, power)
+func take_hit(hit: HitInfo) -> void:
+	if hit == null:
 		return
-	var knocked := float(_catalog_row(_species_id).get("move", {}).get("knocked", 1.0))
-	var massa := maxf(_UnitMassa.massa(self), 0.01)
-	var sila := minf((randf() * 0.4 + 0.8) * knocked / massa, 3.0)
-	var push := knock * power * sila * TPS
-	_knock_x += push.x
-	velocity.y += push.y
-
-
-func _fit_body() -> void:
-	var shape_node := get_node_or_null("CollisionShape2D") as CollisionShape2D
-	if shape_node:
-		var box := RectangleShape2D.new()
-		box.size = body_size
-		shape_node.shape = box
-		shape_node.position = Vector2(0, -body_size.y * 0.5)
-	if is_instance_valid(anim):
-		if _sheet_native:
-			anim.position = Vector2.ZERO
-			anim.scale = Vector2.ONE
-			anim.centered = true
-			anim.offset = _sheet_offset
-		else:
-			anim.position = Vector2(0, -body_size.y * 0.5)
-			anim.scale = Vector2(body_size.x / 48.0, body_size.y / 56.0)
-	floor_check.position = Vector2(-body_size.x * 0.55, 0)
-	wall_check.target_position = Vector2(-maxf(24.0, body_size.x * 0.7), -body_size.y * 0.4)
-	muzzle.position = Vector2(facing * body_size.x * 0.5, -body_size.y * 0.6)
-
-
-func _shoot_at(target: Vector2) -> void:
-	if _on_prior and _prior_target() != null:
-		target = _body_center(_prior)
-	_launch(target, _weapon, _friendly, true, _fire_down)
-
-
-func take_hit(amount: int = 15, type: String = "") -> void:
-	_receive(float(amount), type, null, false)
+	if hit.from_bullet:
+		_from_bullet(hit)
+		return
+	if hit.resisted:
+		var scaled := hit.dup()
+		scaled.tip = ""
+		_receive(scaled)
+		return
+	_receive(hit)
 
 
 ## A bullet or blast. Unit.udarBullet: dexter already decided the hit in the bullet.
 ## A direct hit rolls 0.7–1.3 of the damage, then Unit.damage runs.
-func hit_by_bullet(bullet: Node, amount: float, blast: bool) -> void:
-	var dam := amount
-	if not blast:
-		dam *= randf_range(0.7, 1.3)
-	var tip := str(bullet.get("damage_type")) if bullet != null else ""
+func _from_bullet(hit: HitInfo) -> void:
+	var bullet := hit.source
+	var dam := hit.amount
+	if not hit.explosion:
+		dam *= Rng.randf_range(&"combat", 0.7, 1.3)
+	var tip := hit.tip
+	if tip == "" and bullet != null:
+		tip = str(bullet.get("damage_type"))
 	# Unit.udarBullet: priorUnit = bul.owner. Player shots clear it back to the player.
 	if bullet != null and bool(bullet.get("from_player")):
 		var owner_v: Variant = bullet.get_meta("owner_unit") if bullet.has_meta("owner_unit") else null
@@ -1860,19 +1337,36 @@ func hit_by_bullet(bullet: Node, amount: float, blast: bool) -> void:
 		var shooter: Variant = bullet.get_meta("owner_unit")
 		if shooter is Node2D and is_instance_valid(shooter) and shooter != self and (shooter as Node).is_in_group("enemies"):
 			_prior = shooter
-	_receive(dam, tip, bullet, false)
+	var passed := hit.dup()
+	passed.amount = dam
+	passed.tip = tip
+	passed.from_bullet = true
+	_receive(passed)
 
 
 ## Damage over time (Effect burn/acid/poison/pink and bleeding) is tt: no armor, no shock.
 func _take_dot(amount: int, type: String) -> void:
-	_receive(float(amount), type, null, true)
+	_receive(HitInfo.dot(float(amount), type))
+
+
+## The dict land_memory stores for this unit (pos, hp or corpse).
+func snapshot() -> Dictionary:
+	return Entity.captured(self)
+
+
+func restore(d: Dictionary) -> void:
+	Entity.apply_captured(self, d)
 
 
 ## Unit.damage after the bullet roll: resistance, armor wear, armor, critInvis, shock.
-## An empty type is damage already scaled by Resistances.apply.
-func _receive(amount: float, type: String, bullet: Node, tt: bool) -> void:
-	if _dead or _downed or (_buried and _dig_left <= 0.0):
+## An empty type is damage already scaled by Resistances.apply. resisted hits arrive that way.
+func _receive(hit: HitInfo) -> void:
+	if hit == null or _dead or _downed or (_buried and _dig_left <= 0.0):
 		return
+	var amount := hit.amount
+	var type := hit.tip
+	var bullet: Node = hit.source if hit.from_bullet else null
+	var tt := hit.tt
 	var dam := amount
 	if type != "":
 		dam *= _resist(type)
@@ -1898,39 +1392,39 @@ func _receive(amount: float, type: String, bullet: Node, tt: bool) -> void:
 		var armor2 := 0.0
 		if type in ARMOR_PHYS:
 			armor2 = _skin
-			if _armor_qual > 0.0 and randf() < _armor_qual:
+			if _armor_qual > 0.0 and Rng.randf(&"combat") < _armor_qual:
 				armor2 += _armor
 		elif type in ARMOR_MAGIC:
 			armor2 = _skin
-			if _armor_qual > 0.0 and randf() < _armor_qual:
+			if _armor_qual > 0.0 and Rng.randf(&"combat") < _armor_qual:
 				armor2 += _marmor
 		if bullet != null and bullet.get("pier") != null:
 			armor2 -= float(bullet.get("pier"))
 		if armor2 > 0.0:
 			dam -= armor2
 	if bullet != null and bool(bullet.get("from_player")) and not _track_player:
-		if _world_crit_invis > 0.0 and randf() < _world_crit_invis:
+		if _Senses._world_crit_invis > 0.0 and Rng.randf(&"combat") < _Senses._world_crit_invis:
 			dam *= 2.0
 	var desintegr: Variant = bullet.get("desintegr") if bullet != null else null
 	if desintegr != null and float(desintegr) > 0.0 and dam > 0.0 and type in ["DAM_LASER", "DAM_PLASMA"]:
-		if hp <= dam * 10.0 and randf() < float(desintegr):
+		if hp <= dam * 10.0 and Rng.randf(&"combat") < float(desintegr):
 			dam *= 12.0
 	var dealt := int(round(dam))
 	if dealt <= 0:
 		return
-	var nshok := int(round((randf() * 0.8 + 0.2) * float(MAX_SHOK) * 4.0 * float(dealt) / maxf(1.0, float(max_hp))))
+	var nshok := int(round((Rng.randf(&"combat") * 0.8 + 0.2) * float(MAX_SHOK) * 4.0 * float(dealt) / maxf(1.0, float(max_hp))))
 	nshok = mini(nshok, MAX_SHOK)
 	if tt or nshok < 5:
 		nshok = 0
 	if nshok > _shok:
 		_shok = nshok
 	if nshok > 0:
-		_windup_left = 0.0
+		_melee._windup_left = 0
 	_die_tip = type
 	_blood_fx(float(dealt), type, bullet)
 	# Unit.damage: mat 10 (only UnitThunderHead sets it) flashes pole2 where the bullet hit.
 	if _species_id == "thunderhead" and bullet is Node2D:
-		UnitFx.emit(get_tree(), "pole2", (bullet as Node2D).global_position)
+		Fx.particles("pole2", (bullet as Node2D).global_position, {"source": self})
 	_apply_damage(dealt, tt)
 	Effects.unit_damaged(self, float(dealt), type, tt, bullet)
 
@@ -1945,12 +1439,12 @@ func _blood_fx(dam: float, type: String, bullet: Node) -> void:
 	var size := _body_size(self)
 	if bullet is Node2D:
 		var d := (bullet.get("direction") as Vector2).normalized() * 5.0
-		UnitFx.emit(get_tree(), pid, (bullet as Node2D).global_position, {"dx": d.x, "dy": d.y, "kol": int(randf() * 5.0 + dam / 5.0)})
+		Fx.blood((bullet as Node2D).global_position, {"kind": pid, "dx": d.x, "dy": d.y, "kol": int(Rng.randf(&"fx") * 5.0 + dam / 5.0), "source": self})
 	else:
-		UnitFx.emit(get_tree(), pid, _feet(self) - Vector2(0.0, size.y * 0.5), {"kol": int(dam / 3.0)})
+		Fx.blood(_feet(self) - Vector2(0.0, size.y * 0.5), {"kind": pid, "kol": int(dam / 3.0), "source": self})
 	if blood != 1 or type == "DAM_BLEED" or _UnitMassa.massa(self) <= 0.2:
 		return
-	var ver := randf()
+	var ver := Rng.randf(&"fx")
 	if type == "DAM_CUT":
 		ver *= ver
 	if dam / 1000.0 <= ver:
@@ -1958,10 +1452,10 @@ func _blood_fx(dam: float, type: String, bullet: Node) -> void:
 	var side := 1.0
 	if bullet is Node2D:
 		side = -1.0 if (bullet.get("direction") as Vector2).x < 0.0 else 1.0
-	elif randf() < 0.5:
+	elif Rng.randf(&"fx") < 0.5:
 		side = -1.0
-	var at := _feet(self) + Vector2(80.0 * side + (randf() - 0.5) * size.x * 0.5, -randf() * size.y * 0.5 - 40.0)
-	UnitFx.emit(get_tree(), "bloodexpl%d" % randi_range(1, 3), at, {"mirr": 1 if side < 0.0 else 0})
+	var at := _feet(self) + Vector2(80.0 * side + (Rng.randf(&"fx") - 0.5) * size.x * 0.5, -Rng.randf(&"fx") * size.y * 0.5 - 40.0)
+	Fx.blood(at, {"kind": "bloodexpl%d" % Rng.randi_range(&"fx", 1, 3), "mirr": 1 if side < 0.0 else 0, "source": self})
 
 
 func _apply_damage(amount: int, separate: bool = false) -> void:
@@ -1976,7 +1470,7 @@ func _apply_damage(amount: int, separate: bool = false) -> void:
 	if _brain == null and not _class_anim:
 		_play_anim("crouch")
 	if calm:
-		_wake_allies()
+		_senses._wake_allies()
 	if calm and hp > 0:
 		var size := _body_size(self)
 		_become_alert(_feet(self) + Vector2(facing * size.x * 2.0, -size.y))
@@ -2027,65 +1521,44 @@ func _eqd_port() -> void:
 		return
 	if _player == null or not is_instance_valid(_player) or _detect_delay > 0.0:
 		return
-	var room := _room_rect()
+	var room := _move._room_rect()
 	var pf := float(_player.get("facing")) if "facing" in _player else 1.0
 	var pp := _player.global_position
 	for i in range(1, 21):
 		var to := Vector2.ZERO
 		if i < 5:
-			var s := -pf if randf() < 0.7 else pf
-			to = Vector2(pp.x + s * (randf() * 300.0 + 200.0), pp.y)
+			var s := -pf if Rng.randf(&"ai") < 0.7 else pf
+			to = Vector2(pp.x + s * (Rng.randf(&"ai") * 300.0 + 200.0), pp.y)
 		elif i < 10:
-			var s2 := -pf if randf() < 0.5 else pf
-			to = Vector2(pp.x + s2 * (randf() * 800.0 + 200.0), pp.y + randf() * 160.0 - 80.0)
+			var s2 := -pf if Rng.randf(&"ai") < 0.5 else pf
+			to = Vector2(pp.x + s2 * (Rng.randf(&"ai") * 800.0 + 200.0), pp.y + Rng.randf(&"ai") * 160.0 - 80.0)
 		else:
-			to = room.position + Vector2(randf() * room.size.x, randf() * room.size.y)
+			to = room.position + Vector2(Rng.randf(&"ai") * room.size.x, Rng.randf(&"ai") * room.size.y)
 		to = Vector2(round(to.x / 40.0) * 40.0, ceil(to.y / 40.0) * 40.0 - 1.0)
 		to.x = clampf(to.x, room.position.x + body_size.x, room.end.x - body_size.x)
 		to.y = clampf(to.y, room.position.y + body_size.y + 40.0, room.end.y - 40.0)
-		if _blocked_at(to):
+		if _move._blocked_at(to):
 			continue
-		UnitFx.emit(get_tree(), "tele", global_position + Vector2(0.0, -body_size.y * 0.5), {"rx": body_size.x, "ry": body_size.y, "kol": 30})
+		Fx.particles("tele", global_position + Vector2(0.0, -body_size.y * 0.5), {"rx": body_size.x, "ry": body_size.y, "kol": 30, "source": self})
 		global_position = to
 		velocity = Vector2.ZERO
-		UnitFx.emit(get_tree(), "teleport", global_position + Vector2(0.0, -body_size.y * 0.5))
+		Fx.particles("teleport", global_position + Vector2(0.0, -body_size.y * 0.5), {"source": self})
 		_sense()
 		if _track_player:
 			ai_spok = 0
 			ai_state = ST_SURPRISED
-			_state_left = float(randi_range(20, 49)) / TPS
+			_state_left = _ticks(float(Rng.randi_range(&"ai", 20, 49)) / TPS)
 			facing = 1.0 if pp.x > global_position.x else -1.0
-			_port_t = randi_range(150, 239)
+			_port_t = Rng.randi_range(&"ai", 150, 239)
 		else:
-			_port_t = randi_range(30, 119)
+			_port_t = Rng.randi_range(&"ai", 30, 119)
 		_port_kol -= 1
 		return
-
-
-func _room_rect() -> Rect2:
-	var size := Vector2(48 * 40, 25 * 40)
-	var rx := int(get_meta("room_x", int(floor(global_position.x / size.x))))
-	var ry := int(get_meta("room_y", int(floor(global_position.y / size.y))))
-	return Rect2(Vector2(rx, ry) * size, size)
-
-
-## Unit.collisionAll at a feet point: would the body overlap a wall there.
-func _blocked_at(feet: Vector2) -> bool:
-	var q := PhysicsShapeQueryParameters2D.new()
-	var box := RectangleShape2D.new()
-	box.size = body_size - Vector2(2.0, 2.0)
-	q.shape = box
-	q.transform = Transform2D(0.0, feet + Vector2(0.0, -body_size.y * 0.5))
-	q.collision_mask = 1
-	q.exclude = [get_rid()]
-	return not get_world_2d().direct_space_state.intersect_shape(q, 1).is_empty()
-
-
 func _decide() -> void:
 	var was := ai_state
 	if ai_state == ST_DASH_PREP:
 		ai_state = ST_DASH
-		_state_left = DASH_TIME / TPS
+		_state_left = _ticks(DASH_TIME / TPS)
 		return
 	if ai_state == ST_SURPRISED:
 		if _track_player:
@@ -2095,397 +1568,36 @@ func _decide() -> void:
 			ai_state = ST_PATROL
 	if ai_spok == 0:
 		# Brain_Definition.stroll: units told to stay (un stay, aiTip stay) only stand.
-		ai_state = ST_PATROL if _stroll and randf() < 0.5 else ST_IDLE
+		ai_state = ST_PATROL if _move._stroll and Rng.randf(&"ai") < 0.5 else ST_IDLE
 	elif ai_spok < MAX_SPOK:
 		ai_state = ST_SEARCH
 	else:
 		if was != ST_CHASE and was != ST_HOLD:
-			_wake_allies()
+			_senses._wake_allies()
 		ai_state = _pick_attack()
 	if _is_calm():
-		_state_left = randf_range(IDLE_MIN, IDLE_MAX) / TPS
+		_state_left = _ticks(Rng.randf_range(&"ai", IDLE_MIN, IDLE_MAX) / TPS)
 	elif ai_state == ST_DASH_PREP:
-		_state_left = DASH_PREP_TIME / TPS
+		_state_left = _ticks(DASH_PREP_TIME / TPS)
 	else:
-		_state_left = randf_range(ALERT_MIN, ALERT_MAX) / TPS
-	_sync_vision()
+		_state_left = _ticks(Rng.randf_range(&"ai", ALERT_MIN, ALERT_MAX) / TPS)
+	_senses._sync_vision()
 	_calm_cast()
-
-
 func _sense() -> void:
-	if _friendly or _buried or _downed or ai_state == ST_FLEE:
-		return
-	if _detect_delay > 0.0:
-		return
-	if _player == null or not is_instance_valid(_player):
-		_track_player = false
-		return
-	# Unit.findCel: a seen priorUnit comes before the player.
-	_on_prior = false
-	var pr := _prior_target()
-	if pr != null and _look(pr) > 0.5:
-		_on_prior = true
-		_track_player = true
-		_aware = true
-		_goal = pr.global_position
-		if ai_spok < MAX_SPOK:
-			ai_spok = MAX_SPOK + SIGHT_BONUS
-		_sync_vision()
-		return
-	# Unit.findCel skips loc.gg.invulner, which controlOff sets.
-	if bool(_player.get("control_off")):
-		_lose()
-		_sync_vision()
-		return
-	# Original rooms are separate locations; a room still waiting on its
-	# scripted area must not see or hear the player past its edge.
-	if not _aware and not _room_rect().has_point(_player.global_position) and _scene_pending():
-		_lose()
-		_sync_vision()
-		return
-	var heard := _listen(_player)
-	var seen := _look(_player)
-	if heard > 0.0:
-		_add_obs(_player, heard, -1000.0)
-	if seen > 0.0:
-		_add_obs(_player, seen, _observ)
-		if _obs(_player) >= MAX_OBS:
-			_track_player = true
-			_aware = true
-			_memory_left = TARGET_MEMORY
-			_goal = _player.global_position
-			_on_seen()
-			_sync_vision()
-			return
-	elif heard > 0.0:
-		if _obs(_player) >= MAX_OBS:
-			_track_player = false
-			_goal = _player.global_position + Vector2(randf_range(-100.0, 100.0), randf_range(-100.0, 100.0))
-		if heard > 1.0:
-			ai_spok = MAX_SPOK - 1
-			_sync_vision()
-			return
-	_lose()
-	_sync_vision()
-
-
-func _scene_pending() -> bool:
-	if _scene_areas == null:
-		_scene_areas = []
-		var rect := _room_rect()
-		for a in get_tree().get_nodes_in_group("land_area"):
-			if not (a.get_meta("actions", []) as Array).is_empty() and rect.has_point((a as Node2D).global_position):
-				_scene_areas.append(a)
-	for a in _scene_areas:
-		if is_instance_valid(a) and bool(a.get_meta("enabled", false)):
-			return true
-	return false
-
-
-func _on_seen() -> void:
-	if _v_konus > 0.0:
-		ai_spok = MAX_SPOK + SIGHT_BONUS
-		ai_state = ST_HOLD
-		_state_left = randf_range(ALERT_MIN, ALERT_MAX) / TPS
-		return
-	if _is_calm():
-		ai_state = ST_SURPRISED
-		_state_left = float(randi_range(int(_surprise_min), int(_surprise_max))) / TPS
-		return
-	ai_spok = MAX_SPOK + SIGHT_BONUS
-
-
-func _lose() -> void:
-	# Six failed looks still follow the player's real position, then the guess drifts.
-	if _memory_left > 0:
-		_memory_left -= 1
-		_track_player = true
-		if _player != null and is_instance_valid(_player):
-			_goal = _player.global_position
-		return
-	_track_player = false
-	_unseen_looks += 1
-	if _unseen_looks % DRIFT_INTERVAL == 0:
-		_goal.x += randf_range(-SEARCH_DRIFT, SEARCH_DRIFT)
-		_goal.y += randf_range(-SEARCH_DRIFT, SEARCH_DRIFT)
-	if ai_spok > 0:
-		ai_spok -= 1
-	if ai_spok == 0:
-		return
-	if not _aware and ai_spok < GIVE_UP_SPOK:
-		ai_spok = 0
-
-
-func _sync_vision() -> void:
-	_vision = _calm_vision if ai_spok == 0 else _alert_vision
-
-
+	_senses._sense()
 func _become_alert(point: Vector2) -> void:
-	_track_player = false
-	_goal = point
-	ai_spok = MAX_SPOK + SIGHT_BONUS
-	ai_state = ST_CHASE
-	_state_left = randf_range(ALERT_MIN, ALERT_MAX) / TPS
-	_detect_delay = 0.0
-	_vision = _alert_vision
-	_overlook = true
-
-
-func _wake_allies() -> void:
-	if _wake_radius > 0.0:
-		_budilo(_wake_radius)
-
-
+	_senses._become_alert(point)
 ## Unit.budilo: make a noise, and alarm awake units of the same fraction inside rad * their ear.
 ## Two robots hear each other at rad.
 func _budilo(rad: float) -> void:
-	var tree := get_tree()
-	if tree == null:
-		return
-	set_meta("foe_noise", _noise_run * 1.2)
-	var robot := _is_machine()
-	for node in tree.get_nodes_in_group("enemies"):
-		if node == self or not node.has_method("_alarm_from"):
-			continue
-		if int(node.get("fraction")) != fraction or bool(node.get("_dead")) or bool(node.get("_downed")) or bool(node.get_meta("unres", false)):
-			continue
-		var other := node as Node2D
-		var d2 := other.global_position.distance_squared_to(global_position)
-		var reach := rad
-		if not (robot and bool(node.call("_is_machine"))):
-			reach = rad * float(node.get("_ear"))
-		if d2 < reach * reach:
-			other.call("_alarm_from", global_position)
-
-
+	_senses._budilo(rad)
 ## Unit.alarma then Brain.alarm. Only a calm unit wakes; it starts shocked.
 func _alarm_from(at: Vector2) -> void:
-	if _dead or not _is_calm():
-		return
-	_become_alert(at + Vector2(randf_range(-125.0, 125.0), randf_range(-125.0, 125.0)))
-	_shok = randi_range(_alarm_shock_min, _alarm_shock_max)
-	if _alarm_radius > 0.0:
-		_budilo(_alarm_radius)
-
-
+	_senses._alarm_from(at)
 func _look(player: Node2D) -> float:
-	if _vision <= 0.0:
-		return 0.0
-	var eye := _eye_pos()
-	var point := _look_point(player)
-	var cx := point.x - eye.x
-	var cy := point.y - eye.y
-	var r2 := cx * cx + cy * cy
-	var vel := _velocity_of(player)
-	var vis := PLAYER_VIS_STILL
-	if absf(vel.x) >= 2.0 * TPS or absf(vel.y) >= 2.0 * TPS:
-		vis = PLAYER_VIS_MOVE
-	vis *= float(player.get_meta("foe_vis_mult", 1.0))
-	var detecting := float(player.get_meta("foe_detecting", DETECTING))
-	# Unit.look: (visibility * stealthMult * loc.visMult + demask) * vision.
-	var dist_vis := (vis * _world_stealth * _world_vis_mult + float(player.get_meta("foe_demask", 0.0))) * _vision
-	# No cone: a target mostly below the eyes is harder to see, down to half range.
-	if _v_konus == 0.0 and not _overlook and cy > 0.0 and cy * cy > cx * cx:
-		dist_vis *= 0.5 + 0.5 * absf(cx / cy)
-	# The original stops at 4x distVis inside its own room; the sight ray stops at a room width.
-	if r2 > minf(dist_vis * dist_vis * 16.0, SIGHT_CAP * SIGHT_CAP):
-		return 0.0
-	# Calm raiders (overlook 0) see behind only inside detecting.
-	if _v_konus == 0.0 and not _overlook and cx * facing < 0.0 and r2 > detecting * detecting:
-		return 0.0
-	if _v_konus > 0.0:
-		var dug := wrapf(_aim_angle() - atan2(cy, cx), -PI, PI)
-		if absf(dug) > _v_konus * 0.5:
-			return 0.0
-	if not Sight.los_clear(eye, point, player):
-		return 0.0
-	if r2 < detecting * detecting:
-		return 20.0
-	if r2 < dist_vis * dist_vis:
-		return 4.0
-	return dist_vis * dist_vis / r2 * 4.0
-
-
-func _listen(player: Node2D) -> float:
-	var noise := float(player.get_meta("foe_noise", 0.0)) * _ear * GameState.enemy_ear_mult()
-	if noise <= 0.0:
-		return 0.0
-	var p_feet := _feet(player)
-	var e_feet := _feet(self)
-	var mouth := Vector2(p_feet.x, p_feet.y - _body_size(player).y * 0.75)
-	var ear := Vector2(e_feet.x, e_feet.y - _body_size(self).y * 0.5)
-	var dx := mouth.x - ear.x
-	var dy := mouth.y - ear.y
-	var r2 := dx * dx + dy * dy
-	# Unit.listen is distance only: noise * ear reaches through walls.
-	if noise * noise <= r2:
-		return 0.0
-	return (1.0 - r2 / (noise * noise)) * 4.0
-
-
+	return _senses._look(player)
 func _tick_world_senses(player: Node, delta: float) -> void:
-	var frame := Engine.get_physics_frames()
-	if frame != _sense_frame:
-		_sense_frame = frame
-		var ticks := delta * TPS
-		var is_obs := float(player.get_meta("foe_is_obs", 0.0))
-		var obs := float(player.get_meta("foe_obs", 0.0))
-		if is_obs > 0.0:
-			is_obs -= ticks
-			if is_obs < 0.0:
-				obs = maxf(0.0, obs - MINUS_OBS * (-is_obs))
-				is_obs = 0.0
-		elif obs > 0.0:
-			obs = maxf(0.0, obs - MINUS_OBS * ticks)
-		player.set_meta("foe_is_obs", is_obs)
-		player.set_meta("foe_obs", obs)
-		var demask := maxf(0.0, float(player.get_meta("foe_demask", 0.0)) - DEMASK_DECAY * ticks)
-		var vel := _velocity_of(player)
-		if absf(vel.x) > 10.0 * TPS or absf(vel.y) > 10.0 * TPS:
-			demask = maxf(demask, FAST_DEMASK)
-		player.set_meta("foe_demask", demask)
-		_refresh_world(player)
-		_world_danger = _gather_grenades(get_tree())
-		var noise := maxf(0.0, float(player.get_meta("foe_noise", 0.0)) - NOISE_DECAY * ticks)
-		var step := _footstep_noise(player, vel)
-		if step > noise:
-			noise = step
-		player.set_meta("foe_noise", noise)
-		_scan_shots(player)
-
-
-## Facts shared by every enemy this frame. Sneak skill: Pers sneak is the raw points,
-## noiseRun 300 - 60 per level, critInvis 0.05 per level. Armor sneak scales visiMult.
-func _refresh_world(player: Node) -> void:
-	var p2 := player as Node2D
-	var room := _world_room
-	if p2 != null:
-		room = _room_of(p2.global_position)
-	_world_vis_mult = _room_vis_mult(room)
-	_world_sneak = 0.0
-	_world_crit_invis = 0.0
-	if Progression != null:
-		_world_sneak = float(Progression.rank("sneak"))
-		_world_crit_invis = 0.05 * float(Progression.skill_level_of("sneak"))
-	_world_stealth = float(player.get_meta("stealth_mult", 1.0))
-	_world_visi = 1.0
-	if Inventory != null and Condition != null:
-		# armorParameters: visiMult *= 1 - sneak for the suit, then the amulet.
-		for worn in Inventory.worn_ids():
-			_world_visi *= 1.0 - Progression.armor_sneak(worn)
-
-
-## Location.visMult, the room's darkness factor. The fog keeps it as dist1 / 300. 1 without data.
-func _room_vis_mult(room: Vector2i) -> float:
-	var fog := get_tree().get_first_node_in_group("fog")
-	if fog == null:
-		return 1.0
-	var state: Variant = fog.get("_state")
-	if state == null or not (state is Object):
-		return 1.0
-	var rooms: Variant = (state as Object).get("rooms")
-	if not (rooms is Dictionary) or not (rooms as Dictionary).has(room):
-		return 1.0
-	var r: Object = (rooms as Dictionary)[room]
-	var dist1 := float(r.get("dist1"))
-	if dist1 <= 0.0:
-		return 1.0
-	return dist1 / 300.0
-
-
-func _footstep_noise(player: Node, vel: Vector2) -> float:
-	if player is CharacterBody2D and not (player as CharacterBody2D).is_on_floor():
-		return 0.0
-	var run := NOISE_RUN
-	if Progression != null:
-		run = maxf(0.0, 300.0 - 60.0 * float(Progression.skill_level_of("sneak")))
-	run = Effects.stat("noiseRun", run)
-	var vx := absf(vel.x)
-	if vx > 12.0 * TPS:
-		return run
-	if vx > 7.0 * TPS:
-		return run * 0.5
-	if vx > 3.0 * TPS:
-		return run * 0.25
-	return 0.0
-
-
-func _scan_shots(player: Node) -> void:
-	var tree := get_tree()
-	if tree == null:
-		return
-	var live := {}
-	var fresh := false
-	for node in tree.get_nodes_in_group("player_bullets"):
-		if not is_instance_valid(node):
-			continue
-		var id: int = node.get_instance_id()
-		live[id] = true
-		if not _known_shots.has(id):
-			fresh = true
-	_known_shots = live
-	if not fresh:
-		return
-	var noise := maxf(float(player.get_meta("foe_noise", 0.0)), _shot_noise())
-	player.set_meta("foe_noise", noise)
-	var demask := maxf(float(player.get_meta("foe_demask", 0.0)), SHOT_DEMASK)
-	player.set_meta("foe_demask", demask)
-
-
-func _shot_noise() -> float:
-	# weapons.xml snd noise for the guns this slice loads. Default is p10mm.
-	var name := str(GameState.weapon_name).to_lower()
-	if "laser" in name:
-		return 300.0
-	if "shotgun" in name or "sawed" in name:
-		return 1200.0
-	if "flame" in name:
-		return 400.0
-	if "fireball" in name:
-		return 800.0
-	if "magic" in name:
-		return 500.0
-	return 700.0
-
-
-## UnitPlayer.observation. A look passes the unit's observ (nobs); hearing passes none.
-## sneak - demask/20 against observ scales the look, then visiMult * stealthMult.
-func _add_obs(player: Node, amount: float, nobs: float) -> void:
-	if amount <= 0.0:
-		return
-	var nlook := amount
-	if nobs > -1000.0:
-		var nsneak := maxf(0.0, _world_sneak - float(player.get_meta("foe_demask", 0.0)) / 20.0)
-		if nobs > nsneak:
-			nlook *= 1.0 + (nobs - nsneak) * 0.2
-		elif nobs < nsneak:
-			nlook /= 1.0 - (nobs - nsneak) * 0.3
-	nlook *= _world_visi * _world_stealth
-	if player.has_method("lurk_cut"):
-		var sneak_lurk := 2.5 + 0.5 * float(Progression.skill_level_of("sneak")) if Progression != null else 2.5
-		nlook -= sneak_lurk * float(player.call("lurk_cut"))
-	if nlook <= 0.0:
-		return
-	var obs := minf(float(player.get_meta("foe_obs", 0.0)) + nlook, MAX_OBS * 2.0)
-	player.set_meta("foe_obs", obs)
-	player.set_meta("foe_is_obs", OBS_GRACE)
-
-
-func _obs(player: Node) -> float:
-	return float(player.get_meta("foe_obs", 0.0))
-
-
-func _eye_pos() -> Vector2:
-	var size := _body_size(self)
-	var feet := _feet(self)
-	return Vector2(feet.x + size.x * 0.25 * facing, feet.y - size.y * 0.75)
-
-
-func _look_point(body: Node2D) -> Vector2:
-	var feet := _feet(body)
-	return Vector2(feet.x, feet.y - _body_size(body).y * 0.6)
-
-
+	_senses._tick_world_senses(player, delta)
 func _feet(body: Node2D) -> Vector2:
 	var shape_node := body.get_node_or_null("CollisionShape2D") as CollisionShape2D
 	if shape_node and shape_node.shape is RectangleShape2D:
@@ -2505,24 +1617,14 @@ func _velocity_of(body: Node) -> Vector2:
 	if body is CharacterBody2D:
 		return (body as CharacterBody2D).velocity
 	return Vector2.ZERO
-
-
-func _aim_angle() -> float:
-	if _brain != null:
-		return _brain.v_angle()
-	if _aim_down:
-		return PI * 0.5
-	return V_ANGLE if facing >= 0.0 else PI
-
-
 func _apply_species() -> void:
 	if bool(get_meta("vortex_minion", false)) and str(_catalog_unit("vortex").get("brain", "")) == "":
-		_configure_vortex()
+		_weapons._configure_vortex()
 		return
 	var id := _read_species()
 	if id == "":
 		# Scene enemies with no species are raider gunners: they strafe while alert.
-		_backpedal = fight_style != "melee" and fight_style != "turret"
+		_move._backpedal = fight_style != "melee" and fight_style != "turret"
 		_apply_combat("raider")
 		return
 	_apply_species_id(id)
@@ -2542,7 +1644,7 @@ func _apply_species() -> void:
 func _apply_species_id(id: String) -> void:
 	# Map id "bloat" has no tr. UnitBloat rolls int(Math.random() * 5), so bloat0–bloat4.
 	if id == "bloat":
-		id = "bloat%d" % (randi() % 5)
+		id = "bloat%d" % (Rng.randi(&"spawn") % 5)
 		set_meta("unit_id", id)
 	_species_id = id
 	var row := _catalog_unit(id)
@@ -2579,22 +1681,22 @@ func _apply_combat(id: String) -> void:
 	_armor_qual = float(row.get("aqual", 0.0))
 	_armor_hp = float(row.get("armorhp", 0.0))
 	dexter = float(row.get("dexter", 1.0))
-	_observ = float(row.get("observ", 0.0))
+	_senses._observ = float(row.get("observ", 0.0))
 	_weapon_skill = float(row.get("skill", 1.0))
 	_levit_attack = float(row.get("levitatk", 1.0))
 	_ai_dist = float(row.get("ai_dist", HOLD_RANGE))
 	_trup = float(row.get("trup", 1.0)) > 0.0
 	_loot_cont = str(row.get("cont", id))
-	_noise_run = float(row.get("noise", UNIT_NOISE_RUN))
-	_unit_porog = float(row.get("porog", STEP_UP))
-	_porog = _unit_porog
+	_senses._noise_run = float(row.get("noise", UNIT_NOISE_RUN))
+	_move._unit_porog = float(row.get("porog", STEP_UP))
+	_move._porog = _move._unit_porog
 	_raider_type = id == "raider" or _raider_kin(id)
 	if _raider_type and _held_weapon == null:
 		_held_weapon = _HeldWeapon.new()
 		_held_weapon.name = "HeldWeapon"
 		add_child(_held_weapon)
 		_held_weapon.setup(self, id)
-		_walker = _HeldWeapon.unit_flag(id, "walker")
+		_move._walker = _HeldWeapon.unit_flag(id, "walker")
 	_anim_class = _anim_class_of(id)
 	_class_anim = _anim_class != ""
 	_levit_struggle = (_anim_class in ["pony", "hellhound", "zombie", "ant", "monstrik"] and not id.begins_with("ranger")) \
@@ -2602,7 +1704,7 @@ func _apply_combat(id: String) -> void:
 	_levitaccel = float(_catalog_row(id).get("move", {}).get("levitaccel", 1.6))
 	fraction = int(row.get("fraction", 2 if _raider_type else 1))
 	if bool(row.get("stay", false)) or str(get_meta("ai_tip", "")) in ["stay", "quiet", "sniper"]:
-		_stroll = false
+		_move._stroll = false
 	if _raider_type:
 		var tupizna := TUPIZNA
 		if id.begins_with("encl") or id.begins_with("merc") or id.begins_with("ranger") or id.begins_with("zebra"):
@@ -2614,25 +1716,25 @@ func _apply_combat(id: String) -> void:
 		_levit_wake_shock = RAIDER_LEVIT_WAKE
 		_levit_hold_shock = 0
 		_fear_grenade = not bool(row.get("no_fear_grenade", false))
-		_can_dash = id.begins_with("zebra")
-		_sniper = bool(row.get("sniper", false))
+		_move._can_dash = id.begins_with("zebra")
+		_weapons._sniper = bool(row.get("sniper", false))
 		_drop_arm = not (id.begins_with("encl") or id.begins_with("ranger")) and not has_meta("nodrop")
-		_opens_doors = true
-		_climbs_ladders = not _flying
-		_wake_radius = WAKE_RADIUS
+		_move._opens_doors = true
+		_move._climbs_ladders = not _flying
+		_senses._wake_radius = WAKE_RADIUS
 	elif id.begins_with("scorp") or id.begins_with("ant"):
 		# UnitMonstrik / UnitAnt brains: default surprise, short alarm shock, alarm wakes 250 around.
 		_surprise_min = BRAIN_SURPRISE_MIN
 		_surprise_max = BRAIN_SURPRISE_MAX
-		_alarm_shock_min = 3
-		_alarm_shock_max = 8
-		_alarm_radius = 250.0
-		_wake_radius = 0.0
-		_climbs_ladders = id.begins_with("ant")
+		_senses._alarm_shock_min = 3
+		_senses._alarm_shock_max = 8
+		_senses._alarm_radius = 250.0
+		_senses._wake_radius = 0.0
+		_move._climbs_ladders = id.begins_with("ant")
 	elif id.begins_with("hellhound"):
 		_surprise_min = BRAIN_SURPRISE_MIN
 		_surprise_max = BRAIN_SURPRISE_MAX
-		_climbs_ladders = true
+		_move._climbs_ladders = true
 
 
 ## enemies.json, enemy_combat.json and weapons.json. A prefetch may be parsing
@@ -2661,7 +1763,7 @@ static func _read_json(path: String) -> Dictionary:
 	if not FileAccess.file_exists(path):
 		push_error("Missing enemy data at %s" % path)
 		return {}
-	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
+	var parsed: Variant = DataLib.load(path)
 	return parsed if parsed is Dictionary else {}
 
 
@@ -2910,12 +2012,12 @@ func _apply_catalog(row: Dictionary) -> void:
 	move_speed = float(row.get("speed", move_speed))
 	run_speed = float(row.get("run", run_speed))
 	if move_speed > 0.0:
-		_accel_tick = move_speed / TPS * ACCEL_RATIO
+		_move._accel_tick = move_speed / TPS * ACCEL_RATIO
 	var dmg := int(row.get("damage", melee_damage))
 	melee_damage = dmg
 	_bullet_damage = dmg
-	_bullet_type = str(row.get("damage_type", _bullet_type))
-	_bullet_speed = float(row.get("bullet_speed", _bullet_speed))
+	_weapons._bullet_type = str(row.get("damage_type", _weapons._bullet_type))
+	_weapons._bullet_speed = float(row.get("bullet_speed", _weapons._bullet_speed))
 	fight_style = str(row.get("fight", fight_style))
 	fixed_post = bool(row.get("fixed", fixed_post))
 	_can_lift = bool(row.get("lift", true))
@@ -2925,19 +2027,19 @@ func _apply_catalog(row: Dictionary) -> void:
 	_ear = float(row.get("ear", _ear))
 	_v_konus = float(row.get("cone", 0.0))
 	_aim_down = bool(row.get("aim_down", false))
-	_gunner_hold = bool(row.get("hold", false))
-	_hold_range = float(row.get("hold_range", _hold_range))
-	_hold_chance = float(row.get("hold_chance", _hold_chance))
-	_do_backoff = bool(row.get("backoff", false))
-	_chase_shot = bool(row.get("chase_shot", fight_style == "gunner"))
-	_swing_x = float(row.get("swing_x", _swing_x))
-	_swing_above = float(row.get("swing_above", _swing_above))
-	_swing_below = float(row.get("swing_below", _swing_below))
-	_strike_cd = float(row.get("strike_cd", _strike_cd))
-	_strike_windup = float(row.get("windup", _strike_windup))
-	_strike_hold = float(row.get("strike_hold", _strike_hold))
-	_contact_bite = bool(row.get("contact", false))
-	_attack_reach = float(row.get("reach", _attack_reach))
+	_weapons._gunner_hold = bool(row.get("hold", false))
+	_weapons._hold_range = float(row.get("hold_range", _weapons._hold_range))
+	_weapons._hold_chance = float(row.get("hold_chance", _weapons._hold_chance))
+	_weapons._do_backoff = bool(row.get("backoff", false))
+	_weapons._chase_shot = bool(row.get("chase_shot", fight_style == "gunner"))
+	_melee._swing_x = float(row.get("swing_x", _melee._swing_x))
+	_melee._swing_above = float(row.get("swing_above", _melee._swing_above))
+	_melee._swing_below = float(row.get("swing_below", _melee._swing_below))
+	_melee._strike_cd = float(row.get("strike_cd", _melee._strike_cd))
+	_melee._strike_windup = float(row.get("windup", _melee._strike_windup))
+	_melee._strike_hold = float(row.get("strike_hold", _melee._strike_hold))
+	_melee._contact_bite = bool(row.get("contact", false))
+	_melee._attack_reach = float(row.get("reach", _melee._attack_reach))
 	_move_clip = str(row.get("move_clip", _move_clip))
 	var cell: Array = row.get("cell", [])
 	if cell.size() >= 2:
@@ -3010,9 +2112,9 @@ func _apply_turret(id: String) -> void:
 	# Ceiling mount (cid floor): the gun's watch is downward, not along facing.
 	_aim_down = id == "turret" or id == "turret0"
 	_flying = false
-	_gunner_hold = false
-	_do_backoff = false
-	_burst_len = 0
+	_weapons._gunner_hold = false
+	_weapons._do_backoff = false
+	_weapons._burst_len = 0
 	_burst_left = 0
 
 
@@ -3020,29 +2122,29 @@ func _apply_bloat() -> void:
 	var id := _species_id
 	_flying = true
 	_hover = 0.0
-	_gunner_hold = false
-	_do_backoff = false
-	_loose_fly = false
+	_weapons._gunner_hold = false
+	_weapons._do_backoff = false
+	_move._loose_fly = false
 	var reach := BLOAT_RANGE
 	if id == "bloat0":
 		reach = 600.0
 	elif id == "bloat4" or id == "bloat6" or id == "bloat7":
 		reach = 700.0
-	_attack_reach = reach
+	_melee._attack_reach = reach
 	# Spitters keep the weapon armed above. They fly and shoot inside attRasst.
 	# They do not use the raider hold. The others bite on contact.
 	var spit := id in ["bloat1", "bloat2", "bloat5", "bloat8", "bloat9", "bloat10"]
 	if spit and not _weapon.is_empty():
 		fight_style = "gunner"
-		_chase_shot = true
-		_contact_bite = false
+		_weapons._chase_shot = true
+		_melee._contact_bite = false
 	else:
 		fight_style = "melee"
-		_contact_bite = true
-		_chase_shot = false
-		_strike_cd = BLOAT_TICKS / TPS
-		_strike_windup = 0.0
-		_strike_hold = 1.0
+		_melee._contact_bite = true
+		_weapons._chase_shot = false
+		_melee._strike_cd = BLOAT_TICKS / TPS
+		_melee._strike_windup = 0.0
+		_melee._strike_hold = 1.0
 
 
 func _apply_emitter() -> void:
@@ -3051,25 +2153,25 @@ func _apply_emitter() -> void:
 	move_speed = 0.0
 	run_speed = 0.0
 	_flying = false
-	_gunner_hold = false
-	_do_backoff = false
-	_chase_shot = false
-	_contact_bite = true
-	_attack_reach = INF
+	_weapons._gunner_hold = false
+	_weapons._do_backoff = false
+	_weapons._chase_shot = false
+	_melee._contact_bite = true
+	_melee._attack_reach = INF
 	melee_damage = EBLOAT_DAMAGE
-	_strike_cd = BLOAT_TICKS / TPS
-	_strike_windup = 0.0
-	_strike_hold = 1.0
+	_melee._strike_cd = BLOAT_TICKS / TPS
+	_melee._strike_windup = 0.0
+	_melee._strike_hold = 1.0
 
 
 func _apply_scorp(id: String) -> void:
 	fight_style = "melee"
-	_swing_x = SCORP_X
-	_swing_above = SCORP_ABOVE
-	_swing_below = SCORP_BELOW
-	_strike_hold = SCORP_HOLD
-	_strike_cd = PUNCH_TICKS / TPS
-	_strike_windup = PUNCH_HIT / TPS
+	_melee._swing_x = SCORP_X
+	_melee._swing_above = SCORP_ABOVE
+	_melee._swing_below = SCORP_BELOW
+	_melee._strike_hold = SCORP_HOLD
+	_melee._strike_cd = PUNCH_TICKS / TPS
+	_melee._strike_windup = PUNCH_HIT / TPS
 	_show_attack = true
 	var punch_id := "scorppunch"
 	if id == "scorp2":
@@ -3081,29 +2183,29 @@ func _apply_scorp(id: String) -> void:
 		melee_damage = 12
 	else:
 		melee_damage = maxi(1, int(round(float(punch.get("damage", 12)))))
-		_bullet_type = str(punch.get("damage_type", "DAM_BITE"))
+		_weapons._bullet_type = str(punch.get("damage_type", "DAM_BITE"))
 	if _comb > 0:
-		_body_damage = _comb
+		_melee._body_damage = _comb
 	# UnitMonstrik: not a jumper. closeHoldChance 0.7, then WeaponAttack while holding.
-	_jump_reach = false
-	_hop_gaps = false
-	_ram_while_chase = false
-	_melee_while_chase = false
-	_backpedal = false
+	_move._jump_reach = false
+	_move._hop_gaps = false
+	_melee._ram_while_chase = false
+	_melee._melee_while_chase = false
+	_move._backpedal = false
 	_close_chance = SCORP_HOLD
-	_band_min = 0.0
-	_band_max = SCORP_X
-	_band_up = SCORP_ABOVE
-	_band_down = SCORP_BELOW
+	_melee._band_min = 0.0
+	_melee._band_max = SCORP_X
+	_melee._band_up = SCORP_ABOVE
+	_melee._band_down = SCORP_BELOW
 	_close_release = false
 	_close_search = true
 	_close_tmin = PUNCH_TICKS
 	_close_tmax = PUNCH_TICKS
-	_swing_chance = 1.0
-	_leap_above = 40.0
-	_reaim_every = 10
-	_reaim_chance = 0.7
-	_reaim_dist = 80.0
+	_melee._swing_chance = 1.0
+	_melee._leap_above = 40.0
+	_weapons._reaim_every = 10
+	_weapons._reaim_chance = 0.7
+	_weapons._reaim_dist = 80.0
 
 
 func _read_species() -> String:
@@ -3134,15 +2236,6 @@ func _known_species(id: String) -> bool:
 	if id in ["tarakan", "rat", "molerat"]:
 		return true
 	return not _catalog_unit(id).is_empty()
-
-
-func _aim_probes() -> void:
-	var side := facing if facing != 0.0 else -1.0
-	floor_check.position.x = absf(floor_check.position.x) * side
-	wall_check.target_position.x = absf(wall_check.target_position.x) * side
-	muzzle.position = Vector2(side * maxf(body_size.x * 0.5, 16.0), -body_size.y * 0.6)
-
-
 func _has_clip(clip: String) -> bool:
 	return is_instance_valid(anim) and anim.sprite_frames != null and anim.sprite_frames.has_animation(clip)
 
@@ -3150,8 +2243,8 @@ func _has_clip(clip: String) -> bool:
 func _present(moving: bool) -> void:
 	if not is_instance_valid(anim):
 		return
-	if _climbing and _climb_locked:
-		facing = _climb_face
+	if _climbing and _move._climb_locked:
+		facing = _move._climb_face
 	# UnitNecros.setVisPos keeps vis.scaleX = 1.
 	anim.flip_h = facing < 0.0 and _species_id != "necros"
 	if _climbing:
@@ -3178,17 +2271,17 @@ func _present(moving: bool) -> void:
 		_play_anim("super")
 	elif _climbing and _has_clip("laz"):
 		_play_anim("laz")
-	elif _crawling and _has_clip("polz"):
+	elif _move._crawling and _has_clip("polz"):
 		if moving or not _has_clip("sit"):
 			_play_anim("polz")
 		else:
 			_play_anim("sit")
 	elif _flying:
 		_play_anim("fly" if _has_clip("fly") else "idle")
-	elif _jet:
+	elif _move._jet:
 		# UnitProtect.animate: fly while jump_n > 5 in the air, walk under 3 px a tick, else trot.
 		if not is_on_floor():
-			_play_anim("fly" if _jet_n > 5 else "jump")
+			_play_anim("fly" if _move._jet_n > 5 else "jump")
 		elif not moving:
 			_play_anim("idle")
 		else:
@@ -3246,7 +2339,7 @@ func _present_class() -> void:
 			elif on_floor:
 				if still:
 					clip = "stay"
-				elif _anim_class == "encl" and _walker and ai_state in [ST_IDLE, ST_PATROL, ST_HOLD]:
+				elif _anim_class == "encl" and _move._walker and ai_state in [ST_IDLE, ST_PATROL, ST_HOLD]:
 					clip = "walk"
 				else:
 					clip = "trot" if _anim_class == "encl" else "walk"
@@ -3266,7 +2359,7 @@ func _present_class() -> void:
 					clip = "stay"
 				elif (_pony_rams() and _is_attacking()) or ai_state == ST_DASH:
 					clip = "run"
-				elif _walker and ai_state in [ST_IDLE, ST_PATROL, ST_HOLD]:
+				elif _move._walker and ai_state in [ST_IDLE, ST_PATROL, ST_HOLD]:
 					clip = "walk"
 				else:
 					clip = "trot"
@@ -3277,7 +2370,7 @@ func _present_class() -> void:
 				stab = true
 		"hellhound":
 			if on_floor:
-				if _crawling:
+				if _move._crawling:
 					clip = "polz" if dx > 1.0 else "sit"
 				elif dx > 6.0:
 					clip = "run"
@@ -3358,39 +2451,24 @@ func _present_class() -> void:
 ## UnitRaider attackerType 0: no weapon, or a gripped melee one.
 func _pony_rams() -> bool:
 	return _weapon.is_empty() or (fight_style == "melee" and _krep == 1)
-
-
-func _low_ceiling() -> bool:
-	var space := get_world_2d().direct_space_state
-	if space == null:
-		return false
-	var top := global_position + Vector2(0.0, -body_size.y * 0.55)
-	var query := PhysicsRayQueryParameters2D.create(global_position + Vector2(0.0, -4.0), top, 1)
-	var skip: Array[RID] = []
-	skip.append(get_rid())
-	query.exclude = skip
-	return not space.intersect_ray(query).is_empty()
-
-
 ## The 30 Hz clock: whole AI ticks this frame, the shock countdown.
-func _advance_ticks(delta: float) -> void:
-	_sim += delta * TPS
-	_frame_ticks = int(_sim)
-	_sim -= float(_frame_ticks)
+## One sim step per call at 30 Hz, so a `%` on _ai_tick cannot skip a tick.
+func _advance_ticks(_delta: float) -> void:
+	_frame_ticks = Sim.frame_steps
 	_ai_tick += _frame_ticks
 	if _shok > 0:
 		_shok = maxi(0, _shok - _frame_ticks)
-	if _ai_laz > 0:
-		_ai_laz = maxi(0, _ai_laz - _frame_ticks)
+	if _move._ai_laz > 0:
+		_move._ai_laz = maxi(0, _move._ai_laz - _frame_ticks)
 	if _climbing:
-		if _t_laz < 0:
-			_t_laz = 0
-		_t_laz += _frame_ticks
+		if _move._t_laz < 0:
+			_move._t_laz = 0
+		_move._t_laz += _frame_ticks
 	else:
-		if _t_laz > 0:
-			_t_laz = 0
-		_t_laz -= _frame_ticks
-		_r_laz = 0
+		if _move._t_laz > 0:
+			_move._t_laz = 0
+		_move._t_laz -= _frame_ticks
+		_move._r_laz = 0
 
 
 static func _room_of(at: Vector2) -> Vector2i:
@@ -3398,7 +2476,7 @@ static func _room_of(at: Vector2) -> Vector2i:
 
 
 static func _room_near(room: Vector2i) -> bool:
-	return absi(room.x - _world_room.x) <= ACTIVE_REACH and absi(room.y - _world_room.y) <= ACTIVE_REACH
+	return absi(room.x - _Senses._world_room.x) <= ACTIVE_REACH and absi(room.y - _Senses._world_room.y) <= ACTIVE_REACH
 
 
 ## Only the player's Location runs in the original. Here the player's room and its
@@ -3410,13 +2488,13 @@ func _room_still_active() -> bool:
 	if _room_check > 0:
 		return true
 	_room_check = ROOM_CHECK_TICKS
-	if _world_room.x == -99999 and _player_valid():
-		_world_room = _room_of(_player.global_position)
+	if _Senses._world_room.x == -99999 and _senses._player_valid():
+		_Senses._world_room = _room_of(_player.global_position)
 	var here := _room_of(global_position)
 	if _room_near(here):
 		return true
 	# Seamless rooms: a unit already after the player keeps going one room further.
-	if not _is_calm() and absi(here.x - _world_room.x) <= CHASE_REACH and absi(here.y - _world_room.y) <= CHASE_REACH:
+	if not _is_calm() and absi(here.x - _Senses._world_room.x) <= CHASE_REACH and absi(here.y - _Senses._world_room.y) <= CHASE_REACH:
 		return true
 	_fall_asleep()
 	return false
@@ -3453,7 +2531,7 @@ func _ensure_watch() -> void:
 
 
 static func _watch_room(room: Vector2i, tree: SceneTree) -> void:
-	_world_room = room
+	_Senses._world_room = room
 	for node in tree.get_nodes_in_group("foe_bodies"):
 		if not bool(node.get("_asleep")):
 			continue
@@ -3470,7 +2548,7 @@ class RoomWatch extends Node:
 
 	func _physics_process(_delta: float) -> void:
 		if _player == null or not is_instance_valid(_player):
-			_player = get_tree().get_first_node_in_group("player") as Node2D
+			_player = Run.local_player() as Node2D
 			if _player == null:
 				return
 		var p := _player.global_position
@@ -3480,55 +2558,8 @@ class RoomWatch extends Node:
 			on_room.call(room, get_tree())
 
 
-## Weapon holder reload: no shots for reload ticks, then a full magazine.
-func _tick_reload(delta: float) -> void:
-	if _reload_left <= 0.0:
-		return
-	_reload_left -= delta
-	if _reload_left <= 0.0:
-		_reload_left = 0.0
-		_mag = _mag_cap
-
-
-## UnitRaider.watchForDanger: run from a grenade in view, react to a levitated mine.
-func _watch_for_danger() -> void:
-	if _friendly or _cannot_fight():
-		return
-	for k in _frame_ticks:
-		var t := _ai_tick - k
-		if _fear_grenade and not _world_danger.is_empty() and t % GRENADE_CHECK == 1 and randf() < GRENADE_CHECK_CHANCE:
-			var nade: Variant = _grenade_in_view()
-			if nade != null:
-				_flee(float(nade.x) - global_position.x)
-				return
-		if t % MINE_CHECK == 1 and not _track_player:
-			_watch_levitation()
-
-
-func _grenade_in_view() -> Variant:
-	var center := global_position + Vector2(0.0, -_body_size(self).y * 0.5)
-	var eye := global_position + Vector2(0.0, -_body_size(self).y * 0.75)
-	for g in _world_danger:
-		var at: Vector2 = g
-		if center.distance_squared_to(at) < 160000.0 and Sight.los_clear(eye, at, null):
-			return at
-	return null
-
-
-func _flee(dx: float) -> void:
-	ai_state = ST_FLEE
-	ai_spok = MAX_SPOK + SIGHT_BONUS
-	_state_left = float(randi_range(FLEE_TIME_MIN, FLEE_TIME_MAX)) / TPS
-	if dx > FLEE_SLACK:
-		_flee_dir = -1.0
-	elif dx < -FLEE_SLACK:
-		_flee_dir = 1.0
-	if _flee_dir != 0.0:
-		_goal = global_position + Vector2(_flee_dir * 1000.0, 0.0)
-
-
 func _watch_levitation() -> void:
-	if not _player_valid():
+	if not _senses._player_valid():
 		return
 	var obj: Variant = _player.get("_tele_obj")
 	if not is_instance_valid(obj) or not (obj is Node2D):
@@ -3549,15 +2580,15 @@ func _watch_levitation() -> void:
 		var dx := held.global_position.x - global_position.x
 		var dy := held.global_position.y - global_position.y + half
 		if dx * dx + dy * dy < MINE_FLEE_RANGE * MINE_FLEE_RANGE:
-			_flee(dx)
+			_move._flee(dx)
 		else:
 			if fight_style == "gunner" and not _thrown:
 				ai_state = ST_HOLD
 			ai_spok = MAX_SPOK + SIGHT_BONUS
-			_state_left = float(randi_range(FLEE_TIME_MIN, FLEE_TIME_MAX)) / TPS
+			_state_left = _ticks(float(Rng.randi_range(&"ai", FLEE_TIME_MIN, FLEE_TIME_MAX)) / TPS)
 	else:
 		ai_spok = MINE_SUSPICION
-		_sync_vision()
+		_senses._sync_vision()
 
 
 ## Live grenades in the level (Location.grenades), gathered once per frame.
@@ -3570,125 +2601,45 @@ static func _gather_grenades(tree: SceneTree) -> Array:
 	return out
 
 
-## UnitRaider: throu = moving && celDY > 80 (every control tick, any aiState).
-## Unit.setCel: celDY = celY - Y + scY with celY = target.Y - target.scY / 2.
-## Patrol (aiSpok 0) aims at its own head, so celDY is 0 and it does not drop.
-func _refresh_throu() -> void:
-	var moving := not fixed_post and not _flying and move_speed > 0.0 and not levitated
-	if not moving:
-		_throu = false
-		return
-	var dy := 0.0
-	if _track_player and _player_valid():
-		var pf := _feet(_player)
-		dy = pf.y - _body_size(_player).y * 0.5 - global_position.y + body_size.y
-	elif not _is_calm():
-		dy = _goal.y - global_position.y + body_size.y
-	_throu = dy > DROP_THROUGH
-
-
-## Unit.throu: collisionTile skips a shelf while this is set. Keep it on for a few
-## ticks after the test so the body leaves the one-way lip.
-func _apply_throu() -> void:
-	_refresh_throu()
-	var drop := _throu and is_on_floor() and not _flying and not levitated
-	if drop:
-		_throu_left = 6.0 / TPS
-		if velocity.y < 40.0:
-			velocity.y = 40.0
-	elif _throu_left > 0.0:
-		_throu_left -= get_physics_process_delta_time()
-	set_collision_mask_value(PLATFORM_LAYER_BIT, _throu_left <= 0.0)
-
-
 ## WalkMotor porog: a ledge up to porog pixels is stepped onto instead of blocking.
 func _step_up() -> bool:
-	if _porog <= 0.0 or _flying:
-		return false
-	var dir := facing if facing != 0.0 else 1.0
-	var up := Transform2D(0.0, global_position + Vector2(0.0, -_porog))
-	if test_move(global_transform, Vector2(0.0, -_porog)):
-		return false
-	if test_move(up, Vector2(dir * 4.0, 0.0)):
-		return false
-	global_position.y -= _porog
-	global_position.x += dir * 2.0
-	return true
-
-
-## Unit.opensDoors: walking into a closed, unlocked door opens it.
-func _open_door_ahead() -> void:
-	if not wall_check.is_colliding():
-		return
-	var door := wall_check.get_collider() as Node
-	if door == null or not door.has_meta("lock"):
-		return
-	if float(door.get_meta("lock", 0.0)) > 0.0 or not bool(door.get_meta("usable", true)):
-		return
-	if int(door.get_meta("locktip", 1)) == 4:
-		return
-	if bool(door.get_meta("door_open", false)) or str(door.get_meta("door_id", "")) == "septum":
-		return
-	var host := get_tree().get_first_node_in_group("land_props")
-	if host == null or not host.has_method("_apply_door"):
-		return
-	var doors: Variant = host.get("_doors")
-	if doors is Array and (doors as Array).has(door):
-		host.call("_apply_door", door, true)
-
-
-## UnitRaider.mostLaz: grab when the tile at the feet (or 2 px below) is a stair, after the off-ladder wait.
-func _climb_toward_target() -> void:
-	if not _climbs_ladders or _climbing or _flying or not _player_valid():
-		return
-	if _ai_laz > 0 or _t_laz > -30:
-		return
-	if _vert == 0:
-		return
-	var rail := _try_stairs(-1.0 if _vert < 0 else 2.0)
-	if rail == null:
-		return
-	_climbing = true
-	_ai_laz = 30
-	_hold_rail(rail)
-
-
+	return _move._step_up()
 func _tick_role(delta: float) -> void:
-	_body_cd = maxf(0.0, _body_cd - delta)
-	_attack_left = maxf(0.0, _attack_left - delta)
-	_gutsy_cd = maxf(0.0, _gutsy_cd - delta)
-	_necro_cd = maxf(0.0, _necro_cd - delta)
+	_melee._body_cd = maxi(0, _melee._body_cd - _frame_ticks)
+	_attack_left = maxi(0, _attack_left - _frame_ticks)
+	_weapons._gutsy_cd = maxi(0, _weapons._gutsy_cd - _frame_ticks)
+	_necro_cd = maxi(0, _necro_cd - _frame_ticks)
 	if _cast_left > 0.0:
-		_cast_left -= delta
+		_cast_left -= _frame_ticks
 		if _cast_left <= 0.0:
 			_invis = false
 	if _dig_left > 0.0:
-		_dig_left -= delta
+		_dig_left -= _frame_ticks
 		visible = true
 		if _dig_left <= 0.0:
 			_buried = false
 			set_collision_layer_value(3, true)
 		return
 	if _buried:
-		if _player_valid() and global_position.distance_to(_player.global_position) < 480.0:
-			_dig_left = 24.0 / TPS
+		if _senses._player_valid() and global_position.distance_to(_player.global_position) < 480.0:
+			_dig_left = _ticks(24.0 / TPS)
 			visible = true
 		return
 	if _prep_left > 0.0:
-		_prep_left -= delta
+		_prep_left -= _frame_ticks
 		if _prep_left <= 0.0:
 			_begin_super()
-			_super_left = _super_need
+			_super_left = _ticks(_super_need)
 	elif _super_left > 0.0:
 		_run_super(delta)
-		_super_left -= delta
+		_super_left -= _frame_ticks
 		if _super_left <= 0.0:
 			_end_super()
 	elif _super != "" and ai_state == ST_CHASE:
 		_rage += float(_frame_ticks)
-		if _rage >= _zlo and _player_valid():
+		if _rage >= _zlo and _senses._player_valid():
 			_rage = 0.0
-			_prep_left = _prep_need
+			_prep_left = _ticks(_prep_need)
 			if _tele_kind == "ghoul":
 				if _tele_unit == null and _track_player:
 					_tele_unit = _player
@@ -3696,302 +2647,21 @@ func _tick_role(delta: float) -> void:
 				if _tele_tr == 2:
 					_find_super()
 	if _cast != "" and not _is_calm():
-		_cast_ready -= delta
+		_cast_ready -= _frame_ticks
 		if _cast_ready <= 0.0:
 			_do_cast()
-	_tick_side(delta)
-	_tick_gutsy()
+	_weapons._tick_side(delta)
+	_weapons._tick_gutsy()
 	_tick_necro()
 	_tick_vortex(delta)
-
-
-func _gun_ready() -> bool:
-	if fight_style == "melee" or _reload_left > 0.0:
-		return false
-	if _burst_len <= 0:
-		return _attack_cd <= 0.0
-	if _burst_left <= 0:
-		_burst_left = maxi(1, int(round(float(_burst_len) * randf_range(0.8, 1.2))))
-	var firing := _burst_left > int(round(float(_burst_len) * 0.25))
-	if _frame_ticks > 0:
-		_burst_left -= _frame_ticks
-	return firing and _attack_cd <= 0.0
-
-
-func _body_bite() -> void:
-	if _body_damage <= 0 or _body_cd > 0.0 or not _player_valid():
-		return
-	if ai_state == ST_HOLD and not _show_attack:
-		return
-	if not _boxes_touch():
-		return
-	_body_cd = 10.0 / TPS
-	if _player.has_method("take_hit") and not _player_dodges():
-		_udar_fx("DAM_BITE")
-		_player.take_hit(_body_damage, "DAM_BITE")
-
-
-func _maybe_smash() -> void:
-	if not _smash or not wall_check.is_colliding():
-		return
-	if ai_state != ST_CHASE and ai_state != ST_SEARCH:
-		return
-	if _player_valid() and absf(_player.global_position.y - global_position.y) > 80.0:
-		return
-	var body := wall_check.get_collider()
-	if body is Node and (body as Node).has_method("take_hit"):
-		var dmg := 5000 if hp <= int(round(float(max_hp) * 0.3)) else 1000
-		(body as Node).take_hit(dmg, "DAM_BLUNT")
-
-
-func _climb_step() -> bool:
-	# WalkMotor.face() does not turn while isLaz. checkStairs sets storona to the rail.
-	if not _climb_locked:
-		_climb_locked = true
-		_climb_face = facing
-	# UnitRaider: celY < Y climbs up; aiVNapr == 1 climbs down; otherwise isLaz clears.
-	var go_down := _vert > 0
-	var go_up := _vert < 0 or (not go_down and _r_laz < 0)
-	if go_up and _r_laz <= 0:
-		_r_laz = -1
-	elif go_down and _r_laz >= 0:
-		_r_laz = 1
-	elif _t_laz > 20:
-		_end_climb()
-		return false
-	var ny := 2.0 if _r_laz > 0 else -1.0
-	var rail := _try_stairs(ny)
-	if rail == null:
-		if _on_rail or not _climb:
-			_end_climb()
-			return false
-		_aim_probes()
-		if not wall_check.is_colliding():
-			_end_climb()
-			velocity = Vector2(facing * move_speed, -160.0)
-			return true
-	else:
-		if _stuck_on_rail():
-			_end_climb()
-			return false
-		_hold_rail(rail)
-	facing = _climb_face
-	_aim_probes()
-	_maybe_smash()
-	var spd := move_speed if move_speed > 0.0 else SPEED
-	if _species_id.begins_with("hellhound") and run_speed > 0.0:
-		spd = run_speed * 0.6
-	else:
-		spd *= 0.6
-	velocity.x = 0.0
-	velocity.y = spd if _r_laz > 0 else -spd
-	return true
-
-
-## Unit.checkStairs: the tile at (X, Y+ny) must be empty of phis and have stair.
-func _try_stairs(ny: float) -> Area2D:
-	var at := global_position + Vector2(0.0, ny)
-	if _solid_at(at):
-		return null
-	return _ladder_tile_at(at)
-
-
-func _hold_rail(rail: Area2D) -> void:
-	var side := str(rail.get_meta("ladder_side", ""))
-	if side == "left":
-		_climb_face = -1.0
-	elif side == "right":
-		_climb_face = 1.0
-	_on_rail = true
-	floor_snap_length = 0.0
-	set_collision_mask_value(PLATFORM_LAYER_BIT, false)
-	_sync_climb_box()
-	_snap_to_rail(rail, side)
-
-
-func _end_climb() -> void:
-	_climbing = false
-	_climb_locked = false
-	_on_rail = false
-	_climb_stuck = 0
-	floor_snap_length = _base_snap
-	set_collision_mask_value(PLATFORM_LAYER_BIT, _throu_left <= 0.0)
-	_sync_climb_box()
-
-
-func _stuck_on_rail() -> bool:
-	if absf(global_position.y - _climb_y) < 0.4:
-		_climb_stuck += 1
-	else:
-		_climb_stuck = 0
-	_climb_y = global_position.y
-	return _climb_stuck > 20
-
-
 ## Unit.checkStairs: X = phX1 + scX/2 or phX2 - scX/2. run() skips X while isLaz, so this
 ## may sit inside a wall tile; the 28 px box keeps the Godot body inside the 40 px column.
 func _snap_to_rail(rail: Area2D, side: String) -> void:
-	var half := _climb_half_width()
-	var center := rail.global_position.x
-	var target := center - TILE_W * 0.5 + half
-	if side != "left":
-		target = center + TILE_W * 0.5 - half
-	global_position.x = target
-
-
-func _climb_half_width() -> float:
-	return minf(body_size.x, CLIMB_BOX_W) * 0.5
-
-
-## The body box is CLIMB_BOX_W wide while on a rail. Off it, it widens again only where
-## the full box fits, stepping clear of a wall when it has to.
-func _sync_climb_box() -> void:
-	if _dead:
-		_narrow = false
-		return
-	var shape_node := get_node_or_null("CollisionShape2D") as CollisionShape2D
-	if shape_node == null or not shape_node.shape is RectangleShape2D:
-		return
-	var box := shape_node.shape as RectangleShape2D
-	var want := minf(body_size.x, CLIMB_BOX_W) if _on_rail else body_size.x
-	if is_equal_approx(box.size.x, want):
-		return
-	if want > box.size.x:
-		var spare := (want - box.size.x) * 0.5
-		var shift := NAN
-		for dx in [0.0, spare, -spare]:
-			if _box_fits(global_position + Vector2(dx, 0.0), Vector2(want, box.size.y)):
-				shift = dx
-				break
-		if is_nan(shift):
-			return
-		global_position.x += shift
-	var fresh := RectangleShape2D.new()
-	fresh.size = Vector2(want, box.size.y)
-	shape_node.shape = fresh
-	_narrow = want < body_size.x
-
-
+	_move._snap_to_rail(rail, side)
 func _box_fits(at: Vector2, size: Vector2) -> bool:
-	var space := get_world_2d().direct_space_state
-	if space == null:
-		return true
-	var query := PhysicsShapeQueryParameters2D.new()
-	var rect := RectangleShape2D.new()
-	rect.size = size - Vector2(2.0, 2.0)
-	query.shape = rect
-	query.transform = Transform2D(0.0, at + Vector2(0.0, -size.y * 0.5))
-	query.collision_mask = 1
-	query.exclude = [get_rid()]
-	return space.intersect_shape(query, 1).is_empty()
-
-
-## The stair tile, not the 36 px grab above the rail top (standing on the lip).
-func _ladder_tile_at(at: Vector2) -> Area2D:
-	var space := get_world_2d().direct_space_state
-	if space == null:
-		return null
-	var query := PhysicsPointQueryParameters2D.new()
-	query.collision_mask = 32
-	query.collide_with_areas = true
-	query.collide_with_bodies = false
-	for dx in [0.0, TILE_W * 0.35, -TILE_W * 0.35]:
-		query.position = at + Vector2(dx, 0.0)
-		for hit in space.intersect_point(query, 4):
-			var collider: Object = hit.get("collider")
-			if not (collider is Area2D and (collider as Area2D).is_in_group("ladders")):
-				continue
-			var area := collider as Area2D
-			var top := _area_rail_top(area)
-			if at.y >= top - 0.5 and at.y < top + _ladder_tile_h(area):
-				return area
-	return null
-
-
-func _ladder_tile_h(area: Area2D) -> float:
-	for child in area.get_children():
-		if child is CollisionShape2D and (child as CollisionShape2D).shape is RectangleShape2D:
-			return maxf(TILE_W, ((child as CollisionShape2D).shape as RectangleShape2D).size.y - LADDER_GRAB_UP)
-	return TILE_W
-
-
+	return _move._box_fits(at, size)
 func _solid_at(at: Vector2) -> bool:
-	var space := get_world_2d().direct_space_state
-	if space == null:
-		return false
-	var query := PhysicsPointQueryParameters2D.new()
-	query.position = at
-	query.collision_mask = 1
-	query.collide_with_areas = false
-	query.collide_with_bodies = true
-	query.exclude = [get_rid()]
-	for hit in space.intersect_point(query, 4):
-		var col: Object = hit.get("collider")
-		if col is CollisionObject2D and _body_is_one_way(col as CollisionObject2D):
-			continue
-		return true
-	return false
-
-
-func _body_is_one_way(body: CollisionObject2D) -> bool:
-	for child in body.get_children():
-		if child is CollisionShape2D and (child as CollisionShape2D).one_way_collision:
-			return true
-	return false
-
-
-func _area_rail_top(area: Area2D) -> float:
-	var local_y := float(area.get_meta("rail_top_local", 0.0))
-	return area.to_global(Vector2(0.0, local_y)).y
-
-
-## UnitRaider.control for a flyer: take off when the target is over 80 px above, after more
-## than 6 ticks off the floor, or in water; land after 20 ticks of floor contact (turnY < 0).
-func _tick_flyer() -> void:
-	if _frame_ticks <= 0:
-		return
-	var on_floor := is_on_floor()
-	if not _flying:
-		_t_fall = 0 if on_floor else _t_fall + _frame_ticks
-		var above := _track_player and _player_valid() and _player.global_position.y - global_position.y < -80.0
-		if _t_fall > 6 or _swimming or above:
-			_flying = true
-			_t_landing = 0
-			_hover = 0.0
-		return
-	if on_floor:
-		_t_landing += _frame_ticks
-		# UnitAlicorn aiState 4: a calm alicorn flies down and lands on touch.
-		if _t_landing > 20 or (_species_id.begins_with("alicorn") and _is_calm()):
-			_t_landing = 0
-			_flying = false
-			velocity.y = 0.0
-
-
-func _fly_toward(point: Vector2, shoot: bool) -> bool:
-	var to := point - global_position
-	var spd := run_speed if run_speed > 0.0 and ai_spok >= MAX_SPOK else move_speed
-	if _loose_fly or spd <= 0.0:
-		spd = move_speed if move_speed > 0.0 else SPEED
-	if to.length() > 28.0:
-		velocity = to.limit_length(spd)
-		if absf(to.x) > 4.0:
-			facing = signf(to.x)
-	else:
-		velocity = velocity.move_toward(Vector2.ZERO, spd)
-	_aim_probes()
-	if fight_style == "melee":
-		if _frame_ticks > 0 and not _cannot_fight():
-			_melee_swing()
-			if _shok <= 0:
-				_body_bite()
-	elif shoot and _track_player and _player_valid() and _gun_ready():
-		var in_reach := not _species_id.begins_with("bloat") or _target_distance() <= _attack_reach
-		if in_reach and (_v_konus <= 0.0 or _look(_player) > 0.0):
-			_shoot_at(_player.global_position)
-	return velocity.length() > 8.0
-
-
+	return _move._solid_at(at)
 ## An F_PLAYER raider. Unit.findCel (Unit.as L4055-4062): with fraction F_PLAYER the
 ## player is never the target (L4058); only priorUnit, the last unit of another
 ## fraction that hit it, is. Otherwise Brain_Definition.stroll: patrol, or stand for ai="stay".
@@ -4007,21 +2677,21 @@ func _ally_act() -> bool:
 		velocity.x = move_toward(velocity.x, 0.0, 900.0 * get_physics_process_delta_time())
 		if absf(foe.global_position.x - global_position.x) > 2.0:
 			facing = signf(foe.global_position.x - global_position.x)
-		_heading = facing
-		_aim_probes()
-		if _gun_ready():
-			_shoot_at(foe.global_position)
+		_move._heading = facing
+		_weapons._aim_probes()
+		if _weapons._gun_ready():
+			_weapons._shoot_at(foe.global_position)
 		return false
 	if ai_state != ST_PATROL:
 		ai_state = ST_IDLE
 	if ai_state == ST_PATROL:
-		return _patrol()
+		return _move._patrol()
 	velocity.x = 0.0
 	return false
 
 
 func _pet_act() -> bool:
-	if not _player_valid():
+	if not _senses._player_valid():
 		velocity = velocity.move_toward(Vector2.ZERO, move_speed)
 		return false
 	var foe := _nearest_foe()
@@ -4035,8 +2705,8 @@ func _pet_act() -> bool:
 		else:
 			shooting = true
 			facing = signf(at.x - global_position.x) if absf(at.x - global_position.x) > 2.0 else facing
-			if _gun_ready():
-				_shoot_at(at)
+			if _weapons._gun_ready():
+				_weapons._shoot_at(at)
 	var spd := run_speed if foe != null and run_speed > 0.0 else move_speed
 	if spd <= 0.0:
 		spd = SPEED
@@ -4049,13 +2719,13 @@ func _pet_act() -> bool:
 		velocity = to.limit_length(move_speed if move_speed > 0.0 else SPEED)
 	else:
 		velocity = velocity.move_toward(Vector2.ZERO, spd)
-	_aim_probes()
+	_weapons._aim_probes()
 	return velocity.length() > 8.0
 
 
 func _follow_point() -> Vector2:
 	var face := 1.0
-	if _player_valid() and "facing" in _player:
+	if _senses._player_valid() and "facing" in _player:
 		face = float(_player.facing)
 	return _player.global_position + Vector2(face * -120.0, -80.0)
 
@@ -4078,80 +2748,28 @@ func _nearest_foe() -> Node2D:
 func _calm_cast() -> void:
 	if _cast != "invis" or not _is_calm() or _invis or _cast_ready > 0.0:
 		return
-	if randf() < 0.5:
+	if Rng.randf(&"ai") < 0.5:
 		_do_cast()
 
 
 func _do_cast() -> void:
-	_cast_ready = _cast_gap * randf_range(0.8, 1.2)
+	_cast_ready = _ticks(_cast_gap * Rng.randf_range(&"ai", 0.8, 1.2))
 	if _cast == "invis":
 		_invis = true
-		_cast_left = 300.0 / TPS
-	elif _cast == "teleport" and _player_valid():
+		_cast_left = _ticks(300.0 / TPS)
+	elif _cast == "teleport" and _senses._player_valid():
 		var face := 1.0
 		if "facing" in _player:
 			face = float(_player.facing)
-		var behind := randf() < 0.7
-		var dist := randf_range(200.0, 500.0) if randf() < 0.5 else randf_range(200.0, 1000.0)
-		var ny := 0.0 if dist <= 500.0 else randf_range(-80.0, 80.0)
+		var behind := Rng.randf(&"ai") < 0.7
+		var dist := Rng.randf_range(&"ai", 200.0, 500.0) if Rng.randf(&"ai") < 0.5 else Rng.randf_range(&"ai", 200.0, 1000.0)
+		var ny := 0.0 if dist <= 500.0 else Rng.randf_range(&"ai", -80.0, 80.0)
 		var side := -face if behind else face
 		global_position = _player.global_position + Vector2(side * dist, ny)
-	elif _cast == "telepathy" and _player_valid():
-		_launch(_player.global_position, _weapon_row("alipsy"), false, false, false)
-
-
-func _tick_side(delta: float) -> void:
-	var grenades := _side_ammo > 0 and _side_id != ""
-	if not grenades and not _ranger_side:
-		return
-	# SideWeaponAttack: the timer runs only while fighting. A due shot needs a target
-	# in sight; without one only a blind weapon (ranger gas) fires.
-	if not _is_attacking() or _cannot_fight():
-		return
-	_side_wait -= delta
-	if _side_wait > 0.0:
-		return
-	_side_wait = float(randi_range(50, 200)) / TPS
-	var seen := _track_player and _player_valid()
-	if grenades:
-		if seen and randf() < _side_chance:
-			_launch(_player.global_position, _weapon_row(_side_id), _friendly, false, false)
-			_side_ammo -= 1
-		return
-	if seen:
-		var rocket := _weapon_row("robomlau")
-		rocket["damage_expl"] = float(rocket.get("damage_expl", 150.0)) * 0.8
-		_launch(_player.global_position, rocket, false, false, false)
-	else:
-		_launch(_goal, _weapon_row("robogas"), false, false, false)
-
-
-func _tick_gutsy() -> void:
-	if not _gutsy_fire or _is_calm() or not _player_valid():
-		return
-	var close := _target_distance() < 300.0
-	if close or _gutsy_burst > 0:
-		if _gutsy_burst <= 0:
-			_gutsy_burst = maxi(1, int(round(100.0 * randf_range(0.8, 1.2))))
-		var firing := _gutsy_burst > 25
-		if _frame_ticks > 0:
-			_gutsy_burst -= _frame_ticks
-		if firing and _gutsy_cd <= 0.0:
-			var fire := _weapon_row("robofire")
-			fire["damage"] = float(fire.get("damage", 2.2)) * _gutsy_scale
-			_launch(_player.global_position, fire, false, false, false)
-			_gutsy_cd = 1.0 / TPS
-		return
-	if _frame_ticks <= 0 or _attack_cd > 0.0:
-		return
-	for _i in _frame_ticks:
-		if randf() < 0.1:
-			_shoot_at(_player.global_position)
-			return
-
-
+	elif _cast == "telepathy" and _senses._player_valid():
+		_weapons._launch(_player.global_position, _weapon_row("alipsy"), false, false, false)
 func _tick_necro() -> void:
-	if not _necro_shot or _is_calm() or not _player_valid() or _necro_cd > 0.0:
+	if not _necro_shot or _is_calm() or not _senses._player_valid() or _necro_cd > 0.0:
 		return
 	if absf(_player.global_position.y - global_position.y) > 80.0:
 		return
@@ -4160,21 +2778,21 @@ func _tick_necro() -> void:
 	if _frame_ticks <= 0:
 		return
 	for _i in _frame_ticks:
-		if randf() < 0.1:
-			_launch(_player.global_position, _weapon_row("zombinecro"), false, false, false)
-			_necro_cd = 60.0 / TPS
+		if Rng.randf(&"ai") < 0.1:
+			_weapons._launch(_player.global_position, _weapon_row("zombinecro"), false, false, false)
+			_necro_cd = _ticks(60.0 / TPS)
 			return
 
 
 func _tick_vortex(delta: float) -> void:
 	if _vortex_left <= 0 or _is_calm():
 		return
-	_vortex_wait -= delta
+	_vortex_wait -= _frame_ticks
 	if _vortex_wait > 0.0:
 		return
 	_spawn_vortex()
 	_vortex_left -= 1
-	_vortex_wait = 500.0 / TPS
+	_vortex_wait = _ticks(500.0 / TPS)
 
 
 func _spawn_vortex() -> void:
@@ -4191,7 +2809,7 @@ func _spawn_vortex() -> void:
 		node.queue_free()
 		return
 	host.add_child(node)
-	node.global_position = global_position + Vector2(randf_range(-24.0, 24.0), -body_size.y * 0.4)
+	node.global_position = global_position + Vector2(Rng.randf_range(&"spawn", -24.0, 24.0), -body_size.y * 0.4)
 
 
 ## UnitBloat.dropLoot: tr >= 8 leaves two bloats of tr - 1 (same questId); bloat3 (units.xml
@@ -4239,23 +2857,23 @@ static func _spawn_bloats(tree: SceneTree, kids: Array, quest_steps: Array, at: 
 
 
 func _begin_super() -> void:
-	if _super == "jump" and _player_valid():
+	if _super == "jump" and _senses._player_valid():
 		var dest := _player.global_position - global_position
 		var dist := dest.length()
 		if dist > 1.0:
 			velocity = dest / dist * _super_v
 			var ticks := dist / maxf(_super_v / TPS, 1.0)
 			_super_need = minf(20.0, ticks) / TPS
-		_jump_free = true
+		_move._jump_free = true
 		velocity.y = velocity.y
-	elif _super == "spit" and _spit_id != "" and _player_valid():
-		_launch(_player.global_position, _weapon_row(_spit_id), false, false, false)
+	elif _super == "spit" and _spit_id != "" and _senses._player_valid():
+		_weapons._launch(_player.global_position, _weapon_row(_spit_id), false, false, false)
 	elif _super == "rad":
 		_rad_power = 20.0
 		_rad_left = _super_need
 		_heal_zombies(1200.0, 30.0)
 	elif _super == "quake":
-		_quake_step = 0.0
+		_quake_step = 0
 	elif _super == "tele" and _tele != null:
 		_super_tick = 0
 		if _tele_unit != null and is_instance_valid(_tele_unit) and int(_tele_unit.get("levit")) != 1:
@@ -4263,7 +2881,7 @@ func _begin_super() -> void:
 
 
 func _run_super(delta: float) -> void:
-	if _super == "rad" and _player_valid():
+	if _super == "rad" and _senses._player_valid():
 		var dist := global_position.distance_to(_player.global_position)
 		if dist < 1200.0:
 			var koef := (1200.0 - dist) / 1200.0
@@ -4271,15 +2889,15 @@ func _run_super(delta: float) -> void:
 		if _super_need > 0.0:
 			_rad_power = maxf(1.0, _rad_power - (19.0 / _super_need) * delta)
 	elif _super == "quake":
-		_quake_step -= delta
+		_quake_step -= _frame_ticks
 		if _quake_step <= 0.0:
-			_quake_step = 4.0 / TPS
-			if _player_valid() and global_position.distance_to(_player.global_position) < 420.0:
+			_quake_step = _ticks(4.0 / TPS)
+			if _senses._player_valid() and global_position.distance_to(_player.global_position) < 420.0:
 				_player.global_position.y -= 12.0
 
 
 func _end_super() -> void:
-	_jump_free = false
+	_move._jump_free = false
 	if _super == "jump":
 		_super_need = 20.0 / TPS
 	if _super == "rad":
@@ -4314,16 +2932,16 @@ func receive_rad_heal(amount: int) -> void:
 func _hurt_radius(radius: float, damage: int, tip: String) -> void:
 	if damage <= 0:
 		return
-	if _player_valid() and global_position.distance_to(_player.global_position) <= radius:
+	if _senses._player_valid() and global_position.distance_to(_player.global_position) <= radius:
 		if _player.has_method("take_hit"):
-			_player.take_hit(damage, tip)
+			_player.take_hit(HitInfo.make(damage, tip, self))
 	for node in get_tree().get_nodes_in_group("enemies"):
 		if node == self or not node is Node2D or not is_instance_valid(node):
 			continue
 		if global_position.distance_to((node as Node2D).global_position) > radius:
 			continue
 		if (node as Node).has_method("take_hit"):
-			(node as Node).take_hit(damage, tip)
+			(node as Node).take_hit(HitInfo.make(damage, tip, self))
 
 
 ## UnitAlicorn.pole (xml pole = allid, or aiTip pole): holds a force field. It
@@ -4340,7 +2958,7 @@ func _pole_hold() -> bool:
 	_pole_t += _frame_ticks
 	if _pole_t >= 5:
 		_pole_t = 0
-		UnitFx.emit(get_tree(), "unlock", muzzle.global_position, {"rx": 20, "ry": 20})
+		Fx.particles("unlock", muzzle.global_position, {"rx": 20, "ry": 20, "source": self})
 	return true
 
 
@@ -4381,7 +2999,7 @@ func _begin_death() -> void:
 	if _brain != null:
 		_brain.drop_loot()
 	if _drop_id != "":
-		_launch(_feet(self), _weapon_row(_drop_id), false, false, false)
+		_weapons._launch(_feet(self), _weapon_row(_drop_id), false, false, false)
 		_drop_id = ""
 	_last_rites = false
 	if _pink_death:
@@ -4393,7 +3011,7 @@ func _begin_death() -> void:
 	if _friendly and _pet_revive:
 		_downed = true
 		hp = 0
-		_revive_left = 30.0
+		_revive_left = _ticks(30.0)
 		visible = false
 		velocity = Vector2.ZERO
 		set_collision_layer_value(3, false)
@@ -4404,7 +3022,7 @@ func _begin_death() -> void:
 	if _revives:
 		_downed = true
 		hp = 0
-		_revive_left = 300.0 / TPS
+		_revive_left = _ticks(300.0 / TPS)
 		velocity = Vector2.ZERO
 		return
 	GameState.enemy_defeated(points)
@@ -4432,12 +3050,12 @@ func _become_corpse() -> void:
 	ai_state = ST_IDLE
 	_track_player = false
 	_burst_left = 0
-	_windup_left = 0.0
+	_melee._windup_left = 0
 	_cut = 0.0
 	_poison = 0.0
-	_burn_left = 0.0
-	_acid_left = 0.0
-	_pink_left = 0.0
+	_burn_left = 0
+	_acid_left = 0
+	_pink_left = 0
 	remove_from_group("enemies")
 	remove_from_group("foe_bodies")
 	_asleep = false
@@ -4511,20 +3129,20 @@ func _drop_loot() -> void:
 	if host != null:
 		for drop in _loot_table(_loot_cont):
 			_spawn_drop(host, str(drop.get("id", "")), int(drop.get("n", 1)), center)
-		if int(get_meta("hero", 0)) > 0 and not _is_machine() and randf() < 0.75:
+		if int(get_meta("hero", 0)) > 0 and not _is_machine() and Rng.randf(&"loot") < 0.75:
 			_spawn_drop(host, "essence", 1, center)
 		var tre := _drop_tre()
-		if tre > 0.0 and points > 0 and randf() < tre * float(points) / 4000.0:
-			_spawn_drop(host, "gem%d" % (randi() % 3 + 1), 1, center)
+		if tre > 0.0 and points > 0 and Rng.randf(&"loot") < tre * float(points) / 4000.0:
+			_spawn_drop(host, "gem%d" % (Rng.randi(&"loot") % 3 + 1), 1, center)
 		if _raider_type and _drop_arm and not _weapon.is_empty():
 			var wid := str(_weapon.get("id", ""))
 			if wid != "" and not wid.begins_with("robo"):
 				# LootGen.lootId(..., 0): Item kol 0 gives a weapon sost 0.05-0.2.
-				_spawn_drop(host, wid, 1, muzzle.global_position, randf_range(0.05, 0.2))
+				_spawn_drop(host, wid, 1, muzzle.global_position, Rng.randf_range(&"loot", 0.05, 0.2))
 	if _raider_type and _thrown and not _weapon.is_empty():
 		for _i in DEATH_THROWS:
-			var feet := _feet(self) + Vector2(randf_range(-DROP_SCATTER, DROP_SCATTER), 0.0)
-			_launch(feet, _weapon, false, false, false)
+			var feet := _feet(self) + Vector2(Rng.randf_range(&"loot", -DROP_SCATTER, DROP_SCATTER), 0.0)
+			_weapons._launch(feet, _weapon, false, false, false)
 
 
 func _drop_tre() -> float:
@@ -4551,49 +3169,16 @@ func _spawn_drop(host: Node, id: String, n: int, at: Vector2, sost := 1.0) -> vo
 
 ## LootGen.lootDrop tables for units. Each row: chance, loot type, id, count, flags.
 ## Flag "or" rolls only if the row before failed; "hero" needs a hero unit.
-const UNIT_LOOT := {
-	"scorp": [[1, "compa", "chitin_comp"], [0.25, "compp", "gland"], [0.1, "food", "meat"]],
-	"slime": [[0.75, "item", "acidslime"]],
-	"pinkslime": [[0.75, "item", "pinkslime"]],
-	"raider": [[0.25, "eda", ""], [0.25, "a", ""], [0.12, "e", ""]],
-	"alicorn": [[1, "compp", "mdust"], [0.1, "pot", "potMP"], [0.3, "med", "potm1"], [0.2, "med", "potm2", -1, "or"]],
-	"ranger": [[1, "item", "frag", -3], [0.5, "item", "scrap", -3], [1, "compa", "power_comp"], [0.25, "a", ""]],
-	"encl": [[0.5, "item", "frag", -3], [0.3, "a", "batt"], [0.5, "a", "crystal", -1, "or"], [0.3, "compa", "power_comp"]],
-	"hellhound1": [[1, "compw", "kogt", -1, "hero"]],
-	"zombie": [[0.35, "compp", "ghoulblood"], [0.15, "compp", "radslime"], [0.5, "compa", "skin_comp"]],
-	"zombie4": [[0.8, "compp", "ghoulblood"], [1, "compp", "radslime"]],
-	"zombie5": [[1, "compp", "ghoulblood"], [0.3, "compp", "metal_comp"]],
-	"zombie6": [[1, "compp", "ghoulblood"], [0.3, "compa", "battle_comp"], [0.8, "compp", "acidslime"]],
-	"zombie7": [[0.6, "compp", "ghoulblood"], [0.2, "compp", "pinkslime"], [0.6, "compm", "darkfrag", -1, "hero"]],
-	"zombie8": [[0.6, "compp", "ghoulblood"], [1, "compp", "pinkslime"], [0.8, "compm", "darkfrag", -1, "hero"]],
-	"zombie9": [[0.6, "compp", "ghoulblood"], [1, "compp", "whorn"], [1, "compm", "darkfrag", -1, "hero"]],
-	"bloodwing": [[0.2, "compp", "wingmembrane"], [0.16, "compp", "vampfang"], [0.25, "food", "meat"]],
-	"bloodwing2": [[0.3, "compp", "wingmembrane"], [0.2, "compp", "vampfang"], [0.4, "compp", "pinkslime"]],
-	"bloat0": [[0.2, "compp", "bloatwing"], [0.1, "compp", "bloateye"]],
-	"bloat1": [[0.2, "compp", "bloatwing"], [0.1, "compp", "bloateye"], [0.2, "compp", "acidslime"]],
-	"bloat2": [[0.2, "compp", "bloatwing"], [0.1, "compp", "bloateye"], [0.1, "compp", "gland"]],
-	"bloat3": [[0.3, "compp", "bloatwing"], [0.2, "compp", "bloateye"], [0.1, "compp", "molefat"]],
-	"bloat4": [[0.4, "compp", "bloatwing"], [0.3, "compp", "bloateye"]],
-	"rat": [[0.35, "compp", "ratliver"], [0.25, "compp", "rattail"], [0.1, "food", "meat"]],
-	"molerat": [[0.5, "compp", "ratliver"], [1, "compp", "molefat"], [0.25, "food", "meat"]],
-	"fish1": [[0.5, "compp", "fishfat"]],
-	"fish2": [[1, "compp", "fishfat"]],
-	"ant1": [[0.15, "compa", "chitin_comp"], [0.1, "food", "meat"]],
-	"ant2": [[0.3, "compa", "chitin_comp"], [0.1, "food", "meat"]],
-	"ant3": [[0.2, "compa", "chitin_comp"], [1, "compp", "firegland"], [0.1, "food", "meat"]],
-	"necros": [[0.5, "item", "dsoul"]],
-	"ebloat": [[1, "compp", "essence"]],
-	"turret": [[0.5, "item", "scrap"], [0.35, "compw", "frag"], [0.2, "a", "batt"], [0.2, "a", "energ", -1, "or"]],
-	"turret1": [[0.5, "item", "scrap"], [0.5, "item", "scrap"], [0.85, "compw", "frag"], [0.52, "compa", "magus_comp"], [0.4, "a", "batt"], [0.8, "a", "energ", -1, "or"]],
-	"robobrain": [[0.25, "item", "scrap"], [0.15, "compw", "frag"], [0.5, "compm", ""], [0.5, "a", "batt"], [0.4, "compa", "metal_comp"], [1, "compm", "impgen", -1, "hero"]],
-	"protect": [[0.3, "item", "scrap"], [0.25, "compw", "frag"], [0.6, "compm", ""], [0.9, "a", "batt"], [0.4, "compa", "metal_comp"], [1, "compm", "uscan", -1, "hero"]],
-	"gutsy": [[0.45, "item", "scrap"], [0.5, "compw", "frag"], [0.7, "compm", ""], [0.85, "compa", "battle_comp"], [0.4, "a", "fuel"], [0.75, "a", "energ", -1, "or"], [1, "compm", "tlaser", -1, "hero"]],
-	"eqd": [[0.45, "item", "scrap"], [0.5, "compw", "frag"], [0.8, "compm", ""], [0.85, "compa", "magus_comp"], [1, "a", "energ"], [0.5, "item", "data"], [1, "compm", "pcrystal", -1, "hero"]],
-	"sentinel": [[0.85, "item", "scrap"], [0.5, "compw", "frag"], [1, "compm", ""], [0.4, "a", "p5"], [1, "a", "crystal", -1, "or"], [0.85, "a", "rocket"], [0.5, "compw", ""], [1, "compm", "motiv"]],
-	"vortex": [[0.2, "item", "scrap"]],
-	"spritebot": [[0.2, "item", "scrap"]],
-	"roller": [[0.2, "item", "scrap"]],
-}
+const LOOT_PATH := "res://assets/data/unit_loot.json"
+static var UNIT_LOOT: Dictionary = {}
+static var _loot_ready: bool = _load_unit_loot()
+
+
+static func _load_unit_loot() -> bool:
+	var data: Variant = DataLib.load(LOOT_PATH)
+	if data is Dictionary:
+		UNIT_LOOT = data
+	return true
 
 
 func _loot_table(cont: String) -> Array:
@@ -4630,7 +3215,7 @@ func _loot_table(cont: String) -> Array:
 		var count := int(row[3]) if row.size() > 3 else -1
 		if count < -1:
 			# Math.floor(Math.random() * 3 + 1): 1 to 3.
-			count = randi_range(1, -count)
+			count = Rng.randi_range(&"loot", 1, -count)
 		last = gen._new(float(row[0]), str(row[1]), str(row[2]), count)
 	return gen._drops
 
@@ -4642,7 +3227,7 @@ func _rise() -> void:
 	velocity = Vector2.ZERO
 	if _friendly:
 		hp = maxi(1, int(round(float(max_hp) * 0.5)))
-		if _player_valid():
+		if _senses._player_valid():
 			global_position = _follow_point()
 	else:
 		hp = max_hp
@@ -4650,183 +3235,161 @@ func _rise() -> void:
 
 
 func _apply_role(id: String, row: Dictionary) -> void:
+	_role_motion(id, row)
+	_weapons._role_grenade(row)
+	_role_faction(id)
+	_weapons._role_arm(id, row)
+	_role_critters(id)
+	_role_chase(id)
+	_apply_zombie(id, int(row.get("ss", 0)))
+	_setup_tele(id, int(row.get("ss", 0)))
+	if _flying and _sheet_clips.has("fly"):
+		_move_clip = "fly"
+	if _move._jet or (_move._flyer and _species_id.begins_with("alicorn") and _sheet_clips.has("walk")):
+		_move_clip = "walk"
+
+func _role_motion(id: String, row: Dictionary) -> void:
 	_species_id = id
 	_comb = int(row.get("comb", melee_damage))
 	_krep = int(row.get("krep", 0))
 	_flying = bool(row.get("fly", false))
 	# UnitProtect is a UnitAIRobot walker; its jump() is a jet with jump_n ticks (jump_m 90, hero 500).
-	_jet = id.begins_with("protect")
-	if _jet:
+	_move._jet = id.begins_with("protect")
+	if _move._jet:
 		_flying = false
-		_jet_max = 500 if int(get_meta("hero", 0)) == 1 else 90
-		_jet_n = 100
+		_move._jet_max = 500 if int(get_meta("hero", 0)) == 1 else 90
+		_move._jet_n = 100
 	var pet_row := bool(row.get("pet", false)) or str(row.get("fraction", "")) == "player"
 	_friendly = pet_row or bool(get_meta("player_side", false))
 	_ground_ally = _friendly and not pet_row and (id == "raider" or _raider_kin(id)) and not _flying
 	# UnitRaider flyer (Enclave, mercs): a walker that takes off and lands (isFly), not a hoverer.
 	# UnitAlicorn has the same isFly / t_fall / t_landing rules.
-	_flyer = _flying and (id.begins_with("encl") or id.begins_with("merc") or id.begins_with("alicorn"))
-	if _flyer:
+	_move._flyer = _flying and (id.begins_with("encl") or id.begins_with("merc") or id.begins_with("alicorn"))
+	if _move._flyer:
 		_flying = false
 	_cast = str(row.get("cast", ""))
 	_revives = bool(row.get("revives", false))
 	_drop_id = str(row.get("drop_weapon", ""))
-	_burst_len = int(row.get("och", 0))
+	_weapons._burst_len = int(row.get("och", 0))
 	_fire_down = id.begins_with("bossencl")
 	_vortex_left = 8 if _fire_down else 0
-	_encl_bonus = id.begins_with("encl")
+	_weapons._encl_bonus = id.begins_with("encl")
 	if _cast == "teleport":
 		_cast_gap = (250.0 + 90.0) / TPS
 	elif _cast != "":
 		_cast_gap = (500.0 + 90.0) / TPS
 	if _cast != "":
-		_cast_ready = 90.0 / TPS
+		_cast_ready = _ticks(90.0 / TPS)
 	if id == "rat":
-		_hop_vy = 8.0 * TPS
+		_move._hop_vy = 8.0 * TPS
 	elif id == "molerat":
-		_hop_vy = 14.0 * TPS
+		_move._hop_vy = 14.0 * TPS
 	if id.begins_with("hellhound"):
-		_climb = true
-		_can_crawl = true
-		_smash = true
-		_brake_ledge = true
-		_air_frac = 1.0
-		_wall_give = 0.5
-		_turn_at_wall = false
-		_backpedal = false
+		_move._climb = true
+		_move._can_crawl = true
+		_melee._smash = true
+		_move._brake_ledge = true
+		_move._air_frac = 1.0
+		_move._wall_give = 0.5
+		_move._turn_at_wall = false
+		_move._backpedal = false
 		_close_chance = 0.0
-		_hop_gaps = true
-		_jump_reach = true
+		_move._hop_gaps = true
+		_move._jump_reach = true
 	if id.begins_with("gutsy"):
-		_gutsy_fire = true
-		_chase_shot = false
-		_gutsy_scale = 2.0 if id == "gutsy1" else 1.0
+		_weapons._gutsy_fire = true
+		_weapons._chase_shot = false
+		_weapons._gutsy_scale = 2.0 if id == "gutsy1" else 1.0
 	if id.begins_with("ranger"):
-		_ranger_side = true
-		_shoot_climb = true
-	var grenader := int(row.get("grenader", 0))
-	if grenader > 0:
-		_side_id = "mercgr"
-		_side_ammo = grenader
-		_side_chance = 0.5
-		_side_wait = randf_range(50.0, 200.0) / TPS
-	elif _ranger_side:
-		_side_wait = randf_range(50.0, 200.0) / TPS
+		_weapons._ranger_side = true
+		_weapons._shoot_climb = true
+func _role_faction(id: String) -> void:
 	if _ground_ally:
 		fraction = 100
 	elif _friendly:
 		_pet_range = 400.0 if id == "owl" else 200.0
 		_pet_revive = id == "phoenix"
 		_hover = 80.0
-	var rolled := ""
-	if id.begins_with("scorp") or id == "necros" or id == "tarakan" or id.begins_with("zombie"):
-		rolled = ""
-	elif id.begins_with("ant") and id != "ant3":
-		rolled = ""
-	elif id.begins_with("alicorn"):
-		rolled = "alilight"
-	elif id.begins_with("bossencl"):
-		rolled = "lmg"
-		if id.ends_with("2"):
-			rolled = "quick"
-		elif id.ends_with("3"):
-			rolled = "mlau"
-	else:
-		rolled = _roll_pool(row.get("pool", []))
-		if rolled == "":
-			rolled = str(row.get("weapon", ""))
-	if rolled != "":
-		_arm(rolled)
-	if id == "bossencl3" and not _weapon.is_empty():
-		_weapon["speed"] = 12.0
-		_weapon["rapid"] = 30.0
-		_weapon["damage_expl"] = float(_weapon.get("damage_expl", 250.0)) * 0.6
-		_strike_cd = 30.0 / TPS
-		_bullet_speed = 12.0 * TPS
-		_bullet_damage = maxi(1, int(round(float(_weapon["damage_expl"]))))
+func _role_critters(id: String) -> void:
 	if id.begins_with("ant"):
-		_climb = true
-		_hop_gaps = false
-		_jump_reach = false
-		_jump_boost = 5.0
-		_reaim_every = 10
-		_reaim_chance = 0.7
-		_reaim_dist = 80.0
+		_move._climb = true
+		_move._hop_gaps = false
+		_move._jump_reach = false
+		_move._jump_boost = 5.0
+		_weapons._reaim_every = 10
+		_weapons._reaim_chance = 0.7
+		_weapons._reaim_dist = 80.0
 		if id == "ant3":
-			_body_damage = _comb if _comb > 0 else 7
+			_melee._body_damage = _comb if _comb > 0 else 7
 			# Fire ants breathe only while holding. closeHoldChance is 0.07.
-			_gunner_hold = false
+			_weapons._gunner_hold = false
 			_close_chance = 0.07
-			_band_min = 0.0
-			_band_max = 120.0
-			_band_up = 80.0
-			_band_down = 80.0
+			_melee._band_min = 0.0
+			_melee._band_max = 120.0
+			_melee._band_up = 80.0
+			_melee._band_down = 80.0
 			_close_tmin = 40.0
 			_close_tmax = 90.0
 			_close_search = true
 			_close_release = false
-			_shot_chance = 1.0
-			_blind_chance = 0.0
-			_need_sight = true
-			_chase_shot = false
-			_backpedal = false
-			_ram_while_chase = true
-			_ram_x = 100.0
-			_ram_y = 120.0
-			_bite_hop = HOP_POWER
+			_weapons._shot_chance = 1.0
+			_weapons._blind_chance = 0.0
+			_weapons._need_sight = true
+			_weapons._chase_shot = false
+			_move._backpedal = false
+			_melee._ram_while_chase = true
+			_melee._ram_x = 100.0
+			_melee._ram_y = 120.0
+			_melee._bite_hop = HOP_POWER
 		else:
 			fight_style = "melee"
-			_contact_bite = true
-			_chase_shot = false
+			_melee._contact_bite = true
+			_weapons._chase_shot = false
 			melee_damage = _comb if _comb > 0 else melee_damage
-			_bite_hop = HOP_POWER
+			_melee._bite_hop = HOP_POWER
 	if id == "tarakan":
 		fight_style = "melee"
-		_contact_bite = true
-		_chase_shot = false
+		_melee._contact_bite = true
+		_weapons._chase_shot = false
 		melee_damage = _comb if _comb > 0 else 4
-		_hop_gaps = false
-		_jump_reach = false
-		_bite_hop = HOP_POWER
-		_reaim_every = 10
-		_reaim_chance = 0.7
-		_reaim_dist = 80.0
+		_move._hop_gaps = false
+		_move._jump_reach = false
+		_melee._bite_hop = HOP_POWER
+		_weapons._reaim_every = 10
+		_weapons._reaim_chance = 0.7
+		_weapons._reaim_dist = 80.0
 	if id == "necros":
-		_loose_fly = true
+		_move._loose_fly = true
 		_flying = true
 		fight_style = "melee"
-		_contact_bite = true
-		_chase_shot = false
+		_melee._contact_bite = true
+		_weapons._chase_shot = false
 		melee_damage = _comb if _comb > 0 else 80
 		_move_clip = "stay"
 	if id == "rat" or id == "molerat":
-		_bite_hop = HOP_POWER
-		_hop_gaps = true
-		_jump_reach = true
-		_reaim_every = 10
-		_reaim_chance = 0.7
-		_reaim_dist = 80.0
-	if not _raider_kin(id) and _reaim_chance == DURAK_REAIM:
-		_reaim_chance = SMART_REAIM
+		_melee._bite_hop = HOP_POWER
+		_move._hop_gaps = true
+		_move._jump_reach = true
+		_weapons._reaim_every = 10
+		_weapons._reaim_chance = 0.7
+		_weapons._reaim_dist = 80.0
+
+func _role_chase(id: String) -> void:
+	if not _raider_kin(id) and _weapons._reaim_chance == DURAK_REAIM:
+		_weapons._reaim_chance = SMART_REAIM
 	if _flying:
-		_runs_alert = false
-		_jump_reach = false
-		_backpedal = false
+		_move._runs_alert = false
+		_move._jump_reach = false
+		_move._backpedal = false
 	if fixed_post or fight_style == "turret":
-		_runs_alert = false
-		_jump_reach = false
-		_hop_gaps = false
-	if fight_style == "melee" and not _melee_while_chase and not id.begins_with("scorp"):
-		_ram_while_chase = true
-		if _ram_x <= 0.0 and not _contact_bite:
-			_ram_x = _swing_x
-			_ram_y = maxf(_swing_above, _swing_below)
-	_apply_zombie(id, int(row.get("ss", 0)))
-	_setup_tele(id, int(row.get("ss", 0)))
-	if _flying and _sheet_clips.has("fly"):
-		_move_clip = "fly"
-	if _jet or (_flyer and _species_id.begins_with("alicorn") and _sheet_clips.has("walk")):
-		_move_clip = "walk"
+		_move._runs_alert = false
+		_move._jump_reach = false
+		_move._hop_gaps = false
+	if fight_style == "melee" and not _melee._melee_while_chase and not id.begins_with("scorp"):
+		_melee._ram_while_chase = true
+		if _melee._ram_x <= 0.0 and not _melee._contact_bite:
+			_melee._ram_x = _melee._swing_x
+			_melee._ram_y = maxf(_melee._swing_above, _melee._swing_below)
 
 
 ## UnitAlicorn: teleSpeed 16, teleAccel 4, throwForce 30, tTeleRes 600 (purple 20, 5, 45,
@@ -4873,9 +3436,9 @@ func _alicorn_tele() -> void:
 	_t_tele += 1
 	# The || short-circuits: a calm alicorn does not search.
 	if _t_tele == 0 and (_is_calm() or _alicorn_find_box() == null):
-		_t_tele = -int(randf() * 100.0 + 50.0)
+		_t_tele = -int(Rng.randf(&"ai") * 100.0 + 50.0)
 	if _t_tele >= _tele_throw_t + 10:
-		_t_tele = -int(randf() * 100.0 + 50.0)
+		_t_tele = -int(Rng.randf(&"ai") * 100.0 + 50.0)
 	if _tele.held == null:
 		return
 	_tele.hold_beside(facing)
@@ -4898,7 +3461,7 @@ func _alicorn_tele() -> void:
 ## half for blue and green), else a crate within optDistTele.
 func _alicorn_find_box() -> Node2D:
 	var cel := _alicorn_cel()
-	if cel != null and randf() < 0.25:
+	if cel != null and Rng.randf(&"ai") < 0.25:
 		var lv := GameState.tele_enemy() if _tele_tr == 2 else int(GameState.tele_enemy() * 0.5)
 		_tele.grab(cel, lv)
 		return cel
@@ -4909,12 +3472,12 @@ func _alicorn_find_box() -> Node2D:
 
 
 func _alicorn_cel() -> Node2D:
-	return _player if _track_player and _player_valid() else null
+	return _player if _track_player and _senses._player_valid() else null
 
 
 ## Unit.setCel: celX = X + width / 4 * storona, celY = the target's middle.
 func _cel_point() -> Vector2:
-	if not _player_valid():
+	if not _senses._player_valid():
 		return _goal
 	var side := float(_player.get("facing")) if "facing" in _player else 1.0
 	return _body_center(_player) + Vector2(_body_size(_player).x * 0.25 * side, 0.0)
@@ -4923,7 +3486,7 @@ func _cel_point() -> Vector2:
 ## superSila2: the body is held at (superX, superY - halfHeight). 30 ticks before
 ## the end superX / superY become the ghoul's own feet. Leaving aiState 7 releases.
 func _ghoul_tele() -> void:
-	if _track_player and _player_valid():
+	if _track_player and _senses._player_valid():
 		_tele_unit = _player
 	elif _is_calm():
 		_tele_unit = null
@@ -4995,20 +3558,20 @@ func _apply_zombie(id: String, ss: int) -> void:
 	if not id.begins_with("zombie"):
 		return
 	fight_style = "melee"
-	_chase_shot = false
-	_melee_while_chase = false
-	_ram_while_chase = true
+	_weapons._chase_shot = false
+	_melee._melee_while_chase = false
+	_melee._ram_while_chase = true
 	_close_chance = 0.0
-	_backpedal = false
-	_ram_x = 200.0
-	_ram_y = 80.0
-	_reaim_chance = SMART_REAIM
-	_hop_gaps = true
-	_jump_reach = true
-	_contact_bite = true
+	_move._backpedal = false
+	_melee._ram_x = 200.0
+	_melee._ram_y = 80.0
+	_weapons._reaim_chance = SMART_REAIM
+	_move._hop_gaps = true
+	_move._jump_reach = true
+	_melee._contact_bite = true
 	if _comb > 0:
 		melee_damage = _comb
-	if _sheet_clips.has("dig") and randf() < 0.75:
+	if _sheet_clips.has("dig") and Rng.randf(&"ai") < 0.75:
 		_buried = true
 	match ss:
 		1:
@@ -5072,266 +3635,16 @@ func _roll_pool(pool: Variant) -> String:
 		var wid := str(entry.get("id", ""))
 		if wid == "":
 			continue
-		if not entry.has("ch") or randf() < float(entry["ch"]):
+		if not entry.has("ch") or Rng.randf(&"loot") < float(entry["ch"]):
 			return wid
 	return ""
-
-
 func _arm(wid: String) -> void:
-	var w := _weapon_row(wid)
-	if w.is_empty():
-		return
-	var kind := str(w.get("kind", ""))
-	var delivery := str(w.get("delivery", ""))
-	var thrown := kind == "explosives" or delivery == "grenade"
-	var rapid := maxf(float(w.get("rapid", 15.0)), 1.0)
-	if kind == "melee" or delivery == "melee":
-		fight_style = "melee"
-		_thrown = false
-		_chase_shot = false
-		_blast = 0.0
-		var wd := float(w.get("damage", _comb))
-		if _krep == 0:
-			melee_damage = maxi(1, int(round(wd)))
-		else:
-			melee_damage = maxi(1, int(round(wd * 0.5 + float(_comb))))
-		_bullet_type = str(w.get("damage_type", _bullet_type))
-		_strike_cd = rapid / TPS
-		_swing_x = SWING_REACH
-		var reach_y := rapid * 8.0
-		_swing_above = reach_y
-		_swing_below = reach_y
-		_weapon = w
-		_burst_len = 0
-		_backpedal = false
-		# UnitRaider.arm: a gripped melee weapon is a body ram. A levitated one swings.
-		if _krep != 0:
-			_contact_bite = true
-			_chase_mul = CHARGE_SPEED
-			_runs_seen = true
-			_close_chance = 0.0
-			_melee_while_chase = false
-			_ram_while_chase = true
-			_ram_x = 0.0
-			_ram_y = 0.0
-			if _comb > 0:
-				melee_damage = maxi(1, int(round(float(wd) * 0.5 + float(_comb))))
-		else:
-			_contact_bite = false
-			_chase_mul = 1.0
-			_melee_while_chase = true
-			_ram_while_chase = false
-			_close_chance = 1.0
-			_band_min = SWING_MIN
-			_band_max = SWING_MAX
-			_band_up = SWING_HEIGHT
-			_band_down = SWING_HEIGHT
-			_close_release = true
-			_close_search = false
-			_swing_chance = SWING_CHANCE
-		return
-	var direct := float(w.get("damage", 0.0))
-	var expl := float(w.get("damage_expl", 0.0))
-	if _encl_bonus and not thrown:
-		var scale := 1.2 * (1.2 if direct < 20.0 else 1.0)
-		direct *= scale
-		expl *= scale
-	w["damage"] = direct
-	w["damage_expl"] = expl
-	_weapon = w
-	_thrown = thrown
-	fight_style = "gunner"
-	_strike_cd = rapid / TPS
-	var blast := float(w.get("radius", 0.0))
-	var dam := direct
-	if thrown or (expl > 0.0 and blast > 0.0):
-		dam = expl if expl > 0.0 else direct
-		_blast = blast
-		_fuse = maxf(float(w.get("fuse", 75.0)) / TPS, 0.05)
-	else:
-		_blast = 0.0
-	_bullet_damage = maxi(1, int(round(dam)))
-	_bullet_type = str(w.get("damage_type", _bullet_type))
-	_bullet_speed = maxf(float(w.get("speed", 12.0)) * TPS, 40.0)
-	# Weapon holder: a magazine of mag rounds, rashod per shot, reload ticks to refill.
-	_mag_cap = 0 if thrown else int(w.get("mag", 0))
-	_mag = _mag_cap
-	_rashod = maxi(1, int(w.get("ammo_per_shot", 1)))
-	_reload_time = float(w.get("reload", 0.0)) / TPS
-	_reload_left = 0.0
-	_pellets = maxi(1, int(w.get("pellets", 1)))
-	_deviation = float(w.get("spread", 0.0))
-	_dop_effect = str(w.get("dop_effect", ""))
-	_dop_damage = float(w.get("dop_damage", 0.0))
-	_dop_chance = float(w.get("dop_chance", 1.0))
-	if thrown:
-		_burst_len = 0
-		_shot_chance = THROW_CHANCE
-		_blind_chance = 0.0
-		_need_sight = true
-	else:
-		_shot_chance = SINGLE_SHOT
-		_blind_chance = BLIND_SHOT
-		_need_sight = false
-		if _burst_len <= 0 and int(w.get("mag", 0)) > 10:
-			_burst_len = int(round(float(w.get("mag", 0)) * 0.5))
-	_chase_shot = true
-	_backpedal = _krep != 0 and not _flying
-	_melee_while_chase = false
-	_ram_while_chase = false
-	_close_chance = 0.0
-	_chase_mul = 1.0
-
-
+	_weapons._arm(wid)
 func _weapon_row(wid: String) -> Dictionary:
-	_ensure_catalog()
-	var found: Variant = _weapon_catalog.get(wid, {})
-	if found is Dictionary and not (found as Dictionary).is_empty():
-		return (found as Dictionary).duplicate(true)
-	return {}
-
-
-func _launch(target: Vector2, w: Dictionary, friendly: bool, use_main_cd: bool, aim_down: bool) -> void:
-	if bullet_scene == null or (_cannot_fight() and not _last_rites):
-		return
-	var main := use_main_cd
-	if main and _mag_cap > 0:
-		if _reload_left > 0.0:
-			return
-		if _mag < _rashod:
-			_reload_left = _reload_time
-			return
-		_mag -= _rashod
-	if use_main_cd:
-		_attack_cd = _strike_cd
-	var start := _muzzle_clear()
-	var shots := _pellets if main else maxi(1, int(w.get("pellets", 1)))
-	var dev := _deviation if main else float(w.get("spread", 0.0))
-	var mazil := _mazil if main else 0.0
-	for _p in shots:
-		_launch_one(start, target, w, friendly, aim_down, dev, mazil)
-
-
-## Weapon.shoot from the barrel. A barrel inside a wall fires from the wall face instead.
-func _muzzle_clear() -> Vector2:
-	var at := _held_weapon.muzzle() if _held_weapon != null and _held_weapon.shown() else muzzle.global_position
-	var from := global_position + Vector2(0.0, -_body_size(self).y * 0.5)
-	var space := get_world_2d().direct_space_state
-	var ray := PhysicsRayQueryParameters2D.create(from, at, 1)
-	ray.exclude = [get_rid()]
-	var hit := space.intersect_ray(ray)
-	if hit.is_empty():
-		return at
-	var dir := (at - from).normalized()
-	return Vector2(hit["position"]) - dir * 2.0
-
-
+	return _weapons._weapon_row(wid)
 func _launch_one(start: Vector2, target: Vector2, w: Dictionary, friendly: bool, aim_down: bool, dev: float, mazil: float) -> void:
-	var bullet := bullet_scene.instantiate() as Area2D
-	if bullet == null:
-		return
-	bullet.global_position = start
-	var thrown := _thrown
-	var dam := _bullet_damage
-	var tip := _bullet_type
-	var px_speed := _bullet_speed
-	var blast := _blast
-	var fuse := _fuse
-	var dop := _dop_effect
-	var dop_d := _dop_damage
-	var dop_c := _dop_chance
-	if not w.is_empty():
-		var kind := str(w.get("kind", ""))
-		var delivery := str(w.get("delivery", ""))
-		thrown = kind == "explosives" or delivery == "grenade"
-		dam = int(round(float(w.get("damage", dam))))
-		tip = str(w.get("damage_type", tip))
-		px_speed = maxf(float(w.get("speed", 12.0)) * TPS, 40.0)
-		blast = float(w.get("radius", 0.0))
-		var expl := float(w.get("damage_expl", 0.0))
-		if thrown or (expl > 0.0 and blast > 0.0):
-			dam = int(round(expl if expl > 0.0 else float(dam)))
-		fuse = maxf(float(w.get("fuse", 75.0)) / TPS, 0.05)
-		dop = str(w.get("dop_effect", ""))
-		dop_d = float(w.get("dop_damage", 0.0))
-		dop_c = float(w.get("dop_chance", 1.0))
-	var aim := target - bullet.global_position
-	var direction := aim.normalized() if aim.length_squared() > 1.0 else Vector2(facing, 0.0)
-	if aim_down:
-		direction = Vector2(0.2 * facing, 1.0).normalized()
-	# Weapon.shoot: (rand - 0.5) * (deviation / skill + mazil) degrees.
-	var spread := dev / (_weapon_skill + 0.01) + mazil
-	if spread > 0.0:
-		direction = direction.rotated(deg_to_rad((randf() - 0.5) * spread))
-	if _blind_t > 0.0 and randf() < 0.6:
-		direction = Vector2.from_angle(randf() * TAU)
-	bullet.from_player = friendly
-	if not friendly and fraction > 0:
-		bullet.fraction = fraction
-	bullet.speed = px_speed
-	bullet.damage = maxi(1, dam)
-	bullet.damage_type = tip
-	bullet.block_damage = _Block.of(str(w.get("id", "")))
-	bullet.dop_effect = dop
-	bullet.dop_damage = dop_d
-	bullet.dop_chance = dop_c
-	if str(w.get("id", "")) == "bomb":
-		bullet.global_position = global_position
-		bullet.use_velocity = true
-		bullet.velocity = Vector2(0.0, 40.0)
-		bullet.direction = Vector2.DOWN
-		bullet.fall_accel = GRAVITY
-		bullet.lifetime = fuse
-		bullet.blast_radius = blast
-		bullet.explode_on_timeout = blast > 0.0
-	elif thrown:
-		bullet.use_velocity = true
-		bullet.fall_accel = GRAVITY
-		var arc := direction
-		arc.y -= 0.65
-		if arc.length_squared() < 0.01:
-			arc = Vector2(facing, -0.6)
-		bullet.velocity = arc.normalized() * px_speed
-		bullet.direction = bullet.velocity.normalized()
-		bullet.lifetime = fuse
-		bullet.blast_radius = blast
-		bullet.explode_on_timeout = blast > 0.0
-	else:
-		bullet.direction = direction
-		if blast > 0.0:
-			bullet.blast_radius = blast
-	var host := get_tree().current_scene
-	if host == null:
-		bullet.queue_free()
-		return
-	bullet.weapon_id = str(w.get("id", ""))
-	bullet.set_meta("owner_unit", self)
-	host.add_child(bullet)
-
-
-func _configure_vortex() -> void:
-	_species_id = "vortex"
-	_flying = true
-	_friendly = false
-	fight_style = "melee"
-	_contact_bite = true
-	_chase_shot = false
-	melee_damage = 12
-	_bullet_type = "DAM_PIERCE"
-	max_hp = 15
-	points = 30
-	body_size = Vector2(30.0, 30.0)
-	move_speed = 4.0 * TPS
-	run_speed = 12.0 * TPS
-	_attack_reach = 80.0
-	_strike_cd = 0.4
-	_sheet_native = false
-	_can_lift = false
-
-
+	_weapons._launch_one(start, target, w, friendly, aim_down, dev, mazil)
 func _float_hit(amount: int, _player_hit: bool, separate: bool = false) -> void:
 	if amount <= 0:
 		return
-	var hud := get_tree().get_first_node_in_group("hud")
-	if hud and hud.has_method("float_number"):
-		hud.float_number(global_position, str(amount), "hit", self, separate)
+	Fx.float_number(amount, global_position, "hit", {"source": self, "separate": separate})

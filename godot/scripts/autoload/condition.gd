@@ -28,8 +28,46 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	_load_data()
 	_load()
+	_listen_queries()
 	if not get_tree().node_added.is_connected(_on_node_added):
 		get_tree().node_added.connect(_on_node_added)
+	call_deferred("_register_run")
+
+
+const STATE_VERSION := 1
+
+
+func _register_run() -> void:
+	var world := WorldState
+	if world != null and world.has_method("register_run"):
+		world.call("register_run", "condition", get_state, set_state)
+
+
+func _listen_queries() -> void:
+	if not Inventory.is_armor_query.is_connected(_on_is_armor_query):
+		Inventory.is_armor_query.connect(_on_is_armor_query)
+	if not Inventory.armor_usable_query.is_connected(_on_armor_usable_query):
+		Inventory.armor_usable_query.connect(_on_armor_usable_query)
+	if not Progression.armor_row_query.is_connected(_on_armor_row_query):
+		Progression.armor_row_query.connect(_on_armor_row_query)
+	if not Progression.armor_level_query.is_connected(_on_armor_level_query):
+		Progression.armor_level_query.connect(_on_armor_level_query)
+
+
+func _on_is_armor_query(id: String, reply: Dictionary) -> void:
+	reply.v = is_armor(id)
+
+
+func _on_armor_usable_query(id: String, reply: Dictionary) -> void:
+	reply.v = armor_usable(id)
+
+
+func _on_armor_row_query(id: String, reply: Dictionary) -> void:
+	reply.row = armor_row(id)
+
+
+func _on_armor_level_query(id: String, reply: Dictionary) -> void:
+	reply.v = armor_level(id)
 
 
 func reset_run() -> void:
@@ -257,7 +295,7 @@ func _physics_process(delta: float) -> void:
 		return
 	_wore_shot = false
 	_shot_ok = false
-	var player := get_tree().get_first_node_in_group("player") as Node
+	var player := Run.local_player() as Node
 	if player == null:
 		return
 	var id := _gun_id()
@@ -278,7 +316,7 @@ func _physics_process(delta: float) -> void:
 		return
 	if cur < float(row.get("maxhp", 1)) * 0.5:
 		var breaking := (float(row.get("maxhp", 1)) - cur) / float(row.get("maxhp", 1)) * 2.0 - 1.0
-		var roll := randf()
+		var roll := Rng.randf(&"combat")
 		var mag := maxi(20, int(row.get("mag", 0)))
 		var jam_scale := jammed_mult()
 		if roll < breaking / float(mag) * jam_scale:
@@ -399,11 +437,11 @@ func _trigger(player: Node, id: String) -> bool:
 	var auto := false
 	if Inventory:
 		auto = bool(Inventory.weapon_def(id).get("auto", false))
-	if not auto and bool(player.get("_semi_lock")) and not Input.is_action_just_pressed("shoot"):
+	if not auto and bool(player.get("_semi_lock")) and not LocalInput.just_pressed(&"shoot"):
 		return false
 	if auto:
-		return Input.is_action_pressed("shoot")
-	return Input.is_action_pressed("shoot") or Input.is_action_just_pressed("shoot")
+		return LocalInput.held(&"shoot")
+	return LocalInput.held(&"shoot") or LocalInput.just_pressed(&"shoot")
 
 
 func _extra_wear(id: String) -> float:
@@ -464,9 +502,7 @@ func _ak(id: String) -> String:
 
 
 func _say(text: String) -> void:
-	var hud := get_tree().get_first_node_in_group("hud")
-	if hud and hud.has_method("show_notice"):
-		hud.show_notice(text)
+	Fx.notice(text, {"source": Run.local_player()})
 
 
 func _say_key(key: String, text: String) -> void:
@@ -496,7 +532,7 @@ func _load_data() -> void:
 	if not FileAccess.file_exists(DATA):
 		push_error("Condition missing craft_condition.json")
 		return
-	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(DATA))
+	var parsed: Variant = DataLib.load(DATA)
 	if typeof(parsed) != TYPE_DICTIONARY:
 		push_error("Condition could not parse craft_condition.json")
 		return
@@ -515,13 +551,39 @@ func _save() -> void:
 	cfg.save(SAVE_PATH)
 
 
+func get_state() -> Dictionary:
+	return {"version": STATE_VERSION, "hp": _hp.duplicate(), "lvl": _armor_lvl.duplicate()}
+
+
+## version 0 has the same fields and simply no version key.
+func set_state(data: Variant) -> void:
+	if typeof(data) != TYPE_DICTIONARY:
+		return
+	_apply_state(data)
+	_save()
+
+
 func _load() -> void:
 	var cfg := ConfigFile.new()
 	if cfg.load(SAVE_PATH) != OK:
 		return
+	var hp := {}
+	var lvl := {}
 	if cfg.has_section("hp"):
 		for key in cfg.get_section_keys("hp"):
-			_hp[str(key)] = float(cfg.get_value("hp", key, 0.0))
+			hp[str(key)] = float(cfg.get_value("hp", key, 0.0))
 	if cfg.has_section("lvl"):
 		for key in cfg.get_section_keys("lvl"):
-			_armor_lvl[str(key)] = int(cfg.get_value("lvl", key, 0))
+			lvl[str(key)] = int(cfg.get_value("lvl", key, 0))
+	_apply_state({"hp": hp, "lvl": lvl})
+
+
+func _apply_state(data: Dictionary) -> void:
+	_hp.clear()
+	_armor_lvl.clear()
+	var hp: Dictionary = data.get("hp", {})
+	for key in hp:
+		_hp[str(key)] = float(hp[key])
+	var lvl: Dictionary = data.get("lvl", {})
+	for key in lvl:
+		_armor_lvl[str(key)] = int(lvl[key])

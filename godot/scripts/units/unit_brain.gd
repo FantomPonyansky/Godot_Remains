@@ -210,9 +210,9 @@ func animate_gun_vis(g: UnitGun) -> void:
 
 ## The host floats the held body; only control and the guns tick.
 func held(delta: float) -> void:
-	var dd := float(u.get("_detect_delay"))
-	if dd > 0.0:
-		u.set("_detect_delay", maxf(0.0, dd - delta))
+	var dd := int(u.get("_detect_delay"))
+	if dd > 0:
+		u.set("_detect_delay", maxi(0, dd - int(u.get("_frame_ticks"))))
 	for _i in int(u.get("_frame_ticks")):
 		ticks += 1
 		if shok > 0:
@@ -233,12 +233,12 @@ func physics(delta: float) -> void:
 	var player := player_node()
 	if player != null:
 		u.call("_tick_world_senses", player, delta)
-	var dd := float(u.get("_detect_delay"))
-	if dd > 0.0:
-		u.set("_detect_delay", maxf(0.0, dd - delta))
-	var st := float(u.get("_stun_t"))
-	if st > 0.0:
-		u.set("_stun_t", maxf(0.0, st - delta))
+	var dd := int(u.get("_detect_delay"))
+	if dd > 0:
+		u.set("_detect_delay", maxi(0, dd - int(u.get("_frame_ticks"))))
+	var st := int(u.get("_stun_t"))
+	if st > 0:
+		u.set("_stun_t", maxi(0, st - int(u.get("_frame_ticks"))))
 	var n := int(u.get("_frame_ticks"))
 	if dying:
 		_dying_ticks(n)
@@ -423,7 +423,7 @@ func dying_tick() -> void:
 ## setVisPos in sost 2: the sprite jitters harder as the timer runs down.
 func dying_shake() -> void:
 	var s := (150.0 - timer_die) / 15.0
-	u.anim.position = _shake_base + Vector2((randf() - 0.5) * s, (randf() - 0.5) * s)
+	u.anim.position = _shake_base + Vector2((Rng.randf(&"fx") - 0.5) * s, (Rng.randf(&"fx") - 0.5) * s)
 
 
 func _dying_ticks(n: int) -> void:
@@ -480,12 +480,14 @@ func sound(sid: String, vol: float = 1.0) -> void:
 
 ## Unit.newPart: parts at the body centre.
 func new_part(pid: String, kol: int = 1, frame: int = 0) -> void:
-	UnitFx.emit(u.get_tree(), pid, center(), {"kol": kol, "frame": frame})
+	Fx.particles(pid, center(), {"kol": kol, "frame": frame, "source": u})
 
 
 ## Emitter.emit at a point.
 func emit_part(pid: String, at: Vector2, param: Dictionary = {}) -> void:
-	UnitFx.emit(u.get_tree(), pid, at, param)
+	var opts := param.duplicate()
+	opts["source"] = u
+	Fx.particles(pid, at, opts)
 
 
 ## Unit.sndRunPlay.
@@ -513,7 +515,7 @@ func player_node() -> Node2D:
 	var p: Variant = u.get("_player")
 	if p is Node2D and is_instance_valid(p):
 		return p
-	var found := u.get_tree().get_first_node_in_group("player") as Node2D
+	var found := Run.nearest_player(u.global_position)
 	u.set("_player", found)
 	return found
 
@@ -596,7 +598,7 @@ func ledge(dir: float) -> bool:
 
 
 func rnd(p: float = 0.5) -> bool:
-	return randf() < p
+	return Rng.randf(&"ai") < p
 
 
 func norma(v: Vector2, len: float) -> Vector2:
@@ -623,14 +625,15 @@ func att_korp(target: Node2D, mult: float = 1.0) -> bool:
 		return false
 	if not boxes_touch(target):
 		return false
-	var now := Time.get_ticks_msec()
+	# Sim.tick keeps moving while paused, same as the old wall clock.
+	var now := Sim.tick
 	if int(target.get_meta("neujaz_until", 0)) > now:
 		return false
-	target.set_meta("neujaz_until", now + NEUJAZ_MS)
-	var sila := randf() * 0.4 + 0.8
+	target.set_meta("neujaz_until", now + Sim.ticks_from_ms(NEUJAZ_MS))
+	var sila := Rng.randf(&"combat") * 0.4 + 0.8
 	var amount := int(round(dam * sila * mult))
 	if amount > 0 and target.has_method("take_hit"):
-		target.take_hit(amount, tip)
+		target.take_hit(HitInfo.melee_hit(amount, u, tip))
 	return true
 
 
@@ -649,7 +652,7 @@ func xml_gun() -> UnitGun:
 	for wv: Dictionary in row.get("weapons", []):
 		if bool(wv.get("f", false)):
 			continue
-		if randf() < float(wv.get("ch", 1.0)):
+		if Rng.randf(&"combat") < float(wv.get("ch", 1.0)):
 			var g := gun(str(wv.get("id", "")))
 			if g != null:
 				return g
@@ -676,6 +679,7 @@ func spawn_unit(uid: String, at: Vector2, metas: Dictionary = {}, alert := true)
 	node.set_meta("unit_id", uid)
 	for k in metas.keys():
 		node.set_meta(k, metas[k])
+	node.set_meta("owner_eid", Entity.eid_of(u))
 	node.position = at
 	host.add_child(node)
 	node.global_position = at
@@ -787,7 +791,7 @@ static func vis_of(key: String) -> Dictionary:
 	if not _manifest_loaded:
 		_manifest_loaded = true
 		if FileAccess.file_exists(MANIFEST):
-			var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(MANIFEST))
+			var parsed: Variant = DataLib.load(MANIFEST)
 			if parsed is Dictionary:
 				_manifest = parsed
 	return _manifest.get(key, {})

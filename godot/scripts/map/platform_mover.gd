@@ -140,7 +140,7 @@ func _physics_process(delta: float) -> void:
 ## Interact.sound: "move" from the start when it sets off, from 5.5 s (the stop
 ## tail) when it halts; the step only runs in the player's room.
 func _sound(start: bool) -> void:
-	var player := get_tree().get_first_node_in_group("player") as Node2D
+	var player := Run.local_player() as Node2D
 	if player == null or _Flags.cell_of(player.global_position) != Vector2i(int(get_meta("room_x", 0)), int(get_meta("room_y", 0))):
 		return
 	if _snd == null:
@@ -182,7 +182,7 @@ func _add_art(id: String) -> void:
 	var spr := Sprite2D.new()
 	spr.texture = load(path) as Texture2D
 	spr.centered = false
-	var anchors: Variant = JSON.parse_string(FileAccess.get_file_as_string(ART + "platform_anchors.json"))
+	var anchors: Variant = DataLib.load(ART + "platform_anchors.json")
 	var a: Array = (anchors as Dictionary).get(id, [60, 40]) if anchors is Dictionary else [60, 40]
 	spr.offset = -Vector2(float(a[0]), float(a[1]))
 	spr.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST

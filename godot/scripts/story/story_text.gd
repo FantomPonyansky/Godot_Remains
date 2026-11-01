@@ -88,7 +88,7 @@ static func bark(id: String, act: String) -> String:
 	var rows: Array = _barks.get(id + "_" + act, [])
 	if rows.is_empty():
 		return ""
-	var s := str(rows[randi() % rows.size()])
+	var s := str(rows[Rng.randi(&"fx") % rows.size()])
 	var a := s.find("#")
 	if a >= 0:
 		var b := s.rfind("#")

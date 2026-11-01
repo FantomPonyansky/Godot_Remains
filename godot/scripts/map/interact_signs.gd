@@ -42,5 +42,5 @@ func tick(tree: SceneTree, delta: float, point: Callable) -> void:
 			if t <= 0:
 				t = PERIOD
 				if help:
-					_UnitFx.emit(tree, "sign%d" % int(node.get_meta("sign", 1)), point.call(node))
+					Fx.particles("sign%d" % int(node.get_meta("sign", 1)), point.call(node), {"source": node})
 			node.set_meta("t_sign", t - 1)

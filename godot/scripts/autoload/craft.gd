@@ -70,18 +70,18 @@ func open_station(station_id: String) -> void:
 	_open = true
 	_layer.visible = true
 	_root.visible = true
-	_paused_here = not GameState.paused
+	_paused_here = not Sim.paused()
 	if _paused_here:
-		GameState.set_paused(true)
+		Sim.set_paused(true, &"craft")
 	_refresh()
 
 
 func _process(_delta: float) -> void:
 	if _open or get_tree().paused:
 		return
-	if not Input.is_action_just_pressed("interact"):
+	if not LocalInput.just_pressed(&"interact"):
 		return
-	var who := get_tree().get_first_node_in_group("player")
+	var who := Run.local_player()
 	if who and who.get("rat") == true:
 		return
 	var node := _nearest()
@@ -185,7 +185,7 @@ func _close() -> void:
 		_root.visible = false
 	if _paused_here:
 		_paused_here = false
-		GameState.set_paused(false)
+		Sim.set_paused(false, &"craft")
 
 
 func _activate() -> void:
@@ -654,9 +654,7 @@ func _name(id: String) -> String:
 
 
 func _say(text: String) -> void:
-	var hud := get_tree().get_first_node_in_group("hud")
-	if hud and hud.has_method("show_notice"):
-		hud.show_notice(text)
+	Fx.notice(text, {"source": Run.local_player()})
 
 
 func _station_name(station_id: String) -> String:
@@ -678,7 +676,7 @@ func _station_of(node: Node) -> String:
 
 
 func _nearest() -> Node2D:
-	var player := get_tree().get_first_node_in_group("player") as Node2D
+	var player := Run.local_player() as Node2D
 	if player == null:
 		return null
 	var best: Node2D = null
@@ -696,7 +694,7 @@ func _nearest() -> Node2D:
 
 func _debug_spawn(station_id: String) -> void:
 	var host := get_tree().current_scene
-	var player := get_tree().get_first_node_in_group("player") as Node2D
+	var player := Run.local_player() as Node2D
 	if host == null or player == null:
 		return
 	var at := player.global_position + Vector2(48, -8)
@@ -803,7 +801,7 @@ func _load_data() -> void:
 	if not FileAccess.file_exists(DATA):
 		push_error("Craft missing craft_condition.json")
 		return
-	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(DATA))
+	var parsed: Variant = DataLib.load(DATA)
 	if typeof(parsed) != TYPE_DICTIONARY:
 		push_error("Craft could not parse craft_condition.json")
 		return

@@ -28,16 +28,12 @@ Done phases (gamepad UI, lands, world map, saves, story, vendors, crafting, rig 
 3. **Raider vortex cooldown.** `emit` from the room object already sets `_vortex_left` (`land_props.gd`). Left: plain raiders use 300 ticks (`UnitRaider.as` ~654); the port uses 500 for everyone (`enemy.gd` `_vortex_*`), and boss setup still forces 8.
 4. **Overload blocks travel.** `Game.gotoLand` (~349) refuses with `nocont2` when the land is not the base and `pers.speedShtr >= 3` (hard inventory, `Pers.invMassParam` ~1785). Port `Inventory._inv_mass_param` zeros speed but travel ignores it; `Travel.goto_land` `nocont` is `GameState.dopusk()` only. Check: `hardinv 1`, heavy items, `land surf` from rbl.
 5. **Shooting a camp ally turns it hostile.** `Unit.as` ~3519 sets `priorUnit` to the bullet owner on any hit. Port `enemy.hit_by_bullet` sets `_prior` only for a pet. A `_ground_ally` hit by the player must target the player (`_prior_target`); check melee and explosions too. Verify row V-06.
-6. **Integer tick counters.** The original compares counters with `==` and `%`. The port advances many with float `delta * 30`, so a counter can skip the exact tick. Audit `enemy.gd`, `units/brain_*.gd`, `player.gd`, `land_props.gd`; list the counters in `IMPLEMENTED.md` before changing them. Reference: the other port's `autoload/world.gd` tick loop.
+6. ~~**Integer tick counters.**~~ Done 2026-10-31 (R1.2): counters compared with `==` or `%` step by `Sim.frame_steps`. Threshold floats stay. The list is in `IMPLEMENTED.md`.
 7. **`nomed`.** While set, organ damage uses `organMult` 0.50 and fixed minimums (`Pers.as` ~1938: head 156, tors 86, legs 167, blood 113, mana 56), and the HUD hides organ status (`GUI.as` ~537). Port: `game_state.gd`, `hud.gd`. The PipBuck side is done.
 8. **Enemy AI differences**: the list is `docs/ENEMY_AI.md` items 8–19 (speech bubbles, zebra fade, `allLink` 2000 px wake for Enclave/Ranger, `maxSpok` 50, hellhound sight, ranger side weapon, ant fire, no-reload rammer, flyer `stalkDist`, re-aim 0.9, detection jitter, three `enemyAct` levels). The room-return reset stays omitted (`PORT_RULES.md`).
-9. **Save gaps** (audit 2026-10-31):
-   - Pets: `pets.cfg` is not in `save_slots.gd` `RUN_FILES` and `Pets._load` is not called on slot load, so a load keeps the pet state of the current run.
-   - Vendors: stock `kol`/`sost` is saved, `money` is not; `_make` rerolls it on load.
-   - `GameState.score` (land refill progress in `vendors.gd`) and `_land_xp` are not saved; check whether `ammo` should be.
-   - Provider blobs in `WorldState` (effects, story, vendors, travel) carry no version key.
-10. **Autoload order.** `Progression._load` calls `max_health()`, which calls `Effects.stat`, but `Effects` is added after `Progression` (`project.godot` [autoload]). Defer that call or move `Effects` up, then check the first-boot HP.
-11. **Contact knockback.** The hurtbox knows the touching body, but `player.take_hit` drops it and `_contact_knock` scans enemies within 160 px; two foes close together can knock the wrong way.
+9. ~~**Save gaps.**~~ Done 2026-10-31: pets, vendor money, score and land xp round-trip; provider blobs have a version (slot format 3, `ARCHITECTURE_PLAN.md` R1.6).
+10. ~~**Autoload order.**~~ Done 2026-10-31: `max_health()` skips `Effects.stat` until `Effects` is ready, and `Progression._ready` recomputes the applied max once every autoload is ready.
+11. ~~**Contact knockback.**~~ Done 2026-10-31 (R1.4): the hurtbox passes the touching body on `HitInfo` (`contact`) and the knock is away from that source. Melee and traps still scan 160 px.
 12. **Script travel on the load screen.** `Travel.goto_land` during `_loading` returns without storing the land id, so a script-driven travel then is dropped.
 13. **Unwired HUD.** `hud.gd` draws a boss HP bar, AP label, hook progress and item line, but nothing calls `set_boss_hp`, `set_ap`, `set_action_progress`, `set_item_line`, `show_subtitle`. Wire them where the original shows them (boss fights, SATS AP, hold-to-use) or drop the draw code.
 
@@ -109,9 +105,9 @@ The other port (`C:\Users\Командор\Downloads\foe-remains-godot-master`, 
 
 ## 6. Checks to build
 
-1. **One check runner.** `tools/run_checks.py`: each check prints `CHECK <name>: ok N fail M`; ignore the harmless lines in `HANDOFF.md`; fail on `SCRIPT ERROR`, a fail count or a timeout. Options `--only`, `--skip`, `--list`. Reference `OTHER/tools/run_suite.py`. Start with `tests/test_room_xml.gd`, `tests/test_editor_validate.gd`, `tests/test_room_pool.gd`, `tools/test_room_codec.py`, and a load-every-script compile check (the headless boot does not compile lazily loaded scripts).
+1. ~~**One check runner.**~~ Done 2026-10-31 (`tools/run_checks.py`, `HANDOFF.md`). Add each new test to its `CHECKS` table.
 2. **Every-land soak.** For each land and trial chamber: `--headless --path godot res://scenes/game.tscn --quit-after N -- --user-dir=tmp/soak --land=<id>`, then `tp` through every room. Count script errors, missing textures and units that fell out. A few fixed seeds for generated lands.
-3. **Save round trip.** Sandbox `--user-dir`, script a state (items, worn suit, pet, vendor cash, quest, checkpoint, damaged crate, visited land, reputation), save, restart `--boot=slot=N`, compare `WorldState.to_save()` and each autoload's file. One save in `begin`, one in a story land, one in a generated land. Covers §1.9.
+3. ~~**Save round trip.**~~ Done 2026-10-31 (`tests/save_roundtrip.tscn`, runs in `begin`, `surf` and `random_mane`). The §1.9 gaps (pet state, score, vendor money) are listed in its `KNOWN_GAPS`; remove an entry when its gap is fixed.
 4. **Deviation register.** `docs/DEVIATIONS.md`: one row per known difference (what, why, evidence, owner file). "Awaiting a human check" links a `verify/` row. `PORT_RULES.md` stays the source for user decisions.
 
 ## 7. Smoke play
@@ -142,7 +138,7 @@ Goal: playable on a weak GPU (tester: parts of the map draw as plain colour). Do
 
 1. Import the `rooms_plant` / `rooms_prob` changes and corrected `text_en` / `text_ru`; re-export `texture1.swf` bitmaps 1139, 1141, 1143, 1145.
 2. Languages `ua`, `de`, `pl`, `es`, `jp`, `zh`, `tw`: text import, `lang.xml`, settings and main-menu picker, CJK font fallback, UI fit.
-3. DLC 1.0.4 rebalance as a mode: data overrides, the 13 code changes, a new-game switch, saves tagged with the mode. Ask about the odd values first (`KNOWLEDGE_BASE.md`).
+3. DLC 1.0.4 rebalance as a mode: data overrides as a built-in R2.4 overlay (`ARCHITECTURE_PLAN.md`), the 13 code changes, a new-game switch, saves tagged with the mode. Ask about the odd values first (`KNOWLEDGE_BASE.md`).
 4. Compare `pfeUI.swf` UI art against `pfe.swf`.
 
 ## 10. Second smoke-play
@@ -158,7 +154,7 @@ A full run to an ending, controller only, in the base game; then a shorter run i
 
 ## 12. After the port (not started)
 
-Architecture debt to take on only with tests in place (§6): `player.gd` and `enemy.gd` are ~5k lines each (movement, weapons, melee, senses, spells); SATS calls private player methods by name (`_razn`, `_body_center`, `_aim_rect`, `_skill_mult`), and SATS aim (`player._body_center`) and AI aim (`enemy` feet + `body_size`) can disagree; player and enemy each build bullets and parse `weapons.json`; the grenade bounce is copied in `sats.gd` and `bullet.gd`; ten scripts parse JSON with their own helper; `game_state.gd` mixes combat, magic, organs, doctor and consumables.
+The refactoring that 12.1, 12.2, 12.5 and modding need is `docs/ARCHITECTURE_PLAN.md` (R0–R5), with tests in place first (§6). Small debts it does not name: SATS calls private player methods by name (`_razn`, `_body_center`, `_aim_rect`, `_skill_mult`), and SATS aim and AI aim (`enemy` feet + `body_size`) can disagree; the grenade bounce is copied in `sats.gd` and `bullet.gd`.
 
 ### 12.1 Seamless random lands
 

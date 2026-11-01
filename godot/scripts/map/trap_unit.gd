@@ -12,6 +12,7 @@ const F_ROBOT := 4
 const V_NOISE := 1200.0
 const VISIBILITY := 300.0
 const SHEETS := "res://assets/sprites/sheets/traps/"
+const _PS := preload("res://scripts/prop_state.gd")
 const _Bullet := preload("res://scenes/bullet.tscn")
 const _Enemy := preload("res://scenes/enemy.tscn")
 const _Block := preload("res://scripts/block_destroy.gd")
@@ -61,6 +62,14 @@ var size := Vector2(20, 20)
 var facing := 1.0
 var is_vis := false
 var dead := false
+var _fields_live := false
+var _field_set: Dictionary = {}
+var usable := false
+var hold_use := false
+var act_time := 0
+var user_action := ""
+## Save flag for a disarmed trigger or a shut bear trap. `dead` means destroyed.
+var remembered := false
 var die_actions: Array = []
 
 var _room: Array = [0, 0]
@@ -137,7 +146,7 @@ func setup(row: Dictionary, host: Node) -> void:
 		_damage = float(data.damage) * (1.0 + float(level) * 0.07)
 		max_hp *= 1.0 + float(level) * 0.11
 	if kind != "trap":
-		need_lvl = clampi(int(round(float(level) * 0.25 * (randf() * 0.7 + 0.3))), 1, 5)
+		need_lvl = clampi(int(round(float(level) * 0.25 * (Rng.randf(&"combat") * 0.7 + 0.3))), 1, 5)
 	hp = max_hp
 	if allid != "":
 		set_meta("allid", allid)
@@ -160,26 +169,27 @@ func _ready() -> void:
 	if kind == "trap":
 		collision_mask = 1
 	_make_vis()
-	_ai_n = randi() % 5
+	_ai_n = Rng.randi(&"combat") % 5
 	_set_vis(false)
 	refresh_use()
+	_PS.absorb(self)
 
 
-func user_action() -> String:
+func use_verb() -> String:
 	return "rearm" if kind == "trap" and _snapped else "disarm"
 
 
 ## Interact.active: a trigger or damager only while armed, a trap always.
 func refresh_use() -> void:
-	set_meta("user_action", user_action())
-	set_meta("hold_use", true)
-	set_meta("act_time", 60 if kind == "trap" and _snapped else 30)
-	set_meta("usable", is_vis and not dead and (kind == "trap" or status == 0))
+	_PS.put(self, "user_action", use_verb())
+	_PS.put(self, "hold_use", true)
+	_PS.put(self, "act_time", 60 if kind == "trap" and _snapped else 30)
+	_PS.put(self, "usable", is_vis and not dead and (kind == "trap" or status == 0))
 
 
 func use_object(from_timer: bool) -> void:
 	if not from_timer:
-		var player := get_tree().get_first_node_in_group("player")
+		var player := Run.local_player()
 		if player != null and player.has_method("begin_use_timer"):
 			player.begin_use_timer(self)
 		return
@@ -205,7 +215,10 @@ func command(com: String, _val: String = "") -> void:
 			_trig_activate()
 
 
-func take_hit(amount: int = 1, _type: String = "") -> void:
+func take_hit(hit: HitInfo) -> void:
+	if hit == null:
+		return
+	var amount := int(round(hit.amount))
 	if dead or amount <= 0:
 		return
 	hp -= float(amount)
@@ -213,6 +226,41 @@ func take_hit(amount: int = 1, _type: String = "") -> void:
 		_set_vis(true)
 	if hp <= 0.0:
 		_die()
+
+
+func snapshot() -> Dictionary:
+	return land_record()
+
+
+func restore(d: Dictionary) -> void:
+	if is_inside_tree():
+		var host := get_tree().get_first_node_in_group("land_props")
+		if host != null and host.has_method("apply_one"):
+			host.call("apply_one", self, d)
+			return
+	apply_land(d)
+
+
+## The land row. `dead` in the save is remembered, not the destroyed flag.
+func land_record() -> Dictionary:
+	var out := {}
+	if remembered:
+		out["dead"] = true
+	var state := memory_state()
+	if not state.is_empty():
+		out["state"] = state
+	if is_in_group("floor_box") or is_in_group("levitatable"):
+		out["pos"] = [position.x, position.y]
+	return out
+
+
+func apply_land(d: Dictionary) -> void:
+	if not bool(d.get("dead", false)):
+		return
+	remembered = true
+	set_meta("dead", true)
+	if _set_up:
+		_show_remembered()
 
 
 func _physics_process(delta: float) -> void:
@@ -253,8 +301,13 @@ func _step() -> void:
 
 ## land_memory writes "dead" for a spent trap; the record comes back on re-entry.
 func _restore() -> void:
-	if not bool(get_meta("dead", false)):
+	if not remembered and not bool(get_meta("dead", false)):
 		return
+	remembered = true
+	_show_remembered()
+
+
+func _show_remembered() -> void:
 	if kind == "trap":
 		_snapped = true
 		_set_frame(SNAP_END)
@@ -374,7 +427,7 @@ func _trig_activate() -> void:
 				_brain_command(_damager, "dam")
 			act = true
 	if UNITS[id].has("snd"):
-		SfxBank.play(str(UNITS[id].snd))
+		Fx.sound(str(UNITS[id].snd), global_position, {"source": self})
 	refresh_use()
 	_show_status()
 	if act:
@@ -383,6 +436,7 @@ func _trig_activate() -> void:
 
 func _trig_disarm() -> void:
 	status = 2
+	remembered = true
 	set_meta("dead", true)
 	refresh_use()
 	_show_status()
@@ -401,7 +455,7 @@ func _area() -> Rect2:
 
 func _touched() -> bool:
 	var area := _area()
-	var player := get_tree().get_first_node_in_group("player") as Node2D
+	var player := Run.nearest_player(global_position)
 	if player != null and fraction != F_PLAYER and not GameState.is_dead():
 		var act := GameState.activate_trap()
 		if act > 0.0 and (not plate or (act > 1.0 and _stands(player))) and area.intersects(_rect_of(player)):
@@ -429,7 +483,7 @@ func _set_damager() -> void:
 	var ny := at.y
 	var turn := 0
 	var ok := false
-	if res == "damgren" and randf() < 0.25 and not _solid(Vector2(at.x, at.y + 60.0)):
+	if res == "damgren" and Rng.randf(&"combat") < 0.25 and not _solid(Vector2(at.x, at.y + 60.0)):
 		ny = at.y + 2.0 * TILE
 		res = "expl1"
 		ok = true
@@ -471,11 +525,11 @@ func _set_damager() -> void:
 		_set_damager()
 	else:
 		res = "damshot"
-		if randf() < 0.5:
-			nx = at.x + (3 + randi() % 8) * TILE
+		if Rng.randf(&"combat") < 0.5:
+			nx = at.x + (3 + Rng.randi(&"combat") % 8) * TILE
 			turn = -1
 		else:
-			nx = at.x - (3 + randi() % 8) * TILE
+			nx = at.x - (3 + Rng.randi(&"combat") % 8) * TILE
 			turn = 1
 		_damager = _create(res, Vector2(nx, ny), turn)
 
@@ -530,7 +584,7 @@ func _create_turret(at: Vector2) -> Node:
 func _set_weapon(attrs: Dictionary) -> void:
 	if _tip == 1:
 		if _tr == "0":
-			_tr = str(randi_range(1, 5))
+			_tr = str(Rng.randi_range(&"combat", 1, 5))
 		var wid: String = GUNS[int(_tr)] if _tr.is_valid_int() and int(_tr) >= 1 and int(_tr) <= 5 else _tr
 		_weap = _weapon(wid)
 		if _weap.is_empty():
@@ -594,7 +648,7 @@ func _dam_control() -> void:
 			return
 	if status == 1:
 		if _tip == 2:
-			_cel = global_position + Vector2(randf() * 80.0 - 40.0, 0.0)
+			_cel = global_position + Vector2(Rng.randf(&"combat") * 80.0 - 40.0, 0.0)
 		else:
 			_cel = global_position + Vector2(200.0 * facing, -size.y * 0.5)
 		_attack()
@@ -637,7 +691,7 @@ func _shoot(muzzle: Vector2) -> void:
 	var dir := (_cel - muzzle).normalized() if _cel.distance_squared_to(muzzle) > 1.0 else Vector2(facing, 0.0)
 	var spread := float(_weap.get("spread", 0.0))
 	if spread > 0.0:
-		dir = dir.rotated(deg_to_rad((randf() - 0.5) * spread))
+		dir = dir.rotated(deg_to_rad((Rng.randf(&"combat") - 0.5) * spread))
 	b.global_position = muzzle
 	b.from_player = false
 	b.fraction = fraction
@@ -717,11 +771,11 @@ func _i_expl() -> void:
 func _trap_control() -> void:
 	if _snapped or held or _player_busy() or _ai_n % 5 != 0:
 		return
-	var player := get_tree().get_first_node_in_group("player") as Node2D
+	var player := Run.nearest_player(global_position)
 	var me := _rect_of(self)
 	if player != null and fraction != F_PLAYER and not GameState.is_dead() and GameState.activate_trap() > 1.0:
 		if me.intersects(_rect_of(player)):
-			player.call("take_hit", int(round(_damage)), "DAM_BITE")
+			player.call("take_hit", HitInfo.make(int(round(_damage)), "DAM_BITE", self))
 			_klac(true)
 			return
 	for node in get_tree().get_nodes_in_group("enemies"):
@@ -729,7 +783,7 @@ func _trap_control() -> void:
 		if unit == null or not _unit_meets(unit) or int(unit.get("fraction")) == 0 or _act_trap(unit) <= 1:
 			continue
 		if me.intersects(_rect_of(unit)) and unit.has_method("take_hit"):
-			unit.call("take_hit", int(round(_damage)), "DAM_BITE")
+			unit.call("take_hit", HitInfo.make(int(round(_damage)), "DAM_BITE", self))
 			_klac(true)
 			return
 
@@ -737,13 +791,14 @@ func _trap_control() -> void:
 ## klac: the jaws shut. Caught on something, they also take 35 internal damage.
 func _klac(caught: bool) -> void:
 	_snapped = true
+	remembered = true
 	set_meta("dead", true)
-	SfxBank.play("trap_a")
+	Fx.sound("trap_a", global_position, {"source": self})
 	_play(0, SNAP_END, SNAP_END)
 	refresh_use()
 	if caught:
 		_set_vis(true)
-		take_hit(35, "DAM_INTERNAL")
+		take_hit(HitInfo.make(35, "DAM_INTERNAL", self))
 
 
 ## disarm: an armed trap is sprung; a sprung one is set again for the player.
@@ -754,8 +809,9 @@ func _trap_use() -> void:
 	_snapped = false
 	_rearm = true
 	fraction = F_PLAYER
+	remembered = false
 	set_meta("dead", false)
-	SfxBank.play("trap_reload")
+	Fx.sound("trap_reload", global_position, {"source": self})
 	_play(REARM_FROM, REARM_END, 0)
 	refresh_use()
 
@@ -798,7 +854,7 @@ func _die() -> void:
 func _remove() -> void:
 	dead = true
 	status = 2
-	set_meta("usable", false)
+	_PS.put(self, "usable", false)
 	set_physics_process(false)
 	queue_free()
 
@@ -818,7 +874,7 @@ func _set_vis(v: bool) -> void:
 
 ## UnitPlayer.lookInvis: in sight within visibility * visiTrap.
 func _look_invis() -> bool:
-	var player := get_tree().get_first_node_in_group("player") as Node2D
+	var player := Run.local_player() as Node2D
 	if player == null:
 		return false
 	var eye := player.global_position + Vector2(0.0, -30.0)
@@ -898,7 +954,7 @@ func _solid(at: Vector2) -> bool:
 
 
 func _player_busy() -> bool:
-	var player := get_tree().get_first_node_in_group("player")
+	var player := Run.local_player()
 	return player != null and player.get("_use_node") == self
 
 
@@ -912,14 +968,12 @@ func _spill(item: String, n: int, at: Vector2) -> void:
 
 
 func _notice(text: String) -> void:
-	var hud := get_tree().get_first_node_in_group("hud")
-	if hud and hud.has_method("show_notice"):
-		hud.show_notice(text)
+	Fx.notice(text, {"source": self})
 
 
 static func _weapon(wid: String) -> Dictionary:
 	if _weapons.is_empty():
-		var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://assets/data/weapons.json"))
+		var parsed: Variant = DataLib.load("res://assets/data/weapons.json")
 		if parsed is Dictionary:
 			for w_v in (parsed as Dictionary).get("weapons", []):
 				if w_v is Dictionary:
@@ -1005,7 +1059,7 @@ func _show_frame() -> void:
 
 static func _sheet_rec(unit_id: String) -> Dictionary:
 	if _manifest.is_empty():
-		var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(SHEETS + "manifest.json"))
+		var parsed: Variant = DataLib.load(SHEETS + "manifest.json")
 		if parsed is Dictionary:
 			_manifest = parsed
 	var rec: Variant = _manifest.get(unit_id)

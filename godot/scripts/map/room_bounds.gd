@@ -130,7 +130,7 @@ func _physics_process(delta: float) -> void:
 	if GameState.paused:
 		return
 	if _player == null or not is_instance_valid(_player):
-		_player = get_tree().get_first_node_in_group("player") as Node2D
+		_player = Run.local_player() as Node2D
 		if _player == null:
 			return
 	_check_player()

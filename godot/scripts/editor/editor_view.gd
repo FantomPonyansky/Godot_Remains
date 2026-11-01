@@ -555,7 +555,7 @@ func _draw_back(c: CanvasItem, obj: Dictionary, pan: Vector2, px: float, game_sc
 static func _back_kinds() -> Dictionary:
 	if not _kinds.is_empty():
 		return _kinds
-	var data: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://assets/data/backs.json"))
+	var data: Variant = DataLib.load("res://assets/data/backs.json")
 	if typeof(data) == TYPE_DICTIONARY:
 		_kinds = (data as Dictionary).get("kinds", {})
 	return _kinds

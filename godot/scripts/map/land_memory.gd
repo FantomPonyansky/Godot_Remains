@@ -9,6 +9,7 @@ extends RefCounted
 ## exploration come back too. The stable (begin_actors.json) names its rows by
 ## list and index instead.
 
+const _PS := preload("res://scripts/prop_state.gd")
 const _Bounds := preload("res://scripts/map/room_bounds.gd")
 const _Drop := preload("res://scripts/ground_loot.gd")
 const _DoorArt := preload("res://scripts/door_art.gd")
@@ -16,7 +17,7 @@ const _FogSight := preload("res://scripts/fog_sight.gd")
 const _ObjArt := preload("res://scripts/map/obj_art.gd")
 const _UNIT_SCENE := "res://scenes/enemy.tscn"
 ## Unit metas a runtime unit is made again with.
-const _UNIT_METAS := ["unit_id", "level", "hero", "tr", "vortex_minion", "ai_tip", "noagro", "hidden", "pole"]
+const _UNIT_METAS := ["unit_id", "level", "hero", "tr", "vortex_minion", "ai_tip", "noagro", "hidden", "pole", "eid"]
 
 const VERSION := 1
 const TILE := 40.0
@@ -93,6 +94,9 @@ func after_doors() -> void:
 
 
 func _restore_door(body: Node, rec: Dictionary) -> void:
+	if body.has_method("restore"):
+		body.restore(rec)
+		return
 	if bool(rec.get("dead", false)):
 		_DoorArt.break_open(body)
 		var stand_in := body.get_node_or_null("StandIn") as CanvasItem
@@ -100,10 +104,10 @@ func _restore_door(body: Node, rec: Dictionary) -> void:
 			stand_in.visible = false
 		return
 	if rec.has("lock"):
-		body.set_meta("lock", float(rec.lock))
+		_PS.put(body, "lock", float(rec.lock))
 	if rec.has("hp"):
-		body.set_meta("hp", int(rec.hp))
-	if bool(rec.get("open", false)) != bool(body.get_meta("door_open", false)):
+		_PS.put(body, "hp", int(rec.hp))
+	if bool(rec.get("open", false)) != bool(_PS.getv(body, "door_open", false)):
 		props.call("_apply_door", body, bool(rec.get("open", false)))
 
 
@@ -180,6 +184,10 @@ func _adopt_runtime(node: Node) -> void:
 		return
 	if node.get_parent() != host.get_parent():
 		return
+	# wid below is the land-memory key. The eid is the run id (owner/sN), unless
+	# the spawner already stamped one. An authored row never comes through here.
+	if Entity.eid_of(node) == "":
+		Entity.claim(node, &"unit", str(node.get_meta("owner_eid", "")))
 	node.reparent(props)
 	_extra_n += 1
 	var wid := "x|%s|%d" % [str(node.get_meta("unit_id", "")), _extra_n]
@@ -238,26 +246,17 @@ func _apply(node: Node, rec: Dictionary) -> void:
 			node.set("hp", clampi(int(rec.hp), 1, maxi(1, int(node.get("max_hp")))))
 		_stamp_room(node)
 		return
-	if rec.has("lock"):
-		node.set_meta("lock", float(rec.lock))
-	if bool(rec.get("open", false)):
-		node.set_meta("spent", true)
-		node.set_meta("opened", true)
-		if props.has_method("_show_opened"):
+	if node.is_in_group("trap_units") and node.has_method("apply_land"):
+		node.call("apply_land", rec)
+	else:
+		_PS.apply_fields(node, rec)
+		if bool(rec.get("open", false)) and props.has_method("_show_opened"):
 			props.call("_show_opened", node)
-	if bool(rec.get("dead", false)):
-		node.set_meta("dead", true)
-		node.set_meta("spent", true)
-	if rec.has("box_hp"):
-		node.set_meta("box_hp", float(rec.box_hp))
 	if rec.has("vis"):
-		node.set_meta("vis_state", str(rec.vis))
-		node.set_meta("allact", "")
 		_ObjArt.set_state(node.get_node_or_null("Visual") as Sprite2D, str(rec.vis))
 	if rec.has("state") and node.has_method("load_memory"):
 		node.call("load_memory", rec.state)
 	if rec.has("on") and node is Area2D:
-		node.set_meta("enabled", bool(rec.on))
 		(node as Area2D).set_deferred("monitoring", bool(rec.on))
 	if pos.size() == 2 and node is Node2D:
 		(node as Node2D).position = Vector2(float(pos[0]), float(pos[1]))
@@ -287,26 +286,11 @@ func _capture_node(node: Node) -> Dictionary:
 		else:
 			rec["hp"] = int(node.get("hp"))
 		return rec
-	var out := {}
-	if node.has_meta("lock"):
-		out["lock"] = float(node.get_meta("lock"))
-	if bool(node.get_meta("opened", false)):
-		out["open"] = true
-	if bool(node.get_meta("dead", false)):
-		out["dead"] = true
-	if node.has_meta("box_hp"):
-		out["box_hp"] = float(node.get_meta("box_hp"))
-	if node.has_meta("vis_state"):
-		out["vis"] = str(node.get_meta("vis_state"))
-	if node is Area2D and node.has_meta("enabled"):
-		out["on"] = bool(node.get_meta("enabled"))
-	if _moves(node):
-		out["pos"] = [at.x, at.y]
-	if node.has_method("memory_state"):
-		var state: Dictionary = node.call("memory_state")
-		if not state.is_empty():
-			out["state"] = state
-	return out
+	if node.is_in_group("trap_units") and node.has_method("land_record"):
+		return node.call("land_record")
+	if node.has_method("land_record") and "_fields_live" in node:
+		return node.call("land_record")
+	return _PS.record(node)
 
 
 ## Wall cell centre (world px) that broke, from wall_span.gd.
@@ -354,6 +338,8 @@ func _restore_drops() -> void:
 		drop.auto = bool(row.get("auto", true))
 		if row.has("mult_hp"):
 			drop.set_meta("mult_hp", float(row.mult_hp))
+		if row.has("eid"):
+			drop.set_meta("eid", str(row.eid))
 		props.add_child(drop)
 		drop.position = Vector2(float(pos[0]), float(pos[1]))
 		drop.velocity = Vector2.ZERO
@@ -400,6 +386,20 @@ func restore_live(snapshot: Dictionary) -> void:
 	after_plan()
 
 
+## What capture() stores for one live node. Entity.snapshot delegates here.
+func capture_one(node: Node) -> Dictionary:
+	if node == null or not is_instance_valid(node):
+		return {}
+	return _capture_node(node)
+
+
+## Puts a capture_one dict back. The same path as a land restore.
+func apply_one(node: Node, rec: Dictionary) -> void:
+	if node == null or not is_instance_valid(node):
+		return
+	_apply(node, rec)
+
+
 func capture() -> Dictionary:
 	var ents := _ents.duplicate(true)
 	var extra := {}
@@ -423,22 +423,11 @@ func capture() -> Dictionary:
 	var root := land().get_node_or_null("Doors")
 	if root:
 		for body in root.get_children():
-			doors[str(body.name)] = {
-				"open": bool(body.get_meta("door_open", false)),
-				"lock": float(body.get_meta("lock", 0.0)),
-				"dead": bool(body.get_meta("dead", false)),
-				"hp": int(body.get_meta("hp", 0)),
-			}
+			doors[str(body.name)] = body.snapshot() if body.has_method("snapshot") else _PS.door_record(body)
 	var drops: Array = []
 	for child in props.get_children():
 		if child is _Drop and not bool(child.get_meta("taken", false)) and not child.is_queued_for_deletion():
-			var at := (child as Node2D).position
-			var drop_rec := {"id": str(child.get("item_id")), "n": int(child.get("stack")), "pos": [at.x, at.y]}
-			if child.has_meta("mult_hp"):
-				drop_rec["mult_hp"] = float(child.get_meta("mult_hp"))
-			if not bool(child.get("auto")):
-				drop_rec["auto"] = false
-			drops.append(drop_rec)
+			drops.append(child.snapshot())
 	var out := {
 		"version": VERSION,
 		"ents": ents,

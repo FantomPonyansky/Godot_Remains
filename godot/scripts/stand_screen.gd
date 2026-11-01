@@ -45,9 +45,9 @@ static func open(tree: SceneTree) -> void:
 	var screen: Control = load("res://scripts/stand_screen.gd").new()
 	layer.add_child(screen)
 	tree.root.add_child(layer)
-	GameState.set_paused(true)
+	Sim.set_paused(true, &"stand")
 	screen.closed.connect(func() -> void:
-		GameState.set_paused(false)
+		Sim.set_paused(false, &"stand")
 		layer.queue_free())
 
 
@@ -65,10 +65,7 @@ func _ready() -> void:
 
 
 func _load() -> void:
-	var file := FileAccess.open(DATA, FileAccess.READ)
-	if file == null:
-		return
-	var doc: Variant = JSON.parse_string(file.get_as_text())
+	var doc: Variant = DataLib.load(DATA)
 	if doc is Dictionary:
 		_weapons = (doc as Dictionary).get("weapons", {})
 		_armors = (doc as Dictionary).get("armors", {})

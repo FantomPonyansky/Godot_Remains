@@ -154,7 +154,7 @@ func _open_pipbuck(page: int = -1, sub: int = -1) -> void:
 ## PipBuck.toggle from gameplay: pauses the world without the pause panel.
 func _open_pipbuck_direct(action: String) -> void:
 	_pip_direct = true
-	GameState.set_paused(true)
+	Sim.set_paused(true, &"pipbuck")
 	var jump: Array = _Pip.JUMPS.get(action, [-1, -1])
 	_open_pipbuck(int(jump[0]), int(jump[1]))
 
@@ -172,7 +172,7 @@ func open_pipbuck_at(page: int, sub: int = 0) -> void:
 		_pip.open_at(page, sub - 1)
 		return
 	_pip_direct = true
-	GameState.set_paused(true)
+	Sim.set_paused(true, &"pipbuck")
 	_open_pipbuck(page, sub - 1)
 
 
@@ -219,14 +219,14 @@ func _unhandled_input(event: InputEvent) -> void:
 	# The pause panel is retired (user decision): Esc opens the PipBuck on Menu.
 	if event.is_action_pressed("pause"):
 		_pip_direct = true
-		GameState.set_paused(true)
+		Sim.set_paused(true, &"pipbuck")
 		_open_pipbuck(_Pip.MENU, -1)
 		get_viewport().set_input_as_handled()
 
 
 func _pause() -> void:
 	panel.visible = true
-	GameState.set_paused(true)
+	Sim.set_paused(true, &"menu")
 	resume_btn.grab_focus()
 
 
@@ -237,7 +237,8 @@ func focus_menu() -> void:
 
 func _resume() -> void:
 	panel.visible = false
-	GameState.set_paused(false)
+	Sim.set_paused(false, &"pipbuck")
+	Sim.set_paused(false, &"menu")
 	get_viewport().gui_release_focus()
 
 
@@ -249,7 +250,7 @@ func _to_menu() -> void:
 		_ExitTrace.step("autosave slot 0")
 		SaveSlots.save(0)
 		_ExitTrace.step("autosave done")
-	GameState.set_paused(false)
+	Sim.clear_paused()
 	_ExitTrace.step("unpaused")
 	AudioManager.play_menu()
 	_ExitTrace.step("menu music started")

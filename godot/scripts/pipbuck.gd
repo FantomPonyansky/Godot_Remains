@@ -364,6 +364,23 @@ func _build() -> void:
 	_sub_buttons.clear()
 	_rp_labels.clear()
 	_rows.clear()
+	_build_frame()
+	_build_page_buttons()
+	_build_help_button()
+	_build_close_exit()
+	_build_sub_buttons()
+	_build_list_scroll()
+	_build_info_panel()
+	_build_bottom_bar()
+	_build_top_text()
+	_build_help_panel()
+	_build_rpanel()
+	_apply_columns()
+	_fit()
+
+
+## Dim, the 1200×800 stage, pipFon, the skin, and the page panel (shape 838).
+func _build_frame() -> void:
 	var dim := ColorRect.new()
 	dim.set_anchors_preset(Control.PRESET_FULL_RECT)
 	dim.color = Color(0, 0, 0, 0.85)
@@ -387,17 +404,29 @@ func _build() -> void:
 	_fon.visible = not menu_only
 	# visPipInv InstanceName_0: shape 838, the page panel with the green border.
 	_stage.add_child(_art(838, Rect2(PAGE + Vector2(463.4 - 600.0 * 0.77, 353.1 - 320.1 * 0.91), Vector2(1207.2 * 0.77, 688.2 * 0.91))))
+
+
+## Left page tabs: Статус, Инвентарь, Информация, Меню.
+func _build_page_buttons() -> void:
 	for page: int in [STATUS, INVENT, INFO, MENU]:
 		var b := _button(Locale.t("pip_menu_tab") if page == MENU else OriginalLines.pip("main%d" % page), Rect2(17, PAGE_Y[page], 129.7, 66), 20)
 		b.pressed.connect(_go.bind(page, -1))
 		b.visible = not menu_only
 		_page_buttons[page] = b
+
+
+## "?" toggle. The help panel is built later so it stays above the page.
+func _build_help_button() -> void:
 	_help_b = _button("?", Rect2(17, 531.9, 48, 48), 35)
 	_help_b.visible = false
 	_help_b.mouse_entered.connect(_show_help.bind(true))
 	_help_b.mouse_exited.connect(_show_help.bind(false))
 	_help_b.focus_entered.connect(_show_help.bind(true))
 	_help_b.focus_exited.connect(_show_help.bind(false))
+
+
+## Menu-page exit, contextual but4, and close.
+func _build_close_exit() -> void:
 	# Port: the pause menu's "to main menu", on the Menu page after the tabs.
 	_exit_b = _button(Locale.t("pause_main_menu"), Rect2(PAGE + Vector2(700, 26.45), Vector2(132, 31)), 16)
 	_exit_b.visible = false
@@ -407,10 +436,17 @@ func _build() -> void:
 	_ctx_button.visible = false
 	_close_button = _button(OriginalLines.pip("mainclose" if menu_only else "main0"), Rect2(30, 693.45, 129.7, 66), 18)
 	_close_button.pressed.connect(_close)
+
+
+func _build_sub_buttons() -> void:
 	for i in 5:
 		var sb := _button("", Rect2(PAGE + Vector2(140.0 * i, 26.45), Vector2(132, 31)), 20)
 		sb.pressed.connect(_go_sub.bind(i))
 		_sub_buttons.append(sb)
+
+
+## Column header, the scrolling row list, and the empty-list label.
+func _build_list_scroll() -> void:
 	_header = Control.new()
 	_header.position = PAGE + Vector2(30, 70)
 	_header.size = Vector2(560, 24)
@@ -429,6 +465,10 @@ func _build() -> void:
 	_scroll.add_child(_list)
 	_empty = _label(PAGE + Vector2(30, 100), 560, 16, GREEN)
 	_empty.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+
+
+## Detail column: title, info, rich text, skill picture, weapon glow, item icon.
+func _build_info_panel() -> void:
 	_title = _label(PAGE + Vector2(630.95, 87), 281, 20, GREEN)
 	_title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -473,6 +513,10 @@ func _build() -> void:
 	_item_ico.position = PAGE + ICO_ITEM
 	_item_ico.visible = false
 	_stage.add_child(_item_ico)
+
+
+## Bottom line, accept, and the controls-page default button.
+func _build_bottom_bar() -> void:
 	_bottom = _label(PAGE + Vector2(19.5, 653.1), 870, 18, GREEN)
 	_bottom.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_bottom.vertical_alignment = VERTICAL_ALIGNMENT_TOP
@@ -493,6 +537,10 @@ func _build() -> void:
 	_def = _button("", Rect2(PAGE + Vector2(448.7, 651.1), Vector2(150, 30)), 16)
 	_def.visible = false
 	_def.pressed.connect(_keys_default)
+
+
+## toptext (shape 1150) and the port's controller-hint box beside it.
+func _build_top_text() -> void:
 	# toptext 1152: shape 1150 at 250.4, 4.5, txt at 262.5, 11.7.
 	_top_box = _art(1150, Rect2(250.4, 4.5, 361.1, 74))
 	_stage.add_child(_top_box)
@@ -512,6 +560,10 @@ func _build() -> void:
 	_nav_hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_nav_hint.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	_nav_hint.clip_text = true
+
+
+## vishelp at 168, 138: shape 1158, text at 9.2, 10.1.
+func _build_help_panel() -> void:
 	# vishelp at 168, 138: shape 1158, txt at 9.2, 10.1.
 	_help_box = _art(1158, Rect2(168, 138, 616, 619))
 	_help_box.visible = false
@@ -525,9 +577,6 @@ func _build() -> void:
 	_help_rich.add_theme_font_override("normal_font", _font)
 	_help_rich.add_theme_font_size_override("normal_font_size", roundi(14 * TEXT_K))
 	_help_box.add_child(_help_rich)
-	_build_rpanel()
-	_apply_columns()
-	_fit()
 
 
 ## Port extra: controller hints above the subpage tabs.
@@ -768,6 +817,8 @@ func _show_page(focus_sub := false) -> void:
 	for i in 5:
 		var sb := _sub_buttons[i]
 		sb.text = _trade.sub_label(_page, i) if PipTrade.handles(_page) else OriginalLines.pip(names[i])
+		if _mods_tab(_page, i):
+			sb.text = Locale.t("opt_mods")
 		sb.visible = _sub_visible(_page, i)
 		_skin_button(sb, BUT_ON if i == int(_sub[_page]) else BUT, 20)
 	if not _sub_visible(_page, int(_sub[_page])):
@@ -788,9 +839,10 @@ func _show_page(focus_sub := false) -> void:
 func _sub_visible(page: int, i: int) -> bool:
 	if page == APP:
 		return false
-	# PipPageOpt.setStatus: light mode hides but1, but2 and but5.
+	# PipPageOpt.setStatus: light mode hides but1, but2 and but5. The port puts
+	# Mods in the but5 slot there.
 	if menu_only and page == MENU:
-		return i in [2, 3]
+		return i in [2, 3, 4]
 	if PipTrade.handles(page):
 		return _trade.sub_visible(page, i)
 	return true
@@ -1154,7 +1206,7 @@ static func _bb(s: String) -> String:
 ## Returns BBCode. req_lvl is the level the requirements are for.
 func _eff_str(id: String, lvl: int, reqs: Array = [], req_lvl: int = 0) -> String:
 	if _pip_eff.is_empty():
-		var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(PIP_EFF))
+		var parsed: Variant = DataLib.load(PIP_EFF)
 		_pip_eff = parsed if parsed is Dictionary else {"": {}}
 	var s := OriginalLines.text_vars(OriginalLines.desc("eff", id), id, lvl)
 	var dp: Dictionary = _pip_eff.get(id, {})
@@ -1811,13 +1863,11 @@ func _in_sub(bags: Node, id: String, sub: int) -> bool:
 
 func _type_of(id: String) -> String:
 	if _types.is_empty():
-		var file := FileAccess.open(ITEMS_PATH, FileAccess.READ)
-		if file != null:
-			var doc: Variant = JSON.parse_string(file.get_as_text())
-			if doc is Dictionary:
-				for row_v in (doc as Dictionary).get("items", []):
-					if row_v is Dictionary:
-						_types[str(row_v.get("id", ""))] = str(row_v.get("type", ""))
+		var doc: Variant = DataLib.load(ITEMS_PATH)
+		if doc is Dictionary:
+			for row_v in (doc as Dictionary).get("items", []):
+				if row_v is Dictionary:
+					_types[str(row_v.get("id", ""))] = str(row_v.get("type", ""))
 		_types["__loaded"] = ""
 	return str(_types.get(id, ""))
 
@@ -1982,7 +2032,7 @@ func _drop(id: String, n: int = 1) -> void:
 	# lands as a world drop beside the player, past the autopick box so it is
 	# not taken straight back. Not in the base or as the alicorn.
 	var bags := get_node_or_null("/root/Inventory")
-	var player := get_tree().get_first_node_in_group("player") as Node2D
+	var player := Run.local_player() as Node2D
 	var host := get_tree().get_first_node_in_group("land_props")
 	if bags == null or player == null or host == null or Stash.in_base() or ScriptsEngine.alicorn:
 		return
@@ -2159,7 +2209,7 @@ func _fill_local_map() -> void:
 ## members' frag_<id> kills, and killed units (cat 3). Kills / dkill (5)
 ## unlock infoUnit's stat tiers.
 func _fill_enemies() -> void:
-	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://assets/data/bestiary.json")) if FileAccess.file_exists("res://assets/data/bestiary.json") else null
+	var parsed: Variant = DataLib.load("res://assets/data/bestiary.json") if FileAccess.file_exists("res://assets/data/bestiary.json") else null
 	if not parsed is Dictionary:
 		return
 	var list: Array = []
@@ -2340,7 +2390,15 @@ func _fill_menu(sub: int) -> void:
 		3:
 			_fill_controls()
 		4:
-			_fill_log()
+			if _mods_tab(MENU, 4):
+				_fill_room_mods()
+			else:
+				_fill_log()
+
+
+## Main menu only: mods load with the game data, so they are not switched mid-run.
+func _mods_tab(page: int, i: int) -> bool:
+	return menu_only and page == MENU and i == 4
 
 
 func _fill_slots(loading: bool) -> void:
@@ -2369,6 +2427,9 @@ func _fill_slots(loading: bool) -> void:
 			if row.has("play_ms"):
 				s += "%s: [%s]\n" % [OriginalLines.pip("tgame"), SaveSlots.game_time(int(row.play_ms))]
 			s += "%s: [%s]" % [OriginalLines.pip("saved"), str(row.get("date", ""))]
+			var mods_gd = load("res://scripts/mod_loader.gd")
+			if mods_gd != null and bool(mods_gd.slot_mods_differ(slot)):
+				s += "\n\n" + Locale.t("mod_save_warn")
 			# PipPage .red for a dead hardcore run.
 			data["rich"] = _yellow(s).replace("\u0005", "[color=#ff3333]").replace("\u0006", "[/color]")
 			_row([[label, 7, 150], [str(row.get("date", "")), 160, 230], ["%s %d" % [OriginalLines.pip("level"), int(row.get("level", 1))], 400, 150, GREEN, HORIZONTAL_ALIGNMENT_RIGHT]], data)
@@ -2391,10 +2452,15 @@ func _save_slot(slot: int) -> void:
 
 
 func _load_slot(slot: int) -> void:
+	var mods_gd = load("res://scripts/mod_loader.gd")
+	if mods_gd != null and bool(mods_gd.slot_mods_differ(slot)):
+		var note := Locale.t("mod_save_warn")
+		var hud := get_tree().get_first_node_in_group("hud")
+		if hud and hud.has_method("show_notice"):
+			hud.show_notice(note)
+		_info.text = note
 	SaveSlots.request_load(slot)
-	if GameState.has_method("set_paused"):
-		GameState.set_paused(false)
-	get_tree().paused = false
+	Sim.clear_paused()
 	Travel.enter_game()
 
 
@@ -2436,7 +2502,6 @@ func _fill_options() -> void:
 			"adjust": func(step: int) -> void: Locale.cycle_language(step),
 		})
 	_camera_row()
-	_fill_room_mods()
 
 
 ## visPipOptItem: nazv at 7; statInfo shows the pip line's info on the right.
@@ -2483,32 +2548,64 @@ func _camera_row() -> void:
 		func(_v: int) -> String: return CameraDistance.caption(), roundi(CameraDistance.STEP / span * 100.0))
 
 
-## mods/rooms overlays. On/off is RoomFile.set_mod_enabled (mods/rooms/_disabled.json).
+## Main-menu mods. Enabled flags are saved now and applied on the next boot.
+## Loose rooms keep per-file toggles in mods/rooms/_disabled.json.
 func _fill_room_mods() -> void:
 	var files := preload("res://scripts/map/room_file.gd")
-	var names: Array = []
-	for name_v in files.file_names():
-		var name := str(name_v)
-		if files.has_mod(name):
-			names.append(name)
-	_row([[Locale.t("ed_mods_title"), 7, 540]], {"title": Locale.t("ed_mods_title"), "info": Locale.t("ed_mods_hint")})
-	if names.is_empty():
-		_row([[Locale.t("ed_mods_none"), 7, 540]], {"title": Locale.t("ed_mods_none"), "info": Locale.t("ed_mods_hint")})
-		return
-	for name_v in names:
-		var name := str(name_v)
-		var b := _row([[name, 7, 360]], {"title": name, "info": Locale.t("ed_mods_hint")})
+	var mods := preload("res://scripts/mod_loader.gd")
+	var next := Locale.t("mod_apply_next")
+	_row([[Locale.t("mod_list_title"), 7, 540]], {"title": Locale.t("mod_list_title"), "info": next})
+	for mod_v in mods.catalog():
+		var mod: Dictionary = mod_v
+		var id := str(mod.get("id", ""))
+		var loose := bool(mod.get("loose", false))
+		var mod_name := Locale.t("mod_loose_name") if loose else str(mod.get("name", id))
+		var ver := Locale.t("mod_loose_ver") if loose else str(mod.get("version", ""))
+		var default_on := bool(mod.get("default_enabled", true))
+		var info := next
+		var desc := str(mod.get("description", ""))
+		if desc != "":
+			info = desc + "\n" + info
+		var why := str(mods.skip_reason(id))
+		if why != "":
+			info = Locale.t("mod_skipped").replace("%s", why) + "\n" + info
+		var b := _row([[mod_name, 7, 270], [ver, 280, 90, GREEN]], {"title": mod_name, "info": info})
 		var box := TextureRect.new()
-		box.texture = CheckMark.icon(files.mod_enabled(name), GREEN)
+		box.texture = CheckMark.icon(mods.stored_enabled(id, default_on), GREEN)
 		box.position = Vector2(380, 5.5)
 		box.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		b.add_child(box)
 		var put := func(on: bool) -> void:
-			files.set_mod_enabled(name, on)
-			box.texture = CheckMark.icon(files.mod_enabled(name), GREEN)
+			mods.set_enabled(id, on)
+			box.texture = CheckMark.icon(mods.stored_enabled(id, default_on), GREEN)
 		var data: Dictionary = b.get_meta("data")
-		data["primary"] = func() -> void: put.call(not files.mod_enabled(name))
+		data["primary"] = func() -> void: put.call(not mods.stored_enabled(id, default_on))
 		data["adjust"] = func(step: int) -> void: put.call(step > 0)
+		if not loose:
+			continue
+		var names: Array = []
+		for name_v in files.file_names():
+			var stem := str(name_v)
+			if files.has_mod(stem):
+				names.append(stem)
+		var file_info := Locale.t("ed_mods_hint") + "\n" + next
+		if names.is_empty():
+			_row([[Locale.t("ed_mods_none"), 28, 520]], {"title": Locale.t("ed_mods_none"), "info": file_info})
+			continue
+		for stem_v in names:
+			var stem := str(stem_v)
+			var row := _row([[stem, 28, 340]], {"title": stem, "info": file_info})
+			var mark := TextureRect.new()
+			mark.texture = CheckMark.icon(files.mod_enabled(stem), GREEN)
+			mark.position = Vector2(380, 5.5)
+			mark.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			row.add_child(mark)
+			var set_on := func(on: bool) -> void:
+				files.set_mod_enabled(stem, on)
+				mark.texture = CheckMark.icon(files.mod_enabled(stem), GREEN)
+			var row_data: Dictionary = row.get_meta("data")
+			row_data["primary"] = func() -> void: set_on.call(not files.mod_enabled(stem))
+			row_data["adjust"] = func(step: int) -> void: set_on.call(step > 0)
 
 
 func _bar_row(b: Button, getter: Callable, setter: Callable, shown: Callable, step: int) -> void:

@@ -49,7 +49,7 @@ func reset_run() -> void:
 
 
 func get_state() -> Dictionary:
-	var out := {}
+	var out := {"version": 1}
 	for cell in _fav:
 		out[str(cell)] = _fav[cell]
 	return out
@@ -147,7 +147,7 @@ func filled_cells() -> Array:
 ## The cell an assign key press means: weapon_N (+12 with sprint held),
 ## spell_N, or magic_attack. 0 if none.
 func cell_of_event(event: InputEvent) -> int:
-	var run := Input.is_action_pressed("sprint")
+	var run := LocalInput.held(&"sprint")
 	for i in HOTKEYS:
 		var action := action_of(i + 1)
 		if InputMap.has_action(action) and InputMap.event_is_action(event, action, true):
@@ -204,6 +204,4 @@ func _prune() -> void:
 
 
 func _info(key: String) -> void:
-	var hud := get_tree().get_first_node_in_group("hud")
-	if hud != null and hud.has_method("show_notice"):
-		hud.show_notice(OriginalLines.info(key))
+	Fx.notice(OriginalLines.info(key), {"source": Run.local_player()})

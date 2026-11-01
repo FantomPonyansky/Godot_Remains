@@ -60,7 +60,7 @@ func _ready() -> void:
 	_stage.add_child(_image)
 	var path := SCENES + "scenes.json"
 	if FileAccess.file_exists(path):
-		var v: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
+		var v: Variant = DataLib.load(path)
 		if v is Dictionary:
 			_manifest = v
 	_scene_label = Label.new()
@@ -175,7 +175,7 @@ func _freeze(on: bool) -> void:
 				(node as Node).process_mode = _frozen[node]
 		_frozen.clear()
 		return
-	for node in [get_tree().get_first_node_in_group("active_land"), get_tree().get_first_node_in_group("player")]:
+	for node in [Run.land(), Run.local_player()]:
 		if node != null and not _frozen.has(node):
 			_frozen[node] = (node as Node).process_mode
 			(node as Node).process_mode = Node.PROCESS_MODE_DISABLED

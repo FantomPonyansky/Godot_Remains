@@ -6,7 +6,7 @@ extends UnitBrain
 const EXPL_DIST := 80.0
 
 var pluh := 100
-var ai_n := randi() % 5
+var ai_n := Rng.randi(&"ai") % 5
 var is_mine := false
 var is_expl := false
 var cur: UnitGun
@@ -16,15 +16,15 @@ func configure() -> void:
 	if tr >= 10:
 		is_mine = true
 		tr -= 10
-	max_speed *= randf() * 0.3 + 0.85
-	accel *= randf() * 0.3 + 0.85
+	max_speed *= Rng.randf(&"ai") * 0.3 + 0.85
+	accel *= Rng.randf(&"ai") * 0.3 + 0.85
 	walk_speed = max_speed
 	brake = accel / 2.0
 
 
 func ready() -> void:
 	cur = xml_gun()
-	u.set("_detect_delay", float(u.get("_detect_delay")) * 0.5)
+	u.set("_detect_delay", int(u.get("_detect_delay")) / 2)
 	if is_mine:
 		ai_state = 2
 		u.set("_can_lift", false)
@@ -35,7 +35,7 @@ func ready() -> void:
 		ai_state = 1
 	else:
 		ai_state = 0
-	u.anim.frame = randi() % maxi(1, u.anim.sprite_frames.get_frame_count("stay"))
+	u.anim.frame = Rng.randi(&"ai") % maxi(1, u.anim.sprite_frames.get_frame_count("stay"))
 
 
 func _set_vis(v: bool) -> void:
@@ -88,7 +88,7 @@ func control() -> void:
 			set_cel(null, u.global_position + Vector2(0.0, 100.0))
 			if cur != null:
 				cur.attack()
-			pluh = randi_range(40, 114)
+			pluh = Rng.randi_range(&"ai", 40, 114)
 	elif ai_state == 2:
 		if dd <= 0.0 and ai_n % 4 == 0 and dist2_to_player() < EXPL_DIST * EXPL_DIST:
 			activate()

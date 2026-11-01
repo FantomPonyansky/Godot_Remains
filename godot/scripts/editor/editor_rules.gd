@@ -446,26 +446,15 @@ static func _emit_ids() -> PackedStringArray:
 		return _emits
 	var names: Array = [""]
 	var seen := {"": true}
+	var parts: Variant = DataLib.load("res://assets/data/unit_parts.json")
+	if parts is Dictionary:
+		for key in (parts as Dictionary).keys():
+			var id := str(key)
+			if not seen.has(id):
+				seen[id] = true
+				names.append(id)
 	var text := FileAccess.get_file_as_string("res://scripts/units/unit_fx.gd")
-	var start := text.find("const PARTS")
 	var end := text.find("const FLARES")
-	if start >= 0 and end > start:
-		var body := text.substr(start, end - start)
-		var i := 0
-		while true:
-			var q := body.find("\"", i)
-			if q < 0:
-				break
-			var q2 := body.find("\"", q + 1)
-			if q2 < 0:
-				break
-			var line := body.rfind("\n", q)
-			if body.substr(line + 1, q - line - 1) == "\t" and body.substr(q2 + 1, 1) == ":":
-				var id := body.substr(q + 1, q2 - q - 1)
-				if not seen.has(id):
-					seen[id] = true
-					names.append(id)
-			i = q2 + 1
 	var line_end := text.find("\n", end)
 	var flare := text.substr(end, line_end - end) if line_end > end else ""
 	var j := 0
@@ -493,7 +482,7 @@ static func _emit_ids() -> PackedStringArray:
 static func _game_scripts() -> PackedStringArray:
 	if not _script_ids.is_empty():
 		return _script_ids
-	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://assets/data/maps/scripts.json"))
+	var parsed: Variant = DataLib.load("res://assets/data/maps/scripts.json")
 	var names: Array = []
 	if parsed is Dictionary:
 		for key in (parsed as Dictionary).keys():
@@ -534,7 +523,7 @@ static func _room_uids(room: Dictionary) -> Array:
 static func _weap_ids() -> PackedStringArray:
 	if not _weaps.is_empty():
 		return _weaps
-	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://assets/data/weapons.json"))
+	var parsed: Variant = DataLib.load("res://assets/data/weapons.json")
 	var ids: Array = [""]
 	if parsed is Dictionary:
 		for row_v in (parsed as Dictionary).get("weapons", []):

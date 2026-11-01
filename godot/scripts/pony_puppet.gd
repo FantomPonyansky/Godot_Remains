@@ -767,7 +767,7 @@ func _label(clip: String, label: String, fallback: int) -> int:
 
 static func _clip_data(clip: String) -> Dictionary:
 	if _clips.is_empty():
-		var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(CLIPS))
+		var parsed: Variant = DataLib.load(CLIPS)
 		_clips = parsed if parsed is Dictionary else {"stay": {"frames": 1}}
 	return _clips.get(clip, {})
 

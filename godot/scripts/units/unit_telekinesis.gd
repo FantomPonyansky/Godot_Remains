@@ -131,7 +131,7 @@ func find_box(max_distance: float) -> Node2D:
 			continue
 		if box.has_meta("levit_poss") and not bool(box.get_meta("levit_poss")):
 			continue
-		if float(box.get("massa")) < HEAVY_MASS or randf() >= BOX_CHANCE:
+		if float(box.get("massa")) < HEAVY_MASS or Rng.randf(&"ai") >= BOX_CHANCE:
 			continue
 		var bc := center_of(box)
 		if eye.distance_squared_to(bc) > max_distance * max_distance:
@@ -218,7 +218,7 @@ func step_thrown() -> void:
 	var vel2 := v.length_squared()
 	if vel2 < 50.0:
 		return
-	var p := owner.get_tree().get_first_node_in_group("player") as Node2D
+	var p := Run.nearest_player(c)
 	if p == null or not p.has_method("take_hit"):
 		return
 	var hh := half_height(_thrown)
@@ -227,7 +227,7 @@ func step_thrown() -> void:
 	var size: Vector2 = owner.call("_body_size", p)
 	var pc: Vector2 = owner.call("_body_center", p)
 	if box.intersects(Rect2(pc - size * 0.5, size)):
-		p.take_hit(int(round(float(_thrown.get("massa")) * (vel2 - 50.0) * BOX_DAMAGE)), "DAM_BLUNT")
+		p.take_hit(HitInfo.make(int(round(float(_thrown.get("massa")) * (vel2 - 50.0) * BOX_DAMAGE)), "DAM_BLUNT", _thrown))
 		_thrown = null
 
 

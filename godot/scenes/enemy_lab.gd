@@ -492,7 +492,7 @@ func _mark_lists() -> void:
 
 
 func _leave() -> void:
-	GameState.set_paused(false)
+	Sim.clear_paused()
 	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
 
 
@@ -504,5 +504,7 @@ class Target extends StaticBody2D:
 	var _fire_cd := 0.0
 	var _semi_lock := false
 
-	func take_hit(amount: int = 15, _type: String = "") -> void:
-		struck.emit(amount)
+	func take_hit(hit: HitInfo) -> void:
+		if hit == null:
+			return
+		struck.emit(int(round(hit.amount)))

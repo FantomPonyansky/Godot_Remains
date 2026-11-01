@@ -1,0 +1,11 @@
+{
+  "woodbox": "res://assets/sprites/props/woodbox.png",
+  "box": "res://assets/sprites/props/box.png",
+  "mcrate1": "res://assets/sprites/props/mcrate1.png",
+  "mcrate2": "res://assets/sprites/props/mcrate2.png",
+  "mcrate3": "res://assets/sprites/props/mcrate3.png",
+  "mcrate4": "res://assets/sprites/props/mcrate4.png",
+  "mcrate5": "res://assets/sprites/props/mcrate5.png",
+  "bigbox": "res://assets/sprites/props/bigbox.png",
+  "bigbox2": "res://assets/sprites/props/bigbox2.png"
+}

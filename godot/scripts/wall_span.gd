@@ -103,12 +103,20 @@ func bind_grid(code: String, border: String) -> void:
 		add_to_group("destructibles")
 
 
-func take_hit(amount: int = 0, type: String = "") -> void:
-	if _cols == 0:
+func take_hit(hit: HitInfo) -> void:
+	if hit == null or _cols == 0:
 		return
 	var cell := _cell_at(_impact_point())
-	if _hurt(cell.x, cell.y, amount, type):
+	if _hurt(cell.x, cell.y, int(round(hit.amount)), hit.tip):
 		_schedule()
+
+
+func snapshot() -> Dictionary:
+	return Entity.captured(self)
+
+
+func restore(d: Dictionary) -> void:
+	Entity.apply_captured(self, d)
 
 
 ## Location.hitTile for one shot or blow at a point: damage the cell, then the
@@ -496,7 +504,7 @@ func _impact_point() -> Vector2:
 		var ray := node.get_node_or_null("WallCheck") as RayCast2D
 		if ray and ray.is_colliding() and ray.get_collider() == self:
 			return ray.get_collision_point()
-	var player := tree.get_first_node_in_group("player") as Node2D
+	var player := Run.local_player()
 	if player:
 		var aimed := _player_aim(player, rect)
 		if aimed != Vector2.INF:

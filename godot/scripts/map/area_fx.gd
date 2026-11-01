@@ -12,6 +12,7 @@ extends Node2D
 ## - norad: the player inside takes no radiation.
 ## - vis: visArea art at the area's size, screen blended, alpha 0.1 while off.
 
+const _PS := preload("res://scripts/prop_state.gd")
 const TPS := 30.0
 const TILE := 40.0
 const ROOM_PX := Vector2(1920, 1000)
@@ -64,7 +65,7 @@ func setup(host: Area2D, row: Dictionary, attrs: Dictionary, owner_land: Node) -
 	for j in range(floori(rect.position.y / TILE), ceili(rect.end.y / TILE)):
 		for i in range(floori(rect.position.x / TILE), ceili(rect.end.x / TILE)):
 			_cells.append(Vector2i(i, j))
-	_enabled = bool(area.get_meta("enabled", true))
+	_enabled = bool(_PS.getv(area, "enabled", true))
 	if attrs.has("tilehp") or attrs.has("tilethre"):
 		_tile_stats = [_int(attrs.get("tilehp"), -1), _int(attrs.get("tilethre"), -1)]
 	if attrs.has("tileop"):
@@ -96,7 +97,7 @@ func _physics_process(delta: float) -> void:
 		return
 	var ticks := mini(int(_acc), 4)
 	_acc -= int(_acc)
-	var now := bool(area.get_meta("enabled", true))
+	var now := bool(_PS.getv(area, "enabled", true))
 	if now != _enabled:
 		_enabled = now
 		if lift != 1.0:
@@ -107,7 +108,7 @@ func _physics_process(delta: float) -> void:
 	if not _enabled:
 		_inside = false
 		return
-	var player := get_tree().get_first_node_in_group("player") as Node2D
+	var player := Run.local_player() as Node2D
 	if player == null or _Flags.cell_of(player.global_position) != room:
 		_inside = false
 		return
@@ -158,7 +159,7 @@ func _teleport(player: Node2D) -> void:
 
 func _emit(kol: int) -> void:
 	if emit_id != "purple_spark":
-		_UnitFx.emit(get_tree(), emit_id, rect.get_center(), {"kol": kol, "rx": rect.size.x, "ry": rect.size.y})
+		Fx.particles(emit_id, rect.get_center(), {"kol": kol, "rx": rect.size.x, "ry": rect.size.y, "source": self})
 		return
 	if _spark_tex == null:
 		return
@@ -168,9 +169,9 @@ func _emit(kol: int) -> void:
 		spr.material = _blend()
 		spr.offset = -_anchor("purple_spark")
 		spr.centered = false
-		var sc := 1.0 - SPARK_RSC + randf() * SPARK_RSC
+		var sc := 1.0 - SPARK_RSC + Rng.randf(&"fx") * SPARK_RSC
 		spr.scale = Vector2(sc, sc)
-		spr.global_position = rect.get_center() + Vector2((randf() - 0.5) * rect.size.x, (randf() - 0.5) * rect.size.y)
+		spr.global_position = rect.get_center() + Vector2((Rng.randf(&"fx") - 0.5) * rect.size.x, (Rng.randf(&"fx") - 0.5) * rect.size.y)
 		spr.z_index = 6
 		spr.z_as_relative = false
 		add_child(spr)
@@ -210,7 +211,7 @@ func _make_vis(id: String) -> void:
 
 static func _anchor(id: String) -> Vector2:
 	if _anchors.is_empty():
-		var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(ART + "anchors.json")) if FileAccess.file_exists(ART + "anchors.json") else null
+		var parsed: Variant = DataLib.load(ART + "anchors.json") if FileAccess.file_exists(ART + "anchors.json") else null
 		_anchors = parsed if parsed is Dictionary else {"_": []}
 	var a: Variant = _anchors.get(id)
 	return Vector2(float(a[0]), float(a[1])) if a is Array and (a as Array).size() >= 2 else Vector2.ZERO

@@ -1,0 +1,44 @@
+{
+  "audio": {
+    "sound": 1.0,
+    "music": 1.0,
+    "step": 0.5
+  },
+  "game": {
+    "difficulty": 2,
+    "quake_cam": true,
+    "show_hit": 2,
+    "zoom100": false,
+    "hint_tele": true,
+    "sys_cur": false,
+    "show_favs": true,
+    "err_show": true,
+    "help": true,
+    "dialon": true,
+    "mat": true,
+    "hardinv": false,
+    "hardcore": false,
+    "hardskills": false,
+    "fastxp": false,
+    "rndpump": false,
+    "propusk": false,
+    "play_ms": 0,
+    "autosave_n": 0
+  },
+  "ui": {
+    "nadv": 0
+  },
+  "input": {
+    "deadzone": 0.35,
+    "aim_speed": 1.0,
+    "aim_assist": true,
+    "assist_pull": 1.0,
+    "assist_slow": 0.25
+  },
+  "camera": {
+    "min": 0.5,
+    "max": 2.0,
+    "default": 1.0,
+    "step": 0.1
+  }
+}

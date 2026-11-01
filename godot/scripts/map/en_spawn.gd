@@ -45,7 +45,7 @@ func left(key: String) -> int:
 ## Location.signal(n): the first alarm spawn comes up to n / 4 ticks later.
 func signal_room(key: String, n: int = 300) -> void:
 	if _rooms.has(key):
-		_rooms[key].t = int(float(n) * randf() * 0.25 + 0.25)
+		_rooms[key].t = int(float(n) * Rng.randf(&"spawn") * 0.25 + 0.25)
 
 
 func tick(delta: float) -> void:
@@ -72,9 +72,9 @@ func spawn(key: String, one: bool, get_gg: bool) -> Node:
 	rec.kol = int(rec.kol) - 1
 	props.set_flag("enspawn|" + key, int(rec.kol))
 	if not one:
-		rec.t = floori(randf() * 30.0)
+		rec.t = floori(Rng.randf(&"spawn") * 30.0)
 	var points: Array = rec.points
-	var sp: Vector2 = points[randi() % points.size()]
+	var sp: Vector2 = points[Rng.randi(&"spawn") % points.size()]
 	var loc: Dictionary = (rec.loc as Dictionary).duplicate()
 	if loc.is_empty():
 		return null
@@ -97,7 +97,7 @@ func wave_spawn(key: String, obj: Dictionary, n: int) -> Node:
 	if not rec is Dictionary or (rec.points as Array).is_empty():
 		return null
 	var points: Array = rec.points
-	var sp: Vector2 = points[n] if n < points.size() else points[randi() % points.size()]
+	var sp: Vector2 = points[n] if n < points.size() else points[Rng.randi(&"spawn") % points.size()]
 	var loc: Dictionary = (rec.loc as Dictionary).duplicate()
 	if loc.is_empty():
 		return null
@@ -135,7 +135,7 @@ func _make(row: Dictionary, at: Vector2, get_gg: bool) -> Node:
 	host.add_child(unit)
 	unit.global_position = at
 	props.call("_rank_unit", unit, int(row.get("level", 0)), int(row.get("hero", 0)), 1.0)
-	var player := props.get_tree().get_first_node_in_group("player") as Node2D
+	var player := Run.nearest_player(at)
 	if unit.has_method("_become_alert"):
 		unit.call("_become_alert", player.global_position if get_gg and player != null else at)
 	_emerge(unit)

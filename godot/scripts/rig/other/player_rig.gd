@@ -376,12 +376,20 @@ func set_armor(armor_id: String, hide_mane: int = -1) -> void:
 	_apply_variant(armor_id)
 	_mane_rule = hide_mane
 
-	var hide: bool = armor_id in _hide_mane_armors if hide_mane < 0 else hide_mane != 0
+	var hide: bool = _armor_hides_mane(armor_id) if hide_mane < 0 else hide_mane != 0
 	if _bones.has("mane"):
 		_bones["mane"].visible = not hide
 
 	# Re-apply eye state — _update_nested_visibility resets eye0/zrak to default (state 0)
 	_apply_eye_state_visibility()
+
+
+## A mod armour's own hide_mane, else its base suit's rule.
+func _armor_hides_mane(armor_id: String) -> bool:
+	var row: Variant = armor_art().get(armor_id)
+	if row is Dictionary and (row as Dictionary).has("hide_mane"):
+		return bool((row as Dictionary)["hide_mane"])
+	return armor_base(armor_id) in _hide_mane_armors
 
 
 func get_armor_list() -> Array[String]:

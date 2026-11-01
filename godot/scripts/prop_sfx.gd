@@ -5,6 +5,7 @@ extends RefCounted
 ## action starts. Building a land is quiet (states set while it loads).
 
 const _Registry := preload("res://scripts/map/land_registry.gd")
+const _PS := preload("res://scripts/prop_state.gd")
 const QUIET_MS := 800
 
 static var _quiet_until := 0
@@ -20,7 +21,7 @@ static func obj(id: String, key: String, volume: float = 1.0) -> void:
 		return
 	var sid := str(_Registry.obj(id).get(key, ""))
 	if sid != "":
-		SfxBank.play(sid, volume)
+		Fx.sound(sid, Vector2.ZERO, {"volume": volume})
 
 
 static func node_obj(node: Node, key: String) -> void:
@@ -33,10 +34,10 @@ static func node_obj(node: Node, key: String) -> void:
 ## electric and broken locks rem_act.
 static func act(node: Node) -> void:
 	var sid := ""
-	if int(node.get_meta("mine", 0)) > 0:
+	if int(_PS.getv(node, "mine", 0)) > 0:
 		sid = "rem_act"
-	elif float(node.get_meta("lock", 0.0)) > 0.0:
-		match int(node.get_meta("locktip", 1)):
+	elif float(_PS.getv(node, "lock", 0.0)) > 0.0:
+		match int(_PS.getv(node, "locktip", 1)):
 			0, 1:
 				sid = "lock_act"
 			2:
@@ -44,4 +45,4 @@ static func act(node: Node) -> void:
 			4, 5:
 				sid = "rem_act"
 	if sid != "":
-		SfxBank.play(sid)
+		Fx.sound(sid, Vector2.ZERO)

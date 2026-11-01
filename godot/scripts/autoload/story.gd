@@ -9,6 +9,10 @@ extends Node
 
 signal quests_changed
 signal notes_changed
+## ScriptsEngine connects. Story does not name ScriptsEngine.
+signal dialog_asked(id: String)
+signal script_asked(id: String)
+signal item_taken_asked(id: String, first: bool)
 
 const QUESTS_PATH := "res://assets/data/story/quests.json"
 const NPCS_PATH := "res://assets/data/story/npcs.json"
@@ -283,12 +287,12 @@ class Quest:
 			story.info("doneStage", nazv())
 		else:
 			story.info("doneTask", nazv())
-			SfxBank.play("quest_ok")
+			Fx.sound("quest_ok", Vector2.ZERO)
 		if end_dial != "" and story.dial_on():
 			story.close_pip()
-			ScriptsEngine.dialog(end_dial)
+			story.dialog_asked.emit(end_dial)
 		if end_script != "":
-			ScriptsEngine.run_script(end_script)
+			story.script_asked.emit(end_script)
 		story.quests_changed.emit()
 
 
@@ -337,7 +341,7 @@ func get_state() -> Dictionary:
 	var q := {}
 	for id in quests:
 		q[id] = (quests[id] as Quest).save()
-	return {"rep": rep, "quests": q, "notes": notes.duplicate(), "npcs": npc_rep.duplicate(true)}
+	return {"version": 1, "rep": rep, "quests": q, "notes": notes.duplicate(), "npcs": npc_rep.duplicate(true)}
 
 
 func set_state(data: Variant) -> void:
@@ -373,7 +377,7 @@ func add_quest(id: String, load_obj: Dictionary = {}, _no_vis: bool = false, snd
 		if have.state == 0:
 			have.state = 1
 			info("addTask", have.nazv())
-			SfxBank.play("quest")
+			Fx.sound("quest", Vector2.ZERO)
 			have.is_closed()
 			have.deposit()
 			if have.state == 2:
@@ -389,10 +393,10 @@ func add_quest(id: String, load_obj: Dictionary = {}, _no_vis: bool = false, snd
 		info("addTask", q.nazv())
 		q.deposit()
 		if snd:
-			SfxBank.play("quest")
+			Fx.sound("quest", Vector2.ZERO)
 	if load_obj.is_empty() and show_dial and q.beg_dial != "" and dial_on():
 		close_pip()
-		ScriptsEngine.dialog(q.beg_dial)
+		dialog_asked.emit(q.beg_dial)
 	quests_changed.emit()
 	return q
 
@@ -407,7 +411,7 @@ func show_quest(id: String, sid: String) -> void:
 	for s: Quest in q.subs:
 		if s.id == sid:
 			info("addTask2", s.nazv())
-			SfxBank.play("quest")
+			Fx.sound("quest", Vector2.ZERO)
 			break
 	quests_changed.emit()
 
@@ -616,7 +620,7 @@ func take(id: String, kol: int = -1, tr: int = 0) -> void:
 			info("takeMoney", str(n))
 		else:
 			info("take", name + (" (%d)" % n if n > 1 else ""))
-	ScriptsEngine.item_taken(id, first)
+	item_taken_asked.emit(id, first)
 
 
 ## ItemInteraction.withdraw: the item leaves the bag with the withdraw line.
@@ -653,7 +657,7 @@ func read_item(id: String) -> bool:
 		return true
 	if row.has("text"):
 		close_pip()
-		ScriptsEngine.dialog(str(row.text))
+		dialog_asked.emit(str(row.text))
 		if row.has("perk"):
 			Progression.grant_perk(str(row.perk))
 		return true
@@ -675,16 +679,16 @@ func read_item(id: String) -> bool:
 
 ## GUI.infoText: an 'info' line with @1/@2.
 func info(id: String, a1: String = "", a2: String = "") -> void:
-	var hud := get_tree().get_first_node_in_group("hud") if is_inside_tree() else null
-	if hud != null and hud.has_method("show_notice"):
-		hud.show_notice(OriginalLines.info(id, a1, a2))
+	if not is_inside_tree():
+		return
+	Fx.notice(OriginalLines.info(id, a1, a2), {"source": Run.local_player()})
 
 
 ## A port_strings line in the info log.
 func info_port(key: String) -> void:
-	var hud := get_tree().get_first_node_in_group("hud") if is_inside_tree() else null
-	if hud != null and hud.has_method("show_notice"):
-		hud.show_notice(Locale.t(key))
+	if not is_inside_tree():
+		return
+	Fx.notice(Locale.t(key), {"source": Run.local_player()})
 
 
 ## GameContainer.dialOn (settings: dialon).
@@ -723,5 +727,5 @@ func _read(path: String) -> Dictionary:
 	if not FileAccess.file_exists(path):
 		push_warning("Story: missing %s" % path)
 		return {}
-	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
+	var parsed: Variant = DataLib.load(path)
 	return parsed if parsed is Dictionary else {}

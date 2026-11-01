@@ -165,7 +165,7 @@ func control() -> void:
 				cast_curse(1, o)
 		else:
 			cast_curse()
-		curseculd_t = int(floor((randf() * 1.6 + 0.2) * time_curse_culd))
+		curseculd_t = int(floor((Rng.randf(&"ai") * 1.6 + 0.2) * time_curse_culd))
 	if ai_state != 3 and ai_state != 2:
 		if atk_t > 0:
 			atk_t -= 1
@@ -183,7 +183,7 @@ func control() -> void:
 					atk_n += 1
 			if atk_n % 2 == 1:
 				_spawn(atk_n % (6 if phase == 1 else 8))
-			atk_t = int(floor((randf() * 0.6 + 0.7) * TIME_ATTACK_CULD))
+			atk_t = int(floor((Rng.randf(&"ai") * 0.6 + 0.7) * TIME_ATTACK_CULD))
 	var cdx := cel.x - u.global_position.x
 	if ai_tch > 0:
 		ai_tch -= 1
@@ -208,7 +208,7 @@ func control() -> void:
 		if rnd(0.3):
 			throu_t = 5
 			throu = true
-		ai_tch = randi_range(40, 139)
+		ai_tch = Rng.randi_range(&"ai", 40, 139)
 	if ai_tch % 10 == 1:
 		set_cel(p)
 	cdx = cel.x - u.global_position.x
@@ -248,13 +248,13 @@ func control() -> void:
 			if cdx * ai_napr < 0.0:
 				ai_napr = turn_x
 				storona = turn_x
-				ai_t_turn = randi_range(5, 24)
+				ai_t_turn = Rng.randi_range(&"ai", 5, 24)
 			else:
 				ai_t_turn -= 1
 				if ai_t_turn < 0:
 					ai_napr = turn_x
 					storona = turn_x
-					ai_t_turn = randi_range(5, 24)
+					ai_t_turn = Rng.randi_range(&"ai", 5, 24)
 			turn_x = 0.0
 			turn_y = 0.0
 		if jmp > 0.0:
@@ -327,7 +327,7 @@ func _spawn(n: int) -> void:
 	for i in 3:
 		if children.size() >= KOL_EMIT:
 			return
-		var at := beg + Vector2(randf_range(-400.0, 400.0), 0.0)
+		var at := beg + Vector2(Rng.randf_range(&"spawn", -400.0, 400.0), 0.0)
 		var un := spawn_unit(uid, at)
 		if un == null:
 			continue
@@ -349,13 +349,13 @@ func cast_curse(n: int = 0, otlozh: int = 0) -> void:
 		return
 	var pv: Vector2 = p.velocity / TPS
 	var pc := center_of(p)
-	var at := pc + pv * 15.0 + Vector2((randf() - 0.5) * 50.0, (randf() - 0.5) * 30.0)
+	var at := pc + pv * 15.0 + Vector2((Rng.randf(&"ai") - 0.5) * 50.0, (Rng.randf(&"ai") - 0.5) * 30.0)
 	if n == 2:
 		var side := 1.0 if int(p.global_position.x) % 2 == 0 else -1.0
 		at = Vector2(p.global_position.x + pv.x * 15.0 + float(otlozh - 8) * 20.0 * side, pc.y + pv.y * 15.0)
 	if n == 1:
-		at += Vector2(randf_range(-100.0, 100.0), randf_range(-50.0, 50.0))
-	var spell: String = CURSES[randi() % (9 if phase == 2 else 5)]
+		at += Vector2(Rng.randf_range(&"ai", -100.0, 100.0), Rng.randf_range(&"ai", -50.0, 50.0))
+	var spell: String = CURSES[Rng.randi(&"ai") % (9 if phase == 2 else 5)]
 	symbols.append({"at": at, "liv": 20 + otlozh, "spell": spell, "node": _symbol_node(at)})
 
 

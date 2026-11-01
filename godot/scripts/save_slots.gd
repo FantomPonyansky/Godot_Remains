@@ -3,11 +3,13 @@ extends RefCounted
 
 ## PipPageOpt Сохранить / Загрузить and MainMenu Продолжить / Загрузить.
 ## Slot 0 is the autosave (written when you leave to the main menu and on
-## every land change); slots 1..10 are written from the PipBuck. A slot is a
-## copy of the run files the autoloads already keep (UserDir.run), plus
-## WorldState's world.json (every visited land, the current land and spot).
+## every land change); slots 1..10 are written from the PipBuck. A slot is
+## run.json (the run providers) plus world.json (lands and world providers)
+## plus slot.cfg for the load menu. The autoloads still keep their own cfg
+## files in the run dir for boot.
 ## slot.cfg format 1 has no world.json: such a slot loads the player only and
-## the run starts in the stable, as before.
+## the run starts in the stable, as before. Format 2 is the cfg copies plus
+## world.json; pets, score and vendor money were not in it.
 ## A hardcore run autosaves into the slot picked when it began (World.autoSaveN),
 ## so save(0) means "the autosave" and goes there.
 
@@ -15,7 +17,7 @@ const _UserDir := preload("res://scripts/user_dir.gd")
 const _Play := preload("res://scripts/editor/editor_play.gd")
 const Look := preload("res://scripts/pony_look.gd")
 const SLOTS := 10
-const FORMAT := 2
+const FORMAT := 3
 const RUN_FILES: PackedStringArray = [
 	"inventory.cfg", "progression.cfg", "condition.cfg", "body_pools.cfg",
 ]
@@ -94,12 +96,9 @@ static func save(slot: int) -> bool:
 	var dir := dir_of(slot)
 	DirAccess.make_dir_recursive_absolute(dir)
 	_flush_autoloads()
-	for file in RUN_FILES:
-		var src := _UserDir.run(file)
-		if FileAccess.file_exists(src):
-			DirAccess.copy_absolute(src, dir + file)
-		elif FileAccess.file_exists(dir + file):
-			DirAccess.remove_absolute(dir + file)
+	var world := _node("WorldState")
+	if world == null or not bool(world.call("write_run", dir)) or not bool(world.call("write", dir)):
+		return false
 	var cfg := ConfigFile.new()
 	cfg.set_value("slot", "time", int(Time.get_unix_time_from_system()))
 	cfg.set_value("slot", "date", Time.get_datetime_string_from_system(false, true))
@@ -127,11 +126,15 @@ static func save(slot: int) -> bool:
 	var bags := _node("Inventory")
 	if bags and bags.has_method("body_armor_id"):
 		cfg.set_value("slot", "armor", str(bags.call("body_armor_id", str(bags.get("worn")))))
-	var world := _node("WorldState")
 	if world:
 		cfg.set_value("slot", "land", str(world.call("current_land_id")))
-		world.call("write", dir)
-	return cfg.save(dir + META) == OK
+	if cfg.save(dir + META) != OK:
+		return false
+	# Format 2 kept cfg copies in the slot. Format 3 does not read them.
+	for file in Array(RUN_FILES) + ["pets.cfg"]:
+		if FileAccess.file_exists(dir + file):
+			DirAccess.remove_absolute(dir + file)
+	return true
 
 
 ## The land a slot was saved in, by its original map name. Empty for old slots.
@@ -171,10 +174,21 @@ static func apply_pending() -> void:
 	if not exists(slot):
 		return
 	var dir := dir_of(slot)
-	for file in RUN_FILES:
-		if FileAccess.file_exists(dir + file):
-			DirAccess.copy_absolute(dir + file, _UserDir.run(file))
 	var row := info(slot)
+	var fmt := int(row.get("format", 1))
+	var world := _node("WorldState")
+	if fmt >= 3:
+		if world:
+			world.call("read_run", dir)
+	else:
+		# Format 1 and 2: the cfg files. Pets, score and vendor money were not saved.
+		for file in RUN_FILES:
+			if FileAccess.file_exists(dir + file):
+				DirAccess.copy_absolute(dir + file, _UserDir.run(file))
+		for pair in [["Progression", "_load"], ["Condition", "_load"], ["Inventory", "_load"], ["GameState", "_load_pools"]]:
+			var n := _node(pair[0])
+			if n and n.has_method(pair[1]):
+				n.call(pair[1])
 	if row.has("name"):
 		UiSettings.set_value("game", "name", str(row["name"]))
 	if row.has("difficulty"):
@@ -183,10 +197,6 @@ static func apply_pending() -> void:
 	UiSettings.set_value("game", "hardinv", bool(row.get("hardinv", false)))
 	UiSettings.set_value("game", "autosave_n", int(row.get("autosave_n", 0)))
 	reset_play_time(int(row.get("play_ms", 0)))
-	for pair in [["Progression", "_load"], ["Condition", "_load"], ["Inventory", "_load"], ["GameState", "_load_pools"]]:
-		var n := _node(pair[0])
-		if n and n.has_method(pair[1]):
-			n.call(pair[1])
 	var bags := _node("Inventory")
 	if bags:
 		if "_applied_player" in bags:
@@ -197,16 +207,13 @@ static func apply_pending() -> void:
 	if prog and prog.has_signal("changed"):
 		prog.emit_signal("changed")
 	var gs := _node("GameState")
-	if gs:
+	if fmt < 3 and gs:
 		var cap := int(gs.call("_hp_cap")) if gs.has_method("_hp_cap") else int(gs.get("health"))
 		gs.set("health", clampi(int(row.get("health", cap)), 1, maxi(1, cap)))
 		gs.set("magic", int(row.get("magic", gs.get("magic"))))
-		var maxh := int(gs.call("_max_health")) if gs.has_method("_max_health") else cap
-		gs.emit_signal("health_changed", int(gs.get("health")), maxh)
-		if gs.has_signal("pools_changed"):
-			gs.emit_signal("pools_changed")
-	var world := _node("WorldState")
-	if world and int(row.get("format", 1)) >= 2:
+	if gs and gs.has_method("emit_loaded"):
+		gs.call("emit_loaded")
+	if world and fmt >= 2:
 		world.call("read", dir)
 
 

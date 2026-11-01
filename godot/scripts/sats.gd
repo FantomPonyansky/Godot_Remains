@@ -18,24 +18,26 @@ const _OD := preload("res://assets/shaders/sats_od.gdshader")
 const ART := "res://assets/sprites/sats/"
 const FONT := "res://theme/hud_sans.tres"
 
-const OD_START := 80.0
-const OD_REGEN := 0.1
+const _BALANCE := "res://assets/data/balance/sats.json"
+static var _balance_loaded := false
+static var OD_START := 80.0
+static var OD_REGEN := 0.1
 ## Pers.meleeR, Pers.meleeS.
-const MELEE_R := 100.0
-const MELEE_S := 40.0
+static var MELEE_R := 100.0
+static var MELEE_S := 40.0
 ## SatsCel ramka: each extra cel on a unit grows its frame by 10 px.
-const RAMKA := 10.0
+static var RAMKA := 10.0
 ## Trasser.liv, and WThrow skok / tormoz / brake.
-const TRASS_LIV := 100
-const SKOK := 0.4
-const TORMOZ := 0.6
-const BRAKE := 2.0
-const HOLD := 0.4
-const T_OD := 200
+static var TRASS_LIV := 100
+static var SKOK := 0.4
+static var TORMOZ := 0.6
+static var BRAKE := 2.0
+static var HOLD := 0.4
+static var T_OD := 200
 
 var active := false
-var od := OD_START
-var odv := OD_START
+var od := 80.0
+var odv := 80.0
 var skill_conf := 1.0
 ## {unit, at, cons, kol, begined, mark, land}
 var que: Array = []
@@ -63,6 +65,33 @@ var _frame: TextureRect
 var _od_bar: Node2D
 var _od_mask: Sprite2D
 var _top: Label
+
+
+func _init() -> void:
+	_load_balance()
+	od = OD_START
+	odv = OD_START
+
+
+static func _load_balance() -> void:
+	if _balance_loaded:
+		return
+	_balance_loaded = true
+	var raw: Variant = DataLib.load(_BALANCE)
+	if raw is not Dictionary:
+		return
+	var d := raw as Dictionary
+	OD_START = float(d.get("od_start", OD_START))
+	OD_REGEN = float(d.get("od_regen", OD_REGEN))
+	MELEE_R = float(d.get("melee_r", MELEE_R))
+	MELEE_S = float(d.get("melee_s", MELEE_S))
+	RAMKA = float(d.get("ramka", RAMKA))
+	TRASS_LIV = int(d.get("trass_liv", TRASS_LIV))
+	SKOK = float(d.get("skok", SKOK))
+	TORMOZ = float(d.get("tormoz", TORMOZ))
+	BRAKE = float(d.get("brake", BRAKE))
+	HOLD = float(d.get("hold", HOLD))
+	T_OD = int(d.get("t_od", T_OD))
 
 
 func _ready() -> void:
@@ -120,8 +149,8 @@ func step2(delta: float) -> void:
 		var cons_mult := Progression.weapon_perk(w, "Cons", 1.0)
 		# The key that accepted the queue is still down for a frame or more after the freeze.
 		if _grace:
-			_grace = Input.is_action_pressed("shoot") or _cancels_held()
-		if not _grace and (Input.is_action_just_pressed("shoot") or _cancels()):
+			_grace = LocalInput.held(&"shoot") or _cancels_held()
+		if not _grace and (LocalInput.just_pressed(&"shoot") or _cancels()):
 			clear_all()
 		elif str(Travel.cur_land_id) != str(que[0].get("land", "")):
 			clear_all()
@@ -168,19 +197,12 @@ func clear_all() -> void:
 func _input(event: InputEvent) -> void:
 	if _player == null or not is_instance_valid(_player):
 		return
-	if event.is_action("sats") and not event.is_echo():
-		# World: keySats opens only with gg.ggControl.
-		if not active and Travel.control_off():
-			return
-		if _needs_hold(event):
-			_hold_left = HOLD if event.is_pressed() else -1.0
-		elif event.is_pressed():
-			_hold_left = -1.0
-			_toggle()
-		if active:
-			get_viewport().set_input_as_handled()
-		return
 	if not active:
+		return
+	# The mode key is read from the command. Swallow it here so it does not
+	# also reach the menus while the freeze is up.
+	if event.is_action("sats") and not event.is_echo():
+		get_viewport().set_input_as_handled()
 		return
 	# The PipBuck stays shut and the pause menu does not open over the freeze.
 	# Port extra: pause (Start / Esc) leaves without firing.
@@ -191,18 +213,51 @@ func _input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 
 
+## keySats from the frozen command. A pad button shared with another action
+## waits HOLD, same as the old event path. A press and release in one tick
+## starts the wait and then cancels it.
+func _poll_sats_key() -> void:
+	if LocalInput.just_pressed(&"sats"):
+		if active or not Travel.control_off():
+			if _pad_sats_shared():
+				_hold_left = HOLD
+			else:
+				_hold_left = -1.0
+				_toggle()
+	if LocalInput.just_released(&"sats") and _hold_left >= 0.0:
+		_hold_left = -1.0
+
+
+func _pad_sats_shared() -> bool:
+	if not InputMap.has_action(&"sats"):
+		return false
+	for event in InputMap.action_get_events(&"sats"):
+		if not event is InputEventJoypadButton:
+			continue
+		var joy := event as InputEventJoypadButton
+		var pads: Array = Input.get_connected_joypads() if joy.device < 0 else [joy.device]
+		var down := false
+		for pad in pads:
+			if Input.is_joy_button_pressed(int(pad), joy.button_index):
+				down = true
+				break
+		if down and _needs_hold(joy):
+			return true
+	return false
+
+
 ## Sats.step: the keys are edges, so a held trigger queues one cel.
 ## Port: grenade / melee (LB / RB) also step between the targets.
 func _poll_keys() -> void:
-	if Input.is_action_just_pressed("shoot"):
+	if LocalInput.just_pressed(&"shoot"):
 		set_cel()
-	elif Input.is_action_just_pressed("telekinesis"):
+	elif LocalInput.just_pressed(&"telekinesis"):
 		unset_cel()
-	elif Input.is_action_just_pressed("interact"):
+	elif LocalInput.just_pressed(&"interact"):
 		_set_active(false)
-	elif Input.is_action_just_pressed("weapon_next") or Input.is_action_just_pressed("ui_right") or Input.is_action_just_pressed("melee"):
+	elif LocalInput.just_pressed(&"weapon_next") or LocalInput.just_pressed(&"ui_right") or LocalInput.just_pressed(&"melee"):
 		_cycle(1)
-	elif Input.is_action_just_pressed("weapon_prev") or Input.is_action_just_pressed("ui_left") or Input.is_action_just_pressed("grenade"):
+	elif LocalInput.just_pressed(&"weapon_prev") or LocalInput.just_pressed(&"ui_left") or LocalInput.just_pressed(&"grenade"):
 		_cycle(-1)
 
 
@@ -221,6 +276,7 @@ func _needs_hold(event: InputEvent) -> bool:
 func _process(delta: float) -> void:
 	if _player == null or not is_instance_valid(_player):
 		return
+	_poll_sats_key()
 	if _hold_left >= 0.0:
 		_hold_left -= delta
 		# A rebound shared button may also be climb: a held climb never opens Sats.
@@ -286,7 +342,7 @@ func _set_active(on: bool) -> void:
 			clear_all()
 		active = true
 		_paused_by_us = true
-		GameState.set_paused(true)
+		Sim.set_paused(true, &"sats")
 		_ensure_world()
 		_world.visible = true
 		_fit_blur()
@@ -314,7 +370,7 @@ func _set_active(on: bool) -> void:
 		if cursor != null:
 			cursor.remove_meta("sats")
 		if _paused_by_us and get_tree().paused:
-			GameState.set_paused(false)
+			Sim.set_paused(false, &"sats")
 		_paused_by_us = false
 		_grace = true
 	_update_bar()
@@ -389,14 +445,14 @@ func _run_cel(cel: Dictionary) -> void:
 func _cancels() -> bool:
 	# UnitPlayer: keyAction, keyTele, keyMagic and spells all call sats.clearAll().
 	for action in ["interact", "telekinesis", "magic_attack", "cast_spell"]:
-		if InputMap.has_action(action) and Input.is_action_just_pressed(action):
+		if InputMap.has_action(action) and LocalInput.just_pressed(StringName(action)):
 			return true
 	return false
 
 
 func _cancels_held() -> bool:
 	for action in ["interact", "telekinesis", "magic_attack", "cast_spell"]:
-		if InputMap.has_action(action) and Input.is_action_pressed(action):
+		if InputMap.has_action(action) and LocalInput.held(StringName(action)):
 			return true
 	return false
 

@@ -14,56 +14,56 @@ static func vis(tree: SceneTree, at: Vector2, damage_type: String, weapon_id: St
 		if in_water:
 			_underwater(tree, at)
 		else:
-			UnitFx.emit(tree, "expl", at)
-			UnitFx.emit(tree, "sparkleexpl", at)
-			UnitFx.emit(tree, "iskr", at, {"kol": 16})
+			Fx.particles("expl", at)
+			Fx.particles("sparkleexpl", at)
+			Fx.particles("iskr", at, {"kol": 16})
 			UnitFx.snd("bale_e")
 		return
 	if own != "":
-		UnitFx.emit(tree, own, at)
+		Fx.particles(own, at)
 		return
 	match damage_type:
 		"DAM_EMP":
-			UnitFx.emit(tree, "impexpl", at)
+			Fx.particles("impexpl", at)
 			UnitFx.snd("emp_e")
 		"DAM_COLD":
-			UnitFx.emit(tree, "iceexpl", at)
-			UnitFx.emit(tree, "snow", at, {"kol": 16})
+			Fx.particles("iceexpl", at)
+			Fx.particles("snow", at, {"kol": 16})
 			UnitFx.snd("cryo_e")
 		"DAM_PLASMA":
-			UnitFx.emit(tree, "plaexpl", at)
+			Fx.particles("plaexpl", at)
 			UnitFx.snd("exppla_e")
 		"DAM_VENOM":
-			UnitFx.emit(tree, "gas", at)
+			Fx.particles("gas", at)
 			UnitFx.snd("gas_e")
 		"DAM_PINKCLOUD":
-			UnitFx.emit(tree, "pinkgas", at)
+			Fx.particles("pinkgas", at)
 			UnitFx.snd("gas_e")
 		"DAM_ACID":
-			UnitFx.emit(tree, "acidexpl", at)
-			UnitFx.emit(tree, "acidkap", at, {"kol": randi_range(30, 34)})
+			Fx.particles("acidexpl", at)
+			Fx.particles("acidkap", at, {"kol": Rng.randi_range(&"fx", 30, 34)})
 			UnitFx.snd("acid_e")
 		"DAM_BALEFIRE":
-			UnitFx.emit(tree, "balefire", at + Vector2(0, -60))
-			UnitFx.emit(tree, "baleblast", at)
+			Fx.particles("balefire", at + Vector2(0, -60))
+			Fx.particles("baleblast", at)
 			UnitFx.snd("bale_e")
 		"DAM_EXPLOSION":
 			if in_water:
 				_underwater(tree, at)
 			else:
-				UnitFx.emit(tree, "expl", at)
-				UnitFx.emit(tree, "flare", at)
-				UnitFx.emit(tree, "iskr", at, {"kol": 16})
+				Fx.particles("expl", at)
+				Fx.particles("flare", at)
+				Fx.particles("iskr", at, {"kol": 16})
 				UnitFx.snd("expl_e")
 		"DAM_BURN":
 			if not in_water:
-				UnitFx.emit(tree, "fireexpl", at)
-				UnitFx.emit(tree, "flare", at)
-				UnitFx.emit(tree, "iskr", at, {"kol": 16})
+				Fx.particles("fireexpl", at)
+				Fx.particles("flare", at)
+				Fx.particles("iskr", at, {"kol": 16})
 				UnitFx.snd("fire_e")
 
 
-static func _underwater(tree: SceneTree, at: Vector2) -> void:
-	UnitFx.emit(tree, "explw", at)
-	UnitFx.emit(tree, "bubble", at, {"kol": 30, "rx": 100, "ry": 100})
+static func _underwater(_tree: SceneTree, at: Vector2) -> void:
+	Fx.particles("explw", at)
+	Fx.particles("bubble", at, {"kol": 30, "rx": 100, "ry": 100})
 	UnitFx.snd("expl_uw")

@@ -116,8 +116,8 @@ func _die() -> void:
 		var k := float(170 - t_work)
 		_tint(Vector3(k * 2.0, 0.0, k * 3.0) / 255.0, 1.0 - float(t_work - 120) / 50.0)
 		var facing := float(_player.get("facing")) if "facing" in _player else 1.0
-		var at := _player.global_position + Vector2(randf() * 120.0 - 60.0 + 20.0 * facing, 0.0)
-		UnitFx.emit(get_tree(), "die_spark", at)
+		var at := _player.global_position + Vector2(Rng.randf(&"fx") * 120.0 - 60.0 + 20.0 * facing, 0.0)
+		Fx.particles("die_spark", at, {"source": _player})
 	elif t_work < 120 and t_work > 70:
 		_alpha = float(t_work - 70) / 50.0
 
@@ -127,10 +127,10 @@ func _die_ali() -> void:
 	if t_work < 200 and t_work > 140:
 		var k := float(200 - t_work)
 		_tint(Vector3(k * 4.0, 0.0, k) / 255.0, -1.0)
-		UnitFx.emit(get_tree(), "redray", mid)
+		Fx.particles("redray", mid, {"source": _player})
 	if t_work == 140:
-		UnitFx.emit(get_tree(), "bloodblast", mid)
-		SfxBank.play("bale_e")
+		Fx.particles("bloodblast", mid, {"source": _player})
+		Fx.sound("bale_e", mid, {"source": _player})
 		_alpha = 0.0
 
 

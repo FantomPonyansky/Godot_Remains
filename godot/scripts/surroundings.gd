@@ -35,7 +35,7 @@ func _process(_delta: float) -> void:
 
 
 func _follow_camera() -> void:
-	var camera := get_viewport().get_camera_2d()
+	var camera := Run.camera()
 	if camera == null or _sky == null:
 		return
 	var cam := camera.get_screen_center_position()

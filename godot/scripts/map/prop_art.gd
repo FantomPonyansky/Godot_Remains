@@ -19,18 +19,25 @@ const _TRAPS := "res://assets/sprites/sheets/traps/"
 const _NPCS := "res://assets/sprites/npcs/"
 const _SHEETS := "res://assets/sprites/sheets/"
 
-## Same paths as land_props._CRATE_ART. A props/<id>.png wins over this.
-const _CRATE := {
-	"woodbox": "res://assets/sprites/props/woodbox.png",
-	"box": "res://assets/sprites/props/box.png",
-	"mcrate1": "res://assets/sprites/props/mcrate1.png",
-	"mcrate2": "res://assets/sprites/props/mcrate2.png",
-	"mcrate3": "res://assets/sprites/props/mcrate3.png",
-	"mcrate4": "res://assets/sprites/props/mcrate4.png",
-	"mcrate5": "res://assets/sprites/props/mcrate5.png",
-	"bigbox": "res://assets/sprites/props/bigbox.png",
-	"bigbox2": "res://assets/sprites/props/bigbox2.png",
-}
+## Same file as land_props crate art. A props/<id>.png wins over this.
+const _CRATE_PATH := "res://assets/data/maps/crate_art.json"
+static var _CRATE: Dictionary = {}
+static var _crate_ok := false
+
+
+static func _static_init() -> void:
+	_crate_art()
+
+
+static func _crate_art() -> Dictionary:
+	if _crate_ok:
+		return _CRATE
+	var parsed: Variant = DataLib.load(_CRATE_PATH)
+	if parsed is not Dictionary:
+		return _CRATE
+	_crate_ok = true
+	_CRATE = parsed
+	return _CRATE
 
 ## objs.xml cl -> the unit id Unit.create uses when the placed tag has no tr.
 const _FIXED := {
@@ -93,9 +100,9 @@ static func _prop(id: String) -> Dictionary:
 		if tex == null:
 			return {}
 		return {"tex": tex, "anchor": _png_anchor(id, tex)}
-	if not _CRATE.has(id) and _ObjArt.has(id):
+	if not _crate_art().has(id) and _ObjArt.has(id):
 		return _obj(id)
-	var crate := str(_CRATE.get(id, ""))
+	var crate := str(_crate_art().get(id, ""))
 	if crate == "":
 		return {}
 	var art := _load(crate)
@@ -117,7 +124,7 @@ static func _obj(key: String) -> Dictionary:
 
 
 static func _door(id: String) -> Dictionary:
-	var spec: Array = _Door.SPEC.get(id, [])
+	var spec: Array = _Door.spec(id)
 	var tex := _load(_DOORS + id + "_close.png")
 	if tex == null:
 		var fr := _ObjArt.label_frame(id, "close")
@@ -159,7 +166,7 @@ static func _anchor_map() -> Dictionary:
 	if not _anchors.is_empty():
 		return _anchors
 	for path in [_PROPS + "term_anchors.json", _PROPS + "platform_anchors.json"]:
-		var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
+		var parsed: Variant = DataLib.load(path)
 		if parsed is Dictionary:
 			for k in parsed:
 				_anchors[k] = parsed[k]
@@ -336,7 +343,7 @@ static func _classic(id: String) -> Dictionary:
 static func _manifest(dir: String) -> Dictionary:
 	if _manifests.has(dir):
 		return _manifests[dir]
-	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(dir + "manifest.json"))
+	var parsed: Variant = DataLib.load(dir + "manifest.json")
 	_manifests[dir] = parsed if parsed is Dictionary else {}
 	return _manifests[dir]
 

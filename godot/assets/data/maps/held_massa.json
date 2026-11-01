@@ -1,0 +1,37 @@
+{
+  "massa": {
+    "woodbox": 0.3,
+    "mcrate1": 0.5,
+    "box": 1.0,
+    "mcrate2": 1.5,
+    "mcrate3": 2.4,
+    "bigbox": 3.5,
+    "bigbox2": 10.0,
+    "mcrate4": 20.0,
+    "mcrate5": 10.0,
+    "radbarrel": 2.0,
+    "radbigbarrel": 22.0,
+    "reactor": 1000.0
+  },
+  "mult": {
+    "safe": 1.5,
+    "case": 0.5,
+    "weapbox": 1.5,
+    "weapcase": 2.0,
+    "bigmed": 0.5,
+    "instr1": 1.2,
+    "table": 0.5,
+    "trash": 0.5,
+    "ccup": 1.5,
+    "tap": 1.5,
+    "couch": 4.0,
+    "himlab": 0.5,
+    "stove": 2.0,
+    "enclcase": 2.0,
+    "table1": 0.5,
+    "table2": 0.5,
+    "table3": 0.5,
+    "table4": 0.5,
+    "longtable": 0.5
+  }
+}

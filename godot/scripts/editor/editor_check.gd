@@ -282,7 +282,7 @@ static func _obj_size(obj: Dictionary) -> int:
 static func _ensure_acts() -> void:
 	if not _acts.is_empty():
 		return
-	var data: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://assets/data/maps/objs.json"))
+	var data: Variant = DataLib.load("res://assets/data/maps/objs.json")
 	if typeof(data) != TYPE_DICTIONARY:
 		_acts["_"] = 1
 		return

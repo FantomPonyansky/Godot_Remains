@@ -1,0 +1,23 @@
+{
+  "septum": 1.0,
+  "platform1": 1.0,
+  "door2": 1.0,
+  "door2a": 1.0,
+  "stdoor": 1.0,
+  "basedoor": 1.0,
+  "door3": 1.0,
+  "hatch2": 1.0,
+  "encldoor": 1.0,
+  "door1": 0.8,
+  "door1a": 0.8,
+  "door1b": 0.8,
+  "hatch1": 0.8,
+  "door4": 0.3,
+  "enclpole": 0.3,
+  "window1": 0.2,
+  "window2": 0.2,
+  "grate": 0.1,
+  "hgrate": 0.1,
+  "alib1": 0.1,
+  "alib2": 0.1
+}
