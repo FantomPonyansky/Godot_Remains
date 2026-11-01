@@ -61,6 +61,7 @@ var fixed_seed := -1
 
 var _lands := {}
 var _builds := {}
+var _replanned := {}
 var _live := {}
 var _providers := {}
 var _provider_data := {}
@@ -95,6 +96,7 @@ func _mods_set(_data: Variant) -> void:
 func reset_run() -> void:
 	_lands.clear()
 	_builds.clear()
+	_replanned.clear()
 	_live.clear()
 	_resume.clear()
 	_resume_sent = false
@@ -145,15 +147,17 @@ func register_run(provider_id: String, get_callable: Callable, set_callable: Cal
 func forget_land(land_id: String) -> void:
 	_lands.erase(land_id)
 	_live.erase(land_id)
-	_builds[land_id] = {"seed": _fresh_seed(), "lvl": -1}
+	_builds[land_id] = {"seed": _fresh_seed(), "lvl": -1, "gen": LandGen.GEN_VERSION}
 
 
 # --- building ------------------------------------------------------------
 
 ## play_land.gd make(): the build stream repeats this land's stored seed.
-func begin_build(land_id: String) -> void:
+func begin_build(land_id: String, chunk := 0) -> void:
 	var info := _build_info(land_id)
 	LandGen.keep_seed = true
+	LandGen.chunk = chunk
+	LandGen.chunk_seed = int(chunk_info(land_id, chunk).seed)
 	var rng := Rng
 	if rng != null:
 		rng.bind_land(land_id)
@@ -164,6 +168,7 @@ func begin_build(land_id: String) -> void:
 
 func end_build(_land_id: String) -> void:
 	LandGen.keep_seed = false
+	LandGen.chunk = 0
 
 
 func _fresh_seed() -> int:
@@ -182,13 +187,43 @@ func build_level(land_id: String, lvl: int) -> int:
 
 ## Any other build input (land stage, visited, triggers) as it was when the
 ## land was first planned, so a rebuild of the same Land plans the same rows.
-func build_value(land_id: String, key: String, value: Variant) -> Variant:
-	var info := _build_info(land_id)
+func build_value(land_id: String, key: String, value: Variant, chunk := 0) -> Variant:
+	var info := chunk_info(land_id, chunk)
 	var known: Dictionary = info.get("in", {})
 	if not known.has(key):
 		known[key] = value
 		info["in"] = known
 	return known[key]
+
+
+## LandGen cell records of a generated land's (chunk's) first plan; {} before it.
+func build_cells(land_id: String, chunk := 0) -> Dictionary:
+	return chunk_info(land_id, chunk).get("cells", {})
+
+
+func keep_cells(land_id: String, cells: Dictionary, chunk := 0) -> void:
+	chunk_info(land_id, chunk)["cells"] = cells
+
+
+## Build info of one chunk of a land: chunk 0 is the land's own; a chained
+## chunk keeps its seed (from the land's), frozen inputs and cell records
+## under "chunks" in the land's build info.
+func chunk_info(land_id: String, chunk := 0) -> Dictionary:
+	var info := _build_info(land_id)
+	if chunk <= 0:
+		return info
+	var chunks: Dictionary = info.get("chunks", {})
+	var key := str(chunk)
+	if not chunks.has(key):
+		chunks[key] = {"seed": absi(hash([int(info.seed), chunk])), "lvl": -1}
+		info["chunks"] = chunks
+	return chunks[key]
+
+
+## Generated lands whose save came from an older generator; their memory was
+## dropped on load (Travel drops their checkpoint spot too).
+func replanned(land_id: String) -> bool:
+	return _replanned.has(land_id)
 
 
 func _build_info(land_id: String) -> Dictionary:
@@ -197,7 +232,7 @@ func _build_info(land_id: String) -> Dictionary:
 		if stored.has("seed"):
 			_builds[land_id] = stored.duplicate(true)
 		else:
-			_builds[land_id] = {"seed": absi(hash("%d:%s" % [run_seed, land_id])), "lvl": -1}
+			_builds[land_id] = {"seed": absi(hash("%d:%s" % [run_seed, land_id])), "lvl": -1, "gen": LandGen.GEN_VERSION}
 	return _builds[land_id]
 
 
@@ -270,6 +305,12 @@ func from_save(data: Dictionary) -> bool:
 	if int(data.get("version", 0)) < 2:
 		for id in REPLANNED_V2:
 			_lands.erase(id)
+	_replanned.clear()
+	for id in _lands.keys():
+		var build: Dictionary = (_lands[id] as Dictionary).get("build", {})
+		if LandGen.is_generated(str(id)) and int(build.get("gen", 1)) < LandGen.GEN_VERSION:
+			_lands.erase(id)
+			_replanned[str(id)] = true
 	_builds.clear()
 	var providers: Dictionary = data.get("providers", {})
 	_provider_data.clear()

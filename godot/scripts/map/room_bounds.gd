@@ -18,6 +18,7 @@ signal room_changed(node: Node, from: Vector2i, to: Vector2i)
 
 const FogScript := preload("res://scripts/fog.gd")
 const _Flags := preload("res://scripts/map/room_flags.gd")
+const _Addr := preload("res://scripts/map/room_address.gd")
 
 const ROOM_W := 1920.0
 const ROOM_H := 1000.0
@@ -60,14 +61,22 @@ static func room_of(at: Vector2) -> Vector2i:
 	return Vector2i(floori(at.x / ROOM_W), floori(at.y / ROOM_H))
 
 
-## The player's room and the 8 around it simulate. A back room (same x,
-## y + back_band) is treated as the front room's neighbour. Back rooms and
-## trial rooms sit in rows under the map; they are separate locations, so
-## they never wake their row neighbours and are not woken by them.
+## The player's room and the 8 around it simulate. The back room behind the
+## player's room (or the front room before it) counts as a neighbour. Rooms
+## only wake rooms of their own group (room_address.group_at): the main map,
+## one sky block; a back or trial room is a location of its own.
 func is_active(key: Vector2i) -> bool:
 	if key == _player_room:
 		return true
-	var band := int(get_parent().get_meta("back_band", 0)) if get_parent() != null else 0
+	var host := get_parent()
+	if host != null and host.has_meta(_Addr.META_AT):
+		if _Addr.twin(host, _player_room) == key:
+			return true
+		var group := _Addr.group_at(host, key)
+		if group == "" or group != _Addr.group_at(host, _player_room) or group == _Addr.at(host, key):
+			return false
+		return absi(key.x - _player_room.x) <= ACTIVE_REACH and absi(key.y - _player_room.y) <= ACTIVE_REACH
+	var band := int(host.get_meta("back_band", 0)) if host != null else 0
 	if band > 0 and key.x == _player_room.x and absi(key.y - _player_room.y) == band:
 		return true
 	if _apart(key) or _apart(_player_room):

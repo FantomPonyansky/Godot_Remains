@@ -29,6 +29,8 @@ static func dim_for(dim: Node2D, env: Dictionary, rx: int, ry: int) -> Node2D:
 		return dim
 	var node := Node2D.new()
 	node.name = "Dim_%d_%d" % [rx, ry]
+	node.set_meta("room_x", rx)
+	node.set_meta("room_y", ry)
 	var k := dark_scale(dark)
 	node.modulate = Color(k, k, k, 1.0)
 	node.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST

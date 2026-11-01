@@ -289,6 +289,77 @@ func _check_commands() -> void:
 	node.free()
 	_check_world_ops()
 	_check_grid()
+	_check_addresses()
+	_check_cell_records()
+
+
+func _cells_digest(built: Dictionary) -> String:
+	var out := {}
+	for at_v in built.get("cells", {}):
+		var cell: Dictionary = built.cells[at_v]
+		out[str(at_v)] = [cell.name, cell.mirror, cell.ramka, cell.setdoor, str(cell.xp), cell.water, cell.enemy_type, str(cell.open)]
+	return JSON.stringify(out, "", true)
+
+
+func _check_cell_records() -> void:
+	var gen := preload("res://scripts/map/land_gen.gd")
+	var id := "random_sewer"
+	WorldState.forget_land(id)
+	WorldState.begin_build(id)
+	var first := gen.build(id)
+	WorldState.end_build(id)
+	_check(str(first.get("error", "")) == "", "generated land plans")
+	_check(WorldState.build_cells(id).size() == int(first.width) * int(first.height), "first plan keeps a record per cell")
+	var digest := _cells_digest(first)
+	WorldState.begin_build(id)
+	var again := gen.build(id)
+	WorldState.end_build(id)
+	_check(_cells_digest(again) == digest, "rebuild matches the first plan")
+	WorldState._build_info(id)["seed"] = 12345
+	WorldState.begin_build(id)
+	var replay := gen.build(id)
+	WorldState.end_build(id)
+	_check(_cells_digest(replay) == digest, "cell records replay without the seed")
+	WorldState.begin_build(id, 1)
+	var next := gen.build(id)
+	WorldState.end_build(id)
+	_check(not WorldState.build_cells(id, 1).is_empty() and int(WorldState.chunk_info(id, 1).seed) != int(WorldState.chunk_info(id).seed), "a chained chunk keeps its own seed and records")
+	_check(_cells_digest(next) != digest and _cells_digest(replay) == digest, "a chained chunk plans its own layout")
+	_check(Travel.land_stage(id, 2) == Travel.land_stage(id) + 2, "chunk distance adds to landStage")
+	_check(not Travel.chain_lands, "chaining is off by default")
+	var a := gen.cell_rng(7, 2, 1)
+	var b := gen.cell_rng(7, 2, 1)
+	var c := gen.cell_rng(7, 3, 1)
+	_check(a.randf() == b.randf() and a.randf() != c.randf(), "cell streams depend on the cell only")
+	WorldState.forget_land(id)
+
+
+func _check_addresses() -> void:
+	var addr := preload("res://scripts/map/room_address.gd")
+	var land := Node.new()
+	var rooms := [
+		{"lx": 0, "ly": 0, "z": 0, "x": 0, "y": 0},
+		{"lx": 1, "ly": 0, "z": 0, "x": 1, "y": 0},
+		{"lx": 0, "ly": 0, "z": 1, "x": 0, "y": 3},
+		{"lx": 1, "ly": 0, "z": 1, "x": 1, "y": 3},
+		{"lx": 2, "ly": 0, "z": 0, "x": 0, "y": 5, "sky_block": true, "sky_of": Vector2i(2, 0)},
+		{"lx": -1001, "ly": -1000, "z": 0, "x": 1, "y": 5, "sky_part": true, "sky_of": Vector2i(2, 0), "sky_i": 1, "sky_j": 0},
+		{"lx": 0, "ly": 0, "z": 0, "x": 0, "y": 7, "prob": "test"},
+	]
+	addr.stamp(land, rooms)
+	_check(addr.at(land, Vector2i(0, 0)) == "0:0:0:main", "main address")
+	_check(addr.layer_at(land, Vector2i(1, 3)) == addr.BACK, "back layer")
+	_check(addr.layer_at(land, Vector2i(1, 5)) == addr.SKY, "sky part layer")
+	_check(addr.layer_at(land, Vector2i(0, 7)) == addr.TRIAL, "trial layer")
+	_check(addr.cell_of(land, "0:1:0:back") == Vector2i(1, 3), "address to cell")
+	_check(addr.twin(land, Vector2i(1, 0)) == Vector2i(1, 3), "back twin of main")
+	_check(addr.twin(land, Vector2i(0, 3)) == Vector2i(0, 0), "main twin of back")
+	_check(addr.group_at(land, Vector2i(0, 5)) == addr.group_at(land, Vector2i(1, 5)), "sky block one group")
+	_check(addr.group_at(land, Vector2i(0, 3)) != addr.group_at(land, Vector2i(1, 3)), "back rooms apart")
+	_check(addr.at(land, Vector2i(9, 9)) == "", "no room no address")
+	var keys: Dictionary = preload("res://scripts/fog.gd")._cell_keys(land, {"0:1:0:back": "a", "2,3": "b", "0:9:9:main": "c"})
+	_check(keys == {"1,3": "a", "2,3": "b"}, "fog keys by address load back to cells")
+	land.free()
 
 
 func _script(source: String) -> GDScript:

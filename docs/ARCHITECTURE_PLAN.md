@@ -28,7 +28,7 @@ Rules for every step:
 - **Presentation.** The simulation emits `Fx` events. `CamShake` and `room_activity` work from the one camera and player.
 - **Data and mods.** Catalogs and tuning are JSON under `assets/data/` with schemas (`DataLib`, `DATA_SCHEMA.md`); direct JSON parsing is left only in saves, room files, the editor and the loaders. Mods overlay data per id, replace art and sound, and add rooms (`MODDING.md`).
 - **Water and gas.** Each room record has water, solid and gas layers (`map/room_grid.gd`). Water flow is whole-tile and drains through broken walls and opened doors; solids cache walls and closed doors; gas density is written by room rad and rad sources and read by nothing yet. `area_fx` is rect-based.
-- **Lands.** A land is one node built in full (`play_land._build`). Rooms are 48×25 tiles × 40 px on a grid rebased to the min room. Back, sky and trial rooms are folded into the same 2D grid (`back_band`, `trial_row`). `land_gen.build` is one RNG stream, so one cell cannot be rebuilt alone. Collision is merged across room borders. Rooms sleep when far (`room_bounds`) but never unload. A missing neighbour is a solid edge. Float32 world coordinates lose a pixel near ~4000 rooms.
+- **Lands.** A land is one node built in full (`play_land._build`). Rooms are 48×25 tiles × 40 px on a grid rebased to the min room. Back, sky and trial rooms are folded into the same 2D grid; each room also has an address (`chunk:lx:ly:layer`, `room_address.gd`) that `room_bounds` uses, but saves, fog and memory still key by pixel cell. Generated cells draw from their own streams and the first plan is kept as cell records, so a land replays its layout; the plan is still made and built for the whole land at once. Collision is merged across room borders; bodies, doors and dressing are indexed by owning room and a room's collision can be meshed again. On generated lands, far rooms' actors stream out into memory and back (`room_stream`); fixed lands stay built in full. Near rooms sleep when not running (`room_bounds`). A missing neighbour is a solid edge. Float32 world coordinates lose a pixel near ~4000 rooms.
 - **Enemy AI.** Units without a catalog `brain` decide, move and shoot through `enemy.gd` and its components (`_decide` → `_act` / `_pursue` / `_aim` / `_gun_try`, int `ST_*` states, timers as body fields). The 25 catalog brains (`unit_brains.gd`) replace that loop but still call the host's senses. Senses are per unit, and the player's noise and observation are single meters in player meta (`foe_noise`, `foe_obs`); `_world_*` statics are shared once per physics frame. Units talk through direct calls, groups and meta; `enemy.gd` has no signals. Coordination today: the faction wake `_budilo` / `_alarm_from`, the room siren plus per-room `kol` reinforcements (`en_spawn.gd`, `land_props._raise_alarm`), emitter and boss summons through `UnitBrain.spawn_unit`, and Thunderhead owning its turrets. Spawning is split across `land_spawn` (build time), `en_spawn` (runtime), `spawn_unit` and boss setup (`_apply_role`). AI tuning is data (`enemies.json`, `enemy_combat.json`, `balance/ai.json`); difficulty scales HP and hearing. There are no squads, attack slots, morale or pacing.
 - **Docs and names.** Nearly every script has a `##` header; comments are English. Names that mirror an original field keep it (`GLOSSARY.md`).
 
@@ -60,12 +60,12 @@ Done (`ARCHITECTURE.md` "Room grid"). Next on this line is `TODO.md` §12.5: a s
 
 ## R5. Chunked lands (END; also MP load positions)
 
-1. **Room address** separate from the y-fold. A room is `(chunk, lx, ly, layer)`, where `layer` is `main`, `back`, `sky` or `trial`. Fixed lands keep `_layout` to map addresses to pixels; chain chunks use their own origin. `play_land.gd`, `land_spawn.gd`, `room_bounds.gd`, `land_memory.gd`. M, medium.
-2. **Per-cell generation.** `land_gen` derives each cell's RNG from `hash(chunk_seed, lx, ly)` and stores the cell record (template, mirror, frame, doors, XP). A cell can then be rebuilt alone. Freeze-on-first-plan (`build_value`) moves to per chunk. M, medium (lands reshuffle once; tag old saves so a loaded land is not rebuilt).
-3. **Per-room nodes.** Each room is one subtree for tiles, collision, actors and dressing. Merge colliders only inside a room, and let the joint between two loaded rooms own the seam wall. `land_props` splits into a land-wide service (alarms, uid index, scripts) and per-room actor holders. Unloading a room runs `capture` for that room into land memory. L, high.
-4. **Fog and maps per room.** Fog textures per room (saves already are), with no `map_px` image. The PipBuck map draws from per-room tiles. Camera limits come from the loaded room set. Fog, audio, vendors and `room_activity` key by room address, not node instance id. M, medium.
-5. **Streaming.** Load rooms within `CHASE_REACH` (2) of every load position (`Run.players()`), and unload beyond 3 after capture. Treat an unloaded room as solid only while its load is pending (async build on a worker, nodes added on the main thread). Cross-room references (doors, triggers, alarms, scripts, chasing units, bullets) resolve through entity ids and tolerate an unloaded target. L, high.
-6. **Chain and distance.** `goto_next_level` appends a chunk aligned to the between room's right exit instead of `forget_land` + `queue_free`. The `landStage` readers (plan freeze, plant height, `maxlevel`, trials, `exit` vs `exit1`, checkpoint teleport, title) take chunk distance from one function. Fixed lands keep `Travel.land_stage`. M, medium. This is where `TODO.md` §12.1 starts.
+1. **Room address**: done (`ARCHITECTURE.md` "Room addresses"). Save and memory keys move to addresses in step 4.
+2. **Per-cell generation**: done (`ARCHITECTURE.md` "Room addresses"). Freeze-on-first-plan (`build_value`) and the cell records are per land, which is chunk 0; they move to per chunk with step 6.
+3. **Per-room nodes**: done as an ownership index over the flat roots (`ARCHITECTURE.md` "Room addresses"), with `remesh` and room unload / reload. Left for step 5: doors, back-room and sky-arena masks and the fog stay land-wide; `land_props` is not split into service and holders, since actors stay under `Actors` and are found by room.
+4. **Fog and maps per room**: done for saves, music and camera limits; the rest is in step 6.
+5. **Streaming**: done for actors; the rest is in step 6.
+6. **Chain and distance** (behind `Travel.chain_lands`, off). Seams are in (`ARCHITECTURE.md` "Room addresses"). Waits for `TODO.md` §12.1 (chunk size, difficulty curve, rest stops), then: `play_land.append_chunk` builds the next chunk (`WorldState.begin_build(id, chunk)`) to the right of the between room's exit with its rooms stamped `chunk` and rows carrying `chunk`; fog and the PipBuck map move to per-room textures (the land-wide fog image is sized at build); far chunks unload collision (`remesh`), doors and dressing; rooms build on a worker, and an unloaded room is solid while its load is pending; vendor land xp per chunk. L, high.
 7. **Coordinates.** Gameplay addresses use room plus tile integers. Keep the render origin near the camera's chunk (shift `Run` world origin when the player crosses a chunk) so float32 never sees large x. S–M, medium.
 
 ## R6. Enemy directors (AI)
@@ -88,9 +88,10 @@ The default directors reproduce today's behaviour exactly (the replay check must
 | R0–R4 | done | all |
 | R3 step 8 wiring | networking, user decisions (`MULTIPLAYER_PLAN.md`) | MP |
 | §12.5 simulator | R4 | FL |
-| R5.1–5.2 | — | END |
-| R5.3–5.5 | R5.1 | END MP |
-| R5.6–5.7 | R5.5 | END |
+| R5.1–5.2 | done | END |
+| R5.3–5.5 | done | END MP |
+| R5.6 chunk append | `TODO.md` §12.1 | END |
+| R5.7 | R5.6 | END |
 | R6.1 blackboard | — | AI MP |
 | R6.2 unit events | — | AI MOD |
 | R6.3 unit registry | — | AI, perf |
@@ -100,4 +101,4 @@ The default directors reproduce today's behaviour exactly (the replay check must
 | R6.7 behaviour modules | R6.6, R4 `grid_solid` for cover | AI |
 | R6.8 debug view | R6.4 | AI |
 
-R5.1–5.2 and R6.1–6.3 can start now and run side by side; every line stops for a failing check. The gameplay plan (`TODO.md` A–H) continues in parallel. Prefer correctness fixes that land on the new seams over doing them twice.
+R6.1–6.3 can start now and run side by side (R5 waits for `TODO.md` §12.1); every line stops for a failing check. The gameplay plan (`TODO.md` A–H) continues in parallel. Prefer correctness fixes that land on the new seams over doing them twice.

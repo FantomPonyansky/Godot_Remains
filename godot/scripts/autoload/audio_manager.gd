@@ -22,6 +22,7 @@ const BOSS_DEATH_TICKS := 90
 const DATA := "res://assets/data/music.json"
 const RoomFile := preload("res://scripts/map/room_file.gd")
 const Registry := preload("res://scripts/map/land_registry.gd")
+const _Addr := preload("res://scripts/map/room_address.gd")
 ## Unit classes that set boss = true and carry <snd music>.
 const BOSSES := ["bossultra", "bossraider", "bossnecr", "bossdron", "bossalicorn"]
 
@@ -198,7 +199,8 @@ func _watch_room() -> void:
 	var land := _active_land()
 	var at := _player_node().global_position
 	var room := Vector2i(floori(at.x / 1920.0), floori(at.y / 1000.0))
-	var key := "%d|%d|%d" % [land.get_instance_id(), room.x, room.y]
+	var addr := _Addr.at(land, room)
+	var key := "%d|%s" % [land.get_instance_id(), addr if addr != "" else "%d,%d" % [room.x, room.y]]
 	if key == _room_key:
 		return
 	_room_key = key

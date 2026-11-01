@@ -37,6 +37,29 @@ const GENERATED := {
 
 ## WorldState.begin_build holds this and seeds the build stream.
 static var keep_seed := false
+## The chunk being built and its stored seed; WorldState.begin_build sets
+## both (chunk 0 is the land itself).
+static var chunk := 0
+static var chunk_seed := 0
+## Generator version stored with each generated land's build info. Saves
+## from an older generator rebuild the land fresh (PORT_RULES.md "World").
+const GEN_VERSION := 2
+## Per-cell streams: draws for one cell do not depend on the other cells'.
+## Layout, doors and XP use salt 0; LandSpawn's room objects use salt 1.
+static var _cell: RandomNumberGenerator = null
+static var _streams := {}
+
+
+static func cell_rng(seed_v: int, x: int, y: int, z := 0, salt := 0) -> RandomNumberGenerator:
+	var r := RandomNumberGenerator.new()
+	r.seed = hash([seed_v, x, y, z, salt])
+	return r
+
+
+## Draws after this come from that cell's stream; null goes back to the
+## build stream.
+static func use_cell(r: RandomNumberGenerator) -> void:
+	_cell = r
 
 
 static func _rng_node() -> Node:
@@ -47,6 +70,8 @@ static func _rng_node() -> Node:
 
 
 static func _rf() -> float:
+	if _cell != null:
+		return _cell.randf()
 	var rng := _rng_node()
 	if rng == null:
 		return randf()
@@ -100,8 +125,10 @@ static func build(land_id: String, land_dif: float = -1.0) -> Dictionary:
 		var rng := _rng_node()
 		if rng == null:
 			randomize()
+			chunk_seed = randi()
 		else:
 			rng.stream(&"build").randomize()
+			chunk_seed = rng.stream(&"build").randi()
 	var pool: Array = _prepare(doc)
 	_mix_pool(pool, land_id, file_name)
 	var conf := int(spec.conf)
@@ -111,19 +138,60 @@ static func build(land_id: String, land_dif: float = -1.0) -> Dictionary:
 	if conf == 0 and int(spec.stage) <= 0:
 		height = 3
 		note = "landStage 0 clamps height from %d to 3" % int(spec.my)
+	var records: Dictionary = _records(land_id) if keep_seed else {}
+	_streams.clear()
 	var cells := {}
 	for x in width:
 		for y in height:
-			var made: Dictionary = _place_cell(pool, cells, spec, x, y, width, height)
+			_streams[Vector2i(x, y)] = cell_rng(chunk_seed, x, y)
+			use_cell(_streams[Vector2i(x, y)])
+			var made: Dictionary = _place_cell(pool, cells, spec, x, y, width, height, records.get("%d,%d" % [x, y], {}))
 			if str(made.get("error", "")) != "":
+				use_cell(null)
 				return made
 			cells[Vector2i(x, y)] = made
-	_pick_doors(cells, width, height)
+	_pick_doors(cells, width, height, not records.is_empty())
 	var xp_total := _place_xp(cells, spec, width, height)
+	use_cell(null)
+	_streams.clear()
+	if keep_seed and records.is_empty():
+		_keep_records(land_id, cells)
 	var passes := _passages(cells)
 	var packed := _pack(land_id, file_name, true, false, cells, passes, width, height, int(spec.mx), int(spec.my), note)
 	packed["xp_total"] = xp_total
 	return packed
+
+
+## Cell records (template, mirror, frame, doors, XP, water, enemy type) kept
+## with the land's build info on its first plan; a rebuild replays them.
+static func _records(land_id: String) -> Dictionary:
+	var world := _world_node()
+	return world.build_cells(land_id, chunk) if world != null else {}
+
+
+static func _keep_records(land_id: String, cells: Dictionary) -> void:
+	var world := _world_node()
+	if world == null:
+		return
+	var out := {}
+	for at_v in cells:
+		var at: Vector2i = at_v
+		var cell: Dictionary = cells[at]
+		var xp: Array = []
+		for spot_v in cell.xp:
+			var spot: Vector2i = spot_v
+			xp.append([spot.x, spot.y])
+		out["%d,%d" % [at.x, at.y]] = {
+			"t": str(cell.name), "m": bool(cell.mirror), "r": int(cell.ramka),
+			"d": (cell.setdoor as Array).duplicate(true), "xp": xp,
+			"w": int(cell.water), "e": int(cell.enemy_type),
+		}
+	world.keep_cells(land_id, out, chunk)
+
+
+static func _world_node() -> Node:
+	var tree := Engine.get_main_loop() as SceneTree
+	return tree.root.get_node_or_null("WorldState") if tree else null
 
 
 ## Open cells of a back room behind cell: its own tiles under the front
@@ -140,7 +208,7 @@ static func _fresh(key: String, land_id: String):
 	if travel == null:
 		return false if key == "visited" else 0
 	if key == "stage":
-		return travel.land_stage(land_id)
+		return travel.land_stage(land_id, chunk)
 	if key == "visited":
 		return bool(travel.land_act(land_id).get("visited", false))
 	return int(travel.triggers.get("mbase_visited", 0))
@@ -151,7 +219,7 @@ static func _input(land_id: String, key: String, value: Variant) -> Variant:
 	var world: Node = tree.root.get_node_or_null("WorldState") if tree else null
 	if world == null:
 		return value
-	return world.build_value(land_id, key, value)
+	return world.build_value(land_id, key, value, chunk)
 
 
 static func present(file_name: String) -> Dictionary:
@@ -235,7 +303,7 @@ static func to_preview(built: Dictionary) -> Dictionary:
 	}
 
 
-static func _place_cell(pool: Array, cells: Dictionary, spec: Dictionary, x: int, y: int, width: int, height: int) -> Dictionary:
+static func _place_cell(pool: Array, cells: Dictionary, spec: Dictionary, x: int, y: int, width: int, height: int, rec: Dictionary = {}) -> Dictionary:
 	var plan := _cell_layout(spec, x, y, width, height)
 	var conf := int(plan.conf)
 	var mirror := bool(plan.mirror)
@@ -245,7 +313,15 @@ static func _place_cell(pool: Array, cells: Dictionary, spec: Dictionary, x: int
 	var use_tip := bool(plan.use_tip)
 	var fixed := bool(plan.fixed)
 	var chosen = null
-	if use_tip:
+	if not rec.is_empty():
+		mirror = bool(rec.get("m", mirror))
+		ramka = int(rec.get("r", ramka))
+		chosen = _named(pool, str(rec.get("t", "")))
+		if chosen != null:
+			chosen.kol -= 1
+	if chosen != null:
+		pass
+	elif use_tip:
 		chosen = _pick_tip(pool, str(ntip))
 	else:
 		var left = cells[Vector2i(x - 1, y)].get("template") if x > 0 else null
@@ -269,6 +345,9 @@ static func _place_cell(pool: Array, cells: Dictionary, spec: Dictionary, x: int
 	if options.has("entip"):
 		preset = _to_int(options.entip, -1)
 	var enemy := _enemy_type(int(spec.biom), float(spec.get("land_dif", spec.dif)) + deep, preset)
+	if not rec.is_empty():
+		water = int(rec.get("w", water))
+		enemy = int(rec.get("e", enemy))
 	var rows: Array = chosen.src.get("rows", [])
 	var open: Array = _open_grid(rows, mirror)
 	_apply_ramka(open, ramka)
@@ -296,7 +375,15 @@ static func _place_cell(pool: Array, cells: Dictionary, spec: Dictionary, x: int
 		"pass_r": [],
 		"pass_d": [],
 		"setdoor": [],
+		"rec": rec,
 	}
+
+
+static func _named(pool: Array, room_name: String):
+	for room_v in pool:
+		if (room_v as _Room).name == room_name:
+			return room_v
+	return null
 
 static func _cell_layout(spec: Dictionary, x: int, y: int, width: int, height: int) -> Dictionary:
 	var conf := int(spec.conf)
@@ -408,7 +495,7 @@ static func _cell_layout(spec: Dictionary, x: int, y: int, width: int, height: i
 	}
 
 
-static func _pick_doors(cells: Dictionary, width: int, height: int) -> void:
+static func _pick_doors(cells: Dictionary, width: int, height: int, replay := false) -> void:
 	for x in width:
 		for y in height:
 			var cell: Dictionary = cells[Vector2i(x, y)]
@@ -428,9 +515,18 @@ static func _pick_doors(cells: Dictionary, width: int, height: int) -> void:
 						down.append({"n": slot, "fak": hole})
 			cell["pass_r"] = right
 			cell["pass_d"] = down
+	if replay:
+		for cell_v in cells.values():
+			var cell: Dictionary = cell_v
+			for pick_v in (cell.rec as Dictionary).get("d", []):
+				var pick: Array = pick_v
+				_carve(cell.open, cell.carved, int(pick[0]), int(pick[1]))
+				cell.setdoor.append([int(pick[0]), int(pick[1])])
+		return
 	for x in width:
 		for y in height:
 			var cell: Dictionary = cells[Vector2i(x, y)]
+			use_cell(_streams.get(Vector2i(x, y)))
 			var right: Array = cell.pass_r
 			if x < width - 1 and not right.is_empty():
 				var neighbor: Dictionary = cells[Vector2i(x + 1, y)]
@@ -461,7 +557,14 @@ static func _place_xp(cells: Dictionary, spec: Dictionary, width: int, height: i
 			if skip:
 				continue
 			var cell: Dictionary = cells[Vector2i(x, y)]
-			var spots: Array = _xp_spots(cell.open)
+			var spots: Array = []
+			var rec: Dictionary = cell.get("rec", {})
+			if rec.has("xp"):
+				for spot_v in rec.xp:
+					spots.append(Vector2i(int(spot_v[0]), int(spot_v[1])))
+			else:
+				use_cell(_streams.get(Vector2i(x, y)))
+				spots = _xp_spots(cell.open)
 			cell["xp"] = spots
 			total += spots.size()
 	return total

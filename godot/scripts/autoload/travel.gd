@@ -45,6 +45,10 @@ var triggers: Dictionary = {}
 var lands: Dictionary = {}
 ## Game.crea: rebuild the next land entered.
 var crea := false
+## Chained lands (PORT_RULES.md "World"): the next level of a generated land
+## attaches as a new chunk instead of replacing the land. Off until
+## TODO.md §12.1 settles chunk size, difficulty curve and rest stops.
+var chain_lands := false
 ## PipBuck.travel set by the map table or a travel NPC.
 var travel_mode := false
 ## UnitPlayer.sost: 1 alive, 2 dying, 3 dying from a destroyed organ.
@@ -264,6 +268,10 @@ func begin_mission(id: String) -> void:
 
 ## Game.gotoNextLevel: the exit of a generated land rebuilds the mission land.
 func goto_next_level() -> void:
+	if chain_lands and _is_rnd(cur_land_id):
+		var land := _active_land()
+		if land != null and land.has_method("append_chunk") and bool(land.call("append_chunk")):
+			return
 	_cp_code = ""
 	_prev_cp_code = ""
 	_land_cp.erase(cur_land_id)
@@ -357,8 +365,10 @@ func m_return() -> bool:
 	return not (int(triggers.get("noreturn", 0)) > 0)
 
 
-func land_stage(id: String) -> int:
-	return int((lands.get(id, {}) as Dictionary).get("st", 0))
+## landStage of a land. chunk is the distance of a chained chunk from the
+## land's first one (ARCHITECTURE_PLAN.md R5.6); fixed lands are chunk 0.
+func land_stage(id: String, chunk := 0) -> int:
+	return int((lands.get(id, {}) as Dictionary).get("st", 0)) + maxi(chunk, 0)
 
 
 func land_act(id: String) -> Dictionary:
@@ -526,6 +536,9 @@ func set_state(data: Dictionary) -> void:
 		for field in ["access", "visited", "passed", "st", "cp", "cp_name", "cp_pos"]:
 			if row.has(field):
 				act[field] = row[field]
+		if WorldState.replanned(str(key)):
+			act.erase("cp_name")
+			act.erase("cp_pos")
 	triggers = (data.get("triggers", {}) as Dictionary).duplicate(true)
 	base_id = str(data.get("base", "rbl"))
 	mission_id = str(data.get("mission", ""))

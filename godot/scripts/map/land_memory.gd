@@ -38,6 +38,12 @@ var _extra := {}
 var _extra_n := 0
 ## Wids remembered as fog ghosts in the save; the real node starts hidden.
 var _hidden := {}
+## Plan rows by wid, so an unloaded room's rows can be spawned again.
+var _rows := {}
+## Wids whose room is unloaded (unload_room): their record is in _ents.
+var _parked := {}
+## Drop snapshots of unloaded rooms, by room key "x,y".
+var _parked_drops := {}
 
 
 func _init(owner: Node2D) -> void:
@@ -79,6 +85,8 @@ func _load(snapshot: Dictionary) -> void:
 	_broken.clear()
 	for key in snapshot.get("broken", []):
 		_broken[str(key)] = true
+	_parked.clear()
+	_parked_drops.clear()
 
 
 ## After the doors are bound and the wooden walls shut.
@@ -122,10 +130,14 @@ func after_plan() -> void:
 func queue_key(row: Dictionary) -> String:
 	var feet: Variant = row.get("feet", row.get("rect", ""))
 	var base := "%s|%s|%s|%s|%s" % [str(row.get("cat", "")), str(row.get("id", "")), str(row.get("unit_id", "")), str(row.get("room", "")), str(feet)]
+	# Rows of a chained chunk (R5.6) are named apart from chunk 0's.
+	if int(row.get("chunk", 0)) > 0:
+		base = "c%d|%s" % [int(row.chunk), base]
 	var n := int(_names.get(base, 0))
 	_names[base] = n + 1
 	var wid := base if n == 0 else "%s#%d" % [base, n]
 	row["wid"] = wid
+	_rows[wid] = row
 	var room: Array = row.get("room", [0, 0])
 	var rec: Variant = _ents.get(wid)
 	if rec is Dictionary and (rec as Dictionary).has("pos"):
@@ -210,24 +222,27 @@ func _restore_extra() -> void:
 	if packed == null:
 		return
 	for wid_v in _extra.keys():
-		var wid := str(wid_v)
-		var rec: Variant = _ents.get(wid)
-		if not rec is Dictionary or not (rec as Dictionary).has("pos"):
-			_extra.erase(wid)
-			continue
-		var node := packed.instantiate() as CharacterBody2D
-		var metas: Dictionary = _extra[wid]
-		for key in metas:
-			var value: Variant = metas[key]
-			if value is float and value == floorf(value):
-				value = int(value)
-			node.set_meta(str(key), value)
-		var pos: Array = (rec as Dictionary).pos
-		node.position = Vector2(float(pos[0]), float(pos[1]))
-		props.add_child(node)
-		_adopt_node(wid, node)
-		var n := int(wid.get_slice("|", 2))
-		_extra_n = maxi(_extra_n, n)
+		_make_extra(packed, str(wid_v))
+
+
+func _make_extra(packed: PackedScene, wid: String) -> void:
+	var rec: Variant = _ents.get(wid)
+	if not rec is Dictionary or not (rec as Dictionary).has("pos"):
+		_extra.erase(wid)
+		return
+	var node := packed.instantiate() as CharacterBody2D
+	var metas: Dictionary = _extra[wid]
+	for key in metas:
+		var value: Variant = metas[key]
+		if value is float and value == floorf(value):
+			value = int(value)
+		node.set_meta(str(key), value)
+	var pos: Array = (rec as Dictionary).pos
+	node.position = Vector2(float(pos[0]), float(pos[1]))
+	props.add_child(node)
+	_adopt_node(wid, node)
+	var n := int(wid.get_slice("|", 2))
+	_extra_n = maxi(_extra_n, n)
 
 
 func _apply(node: Node, rec: Dictionary) -> void:
@@ -300,14 +315,19 @@ func note_broken(rect: Rect2) -> void:
 
 
 func _restore_broken() -> void:
+	var solids := land().get_node_or_null("Solids")
+	if solids != null:
+		restore_broken_in(solids.get_children())
+
+
+## Breaks the remembered cells again inside these wall bodies (a land load,
+## or walls meshed again by play_land.remesh).
+func restore_broken_in(bodies: Array) -> void:
 	if _broken.is_empty():
 		return
-	var solids := land().get_node_or_null("Solids")
-	if solids == null:
-		return
 	var walls: Array = []
-	for child in solids.get_children():
-		if child.has_method("break_at") and child.has_method("covers"):
+	for child in bodies:
+		if is_instance_valid(child) and child.has_method("break_at") and child.has_method("covers"):
 			walls.append(child)
 	for key in _broken:
 		var parts := str(key).split(",")
@@ -327,7 +347,11 @@ func flag(key: String, fallback: Variant = null) -> Variant:
 
 
 func _restore_drops() -> void:
-	for row_v in _saved.get("drops", []):
+	_make_drops(_saved.get("drops", []))
+
+
+func _make_drops(rows: Array) -> void:
+	for row_v in rows:
 		if not row_v is Dictionary:
 			continue
 		var row: Dictionary = row_v
@@ -400,9 +424,93 @@ func apply_one(node: Node, rec: Dictionary) -> void:
 	_apply(node, rec)
 
 
+## A room leaves (streaming): its remembered nodes (units, boxes, traps,
+## runtime units) and drops go into memory and are freed. Doors and walls are
+## play_land's. Returns how many nodes left.
+func unload_room(cell: Vector2i) -> int:
+	var n := 0
+	for wid in _nodes.keys():
+		var node_v: Variant = _nodes[wid]
+		if not is_instance_valid(node_v) or (node_v as Node).is_queued_for_deletion():
+			continue
+		var node: Node = node_v
+		if not _in_room(node, cell):
+			continue
+		var rec := _capture_node(node)
+		if rec.is_empty():
+			_ents.erase(wid)
+		else:
+			_ents[wid] = rec
+		_nodes.erase(wid)
+		_parked[wid] = true
+		node.get_parent().remove_child(node)
+		node.queue_free()
+		n += 1
+	var key := "%d,%d" % [cell.x, cell.y]
+	var drops: Array = _parked_drops.get(key, [])
+	for child in props.get_children():
+		if child is _Drop and not child.is_queued_for_deletion() and _in_room(child, cell):
+			if not bool(child.get_meta("taken", false)):
+				drops.append(child.snapshot())
+			props.remove_child(child)
+			child.queue_free()
+			n += 1
+	if not drops.is_empty():
+		_parked_drops[key] = drops
+	return n
+
+
+## Queued rows that had not spawned when their room left.
+func park(rows: Array) -> void:
+	for row_v in rows:
+		var wid := str((row_v as Dictionary).get("wid", ""))
+		if wid != "":
+			_parked[wid] = true
+
+
+## The plan rows of a room that comes back, for land_props to spawn; runtime
+## units and drops of that room are made here.
+func reload_room(cell: Vector2i) -> Array:
+	var rows: Array = []
+	var packed: PackedScene = null
+	for wid in _parked.keys():
+		var rec: Variant = _ents.get(wid)
+		var at := Vector2i(-1048576, -1048576)
+		if rec is Dictionary and (rec as Dictionary).has("pos"):
+			var pos: Array = rec.pos
+			at = Vector2i(floori(float(pos[0]) / ROOM_W), floori(float(pos[1]) / ROOM_H))
+		elif _rows.has(wid):
+			var room: Array = (_rows[wid] as Dictionary).get("room", [0, 0])
+			at = Vector2i(int(room[0]), int(room[1]))
+		if at != cell:
+			continue
+		_parked.erase(wid)
+		if _extra.has(wid):
+			if packed == null:
+				packed = load(_UNIT_SCENE) as PackedScene
+			_make_extra(packed, str(wid))
+		elif _rows.has(wid):
+			rows.append(_rows[wid])
+	var key := "%d,%d" % [cell.x, cell.y]
+	if _parked_drops.has(key):
+		_make_drops(_parked_drops[key])
+		_parked_drops.erase(key)
+	return rows
+
+
+func _in_room(node: Node, cell: Vector2i) -> bool:
+	if not node is Node2D:
+		return false
+	var at := (node as Node2D).position
+	return floori(at.x / ROOM_W) == cell.x and floori(at.y / ROOM_H) == cell.y
+
+
 func capture() -> Dictionary:
 	var ents := _ents.duplicate(true)
 	var extra := {}
+	for wid in _parked:
+		if _extra.has(wid):
+			extra[wid] = _extra[wid]
 	for wid in _nodes:
 		var node_v: Variant = _nodes[wid]
 		if not is_instance_valid(node_v) or (node_v as Node).is_queued_for_deletion():
@@ -428,6 +536,8 @@ func capture() -> Dictionary:
 	for child in props.get_children():
 		if child is _Drop and not bool(child.get_meta("taken", false)) and not child.is_queued_for_deletion():
 			drops.append(child.snapshot())
+	for key in _parked_drops:
+		drops.append_array(_parked_drops[key])
 	var out := {
 		"version": VERSION,
 		"ents": ents,

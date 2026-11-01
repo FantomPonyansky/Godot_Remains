@@ -155,7 +155,7 @@ func enter_land(next_id: String, rebuild: bool) -> Node2D:
 	_frame_camera(dest)
 	var sky := get_node_or_null("Sky") as ColorRect
 	if sky:
-		var bounds := _vec(dest, "map_px", Vector2(9600, 5000))
+		var bounds := _bounds(dest)
 		sky.offset_right = bounds.x
 		sky.offset_bottom = bounds.y
 	var fog := get_node_or_null("Fog")
@@ -191,8 +191,15 @@ func entrance(land_id: String) -> Vector2:
 	return at
 
 
+## Land size for camera limits and the sky: the loaded rooms of a play land.
+func _bounds(land: Node) -> Vector2:
+	if land != null and land.has_method("bounds_px"):
+		return land.call("bounds_px")
+	return _vec(land, "map_px", Vector2(9600, 5000))
+
+
 func _frame_camera(land: Node) -> void:
-	var bounds := _vec(land, "map_px", Vector2(9600, 5000))
+	var bounds := _bounds(land)
 	camera.limit_left = 0
 	camera.limit_top = 0
 	camera.limit_right = int(bounds.x)

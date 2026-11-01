@@ -871,8 +871,9 @@ func _tick_shutters() -> void:
 	var now := Sim.tick
 	var i := _shutters.size() - 1
 	while i >= 0:
-		var node: Node = _shutters[i]
-		if not is_instance_valid(node) or now >= int(_PS.getv(node, "close_at", 0)):
+		var node_v: Variant = _shutters[i]
+		var node: Node = node_v if is_instance_valid(node_v) else null
+		if node == null or now >= int(_PS.getv(node, "close_at", 0)):
 			if is_instance_valid(node):
 				var pic := node.get_node_or_null("Visual") as Sprite2D
 				_ObjArt.set_state(pic, "close")
@@ -1638,6 +1639,29 @@ func _spawn_pending() -> void:
 		if uid != "" and not _EnemyScript.species_ready(uid):
 			break
 		_spawn_row(rows.pop_front())
+
+
+## Room streaming: the room's actors go into land memory and are freed.
+## Rows of that room still waiting to spawn wait in memory too.
+func unload_room(cell: Vector2i) -> int:
+	var key := "%d,%d" % [cell.x, cell.y]
+	_memory.park(_pending.get(key, []))
+	_pending.erase(key)
+	_pending_order.erase(key)
+	return _memory.unload_room(cell)
+
+
+## Room streaming: the room's actors come back from land memory. Their rows
+## queue first; rooms near a player spawn on the next frame (_spawn_near).
+func reload_room(cell: Vector2i) -> void:
+	var rows: Array = _memory.reload_room(cell)
+	if rows.is_empty():
+		return
+	var key := "%d,%d" % [cell.x, cell.y]
+	if not _pending.has(key):
+		_pending[key] = []
+		_pending_order.push_front(key)
+	(_pending[key] as Array).append_array(rows)
 
 
 func _spawn_room(key: String) -> void:

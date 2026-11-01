@@ -50,6 +50,7 @@ const LIVE_WALL := 4
 const _Flags := preload("res://scripts/map/room_flags.gd")
 const _Grid := preload("res://scripts/map/room_grid.gd")
 const _Registry := preload("res://scripts/map/land_registry.gd")
+const _Addr := preload("res://scripts/map/room_address.gd")
 
 static var LDIST1: int = 0
 static var LDIST2: int = 0
@@ -276,7 +277,23 @@ func _capture(land: Node, memory: bool) -> Dictionary:
 				if v > 0:
 					any = true
 		if any:
-			out["%d,%d" % [room.key.x, room.key.y]] = Marshalls.raw_to_base64(cells)
+			var addr := _Addr.at(land, room.key)
+			out[addr if addr != "" else "%d,%d" % [room.key.x, room.key.y]] = Marshalls.raw_to_base64(cells)
+	return out
+
+
+## Saved rooms by room address (room_address.gd) back to "x,y" pixel room
+## keys; fixed lands without addresses and older saves already use those.
+static func _cell_keys(land: Node, data: Dictionary) -> Dictionary:
+	var out := {}
+	for key_v in data:
+		var key := str(key_v)
+		if key.contains(":"):
+			var cell := _Addr.cell_of(land, key)
+			if cell != _Addr.NONE:
+				out["%d,%d" % [cell.x, cell.y]] = data[key_v]
+		else:
+			out[key] = data[key_v]
 	return out
 
 
@@ -285,6 +302,8 @@ func _capture(land: Node, memory: bool) -> Dictionary:
 func restore_land(land: Node, data: Dictionary, memory: Dictionary = {}) -> void:
 	if land == null or (data.is_empty() and memory.is_empty()):
 		return
+	data = _cell_keys(land, data)
+	memory = _cell_keys(land, memory)
 	var id := land.get_instance_id()
 	if _lands.has(id):
 		_apply_explored(_lands[id], data, memory)

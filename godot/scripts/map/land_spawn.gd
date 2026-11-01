@@ -63,7 +63,7 @@ static func _rf() -> float:
 	if rng == null:
 		return randf()
 	if LandGen.keep_seed:
-		return rng.randf_legacy(&"build")
+		return LandGen._rf()
 	return rng.randf(&"spawn")
 
 
@@ -1053,6 +1053,9 @@ static func _plan_random(ctx: Dictionary, rooms: Array, by_cell: Dictionary, out
 			main[at] = by_cell[_key(room)]
 		else:
 			back[at] = by_cell[_key(room)]
+	var cells := LandGen.keep_seed
+	if cells:
+		LandGen.use_cell(LandGen.cell_rng(LandGen.chunk_seed, -1, -1, 0, 1))
 	if conf == 2 and main.has(Vector2i(3, 0)):
 		_random_prob(ctx, main[Vector2i(3, 0)], stage, true, out)
 	if conf == 3 and stage >= 1 and main.has(Vector2i(1, 4)):
@@ -1062,6 +1065,8 @@ static func _plan_random(ctx: Dictionary, rooms: Array, by_cell: Dictionary, out
 			var at := Vector2i(i, j)
 			if not main.has(at):
 				continue
+			if cells:
+				LandGen.use_cell(LandGen.cell_rng(LandGen.chunk_seed, i, j, 0, 1))
 			var loc: Dictionary = main[at]
 			var bonuses := true
 			_set_objects(ctx, loc, out)
@@ -1126,9 +1131,12 @@ static func _plan_random(ctx: Dictionary, rooms: Array, by_cell: Dictionary, out
 					if is_beg:
 						_create_check(ctx, loc, true, out)
 			if back.has(at):
+				if cells:
+					LandGen.use_cell(LandGen.cell_rng(LandGen.chunk_seed, i, j, 1, 1))
 				_set_objects(ctx, back[at], out)
 			if bonuses and conf != 10 and conf != 11:
 				_xp_bonuses(ctx, loc, out)
+	LandGen.use_cell(null)
 
 
 static func _create_check(ctx: Dictionary, loc: Dictionary, active: bool, out: Dictionary) -> void:

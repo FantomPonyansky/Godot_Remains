@@ -46,6 +46,9 @@ class Runner extends Node:
 			return _finish({}, ["no player after new game"])
 		print("save_roundtrip: land %s, %s" % [land, _script_state()])
 		await _frames(60)
+		var cycle_diffs: Array = []
+		if str(Registry.land(land).get("tip", "")) == "rnd":
+			cycle_diffs = await _cycle_room()
 		var saved := _digest()
 		if not SaveSlots.save(SLOT):
 			return _finish({}, ["SaveSlots.save failed"])
@@ -64,7 +67,7 @@ class Runner extends Node:
 			return _finish({}, ["no player after load"])
 		await _frames(30)
 		var loaded := _digest()
-		var diffs: Array = []
+		var diffs: Array = cycle_diffs
 		if str(Registry.land(land).get("tip", "")) == "rnd":
 			# A save in a generated land resumes in the camp (WorldState._tick_resume):
 			# the arrival there changes travel, notes and the camp land; the rest must match.
@@ -96,6 +99,121 @@ class Runner extends Node:
 		print("settle: scene %s player %s land %s resuming %s" % [tree.current_scene.name if tree.current_scene else "-",
 			tree.get_first_node_in_group("player") != null, tree.get_first_node_in_group("active_land") != null, WorldState.resuming()])
 		return false
+
+	## R5.3: a far room with actors unloads (actors into memory, collision
+	## meshed without it) and loads back; memory and collision must match.
+	func _cycle_room() -> Array:
+		var out: Array = []
+		var land_node := tree.get_first_node_in_group("active_land")
+		var props := land_node.get_node("Actors")
+		var memory: Variant = props.get("_memory")
+		var nodes := preload("res://scripts/map/room_nodes.gd")
+		var here := Vector2i((_player().global_position / Vector2(1920.0, 1000.0)).floor())
+		var stream := land_node.get_node_or_null("RoomStream")
+		if stream == null:
+			out.append("cycle: generated land has no RoomStream")
+		else:
+			var parked: Dictionary = stream.get("_out")
+			if parked.is_empty():
+				out.append("cycle: streaming left every room loaded")
+			for cell_v in parked:
+				if maxi(absi(cell_v.x - here.x), absi(cell_v.y - here.y)) <= stream.LOAD_REACH:
+					out.append("cycle: room %s near the player is unloaded" % cell_v)
+			print("save_roundtrip: streaming parked %d rooms, %d actors" % [parked.size(), stream.unloaded_total])
+			stream.paused = true
+			for cell_v in parked.keys():
+				props.reload_room(cell_v)
+			parked.clear()
+		var best := Vector2i(-99, -99)
+		var best_n := 0
+		for cell_v in land_node.get_meta("room_addr", {}):
+			var cell: Vector2i = cell_v
+			if maxi(absi(cell.x - here.x), absi(cell.y - here.y)) < 2:
+				continue
+			props.call("_spawn_room", "%d,%d" % [cell.x, cell.y])
+			var n := 0
+			for wid in memory._nodes:
+				var node: Variant = memory._nodes[wid]
+				if is_instance_valid(node) and memory._in_room(node, cell):
+					n += 1
+			if n > best_n:
+				best = cell
+				best_n = n
+		if best_n == 0:
+			return ["cycle: no far room with actors"]
+		await _frames(5)
+		var before := _cycle_digest(memory)
+		var tiles_before := _collision_tiles(land_node)
+		var left: int = props.unload_room(best)
+		land_node.set_loaded(best, false)
+		land_node.remesh([best])
+		for node in nodes.nodes_of(land_node, best):
+			if str(node.get_parent().name) in land_node.COLLISION_ROOTS:
+				out.append("cycle: collision left in unloaded room %s" % best)
+				break
+		if left < best_n:
+			out.append("cycle: %d of %d actors left room %s" % [left, best_n, best])
+		_compare("cycle_parked", before, _cycle_digest(memory), out)
+		land_node.set_loaded(best, true)
+		land_node.remesh([best])
+		props.reload_room(best)
+		props.call("_spawn_room", "%d,%d" % [best.x, best.y])
+		await _frames(5)
+		_compare("cycle", before, _cycle_digest(memory), out)
+		if _collision_tiles(land_node) != tiles_before:
+			out.append("cycle: collision tiles differ after remesh of %s" % best)
+		print("save_roundtrip: cycled room %s with %d actors" % [best, best_n])
+		if stream != null:
+			stream.paused = false
+			stream.tick()
+			await _frames(5)
+			var parked: Dictionary = stream.get("_out")
+			if not parked.is_empty():
+				var away: Vector2i = parked.keys()[0]
+				var home := _player().global_position
+				var waiting := 0
+				for wid in memory._parked:
+					var row: Dictionary = memory._rows.get(wid, {})
+					var room: Array = row.get("room", [0, 0])
+					if Vector2i(int(room[0]), int(room[1])) == away:
+						waiting += 1
+				_player().global_position = Vector2(away) * Vector2(1920.0, 1000.0) + Vector2(960.0, 500.0)
+				stream.tick()
+				await _frames(10)
+				var live := 0
+				for wid in memory._nodes:
+					var node: Variant = memory._nodes[wid]
+					if is_instance_valid(node) and memory._in_room(node, away):
+						live += 1
+				if stream.is_out(away) or (waiting > 0 and live == 0):
+					out.append("cycle: room %s did not come back when the player went there (%d rows, %d live)" % [away, waiting, live])
+				print("save_roundtrip: streamed into room %s, %d live" % [away, live])
+				_player().global_position = home
+				_player().call("reset_physics_interpolation")
+				stream.tick()
+				await _frames(10)
+		return out
+
+	func _cycle_digest(memory: Variant) -> Dictionary:
+		var cap: Dictionary = memory.capture()
+		var drops: Array = []
+		for d in cap.get("drops", []):
+			drops.append(JSON.stringify(d))
+		drops.sort()
+		return {"ents": cap.ents, "doors": cap.doors, "broken": cap.broken, "drops": drops, "extra": cap.extra, "xp_left": cap.xp_left}
+
+	func _collision_tiles(land_node: Node) -> Dictionary:
+		var out := {}
+		for root_name in land_node.COLLISION_ROOTS:
+			var root := land_node.get_node_or_null(str(root_name))
+			if root == null:
+				continue
+			for body in root.get_children():
+				var span: Rect2i = body.get_meta("tiles", Rect2i())
+				for x in range(span.position.x, span.end.x):
+					for y in range(span.position.y, span.end.y):
+						out["%s %d,%d" % [root_name, x, y]] = true
+		return out
 
 	func _frames(n: int) -> void:
 		for i in n:
