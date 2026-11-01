@@ -13,7 +13,8 @@ extends Node
 ##   WorldState.register(provider_id, get_callable, set_callable)
 ##   WorldState.register_run(provider_id, get_callable, set_callable)
 ## register is world.json (lands and the providers that travel with them).
-## register_run is run.json. A blob carries its own version key.
+## register_run is run.json. Ids in CHARACTER_ORDER go to character.json
+## whichever call registers them. A blob carries its own version key.
 ## The mods provider (run version 2) records active mod ids and versions.
 ## A save with no mods key still loads. Loading does not switch mods.
 ## get_callable() -> Variant returns JSON-safe data; set_callable(data) gets it
@@ -40,6 +41,14 @@ const RUN_FILE := "run.json"
 const RUN_ORDER: PackedStringArray = [
 	"progression", "condition", "inventory", "body", "pets", "game", "vendor_meta",
 ]
+## One player's providers (PORT_RULES "Future multiplayer"), written to
+## character.json in this order. Format 3 slots kept them in run.json and
+## world.json; register, apply_run and from_save send those ids here too.
+const CHARACTER_FILE := "character.json"
+const CHARACTER_VERSION := 1
+const CHARACTER_ORDER: PackedStringArray = [
+	"progression", "condition", "inventory", "body", "pets", "game", "stash", "effects", "favorites",
+]
 const LandGen := preload("res://scripts/map/land_gen.gd")
 const RESUME_FRAMES := 600
 const AUTOSAVE_SLOT := 0
@@ -57,6 +66,8 @@ var _providers := {}
 var _provider_data := {}
 var _run_providers := {}
 var _run_data := {}
+var _char_providers := {}
+var _char_data := {}
 var _resume := {}
 var _resume_left := 0
 var _resume_sent := false
@@ -97,6 +108,9 @@ func reset_run() -> void:
 
 
 func register(provider_id: String, get_callable: Callable, set_callable: Callable) -> void:
+	if provider_id in CHARACTER_ORDER:
+		_register_character(provider_id, get_callable, set_callable)
+		return
 	_providers[provider_id] = [get_callable, set_callable]
 	if _provider_data.has(provider_id):
 		var data: Variant = _provider_data[provider_id]
@@ -105,7 +119,19 @@ func register(provider_id: String, get_callable: Callable, set_callable: Callabl
 			set_callable.call(data)
 
 
+func _register_character(provider_id: String, get_callable: Callable, set_callable: Callable) -> void:
+	_char_providers[provider_id] = [get_callable, set_callable]
+	if _char_data.has(provider_id):
+		var data: Variant = _char_data[provider_id]
+		_char_data.erase(provider_id)
+		if set_callable.is_valid():
+			set_callable.call(data)
+
+
 func register_run(provider_id: String, get_callable: Callable, set_callable: Callable) -> void:
+	if provider_id in CHARACTER_ORDER:
+		_register_character(provider_id, get_callable, set_callable)
+		return
 	_run_providers[provider_id] = [get_callable, set_callable]
 	if _run_data.has(provider_id):
 		var data: Variant = _run_data[provider_id]
@@ -248,7 +274,9 @@ func from_save(data: Dictionary) -> bool:
 	var providers: Dictionary = data.get("providers", {})
 	_provider_data.clear()
 	for id in providers:
-		if _providers.has(id):
+		if str(id) in CHARACTER_ORDER:
+			_apply_char_provider(str(id), providers[id])
+		elif _providers.has(id):
 			var setter: Callable = (_providers[id] as Array)[1]
 			if setter.is_valid():
 				setter.call(providers[id])
@@ -336,7 +364,65 @@ func read_run(dir: String) -> bool:
 	return apply_run(parsed)
 
 
+func character_document() -> Dictionary:
+	var providers := _char_data.duplicate(true)
+	for id in _char_providers:
+		var getter: Callable = (_char_providers[id] as Array)[0]
+		if getter.is_valid():
+			providers[id] = getter.call()
+	return {"version": CHARACTER_VERSION, "providers": providers}
+
+
+func apply_character(data: Dictionary) -> bool:
+	var ver := int(data.get("version", 0))
+	if ver < 1 or ver > CHARACTER_VERSION:
+		push_warning("character save version %s not supported" % str(data.get("version")))
+		return false
+	var providers: Dictionary = data.get("providers", {})
+	for id in CHARACTER_ORDER:
+		if providers.has(id):
+			_apply_char_provider(id, providers[id])
+	for id in providers:
+		if not str(id) in CHARACTER_ORDER:
+			_apply_char_provider(str(id), providers[id])
+	return true
+
+
+func write_character(dir: String) -> bool:
+	var file := FileAccess.open(dir + CHARACTER_FILE, FileAccess.WRITE)
+	if file == null:
+		return false
+	file.store_string(JSON.stringify(character_document()))
+	file.close()
+	return true
+
+
+## False when the slot has no character.json (format 3: the blobs are in
+## run.json and world.json and arrive through apply_run and from_save).
+func read_character(dir: String) -> bool:
+	_char_data.clear()
+	if not FileAccess.file_exists(dir + CHARACTER_FILE):
+		return false
+	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(dir + CHARACTER_FILE))
+	if not parsed is Dictionary:
+		push_warning("character save unreadable: %s" % (dir + CHARACTER_FILE))
+		return false
+	return apply_character(parsed)
+
+
+func _apply_char_provider(id: String, data: Variant) -> void:
+	if _char_providers.has(id):
+		var setter: Callable = (_char_providers[id] as Array)[1]
+		if setter.is_valid():
+			setter.call(data)
+	else:
+		_char_data[id] = data
+
+
 func _apply_run_provider(id: String, data: Variant) -> void:
+	if id in CHARACTER_ORDER:
+		_apply_char_provider(id, data)
+		return
 	if _run_providers.has(id):
 		var setter: Callable = (_run_providers[id] as Array)[1]
 		if setter.is_valid():

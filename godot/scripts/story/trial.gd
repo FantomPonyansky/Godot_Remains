@@ -123,7 +123,7 @@ func _out() -> void:
 	if closed:
 		for node in _room_nodes():
 			if bool(node.get_meta("prize", false)) and not bool(_PS.getv(node, "spent", false)):
-				_props.call("_open_loot", node, true)
+				WorldOps.open_container(node, true)
 	else:
 		_run("out")
 		if on_wave:
@@ -214,7 +214,7 @@ func _close_prob() -> void:
 	active = false
 	_props.set_flag("prob|" + id, true)
 	var t: Variant = Travel.trigger("prob_" + id)
-	Travel.set_trigger("prob_" + id, 1 if t == null else int(t) + 1)
+	WorldOps.set_trigger("prob_" + id, 1 if t == null else int(t) + 1)
 	Fx.notice(OriginalLines.info("closeProb", nazv()), {"source": self})
 	Fx.sound("quest_ok", Vector2.ZERO, {"source": self})
 	_doors(1)

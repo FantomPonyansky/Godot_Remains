@@ -17,7 +17,18 @@ const CELL_MAGIC := 30
 const KEYS: Array[int] = [KEY_1, KEY_2, KEY_3, KEY_4, KEY_5, KEY_6, KEY_7, KEY_8, KEY_9, KEY_0, KEY_MINUS, KEY_EQUAL]
 
 ## cell -> id, cells 1-24.
-var _fav: Dictionary = {}
+const _FavoritesState := preload("res://scripts/character/favorites_state.gd")
+var _favorites_ref: _FavoritesState
+
+## This autoload's fields live on Run.character().favorites; the properties below forward there.
+func _favorites() -> _FavoritesState:
+	if _favorites_ref == null:
+		_favorites_ref = Run.character().favorites
+	return _favorites_ref
+
+var _fav: Dictionary:
+	get: return _favorites()._fav
+	set(value): _favorites()._fav = value
 var _prune_queued := false
 
 

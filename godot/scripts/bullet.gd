@@ -47,6 +47,7 @@ var from_player: bool = true
 var fraction: int = -1
 var eid: String = ""
 var kind: StringName = &"bullet"
+var authority: bool = true
 var damage_type: String = "DAM_PIERCE"
 ## weapons.json char_destroy. -1 until the shot is fired. Doors use this, not damage.
 var block_damage: int = -1
@@ -182,7 +183,7 @@ func _range_limit() -> float:
 
 
 func _physics_process(delta: float) -> void:
-	if _die_at >= 0 and Sim.run_tick >= _die_at:
+	if authority and _die_at >= 0 and Sim.run_tick >= _die_at:
 		_die_at = -1
 		if not _dead:
 			_on_timeout()
@@ -196,7 +197,7 @@ func _physics_process(delta: float) -> void:
 		sprite.modulate.a = minf(1.0, ceilf(_fade) * 0.25)
 		_fit_sprite(delta)
 		return
-	if _dead:
+	if _dead or not authority:
 		return
 	_ensure_fraction()
 	if not hitscan and not _fuse_flight() and traveled >= _range_limit() and traveled > 0.0:
@@ -545,13 +546,13 @@ func _strike(node: Node, health: float, soften: bool) -> void:
 			var side: Variant = node.get("fraction")
 			if (side is int or side is float) and int(side) == fraction and fraction != F_PLAYER:
 				dealt *= FRIENDLY_EXPL
-		node.take_hit(HitInfo.of_bullet(self, dealt, blast_radius > 0.0))
+		WorldOps.damage(node, HitInfo.of_bullet(self, dealt, blast_radius > 0.0))
 		_knock_unit(node)
 		return
 	# knop2 (actdam) and charges (trap_units) only have take_hit; Resistances
 	# does nothing on them, so shots and the detonator blast never fired them.
 	if node.has_method("take_hit") and (node.is_in_group("actdam") or node.is_in_group("trap_units")):
-		node.take_hit(HitInfo.make(maxi(1, int(round(dealt))), damage_type, self))
+		WorldOps.damage(node, HitInfo.make(maxi(1, int(round(dealt))), damage_type, self))
 		return
 	_Resistances.apply(node, dealt, damage_type)
 
@@ -579,8 +580,8 @@ func _explode(direct_body: Object = null) -> void:
 		if props:
 			if blast_radius > 0.0 and props.has_method("blast_boxes"):
 				props.call("blast_boxes", global_position, blast_radius, destroy)
-			elif is_instance_valid(_target_box) and props.has_method("damage_box"):
-				props.call("damage_box", _target_box, destroy)
+			elif is_instance_valid(_target_box):
+				WorldOps.damage_object(_target_box, destroy)
 	_flash_disk(global_position, blast_radius, Color(1.0, 0.42, 0.08, 0.45))
 	preload("res://scripts/expl_fx.gd").vis(get_tree(), global_position, damage_type, weapon_id, RoomFlags.in_water(global_position))
 	_quake()

@@ -244,7 +244,7 @@ func _hurt(cx: int, cy: int, amount: int, type: String) -> bool:
 	_fresh[i] = _tip
 	if is_inside_tree():
 		get_tree().call_group("fog", "mark_dirty", _cell_rect(cx, cy))
-		get_tree().call_group("land_props", "note_broken", _cell_rect(cx, cy))
+		WorldOps.break_cell(self, _cell_rect(cx, cy))
 	return true
 
 

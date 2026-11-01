@@ -45,6 +45,7 @@ static var _manifest := {}
 
 var id := "damshot"
 var kind := "dam"
+var authority: bool = true
 var props: Node = null
 var status := 0
 var hp := 10.0
@@ -264,7 +265,7 @@ func apply_land(d: Dictionary) -> void:
 
 
 func _physics_process(delta: float) -> void:
-	if dead:
+	if dead or not authority:
 		return
 	_acc += delta * TPS
 	var steps := 0
@@ -847,7 +848,7 @@ func _die() -> void:
 			if _tip == 1:
 				_spill("frag", 1, _muzzle())
 	if not die_actions.is_empty() and props != null and props.has_method("run_actions"):
-		props.run_actions(die_actions, "", self)
+		WorldOps.run_actions(props, die_actions, self)
 	_remove()
 
 

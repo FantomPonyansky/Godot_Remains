@@ -184,7 +184,7 @@ func activate(first: bool = false, restored: bool = false) -> void:
 	if not main and props != null and props.has_method("set_flag"):
 		props.call("set_flag", "cpact|" + name, 2)
 	if not restored:
-		Travel.checkpoint_activated(self, land_id, code)
+		WorldOps.activate_checkpoint(self, land_id, code)
 
 
 ## Another checkpoint became current.

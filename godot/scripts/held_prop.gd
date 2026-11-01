@@ -9,6 +9,7 @@ const _PS := preload("res://scripts/prop_state.gd")
 
 var eid := ""
 var kind: StringName = &"prop"
+var authority: bool = true
 var faction := 0
 var _fields_live := false
 var _field_set: Dictionary = {}
@@ -224,7 +225,7 @@ func _physics_process(delta: float) -> void:
 	# a land holds hundreds of them.
 	var boxes: Array = []
 	for box in get_tree().get_nodes_in_group("floor_box"):
-		if box.has_method("_sim") and (box.held or not bool(box.get_meta("frozen", false))):
+		if box.has_method("_sim") and Entity.has_authority(box) and (box.held or not bool(box.get_meta("frozen", false))):
 			boxes.append([box.crate_bottom(), box])
 	boxes.sort_custom(func(a: Array, b: Array) -> bool: return a[0] > b[0])
 	for entry in boxes:
@@ -407,7 +408,7 @@ func _att_drop() -> void:
 			_vx = mine.x
 			_vy = mine.y
 		if node.is_in_group("player"):
-			node.take_hit(HitInfo.make(maxi(1, roundi(dam)), "DAM_BLUNT", self))
+			WorldOps.damage(node, HitInfo.make(maxi(1, roundi(dam)), "DAM_BLUNT", self))
 		else:
 			_Resistances.apply(node, dam, "DAM_BLUNT")
 		vel2 = (_vx * _vx + _vy * _vy) / 900.0

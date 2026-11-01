@@ -66,6 +66,7 @@ static var _fall: Variant = null
 
 var eid: String = ""
 var kind: StringName = &"drop"
+var authority: bool = true
 var held: bool = false
 var velocity: Vector2 = Vector2.ZERO
 
@@ -194,7 +195,7 @@ func pickup() -> void:
 
 
 func _physics_process(delta: float) -> void:
-	if _taken:
+	if _taken or not authority:
 		return
 	if not _spawn_cleared:
 		shove_clear()
@@ -246,7 +247,7 @@ func try_autopick() -> void:
 		return
 	if player.get("_tele_obj") == self and player.has_method("_drop_tele"):
 		player._drop_tele()
-	pickup()
+	WorldOps.take_loot(self)
 
 
 func _within_osn(player: Node2D) -> bool:

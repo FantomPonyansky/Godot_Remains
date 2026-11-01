@@ -14,16 +14,34 @@ const NO_VAULT: PackedStringArray = ["money", "paint", "spell", "spec", "key", "
 const KEEP_TIPS: PackedStringArray = ["food", "book", "sphera", "valuables"]
 const NO_ITEM_DAMAGE: PackedStringArray = ["DAM_BLEED", "DAM_POISON", "DAM_INTERNAL", "DAM_PINKCLOUD"]
 
-var vault: Dictionary = {}
-var hidden: Dictionary = {}
+const _StashState := preload("res://scripts/character/stash_state.gd")
+var _stash_ref: _StashState
+
+## This autoload's fields live on Run.character().stash; the properties below forward there.
+func _stash() -> _StashState:
+	if _stash_ref == null:
+		_stash_ref = Run.character().stash
+	return _stash_ref
+
+var vault: Dictionary:
+	get: return _stash().vault
+	set(value): _stash().vault = value
+var hidden: Dictionary:
+	get: return _stash().hidden
+	set(value): _stash().hidden = value
 ## Armor.stored: armour and amulets left on the stand.
-var stored_armor: Dictionary = {}
-var prev_armor := ""
+var stored_armor: Dictionary:
+	get: return _stash().stored_armor
+	set(value): _stash().stored_armor = value
+var prev_armor: String:
+	get: return _stash().prev_armor
+	set(value): _stash().prev_armor = value
 
 var _eqip: Array = []
 
 
 func _ready() -> void:
+	WorldOps.handle(&"store_armor", store_armor)
 	if not Inventory.stash_hidden_query.is_connected(_on_hidden_query):
 		Inventory.stash_hidden_query.connect(_on_hidden_query)
 	if not Inventory.stash_armor_change_query.is_connected(_on_armor_change_query):

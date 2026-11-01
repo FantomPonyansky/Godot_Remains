@@ -181,6 +181,7 @@ class Runner extends Node:
 			"game": {"health": GameState.health, "magic": GameState.magic, "score": GameState.score, "ammo": GameState.ammo},
 			"vendor_money": money,
 			"world": world,
+			"character": WorldState.character_document(),
 			"room": [floori(at.x / 1920.0), floori(at.y / 1000.0)],
 			"pos": at,
 		}

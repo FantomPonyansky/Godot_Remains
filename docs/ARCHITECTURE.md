@@ -32,6 +32,8 @@ Registered today:
 
 Pause is a set of reasons. `set_paused(on, reason)` adds or removes one; the tree stays paused while any remain. `get_tree().paused` follows the set. `pause_changed` is what `GameState.paused` listens to. Reasons in use: `pipbuck`, `menu`, `console`, `dialogue`, `craft`, `sats`, `wheel`, `intro`, `stand`, `game`.
 
+The screen reasons (`PLAYER_REASONS`: `pipbuck`, `menu`, `sats`, `dialogue`, `stand`, `craft`, `wheel`) also mark a player busy: `set_paused(on, reason, pid)` with pid 0 for the local player, read by `busy(pid)`. They pause the world only while `pause_world` is true (single player); the other reasons always pause.
+
 While any reason is set, every phase except `PRESENTATION` is skipped. `AudioManager._tick` still runs; unit-art stepping waits on `Sim.paused()`, and the music fade does not. `CamShake._sim_tick` returns immediately when paused.
 
 ## Local input
@@ -39,6 +41,8 @@ While any reason is set, every phase except `PRESENTATION` is skipped. `AudioMan
 `LocalInput` (`scripts/autoload/local_input.gd`) stays in process while the tree is paused. It samples actions in `_input` and `_process`, and at phase `INPUT` freezes a `PlayerCommand`: `tick`, `held`, `pressed`, `released`, `strength`, `aim`.
 
 `held`, `just_pressed`, and `just_released` read that command inside a physics frame. Outside physics they read the live device, and a `_process` reader sees each edge once. `axis` and `aim` read the command. A press and a release between two ticks are both edges; `held` is the latest state. `inject_down` and `inject_up` write a synthetic edge; the next freeze still has it, and a `_process` reader sees it on that frame.
+
+Every reader takes an optional player id (the player's `pid`, set by `Run.register_player`); player code passes its own. Id 0 or `Run.local_id()` reads the local command as above. Any other id reads `commands[pid]`, set with `set_command` and dropped with `drop_command`; a player without one gets an empty command.
 
 `Sim` does not run `INPUT` while paused, so a paused tick freezes from `_physics_process`. Edges are kept when the sim is live, and when the local player's SATS node is active. Any other pause drops them.
 
@@ -51,6 +55,28 @@ While any reason is set, every phase except `PRESENTATION` is skipped. `AudioMan
 ## Entities
 
 `scripts/entity/entity.gd` is not a base class. A node meets the contract when it has `eid`, `kind`, `faction` (units keep `fraction`; `faction_of` reads both), `take_hit(hit)`, `snapshot()`, and `restore(data)`. `kind_of` uses the property or meta, then the groups `player`, `story_npc`, bullets, traps, `ground_loot`, enemies / allies / pets, and a door meta. Anything else with `is_alert` is a unit; the rest are props.
+
+`Entity.node_of(eid)` finds a live node by eid (claimed nodes and players).
+
+## World operations
+
+`WorldOps` (`scripts/autoload/world_ops.gd`) is the one entry for world changes:
+
+| Group | Ops | Goes to |
+|---|---|---|
+| Land objects | `open_door`, `unlock`, `pick_lock`, `open_container`, `break_object`, `damage_object`, `break_cell`, `press_button`, `use_object`, `use_terminal`, `pass_through`, `run_actions` | the target's `land_props` (parent walk) |
+| Entities | `take_loot`, `damage`, `kill` | the target |
+| Run | `set_trigger`, `travel`, `activate_checkpoint` | `Travel` |
+| Story | `add_quest`, `close_quest`, `inc_quests`, `add_note`, `set_npc_rep` | `Story` |
+| Trade and stash | `trade`, `sell`, `sell_all`, `take_weapon`, `take_all_tasks`, `store_armor` | `Vendors`, `Stash` |
+
+A target is a node or an eid. Owners register handlers in `_ready`, so `WorldOps` depends on no owner. After a change it emits `applied(op, args)`. With `WorldOps.authority` off, or a target without authority, it only emits `requested`. Ops a player does take `pid`; while the handler runs it is `WorldOps.actor`, and that player's state is `Run.character(actor)`. `WorldOps.applies(op, args)` is the same gate for host-only code: `ScriptsEngine.start` returns on a client.
+
+Direct writes that stay: snapshot restores, land building, `Resistances` passing a resolved hit back to its target, a script op running inside an op that already went through (`_on_button` runs its terminal), and debug commands. Loot a change spawns is made inside that change. Moving bodies (thrown crates, traps, falling drops, units, bullets, players) are simulation and branch on `authority` in their ticks.
+
+`Run.character(pid)` gives a second player its own character; the facades and `character.json` stay on the local one. `player.character()` returns its own.
+
+Each entity script has `authority` (true in single player; `Entity.has_authority` treats a node without it as true). With it false, the player, unit and bullet physics ticks return before simulation, and a bullet's fade still runs.
 
 Ids:
 
@@ -89,9 +115,11 @@ Meta that stays meta: build identity, trap `dead` (the remembered flag), drop `t
 
 ## Run document
 
-A slot is format 3 (`SaveSlots.FORMAT`). Files: `run.json` (run providers), `world.json` (lands and world providers), `slot.cfg` (the load menu). The autoloads still keep `inventory.cfg`, `progression.cfg`, `condition.cfg`, and `body_pools.cfg` in the run dir for boot.
+A slot is format 4 (`SaveSlots.FORMAT`). Files: `character.json` (the player's character), `run.json` (run providers), `world.json` (lands and world providers), `slot.cfg` (the load menu). The autoloads still keep `inventory.cfg`, `progression.cfg`, `condition.cfg`, and `body_pools.cfg` in the run dir for boot.
 
-`run.json` version is `WorldState.RUN_VERSION` (1). Apply order (`RUN_ORDER`): `progression`, `condition`, `inventory`, `body`, `pets`, `game`, `vendor_meta`. `eids` is registered from `Run` and is not in that list.
+The character state lives in `scripts/character/` (`Run.character()`: body, inventory, effects, progression, magic binds, condition, pets, favourites, stash). `GameState`, `Inventory`, `Effects`, `Progression`, `MagicBinds`, `Condition`, `Pets`, `Favorites` and `Stash` keep their fields as forwarding properties onto it.
+
+`character.json` version is `WorldState.CHARACTER_VERSION` (1). Apply order (`CHARACTER_ORDER`):
 
 | Provider | What it stores |
 |---|---|
@@ -101,14 +129,19 @@ A slot is format 3 (`SaveSlots.FORMAT`). Files: `run.json` (run providers), `wor
 | `body` | head, torso, legs, blood, rad, stam, breath, mana |
 | `pets` | phoenix and owl |
 | `game` | health, magic, score, ammo |
-| `vendor_meta` | vendor money and land xp |
-| `eids` | next spawn counter |
+| `stash` | stash, hidden items, stored armour |
+| `effects` | active effects |
+| `favorites` | favourite slots |
 
-`world.json` version is `WorldState.VERSION` (2). Besides land snapshots it has providers `stash`, `vendors`, `effects`, `favorites`, `alicorn`, `story`. Each blob carries its own `version`. A provider that is not registered this run is kept and written again.
+A provider id in `CHARACTER_ORDER` goes to the character registry whether it registers through `register` or `register_run`, and a format 3 `run.json` or `world.json` that still holds one is routed there on load.
+
+`run.json` version is `WorldState.RUN_VERSION` (2). Providers: `vendor_meta` (vendor money and land xp), `eids` (next spawn counter, registered from `Run`), `mods`.
+
+`world.json` version is `WorldState.VERSION` (2). Besides land snapshots it has providers `vendors`, `alicorn`, `story`. Each blob carries its own `version`. A provider that is not registered this run is kept and written again.
 
 Signals on `WorldState`: `run_reset` (a new run), `restored` (a slot applied), `resumed` (the saved spot is applied, or given up). A land snapshot is taken by `land_props` when the land leaves the tree and when a slot is saved. A rebuild uses the per-land seed stored here.
 
-`SaveSlots` also accepts format 2 (the cfg copies plus `world.json`) and format 1 (no `world.json`: the player loads and the run starts in the stable). Slot 0 is the autosave, written on leaving to the main menu and on a land change. Slots 1–10 are the PipBuck slots. A hardcore run autosaves into the slot chosen at the start (`World.autoSaveN`).
+`SaveSlots` also accepts format 3 (no `character.json`), format 2 (the cfg copies plus `world.json`) and format 1 (no `world.json`: the player loads and the run starts in the stable). Slot 0 is the autosave, written on leaving to the main menu and on a land change. Slots 1–10 are the PipBuck slots. A hardcore run autosaves into the slot chosen at the start (`World.autoSaveN`).
 
 ## Checks
 

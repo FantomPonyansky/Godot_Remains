@@ -633,7 +633,7 @@ func att_korp(target: Node2D, mult: float = 1.0) -> bool:
 	var sila := Rng.randf(&"combat") * 0.4 + 0.8
 	var amount := int(round(dam * sila * mult))
 	if amount > 0 and target.has_method("take_hit"):
-		target.take_hit(HitInfo.melee_hit(amount, u, tip))
+		WorldOps.damage(target, HitInfo.melee_hit(amount, u, tip))
 	return true
 
 

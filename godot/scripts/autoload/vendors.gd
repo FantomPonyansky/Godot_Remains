@@ -55,6 +55,11 @@ var _xp_ids: Dictionary = {}
 
 func _ready() -> void:
 	_load_data()
+	WorldOps.handle(&"trade", trade)
+	WorldOps.handle(&"sell", sell)
+	WorldOps.handle(&"sell_all", sell_all)
+	WorldOps.handle(&"take_weapon", take_weapon)
+	WorldOps.handle(&"take_all_tasks", take_all_tasks)
 	if not Inventory.armor_tip_query.is_connected(_on_armor_tip):
 		Inventory.armor_tip_query.connect(_on_armor_tip)
 	if not Travel.vendor_refill_asked.is_connected(land_refill):
@@ -413,7 +418,7 @@ func refill_all() -> void:
 		refill_vendor(v)
 	for key in Travel.triggers.keys():
 		if str(Travel.triggers[key]) == "wait":
-			Travel.triggers[key] = 1
+			WorldOps.set_trigger(key, 1)
 	var good := Inventory.count("good")
 	if good < GOOD_HP:
 		Inventory.add("good", GOOD_HP - good)
@@ -857,7 +862,7 @@ func task_click(row: Dictionary) -> void:
 		q.ch_give(npc_id, true)
 		q.ch_report(npc_id, true)
 	else:
-		Story.add_quest(str(row.id))
+		WorldOps.add_quest(str(row.id))
 
 
 ## PipPageInfo quests page in a base: every vendor task the player qualifies for and has not taken.
@@ -878,7 +883,7 @@ func open_tasks() -> PackedStringArray:
 ## PipPageInfo.addAllQuestsToGameClass.
 func take_all_tasks() -> void:
 	for id in open_tasks():
-		Story.add_quest(id, {}, false, false, false)
+		WorldOps.add_quest(id, {}, false, false, false)
 
 
 ## PipPageVend.setSigns: a task to take or to report.

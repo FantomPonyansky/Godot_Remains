@@ -10,6 +10,10 @@ extends Node
 ## Exit.NONE. travel_on stays false until Travel is ready, so a boot without
 ## that autoload keeps WorldState's scene fallback.
 
+const _Character := preload("res://scripts/character/character.gd")
+
+var _character: _Character
+var _others: Dictionary = {}
 var _order: Array[Node2D] = []
 var _ids: Array[int] = []
 var _next_id := 1
@@ -45,6 +49,23 @@ func register_player(p: Node2D) -> void:
 	p.set_meta("eid", eid)
 	if "eid" in p:
 		p.set("eid", eid)
+	if "pid" in p:
+		p.set("pid", id)
+	Entity.note(p, eid)
+
+
+## Player pid's character; 0 or the local id is the local one. The local one
+## exists before the player body spawns (menus, slot loads) and outlives it.
+## The autoload facades and character.json always use the local one; another
+## player's is made on first use and dropped when that player leaves.
+func character(pid := 0) -> _Character:
+	if pid != 0 and pid != local_id():
+		if not _others.has(pid):
+			_others[pid] = _Character.new()
+		return _others[pid]
+	if _character == null:
+		_character = _Character.new()
+	return _character
 
 
 ## Next "<owner_eid>/s<counter>". An empty owner is "run".
@@ -104,6 +125,14 @@ func local_player() -> Node2D:
 	return null
 
 
+## The local player's id, or 0 when none is in the tree.
+func local_id() -> int:
+	var p := local_player()
+	if p == null:
+		return 0
+	return _ids[_order.find(p)]
+
+
 ## The player assigned id at register, or null.
 func by_id(id: int) -> Node2D:
 	var i := 0
@@ -160,5 +189,6 @@ func camera() -> Camera2D:
 
 
 func _drop(i: int) -> void:
+	_others.erase(_ids[i])
 	_order.remove_at(i)
 	_ids.remove_at(i)

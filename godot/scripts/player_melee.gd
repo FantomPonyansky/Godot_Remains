@@ -81,7 +81,7 @@ func _tick_hoof(delta: float) -> void:
 		_hoof_hit = p._spend(_hoof_hit)
 		if _hoof_hit <= 0.0:
 			_land_hoof()
-	if not InputMap.has_action("melee") or not (LocalInput.held(&"melee") or LocalInput.just_pressed(&"melee")) or not p._Flags.allows("weapons"):
+	if not InputMap.has_action("melee") or not (LocalInput.held(&"melee", p.pid) or LocalInput.just_pressed(&"melee", p.pid)) or not p._Flags.allows("weapons"):
 		_hoof_used = false
 		return
 	# keyPunch as a rat drinks the antidote: remEffect("potion_rat").
@@ -115,13 +115,13 @@ func _hoof_ready() -> bool:
 		return false
 	if p._move._sitting_on_ground() or p._move._ceiling_blocks_stand():
 		return false
-	if LocalInput.held(&"move_left") or LocalInput.held(&"move_right"):
+	if LocalInput.held(&"move_left", p.pid) or LocalInput.held(&"move_right", p.pid):
 		return false
 	return true
 
 func _kick_modifier() -> bool:
 	# WKick.kick = keyRun. "sprint" is Shift and L3, so Shift+F and L3+RB kick.
-	return InputMap.has_action("sprint") and LocalInput.held(&"sprint")
+	return InputMap.has_action("sprint") and LocalInput.held(&"sprint", p.pid)
 
 func _land_hoof() -> void:
 	var kick := _hoof_kick
@@ -524,7 +524,7 @@ func _crack_crate(at: Vector2, w: Dictionary, motion: Vector2) -> void:
 			if not rect.has_point(cursor) or not rect.has_point(at):
 				continue
 			_melee_struck[crate.get_instance_id()] = true
-			if props.break_crate(crate, float(p._Block.of(id))):
+			if WorldOps.break_object(crate, float(p._Block.of(id))):
 				var mat := int(str(p._LandRegistry.obj(str(crate.get_meta("id", ""))).get("mat", "3")))
 				_melee_impact(mat, at, w, p._weapons_c._amount(w, false) * _melee_power)
 				_melee_crash(w, motion)

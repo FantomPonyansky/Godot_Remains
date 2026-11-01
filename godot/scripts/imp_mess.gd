@@ -33,7 +33,7 @@ static func item_taken(tree: SceneTree, item_id: String) -> void:
 		return
 	if int(Travel.triggers.get("mess_" + mess, 0)) > 0:
 		return
-	Travel.set_trigger("mess_" + mess, 1)
+	WorldOps.set_trigger("mess_" + mess, 1)
 	show_mess(tree, mess)
 
 

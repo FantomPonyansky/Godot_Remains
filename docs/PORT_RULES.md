@@ -33,6 +33,9 @@ Planned after the port is finished, as a separate mode: true online co-op, P2P, 
 - Things that matter to world state (doors, loot, kills, flags) change through one function each, so they can later be run by the host and sent to others.
 - "Near the player" rules (room activation, sight, music) should take a set of positions where cheap.
 - Do not add new world pauses for UI unless the original has them.
+- Character versus world (2026-11-01, user): the stash belongs to each character. Quest log and story progress live in the world (host save), shared by all players. Map knowledge (fog memory, world-map marks) is shared world state.
+- Saves split once `Character` exists, in single player too: each slot holds `character.json` plus the world save; old slots migrate on load (2026-11-01, user).
+- The other co-op decisions (loot sharing, difficulty by player count, friendly fire, busy player, SATS, death) wait until before multiplayer step 8; R3 only adds hooks (2026-11-01, user).
 
 ## Movement
 

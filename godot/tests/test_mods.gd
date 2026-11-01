@@ -32,6 +32,7 @@ func _ready() -> void:
 	_check_text()
 	_check_rooms()
 	_check_saves()
+	_check_commands()
 	print("CHECK mods: ok %d fail %d" % [_ok, _fail_n])
 	get_tree().quit(0 if _fail_n == 0 else 1)
 
@@ -260,6 +261,68 @@ func _check_rooms() -> void:
 	_check(not RoomFile.load_doc("rooms_looseprobe").is_empty(), "loose file enabled again")
 
 
+func _check_commands() -> void:
+	var cmd: Variant = LocalInput.PlayerCommand.new()
+	cmd.held = {&"jump": true}
+	cmd.strength = {&"move_right": 1.0}
+	LocalInput.set_command(99, cmd)
+	_check(LocalInput.held(&"jump", 99), "remote command held")
+	_check(LocalInput.axis(&"move_left", &"move_right", 99) == 1.0, "remote command axis")
+	_check(not LocalInput.held(&"jump"), "local command apart from remote")
+	_check(not LocalInput.held(&"jump", 98), "player without command is idle")
+	LocalInput.drop_command(99)
+	_check(not LocalInput.held(&"jump", 99), "dropped command")
+	Sim.set_paused(true, &"pipbuck")
+	_check(Sim.paused() and Sim.busy(), "single player screen pauses and marks busy")
+	Sim.set_paused(false, &"pipbuck")
+	Sim.pause_world = false
+	Sim.set_paused(true, &"pipbuck", 7)
+	_check(not Sim.paused() and Sim.busy(7) and not Sim.busy(), "world keeps running for a busy player")
+	Sim.set_paused(true, &"console")
+	_check(Sim.paused(), "non-player reason still pauses")
+	Sim.set_paused(false, &"console")
+	Sim.set_paused(false, &"pipbuck", 7)
+	Sim.pause_world = true
+	_check(not Sim.paused() and not Sim.busy(7), "busy cleared")
+	var node := Node.new()
+	_check(Entity.has_authority(node), "node without field has authority")
+	node.free()
+	_check_world_ops()
+
+
+func _check_world_ops() -> void:
+	var seen: Array = []
+	var log_op := func(op: StringName, args: Array) -> void: seen.append([op, args])
+	WorldOps.applied.connect(log_op)
+	var before: Variant = Travel.trigger("wops_probe")
+	WorldOps.set_trigger("wops_probe", 3)
+	_check(Travel.trigger("wops_probe") == 3, "set_trigger reaches Travel")
+	_check(seen.size() == 1 and seen[0][0] == &"set_trigger", "applied signal")
+	var asked: Array = []
+	var log_req := func(op: StringName, args: Array) -> void: asked.append(op)
+	WorldOps.requested.connect(log_req)
+	WorldOps.authority = false
+	WorldOps.set_trigger("wops_probe", 4)
+	WorldOps.authority = true
+	_check(Travel.trigger("wops_probe") == 3 and asked == [&"set_trigger"], "client call is only requested")
+	var drop := Node.new()
+	add_child(drop)
+	Entity.claim(drop, &"prop")
+	_check(Entity.node_of(Entity.eid_of(drop)) == drop, "eid lookup")
+	drop.free()
+	var who: Array = []
+	WorldOps.handle(&"probe", func() -> void: who.append(WorldOps.actor))
+	WorldOps._run(&"probe", [], 7)
+	_check(who == [7] and WorldOps.actor == 0, "handler sees the acting player")
+	_check(Run.character(7) != Run.character() and Run.character(7) == Run.character(7), "second player character")
+	WorldOps.applied.disconnect(log_op)
+	WorldOps.requested.disconnect(log_req)
+	if before == null:
+		Travel.triggers.erase("wops_probe")
+	else:
+		Travel.triggers["wops_probe"] = before
+
+
 func _check_saves() -> void:
 	_slot(null)
 	_check(not Mods.slot_mods_differ(1), "old save without mods key")
@@ -276,6 +339,14 @@ func _check_saves() -> void:
 	_check(providers.has("mods"), "mods provider")
 	var blob: Dictionary = providers.get("mods", {})
 	_check(blob.get("active", null) is Array, "mods active list")
+	var chars: Dictionary = (world.call("character_document") as Dictionary).get("providers", {})
+	_check(chars.has("favorites") and not providers.has("favorites"), "favorites in character document")
+	var fav: Variant = chars.get("favorites")
+	world.call("apply_run", {"version": 2, "providers": {"favorites": fav}})
+	var moved: Dictionary = (world.call("character_document") as Dictionary).get("providers", {})
+	_check(moved.get("favorites") == fav, "format 3 favorites migrate to character")
+	var run_after: Dictionary = (world.call("run_document") as Dictionary).get("providers", {})
+	_check(not run_after.has("favorites"), "run document drops character ids")
 
 
 func _slot(active) -> void:

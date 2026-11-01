@@ -5,6 +5,7 @@ extends RefCounted
 ## interfaces, so this is not a base class. A node meets it when it has
 ## eid, kind, faction (units keep fraction; faction_of reads both),
 ## take_hit(hit: HitInfo), snapshot() -> Dictionary and restore(d).
+## authority (see has_authority) gates simulation, never presentation.
 ## Doors and props keep gameplay state on fields (prop_state.gd). These helpers
 ## still read a property first, then meta, so a wid or a door_id stamped at
 ## build time keeps working.
@@ -71,6 +72,15 @@ static func faction_of(node: Node) -> int:
 	return 0
 
 
+## False when another peer simulates the node and this one only shows it.
+## Always true in single player; a node without the field has authority.
+static func has_authority(node: Node) -> bool:
+	if node == null or not is_instance_valid(node):
+		return false
+	var prop: Variant = node.get("authority")
+	return prop if prop is bool else true
+
+
 ## Stamps kind and an eid. An authored wid is the eid. Anything else gets
 ## <owner_eid>/s<counter> from Run.alloc_eid (owner "run" when owner_eid is empty).
 static func claim(node: Node, node_kind: StringName, owner_eid: String = "") -> String:
@@ -125,3 +135,26 @@ static func _stamp(node: Node, id: String) -> void:
 	node.set_meta("eid", id)
 	if "eid" in node:
 		node.set("eid", id)
+	note(node, id)
+
+
+## eid -> WeakRef of every node claim stamped (and players). A rebuilt land
+## stamps the same eid again and replaces the freed node.
+static var _index: Dictionary = {}
+
+
+static func note(node: Node, id: String) -> void:
+	if id != "":
+		_index[id] = weakref(node)
+
+
+## The live node with this eid, or null.
+static func node_of(id: String) -> Node:
+	var ref: WeakRef = _index.get(id)
+	if ref == null:
+		return null
+	var node := ref.get_ref() as Node
+	if node == null or not is_instance_valid(node):
+		_index.erase(id)
+		return null
+	return node

@@ -346,7 +346,7 @@ func _on_armor(id: String) -> void:
 	if Inventory.count(id) <= 0:
 		return
 	SfxBank.play("ui_click")
-	if Stash.store_armor(id, not Stash.is_stored(id)):
+	if WorldOps.store_armor(id, not Stash.is_stored(id)):
 		_show(page)
 	(_cells[id] as Button).grab_focus()
 

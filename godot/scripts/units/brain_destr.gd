@@ -26,7 +26,7 @@ func on_die() -> bool:
 	sound(str(row.get("snd", {}).get("die", "")))
 	var host := u.get_tree().get_first_node_in_group("land_props")
 	if host != null and host.has_method("run_actions"):
-		host.run_actions(u.get("die_actions"))
+		WorldOps.run_actions(host, u.get("die_actions"))
 	GameState.enemy_defeated(int(u.get("points")))
 	u.hp = 0
 	u.collision_layer = 0

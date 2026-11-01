@@ -44,29 +44,64 @@ const DURABLE_KINDS: PackedStringArray = ["melee", "lightGun", "heavyGun"]
 const GUN_TYPES: PackedStringArray = ["lightGun", "heavyGun"]
 const UNIQUE_TYPES: PackedStringArray = ["melee", "explosives", "internal"]
 
-var worn: String = ""
-var amulet: String = ""
-var weapon_id: String = ""
+const _InventoryState := preload("res://scripts/character/inventory_state.gd")
+var _inventory_ref: _InventoryState
+
+## This autoload's fields live on Run.character().inventory; the properties below forward there.
+func _inventory() -> _InventoryState:
+	if _inventory_ref == null:
+		_inventory_ref = Run.character().inventory
+	return _inventory_ref
+
+var worn: String:
+	get: return _inventory().worn
+	set(value): _inventory().worn = value
+var amulet: String:
+	get: return _inventory().amulet
+	set(value): _inventory().amulet = value
+var weapon_id: String:
+	get: return _inventory().weapon_id
+	set(value): _inventory().weapon_id = value
 ## UnitPlayer.currentSpell, cast by keyDef. Spells are never weapon_id.
-var spell_id: String = ""
+var spell_id: String:
+	get: return _inventory().spell_id
+	set(value): _inventory().spell_id = value
 ## Leg device from otherVisual. beginBeg's takeArmor is the stable grant.
 ## The item seeded at reset is not enough to draw it.
-var leg_pip: bool = false
+var leg_pip: bool:
+	get: return _inventory().leg_pip
+	set(value): _inventory().leg_pip = value
 ## Set by the debug console command. Cleared with the run. Not a new-game grant.
-var kit_granted: bool = false
+var kit_granted: bool:
+	get: return _inventory().kit_granted
+	set(value): _inventory().kit_granted = value
 
-var _counts: Dictionary = {}
-var _order: Array[String] = []
+var _counts: Dictionary:
+	get: return _inventory()._counts
+	set(value): _inventory()._counts = value
+var _order: Array[String]:
+	get: return _inventory()._order
+	set(value): _inventory()._order = value
 var _names: Dictionary = {}
 var _roles: Dictionary = {}
 var _slice: Dictionary = {}
-var _applied_player: int = 0
+var _applied_player: int:
+	get: return _inventory()._applied_player
+	set(value): _inventory()._applied_player = value
 var _hard: Dictionary = {}
-var _overload_t := 0
+var _overload_t: int:
+	get: return _inventory()._overload_t
+	set(value): _inventory()._overload_t = value
 ## Pers.invMassParam results: maxSpeed (px a tick), jumpMult, shtrManaRes.
-var _max_speed := 100.0
-var _jump_mult := 1.0
-var _mana_res := 1.0
+var _max_speed: float:
+	get: return _inventory()._max_speed
+	set(value): _inventory()._max_speed = value
+var _jump_mult: float:
+	get: return _inventory()._jump_mult
+	set(value): _inventory()._jump_mult = value
+var _mana_res: float:
+	get: return _inventory()._mana_res
+	set(value): _inventory()._mana_res = value
 
 
 const STATE_VERSION := 1

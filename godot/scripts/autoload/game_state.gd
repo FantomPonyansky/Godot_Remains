@@ -72,12 +72,33 @@ const _UserDir := preload("res://scripts/user_dir.gd")
 static var POOL_PATH := _UserDir.run("body_pools.cfg")
 const CONSUMABLES_PATH := "res://assets/data/content/consumables.json"
 
-var health: int = MAX_HEALTH
-var ammo: int = MAX_AMMO
-var magic: float = MAX_MAGIC
-var mana_hp: float = 400.0
-var weapon_name: String = ""
-var score: int = 0
+const _BodyState := preload("res://scripts/character/body_state.gd")
+var _body_ref: _BodyState
+
+## This autoload's fields live on Run.character().body; the properties below forward there.
+func _body() -> _BodyState:
+	if _body_ref == null:
+		_body_ref = Run.character().body
+	return _body_ref
+
+var health: int:
+	get: return _body().health
+	set(value): _body().health = value
+var ammo: int:
+	get: return _body().ammo
+	set(value): _body().ammo = value
+var magic: float:
+	get: return _body().magic
+	set(value): _body().magic = value
+var mana_hp: float:
+	get: return _body().mana_hp
+	set(value): _body().mana_hp = value
+var weapon_name: String:
+	get: return _body().weapon_name
+	set(value): _body().weapon_name = value
+var score: int:
+	get: return _body().score
+	set(value): _body().score = value
 var paused: bool = false
 ## Actions a UI press used (dialogue advance). Gameplay ignores them until released.
 var _ui_held: PackedStringArray = PackedStringArray()
@@ -100,20 +121,36 @@ func ui_hold() -> bool:
 	return not _ui_held.is_empty()
 static var BATTLE_NO_OUT := 120.0
 ## GameContainer.t_battle, in 30 Hz ticks.
-var t_battle := 0.0
+var t_battle: float:
+	get: return _body().t_battle
+	set(value): _body().t_battle = value
 ## Debug console `quiet`. While false, enemies stay put and do not think.
 var enemies_think: bool = true
 var enemies_remaining: int = 0
 ## Crystal shield is up: dmana is 0, no regen.
-var magic_locked: bool = false
-var _dmana: float = 0.0
-var _channel_magic: float = 0.0
-var _channel_levit: bool = false
+var magic_locked: bool:
+	get: return _body().magic_locked
+	set(value): _body().magic_locked = value
+var _dmana: float:
+	get: return _body()._dmana
+	set(value): _body()._dmana = value
+var _channel_magic: float:
+	get: return _body()._channel_magic
+	set(value): _body()._channel_magic = value
+var _channel_levit: bool:
+	get: return _body()._channel_levit
+	set(value): _body()._channel_levit = value
 ## channel() is called from the player each physics tick. 3 ticks is 100 ms.
 static var CHANNEL_TICKS := 3
-var _channel_until: int = 0
-var _mana_stage: int = 0
-var _shown_magic: int = MAX_MAGIC
+var _channel_until: int:
+	get: return _body()._channel_until
+	set(value): _body()._channel_until = value
+var _mana_stage: int:
+	get: return _body()._mana_stage
+	set(value): _body()._mana_stage = value
+var _shown_magic: int:
+	get: return _body()._shown_magic
+	set(value): _body()._shown_magic = value
 
 ## Debug (console 'god', 'arena'): no damage or radiation, magic and mana
 ## stay full, spells do not spend either pool.
@@ -121,39 +158,85 @@ var god := false
 ## Console trial / boss: play_land adds this rooms_prob id if the land omitted it.
 var debug_prob := ""
 
-var head_hp: float = 200.0
-var torso_hp: float = 200.0
-var legs_hp: float = 200.0
+var head_hp: float:
+	get: return _body().head_hp
+	set(value): _body().head_hp = value
+var torso_hp: float:
+	get: return _body().torso_hp
+	set(value): _body().torso_hp = value
+var legs_hp: float:
+	get: return _body().legs_hp
+	set(value): _body().legs_hp = value
 ## Invent.usePotion norgan: "head", "torso" or "legs" for the next horgan item
 ## (PipPageStat health rows); "" heals the worst part.
-var organ_target := ""
-var blood_hp: float = 200.0
-var rad: float = 0.0
-var stam: float = 1000.0
-var breath: float = 1000.0
+var organ_target: String:
+	get: return _body().organ_target
+	set(value): _body().organ_target = value
+var blood_hp: float:
+	get: return _body().blood_hp
+	set(value): _body().blood_hp = value
+var rad: float:
+	get: return _body().rad
+	set(value): _body().rad = value
+var stam: float:
+	get: return _body().stam
+	set(value): _body().stam = value
+var breath: float:
+	get: return _body().breath
+	set(value): _body().breath = value
 
-var _head_stage: int = 0
-var _torso_stage: int = 0
-var _legs_stage: int = 0
-var _blood_stage: int = 0
-var _seen_level: int = -1
-var _dead: bool = false
-var _running: bool = false
-var _swimming: bool = false
-var _can_run: bool = true
+var _head_stage: int:
+	get: return _body()._head_stage
+	set(value): _body()._head_stage = value
+var _torso_stage: int:
+	get: return _body()._torso_stage
+	set(value): _body()._torso_stage = value
+var _legs_stage: int:
+	get: return _body()._legs_stage
+	set(value): _body()._legs_stage = value
+var _blood_stage: int:
+	get: return _body()._blood_stage
+	set(value): _body()._blood_stage = value
+var _seen_level: int:
+	get: return _body()._seen_level
+	set(value): _body()._seen_level = value
+var _dead: bool:
+	get: return _body()._dead
+	set(value): _body()._dead = value
+var _running: bool:
+	get: return _body()._running
+	set(value): _body()._running = value
+var _swimming: bool:
+	get: return _body()._swimming
+	set(value): _body()._swimming = value
+var _can_run: bool:
+	get: return _body()._can_run
+	set(value): _body()._can_run = value
 var _dirty: bool = false
 ## Half a second at 30 Hz, between pool writes.
 static var SAVE_TICKS := 15
 var _save_wait := 0
-var _shown: String = ""
+var _shown: String:
+	get: return _body()._shown
+	set(value): _body()._shown = value
 var _consumables: Dictionary = {}
 ## UnitPlayer.healhp: potion heal still to come, released healMult / 5 * metaMult a tick.
-var _healhp: float = 0.0
+var _healhp: float:
+	get: return _body()._healhp
+	set(value): _body()._healhp = value
 ## UnitPlayer.drad (this tick's radiation) and drad2 (chem radiation, fading 0.1 a tick).
-var drad: float = 0.0
-var _drad2: float = 0.0
-var _hp_carry: float = 0.0
-var _dam_carry: float = 0.0
+var drad: float:
+	get: return _body().drad
+	set(value): _body().drad = value
+var _drad2: float:
+	get: return _body()._drad2
+	set(value): _body()._drad2 = value
+var _hp_carry: float:
+	get: return _body()._hp_carry
+	set(value): _body()._hp_carry = value
+var _dam_carry: float:
+	get: return _body()._dam_carry
+	set(value): _body()._dam_carry = value
 
 
 func _ready() -> void:

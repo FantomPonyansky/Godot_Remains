@@ -93,7 +93,7 @@ func _attack_ok() -> bool:
 
 ## keyAttack or the vote's autoAttack.
 func _shoot_held() -> bool:
-	return LocalInput.held(&"shoot") or Effects.auto_attack()
+	return LocalInput.held(&"shoot", p.pid) or Effects.auto_attack()
 
 ## UnitPlayer.changeWeapon("not"): the weapon is put away until the next equip.
 func holster() -> void:
@@ -246,11 +246,11 @@ func _poll_quick_slots() -> void:
 		return
 	for n in Favorites.HOTKEYS:
 		var action := Favorites.action_of(n + 1)
-		if not InputMap.has_action(action) or not LocalInput.just_pressed(StringName(action)):
+		if not InputMap.has_action(action) or not LocalInput.just_pressed(StringName(action), p.pid):
 			continue
 		if p._spells._action_taken_by_spell(action):
 			continue
-		var cell := n + 1 + (Favorites.HOTKEYS if LocalInput.held(&"sprint") else 0)
+		var cell := n + 1 + (Favorites.HOTKEYS if LocalInput.held(&"sprint", p.pid) else 0)
 		Favorites.use_fav(cell)
 		return
 
@@ -309,15 +309,15 @@ func _throw_weapon() -> Dictionary:
 ## it can go; an explosive then throws once, a magic weapon repeats while held.
 func _tick_throw_key(delta: float) -> void:
 	_throw_cd = p._spend(_throw_cd)
-	var grenade := LocalInput.held(&"grenade") or LocalInput.just_pressed(&"grenade")
+	var grenade := LocalInput.held(&"grenade", p.pid) or LocalInput.just_pressed(&"grenade", p.pid)
 	if not InputMap.has_action("grenade") or not grenade:
 		_throw_armed = false
 		return
-	if LocalInput.just_pressed(&"grenade"):
+	if LocalInput.just_pressed(&"grenade", p.pid):
 		_throw_armed = true
 	if not _throw_armed or not p._Flags.allows("weapons") or not _attack_ok() or Effects.attack_forever():
 		return
-	if LocalInput.held(&"shoot") or _chw_left > 0.0 or p._melee_c._hoof_work > 0.0:
+	if LocalInput.held(&"shoot", p.pid) or _chw_left > 0.0 or p._melee_c._hoof_work > 0.0:
 		return
 	if _fire_cd > 0.0 or _magic_cd > 0.0 or _reload_left > 0.0 or _burst_left > 0:
 		return
@@ -368,14 +368,14 @@ func _magic_weapon() -> Dictionary:
 ## animation, and only when the weapon in hand is not mid-attack (atkWeapon 0 or 3).
 func _tick_magic_key(delta: float) -> void:
 	_magic_cd = p._spend(_magic_cd)
-	var held := InputMap.has_action("magic_attack") and (LocalInput.held(&"magic_attack") or LocalInput.just_pressed(&"magic_attack")) and p._Flags.allows("weapons")
+	var held := InputMap.has_action("magic_attack") and (LocalInput.held(&"magic_attack", p.pid) or LocalInput.just_pressed(&"magic_attack", p.pid)) and p._Flags.allows("weapons")
 	held = held and _attack_ok() and not Effects.attack_forever()
 	var w := _magic_weapon() if held else {}
 	if w.is_empty():
 		_magic_semi = false
 		_magic_prep = p._spend(_magic_prep)
 		return
-	if LocalInput.held(&"shoot") or _chw_left > 0.0 or p._melee_c._hoof_work > 0.0:
+	if LocalInput.held(&"shoot", p.pid) or _chw_left > 0.0 or p._melee_c._hoof_work > 0.0:
 		return
 	if _fire_cd > 0.0 or _reload_left > 0.0 or _burst_left > 0:
 		return
@@ -469,7 +469,7 @@ func _wants_shot(delta: float) -> bool:
 		_burst_wait = p._spend(_burst_wait)
 		return _burst_wait <= 0
 	if p._spells._port_shot_cut:
-		p._spells._port_shot_cut = LocalInput.held(&"shoot")
+		p._spells._port_shot_cut = LocalInput.held(&"shoot", p.pid)
 		if p._spells._port_shot_cut:
 			return false
 	# UnitPlayer: currentWeapon.attack(true) at que[0], once the weapon has turned onto it.
@@ -481,7 +481,7 @@ func _wants_shot(delta: float) -> bool:
 		_semi_lock = false
 		_prep = p._spend(_prep)
 		# Already up: a latched tap still fires. A charge needs the key held.
-		if not LocalInput.just_pressed(&"shoot") or int(w.get("prep", 0)) > 0:
+		if not LocalInput.just_pressed(&"shoot", p.pid) or int(w.get("prep", 0)) > 0:
 			return false
 		return true
 	var prep_need := int(w.get("prep", 0))
@@ -497,7 +497,7 @@ func _wants_shot(delta: float) -> bool:
 		return false
 	if prep_need > 0:
 		return true
-	return LocalInput.just_pressed(&"shoot") or Effects.auto_attack()
+	return LocalInput.just_pressed(&"shoot", p.pid) or Effects.auto_attack()
 
 func _shot_gap(w: Dictionary) -> float:
 	# WClub sets rapidMult = 1 / meleeSpdMult. Head trauma lowers meleeSpdMult.
@@ -764,7 +764,7 @@ func _grenade(w: Dictionary) -> bool:
 	bullet.phis = true
 	bullet.bumc = bool(w.get("bumc", false))
 	bullet.lip = int(w.get("throw_tip", 0)) == 2
-	bullet.sensor = Progression.pers("grenader", 0.0) > 0.0 and not LocalInput.held(&"sprint")
+	bullet.sensor = Progression.pers("grenader", 0.0) > 0.0 and not LocalInput.held(&"sprint", p.pid)
 	var host := p.get_tree().current_scene
 	if host == null:
 		return false
@@ -948,7 +948,7 @@ func _poll_reload() -> void:
 	# it calls initReload. Held to 30 ticks it calls unloadWeapon.
 	if not InputMap.has_action("reload") or Effects.attack_forever():
 		return
-	if LocalInput.held(&"reload") or LocalInput.just_pressed(&"reload"):
+	if LocalInput.held(&"reload", p.pid) or LocalInput.just_pressed(&"reload", p.pid):
 		# A radio weapon spends the press on detonator() (ctr.keyReload = false).
 		if _reload_hold <= 0 and _detonator(_weapon()):
 			_reload_hold = 31

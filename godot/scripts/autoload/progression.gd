@@ -73,21 +73,54 @@ static var UNIT_LEVIT_MULT: Array = [0.5, 1.0, 1.3, 1.6, 2.0, 2.5]
 ## Pers.inMaxMana. perks.xml spirit adds 20 per rank.
 const IN_MAX_MANA := 400.0
 
-var level: int = 1
-var xp: int = 0
-var xp_next: int = 5000
-var skill_points: int = 0
-var perk_points: int = 0
+const _ProgressionState := preload("res://scripts/character/progression_state.gd")
+var _progression_ref: _ProgressionState
+
+## This autoload's fields live on Run.character().progression; the properties below forward there.
+func _progression() -> _ProgressionState:
+	if _progression_ref == null:
+		_progression_ref = Run.character().progression
+	return _progression_ref
+
+var level: int:
+	get: return _progression().level
+	set(value): _progression().level = value
+var xp: int:
+	get: return _progression().xp
+	set(value): _progression().xp = value
+var xp_next: int:
+	get: return _progression().xp_next
+	set(value): _progression().xp_next = value
+var skill_points: int:
+	get: return _progression().skill_points
+	set(value): _progression().skill_points = value
+var perk_points: int:
+	get: return _progression().perk_points
+	set(value): _progression().perk_points = value
 ## New-game options kept with the run (Pers.xpDelta, levelSkAdd, rndpump):
 ## fastxp sets xpDelta 3000, hardskills levelSkAdd 3, rndpump spends points at random.
-var xp_delta: int = 5000
-var level_sk_add: int = 5
-var rndpump: bool = false
+var xp_delta: int:
+	get: return _progression().xp_delta
+	set(value): _progression().xp_delta = value
+var level_sk_add: int:
+	get: return _progression().level_sk_add
+	set(value): _progression().level_sk_add = value
+var rndpump: bool:
+	get: return _progression().rndpump
+	set(value): _progression().rndpump = value
 
-var _perk_extra: int = 0
-var _applied_max: int = 0
-var _ranks: Dictionary = {}
-var _perks: Dictionary = {}
+var _perk_extra: int:
+	get: return _progression()._perk_extra
+	set(value): _progression()._perk_extra = value
+var _applied_max: int:
+	get: return _progression()._applied_max
+	set(value): _progression()._applied_max = value
+var _ranks: Dictionary:
+	get: return _progression()._ranks
+	set(value): _progression()._ranks = value
+var _perks: Dictionary:
+	get: return _progression()._perks
+	set(value): _progression()._perks = value
 var _meta: Dictionary = {}
 var _skill_list: Array = []
 var _perk_list: Array = []

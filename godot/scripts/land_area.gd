@@ -7,6 +7,7 @@ const _PS := preload("res://scripts/prop_state.gd")
 
 var eid := ""
 var kind: StringName = &"area"
+var authority: bool = true
 var faction := 0
 var _fields_live := false
 var _field_set: Dictionary = {}

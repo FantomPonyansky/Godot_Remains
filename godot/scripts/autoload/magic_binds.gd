@@ -16,12 +16,29 @@ const SLOTS := 4
 
 signal changed
 
-var _slots: Array[String] = []
-var _magic := ""
-var _throw := ""
+const _MagicBindsState := preload("res://scripts/character/magic_binds_state.gd")
+var _magic_binds_ref: _MagicBindsState
+
+## This autoload's fields live on Run.character().magic_binds; the properties below forward there.
+func _magic_binds() -> _MagicBindsState:
+	if _magic_binds_ref == null:
+		_magic_binds_ref = Run.character().magic_binds
+	return _magic_binds_ref
+
+var _slots: Array[String]:
+	get: return _magic_binds()._slots
+	set(value): _magic_binds()._slots = value
+var _magic: String:
+	get: return _magic_binds()._magic
+	set(value): _magic_binds()._magic = value
+var _throw: String:
+	get: return _magic_binds()._throw
+	set(value): _magic_binds()._throw = value
 var _catalog: Dictionary = {}
 var _order: Array[String] = []
-var _queued: Array[String] = []
+var _queued: Array[String]:
+	get: return _magic_binds()._queued
+	set(value): _magic_binds()._queued = value
 
 
 func _ready() -> void:

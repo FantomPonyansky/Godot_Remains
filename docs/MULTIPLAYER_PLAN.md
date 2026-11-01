@@ -39,7 +39,7 @@ Steps 1 to 8 change no behaviour in single player and can be done during or righ
 - New `Character` object (a RefCounted, one per player) holding: inventory, worn and held items, ammo, level, XP, skills, perks, HP and limbs, effects, radiation, mana, quick slots, magic binds, pets, favourites, appearance.
 - The autoloads keep their names and act on `Players.local().character`, so the PipBuck and HUD need no rewrite.
 - Gameplay code that acts on a given player (damage, effects, loot) takes that player's `Character`.
-- Split the save: `character.json` per player plus the world save (lands, flags, story, vendors, stash). Old saves load as world plus one character. The same split works for single player.
+- Split the save: `character.json` per player (including the stash) plus the world save (lands, flags, story and quests, map knowledge, vendors). Old saves load as world plus one character. The same split works for single player.
 
 ### 3. Input as commands (3–4 days)
 - `PlayerCommand` per physics tick (30 Hz): move axis, jump, crouch, aim point, fire, reload, use, the action edges, chosen weapon or spell.
@@ -48,7 +48,8 @@ Steps 1 to 8 change no behaviour in single player and can be done during or righ
 - This also makes bots and replays possible, which are useful for tests.
 
 ### 4. One function per world change (5–8 days)
-- New autoload `World` (or `WorldOps`) with one entry per change: `open_door`, `unlock`, `break_object`, `move_crate`, `spawn_loot`, `take_loot`, `damage_unit`, `kill_unit`, `set_trigger`, `activate_checkpoint`, `use_terminal`, `trade`, `story_step`, `travel`.
+- Done as `WorldOps` (`ARCHITECTURE.md` "World operations"); what step 8 still wires is under R3 in `ARCHITECTURE_PLAN.md`.
+- New autoload `WorldOps` with one entry per change: `open_door`, `unlock`, `break_object`, `move_crate`, `spawn_loot`, `take_loot`, `damage_unit`, `kill_unit`, `set_trigger`, `activate_checkpoint`, `use_terminal`, `trade`, `story_step`, `travel`.
 - Every gameplay path goes through it (`land_props`, `lock_use`, `held_prop`, `ground_loot`, `loot_roll`, `bullet` hits, `ScriptsEngine` triggers, `Travel`, `Vendors`, `Stash`).
 - In single player each function applies the change at once. In multiplayer, a client's call becomes a request and the host's result is applied on every machine.
 - Any write to world state outside `World` is a bug to fix during this step.
@@ -113,5 +114,5 @@ Steps 1 to 8 change no behaviour in single player and can be done during or righ
 - Friendly fire and explosions on allies.
 - What a busy player (in PipBuck) is: invulnerable, or not.
 - SATS in multiplayer.
-- Story progress: whose save advances; what a joiner who has not done the story sees.
+- Story progress lives in the host's world save (`PORT_RULES.md`); still open: what a joiner who has not done the story sees.
 - Death: respawn at the checkpoint, revive by an ally, or wait.

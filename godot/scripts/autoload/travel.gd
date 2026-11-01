@@ -88,6 +88,9 @@ func _ready() -> void:
 	_listen_game()
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	Sim.register(Sim.Phase.WORLD, _sim_tick)
+	WorldOps.handle(&"set_trigger", set_trigger)
+	WorldOps.handle(&"travel", open_land)
+	WorldOps.handle(&"activate_checkpoint", checkpoint_activated)
 	_layer = CanvasLayer.new()
 	_layer.layer = 5
 	add_child(_layer)

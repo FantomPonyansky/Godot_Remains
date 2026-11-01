@@ -4,9 +4,10 @@ extends RefCounted
 ## PipPageOpt Сохранить / Загрузить and MainMenu Продолжить / Загрузить.
 ## Slot 0 is the autosave (written when you leave to the main menu and on
 ## every land change); slots 1..10 are written from the PipBuck. A slot is
-## run.json (the run providers) plus world.json (lands and world providers)
-## plus slot.cfg for the load menu. The autoloads still keep their own cfg
-## files in the run dir for boot.
+## character.json (the player's providers) plus run.json (run providers) plus
+## world.json (lands and world providers) plus slot.cfg for the load menu.
+## Format 3 had no character.json; its character blobs load from the other two.
+## The autoloads still keep their own cfg files in the run dir for boot.
 ## slot.cfg format 1 has no world.json: such a slot loads the player only and
 ## the run starts in the stable, as before. Format 2 is the cfg copies plus
 ## world.json; pets, score and vendor money were not in it.
@@ -17,7 +18,7 @@ const _UserDir := preload("res://scripts/user_dir.gd")
 const _Play := preload("res://scripts/editor/editor_play.gd")
 const Look := preload("res://scripts/pony_look.gd")
 const SLOTS := 10
-const FORMAT := 3
+const FORMAT := 4
 const RUN_FILES: PackedStringArray = [
 	"inventory.cfg", "progression.cfg", "condition.cfg", "body_pools.cfg",
 ]
@@ -97,7 +98,8 @@ static func save(slot: int) -> bool:
 	DirAccess.make_dir_recursive_absolute(dir)
 	_flush_autoloads()
 	var world := _node("WorldState")
-	if world == null or not bool(world.call("write_run", dir)) or not bool(world.call("write", dir)):
+	if world == null or not bool(world.call("write_character", dir)) or not bool(world.call("write_run", dir)) \
+			or not bool(world.call("write", dir)):
 		return false
 	var cfg := ConfigFile.new()
 	cfg.set_value("slot", "time", int(Time.get_unix_time_from_system()))
@@ -179,6 +181,7 @@ static func apply_pending() -> void:
 	var world := _node("WorldState")
 	if fmt >= 3:
 		if world:
+			world.call("read_character", dir)
 			world.call("read_run", dir)
 	else:
 		# Format 1 and 2: the cfg files. Pets, score and vendor money were not saved.

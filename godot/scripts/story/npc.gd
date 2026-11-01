@@ -157,7 +157,7 @@ func rep() -> int:
 
 
 func set_rep(v: int) -> void:
-	Story.set_npc_rep(npc_id, v)
+	WorldOps.set_npc_rep(npc_id, v)
 
 
 # --- Npc.as ---
@@ -298,7 +298,7 @@ func check(us: bool = false) -> bool:
 			else:
 				if Story.dial_on():
 					ScriptsEngine.dialog(did)
-				Travel.set_trigger("dial_" + did, 1)
+				WorldOps.set_trigger("dial_" + did, 1)
 			for rew_v in dial.get("reward", []):
 				var rew: Dictionary = rew_v
 				if rew.has("id"):
@@ -347,7 +347,7 @@ func set_status(dial: int = 0) -> void:
 func repair() -> void:
 	var quest: Dictionary = data.get("quest", {})
 	if not quest.is_empty() and Story.quest(str(quest.get("id", ""))) == null:
-		Story.add_quest(str(quest.id))
+		WorldOps.add_quest(str(quest.id))
 		return
 	var skill := str(data.get("needskill", ""))
 	if skill == "":
@@ -383,7 +383,7 @@ func repair() -> void:
 		set_meta("act_time", 0)
 		set_status()
 		if not quest.is_empty():
-			Story.close_quest(str(quest.id), str(quest.get("cid", "")))
+			WorldOps.close_quest(str(quest.id), str(quest.get("cid", "")))
 
 
 ## Npc.patient.
@@ -403,8 +403,8 @@ func patient() -> void:
 			Inventory.spend(item, 1)
 			set_rep(2)
 			ScriptsEngine.dialog("dialPatient5")
-			Travel.set_trigger("patient_tr2", "wait")
-			Story.close_quest("patientHeal", "3")
+			WorldOps.set_trigger("patient_tr2", "wait")
+			WorldOps.close_quest("patientHeal", "3")
 			Story.show_quest("patientHeal", "4")
 		else:
 			ScriptsEngine.dialog("dialPatient8")
@@ -413,8 +413,8 @@ func patient() -> void:
 	else:
 		ScriptsEngine.dialog("dialPatient3")
 		set_rep(1)
-		Travel.set_trigger("patient_tr1", 1)
-		Story.close_quest("patientHeal", "1")
+		WorldOps.set_trigger("patient_tr1", 1)
+		WorldOps.close_quest("patientHeal", "1")
 		Story.show_quest("patientHeal", "2")
 		Story.show_quest("patientHeal", "3")
 	refresh()

@@ -1,6 +1,6 @@
 # Architecture refactoring plan
 
-It prepares the code for five goals without building them. R0, R1 and R2 are done (what was built: `IMPLEMENTED.md`); next are R3 and R6.
+It prepares the code for five goals without building them. R0 to R3 are done (what was built: `IMPLEMENTED.md`); next are R4 and R6.
 
 - **MP**: online co-op ready (no networking yet). Feature plan: `MULTIPLAYER_PLAN.md`.
 - **FL**: liquid and gas simulation. Feature plan: `TODO.md` §12.5.
@@ -47,17 +47,18 @@ Rules for every step:
 
 Follows `MULTIPLAYER_PLAN.md` steps 2–4 and 8; listed here for order.
 
-1. **Character object.** HP, magic, organs, inventory, worn items, progression, effects, pets, magic binds and favourites move to `Character` on the player entity. The autoloads become facades over `Run.local_player().character`, so call sites change gradually. Saves are the run document per character. L, high.
-2. **PlayerCommand per player.** `LocalInput` already builds one command per tick for the local player. Key commands by player id so a remote or replayed command can drive a second player. S–M, low.
-3. **World operations.** One function per world change (`open_door`, `take_loot`, `damage`, `kill`, `set_trigger`, `trade`, `travel`, `break_cell`, `set_water`), each taking entity ids. Callers: `land_props`, `lock_use`, `held_prop`, `ground_loot`, `loot_roll`, `bullet`, `ScriptsEngine`, `Travel`, `Vendors`, `Stash`. This is also the hook for mods and for fluids reacting to doors and walls. L, medium.
-4. **Pause policy.** Single player keeps pausing the tree. Add a per-player busy flag (PipBuck, SATS, dialogue, trade) so a later mode can keep the world running. The SATS and loot rules wait for the user decisions at the end of `MULTIPLAYER_PLAN.md`. S, low.
-5. **Authority flag.** Each entity has `authority` (true in single player); simulation branches on it, presentation does not. S–M, low.
+Steps 1–5 are done. What `MULTIPLAYER_PLAN.md` step 8 still wires, each in one place:
+
+- **Second player's state.** `Run.character(pid)` already makes one per player. Code that should act on any player (damage, pickup, trade) switches from the autoload facades to `player.character()` / `Run.character(WorldOps.actor)`; the facades stay for the local UI.
+- **SATS and loot rules** (user decisions at the end of `MULTIPLAYER_PLAN.md`). SATS: the `sats` entry in `Sim.PLAYER_REASONS` with `Sim.pause_world` decides whether it stops the world. Loot: `WorldOps.take_loot(drop, pid)` reaches `ground_loot.pickup` / `land_props.grant_dropped` with `WorldOps.actor` set; the rule goes there.
+- **Network.** Connect `WorldOps.requested` (client to host) and `LocalInput.set_command` (remote input); set `WorldOps.authority` and entity `authority` false on clients.
+- **Water** reacting to doors and walls listens to `WorldOps.applied` (R4.3).
 
 ## R4. Cell grid (FL)
 
 1. **`map/room_grid.gd`.** One record per room: `solid`, `water` and `gas` `PackedByteArray`s of 48×25. Water is built from today's `wmask`. `RoomFlags.water_at` / `in_water` / `water_y` read the grid; callers do not change. S, low.
 2. **Water writes through the grid.** `water_flow._write` and `restore` call `set_water(cell, 0|1)`. The `"water"` land flag format, `redraw_water` and the `water_changed` group stay. S, low.
-3. **Solids from the world.** Fill `solid` from `wall_span` live cells and closed doors. `note_broken`, door open/close and breakage call `World.break_cell` / `set_door` (R3.3), which mark the grid and wake water. Today doors never notify water. M, medium.
+3. **Solids from the world.** Fill `solid` from `wall_span` live cells and closed doors. `note_broken`, door open/close and breakage go through `WorldOps.break_cell` / `open_door`; listen to `WorldOps.applied` to mark the grid and wake water. Today doors never notify water. M, medium.
 4. **Gas sources on the grid.** `rad_source`, cloud boxes and room `rad` keep their damage rules but also write density into `gas` (read by nothing yet). `area_fx` stays rect-based. S, low.
 5. **Contract doc** in `ARCHITECTURE.md`: water byte 255 means full; `water_at` thresholds the level; save stays the binary delta until the switch is on. Then `TODO.md` §12.5 plugs a simulator into `Sim` for active rooms behind one off-by-default switch.
 

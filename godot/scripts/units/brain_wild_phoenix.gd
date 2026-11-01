@@ -40,23 +40,23 @@ func use_object(from_timer: bool) -> void:
 			hold.begin_use_timer(u)
 		return
 	if not quest_ok:
-		Story.add_quest("tamePhoenix")
+		WorldOps.add_quest("tamePhoenix")
 	var p := player_node()
 	if p != null:
 		storona = -1.0 if u.global_position.x > p.global_position.x else 1.0
 	if Inventory.count("radcookie") > 0:
-		Story.inc_quests("tame_ph")
+		WorldOps.inc_quests("tame_ph")
 		Inventory.spend("radcookie", 1)
-		Travel.set_trigger("tame", int(_trigger("tame")) + 1)
+		WorldOps.set_trigger("tame", int(_trigger("tame")) + 1)
 		if int(_trigger("tame")) >= FEEDS and int(_trigger("pet_phoenix")) == 0:
-			Travel.set_trigger("pet_phoenix", 1)
+			WorldOps.set_trigger("pet_phoenix", 1)
 			ScriptsEngine.run_script("tamePhoenix", u)
 		else:
 			_scare()
 			_mess("phoenixFeed2")
 	else:
 		_mess("phoenixFeed1")
-	Travel.set_trigger("frag_" + id, 0)
+	WorldOps.set_trigger("frag_" + id, 0)
 
 
 func command(com: String, _val: String = "") -> void:
@@ -87,8 +87,8 @@ func control() -> void:
 		_scare()
 		return
 	if not quest_ok and _under_cursor():
-		Travel.set_trigger("frag_" + id, 0)
-		Story.add_quest("tamePhoenix")
+		WorldOps.set_trigger("frag_" + id, 0)
+		WorldOps.add_quest("tamePhoenix")
 		quest_ok = true
 
 
@@ -110,8 +110,8 @@ func _scare() -> void:
 	var host := u.get_tree().get_first_node_in_group("land_props")
 	var acts: Variant = u.get("die_actions")
 	if host != null and host.has_method("run_actions") and acts is Array and not (acts as Array).is_empty():
-		host.run_actions(acts)
-	Travel.set_trigger("frag_" + id, 0)
+		WorldOps.run_actions(host, acts)
+	WorldOps.set_trigger("frag_" + id, 0)
 	u.queue_free()
 
 

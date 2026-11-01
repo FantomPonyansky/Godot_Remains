@@ -11,6 +11,7 @@ const _UNITS := "res://assets/sprites/sheets/units/"
 
 var eid := ""
 var kind: StringName = &"prop"
+var authority: bool = true
 var faction := 0
 var _fields_live := false
 var _field_set: Dictionary = {}

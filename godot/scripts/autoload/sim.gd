@@ -38,7 +38,14 @@ var run_tick := 0
 
 signal pause_changed(on: bool)
 
+## Reasons that come from one player's screen. They mark that player busy and
+## pause the world only while pause_world is on (single player).
+const PLAYER_REASONS: Array[StringName] = [&"pipbuck", &"menu", &"sats", &"dialogue", &"stand", &"craft", &"wheel"]
+
+var pause_world := true
 var _reasons: Dictionary = {}
+## player id (0 is the local player) -> {reason: true}
+var _busy: Dictionary = {}
 var _was_paused := false
 var _subs: Array = []
 var _acc := 0.0
@@ -92,19 +99,40 @@ func paused() -> bool:
 
 
 ## on adds reason, off removes it. The game stays paused while any reason remains.
-func set_paused(on: bool, reason: StringName) -> void:
+## A PLAYER_REASONS reason also marks player pid busy.
+func set_paused(on: bool, reason: StringName, pid := 0) -> void:
 	if reason == &"":
 		return
-	if on:
+	var own := PLAYER_REASONS.has(reason)
+	if own:
+		var mine: Dictionary = _busy.get(pid, {})
+		if on:
+			mine[reason] = true
+		else:
+			mine.erase(reason)
+		if mine.is_empty():
+			_busy.erase(pid)
+		else:
+			_busy[pid] = mine
+	var hold := on
+	if own:
+		hold = pause_world and _busy.values().any(func(s: Dictionary) -> bool: return s.has(reason))
+	if hold:
 		_reasons[reason] = true
 	else:
 		_reasons.erase(reason)
 	_sync_pause()
 
 
+## True while player pid has a screen open (PipBuck, SATS, dialogue, trade...).
+func busy(pid := 0) -> bool:
+	return _busy.has(pid)
+
+
 ## Drops every reason. Leaving for the menu, loading a slot, or the editor.
 func clear_paused() -> void:
 	_reasons.clear()
+	_busy.clear()
 	_sync_pause()
 
 

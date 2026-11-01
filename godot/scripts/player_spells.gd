@@ -164,7 +164,7 @@ func _tick_throw_wall(_delta: float, pre_v: Vector2) -> void:
 			continue
 		t_throw = 0
 		var dam := v.length() / 12.0 * dam_wall
-		p.take_hit(HitInfo.make(int(round(dam)), "DAM_BLUNT"))
+		WorldOps.damage(p, HitInfo.make(int(round(dam)), "DAM_BLUNT"))
 		var half := (p.CROUCH_SIZE if p._sit else p.BODY_SIZE) * 0.5
 		var at := p.global_position + Vector2(-n.x * half.x, -half.y - n.y * half.y)
 		Fx.particles("bum", at, {"source": p})
@@ -333,12 +333,12 @@ func _tick_port(held: bool, cursor: Vector2, _delta: float) -> void:
 	if _port_cut:
 		_port_cut = held
 		held = false
-	elif held and LocalInput.just_pressed(&"shoot"):
+	elif held and LocalInput.just_pressed(&"shoot", p.pid):
 		_port_cut = true
 		_port_shot_cut = true
 		_t_port = 0
 		held = false
-	if held and not LocalInput.held(&"interact") and not Travel.can_travel_here():
+	if held and not LocalInput.held(&"interact", p.pid) and not Travel.can_travel_here():
 		if can and not _spell_culd.has("port"):
 			_t_port += Sim.frame_steps
 	else:
@@ -532,7 +532,7 @@ func _tick_magic_channel() -> void:
 			drain += sqrt(m) * Progression.tele_mult()
 	if p._move._levitating:
 		drain += Progression.levit_dmana()
-		if LocalInput.held(&"aim_up"):
+		if LocalInput.held(&"aim_up", p.pid):
 			drain += Progression.levit_dmana_up()
 	GameState.channel(drain, p._move._levitating)
 
@@ -751,7 +751,7 @@ func _try_tele_use(cursor: Vector2) -> void:
 	if target.has_method("collect"):
 		target.collect()
 	elif target.has_method("pickup"):
-		target.pickup()
+		WorldOps.take_loot(target)
 
 func _pick_aimed(cursor: Vector2, groups: Array, radius: float, snap: float, for_use: bool) -> Node2D:
 	var best: Node2D = null
@@ -1323,7 +1323,7 @@ func _crystal_held() -> bool:
 		return false
 	if MagicBinds != null and MagicBinds.is_held("sp_cryst"):
 		return true
-	return str(Inventory.spell_id) == "sp_cryst" and LocalInput.held(&"cast_spell")
+	return str(Inventory.spell_id) == "sp_cryst" and LocalInput.held(&"cast_spell", p.pid)
 
 func _crystal_spell() -> Dictionary:
 	var spell: Dictionary = _spellbook.get("sp_cryst", {})

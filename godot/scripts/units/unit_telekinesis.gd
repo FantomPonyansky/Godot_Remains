@@ -227,7 +227,7 @@ func step_thrown() -> void:
 	var size: Vector2 = owner.call("_body_size", p)
 	var pc: Vector2 = owner.call("_body_center", p)
 	if box.intersects(Rect2(pc - size * 0.5, size)):
-		p.take_hit(HitInfo.make(int(round(float(_thrown.get("massa")) * (vel2 - 50.0) * BOX_DAMAGE)), "DAM_BLUNT", _thrown))
+		WorldOps.damage(p, HitInfo.make(int(round(float(_thrown.get("massa")) * (vel2 - 50.0) * BOX_DAMAGE)), "DAM_BLUNT", _thrown))
 		_thrown = null
 
 

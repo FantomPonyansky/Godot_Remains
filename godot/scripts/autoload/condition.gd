@@ -14,13 +14,32 @@ const NO_WEAR := ["DAM_VENOM", "DAM_EMP", "DAM_POISON", "DAM_BLEED", "DAM_INTERN
 var _weapons: Dictionary = {}
 var _armors: Dictionary = {}
 var _ammo_wear: Dictionary = {}
-var _hp: Dictionary = {}
-var _armor_lvl: Dictionary = {}
+const _ConditionState := preload("res://scripts/character/condition_state.gd")
+var _condition_ref: _ConditionState
+
+## This autoload's fields live on Run.character().condition; the properties below forward there.
+func _condition() -> _ConditionState:
+	if _condition_ref == null:
+		_condition_ref = Run.character().condition
+	return _condition_ref
+
+var _hp: Dictionary:
+	get: return _condition()._hp
+	set(value): _condition()._hp = value
+var _armor_lvl: Dictionary:
+	get: return _condition()._armor_lvl
+	set(value): _condition()._armor_lvl = value
 var _dirty := false
 var _save_wait := 0.0
-var _shot_ok := false
-var _wore_shot := false
-var _said: Dictionary = {}
+var _shot_ok: bool:
+	get: return _condition()._shot_ok
+	set(value): _condition()._shot_ok = value
+var _wore_shot: bool:
+	get: return _condition()._wore_shot
+	set(value): _condition()._wore_shot = value
+var _said: Dictionary:
+	get: return _condition()._said
+	set(value): _condition()._said = value
 var _label: Label
 
 

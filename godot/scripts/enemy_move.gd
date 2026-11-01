@@ -739,7 +739,7 @@ func _open_door_ahead() -> void:
 		return
 	var doors: Variant = host.get("_doors")
 	if doors is Array and (doors as Array).has(door):
-		host.call("_apply_door", door, true)
+		WorldOps.open_door(door, true)
 
 
 

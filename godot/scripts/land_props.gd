@@ -380,28 +380,27 @@ func script_command(node: Node, act: String, val: String) -> void:
 	match act:
 		"open":
 			if _doors.has(node) or node.has_meta("door_id"):
-				body_lock(node, 0.0)
-				_apply_door(node, true)
+				WorldOps.unlock(node)
+				WorldOps.open_door(node, true)
 			elif _loot.has(node):
-				_open_loot(node)
+				WorldOps.open_container(node)
 		"close":
 			if _doors.has(node) or node.has_meta("door_id"):
-				_apply_door(node, false)
+				WorldOps.open_door(node, false)
 		"swap":
-			_apply_door(node, not bool(_PS.getv(node, "door_open", false)))
+			WorldOps.open_door(node, not bool(_PS.getv(node, "door_open", false)))
 		"unlock":
-			body_lock(node, 0.0)
+			WorldOps.unlock(node)
 		"hack":
 			if bool(_PS.getv(node, "hackable", false)):
-				body_lock(node, 0.0)
+				WorldOps.unlock(node)
 		"dam":
 			if _hazards.values().has(node) and node.has_method("take_hit"):
-				node.take_hit(HitInfo.plain(999))
+				WorldOps.damage(node, HitInfo.plain(999))
 			elif _buttons.has(node):
-				_on_button(node)
+				WorldOps.press_button(node)
 		"die":
-			if node.has_method("take_hit"):
-				node.take_hit(HitInfo.plain(999))
+			WorldOps.kill(node)
 		"off":
 			_PS.put(node, "usable", false)
 		"sign":
@@ -557,9 +556,9 @@ func _add_trip(node: Node, damage: int) -> void:
 		if not is_instance_valid(node) or not body.is_in_group("player"):
 			return
 		if body.has_method("take_hit"):
-			body.take_hit(HitInfo.plain(float(damage), node))
+			WorldOps.damage(body, HitInfo.plain(float(damage), node))
 		if node.has_method("take_hit"):
-			node.take_hit(HitInfo.plain(999, body))
+			WorldOps.damage(node, HitInfo.plain(999, body))
 	)
 	node.add_child(trip)
 
@@ -633,7 +632,7 @@ func _trap_touch(area: Area2D, body: Node) -> void:
 	if amount <= 0.0:
 		return
 	_PS.put(area, "cool", 1.0)
-	body.take_hit(HitInfo.plain(int(round(amount)), area))
+	WorldOps.damage(body, HitInfo.plain(int(round(amount)), area))
 
 
 func _spawn_loot(rows: Array) -> void:
@@ -1089,19 +1088,19 @@ func _interact() -> void:
 	elif kind == "button":
 		if _box_touch(best) or _hold_for_roll(best):
 			return
-		if not _pass_lock(best):
+		if not WorldOps.pick_lock(best):
 			return
 		_box_act(best)
-		_run_terminal(best)
+		WorldOps.use_terminal(best)
 	elif kind == "drop":
 		if best.has_method("pickup"):
-			best.pickup()
+			WorldOps.take_loot(best)
 	elif kind == "passage":
-		_go_through(best)
+		WorldOps.pass_through(best)
 	elif kind == "use":
 		use_prop(best)
 	else:
-		_open_loot(best)
+		WorldOps.open_container(best)
 
 
 func use_prop(node: Node) -> bool:
@@ -1111,34 +1110,34 @@ func use_prop(node: Node) -> bool:
 		_use_door(node)
 		return true
 	if _passages.has(node):
-		_go_through(node)
+		WorldOps.pass_through(node)
 		return true
 	if _uses.has(node):
 		if _hold_for_roll(node):
 			return true
 		if int(_PS.getv(node, "mine", 0)) > 0 or float(_PS.getv(node, "lock", 0.0)) > 0.0 or _PS.hasv(node, "fun"):
-			_pass_lock(node)
+			WorldOps.pick_lock(node)
 			return true
 		if node.has_meta("cont") and not _RoomFlags.allows("containers", _point_of(node)):
 			return true
-		_use_object(node, false)
+		WorldOps.use_object(node, false)
 		return true
 	if _buttons.has(node):
 		if _box_touch(node) or _hold_for_roll(node) or _hold_for_time(node):
 			return true
-		if not _pass_lock(node):
+		if not WorldOps.pick_lock(node):
 			return true
-		_on_button(node)
+		WorldOps.press_button(node)
 		return true
 	if _loot.has(node):
-		_open_loot(node)
+		WorldOps.open_container(node)
 		return true
 	if node.is_in_group("ground_loot") and node.has_method("pickup"):
-		node.pickup()
+		WorldOps.take_loot(node)
 		return true
 	# A floor box you can already lift is the same container walk-up opens.
 	if node.is_in_group("levitatable") and not node.is_in_group("enemies"):
-		_open_loot(node)
+		WorldOps.open_container(node)
 		return true
 	return false
 
@@ -1150,17 +1149,17 @@ func commit_use(node: Node) -> void:
 		_use_door(node, true)
 	elif _uses.has(node):
 		if int(_PS.getv(node, "mine", 0)) > 0 or float(_PS.getv(node, "lock", 0.0)) > 0.0:
-			_pass_lock(node)
+			WorldOps.pick_lock(node)
 		else:
-			_use_object(node, true)
+			WorldOps.use_object(node, true)
 	elif _buttons.has(node):
-		if not _pass_lock(node):
+		if not WorldOps.pick_lock(node):
 			return
-		_on_button(node)
+		WorldOps.press_button(node)
 	elif _loot.has(node):
-		_open_loot(node, true)
+		WorldOps.open_container(node, true)
 	elif _passages.has(node):
-		_go_through(node, true)
+		WorldOps.pass_through(node, true)
 
 
 func _hold_for_roll(node: Node) -> bool:
@@ -1190,7 +1189,7 @@ func _use_door(body: Node, from_timer: bool = false) -> void:
 	if _wooden_wall(body):
 		return
 	if bool(_PS.getv(body, "door_open", false)):
-		_apply_door(body, false)
+		WorldOps.open_door(body, false)
 		return
 	if not from_timer and _hold_for_roll(body):
 		return
@@ -1199,12 +1198,11 @@ func _use_door(body: Node, from_timer: bool = false) -> void:
 		if player and player.has_method("begin_use_timer"):
 			player.begin_use_timer(body)
 			return
-	if not _pass_lock(body):
+	if not WorldOps.pick_lock(body):
 		return
 	# Opening clears the lock, same as Interact.setAct("open").
-	_PS.put(body, "lock", 0.0)
-	_apply_door(body, true)
-	_run_terminal(body)
+	WorldOps.open_door(body, true, 0.0)
+	WorldOps.use_terminal(body)
 
 
 func _player_rect(player: Node2D) -> Rect2:
@@ -1255,7 +1253,7 @@ func _open_loot(crate: Node, from_timer: bool = false) -> void:
 		return
 	if not from_timer and (_box_touch(crate) or _hold_for_roll(crate) or _hold_for_time(crate)):
 		return
-	if not _pass_lock(crate):
+	if not WorldOps.pick_lock(crate):
 		return
 	_PS.put(crate, "spent", true)
 	_PS.put(crate, "opened", true)
@@ -1266,7 +1264,7 @@ func _open_loot(crate: Node, from_timer: bool = false) -> void:
 	if spilled == 0 and not term:
 		_notice(OriginalLines.info("itsEmpty"))
 	run_actions(crate.get_meta("actions", []), "", crate)
-	_run_terminal(crate)
+	WorldOps.use_terminal(crate)
 
 
 func _show_opened(crate: Node) -> void:
@@ -1365,9 +1363,9 @@ func blast_boxes(center: Vector2, radius: float, destroy: float) -> void:
 		if not _box_in_blast(crate as Node2D, center, reach):
 			continue
 		if _explodes_open(crate):
-			damage_box(crate, destroy)
+			WorldOps.damage_object(crate, destroy)
 		else:
-			break_crate(crate, destroy)
+			WorldOps.break_object(crate, destroy)
 
 
 func _box_in_blast(crate: Node2D, center: Vector2, reach: float) -> bool:
@@ -1450,7 +1448,7 @@ func _grant(id: String, n: int, lines: PackedStringArray, mult_hp := 1.0) -> voi
 	# Invent.take: a weapon already owned mends it, a ^1 copy upgrades the plain one.
 	if not Vendors.weapon_data(base).is_empty() and Vendors.owned_variant(base) >= 0 \
 			and (Inventory.count(base) > 0 or Inventory.count(base + "^1") > 0):
-		Vendors.take_weapon(id, mult_hp, 0)
+		WorldOps.take_weapon(id, mult_hp, 0)
 		collected_item(id, false)
 		return
 	if _Loot.is_single(id):
@@ -1475,6 +1473,11 @@ func _set_door(uid: String, is_open: bool, lock: float) -> void:
 	var body: Node = _by_uid.get(uid)
 	if body == null:
 		return
+	WorldOps.open_door(body, is_open, lock)
+
+
+## WorldOps.open_door lands here.
+func door_op(body: Node, is_open: bool, lock: float) -> void:
 	if lock >= 0.0:
 		_PS.put(body, "lock", lock)
 	_apply_door(body, is_open)
@@ -2065,7 +2068,7 @@ func _go_through(node: Node, from_timer: bool = false) -> void:
 	var player := Run.local_player() as CharacterBody2D
 	if player == null:
 		return
-	if float(_PS.getv(node, "lock", 0.0)) > 0.0 and not _pass_lock(node):
+	if float(_PS.getv(node, "lock", 0.0)) > 0.0 and not WorldOps.pick_lock(node):
 		return
 	if not from_timer and int(_PS.getv(node, "act_time", 0)) > 0 and player.has_method("begin_use_timer"):
 		player.begin_use_timer(node)
@@ -2333,7 +2336,7 @@ func room_power(at: Vector2, on: bool) -> void:
 		if _PS.hasv(node, "usable") and not _wooden_wall(node):
 			_PS.put(node, "usable", true)
 		if _doors.has(node) and int(_PS.getv(node, "locktip", 0)) == 4:
-			_apply_door(node, false)
+			WorldOps.open_door(node, false)
 
 
 ## Location.robocellActivate (script robots): each robocell of the room at a

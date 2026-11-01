@@ -17,7 +17,12 @@ class PlayerCommand:
 	var aim := Vector2.ZERO
 
 
+## The local player's command for this tick.
 var command := PlayerCommand.new()
+## player id -> PlayerCommand for players not on this device (remote, replayed).
+## The local player never has an entry; a player without one gets an empty command.
+var commands: Dictionary = {}
+var _none := PlayerCommand.new()
 
 var _actions: Array[StringName] = []
 var _live_held: Dictionary = {}
@@ -112,7 +117,12 @@ func _physics_process(_delta: float) -> void:
 		_freeze()
 
 
-func held(action: StringName) -> bool:
+## pid 0 or the local player's id reads this device. Any other id reads
+## commands[pid] in every frame.
+func held(action: StringName, pid := 0) -> bool:
+	var other := _other(pid)
+	if other != null:
+		return bool(other.held.get(action, false))
 	# Physics reads the frozen command. UI and _process (the weapon wheel,
 	# a PipBuck favourite assign) read the device, which already includes
 	# a PadGestures inject from this frame.
@@ -121,7 +131,10 @@ func held(action: StringName) -> bool:
 	return bool(_live_held.get(action, false))
 
 
-func just_pressed(action: StringName) -> bool:
+func just_pressed(action: StringName, pid := 0) -> bool:
+	var other := _other(pid)
+	if other != null:
+		return bool(other.pressed.get(action, false))
 	if Engine.is_in_physics_frame():
 		return bool(command.pressed.get(action, false))
 	_idle_seen_gen = _edge_gen
@@ -129,7 +142,10 @@ func just_pressed(action: StringName) -> bool:
 	return bool(_idle_pressed.get(action, false))
 
 
-func just_released(action: StringName) -> bool:
+func just_released(action: StringName, pid := 0) -> bool:
+	var other := _other(pid)
+	if other != null:
+		return bool(other.released.get(action, false))
 	if Engine.is_in_physics_frame():
 		return bool(command.released.get(action, false))
 	_idle_seen_gen = _edge_gen
@@ -137,12 +153,34 @@ func just_released(action: StringName) -> bool:
 	return bool(_idle_released.get(action, false))
 
 
-func axis(neg: StringName, pos: StringName) -> float:
-	return float(command.strength.get(pos, 0.0)) - float(command.strength.get(neg, 0.0))
+func axis(neg: StringName, pos: StringName, pid := 0) -> float:
+	var c := command_of(pid)
+	return float(c.strength.get(pos, 0.0)) - float(c.strength.get(neg, 0.0))
 
 
-func aim() -> Vector2:
-	return command.aim
+func aim(pid := 0) -> Vector2:
+	return command_of(pid).aim
+
+
+## The command player pid acts on this tick.
+func command_of(pid: int) -> PlayerCommand:
+	var other := _other(pid)
+	return other if other != null else command
+
+
+## Sets the command a non-local player acts on until the next set.
+func set_command(pid: int, cmd: PlayerCommand) -> void:
+	commands[pid] = cmd
+
+
+func drop_command(pid: int) -> void:
+	commands.erase(pid)
+
+
+func _other(pid: int) -> PlayerCommand:
+	if pid == 0 or pid == Run.local_id():
+		return null
+	return commands.get(pid, _none)
 
 
 func _freeze() -> void:

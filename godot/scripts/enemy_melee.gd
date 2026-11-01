@@ -77,7 +77,7 @@ func _deliver_strike() -> void:
 		return
 	if u._player.has_method("take_hit") and not _player_dodges():
 		_udar_fx(u._weapons._bullet_type)
-		u._player.take_hit(HitInfo.melee_hit(melee_damage, u))
+		WorldOps.damage(u._player, HitInfo.melee_hit(melee_damage, u))
 	if u._zlo > 0.0 and u._rage > 80.0:
 		u._rage = maxf(0.0, u._rage - 25.0)
 
@@ -152,7 +152,7 @@ func _ram_hit() -> void:
 	if u._player.has_method("take_hit") and not _player_dodges():
 		var dmg := _body_damage if _body_damage > 0 else melee_damage
 		_udar_fx(u._weapons._bullet_type)
-		u._player.take_hit(HitInfo.melee_hit(dmg, u))
+		WorldOps.damage(u._player, HitInfo.melee_hit(dmg, u))
 	if _bite_hop > 0.0 and u.is_on_floor():
 		u._move._do_jump(_bite_hop)
 
@@ -168,7 +168,7 @@ func _body_bite() -> void:
 	_body_cd = u._ticks(10.0 / u.TPS)
 	if u._player.has_method("take_hit") and not _player_dodges():
 		_udar_fx("DAM_BITE")
-		u._player.take_hit(HitInfo.melee_hit(_body_damage, u, "DAM_BITE"))
+		WorldOps.damage(u._player, HitInfo.melee_hit(_body_damage, u, "DAM_BITE"))
 
 func _maybe_smash() -> void:
 	if not _smash or not u.wall_check.is_colliding():
@@ -180,5 +180,5 @@ func _maybe_smash() -> void:
 	var body := u.wall_check.get_collider()
 	if body is Node and (body as Node).has_method("take_hit"):
 		var dmg := 5000 if u.hp <= int(round(float(u.max_hp) * 0.3)) else 1000
-		(body as Node).take_hit(HitInfo.melee_hit(dmg, u, "DAM_BLUNT"))
+		WorldOps.damage((body as Node), HitInfo.melee_hit(dmg, u, "DAM_BLUNT"))
 

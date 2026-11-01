@@ -98,7 +98,7 @@ class Quest:
 			trigger = str(data.trigger)
 			trigger_set = str(data.get("triggerset", "1"))
 			if state == 2 and Travel.trigger(trigger) == null:
-				Travel.set_trigger(trigger, trigger_set)
+				WorldOps.set_trigger(trigger, trigger_set)
 		if load_obj.has("invis"):
 			invis = bool(load_obj.invis)
 		if not sub:
@@ -281,7 +281,7 @@ class Quest:
 		if rep != 0:
 			story.rep += rep
 		if trigger != "":
-			Travel.set_trigger(trigger, trigger_set)
+			WorldOps.set_trigger(trigger, trigger_set)
 		story.give_rows(xml.get("reward", []))
 		if sub:
 			story.info("doneStage", nazv())
@@ -308,6 +308,11 @@ var _item_data: Dictionary = {}
 
 
 func _ready() -> void:
+	WorldOps.handle(&"add_quest", add_quest)
+	WorldOps.handle(&"close_quest", close_quest)
+	WorldOps.handle(&"inc_quests", inc_quests)
+	WorldOps.handle(&"add_note", add_note)
+	WorldOps.handle(&"set_npc_rep", set_npc_rep)
 	_quest_data = _read(QUESTS_PATH)
 	_npc_data = _read(NPCS_PATH)
 	_item_data = _read(ITEMS_PATH)
@@ -530,7 +535,7 @@ func give_items(npc: String) -> bool:
 func add_note(id: String) -> void:
 	if Travel.trigger("note_" + id) != null and notes.has(id):
 		return
-	Travel.set_trigger("note_" + id, 1)
+	WorldOps.set_trigger("note_" + id, 1)
 	if notes.has(id):
 		return
 	notes.append(id)
@@ -587,7 +592,7 @@ func give_rows(rows: Variant) -> void:
 		if row.has("id"):
 			give_reward(str(row.id), int(row.get("kol", -1)))
 		if row.has("trigger"):
-			Travel.set_trigger(str(row.trigger), str(row.set) if row.has("set") else 1)
+			WorldOps.set_trigger(str(row.trigger), str(row.set) if row.has("set") else 1)
 
 
 ## ItemInteraction.giveReward: take(item, 2) with the reward line.

@@ -17,19 +17,50 @@ const RECALL_HOLD := 20
 const ACTION := "pet_command"
 const ORDER_PICK := 30.0
 
-var current := ""
-var ret_pet := ""
-var no_pet := 0
-var no_pet2 := 0
-## UnitPet hp / maxhp per id; sost 4 is a pet that is down or not out.
-var proc := {"phoenix": 1.0, "owl": 1.0}
-var down := {"phoenix": true, "owl": true}
-var pet: CharacterBody2D = null
+const _PetsState := preload("res://scripts/character/pets_state.gd")
+var _pets_ref: _PetsState
 
-var _k_pet := 0
-var _held_out := false
-var _pet_on := true
-var _fresh_call := false
+## This autoload's fields live on Run.character().pets; the properties below forward there.
+func _pets() -> _PetsState:
+	if _pets_ref == null:
+		_pets_ref = Run.character().pets
+	return _pets_ref
+
+var current: String:
+	get: return _pets().current
+	set(value): _pets().current = value
+var ret_pet: String:
+	get: return _pets().ret_pet
+	set(value): _pets().ret_pet = value
+var no_pet: int:
+	get: return _pets().no_pet
+	set(value): _pets().no_pet = value
+var no_pet2: int:
+	get: return _pets().no_pet2
+	set(value): _pets().no_pet2 = value
+## UnitPet hp / maxhp per id; sost 4 is a pet that is down or not out.
+var proc: Dictionary:
+	get: return _pets().proc
+	set(value): _pets().proc = value
+var down: Dictionary:
+	get: return _pets().down
+	set(value): _pets().down = value
+var pet: CharacterBody2D:
+	get: return _pets().pet
+	set(value): _pets().pet = value
+
+var _k_pet: int:
+	get: return _pets()._k_pet
+	set(value): _pets()._k_pet = value
+var _held_out: bool:
+	get: return _pets()._held_out
+	set(value): _pets()._held_out = value
+var _pet_on: bool:
+	get: return _pets()._pet_on
+	set(value): _pets()._pet_on = value
+var _fresh_call: bool:
+	get: return _pets()._fresh_call
+	set(value): _pets()._fresh_call = value
 var _hud_seen: Node = null
 
 

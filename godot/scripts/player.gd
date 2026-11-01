@@ -260,7 +260,16 @@ var _sit: bool:
 # contact scan, unless the hit is contact and names its source.
 var _hit_knock: Vector2 = Vector2.ZERO
 var eid: String = ""
+## Run player id; input reads pass it to LocalInput.
+var pid: int = 0
+
+
+## This player's state (health, bag, effects...). The autoload facades read
+## the local player's; code that must work for any player reads this.
+func character() -> RefCounted:
+	return Run.character(pid)
 var kind: StringName = &"player"
+var authority: bool = true
 var faction: int = 100
 var _use_node: Node = null
 var _use_left: int = 0
@@ -450,7 +459,7 @@ func _spend(ticks: int) -> int:
 
 
 func _physics_process(delta: float) -> void:
-	if GameState.paused or _WorkAnim.blocks_input(self):
+	if GameState.paused or _WorkAnim.blocks_input(self) or not authority:
 		return
 
 	_physics_cooldowns(delta)
@@ -464,16 +473,16 @@ func _physics_process(delta: float) -> void:
 	if not GameState.attack_allowed() and not _weapon().is_empty():
 		_weapons_c.holster()
 
-	var move_x := LocalInput.axis(&"move_left", &"move_right")
+	var move_x := LocalInput.axis(&"move_left", &"move_right", pid)
 	if GameState.controls_swapped():
 		move_x = -move_x
-	var move_y := LocalInput.axis(&"aim_up", &"aim_down")
+	var move_y := LocalInput.axis(&"aim_up", &"aim_down", pid)
 	var key_left := move_x < -0.2
 	var key_right := move_x > 0.2
 	var on_ladder := _move._ladder_count > 0
 	# A press that ended before this tick still hops for this one tick.
-	var jump_held := LocalInput.held(&"jump") or LocalInput.just_pressed(&"jump")
-	var jump_just := LocalInput.just_pressed(&"jump")
+	var jump_held := LocalInput.held(&"jump", pid) or LocalInput.just_pressed(&"jump", pid)
+	var jump_just := LocalInput.just_pressed(&"jump", pid)
 	# pinok > 60 clears keyJump. The hold stays cut until the key comes up.
 	if _move._jump_cut:
 		if jump_held:
@@ -481,9 +490,9 @@ func _physics_process(delta: float) -> void:
 			jump_just = false
 		else:
 			_move._jump_cut = false
-	var tk_held := LocalInput.held(&"telekinesis") or LocalInput.just_pressed(&"telekinesis")
-	var down := LocalInput.held(&"aim_down")
-	var up := LocalInput.held(&"aim_up")
+	var tk_held := LocalInput.held(&"telekinesis", pid) or LocalInput.just_pressed(&"telekinesis", pid)
+	var down := LocalInput.held(&"aim_down", pid)
+	var up := LocalInput.held(&"aim_up", pid)
 	# A foe's Telekinesis.hold steers velocity. UnitPlayer.forces skips walking,
 	# gravity and the 0.8 levit drag while teleHolder is set; jump only counts levit down.
 	var tele_held := _spells._tick_held(jump_just)
@@ -531,9 +540,9 @@ func _physics_weapon_keys(delta: float) -> void:
 	_weapons_c._tick_weapon_change(delta)
 	if _weapons_c._chw_left > 0.0 or rat or Effects.attack_forever():
 		pass
-	elif LocalInput.just_pressed(&"weapon_next"):
+	elif LocalInput.just_pressed(&"weapon_next", pid):
 		_weapons_c._cycle_weapon(1)
-	elif LocalInput.just_pressed(&"weapon_prev"):
+	elif LocalInput.just_pressed(&"weapon_prev", pid):
 		_weapons_c._cycle_weapon(-1)
 	else:
 		_weapons_c._poll_quick_slots()
@@ -575,7 +584,7 @@ func _physics_finish(delta: float, tk_held: bool, cursor: Vector2, tele_held: bo
 	var cursor_aim := aim_dir
 	if _spells._spell_cd <= 0.0:
 		# keyDef casts currentSpell, then keySpell1-4 cast their cells.
-		if Inventory != null and LocalInput.just_pressed(&"cast_spell"):
+		if Inventory != null and LocalInput.just_pressed(&"cast_spell", pid):
 			_spells._cast_quick(str(Inventory.spell_id), cursor_aim)
 		var quick := ""
 		if MagicBinds != null and MagicBinds.has_method("poll"):
@@ -607,7 +616,7 @@ func set_control_off(off: bool) -> void:
 func _cursor_world() -> Vector2:
 	if sats != null and sats.firing():
 		return sats.cel_point()
-	return LocalInput.aim()
+	return LocalInput.aim(pid)
 
 
 
@@ -784,7 +793,7 @@ func _owns_perk(id: String) -> bool:
 
 
 func _take_interact(cursor: Vector2) -> void:
-	if not LocalInput.just_pressed(&"interact"):
+	if not LocalInput.just_pressed(&"interact", pid):
 		return
 	var frame := Engine.get_process_frames()
 	if _interact_frame == frame:
@@ -867,7 +876,7 @@ func begin_use_timer(node: Node) -> void:
 func _tick_use(_delta: float) -> void:
 	if _use_node == null:
 		return
-	if not LocalInput.held(&"interact") or _use_blocked():
+	if not LocalInput.held(&"interact", pid) or _use_blocked():
 		_clear_use()
 		return
 	for _i in mini(Sim.frame_steps, 30):

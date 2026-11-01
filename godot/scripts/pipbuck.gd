@@ -1295,7 +1295,7 @@ func _on_ok() -> void:
 		_fill()
 	elif _page == INFO and int(_sub[INFO]) == 1:
 		if Vendors.in_base():
-			Vendors.take_all_tasks()
+			WorldOps.take_all_tasks()
 		_fill()
 	elif PipTrade.handles(_page):
 		_trade.ok(_page, int(_sub[_page]))

@@ -136,7 +136,7 @@ func _try_hit(foe: Node2D) -> void:
 	var sila := Rng.randf(&"combat") * 0.4 + 0.8
 	var dealt := blade_damage * sila
 	if foe.has_method("take_hit"):
-		foe.take_hit(HitInfo.melee_hit(maxi(1, int(round(dealt))), self, "DAM_CUT"))
+		WorldOps.damage(foe, HitInfo.melee_hit(maxi(1, int(round(dealt))), self, "DAM_CUT"))
 		Fx.sound("hit", global_position, {"source": self})
 	# attKorp then damages the pet for 2% as internal. Round stays under 1 at base dam.
 	hp -= blade_damage * 0.02

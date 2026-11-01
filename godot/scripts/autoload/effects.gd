@@ -73,30 +73,73 @@ const TINT_SHADOW := Color(0.25, 0.25, 0.3)
 ## land_props ROOM_W x ROOM_H tiles of TILE px: Location maxX / maxY.
 const ROOM_PX := Vector2(48 * 40, 25 * 40)
 
-var cut: float = 0.0
-var poison: float = 0.0
+const _EffectsState := preload("res://scripts/character/effects_state.gd")
+var _effects_ref: _EffectsState
+
+## This autoload's fields live on Run.character().effects; the properties below forward there.
+func _effects() -> _EffectsState:
+	if _effects_ref == null:
+		_effects_ref = Run.character().effects
+	return _effects_ref
+
+var cut: float:
+	get: return _effects().cut
+	set(value): _effects().cut = value
+var poison: float:
+	get: return _effects().poison
+	set(value): _effects().poison = value
 ## Unit.stun on the player. UnitPlayer.actions zeroes it every tick, so it never holds.
-var stun: int = 0
+var stun: int:
+	get: return _effects().stun
+	set(value): _effects().stun = value
 ## Pers.addictions, keyed by the post effect id.
-var addictions: Dictionary = {}
+var addictions: Dictionary:
+	get: return _effects().addictions
+	set(value): _effects().addictions = value
 ## game.triggers["curse"].
-var curse_trigger: int = 0
+var curse_trigger: int:
+	get: return _effects().curse_trigger
+	set(value): _effects().curse_trigger = value
 
 var _defs: Dictionary = {}
 var _items: Dictionary = {}
-var _list: Array = []
+var _list: Array:
+	get: return _effects()._list
+	set(value): _effects()._list = value
 var _units: Dictionary = {}
-var _ops: Dictionary = {}
-var _res: Dictionary = {}
-var _dirty := true
-var _t_hp := 0
-var _bleed_carry := 0.0
-var _poison_carry := 0.0
-var _fet := Vector2.ZERO
-var _tinted := false
-var _auto_attack := false
-var _vote_aim := false
-var _vote_cel := Vector2.ZERO
+var _ops: Dictionary:
+	get: return _effects()._ops
+	set(value): _effects()._ops = value
+var _res: Dictionary:
+	get: return _effects()._res
+	set(value): _effects()._res = value
+var _dirty: bool:
+	get: return _effects()._dirty
+	set(value): _effects()._dirty = value
+var _t_hp: int:
+	get: return _effects()._t_hp
+	set(value): _effects()._t_hp = value
+var _bleed_carry: float:
+	get: return _effects()._bleed_carry
+	set(value): _effects()._bleed_carry = value
+var _poison_carry: float:
+	get: return _effects()._poison_carry
+	set(value): _effects()._poison_carry = value
+var _fet: Vector2:
+	get: return _effects()._fet
+	set(value): _effects()._fet = value
+var _tinted: bool:
+	get: return _effects()._tinted
+	set(value): _effects()._tinted = value
+var _auto_attack: bool:
+	get: return _effects()._auto_attack
+	set(value): _effects()._auto_attack = value
+var _vote_aim: bool:
+	get: return _effects()._vote_aim
+	set(value): _effects()._vote_aim = value
+var _vote_cel: Vector2:
+	get: return _effects()._vote_cel
+	set(value): _effects()._vote_cel = value
 
 
 func _ready() -> void:
@@ -548,7 +591,7 @@ func _hit(unit: Node, amount: float, tip: String) -> void:
 func _unit_hit(unit: Node, amount: float, tip: String) -> void:
 	if unit.has_method("take_hit"):
 		# tt: the old _receive path (no armor). A player hit still goes through Resistances.
-		unit.take_hit(HitInfo.dot(amount, tip))
+		WorldOps.damage(unit, HitInfo.dot(amount, tip))
 
 
 ## Unit.actions periodic block: every 30 ticks sqrt(cut) as BLEED and sqrt(poison) as POISON.

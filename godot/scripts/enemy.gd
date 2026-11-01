@@ -594,6 +594,7 @@ var _loot_cont: String = ""
 var fraction: int = 0
 var eid: String = ""
 var kind: StringName = &"unit"
+var authority: bool = true
 var faction: int:
 	get:
 		return fraction
@@ -1055,7 +1056,7 @@ func _actors_live() -> bool:
 
 
 func _physics_process(delta: float) -> void:
-	if GameState.paused:
+	if GameState.paused or not authority:
 		return
 	# Loading used to tick units for a variable number of frames before the
 	# player existed. They stay put until the land and the local player are in.
@@ -2934,14 +2935,14 @@ func _hurt_radius(radius: float, damage: int, tip: String) -> void:
 		return
 	if _senses._player_valid() and global_position.distance_to(_player.global_position) <= radius:
 		if _player.has_method("take_hit"):
-			_player.take_hit(HitInfo.make(damage, tip, self))
+			WorldOps.damage(_player, HitInfo.make(damage, tip, self))
 	for node in get_tree().get_nodes_in_group("enemies"):
 		if node == self or not node is Node2D or not is_instance_valid(node):
 			continue
 		if global_position.distance_to((node as Node2D).global_position) > radius:
 			continue
 		if (node as Node).has_method("take_hit"):
-			(node as Node).take_hit(HitInfo.make(damage, tip, self))
+			WorldOps.damage((node as Node), HitInfo.make(damage, tip, self))
 
 
 ## UnitAlicorn.pole (xml pole = allid, or aiTip pole): holds a force field. It
@@ -2995,7 +2996,7 @@ func _begin_death() -> void:
 			_bloat_split(global_position)
 		# Unit.incStat: the PipBuck Enemies page kill count. UnitBloat skips tr 7-9 (king splits).
 		if _species_id != "" and not _species_id in ["bloat7", "bloat8", "bloat9"]:
-			Travel.set_trigger("frag_" + _species_id, int(Travel.triggers.get("frag_" + _species_id, 0)) + 1)
+			WorldOps.set_trigger("frag_" + _species_id, int(Travel.triggers.get("frag_" + _species_id, 0)) + 1)
 	if _brain != null:
 		_brain.drop_loot()
 	if _drop_id != "":
@@ -3007,7 +3008,7 @@ func _begin_death() -> void:
 		_pink_death = false
 	var host := get_tree().get_first_node_in_group("land_props")
 	if host and host.has_method("run_actions"):
-		host.run_actions(die_actions)
+		WorldOps.run_actions(host, die_actions)
 	if _friendly and _pet_revive:
 		_downed = true
 		hp = 0

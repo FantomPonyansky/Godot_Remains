@@ -195,6 +195,8 @@ func make(data: Dictionary, owner: Node = null, tt := false) -> StoryScript:
 func start(s: StoryScript) -> void:
 	if s == null or s.acts.is_empty():
 		return
+	if not WorldOps.applies(&"script", [s.acts]):
+		return
 	if s.on_timer:
 		s.ncom = 0
 		_com(s, s.acts[0])
@@ -273,7 +275,7 @@ func quest_unit(qid: String) -> void:
 	var data := land_item_script(current_land(), qid)
 	if not data.is_empty():
 		run(data, null, "take:%s:%s" % [current_land(), qid])
-	Story.inc_quests(qid)
+	WorldOps.inc_quests(qid)
 
 
 func land_item_script(land_id: String, item: String) -> Dictionary:
@@ -291,7 +293,7 @@ func area_over(area: Node, uid: String, steps: Array, trig: bool) -> void:
 	if trig and uid != "":
 		if _num(Travel.trigger(uid)) == 1:
 			return
-		Travel.set_trigger(uid, 1)
+		WorldOps.set_trigger(uid, 1)
 	run_steps(steps, area, "over:%d" % area.get_instance_id())
 
 
@@ -391,7 +393,7 @@ func dial_text(id: Variant, n: int, down: bool, wait: bool) -> bool:
 		var rows := StoryText.lines(id)
 		if rows.is_empty() or n >= rows.size():
 			return false
-		Story.add_note(id)
+		WorldOps.add_note(id)
 		return _box.show_line(rows[maxi(n, 0)], down, wait, alicorn)
 	if id is Dictionary:
 		return _box.show_line(id, down, wait, alicorn)
@@ -569,15 +571,15 @@ func _com_land(obj: Dictionary, act: String, val: String, n: String) -> bool:
 		"upland":
 			Travel.up_land_level()
 		"quest":
-			Story.add_quest(val)
+			WorldOps.add_quest(val)
 		"showstage":
 			Story.show_quest(val, n)
 		"show":
 			_show_on = false
 		"stage":
-			Story.close_quest(val, n)
+			WorldOps.close_quest(val, n)
 		"trigger":
-			Travel.set_trigger(val, int(n) if n.is_valid_int() else n)
+			WorldOps.set_trigger(val, int(n) if n.is_valid_int() else n)
 		"goto":
 			var parts := val.split(" ")
 			if parts.size() == 2:
@@ -594,7 +596,7 @@ func _com_land(obj: Dictionary, act: String, val: String, n: String) -> bool:
 				else:
 					Travel.goto_land(val)
 		"openland":
-			Travel.open_land(val)
+			WorldOps.travel(val)
 		"passed":
 			Travel.pass_land()
 		_:

@@ -389,12 +389,12 @@ func _on_one_way() -> bool:
 func _poll_run(delta: float) -> void:
 	# UnitPlayer isRun = keyRun: runs only while held, on the pad too.
 	# A press that was part of a kick chord does not run.
-	var held := InputMap.has_action("sprint") and LocalInput.held(&"sprint")
+	var held := InputMap.has_action("sprint") and LocalInput.held(&"sprint", p.pid)
 	if held:
 		if not _run_down:
 			_run_held_for = 0
 			# Melee already down: this press is the strong kick, not a run.
-			_run_for_kick = LocalInput.held(&"melee")
+			_run_for_kick = LocalInput.held(&"melee", p.pid)
 		_run_held_for += Sim.frame_steps
 		_run_down = true
 	elif _run_down:
@@ -725,7 +725,7 @@ func _sky_step(_delta: float, key_left: bool, key_right: bool, up: bool, down: b
 	var accel := p.ACCEL * 0.5
 	var alicorn := ScriptsEngine != null and ScriptsEngine.alicorn
 	var levidy := p.ACCEL * (0.5 if alicorn else 0.25)
-	if alicorn and LocalInput.held(&"sprint") and GameState.magic > 20.0:
+	if alicorn and LocalInput.held(&"sprint", p.pid) and GameState.magic > 20.0:
 		accel = p.ACCEL
 		max_speed = p.RUN_SPEED * GameState.move_speed_mult() * Progression.pers("alicornFlyMult", 1.0) * 2.0
 		if key_left or key_right or up:
@@ -736,7 +736,7 @@ func _sky_step(_delta: float, key_left: bool, key_right: bool, up: bool, down: b
 	elif key_right and not key_left:
 		walk = 1
 	var tick := 1.0 / 30.0
-	var damp := 0.96 if LocalInput.held(&"sprint") else 0.9
+	var damp := 0.96 if LocalInput.held(&"sprint", p.pid) else 0.9
 	for _step_i in Sim.frame_steps:
 		var v := p.velocity * tick
 		var ms := max_speed * tick
@@ -764,7 +764,7 @@ func _sky_step(_delta: float, key_left: bool, key_right: bool, up: bool, down: b
 ## overload, not the rat.
 func _dash_step(_delta: float, _key_left: bool, _key_right: bool, on_floor: bool) -> bool:
 	_dash_t = maxi(0, _dash_t - Sim.frame_steps)
-	if not (InputMap.has_action("dash") and LocalInput.just_pressed(&"dash")):
+	if not (InputMap.has_action("dash") and LocalInput.just_pressed(&"dash", p.pid)):
 		return false
 	var dir := 1 if facing >= 0.0 else -1
 	if not on_floor or _sit or _dash_t > 0.0 or GameState.stam <= 200.0 or Inventory.overload_max_speed() < 100.0 or rat:
@@ -826,7 +826,7 @@ func _step_jump(delta: float, jump_held: bool, jump_just: bool, move_x: float, k
 	var kicked := false
 	if _levitating and jump_held and not on_floor:
 		p.floor_snap_length = 0.0
-		var lift := LocalInput.axis(&"aim_up", &"aim_down")
+		var lift := LocalInput.axis(&"aim_up", &"aim_down", p.pid)
 		p.velocity.y = move_toward(p.velocity.y, lift * p.LEVITATE_SPEED, 900.0 * delta)
 	elif jump_held and _jumpp > 0.0 and not (_djump and (on_floor or not has_dj)):
 		p.floor_snap_length = 0.0 if not on_floor else 1.0
