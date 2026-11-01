@@ -114,6 +114,9 @@ var _bitmap_sprites: Array[Dictionary] = []
 # Label variant currently applied to the `armor_labels` symbols (the
 # player's armour id; "" = frame 0 / unarmoured).
 var _variant_id: String = ""
+const ARMOR_ART := "res://assets/data/armor_art.json"
+static var _armor_art: Dictionary = {}
+static var _armor_art_loaded := false
 # Flash Appear.transp: hide every colour-channel instance.
 var _transp: bool = false
 # "<bone>/<library>" -> true when a frame script hid that nested clip
@@ -770,15 +773,11 @@ func _state_label_of(anim_name: String) -> String:
 # =============================================================================
 
 static func _load_json(path: String) -> Variant:
-	var f := FileAccess.open(path, FileAccess.READ)
-	if f == null:
+	if not FileAccess.file_exists(path):
 		push_error("rig_base: failed to open: " + path)
 		return {}
-	var text := f.get_as_text()
-	f.close()
-	var parsed: Variant = JSON.parse_string(text)
+	var parsed: Variant = DataLib.load(path)
 	if parsed == null:
-		push_error("rig_base: cannot parse JSON: " + path)
 		return {}
 	return parsed
 
@@ -1485,12 +1484,14 @@ func _apply_all_textures() -> void:
 
 
 func _apply_texture(spr: Sprite2D, tex_name: String) -> void:
-	var tex: Texture2D = _texture(tex_name)
+	var shown := _armor_texture(tex_name)
+	var tex: Texture2D = _texture(shown)
 	if tex == null:
 		return
 	spr.texture = tex
-	# ViewBox offset: position the texture so Flash origin (0,0) = bone origin
-	var meta: Dictionary = _png_meta.get(tex_name + ".png", {})
+	# ViewBox offset: position the texture so Flash origin (0,0) = bone origin.
+	# A mod armour PNG without its own entry uses the base suit's offset.
+	var meta: Dictionary = _png_meta.get(shown + ".png", _png_meta.get(tex_name + ".png", {}))
 	if not meta.is_empty():
 		# Sprite is at scale 1/R, offset is in local (pre-scale) coords
 		# visual_offset = offset * (1/R) = (vx, vy) in parent space
@@ -1654,10 +1655,41 @@ func _refresh_nested_entry(entry: Dictionary) -> void:
 
 
 func _find_armor_frame(armor_labels: Dictionary, variant_id: String) -> String:
+	var label := armor_base(variant_id)
 	for idx: String in armor_labels:
-		if armor_labels[idx] == variant_id:
+		if armor_labels[idx] == label:
 			return idx
 	return ""
+
+
+## Mod armour looks (MODDING.md "New armour"): {id: {base, hide_mane}}.
+static func armor_art() -> Dictionary:
+	if not _armor_art_loaded:
+		_armor_art_loaded = true
+		var raw: Variant = DataLib.load(ARMOR_ART)
+		if raw is Dictionary:
+			_armor_art = raw
+	return _armor_art
+
+
+## The built-in suit whose frames a mod armour uses; the id itself otherwise.
+static func armor_base(variant_id: String) -> String:
+	var row: Variant = armor_art().get(variant_id)
+	if row is Dictionary:
+		return str((row as Dictionary).get("base", variant_id))
+	return variant_id
+
+
+## <part>_<base>_L?_S? becomes <part>_<id>_L?_S? when the mod ships that PNG.
+func _armor_texture(tex_name: String) -> String:
+	var base := armor_base(_variant_id)
+	if base == _variant_id:
+		return tex_name
+	var token := "_" + base + "_"
+	if not tex_name.contains(token):
+		return tex_name
+	var own := tex_name.replace(token, "_" + _variant_id + "_")
+	return own if _texture(own) != null else tex_name
 
 
 func _apply_variant(variant_id: String) -> void:

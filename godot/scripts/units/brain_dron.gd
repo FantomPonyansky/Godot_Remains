@@ -7,7 +7,7 @@ var br := 0.0
 var stuk := 0
 var atk_dist := 250.0
 var ai_agr := false
-var t_float := randf()
+var t_float := Rng.randf(&"ai")
 var atk_rasst := 0.0
 var t_krut := 0
 var cur: UnitGun
@@ -46,11 +46,11 @@ func on_damage(amount: float, type: String, bullet: Node, tt: bool) -> float:
 	var wrow: Dictionary = u.call("_weapon_row", wid) if wid != "" else {}
 	if not wrow.is_empty():
 		w_rapid = maxf(1.0, float(wrow.get("rapid", 1)))
-	if bv >= 1000.0 or randf() < bv / 300.0 or randf() < 6.0 / w_rapid:
+	if bv >= 1000.0 or Rng.randf(&"ai") < bv / 300.0 or Rng.randf(&"ai") < 6.0 / w_rapid:
 		return super.on_damage(amount, type, bullet, tt)
 	var d: Vector2 = bullet.get("direction")
 	var p := Vector2(d.y, -d.x)
-	if randf() < 0.5:
+	if Rng.randf(&"ai") < 0.5:
 		p = -p
 	vel += norma(p, max_speed * 3.0)
 	u.velocity = vel * TPS
@@ -78,9 +78,9 @@ func control() -> void:
 			ai_state = 1
 		else:
 			ai_state = 2
-		ai_tch = randi_range(100, 199)
+		ai_tch = Rng.randi_range(&"ai", 100, 199)
 		if ai_state == 0:
-			cel = Vector2(u.global_position.x + randf_range(400.0, 700.0) * (1.0 if rnd() else -1.0), center().y)
+			cel = Vector2(u.global_position.x + Rng.randf_range(&"ai", 400.0, 700.0) * (1.0 if rnd() else -1.0), center().y)
 	if ai_tch % 10 == 1:
 		if find_cel():
 			stuk = 0
@@ -89,7 +89,7 @@ func control() -> void:
 				ai_state = 1
 			storona = 1.0 if cel.x > u.global_position.x else -1.0
 		elif ai_spok > 0 and ai_spok % 10 == 1:
-			set_cel(null, cel + Vector2(randf_range(-40.0, 40.0), randf_range(-40.0, 40.0)))
+			set_cel(null, cel + Vector2(Rng.randf_range(&"ai", -40.0, 40.0), Rng.randf_range(&"ai", -40.0, 40.0)))
 		var d := cel - center()
 		atk_rasst = d.length_squared()
 		var spd := norma(d, accel * 0.5 if ai_state == 0 else accel)
@@ -110,7 +110,7 @@ func control() -> void:
 		if ai_state == 0:
 			cel.x = u.global_position.x + 400.0 * storona
 		if stuk > 5:
-			set_cel(null, cel + Vector2(randf_range(40.0, 120.0) * storona, randf_range(-40.0, 40.0)))
+			set_cel(null, cel + Vector2(Rng.randf_range(&"ai", 40.0, 120.0) * storona, Rng.randf_range(&"ai", -40.0, 40.0)))
 	if turn_y != 0.0:
 		if turn_y < 0.0:
 			vel.y = -6.0
@@ -120,7 +120,7 @@ func control() -> void:
 			cur.attack()
 		if att_korp(cel_unit, 1.0):
 			cel.y += 20.0
-			ai_tch = randi_range(20, 39)
+			ai_tch = Rng.randi_range(&"ai", 20, 39)
 			ai_state = 3
 
 
@@ -136,7 +136,7 @@ func animate() -> void:
 	if cel_unit != null and ai_tch % 15 == 1:
 		dis.visible = true
 		dis_alpha = 1.0
-		dis.rotation = randf() * TAU
+		dis.rotation = Rng.randf(&"ai") * TAU
 	if dis_alpha > 0.1:
 		dis_alpha -= 0.2
 	else:

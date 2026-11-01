@@ -102,26 +102,42 @@
   "labels": {
    "trot1": 1,
    "trot": 2
-  }
+  },
+  "loop": [
+   2,
+   17
+  ]
  },
  "trot_down": {
   "frames": 18,
   "labels": {
    "trot1": 1,
    "trot": 2
-  }
+  },
+  "loop": [
+   2,
+   17
+  ]
  },
  "trot_up": {
   "frames": 18,
   "labels": {
    "trot1": 1,
    "trot": 2
-  }
+  },
+  "loop": [
+   2,
+   17
+  ]
  },
  "walk": {
   "frames": 26,
   "labels": {
    "walk": 2
-  }
+  },
+  "loop": [
+   2,
+   25
+  ]
  }
 }

@@ -39,8 +39,8 @@ static func shell(tree: SceneTree, at: Vector2, scale_x: float) -> void:
 	clip.show(sprite)
 	host.call("_add", {
 		"node": sprite, "at": at,
-		"vel": Vector2((randf() - 0.5) * 4.0, (randf() - 0.5) * 4.0),
-		"ddy": 1.0, "dr": -15.0 * scale_x, "liv": 20 + randi() % 10,
+		"vel": Vector2((Rng.randf(&"fx") - 0.5) * 4.0, (Rng.randf(&"fx") - 0.5) * 4.0),
+		"ddy": 1.0, "dr": -15.0 * scale_x, "liv": 20 + Rng.randi(&"fx") % 10,
 	})
 
 
@@ -56,13 +56,13 @@ static func sparks(tree: SceneTree, at: Vector2, count: int) -> void:
 		var sprite := Sprite2D.new()
 		sprite.texture = tex
 		sprite.region_enabled = true
-		sprite.region_rect = Rect2(float(randi() % frames) * 3.0, 0.0, 3.0, 3.0)
+		sprite.region_rect = Rect2(float(Rng.randi(&"fx") % frames) * 3.0, 0.0, 3.0, 3.0)
 		sprite.material = _screen()
-		var turn := randf() * TAU
-		var speed := randf() * 3.0 + 5.0
+		var turn := Rng.randf(&"fx") * TAU
+		var speed := Rng.randf(&"fx") * 3.0 + 5.0
 		host.call("_add", {
 			"node": sprite, "at": at, "vel": Vector2(sin(turn), cos(turn)) * speed,
-			"ddy": 0.7, "dr": 0.0, "liv": 15 + randi() % 5, "alph": true,
+			"ddy": 0.7, "dr": 0.0, "liv": 15 + Rng.randi(&"fx") % 5, "alph": true,
 		})
 
 

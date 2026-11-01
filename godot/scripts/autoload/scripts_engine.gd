@@ -57,7 +57,12 @@ class StoryScript:
 var key_pressed := false
 var key_pressed2 := false
 ## GameContainer.alicorn: Littlepip in the alicorn armour (portrait lpa).
-var alicorn := false
+## Run.alicorn mirrors this so Inventory and Progression can read it.
+var alicorn := false:
+	set(value):
+		alicorn = value
+		if is_inside_tree():
+			Run.alicorn = value
 ## Commands seen in data that Script.com does not have: act -> count.
 var unknown: Dictionary = {}
 var dial_script: StoryScript
@@ -79,6 +84,7 @@ var _trus: Dictionary = {}
 
 
 func _ready() -> void:
+	_listen_callers()
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	_box = DialogueBox.new()
 	add_child(_box)
@@ -88,7 +94,7 @@ func _ready() -> void:
 	dial_script.gui = true
 	inform_script = make({"id": "informScript", "acts": [{"act": "inform"}]})
 	inform_script.gui = true
-	var eff: Variant = JSON.parse_string(FileAccess.get_file_as_string(EFFECTS_PATH)) if FileAccess.file_exists(EFFECTS_PATH) else null
+	var eff: Variant = DataLib.load(EFFECTS_PATH)
 	if eff is Dictionary:
 		for row_v in (eff as Dictionary).get("effects", []):
 			_effect_t[str(row_v.get("id", ""))] = float(row_v.get("t", 0))
@@ -96,14 +102,38 @@ func _ready() -> void:
 	call_deferred("_connect_reset")
 
 
+func _listen_callers() -> void:
+	if not Travel.script_asked.is_connected(_on_script_asked):
+		Travel.script_asked.connect(_on_script_asked)
+	if not Story.dialog_asked.is_connected(dialog):
+		Story.dialog_asked.connect(dialog)
+	if not Story.script_asked.is_connected(_on_script_asked):
+		Story.script_asked.connect(_on_script_asked)
+	if not Story.item_taken_asked.is_connected(item_taken):
+		Story.item_taken_asked.connect(item_taken)
+
+
+func _on_script_asked(id: String) -> void:
+	run_script(id)
+
+
 func _connect_reset() -> void:
 	WorldState.run_reset.connect(reset_run)
-	WorldState.register("alicorn", func() -> Variant: return alicorn, _set_alicorn)
+	WorldState.register("alicorn", _alicorn_state, _set_alicorn)
 
 
-## Pers.load obj.alicorn: UnitPlayer init calls alicornOn(false).
+func _alicorn_state() -> Dictionary:
+	return {"version": 1, "on": alicorn}
+
+
+## Pers.load obj.alicorn. Format 2 stored the bool itself.
 func _set_alicorn(data: Variant) -> void:
-	alicorn = bool(data)
+	if data is bool:
+		alicorn = data
+	elif data is Dictionary:
+		alicorn = bool((data as Dictionary).get("on", false))
+	else:
+		alicorn = bool(data)
 	if alicorn:
 		call_deferred("_alicorn_quiet")
 
@@ -164,6 +194,8 @@ func make(data: Dictionary, owner: Node = null, tt := false) -> StoryScript:
 ## Script.start.
 func start(s: StoryScript) -> void:
 	if s == null or s.acts.is_empty():
+		return
+	if not WorldOps.applies(&"script", [s.acts]):
 		return
 	if s.on_timer:
 		s.ncom = 0
@@ -243,7 +275,7 @@ func quest_unit(qid: String) -> void:
 	var data := land_item_script(current_land(), qid)
 	if not data.is_empty():
 		run(data, null, "take:%s:%s" % [current_land(), qid])
-	Story.inc_quests(qid)
+	WorldOps.inc_quests(qid)
 
 
 func land_item_script(land_id: String, item: String) -> Dictionary:
@@ -261,7 +293,7 @@ func area_over(area: Node, uid: String, steps: Array, trig: bool) -> void:
 	if trig and uid != "":
 		if _num(Travel.trigger(uid)) == 1:
 			return
-		Travel.set_trigger(uid, 1)
+		WorldOps.set_trigger(uid, 1)
 	run_steps(steps, area, "over:%d" % area.get_instance_id())
 
 
@@ -279,10 +311,6 @@ func is_waiting() -> bool:
 		if s.running and s.wait and s.land_id == here:
 			return true
 	return false
-
-
-func is_known(act: String) -> bool:
-	return act in COMMANDS
 
 
 func current_land() -> String:
@@ -365,7 +393,7 @@ func dial_text(id: Variant, n: int, down: bool, wait: bool) -> bool:
 		var rows := StoryText.lines(id)
 		if rows.is_empty() or n >= rows.size():
 			return false
-		Story.add_note(id)
+		WorldOps.add_note(id)
 		return _box.show_line(rows[maxi(n, 0)], down, wait, alicorn)
 	if id is Dictionary:
 		return _box.show_line(id, down, wait, alicorn)
@@ -390,11 +418,25 @@ func _com(s: StoryScript, obj: Dictionary) -> void:
 	if str(obj.targ) != "":
 		_target(s, str(obj.targ), act, val)
 		return
+	if _com_talk(s, obj, act, val, n):
+		return
+	if _com_give(obj, act, val, n):
+		return
+	if _com_play(s, obj, act, val, n):
+		return
+	if _com_land(obj, act, val, n):
+		return
+	if _com_room(s, act, val, n):
+		return
+	if act in STUBS:
+		_stub(act)
+	else:
+		unknown[act] = int(unknown.get(act, 0)) + 1
+		if int(unknown[act]) == 1:
+			push_warning("ScriptsEngine: unknown command %s in %s" % [act, s.id])
+
+func _com_talk(s: StoryScript, obj: Dictionary, act: String, val: String, n: String) -> bool:
 	match act:
-		"control off":
-			Travel.set_control(false)
-		"control on":
-			Travel.set_control(true)
 		"mess":
 			_mess(StoryText.mess_text(val), int(obj.opt1) > 0, int(obj.opt2) > 0)
 		"dial":
@@ -423,10 +465,12 @@ func _com(s: StoryScript, obj: Dictionary) -> void:
 				if dif > lvl:
 					t += "\n\n" + OriginalLines.pip("wrLevel")
 				dial_text({"mod": 1, "text": t, "plain": true}, 0, false, true)
-		"allact":
-			var props := _props()
-			if props != null and props.has_method("all_act"):
-				props.all_act(val, n)
+		_:
+			return false
+	return true
+
+func _com_give(obj: Dictionary, act: String, val: String, n: String) -> bool:
+	match act:
 		"take":
 			if int(n) < 0:
 				if Inventory.count(val) > 0:
@@ -448,6 +492,20 @@ func _com(s: StoryScript, obj: Dictionary) -> void:
 			GameState.start_effect(val, secs)
 		"remeff":
 			GameState.end_effect(val)
+		"weapch":
+			Inventory.equip(val)
+		"fav":
+			Favorites.fav_item(val, int(n))
+		_:
+			return false
+	return true
+
+func _com_play(s: StoryScript, obj: Dictionary, act: String, val: String, n: String) -> bool:
+	match act:
+		"control off":
+			Travel.set_control(false)
+		"control on":
+			Travel.set_control(true)
 		"music":
 			AudioManager.play_story(val, int(n) if int(n) > 0 else 0)
 		"music_rep":
@@ -475,78 +533,11 @@ func _com(s: StoryScript, obj: Dictionary) -> void:
 			_hp_bars(false)
 		"gui on":
 			_hp_bars(true)
-		"refill":
-			Travel.refill()
-		"upland":
-			Travel.up_land_level()
-		"quest":
-			Story.add_quest(val)
-		"showstage":
-			Story.show_quest(val, n)
-		"show":
-			_show_on = false
-		"stage":
-			Story.close_quest(val, n)
-		"trigger":
-			Travel.set_trigger(val, int(n) if n.is_valid_int() else n)
-		"goto":
-			var parts := val.split(" ")
-			if parts.size() == 2:
-				_goto_room(int(parts[0]), int(parts[1]))
-		"gotoland":
-			if n == "2":
-				Travel.goto_land(val, "", true)
-			elif n == "1":
-				Travel.goto_land(val, "%d:%d" % [int(obj.opt1), int(obj.opt2)])
-			else:
-				var props := _props()
-				if props != null and props.has_method("script_goto_land"):
-					props.script_goto_land(val)
-				else:
-					Travel.goto_land(val)
-		"openland":
-			Travel.open_land(val)
-		"passed":
-			Travel.pass_land()
-		"alarm":
-			var props := _props()
-			var player := _player()
-			if props != null and player != null and props.has_method("_raise_alarm"):
-				props.call("_raise_alarm", player.global_position)
-		"checkall":
-			for npc in get_tree().get_nodes_in_group("story_npc"):
-				if npc.has_method("script_command"):
-					npc.script_command("check", "")
-		"weapch":
-			Inventory.equip(val)
 		"alicorn":
 			if float(val) <= 0.0:
 				AlicornForm.off()
 			else:
 				AlicornForm.on()
-		"fav":
-			Favorites.fav_item(val, int(n))
-		"locon", "locoff":
-			var props := _props()
-			var player := _player()
-			if props != null and player != null and props.has_method("room_power"):
-				props.room_power(player.global_position, act == "locon")
-		"robots":
-			var props := _props()
-			var player := _player()
-			if props != null and player != null and props.has_method("robocells"):
-				props.robocells(player.global_position)
-		"trus":
-			var at := _room_point(s)
-			if at != Vector2.INF:
-				_trus[_cell(at)] = _num(val)
-		"actprob", "wave":
-			var trial := _trial()
-			if trial != null:
-				if act == "wave":
-					trial.begin_wave()
-				else:
-					trial.activate_prob()
 		"pip":
 			var page := int(val)
 			if page < 0:
@@ -570,12 +561,88 @@ func _com(s: StoryScript, obj: Dictionary) -> void:
 			s.wait = true
 			s.dial_n = 0
 		_:
-			if act in STUBS:
-				_stub(act)
+			return false
+	return true
+
+func _com_land(obj: Dictionary, act: String, val: String, n: String) -> bool:
+	match act:
+		"refill":
+			Travel.refill()
+		"upland":
+			Travel.up_land_level()
+		"quest":
+			WorldOps.add_quest(val)
+		"showstage":
+			Story.show_quest(val, n)
+		"show":
+			_show_on = false
+		"stage":
+			WorldOps.close_quest(val, n)
+		"trigger":
+			WorldOps.set_trigger(val, int(n) if n.is_valid_int() else n)
+		"goto":
+			var parts := val.split(" ")
+			if parts.size() == 2:
+				_goto_room(int(parts[0]), int(parts[1]))
+		"gotoland":
+			if n == "2":
+				Travel.goto_land(val, "", true)
+			elif n == "1":
+				Travel.goto_land(val, "%d:%d" % [int(obj.opt1), int(obj.opt2)])
 			else:
-				unknown[act] = int(unknown.get(act, 0)) + 1
-				if int(unknown[act]) == 1:
-					push_warning("ScriptsEngine: unknown command %s in %s" % [act, s.id])
+				var props := _props()
+				if props != null and props.has_method("script_goto_land"):
+					props.script_goto_land(val)
+				else:
+					Travel.goto_land(val)
+		"openland":
+			WorldOps.travel(val)
+		"passed":
+			Travel.pass_land()
+		_:
+			return false
+	return true
+
+func _com_room(s: StoryScript, act: String, val: String, n: String) -> bool:
+	match act:
+		"allact":
+			var props := _props()
+			if props != null and props.has_method("all_act"):
+				props.all_act(val, n)
+		"alarm":
+			var props := _props()
+			var player := _player()
+			if props != null and player != null and props.has_method("_raise_alarm"):
+				props.call("_raise_alarm", player.global_position)
+		"checkall":
+			for npc in get_tree().get_nodes_in_group("story_npc"):
+				if npc.has_method("script_command"):
+					npc.script_command("check", "")
+		"locon", "locoff":
+			var props := _props()
+			var player := _player()
+			if props != null and player != null and props.has_method("room_power"):
+				props.room_power(player.global_position, act == "locon")
+		"robots":
+			var props := _props()
+			var player := _player()
+			if props != null and player != null and props.has_method("robocells"):
+				props.robocells(player.global_position)
+		"trus":
+			var at := _room_point(s)
+			if at != Vector2.INF:
+				_trus[_cell(at)] = _num(val)
+		"actprob", "wave":
+			var trial := _trial()
+			if trial != null:
+				if act == "wave":
+					trial.begin_wave()
+				else:
+					trial.activate_prob()
+		_:
+			return false
+	return true
+
 
 
 ## Obj.command on land.uidObjs[targ] ("this" is the owner).

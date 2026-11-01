@@ -61,7 +61,7 @@ var _anim_on := true
 
 
 func _ready() -> void:
-	GameState.set_paused(false)
+	Sim.clear_paused()
 	UiSettings.apply_audio()
 	AudioManager.play_menu()
 	_WarmUp.start(self)
@@ -330,7 +330,7 @@ func _rich_style(t: RichTextLabel, size: int) -> void:
 ## previous one; nadv steps once per launch (GameContainer init).
 func _build_advice() -> void:
 	if _advice.is_empty():
-		var data: Variant = JSON.parse_string(FileAccess.get_file_as_string(ADVICE)) if FileAccess.file_exists(ADVICE) else null
+		var data: Variant = DataLib.load(ADVICE) if FileAccess.file_exists(ADVICE) else null
 		if data is Dictionary:
 			_advice = data
 	if _nadv < 0:
@@ -930,8 +930,32 @@ func _link_vertical() -> void:
 
 
 func _load_slot(slot: int) -> void:
+	var mods = load("res://scripts/mod_loader.gd")
+	if mods != null and bool(mods.slot_mods_differ(slot)):
+		_open_mod_warn(slot)
+		return
+	_load_slot_now(slot)
+
+
+func _load_slot_now(slot: int) -> void:
 	SaveSlots.request_load(slot)
 	Travel.enter_game()
+
+
+## The save lists a different mod set. Confirming still loads it.
+func _open_mod_warn(slot: int) -> void:
+	_open_dialog(Locale.t("mod_save_title"), Vector2(350.9, 95.4), 801)
+	_anim_on = false
+	var lab := _dlabel(Locale.t("mod_save_warn"), Vector2(370, 200), 760, 18)
+	lab.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	lab.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	lab.size.y = 180
+	var cancel := _dbutton(OriginalLines.gui("cancel"), Rect2(547.9, 630.4, 186.2, 28), _open_load)
+	var ok := _dbutton(OriginalLines.gui("loadgame"), Rect2(765.9, 630.4, 186.2, 28), _load_slot_now.bind(slot))
+	cancel.focus_neighbor_right = cancel.get_path_to(ok)
+	ok.focus_neighbor_left = ok.get_path_to(cancel)
+	_link_vertical()
+	ok.grab_focus()
 
 
 # --- dialAbout ---

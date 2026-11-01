@@ -440,7 +440,7 @@ static func _dexter(id: String) -> float:
 	if _dex.is_empty():
 		var parsed: Variant = {}
 		if FileAccess.file_exists("res://assets/data/armor_dexter.json"):
-			parsed = JSON.parse_string(FileAccess.get_file_as_string("res://assets/data/armor_dexter.json"))
+			parsed = DataLib.load("res://assets/data/armor_dexter.json")
 		_dex = parsed if parsed is Dictionary else {"_": []}
 	var levels: Array = _dex.get(id, [])
 	if levels.is_empty():
@@ -453,7 +453,7 @@ static func _effs() -> Dictionary:
 	if _eff.is_empty():
 		var parsed: Variant = {}
 		if FileAccess.file_exists("res://assets/data/pip_eff.json"):
-			parsed = JSON.parse_string(FileAccess.get_file_as_string("res://assets/data/pip_eff.json"))
+			parsed = DataLib.load("res://assets/data/pip_eff.json")
 		_eff = parsed if parsed is Dictionary else {"_": {}}
 	return _eff
 

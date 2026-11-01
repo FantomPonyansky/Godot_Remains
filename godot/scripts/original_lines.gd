@@ -5,6 +5,9 @@ extends RefCounted
 ## Настройки language is English). HUD and PipBuck copy is read from here.
 
 const PATH := "res://assets/data/text_%s.xml"
+const MOD_TEXT := "res://assets/data/item_text.json"
+static var _mod_text: Dictionary = {}
+static var _mod_text_loaded := false
 const _UserDir := preload("res://scripts/user_dir.gd")
 static var SETTINGS := _UserDir.settings("settings.cfg")
 const SECTIONS: PackedStringArray = [
@@ -116,6 +119,9 @@ static func help(section: String, id: String) -> String:
 
 
 static func desc_of(id: String) -> String:
+	var own := _mod_line(id, "desc")
+	if own != "":
+		return own
 	for section: String in ["weapon", "item", "armor", "ammo", "eff", "obj", "unit"]:
 		var body := desc(section, id)
 		if body != "":
@@ -128,7 +134,7 @@ static func text_vars(s: String, id: String, lvl: int = 1) -> String:
 	if not s.contains("#"):
 		return s
 	if _vars.is_empty():
-		var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://assets/data/pip_eff.json"))
+		var parsed: Variant = DataLib.load("res://assets/data/pip_eff.json")
 		_vars = parsed if parsed is Dictionary else {"": {}}
 	var tv: Array = (_vars.get(id, {}) as Dictionary).get("textvar", [])
 	if tv.is_empty():
@@ -148,12 +154,32 @@ static func has(section: String, id: String) -> bool:
 static func name_of(id: String) -> String:
 	if id == "":
 		return ""
+	var own := _mod_line(id, "name")
+	if own != "":
+		return own
 	_ensure()
 	for section: String in ["weapon", "item", "armor", "obj", "ammo", "eff", "unit"]:
 		var k: String = section + "\n" + id
 		if _text.has(k):
 			return str(_text[k])
 	return id
+
+
+## Mod text for an item, weapon or armour id (MODDING.md "Names"):
+## {id: {name: {en, ru}, desc: {en, ru}}}. A missing language falls back to en.
+static func _mod_line(id: String, field: String) -> String:
+	if not _mod_text_loaded:
+		_mod_text_loaded = true
+		var raw: Variant = DataLib.load(MOD_TEXT)
+		if raw is Dictionary:
+			_mod_text = raw
+	var row: Variant = _mod_text.get(id)
+	if row is not Dictionary:
+		return ""
+	var entry: Variant = (row as Dictionary).get(field)
+	if entry is Dictionary:
+		return str((entry as Dictionary).get(language(), (entry as Dictionary).get("en", "")))
+	return ""
 
 
 ## The s1..s5 key ids (keyJump, ...) on an entry, for StoryText.add_keys.

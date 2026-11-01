@@ -51,7 +51,7 @@ func _ready() -> void:
 
 
 func _physics_process(_delta: float) -> void:
-	var player := get_tree().get_first_node_in_group("player") as Node2D
+	var player := Run.local_player() as Node2D
 	if player == null:
 		return
 	var at := to_local(player.global_position)
@@ -125,6 +125,6 @@ func _cover(r: Rect2) -> void:
 
 
 func _exit_tree() -> void:
-	var player := get_tree().get_first_node_in_group("player") as Node2D
+	var player := Run.local_player() as Node2D
 	if player != null:
 		_leave(player)

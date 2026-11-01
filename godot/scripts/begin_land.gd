@@ -44,8 +44,7 @@ var _loaded: Dictionary = {}
 
 func _ready() -> void:
 	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-	var text := FileAccess.get_file_as_string(DATA)
-	var data: Variant = JSON.parse_string(text)
+	var data: Variant = DataLib.copy(DATA)
 	if data is Dictionary:
 		_build(data)
 	_RoomActivity.attach(self)
@@ -359,7 +358,7 @@ func _add_door(parent: Node, entry: Dictionary, index: int) -> void:
 func _restore_door_floors(solids: Node, doors: Array) -> void:
 	if not FileAccess.file_exists(VISUAL):
 		return
-	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(VISUAL))
+	var parsed: Variant = DataLib.load(VISUAL)
 	if typeof(parsed) != TYPE_DICTIONARY:
 		return
 	var grids := {}
@@ -469,7 +468,7 @@ func _plan_ctx() -> Dictionary:
 func _paint_rooms() -> void:
 	if not FileAccess.file_exists(VISUAL):
 		return
-	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(VISUAL))
+	var parsed: Variant = DataLib.load(VISUAL)
 	if typeof(parsed) != TYPE_DICTIONARY:
 		return
 	var dressing := Node2D.new()

@@ -1,4 +1,5 @@
 extends Node2D
+const _PS := preload("res://scripts/prop_state.gd")
 
 ## Actors from the rooms_begin document inside pfe.swf.
 ## Room 0,0 has no unit tags, so nothing is invented there.
@@ -23,7 +24,6 @@ const _PropSfx := preload("res://scripts/prop_sfx.gd")
 const _Npc := preload("res://scripts/story/npc.gd")
 const _Trap := preload("res://scripts/map/trap_unit.gd")
 const _RadSource := preload("res://scripts/map/rad_source.gd")
-const _EnSpawn := preload("res://scripts/map/en_spawn.gd")
 const _Trial := preload("res://scripts/story/trial.gd")
 const _RoomLook := preload("res://scripts/map/room_look.gd")
 const _RoomFlags := preload("res://scripts/map/room_flags.gd")
@@ -43,17 +43,24 @@ const ROOM_H := 25
 const SPAWN_BUDGET_USEC := 4000
 
 ## Native sprite sizes from texture1.swf (viswoodbox, visbox, vismcrate1–5, visbigbox, visbigbox2).
-const _CRATE_ART := {
-	"woodbox": "res://assets/sprites/props/woodbox.png",
-	"box": "res://assets/sprites/props/box.png",
-	"mcrate1": "res://assets/sprites/props/mcrate1.png",
-	"mcrate2": "res://assets/sprites/props/mcrate2.png",
-	"mcrate3": "res://assets/sprites/props/mcrate3.png",
-	"mcrate4": "res://assets/sprites/props/mcrate4.png",
-	"mcrate5": "res://assets/sprites/props/mcrate5.png",
-	"bigbox": "res://assets/sprites/props/bigbox.png",
-	"bigbox2": "res://assets/sprites/props/bigbox2.png",
-}
+const _CRATE_PATH := "res://assets/data/maps/crate_art.json"
+static var _CRATE_ART: Dictionary = {}
+static var _crate_ok := false
+
+
+static func _static_init() -> void:
+	_crate_art()
+
+
+static func _crate_art() -> Dictionary:
+	if _crate_ok:
+		return _CRATE_ART
+	var parsed: Variant = DataLib.load(_CRATE_PATH)
+	if parsed is not Dictionary:
+		return _CRATE_ART
+	_crate_ok = true
+	_CRATE_ART = parsed
+	return _CRATE_ART
 const LOOT_REACH := 36.0
 ## Loot.as osnRad. E takes a dropped item inside this gap.
 const DROP_REACH := 50.0
@@ -87,6 +94,8 @@ var _alarm_left := 0.0
 var _trip := Rect2()
 var _budilo_left := 0.0
 var _budilo_tick := 0.0
+## Buttons waiting for autoclose. close_at is a Sim.tick.
+var _shutters: Array[Node] = []
 var _alarm_at := Vector2.ZERO
 var _from_rooms := false
 var _bound_rooms: Array = []
@@ -102,8 +111,10 @@ var _xp_left: Dictionary = {}
 var _detected_rooms: Dictionary = {}
 ## Visits and saves: land_memory.gd. Room edges and crossings: room_bounds.gd.
 var _memory: RefCounted
-## Enspawn points and the alarm spawn timer: en_spawn.gd.
-var _en_spawn: RefCounted
+## Every runtime spawn: SpawnDirector (rooms, siren, triggers, waves, summons).
+var _en_spawn: SpawnDirector
+## Squads, roles, orders and attack slots: TacticsDirector (AiWorld.tactics).
+var _tactics: TacticsDirector
 var _signs := _Signs.new()
 
 
@@ -127,9 +138,13 @@ func bind_plan(rows: Array, from: Vector2) -> void:
 
 func _ready() -> void:
 	add_to_group("land_props")
+	if not WorldOps.applied.is_connected(_on_world_op):
+		WorldOps.applied.connect(_on_world_op)
 	_PropSfx.hush()
 	_memory = _Memory.new(self)
-	_en_spawn = _EnSpawn.new(self)
+	_en_spawn = SpawnDirector.new(self)
+	_tactics = TacticsDirector.new(self)
+	AiWorld.tactics = _tactics
 	_memory.begin(_bound_rooms)
 	if _from_rooms:
 		_index_bound_rooms()
@@ -142,7 +157,7 @@ func _ready() -> void:
 		call_deferred("_wake_areas")
 		call_deferred("_restore_water")
 		return
-	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(DATA))
+	var parsed: Variant = DataLib.load(DATA)
 	if typeof(parsed) != TYPE_DICTIONARY:
 		push_error("begin_actors.json missing")
 		return
@@ -186,7 +201,7 @@ func _restore_water() -> void:
 ## feet at ((x + size / 2) * 40, (y + 1) * 40 - 1) of the room.
 func _begin_checkpoints() -> Array:
 	var out: Array = []
-	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(ROOMS))
+	var parsed: Variant = DataLib.load(ROOMS)
 	if not parsed is Dictionary:
 		return out
 	for room_v in (parsed as Dictionary).get("rooms", []):
@@ -211,11 +226,22 @@ func _begin_checkpoints() -> Array:
 func _exit_tree() -> void:
 	if _memory != null:
 		_memory.store()
+	if AiWorld.tactics == _tactics:
+		AiWorld.tactics = null
 
 
 ## WorldState: this land's state as land_memory.gd keeps it.
 func capture_state() -> Dictionary:
 	return _memory.capture() if _memory != null else {}
+
+
+func capture_one(node: Node) -> Dictionary:
+	return _memory.capture_one(node) if _memory != null else {}
+
+
+func apply_one(node: Node, rec: Dictionary) -> void:
+	if _memory != null:
+		_memory.apply_one(node, rec)
 
 
 func restore_state(snapshot: Dictionary) -> void:
@@ -229,6 +255,14 @@ func note_broken(rect: Rect2) -> void:
 	if _memory != null:
 		_memory.note_broken(rect)
 	_WaterFlow.broke(self, rect)
+
+
+## A door of this land that an op left open (swung, broken) wakes the water.
+func _on_world_op(_op: StringName, args: Array) -> void:
+	if args.is_empty() or not is_instance_valid(args[0]) or not (args[0] is Node2D) or not _doors.has(args[0]):
+		return
+	if bool(_PS.getv(args[0], "door_open", false)):
+		_WaterFlow.door_opened(self, args[0])
 
 
 ## Land-level script flags, saved with the land.
@@ -245,17 +279,19 @@ func _process(delta: float) -> void:
 		_spawn_pending()
 	if GameState.paused:
 		return
+	_tick_shutters()
 	for trap in get_tree().get_nodes_in_group("begin_traps"):
-		var left := float(trap.get_meta("cool", 0.0)) - delta
-		trap.set_meta("cool", maxf(0.0, left))
+		var left := float(_PS.getv(trap, "cool", 0.0)) - delta
+		_PS.put(trap, "cool", maxf(0.0, left))
 	_tick_alarm(delta)
 	_tick_alarm_boxes()
 	_en_spawn.tick(delta)
+	_tactics.tick()
 	_signs.tick(get_tree(), delta, _sign_point)
 	if Travel.blocks_control():
 		return
-	if Input.is_action_just_pressed("interact"):
-		var who := get_tree().get_first_node_in_group("player")
+	if LocalInput.just_pressed(&"interact"):
+		var who := Run.local_player()
 		if who and bool(who.get_meta("tk_claim", false)):
 			who.set_meta("tk_claim", false)
 		elif not (who and who.get("rat") == true):
@@ -345,7 +381,7 @@ func script_command(node: Node, act: String, val: String) -> void:
 			"off":
 				_switch_area(node, false)
 			"onoff":
-				_switch_area(node, not bool(node.get_meta("enabled", false)))
+				_switch_area(node, not bool(_PS.getv(node, "enabled", false)))
 			"dam":
 				_area_dam(node as Area2D, int(float(val)) if val.is_valid_float() else 0)
 		return
@@ -360,30 +396,29 @@ func script_command(node: Node, act: String, val: String) -> void:
 	match act:
 		"open":
 			if _doors.has(node) or node.has_meta("door_id"):
-				body_lock(node, 0.0)
-				_apply_door(node, true)
+				WorldOps.unlock(node)
+				WorldOps.open_door(node, true)
 			elif _loot.has(node):
-				_open_loot(node)
+				WorldOps.open_container(node)
 		"close":
 			if _doors.has(node) or node.has_meta("door_id"):
-				_apply_door(node, false)
+				WorldOps.open_door(node, false)
 		"swap":
-			_apply_door(node, not bool(node.get_meta("door_open", false)))
+			WorldOps.open_door(node, not bool(_PS.getv(node, "door_open", false)))
 		"unlock":
-			body_lock(node, 0.0)
+			WorldOps.unlock(node)
 		"hack":
-			if bool(node.get_meta("hackable", false)):
-				body_lock(node, 0.0)
+			if bool(_PS.getv(node, "hackable", false)):
+				WorldOps.unlock(node)
 		"dam":
 			if _hazards.values().has(node) and node.has_method("take_hit"):
-				node.take_hit(999)
+				WorldOps.damage(node, HitInfo.plain(999))
 			elif _buttons.has(node):
-				_on_button(node)
+				WorldOps.press_button(node)
 		"die":
-			if node.has_method("take_hit"):
-				node.take_hit(999)
+			WorldOps.kill(node)
 		"off":
-			node.set_meta("usable", false)
+			_PS.put(node, "usable", false)
 		"sign":
 			_signs.set_sign(node, int(val))
 
@@ -393,14 +428,14 @@ func script_command(node: Node, act: String, val: String) -> void:
 func all_act(act: String, allid: String) -> void:
 	for node_v in _by_uid.values():
 		var node: Node = node_v
-		if not is_instance_valid(node) or str(node.get_meta("allid", "")) != allid:
+		if not is_instance_valid(node) or str(_PS.getv(node, "allid", "")) != allid:
 			continue
 		script_command(node, act, "13" if not node is Area2D else "")
 
 
 func body_lock(node: Node, lock: float) -> void:
-	node.set_meta("lock", lock)
-	node.set_meta("mine", 0)
+	_PS.put(node, "lock", lock)
+	_PS.put(node, "mine", 0)
 
 
 ## first: the bag had none of the item before this pickup.
@@ -432,14 +467,14 @@ func _bind_doors(rows: Array) -> void:
 		var row: Dictionary = index.get(key, {})
 		var uid := str(row.get("uid", body.get_meta("uid", "")))
 		body.set_meta("uid", uid)
-		body.set_meta("lock", float(row.get("lock", body.get_meta("lock", 0.0))))
-		body.set_meta("usable", bool(row.get("usable", true)))
+		_PS.put(body, "lock", float(row.get("lock", _PS.getv(body, "lock", 0.0))))
+		_PS.put(body, "usable", bool(row.get("usable", true)))
 		# septum is a plank. The door list defaults a missed row to usable,
 		# which would send it through open/close and lockTip.
 		if _wooden_wall(body):
-			body.set_meta("usable", false)
+			_PS.put(body, "usable", false)
 		_stamp_door(body)
-		var opened := bool(row.get("open", body.get_meta("door_open", false)))
+		var opened := bool(row.get("open", _PS.getv(body, "door_open", false)))
 		if _wooden_wall(body):
 			opened = false
 		_apply_door(body, opened)
@@ -537,9 +572,9 @@ func _add_trip(node: Node, damage: int) -> void:
 		if not is_instance_valid(node) or not body.is_in_group("player"):
 			return
 		if body.has_method("take_hit"):
-			body.take_hit(damage)
+			WorldOps.damage(body, HitInfo.plain(float(damage), node))
 		if node.has_method("take_hit"):
-			node.take_hit(999)
+			WorldOps.damage(node, HitInfo.plain(999, body))
 	)
 	node.add_child(trip)
 
@@ -558,13 +593,14 @@ func _spawn_traps(rows: Array) -> void:
 		var row: Dictionary = row_v
 		var feet: Array = row.get("feet", [0, 0])
 		var area := Area2D.new()
+		area.set_script(preload("res://scripts/land_area.gd"))
 		area.add_to_group("begin_traps")
 		area.position = Vector2(float(feet[0]), float(feet[1]) - 20.0)
 		area.collision_layer = 0
 		area.collision_mask = 2
 		area.monitoring = true
-		area.set_meta("damage", int(row.get("damage", 15)))
-		area.set_meta("cool", 0.0)
+		_PS.put(area, "damage", int(row.get("damage", 15)))
+		_PS.put(area, "cool", 0.0)
 		var shape := CollisionShape2D.new()
 		var box := RectangleShape2D.new()
 		box.size = Vector2(36, 16 if not bool(row.get("ceiling", false)) else 20)
@@ -574,14 +610,14 @@ func _spawn_traps(rows: Array) -> void:
 		var key := "trap_" + ("fspikes" if bool(row.get("ceiling", false)) else "spikes")
 		if _ObjArt.has(key):
 			for layer in [key, key + "2"]:
-				var pic := _ObjArt.sprite(layer, randi_range(1, maxi(_ObjArt.frames(key), 1)))
+				var pic := _ObjArt.sprite(layer, Rng.randi_range(&"fx", 1, maxi(_ObjArt.frames(key), 1)))
 				pic.position = Vector2(0, 20)
 				pic.z_index = -1 if layer == key else 2
 				area.add_child(pic)
 		else:
 			var color := Color(0.45, 0.47, 0.5) if not bool(row.get("ceiling", false)) else Color(0.62, 0.5, 0.28)
 			area.add_child(_quad(box.size, color, -box.size * 0.5))
-		area.set_meta("ceiling", bool(row.get("ceiling", false)))
+		_PS.put(area, "ceiling", bool(row.get("ceiling", false)))
 		add_child(area)
 
 
@@ -589,7 +625,7 @@ func _physics_process(_delta: float) -> void:
 	if GameState.paused:
 		return
 	for trap in get_tree().get_nodes_in_group("begin_traps"):
-		if float(trap.get_meta("cool", 0.0)) > 0.0:
+		if float(_PS.getv(trap, "cool", 0.0)) > 0.0:
 			continue
 		for body in (trap as Area2D).get_overlapping_bodies():
 			_trap_touch(trap, body)
@@ -604,15 +640,15 @@ func _trap_touch(area: Area2D, body: Node) -> void:
 		return
 	var dy := (body as CharacterBody2D).velocity.y / 30.0
 	var amount := 0.0
-	if bool(area.get_meta("ceiling", false)):
+	if bool(_PS.getv(area, "ceiling", false)):
 		if dy < 0.0:
-			amount = float(area.get_meta("damage", 15))
+			amount = float(_PS.getv(area, "damage", 15))
 	elif dy > 8.0:
-		amount = float(area.get_meta("damage", 15)) * dy / 20.0
+		amount = float(_PS.getv(area, "damage", 15)) * dy / 20.0
 	if amount <= 0.0:
 		return
-	area.set_meta("cool", 1.0)
-	body.take_hit(int(round(amount)))
+	_PS.put(area, "cool", 1.0)
+	WorldOps.damage(body, HitInfo.plain(int(round(amount)), area))
 
 
 func _spawn_loot(rows: Array) -> void:
@@ -655,10 +691,11 @@ func _spawn_loot(rows: Array) -> void:
 			node = held
 		else:
 			var body := StaticBody2D.new()
+			body.set_script(preload("res://scripts/loot_box.gd"))
 			body.position = Vector2(feet.x - size.x * 0.5, feet.y - size.y)
 			body.collision_layer = 0
 			body.collision_mask = 0
-			body.set_meta("blocks_sight", false)
+			_PS.put(body, "blocks_sight", false)
 			if not mounted:
 				var shape := CollisionShape2D.new()
 				var box := RectangleShape2D.new()
@@ -685,8 +722,8 @@ func _spawn_loot(rows: Array) -> void:
 		if node.z_index == 0:
 			node.z_index = -2
 		node.set_meta("size", size)
-		node.set_meta("lock", lock)
-		node.set_meta("locktip", int(info.get("locktip", 1)))
+		_PS.put(node, "lock", lock)
+		_PS.put(node, "locktip", int(info.get("locktip", 1)))
 		node.set_meta("cont", cont)
 		node.set_meta("items", items)
 		node.set_meta("actions", row.get("actions", []))
@@ -698,11 +735,11 @@ func _spawn_loot(rows: Array) -> void:
 		_stamp_at(node, id, lock, loot_room, feet, stamp_size)
 		var already := bool(row.get("open", false))
 		if already:
-			node.set_meta("spent", true)
-			node.set_meta("opened", true)
+			_PS.put(node, "spent", true)
+			_PS.put(node, "opened", true)
 		var rolls := cont != "" and cont != "empty" and cont != "*"
-		var secured := float(node.get_meta("lock", 0.0)) > 0.0 or int(node.get_meta("mine", 0)) > 0
-		if rolls or not items.is_empty() or secured or locked or _CRATE_ART.has(id):
+		var secured := float(_PS.getv(node, "lock", 0.0)) > 0.0 or int(_PS.getv(node, "mine", 0)) > 0
+		if rolls or not items.is_empty() or secured or locked or _crate_art().has(id):
 			_loot.append(node)
 			node.add_to_group("tk_use")
 		add_child(node)
@@ -721,9 +758,9 @@ func _prop_png(id: String, opened: bool = false) -> String:
 	var closed := "res://assets/sprites/props/%s.png" % id
 	if ResourceLoader.exists(closed):
 		return closed
-	if not _CRATE_ART.has(id) and _ObjArt.has(id):
+	if not _crate_art().has(id) and _ObjArt.has(id):
 		return _ObjArt.path(id, maxi(_ObjArt.label_frame(id, "close"), 1))
-	return str(_CRATE_ART.get(id, ""))
+	return str(_crate_art().get(id, ""))
 
 
 func _crate_texture(id: String) -> Texture2D:
@@ -783,9 +820,9 @@ func _spawn_buttons(rows: Array) -> void:
 		var button_room: Array = row.get("room", [0, 0])
 		_stamp_at(node, button_id, -1.0, button_room, at, Vector2(40, 40))
 		if str(row.get("allact", "")) != "":
-			node.set_meta("allact", str(row.allact))
+			_PS.put(node, "allact", str(row.allact))
 		if str(row.get("allid", "")) != "":
-			node.set_meta("allid", str(row.allid))
+			_PS.put(node, "allid", str(row.allid))
 		node.triggered.connect(_on_button.bind(node))
 		add_child(node)
 		_buttons.append(node)
@@ -800,7 +837,7 @@ func _button_art(id: String) -> Sprite2D:
 	if tex == null:
 		return null
 	if _button_anchors.is_empty():
-		var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://assets/sprites/props/term_anchors.json"))
+		var parsed: Variant = DataLib.load("res://assets/sprites/props/term_anchors.json")
 		_button_anchors = parsed if parsed is Dictionary else {"_": []}
 	var a: Variant = _button_anchors.get(id)
 	if not a is Array and _ObjArt.has(id):
@@ -816,20 +853,38 @@ func _button_art(id: String) -> Sprite2D:
 ## Interact.actOsn: a knop with allact then Location.allAct (open the linked door).
 func _on_button(node: Node) -> void:
 	_box_act(node)
-	var act := str(node.get_meta("allact", ""))
+	var act := str(_PS.getv(node, "allact", ""))
 	if act != "" and str(node.get_meta("id", "")) in _KNOPS:
-		all_act(act, str(node.get_meta("allid", "")))
+		all_act(act, str(_PS.getv(node, "allid", "")))
 	_run_terminal(node)
 
 
 ## Interact.act scrTouch: the first act runs it instead of the act.
 func _box_touch(node: Node) -> bool:
 	var eves: Dictionary = node.get_meta("eves", {})
-	if not eves.has("touch") or bool(node.get_meta("touched", false)):
+	if not eves.has("touch") or bool(_PS.getv(node, "touched", false)):
 		return false
-	node.set_meta("touched", true)
+	_PS.put(node, "touched", true)
 	run_actions(eves["touch"], "", node, "touch")
 	return true
+
+
+## Sim.tick still advances while paused, so a button shuts on the first
+## unpaused frame if its autoclose passed in the PipBuck.
+func _tick_shutters() -> void:
+	if _shutters.is_empty():
+		return
+	var now := Sim.tick
+	var i := _shutters.size() - 1
+	while i >= 0:
+		var node_v: Variant = _shutters[i]
+		var node: Node = node_v if is_instance_valid(node_v) else null
+		if node == null or now >= int(_PS.getv(node, "close_at", 0)):
+			if is_instance_valid(node):
+				var pic := node.get_node_or_null("Visual") as Sprite2D
+				_ObjArt.set_state(pic, "close")
+			_shutters.remove_at(i)
+		i -= 1
 
 
 ## Interact.act on a knop: it toggles open (scrOpen / scrClose; autoclose
@@ -837,18 +892,17 @@ func _box_touch(node: Node) -> bool:
 func _box_act(node: Node) -> void:
 	var eves: Dictionary = node.get_meta("eves", {})
 	if eves.has("open") or eves.has("close") or str(node.get_meta("id", "")) in _KNOPS:
-		var now := Time.get_ticks_msec()
-		var open := bool(node.get_meta("box_open", false)) and now < int(node.get_meta("close_at", 0))
+		var now := Sim.tick
+		var open := bool(_PS.getv(node, "box_open", false)) and now < int(_PS.getv(node, "close_at", 0))
 		open = not open
-		node.set_meta("box_open", open)
+		_PS.put(node, "box_open", open)
 		var auto := int(node.get_meta("autoclose", 0))
-		node.set_meta("close_at", now + auto * 1000 / 30 if auto > 0 else 1 << 62)
+		# auto is a tick count. Sim.tick still advances while paused, like the old wall clock.
+		_PS.put(node, "close_at", now + auto if auto > 0 else 1 << 62)
 		var pic := node.get_node_or_null("Visual") as Sprite2D
 		_ObjArt.set_state(pic, "open" if open else "close")
-		if open and auto > 0 and pic != null:
-			get_tree().create_timer(auto / 30.0).timeout.connect(func() -> void:
-				if is_instance_valid(pic) and Time.get_ticks_msec() >= int(node.get_meta("close_at", 0)):
-					_ObjArt.set_state(pic, "close"))
+		if open and auto > 0 and pic != null and not _shutters.has(node):
+			_shutters.append(node)
 		var eve := "open" if open else "close"
 		run_actions(eves.get(eve, []), "", node, eve)
 	run_actions(node.get_meta("actions", []), "", node)
@@ -861,6 +915,7 @@ func _spawn_areas(rows: Array) -> void:
 		var row: Dictionary = row_v
 		var rect: Array = row.get("rect", [0, 0, 40, 40])
 		var area := Area2D.new()
+		area.set_script(preload("res://scripts/land_area.gd"))
 		area.position = Vector2(float(rect[0]), float(rect[1]))
 		area.collision_layer = 0
 		area.collision_mask = 2
@@ -872,8 +927,8 @@ func _spawn_areas(rows: Array) -> void:
 		shape.position = box.size * 0.5
 		shape.shape = box
 		area.add_child(shape)
-		area.set_meta("enabled", bool(row.get("enabled", true)))
-		area.set_meta("once", bool(row.get("once", false)))
+		_PS.put(area, "enabled", bool(row.get("enabled", true)))
+		_PS.put(area, "once", bool(row.get("once", false)))
 		area.set_meta("mess", str(row.get("mess", "")))
 		area.set_meta("actions", row.get("actions", []))
 		# Area.as attributes: scr / scrout, trig (once per run by uid), mess
@@ -889,8 +944,8 @@ func _spawn_areas(rows: Array) -> void:
 		area.set_meta("trig", attrs.has("trig"))
 		area.set_meta("mess_id", str(attrs.get("mess", "")))
 		area.set_meta("down", attrs.has("down"))
-		area.set_meta("allact", str(attrs.get("allact", "")))
-		area.set_meta("allid", str(attrs.get("allid", "")))
+		_PS.put(area, "allact", str(attrs.get("allact", "")))
+		_PS.put(area, "allid", str(attrs.get("allid", "")))
 		area.add_to_group("land_area")
 		area.body_entered.connect(_on_area.bind(area))
 		area.body_exited.connect(_on_area_out.bind(area))
@@ -906,44 +961,48 @@ func _spawn_areas(rows: Array) -> void:
 
 
 func _wake_areas() -> void:
-	var player := get_tree().get_first_node_in_group("player") as Node2D
+	# A save puts the player back after the land is built; until then the
+	# player stands on the land's start spot (begin: the beginBeg area).
+	if WorldState.resuming():
+		if not WorldState.resumed.is_connected(_wake_areas):
+			WorldState.resumed.connect(_wake_areas, CONNECT_ONE_SHOT | CONNECT_DEFERRED)
+		return
+	var player := Run.local_player() as Node2D
 	if player == null:
 		return
 	for area_v in _areas.values():
 		var area := area_v as Area2D
-		if area.get_meta("enabled", false) and area.overlaps_body(player):
+		if _PS.getv(area, "enabled", false) and area.overlaps_body(player):
 			_on_area(player, area)
 
 
 func _on_area(body: Node, area: Area2D) -> void:
-	if not body.is_in_group("player") or not bool(area.get_meta("enabled", false)):
+	if not body.is_in_group("player") or not bool(_PS.getv(area, "enabled", false)) or WorldState.resuming():
 		return
 	var mess_id := str(area.get_meta("mess_id", ""))
 	var mess := _txt(mess_id).replace("[br]", "\n") if mess_id != "" else str(area.get_meta("mess", ""))
 	if mess != "":
-		var hud := get_tree().get_first_node_in_group("hud")
-		if hud and hud.has_method("show_message"):
-			hud.show_message(mess, bool(area.get_meta("down", false)))
+		Fx.notice(mess, {"message": true, "down": bool(area.get_meta("down", false)), "source": body})
 	var uid := ""
 	for key in _areas.keys():
 		if _areas[key] == area:
 			uid = str(key)
 			break
 	_trip = _area_rect(area)
-	if str(area.get_meta("allact", "")) != "":
-		all_act(str(area.get_meta("allact")), str(area.get_meta("allid", "")))
+	if str(_PS.getv(area, "allact", "")) != "":
+		all_act(str(_PS.getv(area, "allact")), str(_PS.getv(area, "allid", "")))
 	ScriptsEngine.area_over(area, uid, _plain_steps(area.get_meta("actions", [])), bool(area.get_meta("trig", false)))
 	for step_v in area.get_meta("actions", []):
 		if str((step_v as Dictionary).get("act", "")) == "notice":
 			_notice(str(step_v.get("val", "")))
-	if bool(area.get_meta("once", false)):
-		area.set_meta("enabled", false)
+	if bool(_PS.getv(area, "once", false)):
+		_PS.put(area, "enabled", false)
 		area.set_deferred("monitoring", false)
 
 
 ## Area.scrOut.
 func _on_area_out(body: Node, area: Area2D) -> void:
-	if not body.is_in_group("player") or not bool(area.get_meta("enabled", false)):
+	if not body.is_in_group("player") or not bool(_PS.getv(area, "enabled", false)):
 		return
 	ScriptsEngine.area_out(area, _plain_steps(area.get_meta("out_actions", [])))
 
@@ -953,11 +1012,11 @@ func _plain_steps(steps: Array) -> Array:
 
 
 func _switch_area(area: Node, enabled: bool) -> void:
-	area.set_meta("enabled", enabled)
+	_PS.put(area, "enabled", enabled)
 	if area is Area2D:
 		(area as Area2D).set_deferred("monitoring", enabled)
 		if enabled:
-			var player := get_tree().get_first_node_in_group("player")
+			var player := Run.local_player()
 			if player and (area as Area2D).overlaps_body(player):
 				_on_area.call_deferred(player, area)
 
@@ -983,7 +1042,7 @@ func _area_rect(area: Area2D) -> Rect2:
 
 
 func _interact() -> void:
-	var player := get_tree().get_first_node_in_group("player") as Node2D
+	var player := Run.local_player() as Node2D
 	if player == null:
 		return
 	var origin := player.global_position
@@ -991,7 +1050,7 @@ func _interact() -> void:
 	var best_d := 72.0
 	var kind := ""
 	for door in _doors:
-		if not bool(door.get_meta("usable", false)):
+		if not bool(_PS.getv(door, "usable", false)):
 			continue
 		var gap := origin.distance_to(_center(door))
 		if gap < best_d:
@@ -1005,7 +1064,7 @@ func _interact() -> void:
 			best_d = gap2
 			kind = "button"
 	for passage in _passages:
-		if not bool(passage.get_meta("usable", true)):
+		if not bool(_PS.getv(passage, "usable", true)):
 			continue
 		var gap5 := origin.distance_to(passage.get_meta("feet", passage.global_position))
 		if gap5 < best_d:
@@ -1013,7 +1072,7 @@ func _interact() -> void:
 			best_d = gap5
 			kind = "passage"
 	for node in _uses:
-		if not is_instance_valid(node) or not bool(node.get_meta("usable", true)):
+		if not is_instance_valid(node) or not bool(_PS.getv(node, "usable", true)):
 			continue
 		var gap6 := origin.distance_to((node as Node2D).global_position)
 		if gap6 < best_d:
@@ -1022,7 +1081,7 @@ func _interact() -> void:
 			kind = "use"
 	var body_rect := _player_rect(player)
 	for crate in _loot:
-		if not is_instance_valid(crate) or bool(crate.get_meta("spent", false)):
+		if not is_instance_valid(crate) or bool(_PS.getv(crate, "spent", false)):
 			continue
 		var gap3 := _rect_gap(body_rect, _crate_rect(crate))
 		if gap3 <= LOOT_REACH and gap3 < best_d:
@@ -1030,7 +1089,7 @@ func _interact() -> void:
 			best_d = gap3
 			kind = "loot"
 	for drop in get_tree().get_nodes_in_group("ground_loot"):
-		if not is_instance_valid(drop) or not drop is Node2D or bool(drop.get_meta("taken", false)):
+		if not is_instance_valid(drop) or not drop is Node2D or bool(_PS.getv(drop, "taken", false)):
 			continue
 		var gap4 := _rect_gap(body_rect, _drop_rect(drop as Node2D))
 		if gap4 <= DROP_REACH and gap4 < best_d:
@@ -1046,19 +1105,19 @@ func _interact() -> void:
 	elif kind == "button":
 		if _box_touch(best) or _hold_for_roll(best):
 			return
-		if not _pass_lock(best):
+		if not WorldOps.pick_lock(best):
 			return
 		_box_act(best)
-		_run_terminal(best)
+		WorldOps.use_terminal(best)
 	elif kind == "drop":
 		if best.has_method("pickup"):
-			best.pickup()
+			WorldOps.take_loot(best)
 	elif kind == "passage":
-		_go_through(best)
+		WorldOps.pass_through(best)
 	elif kind == "use":
 		use_prop(best)
 	else:
-		_open_loot(best)
+		WorldOps.open_container(best)
 
 
 func use_prop(node: Node) -> bool:
@@ -1068,34 +1127,34 @@ func use_prop(node: Node) -> bool:
 		_use_door(node)
 		return true
 	if _passages.has(node):
-		_go_through(node)
+		WorldOps.pass_through(node)
 		return true
 	if _uses.has(node):
 		if _hold_for_roll(node):
 			return true
-		if int(node.get_meta("mine", 0)) > 0 or float(node.get_meta("lock", 0.0)) > 0.0 or node.has_meta("fun"):
-			_pass_lock(node)
+		if int(_PS.getv(node, "mine", 0)) > 0 or float(_PS.getv(node, "lock", 0.0)) > 0.0 or _PS.hasv(node, "fun"):
+			WorldOps.pick_lock(node)
 			return true
 		if node.has_meta("cont") and not _RoomFlags.allows("containers", _point_of(node)):
 			return true
-		_use_object(node, false)
+		WorldOps.use_object(node, false)
 		return true
 	if _buttons.has(node):
 		if _box_touch(node) or _hold_for_roll(node) or _hold_for_time(node):
 			return true
-		if not _pass_lock(node):
+		if not WorldOps.pick_lock(node):
 			return true
-		_on_button(node)
+		WorldOps.press_button(node)
 		return true
 	if _loot.has(node):
-		_open_loot(node)
+		WorldOps.open_container(node)
 		return true
 	if node.is_in_group("ground_loot") and node.has_method("pickup"):
-		node.pickup()
+		WorldOps.take_loot(node)
 		return true
 	# A floor box you can already lift is the same container walk-up opens.
 	if node.is_in_group("levitatable") and not node.is_in_group("enemies"):
-		_open_loot(node)
+		WorldOps.open_container(node)
 		return true
 	return false
 
@@ -1106,24 +1165,24 @@ func commit_use(node: Node) -> void:
 	if _doors.has(node):
 		_use_door(node, true)
 	elif _uses.has(node):
-		if int(node.get_meta("mine", 0)) > 0 or float(node.get_meta("lock", 0.0)) > 0.0:
-			_pass_lock(node)
+		if int(_PS.getv(node, "mine", 0)) > 0 or float(_PS.getv(node, "lock", 0.0)) > 0.0:
+			WorldOps.pick_lock(node)
 		else:
-			_use_object(node, true)
+			WorldOps.use_object(node, true)
 	elif _buttons.has(node):
-		if not _pass_lock(node):
+		if not WorldOps.pick_lock(node):
 			return
-		_on_button(node)
+		WorldOps.press_button(node)
 	elif _loot.has(node):
-		_open_loot(node, true)
+		WorldOps.open_container(node, true)
 	elif _passages.has(node):
-		_go_through(node, true)
+		WorldOps.pass_through(node, true)
 
 
 func _hold_for_roll(node: Node) -> bool:
 	if not _Lock.needs_wait(node):
 		return false
-	var player := get_tree().get_first_node_in_group("player")
+	var player := Run.local_player()
 	if player and player.has_method("begin_use_timer"):
 		player.begin_use_timer(node)
 		_PropSfx.act(node)
@@ -1133,9 +1192,9 @@ func _hold_for_roll(node: Node) -> bool:
 
 ## Interact.t_action (objs.xml time): once unlocked, the use still takes that long.
 func _hold_for_time(node: Node) -> bool:
-	if int(node.get_meta("act_time", 0)) <= 0:
+	if int(_PS.getv(node, "act_time", 0)) <= 0:
 		return false
-	var player := get_tree().get_first_node_in_group("player")
+	var player := Run.local_player()
 	if player and player.has_method("begin_use_timer"):
 		player.begin_use_timer(node)
 		_PropSfx.act(node)
@@ -1146,22 +1205,21 @@ func _hold_for_time(node: Node) -> bool:
 func _use_door(body: Node, from_timer: bool = false) -> void:
 	if _wooden_wall(body):
 		return
-	if bool(body.get_meta("door_open", false)):
-		_apply_door(body, false)
+	if bool(_PS.getv(body, "door_open", false)):
+		WorldOps.open_door(body, false)
 		return
 	if not from_timer and _hold_for_roll(body):
 		return
-	if not from_timer and int(body.get_meta("act_time", 0)) > 0:
-		var player := get_tree().get_first_node_in_group("player")
+	if not from_timer and int(_PS.getv(body, "act_time", 0)) > 0:
+		var player := Run.local_player()
 		if player and player.has_method("begin_use_timer"):
 			player.begin_use_timer(body)
 			return
-	if not _pass_lock(body):
+	if not WorldOps.pick_lock(body):
 		return
 	# Opening clears the lock, same as Interact.setAct("open").
-	body.set_meta("lock", 0.0)
-	_apply_door(body, true)
-	_run_terminal(body)
+	WorldOps.open_door(body, true, 0.0)
+	WorldOps.use_terminal(body)
 
 
 func _player_rect(player: Node2D) -> Rect2:
@@ -1203,19 +1261,19 @@ func _rect_gap(a: Rect2, b: Rect2) -> float:
 
 
 func _open_loot(crate: Node, from_timer: bool = false) -> void:
-	if bool(crate.get_meta("spent", false)) or bool(crate.get_meta("opened", false)):
+	if bool(_PS.getv(crate, "spent", false)) or bool(_PS.getv(crate, "opened", false)):
 		return
 	# Location.base: containers stay shut.
 	if not _RoomFlags.allows("containers", _point_of(crate)):
 		return
-	if bool(crate.get_meta("dead", false)) or bool(crate.get_meta("prize_locked", false)):
+	if bool(_PS.getv(crate, "dead", false)) or bool(_PS.getv(crate, "prize_locked", false)):
 		return
 	if not from_timer and (_box_touch(crate) or _hold_for_roll(crate) or _hold_for_time(crate)):
 		return
-	if not _pass_lock(crate):
+	if not WorldOps.pick_lock(crate):
 		return
-	crate.set_meta("spent", true)
-	crate.set_meta("opened", true)
+	_PS.put(crate, "spent", true)
+	_PS.put(crate, "opened", true)
 	_show_opened(crate)
 	_PropSfx.node_obj(crate, "open")
 	var spilled := _spill_contents(crate)
@@ -1223,7 +1281,7 @@ func _open_loot(crate: Node, from_timer: bool = false) -> void:
 	if spilled == 0 and not term:
 		_notice(OriginalLines.info("itsEmpty"))
 	run_actions(crate.get_meta("actions", []), "", crate)
-	_run_terminal(crate)
+	WorldOps.use_terminal(crate)
 
 
 func _show_opened(crate: Node) -> void:
@@ -1279,10 +1337,10 @@ func _spill_contents(crate: Node, broken := false) -> int:
 ## box dies: Interact.dieCont spills broken loot, sets off its mine and opens it.
 ## Returns true when the box caught the blow.
 func break_crate(crate: Node, destroy: float) -> bool:
-	if not _loot.has(crate) or bool(crate.get_meta("opened", false)) or bool(crate.get_meta("dead", false)):
+	if not _loot.has(crate) or bool(_PS.getv(crate, "opened", false)) or bool(_PS.getv(crate, "dead", false)):
 		return false
 	var cont := str(crate.get_meta("cont", ""))
-	if cont == "" or cont == "empty" or float(crate.get_meta("lock", 0.0)) <= 0.0 or int(crate.get_meta("locktip", 1)) > 1:
+	if cont == "" or cont == "empty" or float(_PS.getv(crate, "lock", 0.0)) <= 0.0 or int(_PS.getv(crate, "locktip", 1)) > 1:
 		return false
 	damage_box(crate, destroy)
 	return true
@@ -1291,17 +1349,17 @@ func break_crate(crate: Node, destroy: float) -> bool:
 ## Box.damage: destroy - thre off the box's hp. Box.die of a prize box does nothing;
 ## otherwise a box with contents runs Interact.dieCont.
 func damage_box(crate: Node, destroy: float) -> void:
-	if not _loot.has(crate) or bool(crate.get_meta("dead", false)):
+	if not _loot.has(crate) or bool(_PS.getv(crate, "dead", false)):
 		return
 	var info := _Registry.obj(str(crate.get_meta("id", "")))
-	var hp := float(crate.get_meta("box_hp", float(str(info.get("hp", "100")))))
+	var hp := float(_PS.getv(crate, "box_hp", float(str(info.get("hp", "100")))))
 	var dam := destroy - float(str(info.get("thre", "0")))
 	if dam > 0.0:
 		hp -= dam
-	crate.set_meta("box_hp", hp)
+	_PS.put(crate, "box_hp", hp)
 	if hp > 0.0 or bool(crate.get_meta("prize", false)):
 		return
-	crate.set_meta("dead", true)
+	_PS.put(crate, "dead", true)
 	var cont := str(crate.get_meta("cont", ""))
 	if cont != "":
 		_die_cont(crate)
@@ -1317,14 +1375,14 @@ func blast_boxes(center: Vector2, radius: float, destroy: float) -> void:
 	for crate in _loot:
 		if not is_instance_valid(crate) or not crate is Node2D:
 			continue
-		if bool(crate.get_meta("dead", false)) or bool(crate.get_meta("opened", false)):
+		if bool(_PS.getv(crate, "dead", false)) or bool(_PS.getv(crate, "opened", false)):
 			continue
 		if not _box_in_blast(crate as Node2D, center, reach):
 			continue
 		if _explodes_open(crate):
-			damage_box(crate, destroy)
+			WorldOps.damage_object(crate, destroy)
 		else:
-			break_crate(crate, destroy)
+			WorldOps.break_object(crate, destroy)
 
 
 func _box_in_blast(crate: Node2D, center: Vector2, reach: float) -> bool:
@@ -1345,7 +1403,7 @@ func _explodes_open(crate: Node) -> bool:
 ## cursor when that box opens to explosions (explcrack) and the charge is inside it.
 func sticky_box(at: Vector2, cursor: Vector2) -> Node:
 	for crate in _loot:
-		if not is_instance_valid(crate) or not crate is Node2D or bool(crate.get_meta("dead", false)):
+		if not is_instance_valid(crate) or not crate is Node2D or bool(_PS.getv(crate, "dead", false)):
 			continue
 		if str(_Registry.obj(str(crate.get_meta("id", ""))).get("explcrack", "")) == "":
 			continue
@@ -1357,22 +1415,22 @@ func sticky_box(at: Vector2, cursor: Vector2) -> Node:
 
 
 func _die_cont(crate: Node) -> void:
-	var looted := bool(crate.get_meta("opened", false))
-	crate.set_meta("lock", 0.0)
-	crate.set_meta("spent", true)
-	crate.set_meta("opened", true)
+	var looted := bool(_PS.getv(crate, "opened", false))
+	_PS.put(crate, "lock", 0.0)
+	_PS.put(crate, "spent", true)
+	_PS.put(crate, "opened", true)
 	_show_opened(crate)
 	if not looted:
 		_spill_contents(crate, true)
-	var mine := int(crate.get_meta("mine", 0))
+	var mine := int(_PS.getv(crate, "mine", 0))
 	if mine > 0:
-		crate.set_meta("mine", 0)
+		_PS.put(crate, "mine", 0)
 		_notice(OriginalLines.info("remineZhopa"))
-		if int(crate.get_meta("mine_tip", 3)) == 6:
+		if int(_PS.getv(crate, "mine_tip", 3)) == 6:
 			_raise_alarm(_point_of(crate))
 			robocells(_point_of(crate))
 		else:
-			_blast(_point_of(crate), 260.0, int(round(float(mine) * 50.0 * (0.8 + randf() * 0.4))))
+			_blast(_point_of(crate), 260.0, int(round(float(mine) * 50.0 * (0.8 + Rng.randf(&"combat") * 0.4))))
 	run_actions(crate.get_meta("actions", []), "", crate)
 
 
@@ -1407,7 +1465,7 @@ func _grant(id: String, n: int, lines: PackedStringArray, mult_hp := 1.0) -> voi
 	# Invent.take: a weapon already owned mends it, a ^1 copy upgrades the plain one.
 	if not Vendors.weapon_data(base).is_empty() and Vendors.owned_variant(base) >= 0 \
 			and (Inventory.count(base) > 0 or Inventory.count(base + "^1") > 0):
-		Vendors.take_weapon(id, mult_hp, 0)
+		WorldOps.take_weapon(id, mult_hp, 0)
 		collected_item(id, false)
 		return
 	if _Loot.is_single(id):
@@ -1432,24 +1490,22 @@ func _set_door(uid: String, is_open: bool, lock: float) -> void:
 	var body: Node = _by_uid.get(uid)
 	if body == null:
 		return
+	WorldOps.open_door(body, is_open, lock)
+
+
+## WorldOps.open_door lands here.
+func door_op(body: Node, is_open: bool, lock: float) -> void:
 	if lock >= 0.0:
-		body.set_meta("lock", lock)
+		_PS.put(body, "lock", lock)
 	_apply_door(body, is_open)
-
-
-func _toggle_door(uid: String) -> void:
-	var body: Node = _by_uid.get(uid)
-	if body == null:
-		return
-	_apply_door(body, not bool(body.get_meta("door_open", false)))
 
 
 func _apply_door(body: Node, is_open: bool) -> void:
 	if _wooden_wall(body):
-		if not bool(body.get_meta("dead", false)):
+		if not bool(_PS.getv(body, "dead", false)):
 			_DoorArt.apply(body, false)
 		return
-	if bool(body.get_meta("door_open", false)) != is_open and not bool(body.get_meta("dead", false)):
+	if bool(_PS.getv(body, "door_open", false)) != is_open and not bool(_PS.getv(body, "dead", false)):
 		_PropSfx.node_obj(body, "open" if is_open else "close")
 	_DoorArt.apply(body, is_open)
 	var stand_in := body.get_node_or_null("StandIn") as CanvasItem
@@ -1472,34 +1528,13 @@ func _shut_wooden_walls() -> void:
 	for body in root.get_children():
 		if not _wooden_wall(body):
 			continue
-		body.set_meta("usable", false)
-		if body.has_meta("locktip"):
-			body.remove_meta("locktip")
+		_PS.put(body, "usable", false)
+		if _PS.hasv(body, "locktip"):
+			_PS.clear(body, "locktip")
 		body.remove_from_group("tk_use")
 		_doors.erase(body)
-		if not bool(body.get_meta("dead", false)):
+		if not bool(_PS.getv(body, "dead", false)):
 			_DoorArt.apply(body, false)
-
-
-func _set_enabled(uid: String, enabled: bool) -> void:
-	if uid == "":
-		return
-	var node: Node = _areas.get(uid)
-	if node == null:
-		return
-	node.set_meta("enabled", enabled)
-	if node is Area2D:
-		(node as Area2D).set_deferred("monitoring", enabled)
-		if enabled:
-			var player := get_tree().get_first_node_in_group("player")
-			if player and (node as Area2D).overlaps_body(player):
-				_on_area.call_deferred(player, node)
-
-
-func _detonate(uid: String) -> void:
-	var node: Node = _hazards.get(uid)
-	if node and node.has_method("take_hit"):
-		node.take_hit(999)
 
 
 ## Interact.explosion: Bullet.iExpl from a fresh Unit (fraction 0, destroy 0).
@@ -1530,9 +1565,7 @@ func _center(body: Node) -> Vector2:
 
 
 func _notice(text: String) -> void:
-	var hud := get_tree().get_first_node_in_group("hud")
-	if hud and hud.has_method("show_notice"):
-		hud.show_notice(text)
+	Fx.notice(text, {"source": Run.local_player()})
 
 
 func _index_bound_rooms() -> void:
@@ -1595,7 +1628,7 @@ func _spawn_near(key: String) -> void:
 
 
 func _spawn_pending() -> void:
-	var player := get_tree().get_first_node_in_group("player") as Node2D
+	var player := Run.local_player() as Node2D
 	if player:
 		_spawn_near(_room_key_of(player.global_position))
 	# Far rooms trickle in row by row under a per-frame budget. A unit whose
@@ -1612,6 +1645,29 @@ func _spawn_pending() -> void:
 		if uid != "" and not _EnemyScript.species_ready(uid):
 			break
 		_spawn_row(rows.pop_front())
+
+
+## Room streaming: the room's actors go into land memory and are freed.
+## Rows of that room still waiting to spawn wait in memory too.
+func unload_room(cell: Vector2i) -> int:
+	var key := "%d,%d" % [cell.x, cell.y]
+	_memory.park(_pending.get(key, []))
+	_pending.erase(key)
+	_pending_order.erase(key)
+	return _memory.unload_room(cell)
+
+
+## Room streaming: the room's actors come back from land memory. Their rows
+## queue first; rooms near a player spawn on the next frame (_spawn_near).
+func reload_room(cell: Vector2i) -> void:
+	var rows: Array = _memory.reload_room(cell)
+	if rows.is_empty():
+		return
+	var key := "%d,%d" % [cell.x, cell.y]
+	if not _pending.has(key):
+		_pending[key] = []
+		_pending_order.push_front(key)
+	(_pending[key] as Array).append_array(rows)
 
 
 func _spawn_room(key: String) -> void:
@@ -1712,7 +1768,7 @@ func _spawn_row_kind(row: Dictionary) -> void:
 				_add_use(node, "beginm")
 			elif STATION_ACTS.has(str(row.id)):
 				_add_use(node, "use")
-				node.set_meta("allact", STATION_ACTS[str(row.id)])
+				_PS.put(node, "allact", STATION_ACTS[str(row.id)])
 		"enspawn":
 			_en_spawn.add_point(row)
 		"prob":
@@ -1744,9 +1800,9 @@ func _spawn_npc(row: Dictionary) -> void:
 	add_child(node)
 	if str(row.get("uid", "")) != "":
 		_by_uid[str(row.uid)] = node
-	var usable := bool(node.get_meta("usable", true))
+	var usable := bool(_PS.getv(node, "usable", true))
 	_add_use(node, node.user_action())
-	node.set_meta("usable", usable)
+	_PS.put(node, "usable", usable)
 
 
 ## UnitTrigger / UnitDamager / UnitTrap: scripts/map/trap_unit.gd. Triggers make
@@ -1758,7 +1814,7 @@ func spawn_trap_unit(row: Dictionary) -> Node2D:
 	add_child(node)
 	if str(row.get("uid", "")) != "":
 		_by_uid[str(row.uid)] = node
-	_add_use(node, node.user_action())
+	_add_use(node, node.use_verb())
 	node.refresh_use()
 	return node
 
@@ -1851,6 +1907,7 @@ func _loot_row(row: Dictionary) -> Dictionary:
 ## Bonus.take: unXp each, and unXp * maxXp for the last of a generated room's set.
 func _spawn_bonus(row: Dictionary) -> void:
 	var area := Area2D.new()
+	area.set_script(preload("res://scripts/land_area.gd"))
 	var feet: Array = row.feet
 	area.position = Vector2(float(feet[0]), float(feet[1]))
 	area.collision_layer = 0
@@ -1876,9 +1933,9 @@ func _spawn_bonus(row: Dictionary) -> void:
 
 
 func _on_bonus(body: Node, area: Area2D, row: Dictionary) -> void:
-	if not body.is_in_group("player") or bool(area.get_meta("taken", false)):
+	if not body.is_in_group("player") or bool(_PS.getv(area, "taken", false)):
 		return
-	area.set_meta("taken", true)
+	_PS.put(area, "taken", true)
 	area.set_deferred("monitoring", false)
 	_bonus_vanish(area)
 	if str(row.id) != "xp" or Progression == null:
@@ -1894,7 +1951,7 @@ func _on_bonus(body: Node, area: Area2D, row: Dictionary) -> void:
 		if summ > 0:
 			Progression.add_xp(summ)
 			_notice(OriginalLines.info("sneakBonus"))
-	SfxBank.play("bonus2" if left == 0 and top > 1 else "bonus1")
+	Fx.sound("bonus2" if left == 0 and top > 1 else "bonus1", (body as Node2D).global_position, {"source": body})
 
 
 ## Location.detecting: some foe in the room has had the player as its target.
@@ -1952,8 +2009,8 @@ func _spawn_passage(row: Dictionary) -> void:
 		return
 	node.set_meta("feet", Vector2(float(row.feet[0]), float(row.feet[1])))
 	var hold := int(str(attrs.get("time", _Registry.obj(str(row.get("id", ""))).get("time", "0"))))
-	node.set_meta("hold_use", hold > 0)
-	node.set_meta("act_time", hold)
+	_PS.put(node, "hold_use", hold > 0)
+	_PS.put(node, "act_time", hold)
 	if attrs.has("lock") or attrs.has("key"):
 		_Lock.stamp(node, str(row.get("id", "")), float(row.get("lock", 0.0)), attrs)
 	node.add_to_group("tk_use")
@@ -1978,8 +2035,8 @@ func _spawn_checkpoint(row: Dictionary) -> void:
 ## allact map (Interact.inter 10) and exit (inter 9).
 func _add_use(node: Node2D, action: String) -> void:
 	node.set_meta("feet", node.global_position)
-	node.set_meta("user_action", action)
-	node.set_meta("usable", true)
+	_PS.put(node, "user_action", action)
+	_PS.put(node, "usable", true)
 	node.add_to_group("tk_use")
 	_uses.append(node)
 
@@ -1989,13 +2046,13 @@ func _use_object(node: Node, from_timer: bool) -> void:
 	if node.has_method("use_object"):
 		node.use_object(from_timer)
 		return
-	match str(node.get_meta("user_action", "")):
+	match str(_PS.getv(node, "user_action", "")):
 		"beginm":
 			Travel.open_travel_map()
 		"exit":
 			Travel.goto_next_level()
 		"use":
-			_station_act(str(node.get_meta("allact", "")))
+			_station_act(str(_PS.getv(node, "allact", "")))
 
 
 ## Interact allact of the base furniture (objs.xml): work / lab / stove the
@@ -2046,14 +2103,14 @@ func room_spawn(lx: int, ly: int) -> Variant:
 ## Interact.beginAct plays the door's comein clip when the hold starts; allAct
 ## (goThroughDoor) runs when the objs.xml time has passed.
 func _go_through(node: Node, from_timer: bool = false) -> void:
-	if not bool(node.get_meta("usable", true)):
+	if not bool(_PS.getv(node, "usable", true)):
 		return
-	var player := get_tree().get_first_node_in_group("player") as CharacterBody2D
+	var player := Run.local_player() as CharacterBody2D
 	if player == null:
 		return
-	if float(node.get_meta("lock", 0.0)) > 0.0 and not _pass_lock(node):
+	if float(_PS.getv(node, "lock", 0.0)) > 0.0 and not WorldOps.pick_lock(node):
 		return
-	if not from_timer and int(node.get_meta("act_time", 0)) > 0 and player.has_method("begin_use_timer"):
+	if not from_timer and int(_PS.getv(node, "act_time", 0)) > 0 and player.has_method("begin_use_timer"):
 		player.begin_use_timer(node)
 		_ObjArt.play(node.get_node_or_null("Visual") as Sprite2D, "comein")
 		_PropSfx.node_obj(node, "open")
@@ -2148,7 +2205,7 @@ func _load_room_index() -> void:
 	_room_attrs.clear()
 	if not FileAccess.file_exists(ROOMS):
 		return
-	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(ROOMS))
+	var parsed: Variant = DataLib.load(ROOMS)
 	if typeof(parsed) != TYPE_DICTIONARY:
 		return
 	for room_v in (parsed as Dictionary).get("rooms", []):
@@ -2182,9 +2239,9 @@ func _stamp_door(body: Node) -> void:
 		int(body.get_meta("cell_x", 0)), int(body.get_meta("cell_y", 0)), id
 	)
 	if _wooden_wall(body):
-		body.set_meta("usable", false)
+		_PS.put(body, "usable", false)
 	else:
-		_Lock.stamp(body, id, float(body.get_meta("lock", 0.0)), attrs)
+		_Lock.stamp(body, id, float(_PS.getv(body, "lock", 0.0)), attrs)
 	var flag := str(attrs.get("indestruct", ""))
 	body.set_meta("indestruct", flag != "" and flag != "0")
 	_DoorArt.apply_instance(body)
@@ -2206,15 +2263,15 @@ func _stamp_at(node: Node, id: String, stored: float, room: Array, feet: Vector2
 
 
 func _pass_lock(node: Node) -> bool:
-	if bool(node.get_meta("dead", false)):
+	if bool(_PS.getv(node, "dead", false)):
 		return false
-	var lock_before := float(node.get_meta("lock", 0.0))
+	var lock_before := float(_PS.getv(node, "lock", 0.0))
 	var result: Dictionary = _Lock.attempt(node)
 	var text := str(result.get("text", ""))
 	if text != "":
 		_notice(text)
 	# Interact.fiascoUnlock (robocellFail): a robocell lock that jams or blocks lets the robots out.
-	if str(node.get_meta("allact", "")) == "robocell" and lock_before < 100.0 and float(node.get_meta("lock", 0.0)) >= 100.0:
+	if str(_PS.getv(node, "allact", "")) == "robocell" and lock_before < 100.0 and float(_PS.getv(node, "lock", 0.0)) >= 100.0:
 		robocells(_point_of(node))
 	if bool(result.get("alarm", false)):
 		# fiascoRemine: alarm2 on the alarm box itself, alarm (which also wakes robocells) elsewhere.
@@ -2242,7 +2299,7 @@ func _terminal_act(node: Node) -> String:
 		id = str(node.get_meta("door_id", ""))
 	if not (id.begins_with("term") or id == "alarm" or id == "robocell" or id == "elpanel"):
 		return ""
-	return str(node.get_meta("allact", ""))
+	return str(_PS.getv(node, "allact", ""))
 
 
 ## Also the end of Interact.actOsn for doors, buttons and containers.
@@ -2251,7 +2308,7 @@ func _run_terminal(node: Node) -> void:
 	var act := _terminal_act(node)
 	if act == "":
 		return
-	node.set_meta("allact", "")
+	_PS.put(node, "allact", "")
 	var rx := int(node.get_meta("room_x", -999))
 	var ry := int(node.get_meta("room_y", -999))
 	match act:
@@ -2263,16 +2320,16 @@ func _run_terminal(node: Node) -> void:
 			_clear_hack_locks(rx, ry)
 		"alarm":
 			_notice(OriginalLines.info("alarmOff"))
-			node.set_meta("dead", true)
-			node.set_meta("spent", true)
+			_PS.put(node, "dead", true)
+			_PS.put(node, "spent", true)
 			_vis_state(node, "open")
 		"robocell":
 			_notice(OriginalLines.info("robocellOff"))
-			node.set_meta("dead", true)
-			node.set_meta("spent", true)
+			_PS.put(node, "dead", true)
+			_PS.put(node, "spent", true)
 			_vis_state(node, "open")
 		"prob_help":
-			node.set_meta("allact", act)
+			_PS.put(node, "allact", act)
 			var trial := trial_at(_point_of(node))
 			if trial != null:
 				trial.show_help()
@@ -2290,7 +2347,7 @@ func _run_terminal(node: Node) -> void:
 func room_electro(cell: Vector2i) -> float:
 	var top := 0.0
 	for node in get_children():
-		if str(node.get_meta("id", "")) != "elpanel" or str(node.get_meta("allact", "electro_check")) != "electro_check":
+		if str(node.get_meta("id", "")) != "elpanel" or str(_PS.getv(node, "allact", "electro_check")) != "electro_check":
 			continue
 		if int(node.get_meta("room_x", -999)) == cell.x and int(node.get_meta("room_y", -999)) == cell.y:
 			top = maxf(top, float(_Registry.obj("elpanel").get("electro", 100)))
@@ -2314,12 +2371,12 @@ func room_power(at: Vector2, on: bool) -> void:
 	if not on:
 		return
 	for node in get_children():
-		if not node is Node2D or _room_of(_point_of(node)) != cell or bool(node.get_meta("dead", false)):
+		if not node is Node2D or _room_of(_point_of(node)) != cell or bool(_PS.getv(node, "dead", false)):
 			continue
-		if node.has_meta("usable") and not _wooden_wall(node):
-			node.set_meta("usable", true)
-		if _doors.has(node) and int(node.get_meta("locktip", 0)) == 4:
-			_apply_door(node, false)
+		if _PS.hasv(node, "usable") and not _wooden_wall(node):
+			_PS.put(node, "usable", true)
+		if _doors.has(node) and int(_PS.getv(node, "locktip", 0)) == 4:
+			WorldOps.open_door(node, false)
 
 
 ## Location.robocellActivate (script robots): each robocell of the room at a
@@ -2329,9 +2386,9 @@ func robocells(at: Vector2) -> void:
 	for node in get_children():
 		if not node is Node2D or _room_of(_point_of(node)) != cell:
 			continue
-		if str(node.get_meta("allact", "")) != "robocell":
+		if str(_PS.getv(node, "allact", "")) != "robocell":
 			continue
-		node.set_meta("allact", "")
+		_PS.put(node, "allact", "")
 		_vis_state(node, "active")
 		_spawn_plan_unit({
 			"unit_id": "robot",
@@ -2355,19 +2412,19 @@ func trial_at(at: Vector2) -> Node:
 ## (door2/3, stdoor, some safes). Ordinary lockpick-only doors stay locked.
 func _clear_hack_locks(rx: int, ry: int) -> void:
 	for body in _doors:
-		if not bool(body.get_meta("hackable", false)):
+		if not bool(_PS.getv(body, "hackable", false)):
 			continue
 		if int(body.get_meta("room_x", -999)) != rx or int(body.get_meta("room_y", -999)) != ry:
 			continue
-		body.set_meta("lock", 0.0)
-		body.set_meta("mine", 0)
+		_PS.put(body, "lock", 0.0)
+		_PS.put(body, "mine", 0)
 	for crate in _loot:
-		if not is_instance_valid(crate) or not bool(crate.get_meta("hackable", false)):
+		if not is_instance_valid(crate) or not bool(_PS.getv(crate, "hackable", false)):
 			continue
 		if int(crate.get_meta("room_x", -999)) != rx or int(crate.get_meta("room_y", -999)) != ry:
 			continue
-		crate.set_meta("lock", 0.0)
-		crate.set_meta("mine", 0)
+		_PS.put(crate, "lock", 0.0)
+		_PS.put(crate, "mine", 0)
 
 
 func _silence_turrets(rx: int, ry: int) -> void:
@@ -2393,14 +2450,14 @@ func _silence_turrets(rx: int, ry: int) -> void:
 
 ## Interact.useRuna on an alarm mine (keyCrack): fiascoRemine, then the mine is gone.
 func trip_alarm(node: Node) -> void:
-	node.set_meta("mine", 0)
+	_PS.put(node, "mine", 0)
 	if str(node.get_meta("id", "")) == "alarm":
 		_vis_state(node, "active")
 	else:
 		robocells(_point_of(node))
-	if str(node.get_meta("allact", "")) == "alarm":
-		node.set_meta("allact", "")
-		node.set_meta("dead", true)
+	if str(_PS.getv(node, "allact", "")) == "alarm":
+		_PS.put(node, "allact", "")
+		_PS.put(node, "dead", true)
 	_raise_alarm(_point_of(node))
 
 
@@ -2411,6 +2468,7 @@ func _raise_alarm(at: Vector2) -> void:
 	_budilo_left = 8.0
 	_budilo_tick = 0.0
 	_alarm_at = at
+	AiWorld.note_alarm(AiWorld.SIREN, _room_of(at))
 	var trial := trial_at(at)
 	if trial != null:
 		trial.alarm()
@@ -2424,7 +2482,7 @@ func enemy_spawn(at: Vector2, one: bool, get_gg: bool) -> Node:
 
 ## Box setVisState on alarm / robocell: open when switched off, active when it went off.
 func _vis_state(node: Node, label: String) -> void:
-	node.set_meta("vis_state", label)
+	_PS.put(node, "vis_state", label)
 	_ObjArt.set_state(node.get_node_or_null("Visual") as Sprite2D, label)
 
 
@@ -2434,18 +2492,18 @@ func _tick_alarm_boxes() -> void:
 	if Engine.get_physics_frames() % 3 != 0:
 		return
 	for node in _buttons:
-		if not is_instance_valid(node) or str(node.get_meta("allact", "")) != "alarm" or bool(node.get_meta("dead", false)):
+		if not is_instance_valid(node) or str(_PS.getv(node, "allact", "")) != "alarm" or bool(_PS.getv(node, "dead", false)):
 			continue
 		var box := Rect2((node as Node2D).global_position + _ObjArt.offset("alarm"), _ObjArt.size("alarm"))
-		for enemy in get_tree().get_nodes_in_group("enemies"):
+		for enemy in Units.in_rect(box):
 			if not bool(enemy.get("_raider_type")) or bool(enemy.get("_dead")) or not enemy.has_method("_is_calm") or bool(enemy.call("_is_calm")):
 				continue
 			var body_v: Variant = enemy.get("body_size")
 			var body: Vector2 = body_v if body_v is Vector2 else Vector2(30, 60)
 			var at := (enemy as Node2D).global_position
 			if box.intersects(Rect2(at.x - body.x * 0.5, at.y - body.y, body.x, body.y)):
-				node.set_meta("allact", "")
-				node.set_meta("dead", true)
+				_PS.put(node, "allact", "")
+				_PS.put(node, "dead", true)
 				_vis_state(node, "active")
 				_raise_alarm(_point_of(node))
 				break
@@ -2462,7 +2520,7 @@ func _tick_alarm(delta: float) -> void:
 	if _budilo_tick > 0.0:
 		return
 	_budilo_tick = 1.0
-	for enemy in get_tree().get_nodes_in_group("enemies"):
+	for enemy in Units.near(_alarm_at, 1500.0):
 		if bool(enemy.get_meta("hacked", false)) or not enemy.has_method("_alarm_from"):
 			continue
 		var body := enemy as Node2D

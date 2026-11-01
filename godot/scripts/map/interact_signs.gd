@@ -34,13 +34,14 @@ func tick(tree: SceneTree, delta: float, point: Callable) -> void:
 		_acc -= 1.0
 		var help := _ImpMess.help_on()
 		for i in range(_nodes.size() - 1, -1, -1):
-			var node: Node = _nodes[i]
-			if not is_instance_valid(node) or int(node.get_meta("sign", 0)) <= 0:
+			var node_v: Variant = _nodes[i]
+			if not is_instance_valid(node_v) or int((node_v as Node).get_meta("sign", 0)) <= 0:
 				_nodes.remove_at(i)
 				continue
+			var node: Node = node_v
 			var t := int(node.get_meta("t_sign", 0))
 			if t <= 0:
 				t = PERIOD
 				if help:
-					_UnitFx.emit(tree, "sign%d" % int(node.get_meta("sign", 1)), point.call(node))
+					Fx.particles("sign%d" % int(node.get_meta("sign", 1)), point.call(node), {"source": node})
 			node.set_meta("t_sign", t - 1)

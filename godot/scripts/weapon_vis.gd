@@ -267,6 +267,6 @@ static func _ensure() -> void:
 	var path := DIR + "manifest.json"
 	if not FileAccess.file_exists(path):
 		return
-	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
+	var parsed: Variant = DataLib.load(path)
 	if typeof(parsed) == TYPE_DICTIONARY:
 		_data = parsed

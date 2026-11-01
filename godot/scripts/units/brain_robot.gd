@@ -55,7 +55,7 @@ func command(com: String, _val: String = "") -> void:
 	if com == "alarma" and ai_state <= 1:
 		ai_spok = max_spok + 10
 		ai_state = 3
-		shok = randi_range(5, 19)
+		shok = Rng.randi_range(&"ai", 5, 19)
 
 
 func jump(v: float = 1.0) -> void:
@@ -96,7 +96,7 @@ func control() -> void:
 			ai_state = 1
 	else:
 		if ai_spok == 0:
-			ai_state = (randi() % 2) if stroll else 0
+			ai_state = (Rng.randi(&"ai") % 2) if stroll else 0
 		if ai_spok > 0:
 			ai_state = 2
 		if ai_spok >= max_spok:
@@ -107,22 +107,22 @@ func control() -> void:
 			else:
 				ai_state = 3
 		if ai_state <= 1:
-			ai_tch = randi_range(40, 89)
+			ai_tch = Rng.randi_range(&"ai", 40, 89)
 		elif ai_state == 4:
-			ai_tch = randi_range(10, 19)
+			ai_tch = Rng.randi_range(&"ai", 10, 19)
 		else:
-			ai_tch = randi_range(100, 199)
+			ai_tch = Rng.randi_range(&"ai", 100, 199)
 	if ai_tch % 10 == 1:
 		if find_cel(ai_state > 1):
 			if cel_unit != null:
 				if ai_state <= 1:
 					ai_state = 5
-					ai_tch = randi_range(20, 49)
+					ai_tch = Rng.randi_range(&"ai", 20, 49)
 				else:
 					ai_spok = max_spok + 10
 		else:
 			if ai_spok % 5 == 1:
-				set_cel(null, cel + Vector2(randf_range(-40.0, 40.0), randf_range(-40.0, 40.0)))
+				set_cel(null, cel + Vector2(Rng.randf_range(&"ai", -40.0, 40.0), Rng.randf_range(&"ai", -40.0, 40.0)))
 			if ai_spok <= 0:
 				set_cel(null, u.global_position + Vector2(storona * 100.0, -body().y * 0.75))
 	cdx = cel.x - u.global_position.x
@@ -190,7 +190,7 @@ func control() -> void:
 			if ai_t_turn < 0:
 				ai_napr = turn_x
 				storona = turn_x
-				ai_t_turn = randi_range(5, 24)
+				ai_t_turn = Rng.randi_range(&"ai", 5, 24)
 			turn_x = 0.0
 			turn_y = 0.0
 		if jmp > 0.0:
@@ -218,7 +218,7 @@ func attack() -> void:
 		cur.attack()
 	if ai_attack_och > 0:
 		if ai_attack_t <= 0:
-			ai_attack_t = int(round((randf() * 0.4 + 0.8) * ai_attack_och))
+			ai_attack_t = int(round((Rng.randf(&"ai") * 0.4 + 0.8) * ai_attack_och))
 		if ai_attack_t > ai_attack_och * 0.25:
 			cur.attack()
 		ai_attack_t -= 1

@@ -5,6 +5,7 @@ extends CanvasLayer
 ## which the player resolves as Arial. Bars, the visibility eye and the
 ## object progress bar are drawn on Root/Bars.
 
+const _PS := preload("res://scripts/prop_state.gd")
 const GREEN := Color("00ff99")
 const MANA_TEXT := Color("9999ff")
 const YELLOW := Color("ffff33")
@@ -98,6 +99,10 @@ var _tick := 0.0
 func _ready() -> void:
 	physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
 	add_to_group("hud")
+	if not Fx.float_numbered.is_connected(_on_fx_float):
+		Fx.float_numbered.connect(_on_fx_float)
+	if not Fx.noticed.is_connected(_on_fx_notice):
+		Fx.noticed.connect(_on_fx_notice)
 	_font = load("res://theme/hud_sans.tres")
 	_bars.draw.connect(_draw_bars)
 	_style_labels()
@@ -165,6 +170,17 @@ func _process(delta: float) -> void:
 
 func show_notice(text: String) -> void:
 	info_line(text)
+
+
+func _on_fx_notice(text: String, opts: Dictionary, _eid: String, _local: bool) -> void:
+	if bool(opts.get("message", false)):
+		show_message(text, bool(opts.get("down", false)))
+	else:
+		show_notice(text)
+
+
+func _on_fx_float(text: String, at: Vector2, kind: String, opts: Dictionary, _eid: String, _local: bool) -> void:
+	float_number(at, text, kind, opts.get("source", null), bool(opts.get("separate", false)))
 
 
 func info_line(text: String) -> void:
@@ -309,7 +325,7 @@ func _on_health(_a = null, _b = null) -> void:
 	if before >= 0.2 and _hp_ratio < 0.2 and _hp_ratio > 0.0:
 		_blood_frame = 0.0
 		_blood.visible = true
-		SfxBank.play("lowhp")
+		Fx.sound("lowhp", Vector2.ZERO, {"source": Run.local_player()})
 
 
 func _on_weapon(_name: String) -> void:
@@ -391,7 +407,7 @@ func _refresh_status() -> void:
 
 
 func _held_kg() -> String:
-	var player := get_tree().get_first_node_in_group("player")
+	var player := Run.local_player()
 	if player == null:
 		return ""
 	var held: Variant = player.get("_tele_obj")
@@ -439,7 +455,7 @@ func _refresh_weapon() -> void:
 		_holder.add_theme_color_override("font_color", GREEN)
 	elif ammo_id != "" and mag > 0:
 		var loaded := 0
-		var player := get_tree().get_first_node_in_group("player")
+		var player := Run.local_player()
 		if player:
 			var rounds: Variant = player.get("_mag_rounds")
 			if rounds is Dictionary:
@@ -527,7 +543,7 @@ func _total_ammo(id: String) -> String:
 	if ammo_id == "":
 		return ""
 	var total := Inventory.count(ammo_id)
-	var player := get_tree().get_first_node_in_group("player")
+	var player := Run.local_player()
 	if player:
 		var rounds: Variant = player.get("_mag_rounds")
 		if rounds is Dictionary:
@@ -566,7 +582,7 @@ func _build_effects() -> void:
 
 
 func _refresh_effects() -> void:
-	var player := get_tree().get_first_node_in_group("player")
+	var player := Run.local_player()
 	var shield: Variant = player.get("_shit_hp") if player != null else 0.0
 	var rows: Array = Effects.hud_rows(float(shield) if shield != null else 0.0)
 	_effects.modulate.a = 0.2 if get_tree().paused else 1.0
@@ -605,12 +621,12 @@ func _effect_texture(id: String) -> Texture2D:
 
 func _tick_eye() -> void:
 	_eye_frame = 0
-	var player := get_tree().get_first_node_in_group("player")
+	var player := Run.local_player()
 	if player == null or not player is Node2D or get_tree().paused:
 		return
 	if not _shows_obs(player):
 		return
-	var obs := float(player.get_meta("foe_obs", 0.0))
+	var obs := AiWorld.meters(player).obs
 	if obs < 3.0:
 		return
 	_eye_frame = int(floor(obs / MAX_OBS * 40.0 + 1.0))
@@ -743,7 +759,7 @@ func _outline(r: Rect2) -> void:
 
 func _tick_prompt() -> void:
 	_progress = -1.0
-	var player := get_tree().get_first_node_in_group("player")
+	var player := Run.local_player()
 	if player == null:
 		_prompt.visible = false
 		return
@@ -799,7 +815,7 @@ func _cursor_target(player: Node) -> Node:
 				continue
 			if not (node as Node2D).is_visible_in_tree() or node.has_meta("fog_layer"):
 				continue
-			if node.get("_dead") == true or node.get_meta("dead", false) == true:
+			if node.get("_dead") == true or bool(_PS.getv(node, "dead", false)):
 				continue
 			var gap := float(player.call("_cursor_gap", node, cursor))
 			if gap > 0.0 or gap >= best_gap:
@@ -893,10 +909,10 @@ func _tele_line(action: String) -> String:
 
 
 func _state_text(node: Node) -> String:
-	var mine := int(node.get_meta("mine", 0))
-	var lock := int(round(float(node.get_meta("lock", 0.0))))
-	var tip := int(node.get_meta("locktip", 1))
-	if mine > 0 and int(node.get_meta("mine_tip", 3)) == 6:
+	var mine := int(_PS.getv(node, "mine", 0))
+	var lock := int(round(float(_PS.getv(node, "lock", 0.0))))
+	var tip := int(_PS.getv(node, "locktip", 1))
+	if mine > 0 and int(_PS.getv(node, "mine_tip", 3)) == 6:
 		return "[%s]" % OriginalLines.gui("signal")
 	if mine > 0:
 		return "[%s]" % OriginalLines.gui("mined")
@@ -955,13 +971,13 @@ func _in_use_reach(node: Node, player: Node) -> bool:
 
 
 func _use_possible(node: Node, _player: Node) -> bool:
-	if bool(node.get_meta("spent", false)) or bool(node.get_meta("dead", false)):
+	if bool(_PS.getv(node, "spent", false)) or bool(_PS.getv(node, "dead", false)):
 		return false
-	if node.has_meta("usable") and not bool(node.get_meta("usable")):
+	if not bool(_PS.getv(node, "usable", true)):
 		return false
 	if not node.is_in_group("tk_use"):
 		return false
-	if int(round(float(node.get_meta("lock", 0.0)))) >= 100:
+	if int(round(float(_PS.getv(node, "lock", 0.0)))) >= 100:
 		return false
 	# Interact.as:291: in a base a container loses cont, lock and action, so it
 	# is inactive and gives no tip (the player stash is not a cont).

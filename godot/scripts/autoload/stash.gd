@@ -14,17 +14,53 @@ const NO_VAULT: PackedStringArray = ["money", "paint", "spell", "spec", "key", "
 const KEEP_TIPS: PackedStringArray = ["food", "book", "sphera", "valuables"]
 const NO_ITEM_DAMAGE: PackedStringArray = ["DAM_BLEED", "DAM_POISON", "DAM_INTERNAL", "DAM_PINKCLOUD"]
 
-var vault: Dictionary = {}
-var hidden: Dictionary = {}
+const _StashState := preload("res://scripts/character/stash_state.gd")
+var _stash_ref: _StashState
+
+## This autoload's fields live on Run.character().stash; the properties below forward there.
+func _stash() -> _StashState:
+	if _stash_ref == null:
+		_stash_ref = Run.character().stash
+	return _stash_ref
+
+var vault: Dictionary:
+	get: return _stash().vault
+	set(value): _stash().vault = value
+var hidden: Dictionary:
+	get: return _stash().hidden
+	set(value): _stash().hidden = value
 ## Armor.stored: armour and amulets left on the stand.
-var stored_armor: Dictionary = {}
-var prev_armor := ""
+var stored_armor: Dictionary:
+	get: return _stash().stored_armor
+	set(value): _stash().stored_armor = value
+var prev_armor: String:
+	get: return _stash().prev_armor
+	set(value): _stash().prev_armor = value
 
 var _eqip: Array = []
 
 
 func _ready() -> void:
+	WorldOps.handle(&"store_armor", store_armor)
+	if not Inventory.stash_hidden_query.is_connected(_on_hidden_query):
+		Inventory.stash_hidden_query.connect(_on_hidden_query)
+	if not Inventory.stash_armor_change_query.is_connected(_on_armor_change_query):
+		Inventory.stash_armor_change_query.connect(_on_armor_change_query)
+	if not Inventory.stash_armor_worn.is_connected(armor_worn):
+		Inventory.stash_armor_worn.connect(armor_worn)
+	if not GameState.stash_hit.is_connected(hit):
+		GameState.stash_hit.connect(hit)
+	if not Vendors.stash_hidden_query.is_connected(_on_hidden_query):
+		Vendors.stash_hidden_query.connect(_on_hidden_query)
 	call_deferred("_register")
+
+
+func _on_hidden_query(id: String, reply: Dictionary) -> void:
+	reply.v = is_hidden(id)
+
+
+func _on_armor_change_query(id: String, reply: Dictionary) -> void:
+	reply.v = can_change_armor(id)
 
 
 func _register() -> void:
@@ -41,7 +77,7 @@ func reset_run() -> void:
 
 
 func get_state() -> Dictionary:
-	return {"vault": vault.duplicate(), "hidden": hidden.keys(), "stored_armor": stored_armor.keys(), "prev_armor": prev_armor}
+	return {"version": 1, "vault": vault.duplicate(), "hidden": hidden.keys(), "stored_armor": stored_armor.keys(), "prev_armor": prev_armor}
 
 
 func set_state(data: Variant) -> void:
@@ -245,8 +281,8 @@ func store_armor(id: String, stored: bool) -> bool:
 
 
 func _in_train() -> bool:
-	var player := get_tree().get_first_node_in_group("player") as Node2D
-	var land := get_tree().get_first_node_in_group("active_land")
+	var player := Run.local_player() as Node2D
+	var land := Run.land()
 	if player == null or land == null:
 		return false
 	var props := land.get_node_or_null("Actors")
@@ -296,14 +332,14 @@ func damage_items(dam: float, destroy := true) -> void:
 	if over <= 0.0 or dam <= 0.0:
 		return
 	var p := dam * over / 800.0
-	if not (p >= 1.0 or randf() < p):
+	if not (p >= 1.0 or Rng.randf(&"loot") < p):
 		return
-	var n := int(ceil(p * randf()))
+	var n := int(ceil(p * Rng.randf(&"loot")))
 	var eqip := _eqip_ids()
 	if eqip.is_empty():
 		return
 	for _i in 19:
-		var id := str(eqip[randi() % eqip.size()])
+		var id := str(eqip[Rng.randi(&"loot") % eqip.size()])
 		if Inventory.count(id) <= 0:
 			continue
 		var take := mini(n, Inventory.count(id))
@@ -339,7 +375,7 @@ func _eqip_ids() -> Array:
 
 
 func _drop(id: String, n: int) -> void:
-	var player := get_tree().get_first_node_in_group("player") as Node2D
+	var player := Run.local_player() as Node2D
 	var host := get_tree().get_first_node_in_group("land_props")
 	if n <= 0 or player == null or host == null:
 		return

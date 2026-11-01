@@ -13,7 +13,6 @@ var selected: Node
 
 var _commands
 var _open := false
-var _restore_paused := false
 var _held_player: Node
 var _restore_physics := false
 var _touched_player := false
@@ -205,8 +204,7 @@ func _open_console() -> void:
 	_panel.visible = true
 	# Freeze the tree so held keys do not move, shoot, or use objects while typing.
 	# The player's own check looks at Input, which stays live if only the GUI has focus.
-	_restore_paused = get_tree().paused
-	get_tree().paused = true
+	Sim.set_paused(true, &"console")
 	_hold_player()
 	_line.call_deferred("grab_focus")
 
@@ -217,10 +215,10 @@ func _close_console() -> void:
 	_open = false
 	_panel.visible = false
 	_release_player()
-	get_tree().paused = _restore_paused
+	Sim.set_paused(false, &"console")
 	_line.release_focus()
 	get_viewport().gui_release_focus()
-	if _restore_paused:
+	if Sim.paused():
 		var menu := get_tree().root.find_child("PauseMenu", true, false)
 		if menu != null and menu.has_method("focus_menu"):
 			menu.call_deferred("focus_menu")
@@ -228,7 +226,7 @@ func _close_console() -> void:
 
 func _hold_player() -> void:
 	_touched_player = false
-	var player := get_tree().get_first_node_in_group("player")
+	var player := Run.local_player()
 	if player == null:
 		return
 	_held_player = player
@@ -503,7 +501,7 @@ func _over_panel(screen: Vector2) -> bool:
 
 
 func _screen_to_world(screen: Vector2) -> Vector2:
-	var cam := get_viewport().get_camera_2d()
+	var cam := Run.camera()
 	if cam != null:
 		return cam.get_canvas_transform().affine_inverse() * screen
 	return get_viewport().get_canvas_transform().affine_inverse() * screen

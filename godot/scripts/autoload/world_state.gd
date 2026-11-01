@@ -11,30 +11,64 @@ extends Node
 ##
 ## Other systems persist their own state with
 ##   WorldState.register(provider_id, get_callable, set_callable)
+##   WorldState.register_run(provider_id, get_callable, set_callable)
+## register is world.json (lands and the providers that travel with them).
+## register_run is run.json. Ids in CHARACTER_ORDER go to character.json
+## whichever call registers them. A blob carries its own version key.
+## The mods provider (run version 2) records active mod ids and versions.
+## A save with no mods key still loads. Loading does not switch mods.
 ## get_callable() -> Variant returns JSON-safe data; set_callable(data) gets it
-## back after a load (at once if the save was loaded before registering).
-## Data of providers that never register in a run is kept and saved again.
+## back after a load (at once if the save was loaded before registering) and
+## accepts that provider's older blobs. Data of providers that never register
+## in a run is kept and saved again.
 
 signal run_reset
 signal restored
+## The saved spot is applied (or given up); the player stands where the save was.
+signal resumed
 
 const VERSION := 2
-## Version 2 took the 2021 room files: these lands' room pools changed, so a
+const RUN_VERSION := 2
+const _Mods = preload("res://scripts/mod_loader.gd")
+## World version 2 took the 2021 room files: these lands' room pools changed, so a
 ## version 1 snapshot (rows named by plan placement) no longer fits their plan.
+## Run version 2 adds the mods provider. A run document at version 1 still loads.
 const REPLANNED_V2 := ["random_canter", "random_mane", "random_stable", "random_encl", "random_plant", "random_sewer"]
 const FILE := "world.json"
+const RUN_FILE := "run.json"
+## Body before game: the hp cap uses rad and the level. Vendor money is applied
+## again when the stock provider builds, so it can sit anywhere in this list.
+const RUN_ORDER: PackedStringArray = [
+	"progression", "condition", "inventory", "body", "pets", "game", "vendor_meta",
+]
+## One player's providers (PORT_RULES "Future multiplayer"), written to
+## character.json in this order. Format 3 slots kept them in run.json and
+## world.json; register, apply_run and from_save send those ids here too.
+const CHARACTER_FILE := "character.json"
+const CHARACTER_VERSION := 1
+const CHARACTER_ORDER: PackedStringArray = [
+	"progression", "condition", "inventory", "body", "pets", "game", "stash", "effects", "favorites",
+]
 const LandGen := preload("res://scripts/map/land_gen.gd")
 const RESUME_FRAMES := 600
 const AUTOSAVE_SLOT := 0
 
 var run_seed := 0
 var autosave_on_travel := true
+## >= 0: every new run uses this seed for run_seed (replay checks; later
+## lockstep play). -1: a random seed per run. Gameplay draws use Rng streams.
+var fixed_seed := -1
 
 var _lands := {}
 var _builds := {}
+var _replanned := {}
 var _live := {}
 var _providers := {}
 var _provider_data := {}
+var _run_providers := {}
+var _run_data := {}
+var _char_providers := {}
+var _char_data := {}
 var _resume := {}
 var _resume_left := 0
 var _resume_sent := false
@@ -45,23 +79,40 @@ var _autosave_in := -1
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	reset_run()
+	register_run("mods", _mods_get, _mods_set)
+
+
+func _mods_get() -> Dictionary:
+	return {"version": 1, "active": _Mods.applied()}
+
+
+## The boot set is what the next save records. Applying a blob does not
+## enable or disable mods; old blobs without `active` are accepted.
+func _mods_set(_data: Variant) -> void:
+	pass
 
 
 ## A new run: every land is forgotten. game.gd calls this as the run starts.
 func reset_run() -> void:
 	_lands.clear()
 	_builds.clear()
+	_replanned.clear()
 	_live.clear()
 	_resume.clear()
 	_resume_sent = false
 	_active_id = ""
 	_autosave_in = -1
-	randomize()
-	run_seed = randi()
+	if fixed_seed >= 0:
+		run_seed = fixed_seed
+	else:
+		run_seed = _fresh_seed()
 	run_reset.emit()
 
 
 func register(provider_id: String, get_callable: Callable, set_callable: Callable) -> void:
+	if provider_id in CHARACTER_ORDER:
+		_register_character(provider_id, get_callable, set_callable)
+		return
 	_providers[provider_id] = [get_callable, set_callable]
 	if _provider_data.has(provider_id):
 		var data: Variant = _provider_data[provider_id]
@@ -70,13 +121,25 @@ func register(provider_id: String, get_callable: Callable, set_callable: Callabl
 			set_callable.call(data)
 
 
-func unregister(provider_id: String) -> void:
-	if not _providers.has(provider_id):
+func _register_character(provider_id: String, get_callable: Callable, set_callable: Callable) -> void:
+	_char_providers[provider_id] = [get_callable, set_callable]
+	if _char_data.has(provider_id):
+		var data: Variant = _char_data[provider_id]
+		_char_data.erase(provider_id)
+		if set_callable.is_valid():
+			set_callable.call(data)
+
+
+func register_run(provider_id: String, get_callable: Callable, set_callable: Callable) -> void:
+	if provider_id in CHARACTER_ORDER:
+		_register_character(provider_id, get_callable, set_callable)
 		return
-	var getter: Callable = (_providers[provider_id] as Array)[0]
-	if getter.is_valid():
-		_provider_data[provider_id] = getter.call()
-	_providers.erase(provider_id)
+	_run_providers[provider_id] = [get_callable, set_callable]
+	if _run_data.has(provider_id):
+		var data: Variant = _run_data[provider_id]
+		_run_data.erase(provider_id)
+		if set_callable.is_valid():
+			set_callable.call(data)
 
 
 ## Drops what is known about a land; its next build starts fresh, from a new
@@ -84,33 +147,34 @@ func unregister(provider_id: String) -> void:
 func forget_land(land_id: String) -> void:
 	_lands.erase(land_id)
 	_live.erase(land_id)
-	_builds[land_id] = {"seed": randi(), "lvl": -1}
-
-
-func has_land(land_id: String) -> bool:
-	return _lands.has(land_id) or _live.has(land_id)
-
-
-func land_ids() -> Array:
-	var out: Array = _lands.keys()
-	for id in _live:
-		if not out.has(id):
-			out.append(id)
-	return out
+	_builds[land_id] = {"seed": _fresh_seed(), "lvl": -1, "gen": LandGen.GEN_VERSION}
 
 
 # --- building ------------------------------------------------------------
 
-## play_land.gd make(): seeds the global RNG so the land plans the same way again.
-func begin_build(land_id: String) -> void:
+## play_land.gd make(): the build stream repeats this land's stored seed.
+func begin_build(land_id: String, chunk := 0) -> void:
 	var info := _build_info(land_id)
 	LandGen.keep_seed = true
-	seed(int(info.seed))
+	LandGen.chunk = chunk
+	LandGen.chunk_seed = int(chunk_info(land_id, chunk).seed)
+	var rng := Rng
+	if rng != null:
+		rng.bind_land(land_id)
+		rng.seed_build(int(info.seed))
+	else:
+		seed(int(info.seed))
 
 
 func end_build(_land_id: String) -> void:
 	LandGen.keep_seed = false
-	randomize()
+	LandGen.chunk = 0
+
+
+func _fresh_seed() -> int:
+	var rng := RandomNumberGenerator.new()
+	rng.randomize()
+	return rng.randi()
 
 
 ## The level a land was first planned at. lvl is the level it would use now.
@@ -123,13 +187,43 @@ func build_level(land_id: String, lvl: int) -> int:
 
 ## Any other build input (land stage, visited, triggers) as it was when the
 ## land was first planned, so a rebuild of the same Land plans the same rows.
-func build_value(land_id: String, key: String, value: Variant) -> Variant:
-	var info := _build_info(land_id)
+func build_value(land_id: String, key: String, value: Variant, chunk := 0) -> Variant:
+	var info := chunk_info(land_id, chunk)
 	var known: Dictionary = info.get("in", {})
 	if not known.has(key):
 		known[key] = value
 		info["in"] = known
 	return known[key]
+
+
+## LandGen cell records of a generated land's (chunk's) first plan; {} before it.
+func build_cells(land_id: String, chunk := 0) -> Dictionary:
+	return chunk_info(land_id, chunk).get("cells", {})
+
+
+func keep_cells(land_id: String, cells: Dictionary, chunk := 0) -> void:
+	chunk_info(land_id, chunk)["cells"] = cells
+
+
+## Build info of one chunk of a land: chunk 0 is the land's own; a chained
+## chunk keeps its seed (from the land's), frozen inputs and cell records
+## under "chunks" in the land's build info.
+func chunk_info(land_id: String, chunk := 0) -> Dictionary:
+	var info := _build_info(land_id)
+	if chunk <= 0:
+		return info
+	var chunks: Dictionary = info.get("chunks", {})
+	var key := str(chunk)
+	if not chunks.has(key):
+		chunks[key] = {"seed": absi(hash([int(info.seed), chunk])), "lvl": -1}
+		info["chunks"] = chunks
+	return chunks[key]
+
+
+## Generated lands whose save came from an older generator; their memory was
+## dropped on load (Travel drops their checkpoint spot too).
+func replanned(land_id: String) -> bool:
+	return _replanned.has(land_id)
 
 
 func _build_info(land_id: String) -> Dictionary:
@@ -138,7 +232,7 @@ func _build_info(land_id: String) -> Dictionary:
 		if stored.has("seed"):
 			_builds[land_id] = stored.duplicate(true)
 		else:
-			_builds[land_id] = {"seed": absi(hash("%d:%s" % [run_seed, land_id])), "lvl": -1}
+			_builds[land_id] = {"seed": absi(hash("%d:%s" % [run_seed, land_id])), "lvl": -1, "gen": LandGen.GEN_VERSION}
 	return _builds[land_id]
 
 
@@ -157,11 +251,6 @@ func store(land_id: String, snapshot: Dictionary) -> void:
 	if _builds.has(land_id):
 		snapshot["build"] = (_builds[land_id] as Dictionary).duplicate(true)
 	_lands[land_id] = snapshot
-
-
-func snapshot_of(land_id: String) -> Dictionary:
-	_refresh(land_id)
-	return _lands.get(land_id, {})
 
 
 func _refresh(land_id: String) -> void:
@@ -196,7 +285,7 @@ func to_save() -> Dictionary:
 		"providers": providers,
 	}
 	var land := _active_land()
-	var player := get_tree().get_first_node_in_group("player") as Node2D
+	var player := Run.local_player()
 	if land and player:
 		var at := player.global_position
 		out["land"] = _id_of(land)
@@ -216,11 +305,19 @@ func from_save(data: Dictionary) -> bool:
 	if int(data.get("version", 0)) < 2:
 		for id in REPLANNED_V2:
 			_lands.erase(id)
+	_replanned.clear()
+	for id in _lands.keys():
+		var build: Dictionary = (_lands[id] as Dictionary).get("build", {})
+		if LandGen.is_generated(str(id)) and int(build.get("gen", 1)) < LandGen.GEN_VERSION:
+			_lands.erase(id)
+			_replanned[str(id)] = true
 	_builds.clear()
 	var providers: Dictionary = data.get("providers", {})
 	_provider_data.clear()
 	for id in providers:
-		if _providers.has(id):
+		if str(id) in CHARACTER_ORDER:
+			_apply_char_provider(str(id), providers[id])
+		elif _providers.has(id):
 			var setter: Callable = (_providers[id] as Array)[1]
 			if setter.is_valid():
 				setter.call(providers[id])
@@ -260,6 +357,121 @@ func read(dir: String) -> bool:
 	return from_save(parsed)
 
 
+func run_document() -> Dictionary:
+	var providers := _run_data.duplicate(true)
+	for id in _run_providers:
+		var getter: Callable = (_run_providers[id] as Array)[0]
+		if getter.is_valid():
+			providers[id] = getter.call()
+	return {"version": RUN_VERSION, "providers": providers}
+
+
+func apply_run(data: Dictionary) -> bool:
+	var ver := int(data.get("version", 0))
+	if ver < 1 or ver > RUN_VERSION:
+		push_warning("run save version %s not supported" % str(data.get("version")))
+		return false
+	var providers: Dictionary = data.get("providers", {})
+	_run_data.clear()
+	var done := {}
+	for id in RUN_ORDER:
+		if providers.has(id):
+			_apply_run_provider(id, providers[id])
+			done[id] = true
+	for id in providers:
+		if done.has(id):
+			continue
+		_apply_run_provider(str(id), providers[id])
+	return true
+
+
+func write_run(dir: String) -> bool:
+	var file := FileAccess.open(dir + RUN_FILE, FileAccess.WRITE)
+	if file == null:
+		return false
+	file.store_string(JSON.stringify(run_document()))
+	file.close()
+	return true
+
+
+func read_run(dir: String) -> bool:
+	if not FileAccess.file_exists(dir + RUN_FILE):
+		push_warning("run save missing: %s" % (dir + RUN_FILE))
+		return false
+	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(dir + RUN_FILE))
+	if not parsed is Dictionary:
+		push_warning("run save unreadable: %s" % (dir + RUN_FILE))
+		return false
+	return apply_run(parsed)
+
+
+func character_document() -> Dictionary:
+	var providers := _char_data.duplicate(true)
+	for id in _char_providers:
+		var getter: Callable = (_char_providers[id] as Array)[0]
+		if getter.is_valid():
+			providers[id] = getter.call()
+	return {"version": CHARACTER_VERSION, "providers": providers}
+
+
+func apply_character(data: Dictionary) -> bool:
+	var ver := int(data.get("version", 0))
+	if ver < 1 or ver > CHARACTER_VERSION:
+		push_warning("character save version %s not supported" % str(data.get("version")))
+		return false
+	var providers: Dictionary = data.get("providers", {})
+	for id in CHARACTER_ORDER:
+		if providers.has(id):
+			_apply_char_provider(id, providers[id])
+	for id in providers:
+		if not str(id) in CHARACTER_ORDER:
+			_apply_char_provider(str(id), providers[id])
+	return true
+
+
+func write_character(dir: String) -> bool:
+	var file := FileAccess.open(dir + CHARACTER_FILE, FileAccess.WRITE)
+	if file == null:
+		return false
+	file.store_string(JSON.stringify(character_document()))
+	file.close()
+	return true
+
+
+## False when the slot has no character.json (format 3: the blobs are in
+## run.json and world.json and arrive through apply_run and from_save).
+func read_character(dir: String) -> bool:
+	_char_data.clear()
+	if not FileAccess.file_exists(dir + CHARACTER_FILE):
+		return false
+	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(dir + CHARACTER_FILE))
+	if not parsed is Dictionary:
+		push_warning("character save unreadable: %s" % (dir + CHARACTER_FILE))
+		return false
+	return apply_character(parsed)
+
+
+func _apply_char_provider(id: String, data: Variant) -> void:
+	if _char_providers.has(id):
+		var setter: Callable = (_char_providers[id] as Array)[1]
+		if setter.is_valid():
+			setter.call(data)
+	else:
+		_char_data[id] = data
+
+
+func _apply_run_provider(id: String, data: Variant) -> void:
+	if id in CHARACTER_ORDER:
+		_apply_char_provider(id, data)
+		return
+	if _run_providers.has(id):
+		var setter: Callable = (_run_providers[id] as Array)[1]
+		if setter.is_valid():
+			setter.call(data)
+	else:
+		_run_data[id] = data
+
+
 func current_land_id() -> String:
 	var land := _active_land()
 	return _id_of(land) if land else ""
@@ -268,7 +480,7 @@ func current_land_id() -> String:
 func _active_land() -> Node:
 	if not is_inside_tree():
 		return null
-	return get_tree().get_first_node_in_group("active_land")
+	return Run.land()
 
 
 func _id_of(land: Node) -> String:
@@ -286,6 +498,10 @@ func _process(_delta: float) -> void:
 	if id != _active_id:
 		var was := _active_id
 		_active_id = id
+		if id != "":
+			var rng := Rng
+			if rng != null:
+				rng.bind_land(id)
 		if was != "" and id != "" and autosave_on_travel:
 			_autosave_in = 2
 	if _autosave_in > 0:
@@ -304,19 +520,21 @@ func _tick_resume() -> void:
 	_resume_left -= 1
 	if _resume_left <= 0:
 		_resume.clear()
+		resumed.emit()
 		return
 	var target := str(_resume.land)
 	var id := current_land_id()
 	if id == "":
 		return
 	# Travel picks the land a save resumes in (a generated land goes back to
-	# the camp); the saved spot only counts in the saved land.
-	var travel := get_node_or_null("/root/Travel")
-	if travel != null:
-		if str(travel.get("cur_land_id")) != target:
+	# the camp); the saved spot only counts in the saved land. The two fields
+	# are mirrored on Run so this autoload does not name Travel.
+	if Run.travel_on:
+		if Run.cur_land_id != target:
 			_resume.clear()
+			resumed.emit()
 			return
-		if int(travel.get("exit_state")) != 0 or id != target:
+		if Run.exit_state != 0 or id != target:
 			return
 	elif id != target:
 		if not _resume_sent:
@@ -325,7 +543,7 @@ func _tick_resume() -> void:
 				_resume_sent = true
 				host.goto_land(target)
 		return
-	var player := get_tree().get_first_node_in_group("player") as CharacterBody2D
+	var player := Run.local_player() as CharacterBody2D
 	if player == null:
 		return
 	player.global_position = _resume.pos
@@ -336,3 +554,4 @@ func _tick_resume() -> void:
 		camera.reset_smoothing()
 	_resume.clear()
 	_active_id = id
+	resumed.emit()

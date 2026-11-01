@@ -75,9 +75,9 @@ func control() -> void:
 	else:
 		if ai_spok <= 0:
 			ai_state = 1
-			ai_tch = randi_range(40, 79)
+			ai_tch = Rng.randi_range(&"ai", 40, 79)
 		else:
-			ai_tch = randi_range(40, 89)
+			ai_tch = Rng.randi_range(&"ai", 40, 89)
 		if ai_spok > 0:
 			ai_state = 4
 		if ai_spok >= max_spok:
@@ -86,7 +86,7 @@ func control() -> void:
 		if find_cel():
 			if ai_state <= 1:
 				ai_state = 2
-				ai_tch = randi_range(30, 39)
+				ai_tch = Rng.randi_range(&"ai", 30, 39)
 			elif ai_state >= 3:
 				ai_state = 3
 	if fixed:
@@ -126,7 +126,7 @@ func control() -> void:
 			if ai_t_turn < 0:
 				ai_napr = turn_x
 				storona = turn_x
-				ai_t_turn = randi_range(5, 24)
+				ai_t_turn = Rng.randi_range(&"ai", 5, 24)
 			turn_x = 0.0
 			turn_y = 0.0
 		if jmp > 0.0:

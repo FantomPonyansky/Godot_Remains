@@ -19,28 +19,30 @@ const _DIR := "res://assets/sprites/tiles/"
 ## Block letter -> [texture, top texture, wall left behind the block, edge texture].
 ## Empty wall means the block leaves none. Empty edge means the piece has no outline bitmap.
 ## Edge names are tilePieces edgeTexture. tMoss is only the mossy-concrete outline (L).
-const BLOCK := {
-	"A": ["tMetal", "", "tConcreteBack", "tKlep"],
-	"B": ["tSuperCon", "", "tConcreteBack", "tBorder"],
-	"C": ["tConcrete", "tFloor", "tConcreteBack", "tBorder"],
-	"D": ["tConcreteD", "", "tConcreteBack", "tSkol"],
-	"E": ["tCracked", "", "tConcreteBack", "tSkol"],
-	"F": ["tWood", "", "", ""],
-	"G": ["tRock", "", "tConcreteBack", "tSkol"],
-	"H": ["tStones", "", "tDirt2", "tDirt2"],
-	"I": ["tBrick2", "tFloor", "tConcreteBack", ""],
-	"J": ["tMWall", "tFloorMetal", "tConcreteBack", "tKlep2"],
-	"K": ["tMWall2", "tFloorMetal", "tConcreteBack", ""],
-	"L": ["tConcreteMoss", "", "tConcreteBack", "tMoss"],
-	"M": ["tRust", "", "tConcreteBack", "tKlep"],
-	"N": ["tBuild", "tFloor", "tConcreteBack", "tConRough"],
-	"O": ["tBaseMetal", "tFloorMetal", "tConcreteBack", "tKlep2"],
-	"P": ["tCanBrick", "tFloor", "tConcreteBack", ""],
-	"Q": ["tConRough", "tFloor", "tConcreteBack", "tBorder"],
-	"R": ["tRoof", "tRoofFloor", "tConcreteBack", ""],
-	"S": ["tEncl1", "tFloorMetal", "tConcreteBack", "tKlep3"],
-	"T": ["tEncl2", "tFloorMetal", "tConcreteBack", "tKlep3"],
-}
+## Wall letter -> [hp, damageThreshold, material, indestructible]. A missing threshold
+## in the original is 0. Room edges are not in this table.
+const _CATALOG_PATH := "res://assets/data/maps/tile_catalog.json"
+static var BLOCK: Dictionary = {}
+static var WALL: Dictionary = {}
+static var _catalog_ok := false
+
+
+static func _static_init() -> void:
+	_catalog()
+
+
+static func _catalog() -> void:
+	if _catalog_ok:
+		return
+	var parsed: Variant = DataLib.load(_CATALOG_PATH)
+	if parsed is not Dictionary:
+		return
+	_catalog_ok = true
+	var doc: Dictionary = parsed
+	var block: Variant = doc.get("block", {})
+	var wall: Variant = doc.get("wall", {})
+	BLOCK = block if block is Dictionary else {}
+	WALL = wall if wall is Dictionary else {}
 
 ## Overlay letter -> [kind, texture, side, tileFront frame].
 const OVERLAY := {
@@ -129,6 +131,7 @@ static func ladder_rail_sprite_x(side: String) -> float:
 
 
 static func decode(code: String) -> Dictionary:
+	_catalog()
 	var info := {
 		"block": "",
 		"texture": "",
@@ -194,34 +197,9 @@ static func beam_texture(ch: String) -> String:
 	return str((OVERLAY[ch] as Array)[1])
 
 
-## tilePieces.json solid blocks. hp, damageThreshold, material, indestructible.
-## A missing threshold is 0 (TilePiece_Definition). Junk is the only solid with none.
-## Room edges are not in this table: TileRegistry.viewBorderDefinition forces
-## 10000 HP, indestructible, and the land border block's threshold.
-const WALL := {
-	"A": [30000, 1200, "metal", true],
-	"B": [5000, 1200, "stone", false],
-	"C": [1000, 100, "stone", false],
-	"D": [1000, 100, "stone", false],
-	"E": [150, 10, "stone", false],
-	"F": [40, 0, "wood", false],
-	"G": [1000, 100, "stone", false],
-	"H": [1000, 100, "earth", false],
-	"I": [1000, 100, "brick", false],
-	"J": [5000, 1200, "metal", false],
-	"K": [1000, 100, "metal", false],
-	"L": [1000, 100, "stone", false],
-	"M": [5000, 1200, "metal", false],
-	"N": [1000, 100, "stone", false],
-	"O": [5000, 4000, "metal", false],
-	"P": [1000, 100, "stone", false],
-	"Q": [1000, 100, "stone", false],
-	"R": [150, 10, "brick", false],
-	"S": [5000, 4000, "metal", false],
-	"T": [1000, 100, "metal", false],
-}
-
 ## Lands.xml options border. LandAct defaults to steel (A) when the attribute is absent.
+## Room edges are not here: TileRegistry.viewBorderDefinition forces 10000 HP,
+## indestructible, and the land border block's threshold.
 const BORDER := {
 	"random_sewer": "M",
 	"random_mane": "N",
@@ -237,6 +215,7 @@ const BORDER := {
 
 
 static func wall_of(code: String) -> Dictionary:
+	_catalog()
 	var info := decode(code)
 	var letter := str(info.block)
 	if letter == "" or not WALL.has(letter) or not BLOCK.has(letter):

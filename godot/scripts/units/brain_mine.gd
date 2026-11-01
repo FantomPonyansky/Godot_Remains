@@ -13,7 +13,7 @@ var wdestroy := 0.0
 var damage1 := 0.0
 var visibility := 300.0
 var chain := false
-var ai_n := randi() % 5
+var ai_n := Rng.randi(&"ai") % 5
 var seen := false
 ## Mine.otschet: in-range scans a light-stepping player (activateTrap 1) gets for free.
 var otschet := 10
@@ -26,7 +26,7 @@ func configure() -> void:
 	expl_radius = float(m.get("expl", 0.0))
 	knock = float(m.get("knock", 5.0))
 	wdestroy = float(m.get("destroy", 10.0))
-	damage1 = dam * (randf() * 0.3 + 0.85)
+	damage1 = dam * (Rng.randf(&"ai") * 0.3 + 0.85)
 	ai_state = 1
 	acts_held = true
 	flips_sprite = false
@@ -34,12 +34,12 @@ func configure() -> void:
 	u.set("points", 0)
 	u.set("fraction", 2)
 	u.set("_can_lift", true)
-	u.set("_detect_delay", float(u.get("_detect_delay")) * 0.5)
+	u.set("_detect_delay", int(u.get("_detect_delay")) / 2)
 	var mtr := int(m.get("lvl", 1))
 	var ndif := mini(5, int(u.get_meta("ndif", 2)))
-	var lvl := mini(int(round(1.0 + randf() * float(ndif + 1))), 5)
+	var lvl := mini(int(round(1.0 + Rng.randf(&"ai") * float(ndif + 1))), 5)
 	if mtr >= 5 or id == "zebmine" or id == "balemine":
-		lvl = randi_range(5, 7)
+		lvl = Rng.randi_range(&"ai", 5, 7)
 		if id == "zebmine":
 			chain = true
 			visibility = 180.0
@@ -126,7 +126,7 @@ func control() -> void:
 						_bind_chain()
 					activate()
 		# Held by telekinesis, every 10 ticks a 10% chance to arm the fuse.
-		if ai_state == 1 and bool(u.get("levitated")) and ai_n % 10 == 1 and randf() < 0.1:
+		if ai_state == 1 and bool(u.get("levitated")) and ai_n % 10 == 1 and Rng.randf(&"ai") < 0.1:
 			activate()
 	elif ai_state == 2:
 		if expl_time % 5 == 3:

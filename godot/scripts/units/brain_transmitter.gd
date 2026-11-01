@@ -81,7 +81,7 @@ func control() -> void:
 		var rkoef := (DIST_DAM - rasst) / DIST_DAM
 		rkoef = rkoef * 2.0 if rkoef < 0.5 else 1.0
 		if p.has_method("take_hit"):
-			p.take_hit(int(round(dam * rkoef)), tip)
+			WorldOps.damage(p, HitInfo.make(int(round(dam * rkoef)), tip, u))
 
 
 func animate() -> void:

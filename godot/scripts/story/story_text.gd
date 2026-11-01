@@ -31,10 +31,6 @@ static func dialogue(id: String) -> Dictionary:
 	return _dials.get(id, {})
 
 
-static func has_dialogue(id: String) -> bool:
-	return not dialogue(id).is_empty()
-
-
 ## Lines of a dialogue; a plain <n> text is one line.
 static func lines(id: String) -> Array:
 	return dialogue(id).get("lines", [])
@@ -92,7 +88,7 @@ static func bark(id: String, act: String) -> String:
 	var rows: Array = _barks.get(id + "_" + act, [])
 	if rows.is_empty():
 		return ""
-	var s := str(rows[randi() % rows.size()])
+	var s := str(rows[Rng.randi(&"fx") % rows.size()])
 	var a := s.find("#")
 	if a >= 0:
 		var b := s.rfind("#")

@@ -5,6 +5,44 @@ extends AnimatableBody2D
 ## Sides do not stop movement. Stacks ride osnova and sleep while stay and vx == 0.
 ## Wall-mounted containers are not this body.
 
+const _PS := preload("res://scripts/prop_state.gd")
+
+var eid := ""
+var kind: StringName = &"prop"
+var authority: bool = true
+var faction := 0
+var _fields_live := false
+var _field_set: Dictionary = {}
+var lock := 0.0
+var dead := false
+var usable := true
+var spent := false
+var opened := false
+var box_hp := 0.0
+var vis_state := ""
+var mine := 0
+var hackable := false
+var locktip := 1
+var lock_hp := 10.0
+var lock_level := 0
+var lock_att := -100
+var mine_tip := 3
+var allact := ""
+var allid := ""
+var once := 0
+var act_time := 0
+var lock_key := ""
+var keyloss := 0
+var fun := ""
+var sec := false
+var user_action := ""
+var hold_use := false
+var touched := false
+var box_open := false
+var close_at := 0
+var blocks_sight := false
+var prize_locked := false
+
 @export var levitate_difficulty: float = 10.0
 
 ## Box.stay. Public so a crate stacked above can read it.
@@ -60,17 +98,30 @@ const _Registry := preload("res://scripts/map/land_registry.gd")
 static var _batch_frame: int = -1
 
 ## objs.xml massa='N' is stored as N/50. Others use the size formula.
-const _MASSA := {
-	"woodbox": 0.3, "mcrate1": 0.5, "box": 1.0, "mcrate2": 1.5, "mcrate3": 2.4,
-	"bigbox": 3.5, "bigbox2": 10.0, "mcrate4": 20.0, "mcrate5": 10.0,
-	"radbarrel": 2.0, "radbigbarrel": 22.0, "reactor": 1000.0,
-}
-const _MULT := {
-	"safe": 1.5, "case": 0.5, "weapbox": 1.5, "weapcase": 2.0, "bigmed": 0.5,
-	"instr1": 1.2, "table": 0.5, "trash": 0.5, "ccup": 1.5, "tap": 1.5,
-	"couch": 4.0, "himlab": 0.5, "stove": 2.0, "enclcase": 2.0,
-	"table1": 0.5, "table2": 0.5, "table3": 0.5, "table4": 0.5, "longtable": 0.5,
-}
+const _MASSA_PATH := "res://assets/data/maps/held_massa.json"
+static var _MASSA: Dictionary = {}
+static var _MULT: Dictionary = {}
+static var _massa_ok := false
+
+
+static func _static_init() -> void:
+	_massa()
+
+
+static func _massa() -> void:
+	if _massa_ok:
+		return
+	var parsed: Variant = DataLib.load(_MASSA_PATH)
+	if parsed is not Dictionary:
+		return
+	_massa_ok = true
+	var doc: Dictionary = parsed
+	var massa: Variant = doc.get("massa", {})
+	var mult: Variant = doc.get("mult", {})
+	_MASSA = massa if massa is Dictionary else {}
+	_MULT = mult if mult is Dictionary else {}
+
+
 ## scx / scy from objs.xml. 0 keeps the sprite size on that axis. Bottom-aligned.
 const _TRIM := {
 	"couch": Vector2(0, 20), "bed": Vector2(0, 28), "tap": Vector2(0, 45),
@@ -81,6 +132,7 @@ const _TRIM := {
 
 
 func _ready() -> void:
+	_massa()
 	_art = get_meta("box", Vector2(40, 40))
 	if _art.x < 1.0 or _art.y < 1.0:
 		_art = Vector2(40, 40)
@@ -142,6 +194,23 @@ func _ready() -> void:
 			Vector2.ZERO, Vector2(_art.x, 0), _art, Vector2(0, _art.y)
 		])
 		add_child(poly)
+	_PS.absorb(self)
+
+
+func snapshot() -> Dictionary:
+	return _PS.record(self)
+
+
+func restore(d: Dictionary) -> void:
+	_PS.apply_fields(self, d)
+
+
+func land_record() -> Dictionary:
+	return snapshot()
+
+
+func apply_land(d: Dictionary) -> void:
+	restore(d)
 
 
 func _physics_process(delta: float) -> void:
@@ -156,7 +225,7 @@ func _physics_process(delta: float) -> void:
 	# a land holds hundreds of them.
 	var boxes: Array = []
 	for box in get_tree().get_nodes_in_group("floor_box"):
-		if box.has_method("_sim") and (box.held or not bool(box.get_meta("frozen", false))):
+		if box.has_method("_sim") and Entity.has_authority(box) and (box.held or not bool(box.get_meta("frozen", false))):
 			boxes.append([box.crate_bottom(), box])
 	boxes.sort_custom(func(a: Array, b: Array) -> bool: return a[0] > b[0])
 	for entry in boxes:
@@ -298,8 +367,8 @@ func _check_water() -> void:
 		return
 	var vy := _vy / 30.0
 	if absf(vy) > 8.0:
-		UnitFx.emit(get_tree(), "kap", Vector2(at.x, at.y - _hit.y * 0.25 + vy),
-			{"dy": -absf(vy) * (randf() * 0.3 + 0.3), "kol": clampi(int(absf(vy * massa * 2.0) - 5.0), 0, 100)})
+		Fx.particles("kap", Vector2(at.x, at.y - _hit.y * 0.25 + vy),
+			{"dy": -absf(vy) * (Rng.randf(&"fx") * 0.3 + 0.3), "kol": clampi(int(absf(vy * massa * 2.0) - 5.0), 0, 100), "source": self})
 	if vy > 5.0:
 		_UnitWater.fall_sound(massa, vy / 10.0)
 
@@ -313,10 +382,10 @@ func _att_drop() -> void:
 		return
 	var rect := Rect2(global_position + _hit_origin, _hit)
 	var now := Time.get_ticks_msec()
-	var targets := get_tree().get_nodes_in_group("enemies")
+	var targets := Units.in_rect(rect)
 	# fracLevit: a crate the player lifted spares the player's side until it lands.
 	if not _frac_player:
-		targets.append_array(get_tree().get_nodes_in_group("player"))
+		targets.append_array(Run.players())
 	for node in targets:
 		if not node is Node2D or not is_instance_valid(node) or node.get("_dead") == true:
 			continue
@@ -339,7 +408,7 @@ func _att_drop() -> void:
 			_vx = mine.x
 			_vy = mine.y
 		if node.is_in_group("player"):
-			node.take_hit(maxi(1, roundi(dam)), "DAM_BLUNT")
+			WorldOps.damage(node, HitInfo.make(maxi(1, roundi(dam)), "DAM_BLUNT", self))
 		else:
 			_Resistances.apply(node, dam, "DAM_BLUNT")
 		vel2 = (_vx * _vx + _vy * _vy) / 900.0
@@ -442,7 +511,7 @@ func _land() -> void:
 	var frame_vy := _vy / 30.0
 	var frame_vx := _vx / 30.0
 	if frame_vy > 4.0 and frame_vy * massa > 5.0 and CamShake != null:
-		CamShake.quake(0.0, frame_vy * sqrt(massa) / 2.0)
+		Fx.shake(frame_vy * sqrt(massa) / 2.0, global_position, {"x": 0.0, "y": frame_vy * sqrt(massa) / 2.0, "source": self})
 	# Box.sndOn: the first touchdown after spawn is silent.
 	if frame_vy > 5.0 and _snd_on:
 		preload("res://scripts/prop_sfx.gd").obj(str(get_meta("id", "")), "fall", minf(frame_vy / 15.0, 1.0))

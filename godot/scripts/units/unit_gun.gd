@@ -151,10 +151,6 @@ func attack(wait_ready: bool = false) -> bool:
 	return true
 
 
-func attack_pos() -> bool:
-	return t_attack <= 0 and t_reload <= 0
-
-
 func init_reload() -> void:
 	if cap <= 0 or recharg > 0 or t_reload > 0:
 		return

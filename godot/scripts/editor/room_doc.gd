@@ -423,5 +423,3 @@ func delete_room(name: String) -> bool:
 	return false
 
 
-func xml_text() -> String:
-	return Codec.xml_from_doc(to_dict())

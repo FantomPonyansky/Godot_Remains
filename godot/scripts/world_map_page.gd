@@ -20,33 +20,23 @@ const SIM := 40.0
 const SIGN_AT := Vector2(-59.4, -59.35)
 const SIGN_FRAMES := 40
 ## visPipWMap placements: x, y, scale.
-const MARKS := {
-	"begin": [66.05, 469.15, 1.0],
-	"surf": [144.05, 429.15, 1.0],
-	"rbl": [278.05, 359.15, 1.0],
-	"random_plant": [164.9, 330.0, 1.25],
-	"nio": [110.0, 325.0, 1.0],
-	"raiders": [389.1, 429.15, 1.0],
-	"random_sewer": [409.1, 484.2, 1.0],
-	"random_stable": [454.1, 424.15, 1.25],
-	"random_mane": [454.1, 220.0, 1.25],
-	"bunker": [355.0, 171.95, 1.0],
-	"random_canter": [111.05, 85.0, 1.25],
-	"core": [508.1, 419.15, 1.0],
-	"garages": [243.1, 273.0, 1.0],
-	"mtn": [511.1, 215.0, 1.0],
-	"covert": [110.0, 200.0, 1.0],
-	"src": [209.9, 131.95, 1.0],
-	"minst": [58.05, 80.0, 1.0],
-	"random_encl": [310.0, 48.25, 1.25],
-	"random_mbase": [270.05, 194.0, 1.0],
-	"workshop": [60.0, 325.0, 1.0],
-	"hql": [497.1, 341.15, 1.0],
-	"post": [305.0, 101.05, 1.0],
-	"comm": [363.0, 43.25, 1.0],
-	"stable_pi": [300.05, 487.2, 1.0],
-	"art": [330.0, 225.0, 1.0],
-}
+const _MARKS_PATH := "res://assets/data/maps/world_marks.json"
+static var MARKS: Dictionary = {}
+static var _marks_ok := false
+
+
+static func _static_init() -> void:
+	_mark_table()
+
+
+static func _mark_table() -> void:
+	if _marks_ok:
+		return
+	var parsed: Variant = DataLib.load(_MARKS_PATH)
+	if parsed is not Dictionary:
+		return
+	_marks_ok = true
+	MARKS = parsed
 const GREEN := Color("00ff99")
 const LIGHT := Color("8affd0")
 
@@ -64,6 +54,7 @@ static var _tex: Dictionary = {}
 
 
 func _ready() -> void:
+	_mark_table()
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	size = Vector2(900, 700)
 	var map := TextureRect.new()
@@ -95,6 +86,7 @@ func _ready() -> void:
 
 
 func first_focus() -> Control:
+	_mark_table()
 	if target != "" and _marks.has(target):
 		return _marks[target]
 	for id: String in ["rbl", Travel.cur_land_id]:
@@ -111,6 +103,7 @@ func marks() -> Dictionary:
 
 
 func _add_mark(id: String) -> void:
+	_mark_table()
 	if not Travel.lands.has(id):
 		return
 	var act: Dictionary = Travel.land_act(id)

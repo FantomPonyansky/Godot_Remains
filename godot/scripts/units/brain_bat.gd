@@ -11,7 +11,7 @@ var ai_rasst := 0.0
 func configure() -> void:
 	is_fly = true
 	elast = 0.5
-	max_speed += randf() * 2.0 - 1.0
+	max_speed += Rng.randf(&"ai") * 2.0 - 1.0
 	walk_speed = max_speed
 	run_speed = max_speed * 2.0
 	acts_held = true
@@ -20,7 +20,7 @@ func configure() -> void:
 
 func ready() -> void:
 	ai_state = 0
-	ai_tch = randi_range(5, 14)
+	ai_tch = Rng.randi_range(&"ai", 5, 14)
 
 
 func command(com: String, _val: String = "") -> void:
@@ -38,7 +38,7 @@ func control() -> void:
 		ai_tch -= 1
 	elif ai_state == 6:
 		ai_state = 4
-		ai_tch = randi_range(100, 199)
+		ai_tch = Rng.randi_range(&"ai", 100, 199)
 	elif ai_state == 5:
 		ai_state = 6
 		ai_tch = 20
@@ -56,13 +56,13 @@ func control() -> void:
 				ai_tch = 20
 			else:
 				ai_state = 4
-				ai_tch = randi_range(100, 199)
+				ai_tch = Rng.randi_range(&"ai", 100, 199)
 		else:
 			ai_state = 4 if hurt else 3
-			ai_tch = randi_range(100, 199)
+			ai_tch = Rng.randi_range(&"ai", 100, 199)
 	else:
 		ai_state = 2
-		ai_tch = randi_range(100, 199)
+		ai_tch = Rng.randi_range(&"ai", 100, 199)
 	if ai_tch % 10 == 1 and ai_state < 6:
 		if find_cel():
 			ai_spok = max_spok + 10
@@ -96,7 +96,7 @@ func control() -> void:
 	if ai_state >= 1 and ai_state <= 4:
 		max_speed = run_speed if ai_state == 4 else walk_speed
 		if not bool(u.get("levitated")):
-			vel += Vector2(ai_dx * accel + randf() * 2.0 - 1.0, ai_dy * accel + randf() * 2.0 - 1.0)
+			vel += Vector2(ai_dx * accel + Rng.randf(&"ai") * 2.0 - 1.0, ai_dy * accel + Rng.randf(&"ai") * 2.0 - 1.0)
 	elif ai_state == 5:
 		max_speed = 0.0
 	elif ai_state == 6:

@@ -117,13 +117,13 @@ func fill(page: int, sub: int) -> void:
 
 func ok(page: int, sub: int) -> void:
 	if page == VEND and sub == 0:
-		if Vendors.trade(_data):
+		if WorldOps.trade(_data):
 			_stale = true
 	elif page == VEND and sub == 1:
 		if _selall:
-			Vendors.sell_all(_data)
+			WorldOps.sell_all(_data)
 		else:
-			Vendors.sell(_data)
+			WorldOps.sell(_data)
 		_stale = true
 	elif page == VAULT:
 		Stash.to_vault(Stash.vault_rows(sub + 1))

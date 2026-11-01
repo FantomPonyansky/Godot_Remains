@@ -119,7 +119,7 @@ func _feet_under(body: CharacterBody2D) -> bool:
 	# Unit.run checkDiagon: on the floor a unit only steps onto a stair while it
 	# already stands on one, or (player) holds up; otherwise it walks under it.
 	if body.is_on_floor() and not _on_stair(body):
-		var up := body.is_in_group("player") and Input.is_action_pressed("aim_up")
+		var up := body.is_in_group("player") and LocalInput.held(&"aim_up")
 		if not up:
 			return body.global_position.y > surface - 4.0
 	return body.global_position.y > surface + 2.0

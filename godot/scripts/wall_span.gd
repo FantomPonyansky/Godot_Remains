@@ -103,12 +103,20 @@ func bind_grid(code: String, border: String) -> void:
 		add_to_group("destructibles")
 
 
-func take_hit(amount: int = 0, type: String = "") -> void:
-	if _cols == 0:
+func take_hit(hit: HitInfo) -> void:
+	if hit == null or _cols == 0:
 		return
 	var cell := _cell_at(_impact_point())
-	if _hurt(cell.x, cell.y, amount, type):
+	if _hurt(cell.x, cell.y, int(round(hit.amount)), hit.tip):
 		_schedule()
+
+
+func snapshot() -> Dictionary:
+	return Entity.captured(self)
+
+
+func restore(d: Dictionary) -> void:
+	Entity.apply_captured(self, d)
 
 
 ## Location.hitTile for one shot or blow at a point: damage the cell, then the
@@ -236,7 +244,7 @@ func _hurt(cx: int, cy: int, amount: int, type: String) -> bool:
 	_fresh[i] = _tip
 	if is_inside_tree():
 		get_tree().call_group("fog", "mark_dirty", _cell_rect(cx, cy))
-		get_tree().call_group("land_props", "note_broken", _cell_rect(cx, cy))
+		WorldOps.break_cell(self, _cell_rect(cx, cy))
 	return true
 
 
@@ -265,6 +273,17 @@ func break_at(world: Vector2) -> void:
 	_alive[i] = false
 	_mark_fog.call_deferred(_cell_rect(cell.x, cell.y))
 	_schedule()
+
+
+## [world rect, alive] of each cell meeting area (RoomGrid fills solids from it).
+func cell_rects(area: Rect2) -> Array:
+	var out: Array = []
+	for cy in _ch.size():
+		for cx in _cols:
+			var rect := _cell_rect(cx, cy)
+			if rect.intersects(area):
+				out.append([rect, bool(_alive[cy * _cols + cx])])
+	return out
 
 
 ## Tile.collision of the cell under a world point (false outside the span).
@@ -492,11 +511,11 @@ func _impact_point() -> Vector2:
 	var tree := get_tree()
 	if tree == null:
 		return rect.get_center()
-	for node in tree.get_nodes_in_group("enemies"):
+	for node in Units.in_rect(rect):
 		var ray := node.get_node_or_null("WallCheck") as RayCast2D
 		if ray and ray.is_colliding() and ray.get_collider() == self:
 			return ray.get_collision_point()
-	var player := tree.get_first_node_in_group("player") as Node2D
+	var player := Run.local_player()
 	if player:
 		var aimed := _player_aim(player, rect)
 		if aimed != Vector2.INF:

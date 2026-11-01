@@ -6,6 +6,7 @@ extends Node
 ## here between calls and rooms. The moon is the moonblade spell (moonblade.gd).
 
 const _UserDir := preload("res://scripts/user_dir.gd")
+const Difficulty := preload("res://scripts/difficulty.gd")
 static var SAVE_PATH := _UserDir.run("pets.cfg")
 const TPS := 30.0
 const IDS: PackedStringArray = ["phoenix", "owl"]
@@ -16,26 +17,80 @@ const RECALL_HOLD := 20
 const ACTION := "pet_command"
 const ORDER_PICK := 30.0
 
-var current := ""
-var ret_pet := ""
-var no_pet := 0
-var no_pet2 := 0
-## UnitPet hp / maxhp per id; sost 4 is a pet that is down or not out.
-var proc := {"phoenix": 1.0, "owl": 1.0}
-var down := {"phoenix": true, "owl": true}
-var pet: CharacterBody2D = null
+const _PetsState := preload("res://scripts/character/pets_state.gd")
+var _pets_ref: _PetsState
 
-var _tick_acc := 0.0
-var _k_pet := 0
-var _held_out := false
-var _pet_on := true
-var _fresh_call := false
+## This autoload's fields live on Run.character().pets; the properties below forward there.
+func _pets() -> _PetsState:
+	if _pets_ref == null:
+		_pets_ref = Run.character().pets
+	return _pets_ref
+
+var current: String:
+	get: return _pets().current
+	set(value): _pets().current = value
+var ret_pet: String:
+	get: return _pets().ret_pet
+	set(value): _pets().ret_pet = value
+var no_pet: int:
+	get: return _pets().no_pet
+	set(value): _pets().no_pet = value
+var no_pet2: int:
+	get: return _pets().no_pet2
+	set(value): _pets().no_pet2 = value
+## UnitPet hp / maxhp per id; sost 4 is a pet that is down or not out.
+var proc: Dictionary:
+	get: return _pets().proc
+	set(value): _pets().proc = value
+var down: Dictionary:
+	get: return _pets().down
+	set(value): _pets().down = value
+var pet: CharacterBody2D:
+	get: return _pets().pet
+	set(value): _pets().pet = value
+
+var _k_pet: int:
+	get: return _pets()._k_pet
+	set(value): _pets()._k_pet = value
+var _held_out: bool:
+	get: return _pets()._held_out
+	set(value): _pets()._held_out = value
+var _pet_on: bool:
+	get: return _pets()._pet_on
+	set(value): _pets()._pet_on = value
+var _fresh_call: bool:
+	get: return _pets()._fresh_call
+	set(value): _pets()._fresh_call = value
 var _hud_seen: Node = null
 
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_PAUSABLE
+	Sim.register(Sim.Phase.UNITS, _sim_tick)
 	_load()
+	if not Effects.pet_uncall_asked.is_connected(uncall_pet):
+		Effects.pet_uncall_asked.connect(uncall_pet)
+	if not Effects.pet_recall_asked.is_connected(_recall_saved):
+		Effects.pet_recall_asked.connect(_recall_saved)
+	call_deferred("_register_run")
+
+
+func _recall_saved() -> void:
+	if ret_pet != "":
+		call_pet(ret_pet, true)
+
+
+func _exit_tree() -> void:
+	Sim.unregister(_sim_tick)
+
+
+const STATE_VERSION := 1
+
+
+func _register_run() -> void:
+	var world := WorldState
+	if world != null and world.has_method("register_run"):
+		world.call("register_run", "pets", get_state, set_state)
 
 
 func reset_run() -> void:
@@ -51,7 +106,7 @@ func reset_run() -> void:
 
 ## Pers.petRes for the difficulty, seconds.
 func pet_res() -> int:
-	return int(GameState.dif_value("pet_res"))
+	return int(Difficulty.value("pet_res"))
 
 
 ## UnitPet.setLevel: maxhp, dam, skin and allVulnerMult from Pers and the empathy perk.
@@ -103,7 +158,7 @@ func use_item(item_id: String) -> bool:
 	var id := item_pet(item_id)
 	if id == "":
 		return false
-	if ScriptsEngine != null and bool(ScriptsEngine.get("alicorn")):
+	if Run.alicorn:
 		_info(OriginalLines.info("alicornNot"))
 		return false
 	call_pet(id)
@@ -115,7 +170,7 @@ func call_pet(npet: String, f := false) -> void:
 	if no_pet > 0 and not f:
 		_info(OriginalLines.info("petNot"))
 		return
-	if (no_pet2 > 0 and not f) or (ScriptsEngine != null and bool(ScriptsEngine.get("alicorn"))):
+	if (no_pet2 > 0 and not f) or Run.alicorn:
 		_info(OriginalLines.info("petNot2"))
 		return
 	if npet == "owl" and current == "owl" and hp_of("owl") <= 0.0 and not f:
@@ -213,21 +268,15 @@ func note_hp(id: String, hp: float, top: float) -> void:
 		proc[id] = clampf(hp / top, 0.0, 1.0)
 
 
-func _physics_process(delta: float) -> void:
-	if GameState.paused:
-		return
-	_tick_acc += delta * TPS
-	var n := int(_tick_acc)
-	_tick_acc -= n
-	var player := get_tree().get_first_node_in_group("player") as Node2D
+func _sim_tick() -> void:
+	var player := Run.local_player() as Node2D
 	var hud := get_tree().get_first_node_in_group("hud")
 	if hud != _hud_seen:
 		_hud_seen = hud
 		_hud()
 	_check_room(player)
-	for _i in n:
-		_tick(player)
-	_keys(player, n)
+	_tick(player)
+	_keys(player, 1)
 
 
 func _tick(player: Node2D) -> void:
@@ -255,7 +304,7 @@ func _tick(player: Node2D) -> void:
 func _keys(player: Node2D, n: int) -> void:
 	if player == null or not InputMap.has_action(ACTION) or not _pet_on:
 		return
-	if Input.is_action_pressed(ACTION):
+	if LocalInput.held(StringName(ACTION)):
 		if _held_out:
 			return
 		_k_pet += n
@@ -285,7 +334,7 @@ func _keys(player: Node2D, n: int) -> void:
 func _unit_at(at: Vector2) -> Node2D:
 	var best: Node2D = null
 	var best_d := ORDER_PICK
-	for node in get_tree().get_nodes_in_group("enemies"):
+	for node in Units.near(at, best_d):
 		if not node is CharacterBody2D or not is_instance_valid(node) or int(node.get("hp")) <= 0:
 			continue
 		var body: Vector2 = node.get("body_size") if node.get("body_size") is Vector2 else Vector2(40, 40)
@@ -335,7 +384,7 @@ func _check_room(player: Node2D) -> void:
 
 func _host() -> Node:
 	var scene := get_tree().current_scene
-	if scene == null or get_tree().get_first_node_in_group("player") == null:
+	if scene == null or Run.local_player() == null:
 		return null
 	return scene
 
@@ -343,7 +392,7 @@ func _host() -> Node:
 func _spawn() -> void:
 	_drop_pet()
 	var host := _host()
-	var player := get_tree().get_first_node_in_group("player") as Node2D
+	var player := Run.local_player() as Node2D
 	if host == null or player == null or current == "":
 		return
 	var packed := load("res://scenes/enemy.tscn") as PackedScene
@@ -392,9 +441,7 @@ func _has(item_id: String) -> bool:
 
 
 func _info(text: String) -> void:
-	var hud := get_tree().get_first_node_in_group("hud")
-	if hud != null and hud.has_method("info_line"):
-		hud.info_line(text)
+	Fx.notice(text, {"source": Run.local_player()})
 
 
 ## GUI.setPet: the bar under the mana, the respawn seconds, nothing without a pet.
@@ -428,14 +475,47 @@ func _save() -> void:
 	cfg.save(SAVE_PATH)
 
 
+func get_state() -> Dictionary:
+	var procs := {}
+	var downs := {}
+	for id in IDS:
+		procs[id] = float(proc.get(id, 1.0))
+		downs[id] = bool(down.get(id, true))
+	return {"version": STATE_VERSION, "current": current, "ret": ret_pet, "proc": procs, "down": downs}
+
+
+## version 0 has the same fields and simply no version key.
+func set_state(data: Variant) -> void:
+	if typeof(data) != TYPE_DICTIONARY:
+		return
+	_apply_state(data)
+	_save()
+
+
 func _load() -> void:
 	var cfg := ConfigFile.new()
 	if cfg.load(SAVE_PATH) != OK:
 		return
-	current = str(cfg.get_value("pets", "current", ""))
-	ret_pet = str(cfg.get_value("pets", "ret", ""))
+	var procs := {}
+	var downs := {}
 	for id in IDS:
-		proc[id] = float(cfg.get_value("proc", id, 1.0))
-		down[id] = bool(cfg.get_value("down", id, true))
+		procs[id] = float(cfg.get_value("proc", id, 1.0))
+		downs[id] = bool(cfg.get_value("down", id, true))
+	_apply_state({
+		"current": str(cfg.get_value("pets", "current", "")),
+		"ret": str(cfg.get_value("pets", "ret", "")),
+		"proc": procs,
+		"down": downs,
+	})
+
+
+func _apply_state(data: Dictionary) -> void:
+	current = str(data.get("current", ""))
+	ret_pet = str(data.get("ret", ""))
+	var procs: Dictionary = data.get("proc", {})
+	var downs: Dictionary = data.get("down", {})
+	for id in IDS:
+		proc[id] = float(procs.get(id, 1.0))
+		down[id] = bool(downs.get(id, true))
 	# UnitPlayer.setNull calls the current pet again on load.
 	_fresh_call = current != ""

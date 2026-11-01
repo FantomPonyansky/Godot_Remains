@@ -41,20 +41,20 @@ func _bloat_tr() -> int:
 	var land := _land()
 	var dif := float(Registry.int_of(land.get("dif"), 0))
 	if Registry.int_of(land.get("biom"), 0) == 5:
-		return int(randf() * 3.0 + 4.0)
+		return int(Rng.randf(&"ai") * 3.0 + 4.0)
 	if dif >= 10.0:
-		return int(randf() * 5.0)
+		return int(Rng.randf(&"ai") * 5.0)
 	if dif >= 4.0:
-		return int(randf() * 4.0)
+		return int(Rng.randf(&"ai") * 4.0)
 	if dif >= 2.0:
-		return int(randf() * 3.0)
+		return int(Rng.randf(&"ai") * 3.0)
 	return 0
 
 
 func emit(count_child: bool) -> void:
 	var un: Node
 	if emit_id == "ant":
-		un = spawn_unit(ANTS[randi() % ANTS.size()], u.global_position + Vector2(0.0, -40.0))
+		un = spawn_unit(ANTS[Rng.randi(&"spawn") % ANTS.size()], u.global_position + Vector2(0.0, -40.0))
 	else:
 		var tr_b := 0
 		if float(Registry.int_of(_land().get("dif"), 0)) > 3.0:

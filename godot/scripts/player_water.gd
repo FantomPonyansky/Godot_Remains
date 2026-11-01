@@ -15,26 +15,52 @@ extends RefCounted
 
 const TPS := 30.0
 const TILE := 40.0
-const DDY := 900.0
-const MAXDY := 600.0
-const DDY_PLAV := 1.0
-const PLAV_DRAG := 0.8
+const _BALANCE := "res://assets/data/balance/water.json"
+static var _balance_loaded := false
+static var DDY := 900.0
+static var MAXDY := 600.0
+static var DDY_PLAV := 1.0
+static var PLAV_DRAG := 0.8
 ## walkSpeed 7 * 0.75, accel 3.5 * 0.5, accel 3.5 * 0.3, brake 2 * 0.1, all per tick.
-const PLAV_SPEED := 157.5
-const PLAV_DY := 1575.0
-const PLAV_ACCEL := 945.0
-const PLAV_BRAKE := 180.0
-const WADE_DRAG := 0.5
-const JUMP_RECHARGE := 5.0 / 30.0
+static var PLAV_SPEED := 157.5
+static var PLAV_DY := 1575.0
+static var PLAV_ACCEL := 945.0
+static var PLAV_BRAKE := 180.0
+static var WADE_DRAG := 0.5
+## 5 ticks, divided by the 30 Hz step in _load_balance.
+static var JUMP_RECHARGE := 5.0 / 30.0
 const _Flags := preload("res://scripts/map/room_flags.gd")
 const _UnitWater := preload("res://scripts/map/unit_water.gd")
 const _UnitMassa := preload("res://scripts/unit_massa.gd")
 ## player.gd BODY_SIZE.x.
 const WIDTH := 50.0
 
+func _init() -> void:
+	_load_balance()
+
+
+static func _load_balance() -> void:
+	if _balance_loaded:
+		return
+	_balance_loaded = true
+	var raw: Variant = DataLib.load(_BALANCE)
+	if raw is not Dictionary:
+		return
+	var d := raw as Dictionary
+	DDY = float(d.get("ddy", DDY))
+	MAXDY = float(d.get("maxdy", MAXDY))
+	DDY_PLAV = float(d.get("ddy_plav", DDY_PLAV))
+	PLAV_DRAG = float(d.get("plav_drag", PLAV_DRAG))
+	PLAV_SPEED = float(d.get("plav_speed", PLAV_SPEED))
+	PLAV_DY = float(d.get("plav_dy", PLAV_DY))
+	PLAV_ACCEL = float(d.get("plav_accel", PLAV_ACCEL))
+	PLAV_BRAKE = float(d.get("plav_brake", PLAV_BRAKE))
+	WADE_DRAG = float(d.get("wade_drag", WADE_DRAG))
+	JUMP_RECHARGE = float(d.get("jump_recharge", 5.0)) / 30.0
+
+
 var in_water := false
 var is_plav := false
-var _acc := 0.0
 var _t_hp := 0
 var _namok_t := 0
 var _stay_dam := 0
@@ -104,11 +130,10 @@ func lift(body: CharacterBody2D, delta: float, height: float) -> bool:
 	return true
 
 
-## Radiation and water damage at 30 Hz.
-func tick(body: Node2D, delta: float) -> void:
-	_acc += delta * TPS
-	while _acc >= 1.0:
-		_acc -= 1.0
+## Radiation and water damage at 30 Hz. One step per sim tick; the old loop
+## kept a fractional remainder, which is zero when delta is exactly 1/30.
+func tick(body: Node2D, _delta: float) -> void:
+	for _i in Sim.frame_steps:
 		_step(body)
 
 
@@ -154,9 +179,7 @@ func _electro_step(body: Node2D, env: Dictionary) -> void:
 		_electro_room = cell
 		if dam > 0.0:
 			_stay_dam = 45
-			var hud := body.get_tree().get_first_node_in_group("hud")
-			if hud and hud.has_method("show_notice"):
-				hud.show_notice(OriginalLines.info("electroOn"))
+			Fx.notice(OriginalLines.info("electroOn"), {"source": body})
 	if _stay_dam > 0:
 		_stay_dam -= 1
 	if dam <= 0.0 or _stay_dam > 0:

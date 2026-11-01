@@ -14,6 +14,15 @@ If an earlier request blocks an accurate port or causes bugs or performance issu
 
 - Fully non-commercial (user, 2026-10-26). Own code: PolyForm Noncommercial 1.0.0 with the same kind of additional permissions as Remains: Unity (`LICENSE`, `LICENSING.md`, `ADDITIONAL_PERMISSIONS.md`). List any adapted file in `THIRD_PARTY_NOTICES.md`. Code adapted from Remains: Unity (PolyForm Noncommercial) is allowed with its notices; see `KNOWLEDGE_BASE.md` "Other remake".
 
+## Modding (2026-11-01, user)
+
+- Mods live in `user://mods/<mod>/`. `user://mods/rooms/` keeps working as a built-in "loose rooms" mod, so editor rooms need no move; new mods put rooms in `mods/<mod>/rooms/`.
+- A mod may replace built-in art and sounds by the same path, and add new ones. Replacing only loads the mod file in place of the built-in one; no mod can delete or overwrite a built-in asset, so turning the mod off restores the original.
+- A save records the active mods. Loading it with a different set warns and still loads.
+- Mod controls (on/off now, more options later) are a Mods tab in the main-menu settings, in the fifth sub-tab slot that the main menu leaves free. Not in the in-game PipBuck: mods load with the game data.
+- The DLC 1.0.4 rebalance mode is a built-in data overlay that the mode switches on.
+- Flash transliterated names (`kol`, `sost`, `razn`, …) are renamed only where they do not mirror an original field; `docs/GLOSSARY.md` maps every one.
+
 ## Future multiplayer (2026-10-26, user)
 
 Planned after the port is finished, as a separate mode: true online co-op, P2P, several players, via Steam. Do not implement it now. When making architectural choices, prefer the option that does not block it:
@@ -24,6 +33,9 @@ Planned after the port is finished, as a separate mode: true online co-op, P2P, 
 - Things that matter to world state (doors, loot, kills, flags) change through one function each, so they can later be run by the host and sent to others.
 - "Near the player" rules (room activation, sight, music) should take a set of positions where cheap.
 - Do not add new world pauses for UI unless the original has them.
+- Character versus world (2026-11-01, user): the stash belongs to each character. Quest log and story progress live in the world (host save), shared by all players. Map knowledge (fog memory, world-map marks) is shared world state.
+- Saves split once `Character` exists, in single player too: each slot holds `character.json` plus the world save; old slots migrate on load (2026-11-01, user).
+- The other co-op decisions (loot sharing, difficulty by player count, friendly fire, busy player, SATS, death) wait until before multiplayer step 8; R3 only adds hooks (2026-11-01, user).
 
 ## Movement
 
@@ -40,6 +52,11 @@ Planned after the port is finished, as a separate mode: true online co-op, P2P, 
 - Camps (`tip base`): normal fog, but seen tiles never fade and line-of-sight hiding is off. The full camp reveal was tried and reverted.
 - Line-of-sight fog never hides the object the player holds with telekinesis.
 - Lift positions are saved (the original does not).
+- Chunked lands (2026-11-01, user; architecture step R5):
+  - Random lands use a per-cell RNG (same tables and odds, different layout per seed). A save made inside a random land before the change rebuilds that land with the new generator and puts the player at its entrance; that land's room memory is dropped. Fixed and story lands are not affected.
+  - Chaining (next level attaches to the right instead of replacing the land) is built behind one switch, off by default. `TODO.md` §12.1 decides chunk size, difficulty curve and rest stops before it is turned on. Until then only its seams are built (user, 2026-11-01); the chunk append itself waits for §12.1.
+  - Room streaming applies to generated lands only; fixed and story lands stay built in full.
+- Water and doors (2026-11-01, user): opening a door below the water level wakes the water at once and it drains through (architecture step R4.3). The original recalculates water only when a wall or door tile breaks (`Location.dieTile` / tile damage), so an opened door drained only on the next break.
 - Begin and Surf are linked both ways: the begin exit always leads to Surf, and the far-left end of the Surf arrival tunnel (room 0,1, cell 0) leads back to the begin exit (`play_land.SURF_TO_BEGIN`, `game.BEGIN_EXIT`). The original never lets you return.
 
 ## Visuals
@@ -56,6 +73,8 @@ Planned after the port is finished, as a separate mode: true online co-op, P2P, 
 - Explosives on every land damage walls in the blast disk (`wall_span.apply_blast`). They also smash `explcrack` safes and crowbar-eligible crates in that disk (`land_props.blast_boxes`). Original `Bullet.explosion` only `Box.damage`s the aimed / sticky `targetObj`; ordinary boxes still take no blast.
 
 ## Controls
+
+Game logic stays at 30 Hz (the original's rate); there is no 60 / 120 Hz simulation option. Input is sampled on every rendered frame and applied on the next tick, so presses between ticks are not lost and latency is at most one tick (user, 2026-10-31; architecture step R1.7).
 
 Keyboard follows the original `Ctr.as keyXML`, except: arrows removed from gameplay (menu focus only), shoot is left mouse only (J is quests), telekinesis is Q and right mouse.
 
@@ -96,5 +115,5 @@ Pad (Xbox names; the original has no pad):
 ## Builds and tools
 
 - Debug console is always available (key left of 1). Debug hotkeys F1, F6–F8 need the `--debug-keys` launch flag. Dev scenes are excluded from builds.
-- Release builds are one file per platform: Windows (`RemainsPort.exe` plus a console wrapper) and Linux x86_64. File logging is on, capped at 5 files.
+- Release builds are one executable per platform (Windows `RemainsPort.exe` plus a console wrapper, Linux x86_64) and one shared base `RemainsPort.pck` (not embedded). Small changes ship as patch pcks; the base pck is rebuilt from time to time (user, 2026-10-31). File logging is on, capped at 5 files (user, 2026-10-31). The room editor ships in tester and user builds (user, 2026-10-31); keep `scenes/room_editor.tscn` and `scripts/editor/` out of the export excludes.
 - Load-on-demand of art (Phase 9) must sit behind one switch: project setting, console command and launch flag. Off means preload as now. Default on (2026-10-25, user approved the plan).

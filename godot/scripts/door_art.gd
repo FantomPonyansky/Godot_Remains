@@ -1,4 +1,5 @@
 extends RefCounted
+const _PS := preload("res://scripts/prop_state.gd")
 
 ## Door and wooden-wall art from texture1.swf vis* clips.
 ## The map cell is the bottom of the footprint. The clip's origin sits on that
@@ -16,33 +17,29 @@ const _DIR := "res://assets/sprites/doors/"
 const _ObjArt := preload("res://scripts/map/obj_art.gd")
 
 ## id -> [hit_w, hit_h, sprite_x, sprite_y, hp, threshold, breakable]
-const SPEC := {
-	"door1": [40, 80, 0, 0, 60, 10, 1],
-	"door1a": [40, 80, 0, 0, 300, 50, 1],
-	"door1b": [40, 80, 0, 0, 400, 50, 1],
-	"door2": [40, 80, 0, 0, 1000, 100, 1],
-	"door2a": [40, 80, -10, 0, 1000, 100, 1],
-	"door3": [40, 120, 0, 0, 5000, 800, 1],
-	"door4": [40, 120, 0, 0, 5000, 800, 1],
-	"hatch1": [80, 40, 0, -50, 60, 10, 1],
-	"hatch2": [80, 40, 0, -8, 1000, 100, 1],
-	"indoor1": [51, 85, 0, 0, 0, 0, 0],
-	"indoor2": [53, 85, 0, 0, 0, 0, 0],
-	"indoor3": [56, 56, 0, 0, 0, 0, 0],
-	"indoor4": [53, 85, 0, 0, 0, 0, 0],
-	"septum": [40, 120, 0, 0, 30, 0, 1],
-	"grate": [40, 120, 0, 0, 1000, 100, 1],
-	"hgrate": [120, 40, 0, -80, 1000, 100, 1],
-	"window1": [40, 80, 0, 0, 10, 0, 1],
-	"window2": [40, 80, 0, 0, 1000, 100, 1],
-	"platform1": [120, 40, 0, 0, 5000, 800, 1],
-	"alib1": [40, 280, 0, 0, 10000, 1000, 1],
-	"alib2": [280, 40, 0, 0, 10000, 1000, 1],
-	"basedoor": [40, 120, 0, 0, 4000, 800, 1],
-	"encldoor": [40, 120, 0, 0, 4000, 800, 1],
-	"enclpole": [40, 120, 0, 0, 5000, 800, 1],
-	"stdoor": [40, 120, 0, 0, 1000, 100, 1],
-}
+const _SPEC_PATH := "res://assets/data/maps/door_art.json"
+static var SPEC: Dictionary = {}
+static var _spec_ok := false
+
+
+static func _static_init() -> void:
+	_spec_load()
+
+
+static func _spec_load() -> void:
+	if _spec_ok:
+		return
+	var parsed: Variant = DataLib.load(_SPEC_PATH)
+	if parsed is not Dictionary:
+		return
+	_spec_ok = true
+	SPEC = parsed
+
+
+static func spec(id: String) -> Array:
+	_spec_load()
+	var row: Variant = SPEC.get(id, [])
+	return row if row is Array else []
 
 ## objs.xml mat. E_Material: 1 metal, 3 wood, 5 glass, 7 force field.
 const _SURFACE := {
@@ -62,10 +59,12 @@ static func drop_cache() -> void:
 
 
 static func known(id: String) -> bool:
+	_spec_load()
 	return SPEC.has(id)
 
 
 static func spawn(id: String, cell: Vector2, footprint_w: float, opac: float, opened: bool) -> StaticBody2D:
+	_spec_load()
 	var spec: Array = SPEC.get(id, [footprint_w, TILE * 2.0, 0, 0, 0, 0, 0])
 	var hit := Vector2(float(spec[0]), float(spec[1]))
 	if hit.x < 1.0:
@@ -79,13 +78,13 @@ static func spawn(id: String, cell: Vector2, footprint_w: float, opac: float, op
 	body.set_meta("door_id", id)
 	body.set_meta("door_w", hit.x)
 	body.set_meta("door_h", hit.y)
-	body.set_meta("hp", int(spec[4]))
-	body.set_meta("thre", int(spec[5]))
-	body.set_meta("breakable", int(spec[6]) != 0)
+	_PS.put(body, "hp", int(spec[4]))
+	_PS.put(body, "thre", int(spec[5]))
+	_PS.put(body, "breakable", int(spec[6]) != 0)
 	body.set_meta("surface", str(_SURFACE.get(id, "")))
 	var see := opac < 0.5
 	body.set_meta("sight_transparency", 1.0 if see else 0.0)
-	body.set_meta("blocks_sight", not see)
+	_PS.put(body, "blocks_sight", not see)
 	var shape := CollisionShape2D.new()
 	shape.name = "CollisionShape2D"
 	var box := RectangleShape2D.new()
@@ -113,21 +112,22 @@ static func apply_instance(body: Node) -> void:
 		return
 	if not bool(body.get_meta("indestruct", false)):
 		return
-	body.set_meta("hp", 10000)
-	body.set_meta("thre", 10000)
+	_PS.put(body, "hp", 10000)
+	_PS.put(body, "thre", 10000)
 
 
 static func apply(body: Node, is_open: bool) -> void:
-	if bool(body.get_meta("dead", false)):
+	if bool(_PS.getv(body, "dead", false)):
 		return
-	body.set_meta("door_open", is_open)
+	_PS.put(body, "door_open", is_open)
 	var see := float(body.get_meta("sight_transparency", 0.0)) >= 0.99
-	body.set_meta("blocks_sight", not is_open and not see)
+	_PS.put(body, "blocks_sight", not is_open and not see)
 	if body is CollisionObject2D:
 		(body as CollisionObject2D).collision_layer = 0 if is_open else 1
 	var shape := body.get_node_or_null("CollisionShape2D") as CollisionShape2D
 	if shape:
 		shape.disabled = is_open
+	_forget_solids(body)
 	var visual := body.get_node_or_null("Visual") as Sprite2D
 	if visual == null:
 		return
@@ -142,19 +142,29 @@ static func apply(body: Node, is_open: bool) -> void:
 	visual.visible = true
 
 
+## Water reads closed doors from the room grid; a change refills it.
+static func _forget_solids(body: Node) -> void:
+	var at := body.get_parent()
+	while at != null and not at.is_in_group("land_props"):
+		at = at.get_parent()
+	if at != null:
+		preload("res://scripts/map/water_flow.gd").forget_solids(at.get_parent())
+
+
 static func break_open(body: Node) -> void:
-	if not bool(body.get_meta("dead", false)):
+	if not bool(_PS.getv(body, "dead", false)):
 		preload("res://scripts/prop_sfx.gd").node_obj(body, "die")
-	body.set_meta("dead", true)
-	body.set_meta("door_open", true)
-	body.set_meta("blocks_sight", false)
-	body.set_meta("usable", false)
-	body.set_meta("hp", 0)
+	_PS.put(body, "dead", true)
+	_PS.put(body, "door_open", true)
+	_PS.put(body, "blocks_sight", false)
+	_PS.put(body, "usable", false)
+	_PS.put(body, "hp", 0)
 	if body is CollisionObject2D:
 		(body as CollisionObject2D).collision_layer = 0
 	var shape := body.get_node_or_null("CollisionShape2D") as CollisionShape2D
 	if shape:
 		shape.disabled = true
+	_forget_solids(body)
 	var visual := body.get_node_or_null("Visual") as Sprite2D
 	if visual == null:
 		return
@@ -170,6 +180,7 @@ static func break_open(body: Node) -> void:
 
 
 static func _sprite_at(id: String) -> Vector2:
+	_spec_load()
 	var spec: Array = SPEC.get(id, [0, 0, 0, 0, 0, 0, 0])
 	return Vector2(float(spec[2]), float(spec[3]))
 

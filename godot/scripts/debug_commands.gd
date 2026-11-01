@@ -41,6 +41,9 @@ const LINES: PackedStringArray = [
 	"refill — Restock every vendor now, as a visited land does (Game.refillVendors): stock tops up, waiting tasks open, info 'refill'.",
 	"vendor [id] [inter] — List the Vendors.xml ids, or open that vendor's Торговля page without its pony. inter is the npc type (doc, adoc, vdoc, v), default none.",
 	"stand — Open the base weapon stand screen.",
+	"fx — Print Fx event counts for this run (sound, shake, float, notice, particles, blood, hum, ai).",
+	"ailog — Toggle printing AI unit events (saw, lost, heard, damaged, died, alarmed, spawned) to the log.",
+	"aiview — Toggle the AI overlay: unit state and goal lines, faction last-seen marks, alarmed rooms, spawner kol left and units spawned per room.",
 ]
 
 # Durations and stacks match the fields enemy.gd and GameState already tick.
@@ -48,13 +51,13 @@ const LINES: PackedStringArray = [
 const _UNIT := {
 	"cut": {"field": "_cut", "clock": "_cut_clock", "stack": true, "default": 5.0},
 	"poison": {"field": "_poison", "clock": "_poison_clock", "stack": true, "default": 5.0},
-	"igni": {"field": "_burn_left", "clock": "_burn_clock", "dps": "_burn_dps", "dps_default": 2.0, "default": 7.0, "clears": "_ice_t"},
-	"ice": {"field": "_ice_t", "default": 15.0, "clears": "_burn_left"},
-	"blind": {"field": "_blind_t", "default": 15.0},
-	"acid": {"field": "_acid_left", "clock": "_acid_clock", "dps": "_acid_dps", "dps_default": 2.0, "default": 15.0},
-	"pink": {"field": "_pink_left", "clock": "_pink_clock", "dps": "_pink_dps", "dps_default": 20.0, "default": 15.0},
-	"stun": {"field": "_stun_t", "default": 2.0},
-	"slow": {"field": "_slow_t", "default": 5.0},
+	"igni": {"field": "_burn_left", "clock": "_burn_clock", "dps": "_burn_dps", "dps_default": 2.0, "default": 7.0, "clears": "_ice_t", "seconds": true},
+	"ice": {"field": "_ice_t", "default": 15.0, "clears": "_burn_left", "seconds": true},
+	"blind": {"field": "_blind_t", "default": 15.0, "seconds": true},
+	"acid": {"field": "_acid_left", "clock": "_acid_clock", "dps": "_acid_dps", "dps_default": 2.0, "default": 15.0, "seconds": true},
+	"pink": {"field": "_pink_left", "clock": "_pink_clock", "dps": "_pink_dps", "dps_default": 20.0, "default": 15.0, "seconds": true},
+	"stun": {"field": "_stun_t", "default": 2.0, "seconds": true},
+	"slow": {"field": "_slow_t", "default": 5.0, "seconds": true},
 }
 
 const _PLAYER := {
@@ -113,6 +116,9 @@ func _init() -> void:
 		"refill": _cmd_refill,
 		"vendor": _cmd_vendor,
 		"stand": _cmd_stand,
+		"fx": _cmd_fx,
+		"ailog": _cmd_ailog,
+		"aiview": _cmd_aiview,
 	}
 
 
@@ -517,7 +523,7 @@ func _consumable_kinds(picks: Array) -> String:
 func _json(path: String) -> Dictionary:
 	if not FileAccess.file_exists(path):
 		return {}
-	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
+	var parsed: Variant = DataLib.load(path)
 	if typeof(parsed) != TYPE_DICTIONARY:
 		return {}
 	return parsed
@@ -532,21 +538,30 @@ func _list(path: String, key: String) -> Array:
 
 func _apply_unit(node: Node, spec: Dictionary, amount: float) -> void:
 	var field := str(spec["field"])
+	var as_ticks := bool(spec.get("seconds", false))
+	if as_ticks:
+		var left := amount
+		var n := 0
+		var step := 1.0 / 30.0
+		while left > 0.0 and n < 100000:
+			left -= step
+			n += 1
+		amount = float(n)
 	if bool(spec.get("stack", false)):
 		var cur := float(node.get(field))
 		if cur <= 0.0 and spec.has("clock") and str(spec["clock"]) in node:
-			node.set(str(spec["clock"]), 1.0)
+			node.set(str(spec["clock"]), 30)
 		node.set(field, cur + amount)
 		return
 	if spec.has("clears"):
 		var clear_name := str(spec["clears"])
 		if clear_name in node:
-			node.set(clear_name, 0.0)
+			node.set(clear_name, 0)
 	if spec.has("clock") and str(spec["clock"]) in node:
-		node.set(str(spec["clock"]), 0.0)
+		node.set(str(spec["clock"]), 0)
 	if spec.has("dps") and str(spec["dps"]) in node:
 		node.set(str(spec["dps"]), float(spec["dps_default"]))
-	node.set(field, amount)
+	node.set(field, int(amount) if as_ticks else amount)
 
 
 func _assign(node: Node, field: String, raw: String) -> String:
@@ -688,7 +703,7 @@ func _ensure_ids() -> void:
 func _take_ids(path: String, key: String) -> void:
 	if not FileAccess.file_exists(path):
 		return
-	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
+	var parsed: Variant = DataLib.load(path)
 	if typeof(parsed) != TYPE_DICTIONARY:
 		return
 	for row in (parsed as Dictionary).get(key, []):
@@ -868,11 +883,11 @@ func _cmd_spawn(console, args: PackedStringArray) -> String:
 	if args.is_empty() or args.size() > 2 or (args.size() == 2 and not args[1].is_valid_int()):
 		return usage("spawn")
 	var uid := args[0]
-	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://assets/data/enemies.json"))
+	var parsed: Variant = DataLib.load("res://assets/data/enemies.json")
 	if typeof(parsed) != TYPE_DICTIONARY or not (parsed as Dictionary).get("units", {}).has(uid):
 		return "unknown unit '%s'" % uid
 	var tree: SceneTree = console.get_tree()
-	var who := tree.get_first_node_in_group("player") as Node2D
+	var who := Run.local_player()
 	var host: Node = tree.current_scene
 	if who == null or host == null:
 		return "no player"
@@ -1108,6 +1123,19 @@ func _cmd_vendor(_console, args: PackedStringArray) -> String:
 	Vendors.npc_inter = args[1] if args.size() > 1 else ""
 	Story.open_pip(4, 1)
 	return "vendor %s" % args[0]
+
+
+func _cmd_fx(_console, _args: PackedStringArray) -> String:
+	return Fx.summary()
+
+
+func _cmd_ailog(_console, _args: PackedStringArray) -> String:
+	Fx.set_ai_log(not Fx.ai_log_on())
+	return "ailog %s" % ("on" if Fx.ai_log_on() else "off")
+
+
+func _cmd_aiview(console, _args: PackedStringArray) -> String:
+	return "aiview %s" % ("on" if AiView.toggle(console.get_tree()) else "off")
 
 
 func _cmd_stand(_console, args: PackedStringArray) -> String:

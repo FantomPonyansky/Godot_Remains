@@ -39,6 +39,7 @@ var _last_motion := 0
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	InputBindings.bind_event_label(event_label)
 
 
 func _input(event: InputEvent) -> void:

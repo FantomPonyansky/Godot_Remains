@@ -24,6 +24,6 @@ static func _load() -> void:
 	_loaded = true
 	if not FileAccess.file_exists(PATH):
 		return
-	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(PATH))
+	var parsed: Variant = DataLib.load(PATH)
 	if typeof(parsed) == TYPE_DICTIONARY:
 		_map = parsed

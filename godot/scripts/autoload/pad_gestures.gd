@@ -79,7 +79,9 @@ func _process(_delta: float) -> void:
 		var pair: Array = PAIRS[int(row["pair"])]
 		if now - int(row["at"]) >= int(float(pair[2]) * 1000.0):
 			row["held"] = true
-			Input.action_press(str(pair[1]))
+			var hold := StringName(str(pair[1]))
+			Input.action_press(hold)
+			LocalInput.inject_down(hold)
 
 
 func _physics_process(_delta: float) -> void:
@@ -87,7 +89,9 @@ func _physics_process(_delta: float) -> void:
 		var left := int(_pulses[action]) - 1
 		if left <= 0:
 			_pulses.erase(action)
-			Input.action_release(str(action))
+			var name := StringName(str(action))
+			Input.action_release(name)
+			LocalInput.inject_up(name)
 		else:
 			_pulses[action] = left
 
@@ -97,7 +101,9 @@ func _end(button: int, tap: bool) -> void:
 	_down.erase(button)
 	var pair: Array = PAIRS[int(row["pair"])]
 	if bool(row["held"]):
-		Input.action_release(str(pair[1]))
+		var hold := StringName(str(pair[1]))
+		Input.action_release(hold)
+		LocalInput.inject_up(hold)
 	elif tap and not get_tree().paused:
 		var action := str(pair[0])
 		if action == "reload":
@@ -108,7 +114,9 @@ func _end(button: int, tap: bool) -> void:
 
 
 func _pulse(action: String) -> void:
-	Input.action_press(action)
+	var name := StringName(action)
+	Input.action_press(name)
+	LocalInput.inject_down(name)
 	_pulses[action] = TAP_FRAMES
 
 

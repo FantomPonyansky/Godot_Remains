@@ -40,7 +40,7 @@ static func emit(tree: SceneTree, id: String, at: Vector2) -> Node:
 
 static func _rec(sheet: String) -> Dictionary:
 	if _manifest.is_empty():
-		var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(SHEETS + "manifest.json"))
+		var parsed: Variant = DataLib.load(SHEETS + "manifest.json")
 		if parsed is Dictionary:
 			_manifest = parsed
 	var rec: Variant = _manifest.get(sheet)
@@ -48,19 +48,19 @@ static func _rec(sheet: String) -> Dictionary:
 
 
 func _setup(spec: Dictionary) -> void:
-	_liv = int(spec.minliv) + randi() % maxi(1, int(spec.rliv))
+	_liv = int(spec.minliv) + Rng.randi(&"fx") % maxi(1, int(spec.rliv))
 	var rsc := float(spec.get("rsc", 0.0))
 	if rsc != 0.0:
-		scale = Vector2.ONE * (1.0 - rsc + randf() * rsc)
+		scale = Vector2.ONE * (1.0 - rsc + Rng.randf(&"fx") * rsc)
 	if bool(spec.get("multiply", false)):
 		var mat := ShaderMaterial.new()
 		mat.shader = preload("res://assets/shaders/alpha_mul.gdshader")
 		material = mat
-	var v := float(spec.get("minv", 0.0)) + randf() * float(spec.get("rv", 0.0))
-	_vel = Vector2.from_angle(randf() * TAU) * v
-	_spin = (randf() * 2.0 - 1.0) * float(spec.get("rr", 0.0))
+	var v := float(spec.get("minv", 0.0)) + Rng.randf(&"fx") * float(spec.get("rv", 0.0))
+	_vel = Vector2.from_angle(Rng.randf(&"fx") * TAU) * v
+	_spin = (Rng.randf(&"fx") * 2.0 - 1.0) * float(spec.get("rr", 0.0))
 	if bool(spec.get("rot", false)):
-		rotation_degrees = randf() * 360.0
+		rotation_degrees = Rng.randf(&"fx") * 360.0
 	_brake = float(spec.get("brake", 1.0))
 
 

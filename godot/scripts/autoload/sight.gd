@@ -6,6 +6,7 @@ extends Node
 ## are reserved: anything below 1 still blocks for this slice.
 
 const MASK := 65  # world (1) + platforms (64)
+const _PS := preload("res://scripts/prop_state.gd")
 
 
 func los_clear(from: Vector2, to: Vector2, target: Node = null) -> bool:
@@ -44,7 +45,7 @@ func _blocks_sight(collider: Object) -> bool:
 	if not collider is Node:
 		return true
 	var node := collider as Node
-	if node.has_meta("blocks_sight") and not bool(node.get_meta("blocks_sight")):
+	if not bool(_PS.getv(node, "blocks_sight", true)):
 		return false
 	if node.has_meta("sight_transparency") and float(node.get_meta("sight_transparency")) >= 0.99:
 		return false

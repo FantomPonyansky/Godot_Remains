@@ -17,7 +17,18 @@ const CELL_MAGIC := 30
 const KEYS: Array[int] = [KEY_1, KEY_2, KEY_3, KEY_4, KEY_5, KEY_6, KEY_7, KEY_8, KEY_9, KEY_0, KEY_MINUS, KEY_EQUAL]
 
 ## cell -> id, cells 1-24.
-var _fav: Dictionary = {}
+const _FavoritesState := preload("res://scripts/character/favorites_state.gd")
+var _favorites_ref: _FavoritesState
+
+## This autoload's fields live on Run.character().favorites; the properties below forward there.
+func _favorites() -> _FavoritesState:
+	if _favorites_ref == null:
+		_favorites_ref = Run.character().favorites
+	return _favorites_ref
+
+var _fav: Dictionary:
+	get: return _favorites()._fav
+	set(value): _favorites()._fav = value
 var _prune_queued := false
 
 
@@ -49,7 +60,7 @@ func reset_run() -> void:
 
 
 func get_state() -> Dictionary:
-	var out := {}
+	var out := {"version": 1}
 	for cell in _fav:
 		out[str(cell)] = _fav[cell]
 	return out
@@ -147,7 +158,7 @@ func filled_cells() -> Array:
 ## The cell an assign key press means: weapon_N (+12 with sprint held),
 ## spell_N, or magic_attack. 0 if none.
 func cell_of_event(event: InputEvent) -> int:
-	var run := Input.is_action_pressed("sprint")
+	var run := LocalInput.held(&"sprint")
 	for i in HOTKEYS:
 		var action := action_of(i + 1)
 		if InputMap.has_action(action) and InputMap.event_is_action(event, action, true):
@@ -204,6 +215,4 @@ func _prune() -> void:
 
 
 func _info(key: String) -> void:
-	var hud := get_tree().get_first_node_in_group("hud")
-	if hud != null and hud.has_method("show_notice"):
-		hud.show_notice(OriginalLines.info(key))
+	Fx.notice(OriginalLines.info(key), {"source": Run.local_player()})

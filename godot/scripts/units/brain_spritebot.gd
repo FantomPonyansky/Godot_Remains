@@ -12,7 +12,7 @@ var cur: UnitGun
 func configure() -> void:
 	is_fly = true
 	elast = 0.8
-	max_speed += randf() * 2.0 - 1.0
+	max_speed += Rng.randf(&"ai") * 2.0 - 1.0
 	walk_speed = max_speed
 	run_speed = max_speed * 1.5
 	weapon_dy = -1.0
@@ -23,7 +23,7 @@ func ready() -> void:
 	cur = gun("robolaser")
 	set_vision(0.3)
 	ai_state = 0
-	ai_tch = randi_range(5, 54)
+	ai_tch = Rng.randi_range(&"ai", 5, 54)
 
 
 func forces() -> void:
@@ -48,13 +48,13 @@ func control() -> void:
 		ai_tch -= 1
 	else:
 		if cel_unit != null:
-			max_speed = run_speed * (randf() * 0.6 + 0.7)
+			max_speed = run_speed * (Rng.randf(&"ai") * 0.6 + 0.7)
 			ai_rasst = (cel - center()).length()
-			ai_tch = randi_range(20, 69)
+			ai_tch = Rng.randi_range(&"ai", 20, 69)
 		else:
-			max_speed = walk_speed * (randf() + 0.5)
+			max_speed = walk_speed * (Rng.randf(&"ai") + 0.5)
 			ai_rasst = 0.0
-			ai_tch = randi_range(30, 179)
+			ai_tch = Rng.randi_range(&"ai", 30, 179)
 			storona = 1.0 if vel.x > 0.0 else -1.0
 			set_cel(null, center() + vel * 10.0)
 		if ai_rasst > 500.0:
@@ -62,7 +62,7 @@ func control() -> void:
 			ai_dx = d.x / ai_rasst
 			ai_dy = d.y / ai_rasst
 		else:
-			var napr := randf() * 360.0
+			var napr := Rng.randf(&"ai") * 360.0
 			ai_dx = sin(napr)
 			ai_dy = cos(napr)
 		vel = Vector2(ai_dx, ai_dy) * max_speed

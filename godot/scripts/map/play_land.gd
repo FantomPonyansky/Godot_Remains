@@ -9,7 +9,8 @@ extends Node2D
 ##
 ## The original keeps z=1 rooms (Land.locs[x][y][1]) and trial rooms
 ## (Land.probs) as separate layers. Here they are extra grid rows below the
-## main grid, one empty row apart, so no room touches another layer.
+## main grid, one empty row apart, so no room touches another layer. Each
+## room's address (room_address.gd) names its layer apart from that fold.
 
 const Catalog := preload("res://scripts/map/tile_catalog.gd")
 const _Wall := preload("res://scripts/wall_span.gd")
@@ -28,6 +29,9 @@ const SkyArena := preload("res://scripts/map/sky_arena.gd")
 const BackRoom := preload("res://scripts/map/back_room.gd")
 const _TileCanvas := preload("res://scripts/map/tile_canvas.gd")
 const _RoomActivity := preload("res://scripts/map/room_activity.gd")
+const _Addr := preload("res://scripts/map/room_address.gd")
+const _RoomNodes := preload("res://scripts/map/room_nodes.gd")
+const COLLISION_ROOTS := ["Solids", "Platforms", "Ladders", "Slopes"]
 
 const TILE := 40.0
 const COLS := 48
@@ -47,6 +51,9 @@ var spawn_px := Vector2.ZERO
 var map_px := Vector2.ZERO
 var plan: Dictionary = {}
 var _tex: Dictionary = {}
+## Tile maps the collision was meshed from (remesh), and the rooms it exists in.
+var _cell_maps := {}
+var _loaded := {}
 
 static func make(next_id: String) -> Node2D:
 	var node = (load("res://scripts/map/play_land.gd") as GDScript).new()
@@ -84,6 +91,7 @@ func _build(next_id: String) -> bool:
 		push_error("%s has no rooms" % next_id)
 		return false
 	plan = _plan(next_id, spec, packed, rooms)
+	_Addr.stamp(self, rooms)
 	var ctx: Dictionary = plan.get("ctx", {})
 	var prob_rooms := {}
 	for room_v in rooms:
@@ -171,6 +179,8 @@ func _build(next_id: String) -> bool:
 	SkyArena.attach(self, rooms)
 	BackRoom.attach(self, rooms)
 	_spawn_actors(rooms)
+	if LandGen.is_generated(next_id):
+		preload("res://scripts/map/room_stream.gd").attach(self, get_node("Actors"))
 	_Look.build(self, rooms, envs)
 	fon.set_cells(rooms, envs, get_meta("room_mults", {}), str(spec.get("back", "")))
 	_RoomActivity.attach(self)
@@ -312,6 +322,8 @@ func _layout(rooms: Array, start: Vector2i, width: int, height: int) -> Dictiona
 			start_at = Vector2i(0, below)
 		room["x"] = 0
 		room["y"] = below
+		room["sky_block"] = true
+		room["sky_of"] = Vector2i(int(room.lx), int(room.ly))
 		for i in zoom:
 			for j in zoom:
 				if i == 0 and j == 0:
@@ -325,6 +337,8 @@ func _layout(rooms: Array, start: Vector2i, width: int, height: int) -> Dictiona
 				part["x"] = i
 				part["y"] = below + j
 				part["sky_part"] = true
+				part["sky_i"] = i
+				part["sky_j"] = j
 				fill.append(part)
 		below += zoom + 1
 	rooms.append_array(fill)
@@ -642,9 +656,98 @@ func _grids(rooms: Array) -> Dictionary:
 
 
 func _spawn_collision(solids: Dictionary, platforms: Dictionary, ladders: Dictionary, slopes: Array) -> void:
-	var solid_root := Node2D.new()
-	solid_root.name = "Solids"
-	add_child(solid_root)
+	_cell_maps = {"solids": solids, "platforms": platforms, "ladders": ladders, "slopes": slopes}
+	for key in get_meta(_Addr.META_AT, {}):
+		_loaded[key] = true
+	for root_name in COLLISION_ROOTS:
+		var root := Node2D.new()
+		root.name = root_name
+		add_child(root)
+	_mesh_into(solids, platforms, ladders, slopes)
+
+
+## Rebuilds the collision of rooms (pixel room cells): their bodies, and
+## every body crossing into them, are freed and their tiles meshed again
+## within the loaded rooms (set_loaded). A wall only merges across a room
+## border while both rooms are loaded. Broken cells break again.
+func remesh(rooms: Array) -> void:
+	var tiles := {}
+	var walls_before := {}
+	for cell_v in rooms:
+		var cell: Vector2i = cell_v
+		for i in COLS:
+			for j in ROWS:
+				tiles[Vector2i(cell.x * COLS + i, cell.y * ROWS + j)] = true
+		for node_v in _RoomNodes.nodes_of(self, cell):
+			var node: Node = node_v
+			if node.get_parent() == null or not str(node.get_parent().name) in COLLISION_ROOTS:
+				continue
+			var span: Rect2i = node.get_meta("tiles", Rect2i())
+			for x in range(span.position.x, span.end.x):
+				for y in range(span.position.y, span.end.y):
+					tiles[Vector2i(x, y)] = true
+			walls_before[node] = true
+	for node_v in walls_before:
+		var node: Node = node_v
+		node.get_parent().remove_child(node)
+		node.queue_free()
+	var pick := func(source: Dictionary) -> Dictionary:
+		var out := {}
+		for at_v in tiles:
+			var at: Vector2i = at_v
+			if source.has(at) and _loaded.has(Vector2i(floori(float(at.x) / COLS), floori(float(at.y) / ROWS))):
+				out[at] = source[at]
+		return out
+	var slopes: Array = []
+	for slope_v in _cell_maps.get("slopes", []):
+		var at := Vector2i(int(slope_v.x), int(slope_v.y))
+		if tiles.has(at) and _loaded.has(Vector2i(floori(float(at.x) / COLS), floori(float(at.y) / ROWS))):
+			slopes.append(slope_v)
+	var made := _mesh_into(pick.call(_cell_maps.get("solids", {})), pick.call(_cell_maps.get("platforms", {})), pick.call(_cell_maps.get("ladders", {})), slopes)
+	var props := get_node_or_null("Actors")
+	var memory: Variant = props.get("_memory") if props != null else null
+	if memory != null:
+		memory.restore_broken_in(made)
+	preload("res://scripts/map/water_flow.gd").forget_solids(self)
+
+
+## Rooms whose collision exists. remesh() meshes only inside them.
+func set_loaded(cell: Vector2i, on: bool) -> void:
+	if on:
+		_loaded[cell] = true
+	else:
+		_loaded.erase(cell)
+
+
+func is_loaded(cell: Vector2i) -> bool:
+	return _loaded.has(cell)
+
+
+## Chaining (Travel.chain_lands): attach the next chunk to the right of the
+## between room's exit. Not built yet (TODO.md §13 R5.6); false keeps
+## Travel on the replace-the-land path.
+func append_chunk() -> bool:
+	push_warning("chained chunks are not built yet; replacing the land")
+	return false
+
+
+## Camera and sky bounds: from the origin to the far corner of the loaded
+## rooms (map_px while every room is loaded).
+func bounds_px() -> Vector2:
+	if _loaded.is_empty():
+		return map_px
+	var far := Vector2i.ZERO
+	for cell_v in _loaded:
+		var cell: Vector2i = cell_v
+		far = Vector2i(maxi(far.x, cell.x + 1), maxi(far.y, cell.y + 1))
+	return Vector2(far.x * COLS * TILE, far.y * ROWS * TILE)
+
+
+## Adds bodies for these tile maps under the collision roots. Returns the
+## new wall bodies.
+func _mesh_into(solids: Dictionary, platforms: Dictionary, ladders: Dictionary, slopes: Array) -> Array:
+	var solid_root := get_node("Solids")
+	var made_walls: Array = []
 	var full := {}
 	var partial := {}
 	for pos in solids:
@@ -655,12 +758,14 @@ func _spawn_collision(solids: Dictionary, platforms: Dictionary, ladders: Dictio
 		else:
 			partial[pos] = solids[pos]
 	for rect_v in _mesh(full, true):
-		_add_solid(solid_root, rect_v)
+		made_walls.append(_owned(_add_solid(solid_root, rect_v), rect_v))
 	for rect_v in _mesh(partial, false):
-		_add_solid(solid_root, rect_v)
+		made_walls.append(_owned(_add_solid(solid_root, rect_v), rect_v))
 	var plat_rows: Array = []
 	for rect_v in _mesh(platforms, false):
-		plat_rows.append(_pixel_platform(rect_v))
+		var row := _pixel_platform(rect_v)
+		row["tiles"] = rect_v
+		plat_rows.append(row)
 	var ladder_rows: Array = []
 	for rect_v in _mesh(ladders, true):
 		var rect: Dictionary = rect_v
@@ -670,33 +775,42 @@ func _spawn_collision(solids: Dictionary, platforms: Dictionary, ladders: Dictio
 			"w": float(rect.w) * TILE,
 			"h": float(rect.h) * TILE,
 			"side": str(rect.key),
+			"tiles": rect,
 		})
 	var solid_rows: Array = []
 	for child in solid_root.get_children():
+		if child.is_queued_for_deletion():
+			continue
 		var shape_node := child.get_node_or_null("CollisionShape2D") as CollisionShape2D
 		if shape_node == null or not (shape_node.shape is RectangleShape2D):
 			continue
 		var size := (shape_node.shape as RectangleShape2D).size
 		solid_rows.append({"x": child.position.x, "y": child.position.y, "w": size.x, "h": size.y})
 	_widen_ladder_lips(plat_rows, ladder_rows, solid_rows)
-	var plat_root := Node2D.new()
-	plat_root.name = "Platforms"
-	add_child(plat_root)
+	var plat_root := get_node("Platforms")
 	for row_v in plat_rows:
-		_add_platform(plat_root, row_v)
-	var ladder_root := Node2D.new()
-	ladder_root.name = "Ladders"
-	add_child(ladder_root)
+		_owned(_add_platform(plat_root, row_v), row_v.tiles)
+	var ladder_root := get_node("Ladders")
 	for row_v in ladder_rows:
-		_add_ladder(ladder_root, row_v)
-	var slope_root := Node2D.new()
-	slope_root.name = "Slopes"
-	add_child(slope_root)
+		_owned(_add_ladder(ladder_root, row_v), row_v.tiles)
+	var slope_root := get_node("Slopes")
 	for row_v in slopes:
-		_add_slope(slope_root, row_v)
+		_owned(_add_slope(slope_root, row_v), {"x": int(row_v.x), "y": int(row_v.y), "w": 1, "h": 1})
+	made_walls.erase(null)
+	return made_walls
 
 
-func _add_solid(parent: Node, rect: Dictionary) -> void:
+## Tags body with its mesh rect (tiles) and the rooms it covers.
+func _owned(body: Node, rect: Dictionary) -> Node:
+	if body == null:
+		return null
+	var span := Rect2i(int(rect.x), int(rect.y), int(rect.w), int(rect.h))
+	body.set_meta("tiles", span)
+	_RoomNodes.own_rect(self, body, Rect2(Vector2(span.position) * TILE, Vector2(span.size) * TILE))
+	return body
+
+
+func _add_solid(parent: Node, rect: Dictionary) -> Node:
 	var parts: PackedStringArray = str(rect.key).split("|")
 	var height := int(parts[0])
 	var texture := parts[1] if parts.size() > 1 else ""
@@ -709,7 +823,8 @@ func _add_solid(parent: Node, rect: Dictionary) -> void:
 	body.set_meta("blocks_sight", true)
 	var size := Vector2(float(rect.w) * TILE, float(rect.h) * TILE - top)
 	if size.y < 1.0:
-		return
+		body.free()
+		return null
 	var shape := CollisionShape2D.new()
 	shape.name = "CollisionShape2D"
 	var box := RectangleShape2D.new()
@@ -729,6 +844,7 @@ func _add_solid(parent: Node, rect: Dictionary) -> void:
 	_Wall.attach(body, block, Catalog.border_for(land_id))
 	if visual != null:
 		_Outline.dress(body, visual, block, size)
+	return body
 
 
 func _pixel_platform(rect: Dictionary) -> Dictionary:
@@ -745,10 +861,10 @@ func _pixel_platform(rect: Dictionary) -> Dictionary:
 	}
 
 
-func _add_platform(parent: Node, row: Dictionary) -> void:
+func _add_platform(parent: Node, row: Dictionary) -> Node:
 	var size := Vector2(float(row.w), float(row.h))
 	if size.x < 1.0 or size.y < 1.0:
-		return
+		return null
 	var body := StaticBody2D.new()
 	body.collision_layer = 64
 	body.collision_mask = 0
@@ -773,9 +889,10 @@ func _add_platform(parent: Node, row: Dictionary) -> void:
 			draw.y = minf(float(art.get_height()), size.y)
 			body.add_child(_tiled_sprite(art, draw))
 	parent.add_child(body)
+	return body
 
 
-func _add_ladder(parent: Node, row: Dictionary) -> void:
+func _add_ladder(parent: Node, row: Dictionary) -> Node:
 	var size := Vector2(float(row.w), float(row.h))
 	var area := Area2D.new()
 	area.add_to_group("ladders")
@@ -816,9 +933,10 @@ func _add_ladder(parent: Node, row: Dictionary) -> void:
 			sprite.position = origin + Vector2(0, float(i) * TILE) - Catalog.FRONT_ORIGIN
 			area.add_child(sprite)
 	parent.add_child(area)
+	return area
 
 
-func _add_slope(parent: Node, row: Dictionary) -> void:
+func _add_slope(parent: Node, row: Dictionary) -> Node:
 	var top := float(row.get("top", 0))
 	var body := StaticBody2D.new()
 	# Platform layer, same as beams. Down+jump already drops through that layer.
@@ -848,6 +966,7 @@ func _add_slope(parent: Node, row: Dictionary) -> void:
 		sprite.z_index = -5
 		body.add_child(sprite)
 	parent.add_child(body)
+	return body
 
 
 func _spawn_doors(doors: Array) -> void:
@@ -873,6 +992,7 @@ func _spawn_doors(doors: Array) -> void:
 		_DoorArt.apply_instance(body)
 		body.set_meta("usable", true)
 		root.add_child(body)
+		_RoomNodes.own(self, body, [Vector2i(int(room[0]), int(room[1]))])
 		index += 1
 
 
@@ -997,6 +1117,8 @@ func _paint_backwall(parent: Node, rx: int, ry: int, wall_name: String, form: in
 		wall.region_rect = rect
 		wall.position = origin + rect.position
 		wall.z_index = -12
+		wall.set_meta("room_x", rx)
+		wall.set_meta("room_y", ry)
 		parent.add_child(wall)
 
 

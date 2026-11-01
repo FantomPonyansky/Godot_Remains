@@ -26,11 +26,12 @@ func on_die() -> bool:
 	sound(str(row.get("snd", {}).get("die", "")))
 	var host := u.get_tree().get_first_node_in_group("land_props")
 	if host != null and host.has_method("run_actions"):
-		host.run_actions(u.get("die_actions"))
+		WorldOps.run_actions(host, u.get("die_actions"))
 	GameState.enemy_defeated(int(u.get("points")))
 	u.hp = 0
 	u.collision_layer = 0
 	u.remove_from_group("enemies")
+	Units.touch()
 	return true
 
 
@@ -41,7 +42,7 @@ func control() -> void:
 	if t_part == 0:
 		t_part = 10
 	var b := body()
-	var at := u.global_position + Vector2((randf() - 0.5) * b.x, -randf() * b.y)
+	var at := u.global_position + Vector2((Rng.randf(&"ai") - 0.5) * b.x, -Rng.randf(&"ai") * b.y)
 	if not wrecked:
 		emit_part("lift", at)
 	elif t_part == 3:

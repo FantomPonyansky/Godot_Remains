@@ -21,19 +21,28 @@ const ROWS := 25
 const TIP_EN := ["", "enl1", "enl2", "enf1", "enc1", "lov"]
 
 ## Unit.create: objs.xml cl -> class. The Unit* constructor then names the units.xml id.
-const _RAIDER_KIN := {
-	"UnitRaider": ["raider", 9], "UnitSlaver": ["slaver", 6], "UnitZebra": ["zebra", 5],
-	"UnitRanger": ["ranger", 3], "UnitEncl": ["encl", 1], "UnitMerc": ["merc", 1],
-}
-const _FIXED := {
-	"UnitRobobrain": "robobrain", "UnitEqd": "eqd", "UnitSentinel": "sentinel",
-	"UnitSpriteBot": "spritebot", "UnitVortex": "vortex", "UnitMsp": "msp",
-	"UnitCaptive": "captive", "UnitPonPon": "ponpon", "UnitTrain": "training",
-	"UnitTransmitter": "transmitter", "UnitNecros": "necros", "UnitSpectre": "spectre",
-	"UnitBossRaider": "bossraider", "UnitBossAlicorn": "bossalicorn", "UnitBossUltra": "bossultra",
-	"UnitBossNecr": "bossnecr", "UnitBossDron": "bossdron", "UnitBossEncl": "bossencl",
-	"UnitThunderHead": "thunderhead",
-}
+const _CLASS_PATH := "res://assets/data/unit_classes.json"
+static var _RAIDER_KIN: Dictionary = {}
+static var _FIXED: Dictionary = {}
+static var _class_ok := false
+
+
+static func _static_init() -> void:
+	_classes()
+
+
+static func _classes() -> void:
+	if _class_ok:
+		return
+	var parsed: Variant = DataLib.load(_CLASS_PATH)
+	if parsed is not Dictionary:
+		return
+	_class_ok = true
+	var doc: Dictionary = parsed
+	var kin: Variant = doc.get("kin", {})
+	var fixed: Variant = doc.get("fixed", {})
+	_RAIDER_KIN = kin if kin is Dictionary else {}
+	_FIXED = fixed if fixed is Dictionary else {}
 const _BOSS := ["UnitBossRaider", "UnitBossAlicorn", "UnitBossUltra", "UnitBossNecr", "UnitBossDron", "UnitBossEncl", "UnitThunderHead"]
 const _NPC := ["UnitNPC", "UnitPonPon", "UnitCaptive", "UnitTrain"]
 const _TURRET_TIP := {"land": 1, "wall": 2, "arm": 3, "combat": 4, "boss": 5}
@@ -46,6 +55,16 @@ const _PLATFORMS := ["platform2", "platform3"]
 const _CLOUDS := ["tcloud1", "pcloud1"]
 const _CRATES := ["woodbox", "box", "mcrate1", "mcrate2", "mcrate3", "mcrate4", "mcrate5", "bigbox", "bigbox2"]
 const _SCRIPT_ATTRS := {"scr": "", "scrout": "out", "scropen": "open", "scrclose": "close", "scrtouch": "touch", "scrdie": "die", "alarm": "alarm"}
+
+
+static func _rf() -> float:
+	var tree := Engine.get_main_loop() as SceneTree
+	var rng := tree.root.get_node_or_null("Rng") if tree != null else null
+	if rng == null:
+		return randf()
+	if LandGen.keep_seed:
+		return LandGen._rf()
+	return rng.randf(&"spawn")
 
 
 ## ctx: land_id, rnd, conf, biom, land_dif, glob_dif, stage, exit_prob, xp, beg (Vector2i), width, height.
@@ -169,7 +188,7 @@ static func _set_kol_en(loc: Dictionary, ml: float) -> void:
 		loc.kol_hid = 0
 	elif ml < 10.0:
 		_kol(loc, 1, 3, 6, 2)
-		if randf() < 0.15:
+		if _rf() < 0.15:
 			_kol(loc, 2, 1, 1, 0)
 		elif tip == 6:
 			_kol(loc, 2, 2, 3, 0)
@@ -180,10 +199,10 @@ static func _set_kol_en(loc: Dictionary, ml: float) -> void:
 		_kol(loc, 5, 2, 4, 2)
 		if int(loc.kol_spawn) == 0 and tip != 5:
 			_kol(loc, -1, 2, 3, 0)
-		loc.kol_hid = int(randf() * 3.0)
+		loc.kol_hid = int(_rf() * 3.0)
 	else:
 		_kol(loc, 1, 4, 6, 2)
-		if randf() < 0.15:
+		if _rf() < 0.15:
 			_kol(loc, 2, 1, 2, 0)
 		elif tip == 6:
 			_kol(loc, 2, 3, 4, 0)
@@ -195,9 +214,9 @@ static func _set_kol_en(loc: Dictionary, ml: float) -> void:
 		if int(loc.kol_spawn) == 0:
 			if tip != 5:
 				_kol(loc, -1, 2, 4, 0)
-			elif randf() > 0.4:
+			elif _rf() > 0.4:
 				_kol(loc, -1, 1, 3, 0)
-		loc.kol_hid = int(randf() * 4.0)
+		loc.kol_hid = int(_rf() * 4.0)
 	if tip == 5 or tip == 10:
 		_kol(loc, 2, 1, 3, 1)
 	if int(loc.biom) == 11:
@@ -205,11 +224,11 @@ static func _set_kol_en(loc: Dictionary, ml: float) -> void:
 
 
 static func _kol(loc: Dictionary, en: int, lo: int, hi: int, spl: int) -> void:
-	var n := lo + int(randf() * float(hi - lo + 1))
+	var n := lo + int(_rf() * float(hi - lo + 1))
 	if en == -1:
 		loc.kol_spawn = n
 		return
-	if spl > 0 and randf() < 0.2:
+	if spl > 0 and _rf() < 0.2:
 		n += spl
 	loc.kol_en[en] = n
 
@@ -330,8 +349,12 @@ static func _spawn_info(ctx: Dictionary, loc: Dictionary) -> Dictionary:
 
 static func _set_random_units(ctx: Dictionary, loc: Dictionary, out: Dictionary) -> void:
 	var rnd := bool(ctx.get("rnd", false))
+	var policy := SpawnPolicy.current()
 	for i in range(1, TIP_EN.size()):
 		var ups: Array = loc.ups[i]
+		var kol := policy.room_count(loc, TIP_EN[i], int(loc.kol_en[i]))
+		if kol != int(loc.kol_en[i]):
+			loc.kol_en[i] = kol
 		if int(loc.kol_en[i]) <= 0 or ups.is_empty():
 			continue
 		if rnd:
@@ -344,7 +367,7 @@ static func _set_random_units(ctx: Dictionary, loc: Dictionary, out: Dictionary)
 		for _k in int(loc.kol_en[i]):
 			if ups.is_empty():
 				break
-			var n := int(randf() * float(ups.size()))
+			var n := int(_rf() * float(ups.size()))
 			var up: Dictionary = ups[n]
 			_create_unit(ctx, loc, TIP_EN[i], int(up.x), int(up.y), up.attrs, up.kids, "", out)
 			if ups.size() <= 1:
@@ -352,9 +375,12 @@ static func _set_random_units(ctx: Dictionary, loc: Dictionary, out: Dictionary)
 				break
 			ups.remove_at(n)
 	var hid: Array = loc.ups[2]
+	var kol_hid := policy.room_count(loc, "hidden", int(loc.kol_hid))
+	if kol_hid != int(loc.kol_hid):
+		loc.kol_hid = kol_hid
 	if int(loc.kol_hid) > 0 and not hid.is_empty():
 		for _j in int(loc.kol_hid):
-			var n := int(randf() * float(hid.size()))
+			var n := int(_rf() * float(hid.size()))
 			var up: Dictionary = hid[n]
 			_create_hidden(ctx, loc, int(up.x), int(up.y), out)
 			if hid.size() <= 1:
@@ -383,7 +409,7 @@ static func _create_unit(ctx: Dictionary, loc: Dictionary, tip: String, nx: int,
 			_create_unit(ctx, loc, "mine", nx + dx, ny, {}, [], "", out)
 		return
 	var rnd := bool(ctx.get("rnd", false))
-	if rnd and tip == "transm" and not attrs.has("on") and randf() < 0.5:
+	if rnd and tip == "transm" and not attrs.has("on") and _rf() < 0.5:
 		return
 	var in_water := false
 	var biom := int(loc.biom)
@@ -405,13 +431,13 @@ static func _create_unit(ctx: Dictionary, loc: Dictionary, tip: String, nx: int,
 		return
 	var hero := 0
 	if rnd and str(loc.prob) == "":
-		if randf() < minf(0.05, float(loc.dif) / 100.0 + 0.02):
-			hero = int(randf() * 4.0 + 1.0)
+		if _rf() < minf(0.05, float(loc.dif) / 100.0 + 0.02):
+			hero = int(_rf() * 4.0 + 1.0)
 	if attrs.has("hero"):
 		hero = Registry.int_of(attrs.hero, hero)
 	var level := float(loc.enemy_level)
 	if hero == 0 and not bool(made.boss):
-		level = round(level * (1.1 - randf() * 0.4))
+		level = round(level * (1.1 - _rf() * 0.4))
 	var unit_id := str(made.id)
 	var catalog := Registry.unit_row(unit_id)
 	var size := maxi(Registry.int_of(Registry.obj(tip).get("size"), 1), 1)
@@ -455,6 +481,7 @@ static func _unit_cat(cl: String) -> String:
 
 ## Unit.create and the class constructors. Returns {id, cl, tr, boss} or {}.
 static func _make_unit(id: String, cid: String, attrs: Dictionary, dif: float) -> Dictionary:
+	_classes()
 	match id:
 		"mwall":
 			return {"id": "mwall", "cl": "UnitMWall", "tr": 0, "boss": false}
@@ -474,7 +501,7 @@ static func _make_unit(id: String, cid: String, attrs: Dictionary, dif: float) -
 	var name := ""
 	if _RAIDER_KIN.has(cl):
 		var kin: Array = _RAIDER_KIN[cl]
-		tr = _variant(cid, attrs, 1 + int(randf() * float(kin[1])))
+		tr = _variant(cid, attrs, 1 + int(_rf() * float(kin[1])))
 		if tr <= 0:
 			tr = 1
 		name = "%s%d" % [kin[0], tr]
@@ -484,12 +511,12 @@ static func _make_unit(id: String, cid: String, attrs: Dictionary, dif: float) -
 	else:
 		match cl:
 			"UnitZombie":
-				tr = _variant(cid, attrs, int(randf() * 7.0))
+				tr = _variant(cid, attrs, int(_rf() * 7.0))
 				name = "zombie%d" % tr
 			"UnitAlicorn":
-				tr = _variant(cid, attrs, int(randf() * 7.0))
+				tr = _variant(cid, attrs, int(_rf() * 7.0))
 				if tr < 0:
-					tr = int(randf() * 3.0 + 1.0)
+					tr = int(_rf() * 3.0 + 1.0)
 				name = "alicorn%d" % tr
 			"UnitHellhound":
 				tr = _variant(cid, attrs, 1)
@@ -504,11 +531,11 @@ static func _make_unit(id: String, cid: String, attrs: Dictionary, dif: float) -
 				if attrs.has("tr"):
 					tr = Registry.int_of(attrs.tr, 1)
 				elif dif < 10.0:
-					tr = int(randf() * 3.0 + 1.0)
+					tr = int(_rf() * 3.0 + 1.0)
 				elif dif < 15.0:
-					tr = int(randf() * 5.0 + 1.0)
+					tr = int(_rf() * 5.0 + 1.0)
 				else:
-					tr = int(randf() * 7.0 + 1.0)
+					tr = int(_rf() * 7.0 + 1.0)
 				name = "turret%d" % int(_TURRET_TIP.get(cid, 0))
 			"UnitBat":
 				tr = _variant(cid, attrs, 0)
@@ -517,15 +544,15 @@ static func _make_unit(id: String, cid: String, attrs: Dictionary, dif: float) -
 				tr = _variant(cid, attrs, 1)
 				name = "fish%d" % tr
 			"UnitBloat":
-				tr = _variant(cid, attrs, int(randf() * 5.0))
+				tr = _variant(cid, attrs, int(_rf() * 5.0))
 				name = "bloat%d" % tr
 			"UnitDron":
-				tr = _variant(cid, attrs, int(randf() * 2.0 + 1.0))
+				tr = _variant(cid, attrs, int(_rf() * 2.0 + 1.0))
 				name = "dront" if tr == 100 else "dron%d" % tr
 			"UnitMonstrik":
 				name = cid
 				if name == "scorp":
-					name += str(1 + int(randf() * 2.0))
+					name += str(1 + int(_rf() * 2.0))
 			"UnitSlime":
 				tr = _variant(cid, attrs, 0)
 				var bare := tr - 10 if tr >= 10 else tr
@@ -587,13 +614,13 @@ static func _random_unit(ctx: Dictionary, loc: Dictionary, tip: String, in_water
 			if te == 0:
 				return "zombie"
 			if te == 2:
-				if biom == 2 and dif >= 12.0 and randf() < minf(dif / 100.0, 0.15):
+				if biom == 2 and dif >= 12.0 and _rf() < minf(dif / 100.0, 0.15):
 					return "eqd"
-				if dif >= 5.0 and randf() < 0.1:
+				if dif >= 5.0 and _rf() < 0.1:
 					return "landturret"
-				if dif >= 6.0 and randf() < minf(dif / 40.0, 0.3):
+				if dif >= 6.0 and _rf() < minf(dif / 40.0, 0.3):
 					return "gutsy"
-				if dif >= 2.0 and randf() < minf(dif / 10.0, 0.5):
+				if dif >= 2.0 and _rf() < minf(dif / 10.0, 0.5):
 					return "protect"
 				return "robot"
 			match te:
@@ -606,21 +633,21 @@ static func _random_unit(ctx: Dictionary, loc: Dictionary, tip: String, in_water
 				6:
 					return "zebra"
 				7:
-					if randf() < 0.4:
-						return "gutsy" if randf() < 0.5 else "protect"
+					if _rf() < 0.4:
+						return "gutsy" if _rf() < 0.5 else "protect"
 					return "ranger"
 				8:
-					return "zombie" if randf() < 0.75 else "necros"
+					return "zombie" if _rf() < 0.75 else "necros"
 				9:
-					if randf() < 0.1:
+					if _rf() < 0.1:
 						return "hellhound"
-					if randf() < 0.07:
+					if _rf() < 0.07:
 						return "landturret"
 					return "encl"
 				10:
 					return "hellhound"
 				11:
-					return "hellhound" if randf() < 0.3 else "encl"
+					return "hellhound" if _rf() < 0.3 else "encl"
 			return "raider"
 		"enl1":
 			if biom == 10 or biom == 11:
@@ -628,25 +655,25 @@ static func _random_unit(ctx: Dictionary, loc: Dictionary, tip: String, in_water
 			if (biom == 1 or biom == 5) and in_water:
 				return "fish"
 			if biom == 5:
-				return "scorp3" if randf() < 0.3 else "slime"
+				return "scorp3" if _rf() < 0.3 else "slime"
 			if biom == 6:
 				return "roller"
 			if (te == 2 and dif >= 4.0) or te == 7 or te == 9 or te == 10:
 				return "roller" if even else "msp"
 			if te == 0 or te == 5 or te == 6:
 				var s := ""
-				if dif >= 2.0 and randf() < minf(dif / 30.0, 0.5):
+				if dif >= 2.0 and _rf() < minf(dif / 30.0, 0.5):
 					s = "scorp"
 				elif even:
 					s = "slime"
 				else:
 					s = "ant"
-				if biom == 1 and randf() < 0.25:
+				if biom == 1 and _rf() < 0.25:
 					s = "rat"
 				return s
-			if dif >= 2.0 and randf() < minf(dif / 30.0, 0.5):
+			if dif >= 2.0 and _rf() < minf(dif / 30.0, 0.5):
 				return "molerat"
-			return "tarakan" if randf() < 0.6 else "rat"
+			return "tarakan" if _rf() < 0.6 else "rat"
 		"enc1":
 			if biom == 10:
 				return "turret"
@@ -657,7 +684,7 @@ static func _random_unit(ctx: Dictionary, loc: Dictionary, tip: String, in_water
 			if biom == 6 or biom == 4:
 				return "cturret"
 			if te == 0 or te == 5 or te == 6:
-				if biom == 1 and randf() < 0.6:
+				if biom == 1 and _rf() < 0.6:
 					return "slime"
 				return "bloodwing"
 			return "turret"
@@ -674,7 +701,7 @@ static func _random_unit(ctx: Dictionary, loc: Dictionary, tip: String, in_water
 				return "vortex"
 			if te == 2 and dif >= 3.0:
 				return "spritebot"
-			if te == 11 or te == 7 or te == 9 or te == 10 or (te == 2 and dif > 10.0 and randf() < minf(dif / 40.0, 0.5)):
+			if te == 11 or te == 7 or te == 9 or te == 10 or (te == 2 and dif > 10.0 and _rf() < minf(dif / 40.0, 0.5)):
 				return "dron"
 			return ""
 		"lov":
@@ -685,9 +712,9 @@ static func _random_unit(ctx: Dictionary, loc: Dictionary, tip: String, in_water
 			if te == 0:
 				return "slmine" if even else "trap"
 			if (te == 1 or te == 3 or te == 4 or te == 6) and even:
-				if dif >= 10.0 and randf() < 0.5:
+				if dif >= 10.0 and _rf() < 0.5:
 					return "trridge"
-				if randf() < 0.5:
+				if _rf() < 0.5:
 					return "trplate"
 				return "trcans"
 			if ((biom == 2 and te == 2) or te == 7 or te == 9) and even:
@@ -705,78 +732,78 @@ static func _random_cid(ctx: Dictionary, loc: Dictionary, tip: String) -> String
 	match tip:
 		"raider":
 			if dif >= 5.0:
-				tr = int(randf() * 9.0 + 1.0)
+				tr = int(_rf() * 9.0 + 1.0)
 			elif dif >= 2.0:
-				tr = int(randf() * 5.0 + 1.0)
+				tr = int(_rf() * 5.0 + 1.0)
 			else:
-				tr = int(randf() * 2.0 + 1.0)
+				tr = int(_rf() * 2.0 + 1.0)
 		"slaver":
 			if dif >= 18.0:
-				tr = int(randf() * 6.0 + 1.0)
+				tr = int(_rf() * 6.0 + 1.0)
 			elif dif >= 15.0:
-				tr = int(randf() * 5.0 + 1.0)
+				tr = int(_rf() * 5.0 + 1.0)
 			else:
-				tr = int(randf() * 4.0 + 1.0)
+				tr = int(_rf() * 4.0 + 1.0)
 		"zebra":
-			tr = int(randf() * 4.0 + 1.0) if dif >= 15.0 else int(randf() * 2.0 + 1.0)
-			if dif >= 25.0 and randf() < 0.1:
+			tr = int(_rf() * 4.0 + 1.0) if dif >= 15.0 else int(_rf() * 2.0 + 1.0)
+			if dif >= 25.0 and _rf() < 0.1:
 				tr = 5
 		"ranger":
 			if int(ctx.get("conf", -1)) == 7:
-				tr = int(randf() * 3.0 + 1.0)
+				tr = int(_rf() * 3.0 + 1.0)
 			elif int(loc.ly) == 0:
 				tr = 1
 			else:
-				tr = int(randf() * 2.0 + 1.0)
+				tr = int(_rf() * 2.0 + 1.0)
 		"merc":
 			if dif >= 19.0:
-				tr = int(randf() * 5.0 + 1.0)
-			elif dif >= 15.0 and randf() > 0.5:
-				tr = int(randf() * 4.0 + 1.0)
+				tr = int(_rf() * 5.0 + 1.0)
+			elif dif >= 15.0 and _rf() > 0.5:
+				tr = int(_rf() * 4.0 + 1.0)
 			else:
-				tr = int(randf() * 2.0 + 1.0)
+				tr = int(_rf() * 2.0 + 1.0)
 		"encl":
-			tr = int(randf() * 4.0 + 1.0)
+			tr = int(_rf() * 4.0 + 1.0)
 		"protect", "gutsy":
 			tr = 1 if te == 7 else 0
 		"dron":
 			if te == 9:
-				tr = mini(int(randf() * 4.0 + 1.0), 3)
+				tr = mini(int(_rf() * 4.0 + 1.0), 3)
 			else:
-				tr = int(randf() * 2.0 + 1.0)
+				tr = int(_rf() * 2.0 + 1.0)
 		"roller":
 			tr = 2 if biom == 6 else 1
 		"zombie":
 			if biom == 5:
-				tr = 9 if dif >= 20.0 and randf() < 0.1 else int(randf() * 4.0 + 5.0)
+				tr = 9 if dif >= 20.0 and _rf() < 0.1 else int(_rf() * 4.0 + 5.0)
 			elif biom >= 1 and dif >= 8.0:
-				tr = int(randf() * 7.0)
+				tr = int(_rf() * 7.0)
 			elif dif >= 5.0:
-				tr = int(randf() * 5.0)
+				tr = int(_rf() * 5.0)
 			elif dif >= 2.0:
-				tr = int(randf() * 4.0)
+				tr = int(_rf() * 4.0)
 		"alicorn":
-			tr = int(randf() * 3.0 + 1.0)
+			tr = int(_rf() * 3.0 + 1.0)
 		"hellhound":
 			tr = 1
 		"bloat":
 			if biom == 5:
-				tr = int(randf() * 3.0 + 4.0)
+				tr = int(_rf() * 3.0 + 4.0)
 			elif dif >= 10.0:
-				tr = int(randf() * 5.0)
+				tr = int(_rf() * 5.0)
 			elif dif >= 4.0:
-				tr = int(randf() * 4.0)
+				tr = int(_rf() * 4.0)
 			elif dif >= 2.0:
-				tr = int(randf() * 3.0)
+				tr = int(_rf() * 3.0)
 		"ant":
 			if biom >= 1 and dif >= 6.0:
-				tr = int(randf() * 3.0 + 1.0)
+				tr = int(_rf() * 3.0 + 1.0)
 			elif dif >= 3.0:
-				tr = int(randf() * 2.0 + 1.0)
+				tr = int(_rf() * 2.0 + 1.0)
 			else:
 				tr = 1
 		"fish":
-			tr = 3 if biom == 5 else int(randf() * 2.0 + 1.0)
+			tr = 3 if biom == 5 else int(_rf() * 2.0 + 1.0)
 		"slime":
 			tr = 2 if biom == 5 else 0
 		"slmine":
@@ -784,14 +811,14 @@ static func _random_cid(ctx: Dictionary, loc: Dictionary, tip: String) -> String
 		"bloodwing":
 			tr = 2 if biom == 5 else 1
 		"scorp":
-			tr = int(randf() * 2.0 + 1.0) if dif >= 5.0 else 1
+			tr = int(_rf() * 2.0 + 1.0) if dif >= 5.0 else 1
 			return "scorp%d" % tr
 		"mine":
 			if biom == 4:
 				return "plamine"
-			if biom == 2 and randf() < minf(dif / 20.0, 0.4):
+			if biom == 2 and _rf() < minf(dif / 20.0, 0.4):
 				return "plamine"
-			if randf() < minf(dif / 20.0, 0.75):
+			if _rf() < minf(dif / 20.0, 0.75):
 				return "mine"
 			return "hmine"
 		_:
@@ -898,12 +925,12 @@ static func _lock(loc: Dictionary, info: Dictionary, attrs: Dictionary) -> float
 	if not info.has("lock"):
 		return 0.0
 	var lk := Registry.float_of(info.lock, 0.0)
-	if info.has("lockch") and randf() >= Registry.float_of(info.lockch, 1.0):
+	if info.has("lockch") and _rf() >= Registry.float_of(info.lockch, 1.0):
 		return lk - floor(lk)
 	var tip := Registry.int_of(info.get("locktip"), 1)
 	if tip == 1 or tip == 2:
-		return lk + (0.3 + randf()) * float(loc.locks)
-	return lk + randf() * float(loc.mech)
+		return lk + (0.3 + _rf()) * float(loc.locks)
+	return lk + _rf() * float(loc.mech)
 
 
 ## Location.createObj phoenix / transmitter on top of a box.
@@ -916,7 +943,7 @@ static func _box_riders(ctx: Dictionary, loc: Dictionary, row: Dictionary, attrs
 	var rider := ""
 	if str(attrs.get("ph", "")) == "1":
 		rider = "phoenix"
-	elif bool(ctx.get("rnd", false)) and int(ctx.get("biom", 0)) == 0 and int(loc.kol_phoenix) == 0 and int(out.phoenix) < 3 and randf() < 0.02:
+	elif bool(ctx.get("rnd", false)) and int(ctx.get("biom", 0)) == 0 and int(loc.kol_phoenix) == 0 and int(out.phoenix) < 3 and _rf() < 0.02:
 		rider = "phoenix"
 	if rider == "phoenix":
 		loc.kol_phoenix = 1
@@ -930,7 +957,7 @@ static func _box_riders(ctx: Dictionary, loc: Dictionary, row: Dictionary, attrs
 		bird["level"] = 0
 		bird["hero"] = 0
 		out.rows.append(bird)
-	if str(attrs.get("transm", "")) == "1" and not (bool(ctx.get("rnd", false)) and randf() < 0.5):
+	if str(attrs.get("transm", "")) == "1" and not (bool(ctx.get("rnd", false)) and _rf() < 0.5):
 		var tr := _row("alarm", "transm", loc, int(row.cell[0]), int(row.cell[1]), {})
 		tr["feet"] = top
 		tr["unit_id"] = "transmitter"
@@ -1033,6 +1060,9 @@ static func _plan_random(ctx: Dictionary, rooms: Array, by_cell: Dictionary, out
 			main[at] = by_cell[_key(room)]
 		else:
 			back[at] = by_cell[_key(room)]
+	var cells := LandGen.keep_seed
+	if cells:
+		LandGen.use_cell(LandGen.cell_rng(LandGen.chunk_seed, -1, -1, 0, 1))
 	if conf == 2 and main.has(Vector2i(3, 0)):
 		_random_prob(ctx, main[Vector2i(3, 0)], stage, true, out)
 	if conf == 3 and stage >= 1 and main.has(Vector2i(1, 4)):
@@ -1042,6 +1072,8 @@ static func _plan_random(ctx: Dictionary, rooms: Array, by_cell: Dictionary, out
 			var at := Vector2i(i, j)
 			if not main.has(at):
 				continue
+			if cells:
+				LandGen.use_cell(LandGen.cell_rng(LandGen.chunk_seed, i, j, 0, 1))
 			var loc: Dictionary = main[at]
 			var bonuses := true
 			_set_objects(ctx, loc, out)
@@ -1057,7 +1089,7 @@ static func _plan_random(ctx: Dictionary, rooms: Array, by_cell: Dictionary, out
 					else:
 						if j == height - 1:
 							_random_prob(ctx, loc, stage, true, out)
-						elif randf() < 0.3:
+						elif _rf() < 0.3:
 							_random_prob(ctx, loc, stage, false, out)
 				2, 5:
 					if i != 0 or j != 0:
@@ -1069,7 +1101,7 @@ static func _plan_random(ctx: Dictionary, rooms: Array, by_cell: Dictionary, out
 					elif (i + j) % 2 == 0:
 						if (conf == 2 and j < 2 and i < width - 1) or (conf == 5 and (i == 0 or j > 0)):
 							_create_check(ctx, loc, is_beg, out)
-					if ((j > 1 and i < width - 1) or (conf == 2 and i < width - 1 and randf() < 0.25)) and (i + j) % 2 == 1:
+					if ((j > 1 and i < width - 1) or (conf == 2 and i < width - 1 and _rf() < 0.25)) and (i + j) % 2 == 1:
 						_random_prob(ctx, loc, stage, false, out)
 				3:
 					if i != 2:
@@ -1081,7 +1113,7 @@ static func _plan_random(ctx: Dictionary, rooms: Array, by_cell: Dictionary, out
 						else:
 							if j == 0:
 								_random_prob(ctx, loc, stage, true, out)
-							elif j != 4 and randf() < 0.25:
+							elif j != 4 and _rf() < 0.25:
 								_random_prob(ctx, loc, stage, false, out)
 				4:
 					if is_beg or i == 3:
@@ -1096,7 +1128,7 @@ static func _plan_random(ctx: Dictionary, rooms: Array, by_cell: Dictionary, out
 							_random_prob(ctx, loc, stage, true, out)
 					elif is_beg or i == ((7 - j) % 3):
 						_create_check(ctx, loc, is_beg, out)
-					elif randf() < 0.25:
+					elif _rf() < 0.25:
 						_random_prob(ctx, loc, stage, false, out)
 				7:
 					if is_beg:
@@ -1106,19 +1138,22 @@ static func _plan_random(ctx: Dictionary, rooms: Array, by_cell: Dictionary, out
 					if is_beg:
 						_create_check(ctx, loc, true, out)
 			if back.has(at):
+				if cells:
+					LandGen.use_cell(LandGen.cell_rng(LandGen.chunk_seed, i, j, 1, 1))
 				_set_objects(ctx, back[at], out)
 			if bonuses and conf != 10 and conf != 11:
 				_xp_bonuses(ctx, loc, out)
+	LandGen.use_cell(null)
 
 
 static func _create_check(ctx: Dictionary, loc: Dictionary, active: bool, out: Dictionary) -> void:
 	var points: Array = loc.spawn_points
 	if points.is_empty():
 		return
-	var sp: Vector2i = points[int(randf() * float(points.size()))]
+	var sp: Vector2i = points[int(_rf() * float(points.size()))]
 	var id := "checkpoint"
-	if not active and bool(ctx.get("rnd", false)) and randf() < 0.5:
-		id += str(int(randf() * 5.0 + 1.0))
+	if not active and bool(ctx.get("rnd", false)) and _rf() < 0.5:
+		id += str(int(_rf() * 5.0 + 1.0))
 	_create_obj(ctx, loc, id, "checkpoint", sp.x, sp.y, {"active": "1"} if active else {}, [], out)
 
 
@@ -1126,7 +1161,7 @@ static func _create_exit(ctx: Dictionary, loc: Dictionary, s: String, out: Dicti
 	var points: Array = loc.spawn_points
 	if points.is_empty():
 		return
-	var sp: Vector2i = points[int(randf() * float(points.size()))]
+	var sp: Vector2i = points[int(_rf() * float(points.size()))]
 	var attrs := {"name": "exit", "prob": str(ctx.get("exit_prob", "")) + s, "time": "20", "inter": "8", "sign": "1"}
 	_create_obj(ctx, loc, "exit", "box", sp.x, sp.y, attrs, [], out)
 
@@ -1155,12 +1190,12 @@ static func _random_prob(ctx: Dictionary, loc: Dictionary, maxlevel: int, imp: b
 	elif pool.size() == 1:
 		pick = pool[0]
 	else:
-		pick = pool[int(randf() * float(pool.size()))]
+		pick = pool[int(_rf() * float(pool.size()))]
 	var did := "doorboss" if str(pick.get("tip", "")) == "2" else "doorprob"
 	var points: Array = loc.spawn_points
 	if points.is_empty():
 		return
-	var sp: Vector2i = points[int(randf() * float(points.size()))]
+	var sp: Vector2i = points[int(_rf() * float(points.size()))]
 	_create_obj(ctx, loc, did, "box", sp.x, sp.y, {"prob": str(pick.id), "time": "20", "inter": "8"}, [], out)
 
 
@@ -1172,19 +1207,19 @@ static func _create_clouds(ctx: Dictionary, loc: Dictionary, lvl: int, out: Dict
 		if lvl >= 2:
 			return
 		cloud = "tcloud1"
-		kol = int(randf() * 5.0)
+		kol = int(_rf() * 5.0)
 	elif biom == 5:
 		cloud = "pcloud1"
-		kol = int(randf() * 2.0) if lvl == 0 else int(randf() * 3.0)
+		kol = int(_rf() * 2.0) if lvl == 0 else int(_rf() * 3.0)
 	if cloud == "":
 		return
 	for _i in kol:
-		var nx := int(randf() * float(COLS - 4) + 2.0)
-		var ny := int(randf() * float(ROWS - 4) + 2.0)
+		var nx := int(_rf() * float(COLS - 4) + 2.0)
+		var ny := int(_rf() * float(ROWS - 4) + 2.0)
 		if biom == 1 and lvl == 1 and ny > 15:
 			ny = 15
 		if biom == 5 and lvl == 0:
-			ny = int(randf() * 15.0 + 9.0)
+			ny = int(_rf() * 15.0 + 9.0)
 		_create_obj(ctx, loc, cloud, "box", nx, ny, {}, [], out)
 
 

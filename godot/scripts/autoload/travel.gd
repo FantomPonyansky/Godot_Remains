@@ -3,18 +3,22 @@ extends Node
 const _IntroScreen := preload("res://scripts/intro_screen.gd")
 const _WarmUp := preload("res://scripts/warm_up.gd")
 
-## Game.as land list and travel rules (gotoLand, beginMission, gotoNextLevel,
-## upLandLevel, checkTravel, enterToCurLand, Encounter), Land.enterLand /
-## gotoCheckPoint, and the World.as exitStep and ggDieStep sequences with
-## UnitPlayer.die / resurect. Counters are original frames at 30 a second.
-## The script engine calls open_land, goto_land and pass_land.
+## Autoload for lands, travel, death, and the control lock (Sim phase WORLD).
+## ScriptsEngine calls open_land, goto_land, and pass_land. Story, Vendors,
+## Stash, Craft, and DebugConsole call it too.
+## script_asked and vendor_refill_asked are connected by ScriptsEngine and
+## Vendors; this script does not name them. Timers are frames at 30 a second.
+## blocks_control is true through fades, death, and control off.
 
 signal lands_changed
 signal land_entered(id: String)
+## ScriptsEngine connects. Travel does not name ScriptsEngine.
+signal script_asked(id: String)
+## Vendors connects. Travel does not name Vendors.
+signal vendor_refill_asked(land: Node)
 
 const Registry := preload("res://scripts/map/land_registry.gd")
 const HARDDIE := "res://assets/music/harddie.mp3"
-const FPS := 30.0
 const EXIT_FADE_OUT := 79
 const EXIT_FADE_IN := 15
 const DEATH_FADE_OUT := 50
@@ -31,23 +35,38 @@ enum Death { NONE, DYING, FADE_OUT, RESPAWN, RESURRECT, CONTROL }
 
 var base_id := "rbl"
 var mission_id := ""
-var cur_land_id := "begin"
+var cur_land_id := "begin":
+	set(value):
+		cur_land_id = value
+		if is_inside_tree():
+			Run.cur_land_id = value
 var triggers: Dictionary = {}
 ## LandAct save fields per land: access, visited, passed, st (landStage), cp (lastCpCode).
 var lands: Dictionary = {}
 ## Game.crea: rebuild the next land entered.
 var crea := false
+## Chained lands (PORT_RULES.md "World"): the next level of a generated land
+## attaches as a new chunk instead of replacing the land. Off until
+## TODO.md §12.1 settles chunk size, difficulty curve and rest stops.
+var chain_lands := false
 ## PipBuck.travel set by the map table or a travel NPC.
 var travel_mode := false
 ## UnitPlayer.sost: 1 alive, 2 dying, 3 dying from a destroyed organ.
-var sost := 1
-var exit_state := Exit.NONE
+var sost := 1:
+	set(value):
+		sost = value
+		if is_inside_tree():
+			Run.sost = int(value)
+var exit_state := Exit.NONE:
+	set(value):
+		exit_state = value
+		if is_inside_tree():
+			Run.exit_state = int(value)
 var death_state := Death.NONE
 
 var _cur_coord := ""
 var _t_exit := 0
 var _t_die := 0
-var _tick_acc := 0.0
 var _dblack := 0.0
 var _layer: CanvasLayer
 var _black: ColorRect
@@ -70,7 +89,12 @@ var _wait_pics: Array[Texture2D] = []
 
 
 func _ready() -> void:
+	_listen_game()
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	Sim.register(Sim.Phase.WORLD, _sim_tick)
+	WorldOps.handle(&"set_trigger", set_trigger)
+	WorldOps.handle(&"travel", open_land)
+	WorldOps.handle(&"activate_checkpoint", checkpoint_activated)
 	_layer = CanvasLayer.new()
 	_layer.layer = 5
 	add_child(_layer)
@@ -84,8 +108,22 @@ func _ready() -> void:
 	call_deferred("_register_world_state")
 
 
+func _listen_game() -> void:
+	if not GameState.travel_reset_asked.is_connected(reset_run):
+		GameState.travel_reset_asked.connect(reset_run)
+	if not GameState.organ_failed_asked.is_connected(organ_failed):
+		GameState.organ_failed_asked.connect(organ_failed)
+	if not GameState.player_died_asked.is_connected(player_died):
+		GameState.player_died_asked.connect(player_died)
+	Run.sost = sost
+	Run.cur_land_id = cur_land_id
+	Run.exit_state = int(exit_state)
+	Run.travel_on = true
+	AudioManager.bind_travel(is_hard_dead, trigger)
+
+
 func _register_world_state() -> void:
-	var ws := get_node_or_null("/root/WorldState")
+	var ws := WorldState
 	if ws != null and ws.has_method("register"):
 		ws.call("register", "travel", get_state, set_state)
 
@@ -96,7 +134,7 @@ func show_load_screen() -> void:
 	if _wait_layer == null:
 		_build_load_screen()
 	if not _wait_pics.is_empty():
-		_wait_pic.texture = _wait_pics[randi() % _wait_pics.size()]
+		_wait_pic.texture = _wait_pics[Rng.randi(&"fx") % _wait_pics.size()]
 	_wait_text.text = OriginalLines.gui("loading")
 	var view := get_viewport().get_visible_rect().size
 	_wait_box.scale = Vector2.ONE * (view.y / 1080.0)
@@ -230,6 +268,10 @@ func begin_mission(id: String) -> void:
 
 ## Game.gotoNextLevel: the exit of a generated land rebuilds the mission land.
 func goto_next_level() -> void:
+	if chain_lands and _is_rnd(cur_land_id):
+		var land := _active_land()
+		if land != null and land.has_method("append_chunk") and bool(land.call("append_chunk")):
+			return
 	_cp_code = ""
 	_prev_cp_code = ""
 	_land_cp.erase(cur_land_id)
@@ -253,7 +295,7 @@ func up_land_level() -> void:
 
 ## Land.refill (script refill): Game.refillVendors once a land.
 func refill() -> void:
-	Vendors.land_refill(_active_land())
+	vendor_refill_asked.emit(_active_land())
 
 
 ## Game.checkTravel.
@@ -323,8 +365,10 @@ func m_return() -> bool:
 	return not (int(triggers.get("noreturn", 0)) > 0)
 
 
-func land_stage(id: String) -> int:
-	return int((lands.get(id, {}) as Dictionary).get("st", 0))
+## landStage of a land. chunk is the distance of a chained chunk from the
+## land's first one (TODO.md §13 R5.6); fixed lands are chunk 0.
+func land_stage(id: String, chunk := 0) -> int:
+	return int((lands.get(id, {}) as Dictionary).get("st", 0)) + maxi(chunk, 0)
 
 
 func land_act(id: String) -> Dictionary:
@@ -468,6 +512,7 @@ func _give_quickstart() -> void:
 
 func get_state() -> Dictionary:
 	return {
+		"version": 1,
 		"lands": lands.duplicate(true),
 		"triggers": triggers.duplicate(true),
 		"base": base_id,
@@ -491,6 +536,9 @@ func set_state(data: Dictionary) -> void:
 		for field in ["access", "visited", "passed", "st", "cp", "cp_name", "cp_pos"]:
 			if row.has(field):
 				act[field] = row[field]
+		if WorldState.replanned(str(key)):
+			act.erase("cp_name")
+			act.erase("cp_pos")
 	triggers = (data.get("triggers", {}) as Dictionary).duplicate(true)
 	base_id = str(data.get("base", "rbl"))
 	mission_id = str(data.get("mission", ""))
@@ -562,21 +610,23 @@ func exit_land(fast: bool = false) -> void:
 	_t_exit = 1
 
 
-func _process(delta: float) -> void:
+func _exit_tree() -> void:
+	Sim.unregister(_sim_tick)
+
+
+func _process(_delta: float) -> void:
 	if _host() == null:
 		_leave_game_scene()
+
+
+func _sim_tick() -> void:
+	if _host() == null:
 		return
-	if GameState.paused:
-		return
-	_tick_acc += delta * FPS
-	var ticks := mini(int(_tick_acc), 5)
-	_tick_acc -= float(ticks)
-	for _i in ticks:
-		if exit_state != Exit.NONE:
-			_exit_step()
-		if death_state != Death.NONE:
-			_die_step()
-		_black_step()
+	if exit_state != Exit.NONE:
+		_exit_step()
+	if death_state != Death.NONE:
+		_die_step()
+	_black_step()
 
 
 func _exit_step() -> void:
@@ -653,10 +703,6 @@ func _set_black(alpha: float) -> void:
 ## game.tscn opening on a land that is not built yet: black until it fades in.
 func cover() -> void:
 	_set_black(1.0)
-
-
-func fade_alpha() -> float:
-	return _black.color.a if _black.visible else 0.0
 
 
 ## Game.enterToCurLand with Land.enterLand.
@@ -810,9 +856,9 @@ func _die_step() -> void:
 			_t_die = DEATH_FADE_OUT
 			_dblack = 2.2
 		Death.FADE_OUT:
-			if ScriptsEngine.alicorn:
+			if Run.alicorn:
 				death_state = Death.NONE
-				ScriptsEngine.run_script("gameover")
+				script_asked.emit("gameover")
 				return
 			death_state = Death.RESPAWN
 			_t_die = DEATH_RESPAWN
@@ -910,7 +956,7 @@ func _hard_to_menu() -> void:
 	preload("res://scripts/exit_trace.gd").arm(get_tree(), "hardcore death")
 	_close_hard_screen()
 	_set_black(0.0)
-	GameState.set_paused(false)
+	Sim.clear_paused()
 	AudioManager.play_menu()
 	get_tree().change_scene_to_file(load("res://scripts/editor/editor_play.gd").menu_dest())
 
@@ -956,11 +1002,11 @@ func has_host() -> bool:
 
 
 func _player() -> Node2D:
-	return get_tree().get_first_node_in_group("player") as Node2D if is_inside_tree() else null
+	return Run.local_player() as Node2D if is_inside_tree() else null
 
 
 func _active_land() -> Node:
-	return get_tree().get_first_node_in_group("active_land") if is_inside_tree() else null
+	return Run.land() if is_inside_tree() else null
 
 
 func _shown_id() -> String:
@@ -993,12 +1039,12 @@ func _player_name() -> String:
 
 
 func _notice(text: String) -> void:
-	var hud := get_tree().get_first_node_in_group("hud") if is_inside_tree() else null
-	if hud != null and hud.has_method("show_notice"):
-		hud.show_notice(text)
+	if not is_inside_tree():
+		return
+	Fx.notice(text, {"source": Run.local_player()})
 
 
 func _mess(text: String, down: bool = false) -> void:
-	var hud := get_tree().get_first_node_in_group("hud") if is_inside_tree() else null
-	if hud != null and hud.has_method("show_message"):
-		hud.show_message(text, down)
+	if not is_inside_tree():
+		return
+	Fx.notice(text, {"message": true, "down": down, "source": Run.local_player()})

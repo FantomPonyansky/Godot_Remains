@@ -9,6 +9,7 @@ extends RefCounted
 ## exploration come back too. The stable (begin_actors.json) names its rows by
 ## list and index instead.
 
+const _PS := preload("res://scripts/prop_state.gd")
 const _Bounds := preload("res://scripts/map/room_bounds.gd")
 const _Drop := preload("res://scripts/ground_loot.gd")
 const _DoorArt := preload("res://scripts/door_art.gd")
@@ -16,7 +17,7 @@ const _FogSight := preload("res://scripts/fog_sight.gd")
 const _ObjArt := preload("res://scripts/map/obj_art.gd")
 const _UNIT_SCENE := "res://scenes/enemy.tscn"
 ## Unit metas a runtime unit is made again with.
-const _UNIT_METAS := ["unit_id", "level", "hero", "tr", "vortex_minion", "ai_tip", "noagro", "hidden", "pole"]
+const _UNIT_METAS := ["unit_id", "level", "hero", "tr", "vortex_minion", "ai_tip", "noagro", "hidden", "pole", "eid"]
 
 const VERSION := 1
 const TILE := 40.0
@@ -37,6 +38,12 @@ var _extra := {}
 var _extra_n := 0
 ## Wids remembered as fog ghosts in the save; the real node starts hidden.
 var _hidden := {}
+## Plan rows by wid, so an unloaded room's rows can be spawned again.
+var _rows := {}
+## Wids whose room is unloaded (unload_room): their record is in _ents.
+var _parked := {}
+## Drop snapshots of unloaded rooms, by room key "x,y".
+var _parked_drops := {}
 
 
 func _init(owner: Node2D) -> void:
@@ -78,6 +85,8 @@ func _load(snapshot: Dictionary) -> void:
 	_broken.clear()
 	for key in snapshot.get("broken", []):
 		_broken[str(key)] = true
+	_parked.clear()
+	_parked_drops.clear()
 
 
 ## After the doors are bound and the wooden walls shut.
@@ -93,6 +102,9 @@ func after_doors() -> void:
 
 
 func _restore_door(body: Node, rec: Dictionary) -> void:
+	if body.has_method("restore"):
+		body.restore(rec)
+		return
 	if bool(rec.get("dead", false)):
 		_DoorArt.break_open(body)
 		var stand_in := body.get_node_or_null("StandIn") as CanvasItem
@@ -100,10 +112,10 @@ func _restore_door(body: Node, rec: Dictionary) -> void:
 			stand_in.visible = false
 		return
 	if rec.has("lock"):
-		body.set_meta("lock", float(rec.lock))
+		_PS.put(body, "lock", float(rec.lock))
 	if rec.has("hp"):
-		body.set_meta("hp", int(rec.hp))
-	if bool(rec.get("open", false)) != bool(body.get_meta("door_open", false)):
+		_PS.put(body, "hp", int(rec.hp))
+	if bool(rec.get("open", false)) != bool(_PS.getv(body, "door_open", false)):
 		props.call("_apply_door", body, bool(rec.get("open", false)))
 
 
@@ -118,10 +130,14 @@ func after_plan() -> void:
 func queue_key(row: Dictionary) -> String:
 	var feet: Variant = row.get("feet", row.get("rect", ""))
 	var base := "%s|%s|%s|%s|%s" % [str(row.get("cat", "")), str(row.get("id", "")), str(row.get("unit_id", "")), str(row.get("room", "")), str(feet)]
+	# Rows of a chained chunk (R5.6) are named apart from chunk 0's.
+	if int(row.get("chunk", 0)) > 0:
+		base = "c%d|%s" % [int(row.chunk), base]
 	var n := int(_names.get(base, 0))
 	_names[base] = n + 1
 	var wid := base if n == 0 else "%s#%d" % [base, n]
 	row["wid"] = wid
+	_rows[wid] = row
 	var room: Array = row.get("room", [0, 0])
 	var rec: Variant = _ents.get(wid)
 	if rec is Dictionary and (rec as Dictionary).has("pos"):
@@ -180,6 +196,10 @@ func _adopt_runtime(node: Node) -> void:
 		return
 	if node.get_parent() != host.get_parent():
 		return
+	# wid below is the land-memory key. The eid is the run id (owner/sN), unless
+	# the spawner already stamped one. An authored row never comes through here.
+	if Entity.eid_of(node) == "":
+		Entity.claim(node, &"unit", str(node.get_meta("owner_eid", "")))
 	node.reparent(props)
 	_extra_n += 1
 	var wid := "x|%s|%d" % [str(node.get_meta("unit_id", "")), _extra_n]
@@ -202,24 +222,27 @@ func _restore_extra() -> void:
 	if packed == null:
 		return
 	for wid_v in _extra.keys():
-		var wid := str(wid_v)
-		var rec: Variant = _ents.get(wid)
-		if not rec is Dictionary or not (rec as Dictionary).has("pos"):
-			_extra.erase(wid)
-			continue
-		var node := packed.instantiate() as CharacterBody2D
-		var metas: Dictionary = _extra[wid]
-		for key in metas:
-			var value: Variant = metas[key]
-			if value is float and value == floorf(value):
-				value = int(value)
-			node.set_meta(str(key), value)
-		var pos: Array = (rec as Dictionary).pos
-		node.position = Vector2(float(pos[0]), float(pos[1]))
-		props.add_child(node)
-		_adopt_node(wid, node)
-		var n := int(wid.get_slice("|", 2))
-		_extra_n = maxi(_extra_n, n)
+		_make_extra(packed, str(wid_v))
+
+
+func _make_extra(packed: PackedScene, wid: String) -> void:
+	var rec: Variant = _ents.get(wid)
+	if not rec is Dictionary or not (rec as Dictionary).has("pos"):
+		_extra.erase(wid)
+		return
+	var node := packed.instantiate() as CharacterBody2D
+	var metas: Dictionary = _extra[wid]
+	for key in metas:
+		var value: Variant = metas[key]
+		if value is float and value == floorf(value):
+			value = int(value)
+		node.set_meta(str(key), value)
+	var pos: Array = (rec as Dictionary).pos
+	node.position = Vector2(float(pos[0]), float(pos[1]))
+	props.add_child(node)
+	_adopt_node(wid, node)
+	var n := int(wid.get_slice("|", 2))
+	_extra_n = maxi(_extra_n, n)
 
 
 func _apply(node: Node, rec: Dictionary) -> void:
@@ -238,26 +261,17 @@ func _apply(node: Node, rec: Dictionary) -> void:
 			node.set("hp", clampi(int(rec.hp), 1, maxi(1, int(node.get("max_hp")))))
 		_stamp_room(node)
 		return
-	if rec.has("lock"):
-		node.set_meta("lock", float(rec.lock))
-	if bool(rec.get("open", false)):
-		node.set_meta("spent", true)
-		node.set_meta("opened", true)
-		if props.has_method("_show_opened"):
+	if node.is_in_group("trap_units") and node.has_method("apply_land"):
+		node.call("apply_land", rec)
+	else:
+		_PS.apply_fields(node, rec)
+		if bool(rec.get("open", false)) and props.has_method("_show_opened"):
 			props.call("_show_opened", node)
-	if bool(rec.get("dead", false)):
-		node.set_meta("dead", true)
-		node.set_meta("spent", true)
-	if rec.has("box_hp"):
-		node.set_meta("box_hp", float(rec.box_hp))
 	if rec.has("vis"):
-		node.set_meta("vis_state", str(rec.vis))
-		node.set_meta("allact", "")
 		_ObjArt.set_state(node.get_node_or_null("Visual") as Sprite2D, str(rec.vis))
 	if rec.has("state") and node.has_method("load_memory"):
 		node.call("load_memory", rec.state)
 	if rec.has("on") and node is Area2D:
-		node.set_meta("enabled", bool(rec.on))
 		(node as Area2D).set_deferred("monitoring", bool(rec.on))
 	if pos.size() == 2 and node is Node2D:
 		(node as Node2D).position = Vector2(float(pos[0]), float(pos[1]))
@@ -287,26 +301,11 @@ func _capture_node(node: Node) -> Dictionary:
 		else:
 			rec["hp"] = int(node.get("hp"))
 		return rec
-	var out := {}
-	if node.has_meta("lock"):
-		out["lock"] = float(node.get_meta("lock"))
-	if bool(node.get_meta("opened", false)):
-		out["open"] = true
-	if bool(node.get_meta("dead", false)):
-		out["dead"] = true
-	if node.has_meta("box_hp"):
-		out["box_hp"] = float(node.get_meta("box_hp"))
-	if node.has_meta("vis_state"):
-		out["vis"] = str(node.get_meta("vis_state"))
-	if node is Area2D and node.has_meta("enabled"):
-		out["on"] = bool(node.get_meta("enabled"))
-	if _moves(node):
-		out["pos"] = [at.x, at.y]
-	if node.has_method("memory_state"):
-		var state: Dictionary = node.call("memory_state")
-		if not state.is_empty():
-			out["state"] = state
-	return out
+	if node.is_in_group("trap_units") and node.has_method("land_record"):
+		return node.call("land_record")
+	if node.has_method("land_record") and "_fields_live" in node:
+		return node.call("land_record")
+	return _PS.record(node)
 
 
 ## Wall cell centre (world px) that broke, from wall_span.gd.
@@ -316,14 +315,19 @@ func note_broken(rect: Rect2) -> void:
 
 
 func _restore_broken() -> void:
+	var solids := land().get_node_or_null("Solids")
+	if solids != null:
+		restore_broken_in(solids.get_children())
+
+
+## Breaks the remembered cells again inside these wall bodies (a land load,
+## or walls meshed again by play_land.remesh).
+func restore_broken_in(bodies: Array) -> void:
 	if _broken.is_empty():
 		return
-	var solids := land().get_node_or_null("Solids")
-	if solids == null:
-		return
 	var walls: Array = []
-	for child in solids.get_children():
-		if child.has_method("break_at") and child.has_method("covers"):
+	for child in bodies:
+		if is_instance_valid(child) and child.has_method("break_at") and child.has_method("covers"):
 			walls.append(child)
 	for key in _broken:
 		var parts := str(key).split(",")
@@ -343,7 +347,11 @@ func flag(key: String, fallback: Variant = null) -> Variant:
 
 
 func _restore_drops() -> void:
-	for row_v in _saved.get("drops", []):
+	_make_drops(_saved.get("drops", []))
+
+
+func _make_drops(rows: Array) -> void:
+	for row_v in rows:
 		if not row_v is Dictionary:
 			continue
 		var row: Dictionary = row_v
@@ -354,6 +362,8 @@ func _restore_drops() -> void:
 		drop.auto = bool(row.get("auto", true))
 		if row.has("mult_hp"):
 			drop.set_meta("mult_hp", float(row.mult_hp))
+		if row.has("eid"):
+			drop.set_meta("eid", str(row.eid))
 		props.add_child(drop)
 		drop.position = Vector2(float(pos[0]), float(pos[1]))
 		drop.velocity = Vector2.ZERO
@@ -400,9 +410,107 @@ func restore_live(snapshot: Dictionary) -> void:
 	after_plan()
 
 
+## What capture() stores for one live node. Entity.snapshot delegates here.
+func capture_one(node: Node) -> Dictionary:
+	if node == null or not is_instance_valid(node):
+		return {}
+	return _capture_node(node)
+
+
+## Puts a capture_one dict back. The same path as a land restore.
+func apply_one(node: Node, rec: Dictionary) -> void:
+	if node == null or not is_instance_valid(node):
+		return
+	_apply(node, rec)
+
+
+## A room leaves (streaming): its remembered nodes (units, boxes, traps,
+## runtime units) and drops go into memory and are freed. Doors and walls are
+## play_land's. Returns how many nodes left.
+func unload_room(cell: Vector2i) -> int:
+	var n := 0
+	for wid in _nodes.keys():
+		var node_v: Variant = _nodes[wid]
+		if not is_instance_valid(node_v) or (node_v as Node).is_queued_for_deletion():
+			continue
+		var node: Node = node_v
+		if not _in_room(node, cell):
+			continue
+		var rec := _capture_node(node)
+		if rec.is_empty():
+			_ents.erase(wid)
+		else:
+			_ents[wid] = rec
+		_nodes.erase(wid)
+		_parked[wid] = true
+		node.get_parent().remove_child(node)
+		node.queue_free()
+		n += 1
+	var key := "%d,%d" % [cell.x, cell.y]
+	var drops: Array = _parked_drops.get(key, [])
+	for child in props.get_children():
+		if child is _Drop and not child.is_queued_for_deletion() and _in_room(child, cell):
+			if not bool(child.get_meta("taken", false)):
+				drops.append(child.snapshot())
+			props.remove_child(child)
+			child.queue_free()
+			n += 1
+	if not drops.is_empty():
+		_parked_drops[key] = drops
+	return n
+
+
+## Queued rows that had not spawned when their room left.
+func park(rows: Array) -> void:
+	for row_v in rows:
+		var wid := str((row_v as Dictionary).get("wid", ""))
+		if wid != "":
+			_parked[wid] = true
+
+
+## The plan rows of a room that comes back, for land_props to spawn; runtime
+## units and drops of that room are made here.
+func reload_room(cell: Vector2i) -> Array:
+	var rows: Array = []
+	var packed: PackedScene = null
+	for wid in _parked.keys():
+		var rec: Variant = _ents.get(wid)
+		var at := Vector2i(-1048576, -1048576)
+		if rec is Dictionary and (rec as Dictionary).has("pos"):
+			var pos: Array = rec.pos
+			at = Vector2i(floori(float(pos[0]) / ROOM_W), floori(float(pos[1]) / ROOM_H))
+		elif _rows.has(wid):
+			var room: Array = (_rows[wid] as Dictionary).get("room", [0, 0])
+			at = Vector2i(int(room[0]), int(room[1]))
+		if at != cell:
+			continue
+		_parked.erase(wid)
+		if _extra.has(wid):
+			if packed == null:
+				packed = load(_UNIT_SCENE) as PackedScene
+			_make_extra(packed, str(wid))
+		elif _rows.has(wid):
+			rows.append(_rows[wid])
+	var key := "%d,%d" % [cell.x, cell.y]
+	if _parked_drops.has(key):
+		_make_drops(_parked_drops[key])
+		_parked_drops.erase(key)
+	return rows
+
+
+func _in_room(node: Node, cell: Vector2i) -> bool:
+	if not node is Node2D:
+		return false
+	var at := (node as Node2D).position
+	return floori(at.x / ROOM_W) == cell.x and floori(at.y / ROOM_H) == cell.y
+
+
 func capture() -> Dictionary:
 	var ents := _ents.duplicate(true)
 	var extra := {}
+	for wid in _parked:
+		if _extra.has(wid):
+			extra[wid] = _extra[wid]
 	for wid in _nodes:
 		var node_v: Variant = _nodes[wid]
 		if not is_instance_valid(node_v) or (node_v as Node).is_queued_for_deletion():
@@ -423,22 +531,13 @@ func capture() -> Dictionary:
 	var root := land().get_node_or_null("Doors")
 	if root:
 		for body in root.get_children():
-			doors[str(body.name)] = {
-				"open": bool(body.get_meta("door_open", false)),
-				"lock": float(body.get_meta("lock", 0.0)),
-				"dead": bool(body.get_meta("dead", false)),
-				"hp": int(body.get_meta("hp", 0)),
-			}
+			doors[str(body.name)] = body.snapshot() if body.has_method("snapshot") else _PS.door_record(body)
 	var drops: Array = []
 	for child in props.get_children():
 		if child is _Drop and not bool(child.get_meta("taken", false)) and not child.is_queued_for_deletion():
-			var at := (child as Node2D).position
-			var drop_rec := {"id": str(child.get("item_id")), "n": int(child.get("stack")), "pos": [at.x, at.y]}
-			if child.has_meta("mult_hp"):
-				drop_rec["mult_hp"] = float(child.get_meta("mult_hp"))
-			if not bool(child.get("auto")):
-				drop_rec["auto"] = false
-			drops.append(drop_rec)
+			drops.append(child.snapshot())
+	for key in _parked_drops:
+		drops.append_array(_parked_drops[key])
 	var out := {
 		"version": VERSION,
 		"ents": ents,

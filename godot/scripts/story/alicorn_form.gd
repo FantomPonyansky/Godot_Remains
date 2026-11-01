@@ -32,10 +32,10 @@ static func on(eff := true) -> void:
 		rec["forever"] = true
 	Inventory._push_armor(VISUAL)
 	if eff:
-		var player := Inventory.get_tree().get_first_node_in_group("player") as Node2D
+		var player := Run.local_player()
 		if player != null:
-			UnitFx.emit(player.get_tree(), "redray", player.global_position - Vector2(0, 39), {"kol": 40})
-		SfxBank.play("al_armor")
+			Fx.particles("redray", player.global_position - Vector2(0, 39), {"kol": 40, "source": player})
+		Fx.sound("al_armor", player.global_position if player != null else Vector2.ZERO, {"source": player})
 
 
 ## changeWeapon("not", true): the a_* weapons stay in the bag, locked (Inventory.alicorn_locked).

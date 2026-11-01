@@ -126,7 +126,7 @@ func teleport(at: Vector2, eff: bool = true) -> void:
 
 
 func _emit(n: int = -1) -> void:
-	var at := origin + Vector2(randf() * 1600.0 + 160.0, randf() * 500.0 + 100.0)
+	var at := origin + Vector2(Rng.randf(&"ai") * 1600.0 + 160.0, Rng.randf(&"ai") * 500.0 + 100.0)
 	var metas := {}
 	if n >= 0:
 		metas = {"bind": u, "bind_n": n}
@@ -164,8 +164,8 @@ func control() -> void:
 		if ai_state > 3:
 			ai_state = 1
 		if ai_state == 1:
-			att_state = randi() % 5
-			var nmp := randi() % 7
+			att_state = Rng.randi(&"ai") % 5
+			var nmp := Rng.randi(&"ai") % 7
 			if nmp == mp:
 				nmp += 1
 			if nmp >= 7:
@@ -203,7 +203,7 @@ func control() -> void:
 			elif att_state == 5:
 				ai_tch = 75
 			else:
-				ai_tch = randi_range(50, 149)
+				ai_tch = Rng.randi_range(&"ai", 50, 149)
 	if ((ai_state == 1 or (ai_state > 1 and att_state <= 2)) and ai_tch % 10 == 1) or (att_state == 5 and ai_state == 3):
 		set_cel(p)
 	if is_fly:

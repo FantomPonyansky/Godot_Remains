@@ -13,7 +13,9 @@ const DIR := "res://assets/data/maps/rooms"
 const COLS := 48
 const ROWS := 25
 const Codec := preload("res://scripts/editor/room_codec.gd")
-## mods/rooms/_disabled.json is {"disabled": [stem, ...]}. load_doc skips those overlays.
+const _UserDir = preload("res://scripts/user_dir.gd")
+## mods/rooms/_disabled.json is {"disabled": [stem, ...]}. That skips only the
+## loose-rooms file. Enabled mods also overlay mods/<mod>/rooms/<file>.json.
 const DISABLED := "_disabled.json"
 
 static var _cache: Dictionary = {}
@@ -47,12 +49,34 @@ static func release() -> void:
 
 
 static func mods_dir() -> String:
-	var tree := Engine.get_main_loop() as SceneTree
-	if tree != null:
-		var ud := tree.root.get_node_or_null("/root/UserDir")
-		if ud != null and ud.has_method("mods_rooms"):
-			return str(ud.call("mods_rooms"))
-	return "user://mods/rooms/"
+	return _UserDir.mods_rooms()
+
+
+static func _room_sources() -> Array:
+	var mods = load("res://scripts/mod_loader.gd")
+	if mods != null:
+		return mods.room_sources()
+	return [{"id": "rooms", "dir": mods_dir(), "loose": true}]
+
+
+static func _append_room_stems(files: Array, dir: String) -> void:
+	if dir == "" or not DirAccess.dir_exists_absolute(ProjectSettings.globalize_path(dir)):
+		return
+	# Top-level files only. Subfolders such as mods/rooms/_autosave/ are not mods.
+	for f in DirAccess.get_files_at(dir):
+		var stem := str(f).get_basename()
+		if str(f).ends_with(".json") and stem != "index" and not stem.begins_with("_") and not files.has(stem):
+			files.append(stem)
+
+
+static func _foreign_room(file_name: String) -> bool:
+	for src_v in _room_sources():
+		var src: Dictionary = src_v
+		if bool(src.get("loose", false)):
+			continue
+		if FileAccess.file_exists(str(src.get("dir", "")).path_join(file_name + ".json")):
+			return true
+	return false
 
 
 static func _mod_path(file_name: String) -> String:
@@ -104,14 +128,8 @@ static func delete_mod(file_name: String) -> String:
 static func file_names() -> Array:
 	var index: Dictionary = _read("%s/index.json" % DIR)
 	var files: Array = index.get("files", [])
-	var dir := mods_dir()
-	var abs := ProjectSettings.globalize_path(dir)
-	# Top-level files only. get_files_at skips subfolders, so mods/rooms/_autosave/ is not a mod.
-	if DirAccess.dir_exists_absolute(abs):
-		for f in DirAccess.get_files_at(dir):
-			var stem := str(f).get_basename()
-			if str(f).ends_with(".json") and stem != "index" and not stem.begins_with("_") and not files.has(stem):
-				files.append(stem)
+	for src_v in _room_sources():
+		_append_room_stems(files, str((src_v as Dictionary).get("dir", "")))
 	return files
 
 
@@ -119,8 +137,11 @@ static func load_doc(file_name: String) -> Dictionary:
 	if _cache.has(file_name):
 		return _cache[file_name]
 	var doc := _read("%s/%s.json" % [DIR, file_name])
-	if mod_enabled(file_name):
-		var mod := _read(_mod_path(file_name))
+	for src_v in _room_sources():
+		var src: Dictionary = src_v
+		if bool(src.get("loose", false)) and not mod_enabled(file_name):
+			continue
+		var mod := _read(str(src.get("dir", "")).path_join(file_name + ".json"))
 		if not mod.is_empty():
 			doc = _overlay(doc, mod)
 	if doc.is_empty():
@@ -505,7 +526,7 @@ static func _ensure_pools() -> void:
 	if live:
 		for f in file_names():
 			var stem := str(f)
-			if has_mod(stem):
+			if has_mod(stem) or _foreign_room(stem):
 				names[stem] = true
 	for k in _cache.keys():
 		names[str(k)] = true
@@ -514,7 +535,7 @@ static func _ensure_pools() -> void:
 	var seen := {}
 	for stem_v in names.keys():
 		var stem := str(stem_v)
-		if live and not mod_enabled(stem):
+		if live and has_mod(stem) and not mod_enabled(stem) and not _foreign_room(stem):
 			continue
 		var doc := load_doc(stem)
 		for room_v in doc.get("rooms", []):

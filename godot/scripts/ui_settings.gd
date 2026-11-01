@@ -13,12 +13,30 @@ const MUSIC_BUS := "Music"
 const SOUND_BUS := "Sound"
 const FLAGS := {"zoom100": false, "hint_tele": true, "sys_cur": false, "show_favs": true, "err_show": true}
 
+const _OPTIONS := "res://assets/data/balance/options.json"
+static var _opt: Dictionary = {}
+static var _opt_loaded := false
+
 static var _cfg: ConfigFile
+
+
+static func _option_default(section: String, key: String, fallback: Variant) -> Variant:
+	if not _opt_loaded:
+		_opt_loaded = true
+		var raw: Variant = DataLib.load(_OPTIONS)
+		if raw is Dictionary:
+			_opt = raw
+	var sec: Variant = _opt.get(section, null)
+	if sec is Dictionary and (sec as Dictionary).has(key):
+		return (sec as Dictionary)[key]
+	return fallback
 
 
 static func value(section: String, key: String, fallback: Variant) -> Variant:
 	_ensure()
-	return _cfg.get_value(section, key, fallback)
+	if _cfg.has_section_key(section, key):
+		return _cfg.get_value(section, key)
+	return _option_default(section, key, fallback)
 
 
 static func set_value(section: String, key: String, v: Variant) -> void:

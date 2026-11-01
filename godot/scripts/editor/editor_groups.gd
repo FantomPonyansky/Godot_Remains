@@ -129,7 +129,7 @@ static func _ensure() -> void:
 		return
 	_bind_lists()
 	var bag := {}
-	var data: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://assets/data/maps/objs.json"))
+	var data: Variant = DataLib.load("res://assets/data/maps/objs.json")
 	var rows: Dictionary = data if data is Dictionary else {}
 	for id_v in rows.keys():
 		var id := str(id_v)

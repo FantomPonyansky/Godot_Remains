@@ -46,27 +46,6 @@ static func row_clip(row: int, count: int, start_col: int = 0) -> Array:
 	return out
 
 
-static func protect_frames(texture: Texture2D) -> SpriteFrames:
-	# Protect atlas is 24×6 cells of 130×130. Each row is one clip.
-	return build(
-		texture,
-		130,
-		130,
-		{
-			"idle": [Vector2i(0, 0)],
-			"walk": row_clip(1, 17),
-			"run": row_clip(2, 16),
-			"jump": [Vector2i(0, 0)],
-			"fall": [Vector2i(0, 0)],
-			"climb": row_clip(1, 8),
-			"levitate": [Vector2i(0, 0)],
-			"crouch": [Vector2i(0, 0)],
-		},
-		{"idle": 4.0, "walk": 16.0, "run": 18.0, "climb": 12.0, "levitate": 3.0},
-		{"jump": false, "fall": false}
-	)
-
-
 static func raider_frames(texture: Texture2D) -> SpriteFrames:
 	return build(
 		texture,

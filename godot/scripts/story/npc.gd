@@ -129,7 +129,7 @@ func setup(plan_row: Dictionary, props: Node) -> void:
 	if attrs.has("tr"):
 		_tr = int(attrs.tr)
 	elif kind == "captive" or kind == "ponpon":
-		_tr = int(_flag("tr", randi_range(1, 11)))
+		_tr = int(_flag("tr", Rng.randi_range(&"ai", 1, 11)))
 		_set_flag("tr", _tr)
 	_sr = int(attrs.get("sr", 0))
 	if kind == "captive":
@@ -138,7 +138,7 @@ func setup(plan_row: Dictionary, props: Node) -> void:
 			set_meta("locktip", 1)
 			set_meta("lock", 1.0 if status_capt == 0 else 0.0)
 	_build()
-	_t_replic = int(randf() * 1500.0) if kind == "captive" else int(randf() * 500.0 + 200.0)
+	_t_replic = int(Rng.randf(&"ai") * 1500.0) if kind == "captive" else int(Rng.randf(&"ai") * 500.0 + 200.0)
 	_init_npc()
 	if attrs.has("hide"):
 		_hide()
@@ -157,7 +157,7 @@ func rep() -> int:
 
 
 func set_rep(v: int) -> void:
-	Story.set_npc_rep(npc_id, v)
+	WorldOps.set_npc_rep(npc_id, v)
 
 
 # --- Npc.as ---
@@ -214,9 +214,9 @@ func use_object(_from_timer: bool = false) -> void:
 		return
 	if busy or _t_ref > 0:
 		return
-	_t_ref = (1 + randi() % 5) * BARK_COOLDOWN
+	_t_ref = (1 + Rng.randi(&"ai") % 5) * BARK_COOLDOWN
 	if not no_turn:
-		var player := get_tree().get_first_node_in_group("player") as Node2D
+		var player := Run.local_player() as Node2D
 		if player != null:
 			facing = -1.0 if global_position.x > player.global_position.x else 1.0
 			_face()
@@ -298,7 +298,7 @@ func check(us: bool = false) -> bool:
 			else:
 				if Story.dial_on():
 					ScriptsEngine.dialog(did)
-				Travel.set_trigger("dial_" + did, 1)
+				WorldOps.set_trigger("dial_" + did, 1)
 			for rew_v in dial.get("reward", []):
 				var rew: Dictionary = rew_v
 				if rew.has("id"):
@@ -347,7 +347,7 @@ func set_status(dial: int = 0) -> void:
 func repair() -> void:
 	var quest: Dictionary = data.get("quest", {})
 	if not quest.is_empty() and Story.quest(str(quest.get("id", ""))) == null:
-		Story.add_quest(str(quest.id))
+		WorldOps.add_quest(str(quest.id))
 		return
 	var skill := str(data.get("needskill", ""))
 	if skill == "":
@@ -383,7 +383,7 @@ func repair() -> void:
 		set_meta("act_time", 0)
 		set_status()
 		if not quest.is_empty():
-			Story.close_quest(str(quest.id), str(quest.get("cid", "")))
+			WorldOps.close_quest(str(quest.id), str(quest.get("cid", "")))
 
 
 ## Npc.patient.
@@ -403,8 +403,8 @@ func patient() -> void:
 			Inventory.spend(item, 1)
 			set_rep(2)
 			ScriptsEngine.dialog("dialPatient5")
-			Travel.set_trigger("patient_tr2", "wait")
-			Story.close_quest("patientHeal", "3")
+			WorldOps.set_trigger("patient_tr2", "wait")
+			WorldOps.close_quest("patientHeal", "3")
 			Story.show_quest("patientHeal", "4")
 		else:
 			ScriptsEngine.dialog("dialPatient8")
@@ -413,8 +413,8 @@ func patient() -> void:
 	else:
 		ScriptsEngine.dialog("dialPatient3")
 		set_rep(1)
-		Travel.set_trigger("patient_tr1", 1)
-		Story.close_quest("patientHeal", "1")
+		WorldOps.set_trigger("patient_tr1", 1)
+		WorldOps.close_quest("patientHeal", "1")
 		Story.show_quest("patientHeal", "2")
 		Story.show_quest("patientHeal", "3")
 	refresh()
@@ -424,7 +424,7 @@ func patient() -> void:
 func _free() -> void:
 	if status_capt > 0:
 		return
-	SfxBank.play("metal_door_open")
+	Fx.sound("metal_door_open", global_position, {"source": self})
 	_t_replic = 0
 	if unit_id != "captive12":
 		_replic("vse")
@@ -530,8 +530,7 @@ func _foe_center(e: Node2D) -> Vector2:
 func _gun() -> Dictionary:
 	if _gun_row.is_empty():
 		var id := str(data.get("weap", ""))
-		var f := FileAccess.open("res://assets/data/weapons.json", FileAccess.READ)
-		var doc: Variant = JSON.parse_string(f.get_as_text()) if f != null else null
+		var doc: Variant = DataLib.load("res://assets/data/weapons.json")
 		if doc is Dictionary:
 			for w in doc.get("weapons", []):
 				if w is Dictionary and str(w.get("id", "")) == id:
@@ -558,7 +557,7 @@ func _gun_shoot() -> void:
 	var dir := (_foe_center(_cel) - eye).normalized()
 	var spread := float(w.get("spread", 0.0))
 	if spread > 0.0:
-		dir = dir.rotated(deg_to_rad((randf() - 0.5) * spread))
+		dir = dir.rotated(deg_to_rad((Rng.randf(&"combat") - 0.5) * spread))
 	var b := _Bullet.instantiate() as Area2D
 	b.from_player = true
 	b.fraction = 100
@@ -633,14 +632,14 @@ func _tick() -> void:
 		_t_replic -= 1
 		if _t_replic <= 0:
 			_replic("neutral")
-			_t_replic = int(randf() * 500.0 + 1000.0)
+			_t_replic = int(Rng.randf(&"ai") * 500.0 + 1000.0)
 		return
 	if not ScriptsEngine.dial_script.running:
 		_t_replic -= 1
 		if _t_replic <= 0:
 			if not silent:
 				_replic("neutral")
-			_t_replic = int(randf() * 500.0 + 200.0)
+			_t_replic = int(Rng.randf(&"ai") * 500.0 + 200.0)
 		if zzz_gen and _t_replic % 120 == 2:
 			_say("z-z-z")
 			_play("stay")
@@ -726,8 +725,8 @@ func _animate() -> void:
 	if _t_anim > 0:
 		_t_anim -= 1
 		return
-	_t_anim = int(randf() * 200.0 + 150.0)
-	var clip := "move%d" % randi_range(1, 2)
+	_t_anim = int(Rng.randf(&"fx") * 200.0 + 150.0)
+	var clip := "move%d" % Rng.randi_range(&"fx", 1, 2)
 	if frames.has_animation(clip) and _vis.animation != "eyes":
 		_vis.play(clip)
 

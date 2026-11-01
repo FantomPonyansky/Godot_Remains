@@ -11,7 +11,6 @@ extends Node
 ## replace the track until the next room change.
 ## Volume: the Music bus is the settings slider; BASE_DB is the port's mix.
 
-const TPS := 30.0
 const BASE_DB := -8.0
 const MENU_DB := -10.0
 const LOOP := 10000
@@ -23,6 +22,7 @@ const BOSS_DEATH_TICKS := 90
 const DATA := "res://assets/data/music.json"
 const RoomFile := preload("res://scripts/map/room_file.gd")
 const Registry := preload("res://scripts/map/land_registry.gd")
+const _Addr := preload("res://scripts/map/room_address.gd")
 ## Unit classes that set boss = true and carry <snd music>.
 const BOSSES := ["bossultra", "bossraider", "bossnecr", "bossdron", "bossalicorn"]
 
@@ -38,24 +38,36 @@ var _t_music := 0
 var _prev_db := BASE_DB
 var _t_combat := 0
 var _land_ref := 0
-var _acc := 0.0
 var _room_key := ""
 var _post_music := false
 var _art_t := 0
 var _units: Dictionary = {}
 ## Bosses that called combat(): instance id -> [track, prior].
 var _bosses: Dictionary = {}
+## Travel registers these. No listener: not hard-dead, and art does not check a trigger.
+var _hard_dead: Callable = Callable()
+var _land_trigger: Callable = Callable()
+
+
+func bind_travel(hard_dead: Callable, land_trigger: Callable) -> void:
+	_hard_dead = hard_dead
+	_land_trigger = land_trigger
 
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	Sim.register(Sim.Phase.PRESENTATION, _tick)
 	_music = _player("MusicPlayer")
 	_music.finished.connect(_on_finished)
 	_prev = _player("MusicFade")
 	if FileAccess.file_exists(DATA):
-		var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(DATA))
+		var parsed: Variant = DataLib.load(DATA)
 		if parsed is Dictionary:
 			_units = (parsed as Dictionary).get("units", {})
+
+
+func _exit_tree() -> void:
+	Sim.unregister(_tick)
 
 
 func _player(node_name: String) -> AudioStreamPlayer:
@@ -155,30 +167,19 @@ func _on_finished() -> void:
 		_music.play()
 
 
-func _process(delta: float) -> void:
-	_acc += delta
-	var steps := 0
-	while _acc >= 1.0 / TPS and steps < 4:
-		_acc -= 1.0 / TPS
-		steps += 1
-		_tick()
-	if steps == 4:
-		_acc = 0.0
-
-
 ## Snd.step plus the per-tick World/Unit calls the port has no other home for.
 func _tick() -> void:
-	var travel := get_node_or_null("/root/Travel")
 	var in_game := _active_land() != null and _player_node() != null
+	var hard_dead := _hard_dead.is_valid() and bool(_hard_dead.call())
 	if not in_game:
 		_t_combat = 0
 		_bosses.clear()
 		_room_key = ""
-	elif not (travel != null and travel.has_method("is_hard_dead") and travel.is_hard_dead()):
+	elif not hard_dead:
 		_watch_room()
 		_watch_units()
 		if not _paused():
-			_art_step(travel)
+			_art_step()
 	if _t_music > 0 and _prev.playing:
 		if _t_music % 10 == 1:
 			_prev.volume_db = _prev_db + linear_to_db(float(_t_music) / FADE_TICKS)
@@ -198,7 +199,8 @@ func _watch_room() -> void:
 	var land := _active_land()
 	var at := _player_node().global_position
 	var room := Vector2i(floori(at.x / 1920.0), floori(at.y / 1000.0))
-	var key := "%d|%d|%d" % [land.get_instance_id(), room.x, room.y]
+	var addr := _Addr.at(land, room)
+	var key := "%d|%s" % [land.get_instance_id(), addr if addr != "" else "%d,%d" % [room.x, room.y]]
 	if key == _room_key:
 		return
 	_room_key = key
@@ -218,19 +220,19 @@ func _watch_room() -> void:
 
 ## Land.artStep: a land with options art shells the area every 20..1019 ticks
 ## until that trigger is 1 (artBabah: Sound.ps artfire, World.quake(10, 3)).
-func _art_step(travel: Node) -> void:
+func _art_step() -> void:
 	_art_t -= 1
 	if _art_t > 0:
 		return
-	_art_t = int(randf() * 1000.0 + 20.0)
+	_art_t = int(Rng.randf(&"fx") * 1000.0 + 20.0)
 	var art := str(Registry.land(_land_id(_active_land())).get("options", {}).get("art", ""))
-	if art == "" or travel == null or not travel.has_method("trigger"):
+	if art == "" or not _land_trigger.is_valid():
 		return
-	if str(travel.trigger(art)) == "1":
+	if str(_land_trigger.call(art)) == "1":
 		return
-	SfxBank.play("artfire")
+	Fx.sound("artfire", Vector2.ZERO)
 	if CamShake != null:
-		CamShake.quake(10.0, 3.0)
+		Fx.shake(10.0, Vector2.ZERO, {"x": 10.0, "y": 3.0})
 
 
 func _watch_units() -> void:
@@ -245,7 +247,7 @@ func _watch_units() -> void:
 		combat(str(row[0]), int(row[1]), BOSS_DEATH_TICKS)
 	if _post_music:
 		return
-	for enemy in get_tree().get_nodes_in_group("enemies"):
+	for enemy in Units.enemies():
 		if not enemy.has_method("is_alert") or bool(enemy.get("_dead")) or not enemy.is_alert():
 			continue
 		var uid := _unit_id(enemy)
@@ -291,13 +293,12 @@ func _land_id(land: Node) -> String:
 
 
 func _active_land() -> Node:
-	return get_tree().get_first_node_in_group("active_land") if is_inside_tree() else null
+	return Run.land() if is_inside_tree() else null
 
 
 func _player_node() -> Node2D:
-	return get_tree().get_first_node_in_group("player") as Node2D
+	return Run.local_player() as Node2D
 
 
 func _paused() -> bool:
-	var gs := get_node_or_null("/root/GameState")
-	return gs != null and bool(gs.get("paused"))
+	return Sim.paused()

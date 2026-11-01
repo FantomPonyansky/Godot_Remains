@@ -4,8 +4,11 @@ extends Node
 ## PipPageVend buy / sell / repair / tasks and PipPageMed payment. Stock comes
 ## from Vendors.xml, the "random" vendor and NPCs without a vendor xml get
 ## setRndBuys stock. Data: res://assets/data/trade.json (tools/extract_trade.py).
-## Saved with the run (WorldState provider "vendors"): the Vendor.save rows of
-## every xml vendor. Money is not saved; it is rolled again on load.
+## Saved with the run: stock in the world provider "vendors" (version 1),
+## money and the land xp baseline in the run provider "vendor_meta".
+
+## Stash fills this. Vendors does not name Stash.
+signal stash_hidden_query(id: String, reply: Dictionary)
 
 const DATA := "res://assets/data/trade.json"
 const StoryText := preload("res://scripts/story/story_text.gd")
@@ -42,15 +45,42 @@ var _xml: Dictionary = {}
 var _saved: Dictionary = {}
 var _npc_vendors: Dictionary = {}
 var _land_xp: Dictionary = {}
+## Money and land xp from the run document. Land xp is keyed by land id:
+## a rebuilt land has a new instance id, and the live table stays per instance
+## so leaving and re-entering a land still starts a fresh baseline.
+var _money_saved: Dictionary = {}
+var _xp_saved: Dictionary = {}
+var _xp_ids: Dictionary = {}
 
 
 func _ready() -> void:
 	_load_data()
+	WorldOps.handle(&"trade", trade)
+	WorldOps.handle(&"sell", sell)
+	WorldOps.handle(&"sell_all", sell_all)
+	WorldOps.handle(&"take_weapon", take_weapon)
+	WorldOps.handle(&"take_all_tasks", take_all_tasks)
+	if not Inventory.armor_tip_query.is_connected(_on_armor_tip):
+		Inventory.armor_tip_query.connect(_on_armor_tip)
+	if not Travel.vendor_refill_asked.is_connected(land_refill):
+		Travel.vendor_refill_asked.connect(land_refill)
 	call_deferred("_register")
+
+
+func _on_armor_tip(id: String, reply: Dictionary) -> void:
+	reply.v = int(armor_data(id).get("tip", 1))
+
+
+## No listener: nothing is hidden.
+func _stash_hidden(id: String) -> bool:
+	var reply := {"v": false}
+	stash_hidden_query.emit(id, reply)
+	return bool(reply.v)
 
 
 func _register() -> void:
 	WorldState.register("vendors", get_state, set_state)
+	WorldState.register_run("vendor_meta", get_vendor_meta, set_vendor_meta)
 	WorldState.run_reset.connect(reset_run)
 	Travel.land_entered.connect(_on_land_entered)
 
@@ -60,12 +90,18 @@ func reset_run() -> void:
 	_saved.clear()
 	_npc_vendors.clear()
 	_land_xp.clear()
+	_money_saved.clear()
+	_xp_saved.clear()
+	_xp_ids.clear()
 	clear_context()
+
+
+const STATE_VERSION := 1
 
 
 func get_state() -> Dictionary:
 	_ensure()
-	var out := {}
+	var out := {"version": STATE_VERSION}
 	for vid in vendors:
 		var rows: Array = []
 		for e_v in (vendors[vid] as Dictionary).buys:
@@ -76,11 +112,68 @@ func get_state() -> Dictionary:
 	return out
 
 
+## A version 0 blob is the stock map itself (no version key). Anything that is
+## not an item list, including the version key, is not a vendor.
 func set_state(data: Variant) -> void:
 	vendors.clear()
 	_npc_vendors.clear()
-	_saved = (data as Dictionary).duplicate(true) if data is Dictionary else {}
+	var src: Dictionary = data if data is Dictionary else {}
+	var stock := {}
+	for vid in src:
+		if src[vid] is Array:
+			stock[str(vid)] = src[vid]
+	_saved = stock.duplicate(true)
 	_ensure()
+
+
+func get_vendor_meta() -> Dictionary:
+	_ensure()
+	var money := {}
+	for vid in vendors:
+		money[str(vid)] = int((vendors[vid] as Dictionary).get("money", 0))
+	var xp := _xp_saved.duplicate(true)
+	for inst in _land_xp:
+		var lid := str(_xp_ids.get(inst, ""))
+		if lid == "":
+			continue
+		xp[lid] = (_land_xp[inst] as Dictionary).duplicate(true)
+	return {"version": STATE_VERSION, "money": money, "land_xp": xp}
+
+
+func set_vendor_meta(data: Variant) -> void:
+	_money_saved.clear()
+	_xp_saved.clear()
+	if typeof(data) != TYPE_DICTIONARY:
+		return
+	var d: Dictionary = data
+	var money: Dictionary = d.get("money", {})
+	for vid in money:
+		_money_saved[str(vid)] = int(money[vid])
+	var xp: Dictionary = d.get("land_xp", {})
+	for lid in xp:
+		if xp[lid] is Dictionary:
+			_xp_saved[str(lid)] = (xp[lid] as Dictionary).duplicate(true)
+	_apply_saved_money()
+	_apply_saved_xp()
+
+
+func _apply_saved_money() -> void:
+	for vid in _money_saved:
+		if vendors.has(vid):
+			vendors[vid].money = int(_money_saved[vid])
+
+
+func _apply_saved_xp() -> void:
+	var land := Run.land() if is_inside_tree() else null
+	if land == null:
+		return
+	var id := Travel.cur_land_id
+	if not _xp_saved.has(id):
+		return
+	var key := land.get_instance_id()
+	_land_xp[key] = (_xp_saved[id] as Dictionary).duplicate(true)
+	_xp_ids[key] = id
+	_xp_saved.erase(id)
 
 
 # --- Vendor.as ---
@@ -138,9 +231,11 @@ func _make(vid: String, lvl: int, saved: Variant) -> Dictionary:
 				v.buys.append(e)
 	else:
 		_set_rnd_buys(v, lvl, vid)
-	v.money = int(round(randf() * 450.0 + 50.0))
-	if randf() < 0.2:
+	v.money = int(round(Rng.randf(&"loot") * 450.0 + 50.0))
+	if Rng.randf(&"loot") < 0.2:
 		v.money *= 2
+	if _money_saved.has(str(vid)):
+		v.money = int(_money_saved[str(vid)])
 	return v
 
 
@@ -162,9 +257,9 @@ func _item(tip: String, raw: String, nkol: int = -1, nvar: int = 0) -> Dictionar
 		if tip == "armor" and int((_armors.get(id, {}) as Dictionary).get("tip", 1)) == 3:
 			e.sost = 1.0
 		elif nkol == 0:
-			e.sost = 0.05 + randf() * 0.15
+			e.sost = 0.05 + Rng.randf(&"loot") * 0.15
 		elif nkol == 1:
-			e.sost = 0.6 + randf() * 0.25
+			e.sost = 0.6 + Rng.randf(&"loot") * 0.25
 	elif tip not in ["weapon", "armor"] and _items.has(id):
 		var it: Dictionary = _items[id]
 		if tip == "item" and it.has("tip"):
@@ -217,15 +312,15 @@ func item_mult(e: Dictionary) -> float:
 
 ## Vendor.setRndBuys.
 func _set_rnd_buys(v: Dictionary, lvl: int, tip: String) -> void:
-	if randf() < 0.7:
-		v.mult_price = floor(randf() * 6.0 + 8.0) / 10.0
+	if Rng.randf(&"loot") < 0.7:
+		v.mult_price = floor(Rng.randf(&"loot") * 6.0 + 8.0) / 10.0
 	var num := 10 + 6 * barter_lvl()
 	if tip == "random":
 		num = 30
 	elif tip == "doctor":
 		num = 5 + 3 * barter_lvl()
-	num = int(round(num * (0.5 + randf() * 0.7)))
-	var num2 := int(num * (0.1 + randf() * 0.3))
+	num = int(round(num * (0.5 + Rng.randf(&"loot") * 0.7)))
+	var num2 := int(num * (0.1 + Rng.randf(&"loot") * 0.3))
 	var by: Dictionary = {}
 	var gen := _gen()
 	for i in num:
@@ -234,23 +329,23 @@ func _set_rnd_buys(v: Dictionary, lvl: int, tip: String) -> void:
 			if wid == "" or by.has(wid):
 				continue
 			var w := _item("weapon", wid, 1)
-			if randf() < 0.2:
-				w.barter = mini(5, int(floor(randf() * lvl / 4.0 + 1.0)))
+			if Rng.randf(&"loot") < 0.2:
+				w.barter = mini(5, int(floor(Rng.randf(&"loot") * lvl / 4.0 + 1.0)))
 			v.buys.append(w)
 			by[wid] = w
 		else:
-			var kind := _rnd_kind(int(floor(randf() * 110.0)), tip)
+			var kind := _rnd_kind(int(floor(Rng.randf(&"loot") * 110.0)), tip)
 			var id := gen._pick(kind, lvl)
 			if id == "":
 				continue
 			var e := _item(kind, id)
 			if not by.has(id):
-				if randf() < 0.3:
-					e.lvl = mini(5, int(floor(randf() * lvl + 1.0)))
+				if Rng.randf(&"loot") < 0.3:
+					e.lvl = mini(5, int(floor(Rng.randf(&"loot") * lvl + 1.0)))
 				if kind == "a":
-					e.kol = int(round(e.kol * (3.0 + randf() * 12.0)))
+					e.kol = int(round(e.kol * (3.0 + Rng.randf(&"loot") * 12.0)))
 				elif kind != "uniq" and kind != "scheme":
-					e.kol = int(round(e.kol * (1.0 + randf() * 4.0)))
+					e.kol = int(round(e.kol * (1.0 + Rng.randf(&"loot") * 4.0)))
 				v.buys.append(e)
 				by[id] = e
 			elif kind != "uniq" and kind != "scheme":
@@ -275,7 +370,7 @@ func _gen() -> LootRoll:
 
 
 func _land_dif() -> int:
-	var land := get_tree().get_first_node_in_group("active_land") if is_inside_tree() else null
+	var land := Run.land() if is_inside_tree() else null
 	if land != null:
 		var plan: Variant = land.get("plan")
 		if plan != null and plan.get("ctx") != null:
@@ -323,7 +418,7 @@ func refill_all() -> void:
 		refill_vendor(v)
 	for key in Travel.triggers.keys():
 		if str(Travel.triggers[key]) == "wait":
-			Travel.triggers[key] = 1
+			WorldOps.set_trigger(key, 1)
 	var good := Inventory.count("good")
 	if good < GOOD_HP:
 		Inventory.add("good", GOOD_HP - good)
@@ -360,10 +455,17 @@ func _xp_of(land: Node) -> Vector2:
 	return Vector2(summ, float(rec.all))
 
 
-func _on_land_entered(_id: String) -> void:
-	var land := get_tree().get_first_node_in_group("active_land")
-	if land != null and not _land_xp.has(land.get_instance_id()):
-		_land_xp[land.get_instance_id()] = {"score": GameState.score, "all": 0.0}
+func _on_land_entered(id: String) -> void:
+	var land := Run.land()
+	if land == null:
+		return
+	var key := land.get_instance_id()
+	_xp_ids[key] = id
+	if _xp_saved.has(id):
+		_land_xp[key] = (_xp_saved[id] as Dictionary).duplicate(true)
+		_xp_saved.erase(id)
+	elif not _land_xp.has(key):
+		_land_xp[key] = {"score": GameState.score, "all": 0.0}
 
 
 # --- Pers barter values ---
@@ -649,7 +751,7 @@ func repair_rows() -> Array:
 		var w: Dictionary = _weapons.get(base, {})
 		if w.is_empty() or not Condition.is_durable_weapon(id) or int(w.get("tip", 0)) in [0, 4]:
 			continue
-		if Stash.is_hidden(id):
+		if _stash_hidden(id):
 			continue
 		var hp := Condition.weapon_hp(id)
 		var cap := float(Condition.weapon_max(id))
@@ -760,7 +862,7 @@ func task_click(row: Dictionary) -> void:
 		q.ch_give(npc_id, true)
 		q.ch_report(npc_id, true)
 	else:
-		Story.add_quest(str(row.id))
+		WorldOps.add_quest(str(row.id))
 
 
 ## PipPageInfo quests page in a base: every vendor task the player qualifies for and has not taken.
@@ -781,7 +883,7 @@ func open_tasks() -> PackedStringArray:
 ## PipPageInfo.addAllQuestsToGameClass.
 func take_all_tasks() -> void:
 	for id in open_tasks():
-		Story.add_quest(id, {}, false, false, false)
+		WorldOps.add_quest(id, {}, false, false, false)
 
 
 ## PipPageVend.setSigns: a task to take or to report.
@@ -839,7 +941,7 @@ func repair_weapon_by(id: String, hp: float) -> void:
 	if rep <= 0.0:
 		return
 	var p := maxf(0.3, hp / maxf(1.0, cap) / rep)
-	if p < 1.0 and p < randf():
+	if p < 1.0 and p < Rng.randf(&"loot"):
 		return
 	var n := int(round(p))
 	if n > 0:
@@ -868,7 +970,7 @@ func _load_data() -> void:
 	if not FileAccess.file_exists(DATA):
 		push_error("Vendors missing trade.json")
 		return
-	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(DATA))
+	var parsed: Variant = DataLib.load(DATA)
 	if typeof(parsed) != TYPE_DICTIONARY:
 		push_error("Vendors could not parse trade.json")
 		return

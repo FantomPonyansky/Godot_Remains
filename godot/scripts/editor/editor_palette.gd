@@ -29,10 +29,6 @@ const WALLS: Array = [
 ]
 
 
-static func diag_pairs() -> Array:
-	return DIAG_PAIRS
-
-
 ## TileCatalog piece kind: "beam", "slope", or "".
 static func diag_kind(token: String) -> String:
 	var piece: Array = Catalog.OVERLAY.get(token, [])
@@ -84,7 +80,7 @@ static func brush_for(slot: String, id: String, zform: int = -1) -> Dictionary:
 static func _table() -> Dictionary:
 	if not _raw.is_empty():
 		return _raw
-	var data: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://assets/data/maps/objs.json"))
+	var data: Variant = DataLib.load("res://assets/data/maps/objs.json")
 	if typeof(data) == TYPE_DICTIONARY:
 		_raw = data
 	return _raw
@@ -142,7 +138,7 @@ static var _backs: PackedStringArray = PackedStringArray()
 static func back_ids() -> PackedStringArray:
 	if not _backs.is_empty():
 		return _backs
-	var data: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://assets/data/backs.json"))
+	var data: Variant = DataLib.load("res://assets/data/backs.json")
 	if typeof(data) != TYPE_DICTIONARY:
 		return _backs
 	var kinds: Dictionary = (data as Dictionary).get("kinds", {})

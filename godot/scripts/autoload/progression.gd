@@ -37,13 +37,27 @@ signal points_changed(skill_points: int, perk_points: int)
 signal skill_raised(id: String, points: int)
 signal perk_taken(id: String, rank: int)
 signal xp_gained(amount: int, total: int)
+## GameState keeps the health ratio across the new max before changed.
+signal rescale_health
+## Condition fills these. Progression does not name Condition.
+signal armor_row_query(id: String, reply: Dictionary)
+signal armor_level_query(id: String, reply: Dictionary)
 
+const Difficulty := preload("res://scripts/difficulty.gd")
 const MAX_RANK := 20
 const MAX_POST_RANK := 100
 const POST_PERS_LEVEL := 20
-const LEVEL_SK_ADD := 5
+const _BALANCE := "res://assets/data/balance/progression.json"
+static var _balance_loaded := false
+static var XP_DELTA := 5000
+static var XP_DELTA_FAST := 3000
+static var XP_BEND_LEVEL := 10
+static var XP_BEND_SPAN := 30
+static var XP_ROUND := 1000
+static var LEVEL_SK_ADD := 5
+static var LEVEL_SK_ADD_HARD := 3
 ## GameContainer.unitXPMult. Unit.xp = units.xml xp * 2.
-const UNIT_XP_MULT := 2.0
+static var UNIT_XP_MULT := 2.0
 const POST_SK_TAB: Array = [5, 11, 18, 26, 35, 45, 56, 68, 82, 100]
 const POST_SKILLS: PackedStringArray = ["attack", "defense", "knowl"]
 const _UserDir := preload("res://scripts/user_dir.gd")
@@ -52,28 +66,61 @@ const SKILLS_PATH := "res://assets/data/skills.json"
 const PERKS_PATH := "res://assets/data/perks.json"
 
 ## skills.xml tele, indexed by skill level 0-5.
-const MAX_TELE_MASSA: Array = [0.6, 1.6, 3.0, 6.0, 12.0, 25.0]
-const TELE_POROG: Array = [0.1, 0.2, 0.3, 0.5, 0.8, 1.2]
-const TELE_ACCEL: Array = [1.0, 1.1, 1.2, 1.35, 1.6, 2.0]
-const UNIT_LEVIT_MULT: Array = [0.5, 1.0, 1.3, 1.6, 2.0, 2.5]
+static var MAX_TELE_MASSA: Array = [0.6, 1.6, 3.0, 6.0, 12.0, 25.0]
+static var TELE_POROG: Array = [0.1, 0.2, 0.3, 0.5, 0.8, 1.2]
+static var TELE_ACCEL: Array = [1.0, 1.1, 1.2, 1.35, 1.6, 2.0]
+static var UNIT_LEVIT_MULT: Array = [0.5, 1.0, 1.3, 1.6, 2.0, 2.5]
 ## Pers.inMaxMana. perks.xml spirit adds 20 per rank.
 const IN_MAX_MANA := 400.0
 
-var level: int = 1
-var xp: int = 0
-var xp_next: int = 5000
-var skill_points: int = 0
-var perk_points: int = 0
+const _ProgressionState := preload("res://scripts/character/progression_state.gd")
+var _progression_ref: _ProgressionState
+
+## This autoload's fields live on Run.character().progression; the properties below forward there.
+func _progression() -> _ProgressionState:
+	if _progression_ref == null:
+		_progression_ref = Run.character().progression
+	return _progression_ref
+
+var level: int:
+	get: return _progression().level
+	set(value): _progression().level = value
+var xp: int:
+	get: return _progression().xp
+	set(value): _progression().xp = value
+var xp_next: int:
+	get: return _progression().xp_next
+	set(value): _progression().xp_next = value
+var skill_points: int:
+	get: return _progression().skill_points
+	set(value): _progression().skill_points = value
+var perk_points: int:
+	get: return _progression().perk_points
+	set(value): _progression().perk_points = value
 ## New-game options kept with the run (Pers.xpDelta, levelSkAdd, rndpump):
 ## fastxp sets xpDelta 3000, hardskills levelSkAdd 3, rndpump spends points at random.
-var xp_delta: int = 5000
-var level_sk_add: int = LEVEL_SK_ADD
-var rndpump: bool = false
+var xp_delta: int:
+	get: return _progression().xp_delta
+	set(value): _progression().xp_delta = value
+var level_sk_add: int:
+	get: return _progression().level_sk_add
+	set(value): _progression().level_sk_add = value
+var rndpump: bool:
+	get: return _progression().rndpump
+	set(value): _progression().rndpump = value
 
-var _perk_extra: int = 0
-var _applied_max: int = 0
-var _ranks: Dictionary = {}
-var _perks: Dictionary = {}
+var _perk_extra: int:
+	get: return _progression()._perk_extra
+	set(value): _progression()._perk_extra = value
+var _applied_max: int:
+	get: return _progression()._applied_max
+	set(value): _progression()._applied_max = value
+var _ranks: Dictionary:
+	get: return _progression()._ranks
+	set(value): _progression()._ranks = value
+var _perks: Dictionary:
+	get: return _progression()._perks
+	set(value): _progression()._perks = value
 var _meta: Dictionary = {}
 var _skill_list: Array = []
 var _perk_list: Array = []
@@ -81,14 +128,89 @@ var _skills_by_id: Dictionary = {}
 var _perks_by_id: Dictionary = {}
 
 
+const STATE_VERSION := 1
+
+
 func _ready() -> void:
+	_listen_below()
 	_load_catalog()
 	_load()
+	(func() -> void: _applied_max = max_health()).call_deferred()
 	if not get_tree().node_added.is_connected(_on_node_added):
 		get_tree().node_added.connect(_on_node_added)
+	call_deferred("_register_run")
+
+
+func _register_run() -> void:
+	var world := WorldState
+	if world != null and world.has_method("register_run"):
+		world.call("register_run", "progression", get_state, set_state)
+
+
+func _listen_below() -> void:
+	if not Effects.max_health_query.is_connected(_on_max_health_query):
+		Effects.max_health_query.connect(_on_max_health_query)
+	if not Effects.perk_rank_query.is_connected(_on_perk_rank_query):
+		Effects.perk_rank_query.connect(_on_perk_rank_query)
+	if not Effects.grant_perk_asked.is_connected(grant_perk):
+		Effects.grant_perk_asked.connect(grant_perk)
+	if not Inventory.perk_rank_query.is_connected(_on_perk_rank_query):
+		Inventory.perk_rank_query.connect(_on_perk_rank_query)
+
+
+func _on_max_health_query(reply: Dictionary) -> void:
+	reply.v = max_health()
+
+
+func _on_perk_rank_query(id: String, reply: Dictionary) -> void:
+	reply.v = perk_rank(id)
+
+
+func _armor_row(id: String) -> Dictionary:
+	var reply := {"row": {}}
+	armor_row_query.emit(id, reply)
+	var row: Variant = reply.row
+	return (row as Dictionary) if row is Dictionary else {}
+
+
+func _armor_level(id: String) -> int:
+	var reply := {"v": 0}
+	armor_level_query.emit(id, reply)
+	return int(reply.v)
+
+
+static func _ensure_balance() -> void:
+	if _balance_loaded:
+		return
+	_balance_loaded = true
+	var raw: Variant = DataLib.load(_BALANCE)
+	if raw is not Dictionary:
+		return
+	var d := raw as Dictionary
+	XP_DELTA = int(d.get("xp_delta", XP_DELTA))
+	XP_DELTA_FAST = int(d.get("xp_delta_fast", XP_DELTA_FAST))
+	XP_BEND_LEVEL = int(d.get("xp_bend_level", XP_BEND_LEVEL))
+	XP_BEND_SPAN = int(d.get("xp_bend_span", XP_BEND_SPAN))
+	XP_ROUND = int(d.get("xp_round", XP_ROUND))
+	LEVEL_SK_ADD = int(d.get("level_sk_add", LEVEL_SK_ADD))
+	LEVEL_SK_ADD_HARD = int(d.get("level_sk_add_hard", LEVEL_SK_ADD_HARD))
+	UNIT_XP_MULT = float(d.get("unit_xp_mult", UNIT_XP_MULT))
+	var massa: Variant = d.get("max_tele_massa", null)
+	if massa is Array:
+		MAX_TELE_MASSA = massa
+	var porog: Variant = d.get("tele_porog", null)
+	if porog is Array:
+		TELE_POROG = porog
+	var accel: Variant = d.get("tele_accel", null)
+	if accel is Array:
+		TELE_ACCEL = accel
+	var levit: Variant = d.get("unit_levit_mult", null)
+	if levit is Array:
+		UNIT_LEVIT_MULT = levit
 
 
 func reset_run() -> void:
+	_ensure_balance()
 	level = 1
 	xp = 0
 	skill_points = 0
@@ -97,8 +219,8 @@ func reset_run() -> void:
 	_applied_max = 0
 	_ranks.clear()
 	_perks.clear()
-	xp_delta = 3000 if bool(UiSettings.value("game", "fastxp", false)) else int(_meta.get("xp_delta", 5000))
-	level_sk_add = 3 if bool(UiSettings.value("game", "hardskills", false)) else LEVEL_SK_ADD
+	xp_delta = XP_DELTA_FAST if bool(UiSettings.value("game", "fastxp", false)) else XP_DELTA
+	level_sk_add = LEVEL_SK_ADD_HARD if bool(UiSettings.value("game", "hardskills", false)) else LEVEL_SK_ADD
 	rndpump = bool(UiSettings.value("game", "rndpump", false))
 	if bool(UiSettings.value("game", "propusk", false)):
 		_perks["levitation"] = 1
@@ -170,14 +292,15 @@ func skill_level(points: int, post: bool) -> int:
 
 
 func xp_progress(lvl: int) -> int:
+	_ensure_balance()
 	if lvl <= 0:
 		return 0
 	var delta := float(xp_delta)
 	var mn := 1.0
-	if lvl > 10:
-		mn = float(lvl - 10) / 30.0 + 1.0
-	var raw := delta * float(lvl) * float(lvl + 1) / 2.0 * mn * mn / 1000.0
-	return int(round(raw)) * 1000
+	if lvl > XP_BEND_LEVEL:
+		mn = float(lvl - XP_BEND_LEVEL) / float(XP_BEND_SPAN) + 1.0
+	var raw := delta * float(lvl) * float(lvl + 1) / 2.0 * mn * mn / float(XP_ROUND)
+	return int(round(raw)) * XP_ROUND
 
 
 func add_xp(amount: int) -> void:
@@ -201,13 +324,14 @@ func add_xp(amount: int) -> void:
 		leveled_up.emit(level)
 		# Pers.upLevel: infoText perkPoint, Sound.ps levelup, gg.newPart gold_spark 25.
 		_info("perkPoint")
-		SfxBank.play("levelup")
-		var p := get_tree().get_first_node_in_group("player") as Node2D
+		var p := Run.local_player() as Node2D
+		Fx.sound("levelup", p.global_position if p != null else Vector2.ZERO, {"source": p})
 		if p != null:
-			UnitFx.emit(get_tree(), "gold_spark", p.global_position + Vector2(0, -39), {"kol": 25})
+			Fx.particles("gold_spark", p.global_position + Vector2(0, -39), {"kol": 25, "source": p})
 
 
 func add_kill_xp(unit_xp: int) -> void:
+	_ensure_balance()
 	# Unit.xp = units.xml xp * unitXPMult, granted through Location.takeXP on death.
 	add_xp(int(round(float(unit_xp) * UNIT_XP_MULT)))
 
@@ -255,12 +379,12 @@ func upskill_from_book(id: String) -> bool:
 		return false
 	var target := id
 	if rank(id) >= MAX_RANK:
-		target = POST_SKILLS[randi() % POST_SKILLS.size()]
+		target = POST_SKILLS[Rng.randi(&"loot") % POST_SKILLS.size()]
 		if rank(target) >= MAX_POST_RANK:
 			return false
 	_ranks[target] = rank(target) + 1
 	_info("skillUp", OriginalLines.eff(target))
-	SfxBank.play("skill")
+	Fx.sound("skill", Vector2.ZERO)
 	_sync_knowledge()
 	_commit()
 	skill_raised.emit(target, rank(target))
@@ -274,7 +398,7 @@ func add_skill_point(n: int = 1) -> void:
 		_info("skillPoint")
 	else:
 		_info("skillPoints", str(n))
-	SfxBank.play("skill")
+	Fx.sound("skill", Vector2.ZERO)
 	_commit()
 
 
@@ -422,10 +546,12 @@ func max_mana() -> float:
 
 
 func max_tele_mass() -> float:
+	_ensure_balance()
 	return float(MAX_TELE_MASSA[clampi(skill_level_of("tele"), 0, 5)])
 
 
 func tele_porog() -> float:
+	_ensure_balance()
 	return float(TELE_POROG[clampi(skill_level_of("tele"), 0, 5)])
 
 
@@ -440,10 +566,12 @@ func tele_speed() -> float:
 
 
 func tele_accel() -> float:
+	_ensure_balance()
 	return float(TELE_ACCEL[clampi(skill_level_of("tele"), 0, 5)])
 
 
 func unit_levit_mult() -> float:
+	_ensure_balance()
 	return float(UNIT_LEVIT_MULT[clampi(skill_level_of("tele"), 0, 5)])
 
 
@@ -458,10 +586,10 @@ func throw_force() -> float:
 	# piece (suit, then amulet) by magicMult. Alicorn skips armour.
 	var base := float([0.0, 25.0, 35.0][clampi(perk_rank("telethrow"), 0, 2)])
 	var force := Effects.stat("throwForce", base)
-	if ScriptsEngine.alicorn or Inventory == null or Condition == null:
+	if Run.alicorn or Inventory == null:
 		return force
 	for worn_id in Inventory.worn_ids():
-		var row: Dictionary = Condition.armor_row(worn_id)
+		var row := _armor_row(worn_id)
 		force *= float(row.get("magic", 1.0))
 	return force
 
@@ -640,7 +768,7 @@ func heavy_gun_weight(weapon: Dictionary) -> float:
 func scaled_bullet_damage(base_damage: int, damage_type: String = "") -> int:
 	var dmg := float(base_damage) * get_damage_multiplier(damage_type)
 	var chance := get_crit_chance()
-	if chance > 0.0 and randf() < chance:
+	if chance > 0.0 and Rng.randf(&"combat") < chance:
 		dmg *= get_crit_damage_multiplier()
 	return maxi(1, int(round(dmg)))
 
@@ -654,7 +782,7 @@ func player_dexter() -> float:
 	var dex := 1.0
 	dex += float(perk_rank("dexter")) * float(_perk_def("dexter").get("dodge_per_rank", 0.15))
 	dex += float(perk_rank("potion_dexter")) * float(_perk_def("potion_dexter").get("dodge_per_rank", 0.05))
-	if ScriptsEngine.alicorn:
+	if Run.alicorn:
 		dex += 0.1 * float(skill_level_of("sneak"))
 	else:
 		dex += player_dodge_plus()
@@ -665,18 +793,18 @@ func player_dexter() -> float:
 ## dodge is this, or 1 + this while dashing; Unit.udarUnit rolls it on body
 ## and club hits.
 func player_dodge_plus() -> float:
-	if ScriptsEngine.alicorn:
+	if Run.alicorn:
 		return 0.0
 	if _armor_dexter.is_empty():
 		var path := "res://assets/data/armor_dexter.json"
-		var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(path)) if FileAccess.file_exists(path) else null
+		var parsed: Variant = DataLib.load(path) if FileAccess.file_exists(path) else null
 		_armor_dexter = parsed if parsed is Dictionary else {"": []}
 	var worn := str(Inventory.worn) if Inventory != null else ""
 	var plus := 0.0 if Inventory != null and Inventory.body_armor_id(worn) != "" else 0.25
 	for id in (Inventory.worn_ids() if Inventory != null else []):
 		var levels: Array = _armor_dexter.get(id, [])
 		if not levels.is_empty():
-			var lvl := clampi(Condition.armor_level(id) if Condition != null else 0, 0, levels.size() - 1)
+			var lvl := clampi(_armor_level(id), 0, levels.size() - 1)
 			plus += float(levels[lvl])
 	return Effects.stat("dodgePlus", plus)
 
@@ -688,12 +816,12 @@ var _armor_sneak: Dictionary = {}
 func armor_sneak(id: String) -> float:
 	if _armor_sneak.is_empty():
 		var path := "res://assets/data/armor_sneak.json"
-		var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(path)) if FileAccess.file_exists(path) else null
+		var parsed: Variant = DataLib.load(path) if FileAccess.file_exists(path) else null
 		_armor_sneak = parsed if parsed is Dictionary else {"": []}
 	var levels: Array = _armor_sneak.get(id, [])
 	if levels.is_empty():
 		return 0.0
-	return float(levels[clampi(Condition.armor_level(id) if Condition != null else 0, 0, levels.size() - 1)])
+	return float(levels[clampi(_armor_level(id), 0, levels.size() - 1)])
 
 
 ## armors.xml h2o (Armor.h2oMult); the only suits that set it.
@@ -702,9 +830,9 @@ const ARMOR_H2O := {"antirad": 0.25, "antihim": 0.25}
 
 ## Pers.armorParameters: h2oPlav *= the worn suit's h2oMult, not as a rat or the alicorn.
 func armor_h2o_mult() -> float:
-	if ScriptsEngine.alicorn or Inventory == null:
+	if Run.alicorn or Inventory == null:
 		return 1.0
-	var player := get_tree().get_first_node_in_group("player")
+	var player := Run.local_player()
 	if player != null and bool(player.get("rat")):
 		return 1.0
 	return float(ARMOR_H2O.get(Inventory.body_armor_id(str(Inventory.worn)), 1.0))
@@ -729,81 +857,42 @@ func scale_heal(amount: int) -> int:
 
 func max_health() -> int:
 	# Pers.setGlobalDif: begHP, +lvlHP per level after 1 (100 and 20 on dif2).
-	var game := _state()
-	var base := int(_meta.get("base_hp", 100))
-	var per_level := int(_meta.get("hp_per_level", 20))
-	if game and game.has_method("dif_value"):
-		base = int(game.dif_value("beg_hp"))
-		per_level = int(game.dif_value("lvl_hp"))
+	var base := int(Difficulty.value("beg_hp"))
+	var per_level := int(Difficulty.value("lvl_hp"))
 	var table: Array = _skill_def("medic").get("max_hp_by_level", [0, 20, 50, 90, 140, 200])
 	var idx := clampi(skill_level_of("medic"), 0, table.size() - 1)
 	var life := perk_rank("life") * int(_perk_def("life").get("max_hp_per_rank", 5))
 	var base_max := base + (level - 1) * per_level + int(table[idx]) + life
 	# trauma_tors multiplies maxhp: 0.9 / 0.8 / 0.6 at stages 1 / 2 / 3.
-	var mult := 1.0
-	if game and game.has_method("torso_hp_mult"):
-		mult = float(game.torso_hp_mult())
-	return maxi(1, int(round(Effects.stat("maxhp", float(base_max) * mult))))
+	var value := float(base_max) * Run.torso_hp_mult
+	if Effects.is_node_ready():
+		value = Effects.stat("maxhp", value)
+	return maxi(1, int(round(value)))
+
+
+func applied_max() -> int:
+	return _applied_max
 
 
 func note_applied_max(value: int) -> void:
 	_applied_max = maxi(1, value)
 
 
-func get_move_speed_multiplier() -> float:
-	var per := float(_perk_def("potion_speed").get("speed_per_rank", 0.05))
-	return 1.0 + float(perk_rank("potion_speed")) * per
-
-
-func get_jump_multiplier() -> float:
-	var base := float(_perk_def("jump").get("jump_base", 12.0))
-	if base <= 0.0:
-		return 1.0
-	var add := 0.0
-	if perk_rank("jump") > 0:
-		add = float(_perk_def("jump").get("jump_add", 2.0))
-	return (base + add) / base
-
-
 ## Pers.addPerk: infoText perk (name, or name-rank past the first) and Sound.ps skill.
 func _perk_info(id: String) -> void:
 	var r := perk_rank(id)
 	_info("perk", OriginalLines.eff(id) + ("-%d" % r if r > 1 else ""))
-	SfxBank.play("skill")
+	Fx.sound("skill", Vector2.ZERO)
 
 
 func _info(id: String, a1: String = "") -> void:
-	var story := get_node_or_null("/root/Story")
-	if story != null and story.has_method("info"):
-		story.info(id, a1)
+	Fx.notice(OriginalLines.info(id, a1), {"source": Run.local_player()})
 
 
 func _commit() -> void:
-	_apply_health_ratio()
+	rescale_health.emit()
 	_save()
 	changed.emit()
-
-
-func _state() -> Node:
-	if not is_inside_tree():
-		return null
-	return get_tree().root.get_node_or_null("GameState")
-
-
-func _apply_health_ratio() -> void:
-	var game := _state()
-	if game == null:
-		return
-	var maximum := max_health()
-	var current := int(game.health)
-	if _applied_max <= 0:
-		current = maximum
-	else:
-		var ratio := float(current) / float(_applied_max)
-		current = clampi(int(round(ratio * float(maximum))), 0, maximum)
-	_applied_max = maximum
-	game.health = current
-	game.health_changed.emit(current, maximum)
 
 
 func _sync_knowledge() -> void:
@@ -823,15 +912,15 @@ func _auto_pump() -> void:
 		for id in _skill_ids():
 			if rank(id) < MAX_RANK and not is_post(id):
 				dost.append(id)
-		if dost.is_empty() or (level >= POST_PERS_LEVEL and randf() < 0.20):
+		if dost.is_empty() or (level >= POST_PERS_LEVEL and Rng.randf(&"loot") < 0.20):
 			for id in _skill_ids():
 				if is_post(id) and rank(id) < MAX_POST_RANK:
 					dost.append(id)
 			if dost.is_empty():
 				break
-		var sk := dost[randi() % dost.size()]
-		var kol := 2 if randf() < 0.5 else 1
-		if randf() < 0.15:
+		var sk := dost[Rng.randi(&"loot") % dost.size()]
+		var kol := 2 if Rng.randf(&"loot") < 0.5 else 1
+		if Rng.randf(&"loot") < 0.15:
 			kol = 3
 		kol = mini(skill_points, mini(kol, skill_cap(sk) - rank(sk)))
 		_ranks[sk] = rank(sk) + kol
@@ -850,7 +939,7 @@ func _auto_pump() -> void:
 				ready.append(pid)
 		if ready.is_empty():
 			break
-		var pick := ready[randi() % ready.size()]
+		var pick := ready[Rng.randi(&"loot") % ready.size()]
 		_perks[pick] = perk_rank(pick) + 1
 		perk_points -= 1
 		perk_taken.emit(pick, perk_rank(pick))
@@ -887,8 +976,9 @@ func _scale_bullet(node: Node) -> void:
 
 
 func _load_catalog() -> void:
+	_ensure_balance()
 	_meta = {
-		"xp_delta": 5000,
+		"xp_delta": XP_DELTA,
 		"base_hp": 100,
 		"hp_per_level": 20,
 	}
@@ -909,7 +999,8 @@ func _load_catalog() -> void:
 	for entry_v in _perk_list:
 		if typeof(entry_v) == TYPE_DICTIONARY:
 			_perks_by_id[str(entry_v.get("id", ""))] = entry_v
-	xp_delta = int(_meta.get("xp_delta", 5000))
+	xp_delta = XP_DELTA
+	level_sk_add = LEVEL_SK_ADD
 	xp_next = xp_progress(level)
 
 
@@ -917,7 +1008,7 @@ func _read_json(path: String) -> Variant:
 	if not FileAccess.file_exists(path):
 		push_error("Progression missing %s" % path)
 		return null
-	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
+	var parsed: Variant = DataLib.load(path)
 	if parsed == null:
 		push_error("Progression could not parse %s" % path)
 	return parsed
@@ -972,27 +1063,75 @@ func _save() -> void:
 	cfg.save(SAVE_PATH)
 
 
+func get_state() -> Dictionary:
+	return {
+		"version": STATE_VERSION,
+		"level": level,
+		"xp": xp,
+		"skill_points": skill_points,
+		"perk_points": perk_points,
+		"perk_extra": _perk_extra,
+		"xp_delta": xp_delta,
+		"level_sk_add": level_sk_add,
+		"rndpump": rndpump,
+		"ranks": _ranks.duplicate(),
+		"perks": _perks.duplicate(),
+	}
+
+
+## version 0 has the same fields and simply no version key.
+func set_state(data: Variant) -> void:
+	if typeof(data) != TYPE_DICTIONARY:
+		return
+	_apply_state(data)
+	_save()
+
+
 func _load() -> void:
 	var cfg := ConfigFile.new()
 	if cfg.load(SAVE_PATH) != OK:
 		xp_next = xp_progress(level)
 		_applied_max = max_health()
 		return
-	level = maxi(1, int(cfg.get_value("run", "level", 1)))
-	xp = int(cfg.get_value("run", "xp", 0))
-	skill_points = int(cfg.get_value("run", "skill_points", 0))
-	perk_points = int(cfg.get_value("run", "perk_points", 0))
-	_perk_extra = int(cfg.get_value("run", "perk_extra", 0))
-	xp_delta = int(cfg.get_value("run", "xp_delta", _meta.get("xp_delta", 5000)))
-	level_sk_add = int(cfg.get_value("run", "level_sk_add", LEVEL_SK_ADD))
-	rndpump = bool(cfg.get_value("run", "rndpump", false))
-	_ranks.clear()
+	var ranks := {}
 	if cfg.has_section("ranks"):
 		for key in cfg.get_section_keys("ranks"):
-			_ranks[str(key)] = int(cfg.get_value("ranks", key))
-	_perks.clear()
+			ranks[str(key)] = int(cfg.get_value("ranks", key))
+	var perks := {}
 	if cfg.has_section("perks"):
 		for key in cfg.get_section_keys("perks"):
-			_perks[str(key)] = int(cfg.get_value("perks", key))
+			perks[str(key)] = int(cfg.get_value("perks", key))
+	_apply_state({
+		"level": int(cfg.get_value("run", "level", 1)),
+		"xp": int(cfg.get_value("run", "xp", 0)),
+		"skill_points": int(cfg.get_value("run", "skill_points", 0)),
+		"perk_points": int(cfg.get_value("run", "perk_points", 0)),
+		"perk_extra": int(cfg.get_value("run", "perk_extra", 0)),
+		"xp_delta": int(cfg.get_value("run", "xp_delta", XP_DELTA)),
+		"level_sk_add": int(cfg.get_value("run", "level_sk_add", LEVEL_SK_ADD)),
+		"rndpump": bool(cfg.get_value("run", "rndpump", false)),
+		"ranks": ranks,
+		"perks": perks,
+	})
+
+
+func _apply_state(data: Dictionary) -> void:
+	level = maxi(1, int(data.get("level", 1)))
+	xp = int(data.get("xp", 0))
+	skill_points = int(data.get("skill_points", 0))
+	perk_points = int(data.get("perk_points", 0))
+	_perk_extra = int(data.get("perk_extra", 0))
+	_ensure_balance()
+	xp_delta = int(data.get("xp_delta", XP_DELTA))
+	level_sk_add = int(data.get("level_sk_add", LEVEL_SK_ADD))
+	rndpump = bool(data.get("rndpump", false))
+	_ranks.clear()
+	var ranks: Dictionary = data.get("ranks", {})
+	for id in ranks:
+		_ranks[str(id)] = int(ranks[id])
+	_perks.clear()
+	var perks: Dictionary = data.get("perks", {})
+	for id in perks:
+		_perks[str(id)] = int(perks[id])
 	xp_next = xp_progress(level)
 	_applied_max = max_health()

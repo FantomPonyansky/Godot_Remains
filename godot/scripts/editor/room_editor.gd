@@ -48,9 +48,7 @@ const ID_UNDO := 20
 const ID_REDO := 21
 const ID_COPY := 22
 const ID_DELETE := 23
-const ID_SELECT := 24
 const ID_CHECK := 25
-const ID_XML := 26
 const ID_ADD_STOREY := 27
 const ID_REM_STOREY := 28
 const ID_OPT_ROOM := 30
@@ -679,13 +677,6 @@ func _label(t: String) -> Label:
 	var l := Label.new()
 	l.text = t
 	return l
-
-
-func _btn(parent: Node, t: String, fn: Callable) -> void:
-	var b := Button.new()
-	b.text = t
-	b.pressed.connect(fn)
-	parent.add_child(b)
 
 
 func _swatches(parent: Node, items: Array, storey := false) -> void:
@@ -2277,10 +2268,6 @@ func _on_map_choice(action: String, data: Dictionary) -> void:
 		_finish_new_map(made)
 
 
-func _ask_empty_map_name() -> void:
-	Dialogs.ask_text(self, Locale.t("ed_new_map"), Locale.t("ed_file_name"), Locale.t("ed_new_map"), _make_map, "", _map_name_problem)
-
-
 func _map_name_problem(raw: String) -> String:
 	var name := _clean_stem(raw)
 	if name == "":
@@ -2312,14 +2299,6 @@ func _open_existing_map(file: String, room: String) -> void:
 	_load_file(file)
 	if room != "":
 		_reload_rooms(room)
-
-
-func _on_map_file(doc: Dictionary) -> void:
-	if (doc.get("rooms", []) as Array).is_empty():
-		_note(Locale.t("ed_import_bad"))
-		return
-	_pending_doc = doc
-	Dialogs.ask_text(self, Locale.t("ed_new_map"), Locale.t("ed_file_name"), Locale.t("ed_new_map"), _make_map_file, "", _map_name_problem)
 
 
 func _make_map_file(raw: String) -> void:
@@ -2374,12 +2353,6 @@ func _on_room_choice(blank: bool, src: Dictionary, raw: String) -> void:
 	var name := _adopt_name(raw, _finish_room_doc)
 	if name != "":
 		_finish_room_doc(name)
-
-
-func _on_room_source(blank: bool, src: Dictionary) -> void:
-	_pending_blank = blank
-	_pending_src = src
-	Dialogs.ask_text(self, Locale.t("ed_new_room"), Locale.t("ed_file_name"), Locale.t("ed_new_room"), _make_room_doc, "", _map_name_problem)
 
 
 func _make_room_doc(raw: String) -> void:

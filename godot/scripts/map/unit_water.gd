@@ -54,14 +54,14 @@ static func splash(tree: SceneTree, at: Vector2, height: float, width: float, wa
 		return
 	if was != now:
 		if absf(v.y) > 8.0 or pla_kap:
-			UnitFx.emit(tree, "kap", Vector2(at.x, at.y - height * 0.25 + v.y),
-				{"dy": -absf(v.y) * (randf() * 0.3 + 0.3), "kol": mini(int(absf(v.y * massa * 2.0) + 1.0), 100)})
+			Fx.particles("kap", Vector2(at.x, at.y - height * 0.25 + v.y),
+				{"dy": -absf(v.y) * (Rng.randf(&"fx") * 0.3 + 0.3), "kol": mini(int(absf(v.y * massa * 2.0) + 1.0), 100)})
 		if v.y > 5.0:
 			fall_sound(massa, v.y / 10.0)
 		if v.y < -5.0 and massa > 0.4:
 			UnitFx.snd("fall_water2", -v.y / 10.0)
 	if now and not plav and absf(v.x) > 3.0:
-		UnitFx.emit(tree, "kap", Vector2(at.x, at.y - height * 0.25), {"rx": width})
+		Fx.particles("kap", Vector2(at.x, at.y - height * 0.25), {"rx": width})
 
 
 ## Unit.playFallSound / Box.checkWater: the splash by mass.

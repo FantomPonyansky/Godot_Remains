@@ -1177,28 +1177,6 @@ static func _kid_check(kids: Array) -> String:
 	return ""
 
 
-static func _add_kids(box: VBoxContainer, nodes: Array, obj: Dictionary) -> TextEdit:
-	var tip := _tip("kids")
-	var lab := Label.new()
-	lab.text = _label_for("kids")
-	lab.tooltip_text = tip
-	box.add_child(lab)
-	var edit := TextEdit.new()
-	edit.custom_minimum_size.y = 72
-	edit.wrap_mode = TextEdit.LINE_WRAPPING_BOUNDARY
-	edit.text = _kids_text(obj)
-	edit.tooltip_text = tip
-	box.add_child(edit)
-	var why := Label.new()
-	why.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	why.add_theme_color_override("font_color", Color(0.95, 0.3, 0.28))
-	why.visible = false
-	box.add_child(why)
-	edit.set_meta("initial", edit.text)
-	_track(nodes, edit, "kids", "kids", why, tip, lab.text)
-	return edit
-
-
 static func _add_pools(box: VBoxContainer, room: Dictionary) -> Array:
 	var head := Label.new()
 	head.text = _tr("ed_pools")

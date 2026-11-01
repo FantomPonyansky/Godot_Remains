@@ -32,7 +32,7 @@ static func near(tree: SceneTree, group: String) -> Array:
 		return out
 	var vp := tree.root.get_viewport()
 	var view := (vp.get_canvas_transform().affine_inverse() * vp.get_visible_rect()).grow(NEAR_MARGIN)
-	var cam := vp.get_camera_2d()
+	var cam := Run.camera()
 	if cam != null:
 		var size := vp.get_visible_rect().size / cam.zoom
 		view = Rect2(cam.get_screen_center_position() - size * 0.5, size).grow(NEAR_MARGIN)
@@ -62,7 +62,7 @@ func _process(delta: float) -> void:
 	var vp := get_viewport()
 	# Canvas transform still belongs to the previous frame, so a land that
 	# just moved the camera would hide the room on screen for this whole tick.
-	var cam := vp.get_camera_2d()
+	var cam := Run.camera()
 	var view: Rect2
 	if cam != null and cam.zoom.x != 0.0 and cam.zoom.y != 0.0:
 		var size := vp.get_visible_rect().size / cam.zoom

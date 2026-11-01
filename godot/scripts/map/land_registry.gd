@@ -111,7 +111,8 @@ static func _ensure() -> void:
 	if _loaded:
 		return
 	_loaded = true
-	var lands := _read(DIR + "lands.json")
+	# Debug builds append the perf arena onto this table.
+	var lands := _read(DIR + "lands.json").duplicate(true)
 	_lands = lands.get("lands", {})
 	_order = lands.get("order", [])
 	if OS.is_debug_build() and FileAccess.file_exists("res://assets/data/maps/rooms/rooms_perf_arena.json"):
@@ -130,7 +131,7 @@ static func _read(path: String) -> Dictionary:
 	if not FileAccess.file_exists(path):
 		push_error("missing %s" % path)
 		return {}
-	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
+	var parsed: Variant = DataLib.load(path)
 	if typeof(parsed) != TYPE_DICTIONARY:
 		push_error("bad %s" % path)
 		return {}

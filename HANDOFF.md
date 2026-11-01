@@ -8,11 +8,16 @@ Godot 4.7.2 port of Fallout Equestria: Remains (Flash). Goal: a faithful port wi
 |---|---|
 | `docs/KNOWLEDGE_BASE.md` | The original: versions (2021, Steam base, DLC), sources, art ids, AS3 mechanics, wiki check, "looks like a bug, is original". |
 | `docs/IMPLEMENTED.md` | What the port has, by system, and where the code is. Gotchas at the end. |
-| `docs/TODO.md` | Step-by-step plan to finish, with phase status. |
+| `docs/TODO.md` | Step-by-step plan to finish, with phase status. §13 is the architecture refactoring (co-op readiness, liquid/gas, modding, endless maps, enemy directors): current state and open steps. |
 | `docs/PLAYER_FEEDBACK.md` | Reports from play and their status. |
 | `docs/PORT_RULES.md` | User decisions that differ from the original. Do not revert them. |
 | `docs/ENEMY_AI.md` | Enemy behaviour now (states, senses, targets, movement, engage / disengage) and the list of differences from the original. |
-| `docs/MULTIPLAYER_PLAN.md` | Step-by-step refactoring plan for online co-op (after the port). |
+| `docs/AUTOLOADS.md` | Autoload order, Sim phase, and which autoload calls which. Cycles that remain are marked on the line. |
+| `docs/ARCHITECTURE.md` | How the port is built now: Sim tick, input commands, Rng, entities, Fx, run document, checks. |
+| `docs/MODDING.md` | Mod folders, `mod.json`, data merge rules, art override and its limits, saves and mods. |
+| `docs/DATA_SCHEMA.md` | Every data file's schema. Generated: `python tools/data_schema_doc.py`; do not edit by hand. |
+| `docs/GLOSSARY.md` | Flash transliterated names, their meaning, and whether each mirrors an original field. |
+| `docs/MULTIPLAYER_PLAN.md` | Step-by-step refactoring plan for online co-op (after the port). `TODO.md` §13 schedules what is left of it. |
 | `docs/EDITOR_PORT_PLAN.md` | Room editor plan. Debug `map_builder` is retired in `_trash/map_builder/`. |
 | `godot/DEBUG_COMMANDS.md` | Console commands. Update whenever they change. |
 | `verify/README.md` | Human verify kit: one folder per hand check with a launcher straight into the situation and a verdict file. A "Verify in play" note in `PLAYER_FEEDBACK.md` should get a row here. |
@@ -42,12 +47,20 @@ After each chunk of work: update `IMPLEMENTED.md`, tick `TODO.md`, and answer `P
 - Online co-op via Steam is planned after the port. Follow "Future multiplayer" in `docs/PORT_RULES.md` when choosing an architecture; do not build it now.
 - One writer at a time for `player.gd`, `land_props.gd`, `enemy.gd`, `bullet.gd`, `project.godot`. Re-read `player.gd` before saving.
 - FFDec: never export sprites from a whole swf; trim to symbol ids (see `KNOWLEDGE_BASE.md`).
-- Back up `%APPDATA%\Godot\app_userdata\FoE Remains` (copy at `%TEMP%\foe_ud_bk_main`) before test runs and restore it after. The shared user data has a damaged player; reset HP and organs at the start of damage tests. Delete `godot/tests/tmp_*.gd` afterwards.
+- Back up `%APPDATA%\Godot\app_userdata\FoE Remains` (copy at `%TEMP%\foe_ud_bk_main`) before test runs and restore it after. The shared user data has a damaged player; reset HP and organs at the start of damage tests. Move `godot/tests/tmp_*` to `_trash/` afterwards (user: nothing is deleted, only moved). The headless boot does not compile lazily loaded scripts; after removing code, `load()` each edited script from a throwaway `-s` test.
 - Do not pipe a long Godot export into `Select-Object -First`; it kills the export. Send its output to a file.
 
 ## How to check the game
 
-Headless boot (autoloads load; `-s` / `--check-only` scripts do not, so their autoload errors are false):
+Every automatic check in one command (about 7 minutes). It prints one `CHECK <name>: ok N fail M` line per check (any `SCRIPT ERROR` or `push_error` line fails it), writes logs to `tmp/checks/<name>.log`, gives each run a sandbox user dir and exits 1 on any failure. `xfail` counts known gaps that are not failures (save gaps are closed; the seeded replay matches, `EXPECT_SAME`, after R1.3). Options: `--list`, `--only a,b`, `--skip a,b`, `--import`. Run it before and after every refactor step. The replays also compare against `godot/tests/fixtures/replay_golden_*.txt`; after an intended gameplay change, delete those files and run the replays once to record new ones. `replay_check.gd` also takes `golden=<path>`: a missing file records the run-1 hash list, and an existing file is compared (mismatches count as failures).
+
+```
+python tools/run_checks.py
+```
+
+`python tools/autoload_graph.py` prints the autoload dependency graph and its cycles (only `Rng, Run, WorldState` is allowed); `--write` refreshes the dependency lines in `docs/AUTOLOADS.md`.
+
+Single runs, headless boot (autoloads load; `-s` / `--check-only` scripts do not, so their autoload errors are false):
 
 ```
 & $g --headless --path godot res://scenes/game.tscn --quit-after 240
@@ -92,7 +105,8 @@ Patches: testers drop them in `patches/` next to the exe; `user_dir._load_patche
 
 ```
 $b="D:/Games/FoE Remains Port/build"
-& $g --headless --path godot --export-patch "Windows Desktop" "$b/patch/patch_002.pck" --patches "$b/base/RemainsPort.pck,$b/patch/patch_001.pck" *> "$env:TEMP\foe_patch.log"
+# First patch after a full build; later ones add every earlier patch to --patches.
+& $g --headless --path godot --export-patch "Windows Desktop" "$b/patch/patch_001.pck" --patches "$b/base/RemainsPort.pck" *> "$env:TEMP\foe_patch.log"
 ```
 
 Shipped: full build 2026-10-31 (player rig, frame clips retired; `build/base` updated). Before that: 2026-10-26 (changes in `build/BUILD_2026-10-26_CHANGES.txt`, includes the `user_dir.gd` changes). Testers delete their old `patches/` folder. Patch numbering restarts: the next patch is `patch_001` with `--patches "$b/base/RemainsPort.pck"`. Old `patch_001` (2026-10-25) is superseded. `user_dir.gd` is the autoload that mounts patches, so a patch cannot replace it.

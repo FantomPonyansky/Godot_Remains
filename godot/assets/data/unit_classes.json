@@ -1,0 +1,31 @@
+{
+  "kin": {
+    "UnitRaider": ["raider", 9],
+    "UnitSlaver": ["slaver", 6],
+    "UnitZebra": ["zebra", 5],
+    "UnitRanger": ["ranger", 3],
+    "UnitEncl": ["encl", 1],
+    "UnitMerc": ["merc", 1]
+  },
+  "fixed": {
+    "UnitRobobrain": "robobrain",
+    "UnitEqd": "eqd",
+    "UnitSentinel": "sentinel",
+    "UnitSpriteBot": "spritebot",
+    "UnitVortex": "vortex",
+    "UnitMsp": "msp",
+    "UnitCaptive": "captive",
+    "UnitPonPon": "ponpon",
+    "UnitTrain": "training",
+    "UnitTransmitter": "transmitter",
+    "UnitNecros": "necros",
+    "UnitSpectre": "spectre",
+    "UnitBossRaider": "bossraider",
+    "UnitBossAlicorn": "bossalicorn",
+    "UnitBossUltra": "bossultra",
+    "UnitBossNecr": "bossnecr",
+    "UnitBossDron": "bossdron",
+    "UnitBossEncl": "bossencl",
+    "UnitThunderHead": "thunderhead"
+  }
+}

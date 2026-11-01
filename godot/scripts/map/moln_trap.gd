@@ -40,7 +40,7 @@ static func attach(host: Node2D, id: String, info: Dictionary, attrs: Dictionary
 
 func _physics_process(delta: float) -> void:
 	var host := get_parent() as Node2D
-	var player := get_tree().get_first_node_in_group("player") as Node2D
+	var player := Run.local_player() as Node2D
 	if host == null or player == null:
 		return
 	if _Flags.cell_of(player.global_position) != Vector2i(int(host.get_meta("room_x", 0)), int(host.get_meta("room_y", 0))):
@@ -76,11 +76,13 @@ func _show(host: Node2D, frame: int) -> void:
 
 func _strike(host: Node2D) -> void:
 	var box := Rect2(host.global_position + rect.position, rect.size)
-	for unit in get_tree().get_nodes_in_group("player") + get_tree().get_nodes_in_group("enemies"):
+	var units: Array = Run.players()
+	units.append_array(Units.in_rect(box))
+	for unit in units:
 		if not unit is Node2D or not unit.has_method("take_hit") or unit.get("_dead") == true:
 			continue
 		if box.intersects(unit_rect(unit as Node2D)):
-			unit.call("take_hit", int(dam), "DAM_ELECTRIC")
+			unit.call("take_hit", HitInfo.make(int(dam), "DAM_ELECTRIC", host))
 
 
 ## A unit's boundingBox: body_size (player.gd BODY_SIZE for the player) above its feet.

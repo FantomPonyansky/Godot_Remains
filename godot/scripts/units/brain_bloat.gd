@@ -24,7 +24,7 @@ func configure() -> void:
 	elast = 0.0
 	var row_run := float(row.get("run", 0.0)) / TPS
 	var explicit_run := row_run > 0.0 and absf(row_run - max_speed * 2.0) > 0.01
-	max_speed *= 0.9 + randf() * 0.2
+	max_speed *= 0.9 + Rng.randf(&"ai") * 0.2
 	sit_speed = max_speed * 0.5
 	walk_speed = max_speed
 	run_speed = row_run if explicit_run else max_speed * 2.0
@@ -44,7 +44,7 @@ func ready() -> void:
 	cur = xml_gun()
 	weapon_dy = -body().y * 0.5
 	ai_state = 0
-	ai_tch = randi_range(5, 14)
+	ai_tch = Rng.randi_range(&"ai", 5, 14)
 
 
 ## Unit.run for a flyer: a wall hit zeroes that axis (elast 0) and sets turnX; the floor sets
@@ -80,7 +80,7 @@ func control() -> void:
 	if ai_tch > 0:
 		ai_tch -= 1
 	else:
-		ai_tch = randi_range(20, 69)
+		ai_tch = Rng.randi_range(&"ai", 20, 69)
 		var d := _dir_to_target()
 		if cel_unit != null and d != Vector2.ZERO:
 			ai_rasst = d.length()
@@ -114,7 +114,7 @@ func control() -> void:
 	if turn_y != 0.0:
 		ai_dy = absf(ai_dy) * turn_y
 		turn_y = 0.0
-	vel += Vector2(ai_dx * accel + randf() * 2.0 - 1.0, ai_dy * accel + randf() * 2.0 - 1.0)
+	vel += Vector2(ai_dx * accel + Rng.randf(&"ai") * 2.0 - 1.0, ai_dy * accel + Rng.randf(&"ai") * 2.0 - 1.0)
 	if is_gryz:
 		if cel_unit != null and is_instance_valid(cel_unit) and boxes_touch(cel_unit):
 			var tf: Vector2 = u.call("_feet", cel_unit)
@@ -141,7 +141,7 @@ func on_knock() -> void:
 
 func expl() -> void:
 	new_part("shmatok", 4, 2)
-	new_part("bloat_kap", randi_range(4, 6))
+	new_part("bloat_kap", Rng.randi_range(&"ai", 4, 6))
 
 
 func animate() -> void:

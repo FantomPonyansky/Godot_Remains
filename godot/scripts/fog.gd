@@ -22,6 +22,7 @@ const RoomFile := preload("res://scripts/map/room_file.gd")
 const Catalog := preload("res://scripts/map/tile_catalog.gd")
 const FogSight := preload("res://scripts/fog_sight.gd")
 const MEMORY_SHADER := preload("res://assets/shaders/fog_memory.gdshader")
+const _PS := preload("res://scripts/prop_state.gd")
 
 const TILE := 40
 const COLS := 48
@@ -29,23 +30,16 @@ const ROWS := 25
 const MAX_X := COLS * TILE
 const MAX_Y := ROWS * TILE
 const INV_TILE := 1.0 / 40.0
-const LDIST1 := 300
-const LDIST2 := 1000
+## Original sim is 30 ticks/second.
 const TICK := 1.0 / 30.0
-const MOVE_PX := 0.5
-## Settings.json fogRegenerates (Location.retDark).
-const FOG_RETURNS := true
-## FOG_RETURNS for the current land; off in a camp.
-var _returns := FOG_RETURNS
-const FADE := 0.025
 ## Land.setGGToSpawnPoint lights from coordinates.Y - 75.
 const SPAWN_LIFT := 75
 const BEGIN_VISUAL := "res://assets/data/maps/begin_visual.json"
+const VISION_PATH := "res://assets/data/balance/vision.json"
+const DOOR_OPAC_PATH := "res://assets/data/door_opac.json"
 ## Half of the eye-centred window, in tiles. Together it is one room in size.
 const WIN_HALF_X := COLS / 2
 const WIN_HALF_Y := ROWS / 2
-const MEM_LEVEL := 0.4
-const MEM_SATURATION := 0.55
 ## live values: 0 no room, 1 a room, 2 a room with @retdark, 3 a room with
 ## @noblack (Location.black off: always lit, never passed over).
 const LIVE_DARK := 2
@@ -54,32 +48,52 @@ const LIVE_OPEN := 3
 ## Open tiles of those lands are LIVE_OPEN (fully lit at any distance).
 const LIVE_WALL := 4
 const _Flags := preload("res://scripts/map/room_flags.gd")
+const _Grid := preload("res://scripts/map/room_grid.gd")
 const _Registry := preload("res://scripts/map/land_registry.gd")
+const _Addr := preload("res://scripts/map/room_address.gd")
 
+static var LDIST1: int = 0
+static var LDIST2: int = 0
+static var MOVE_PX: float = 0.0
+## Settings.json fogRegenerates (Location.retDark).
+static var FOG_RETURNS: bool = true
+static var FADE: float = 0.0
+static var MEM_LEVEL: float = 0.0
+static var MEM_SATURATION: float = 0.0
 ## Lands.xml options vis (LandAct.visMult). A room's own @vis replaces it.
-const LAND_VIS := {
-	"surf": 10.0, "raiders": 10.0, "garages": 10.0, "random_mane": 2.0, "mtn": 2.0,
-	"way": 10.0, "covert": 10.0, "src": 10.0, "hql": 10.0, "post": 10.0,
-	"stable_pi_surf": 3.0, "thunder": 3.0, "grave": 10.0,
-}
-
+static var LAND_VIS: Dictionary = {}
 ## objs.xml objects with a door attribute. Missing opac is Box.door_opac, 1.
-const DOOR_OPAC := {
-	"septum": 1.0, "platform1": 1.0, "door2": 1.0, "door2a": 1.0, "stdoor": 1.0,
-	"basedoor": 1.0, "door3": 1.0, "hatch2": 1.0, "encldoor": 1.0,
-	"door1": 0.8, "door1a": 0.8, "door1b": 0.8, "hatch1": 0.8,
-	"door4": 0.3, "enclpole": 0.3,
-	"window1": 0.2, "window2": 0.2,
-	"grate": 0.1, "hgrate": 0.1, "alib1": 0.1, "alib2": 0.1,
-}
+static var DOOR_OPAC: Dictionary = {}
+
+
+static func _load_vision() -> bool:
+	var data: Variant = DataLib.load(VISION_PATH)
+	var d: Dictionary = data if data is Dictionary else {}
+	LDIST1 = int(d["ldist1"])
+	LDIST2 = int(d["ldist2"])
+	MOVE_PX = float(d["move_px"])
+	FOG_RETURNS = bool(d["fog_returns"])
+	FADE = float(d["fade"])
+	MEM_LEVEL = float(d["mem_level"])
+	MEM_SATURATION = float(d["mem_saturation"])
+	LAND_VIS = d["land_vis"]
+	var doors: Variant = DataLib.load(DOOR_OPAC_PATH)
+	if doors is Dictionary:
+		DOOR_OPAC = doors
+	return true
+
+
+static var _vision_ready: bool = _load_vision()
+## FOG_RETURNS for the current land; off in a camp.
+var _returns := FOG_RETURNS
 
 
 class Room:
 	var key := Vector2i.ZERO
 	var ox := 0
 	var oy := 0
-	var dist1 := 300
-	var dist2 := 1000
+	var dist1 := 0
+	var dist2 := 0
 	var doors: Array = []
 
 
@@ -129,8 +143,9 @@ var _room: Room
 var _sprite: Sprite2D
 var _player: Node2D
 var _last_pos := Vector2.ZERO
-var _acc := 0.0
 var _force := false
+## WORLD asked for a pass. _process does it, after the body has moved.
+var _due := false
 var _relight_ticks := 0
 var _pending: Array[Rect2] = []
 ## Land instance id -> fog data waiting for that land's state to be built.
@@ -176,7 +191,8 @@ func _ready() -> void:
 		bar.visible = false
 		add_child(bar)
 		_bars.append(bar)
-	_player = get_tree().get_first_node_in_group("player") as Node2D
+	Sim.register(Sim.Phase.WORLD, _sim_tick)
+	_player = Run.local_player() as Node2D
 	var land := get_parent().get_node_or_null("BeginLand") if get_parent() else null
 	retarget(land)
 
@@ -216,6 +232,10 @@ func rewatch(land: Node) -> void:
 func _state_of(land: Node) -> LandFog:
 	var id := land.get_instance_id()
 	if not _lands.has(id):
+		# A freed land's id never comes back, so its image and arrays are dropped here.
+		for old in _lands.keys():
+			if not is_instance_id_valid(old):
+				_lands.erase(old)
 		_lands[id] = _build_land(land)
 		if _restore.has(id):
 			var saved: Array = _restore[id]
@@ -257,7 +277,23 @@ func _capture(land: Node, memory: bool) -> Dictionary:
 				if v > 0:
 					any = true
 		if any:
-			out["%d,%d" % [room.key.x, room.key.y]] = Marshalls.raw_to_base64(cells)
+			var addr := _Addr.at(land, room.key)
+			out[addr if addr != "" else "%d,%d" % [room.key.x, room.key.y]] = Marshalls.raw_to_base64(cells)
+	return out
+
+
+## Saved rooms by room address (room_address.gd) back to "x,y" pixel room
+## keys; fixed lands without addresses and older saves already use those.
+static func _cell_keys(land: Node, data: Dictionary) -> Dictionary:
+	var out := {}
+	for key_v in data:
+		var key := str(key_v)
+		if key.contains(":"):
+			var cell := _Addr.cell_of(land, key)
+			if cell != _Addr.NONE:
+				out["%d,%d" % [cell.x, cell.y]] = data[key_v]
+		else:
+			out[key] = data[key_v]
 	return out
 
 
@@ -266,6 +302,8 @@ func _capture(land: Node, memory: bool) -> Dictionary:
 func restore_land(land: Node, data: Dictionary, memory: Dictionary = {}) -> void:
 	if land == null or (data.is_empty() and memory.is_empty()):
 		return
+	data = _cell_keys(land, data)
+	memory = _cell_keys(land, memory)
 	var id := land.get_instance_id()
 	if _lands.has(id):
 		_apply_explored(_lands[id], data, memory)
@@ -340,18 +378,6 @@ func mark_dirty(rect: Rect2) -> void:
 	_pending.append(rect)
 
 
-## Unit.getTileVisi reads the drawn visibility of the tile at a point.
-## The cursor target needs at least 0.10.
-func tile_visibility(world_pos: Vector2) -> float:
-	if _state == null:
-		return 0.0
-	var i := floori(world_pos.x / TILE)
-	var j := floori(world_pos.y / TILE)
-	if i < 0 or j < 0 or i >= _state.tiles_w or j >= _state.tiles_h:
-		return 0.0
-	return _state.vis[j * _state.tiles_w + i]
-
-
 ## Tile.visibility as checkPort reads it: lit now or remembered from before.
 func tile_seen(world_pos: Vector2) -> float:
 	if _state == null:
@@ -418,9 +444,29 @@ func map_kinds() -> Dictionary:
 	return _state.kinds
 
 
-func _process(delta: float) -> void:
+func _exit_tree() -> void:
+	if is_instance_valid(Sim):
+		Sim.unregister(_sim_tick)
+
+
+func _process(_delta: float) -> void:
 	_layout_cover()
-	if GameState.paused or _state == null:
+	if not _due:
+		return
+	_due = false
+	_sim_pass()
+
+
+## One lighting pass per sim tick. The WORLD callback only marks the pass;
+## _process runs it after the player has moved. Several sim steps in one
+## physics frame still produce one pass (the old accumulator dropped the rest).
+## Paused ticks do not mark a pass.
+func _sim_tick() -> void:
+	_due = true
+
+
+func _sim_pass() -> void:
+	if _state == null:
 		return
 	# A loaded save puts the player back a few frames in; sight from the
 	# entrance meanwhile would wipe remembered ghosts there.
@@ -428,17 +474,11 @@ func _process(delta: float) -> void:
 		_force = true
 		return
 	if not is_instance_valid(_player):
-		_player = get_tree().get_first_node_in_group("player") as Node2D
+		_player = Run.local_player() as Node2D
 		if _player == null:
 			return
 		_last_pos = _player.global_position
 		_force = true
-	_acc += delta
-	if _acc < TICK:
-		return
-	_acc -= TICK
-	if _acc > TICK:
-		_acc = 0.0
 	if not _pending.is_empty():
 		_apply_dirty()
 	var moving := _moved()
@@ -905,8 +945,8 @@ func _build_land(land: Node) -> LandFog:
 		if not bool(env.get("black", true)):
 			kind = LIVE_OPEN
 			state.has_open = true
-		var wmask: PackedByteArray = env.get("wmask", PackedByteArray())
-		var wopac := float(env.get("wopac", 0.0)) if not wmask.is_empty() else 0.0
+		var wcells: PackedByteArray = env.get(_Grid.WATER, PackedByteArray())
+		var wopac := float(env.get("wopac", 0.0)) if not wcells.is_empty() else 0.0
 		var rows: Array = src.get("rows", [])
 		for j in ROWS:
 			var parts := str(rows[j]).split(".") if j < rows.size() else PackedStringArray()
@@ -914,7 +954,7 @@ func _build_land(land: Node) -> LandFog:
 			for i in COLS:
 				var code_o := _code_opacity(parts[i]) if i < parts.size() else 0.0
 				var o := code_o
-				if wopac > 0.0 and wmask[j * COLS + i] == 1:
+				if wopac > 0.0 and wcells[j * COLS + i] >= _Grid.WET:
 					state.wet[row + i] = wopac
 					o = maxf(o, wopac)
 				base[row + i] = o
@@ -1064,7 +1104,7 @@ func _view_rect() -> Rect2:
 	var viewport := get_viewport()
 	if viewport == null:
 		return Rect2()
-	var cam := viewport.get_camera_2d()
+	var cam := Run.camera()
 	if cam == null or cam.zoom.x == 0.0 or cam.zoom.y == 0.0:
 		return Rect2()
 	var size := viewport.get_visible_rect().size / cam.zoom
@@ -1106,7 +1146,7 @@ func _room_rows(land: Node, id: String) -> Array:
 
 ## rooms_begin z=0 rooms with their tile rows (begin_visual.json) and options.
 static func begin_rooms() -> Array:
-	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(BEGIN_VISUAL))
+	var parsed: Variant = DataLib.load(BEGIN_VISUAL)
 	if not parsed is Dictionary:
 		return []
 	var options := {}
@@ -1212,9 +1252,9 @@ func _poll_doors(room: Room) -> bool:
 
 
 func _door_opacity(body: Node, closed: float) -> float:
-	if bool(body.get_meta("dead", false)) or bool(body.get_meta("door_open", false)):
+	if bool(_PS.getv(body, "dead", false)) or bool(_PS.getv(body, "door_open", false)):
 		return 0.0
-	if bool(body.get_meta("breakable", false)) and int(body.get_meta("hp", 1)) <= 0:
+	if bool(_PS.getv(body, "breakable", false)) and int(_PS.getv(body, "hp", 1)) <= 0:
 		return 0.0
 	if body is CollisionObject2D and (body as CollisionObject2D).collision_layer == 0:
 		return 0.0
@@ -1235,7 +1275,7 @@ func _apply_dirty() -> void:
 	var solids := _land.get_node_or_null("Solids")
 	if solids:
 		for child in solids.get_children():
-			if not child is Node2D or bool(child.get_meta("dead", false)):
+			if not child is Node2D or bool(_PS.getv(child, "dead", false)):
 				continue
 			if child is CollisionObject2D and (child as CollisionObject2D).collision_layer == 0:
 				continue
@@ -1277,7 +1317,7 @@ func _covered(walls: Array, tile: Rect2) -> bool:
 			if _cell_alive(body, overlap.get_center()):
 				return true
 			continue
-		if body.has_meta("blocks_sight") and not bool(body.get_meta("blocks_sight")) and not body.has_meta("code"):
+		if _PS.hasv(body, "blocks_sight") and not bool(_PS.getv(body, "blocks_sight", true)) and not body.has_meta("code"):
 			continue
 		return true
 	return false

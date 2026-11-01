@@ -108,6 +108,6 @@ func _load_port_strings() -> void:
 	_port.clear()
 	if not FileAccess.file_exists(PORT_STRINGS):
 		return
-	var data: Variant = JSON.parse_string(FileAccess.get_file_as_string(PORT_STRINGS))
+	var data: Variant = DataLib.load(PORT_STRINGS)
 	if data is Dictionary:
 		_port = data

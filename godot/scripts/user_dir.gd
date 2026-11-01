@@ -12,7 +12,7 @@ const SETTINGS_FILES: PackedStringArray = [
 const RUN_FILES: PackedStringArray = [
 	"inventory.cfg", "progression.cfg", "condition.cfg", "body_pools.cfg", "pets.cfg",
 ]
-const MAX_LOGS := 30
+const MAX_LOGS := 5
 
 static var _base: Variant = null
 static var _why := ""
@@ -26,6 +26,11 @@ func _init() -> void:
 		_start_log()
 		print("user dir: %s (exe %s) %s" % [ProjectSettings.globalize_path(base()), OS.get_executable_path(), _why])
 	_load_patches()
+	# Before any later autoload script is parsed, so its preload() of a modded
+	# res://assets path receives the override. Patches are already mounted.
+	var mods = load("res://scripts/mod_loader.gd")
+	if mods != null:
+		mods.boot()
 
 
 ## Exported build: patches/*.pck next to the executable, in name order, over

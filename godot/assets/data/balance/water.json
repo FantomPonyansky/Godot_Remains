@@ -1,0 +1,12 @@
+{
+  "ddy": 900.0,
+  "maxdy": 600.0,
+  "ddy_plav": 1.0,
+  "plav_drag": 0.8,
+  "plav_speed": 157.5,
+  "plav_dy": 1575.0,
+  "plav_accel": 945.0,
+  "plav_brake": 180.0,
+  "wade_drag": 0.5,
+  "jump_recharge": 5.0
+}

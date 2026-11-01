@@ -35,7 +35,7 @@ static func sposob(damage_type: String, hp: int, max_hp: int, trup: bool) -> int
 	var s := 0
 	if damage_type == "DAM_BURN" and (hp <= -max_hp * 3 or not trup):
 		s = 1
-	if damage_type == "DAM_LASER" and (hp <= -max_hp * 3 or not trup or randf() < 0.5):
+	if damage_type == "DAM_LASER" and (hp <= -max_hp * 3 or not trup or Rng.randf(&"combat") < 0.5):
 		s = 1
 	if damage_type in ["DAM_PLASMA", "DAM_ACID"]:
 		s = 2
@@ -49,7 +49,7 @@ static func sposob(damage_type: String, hp: int, max_hp: int, trup: bool) -> int
 ## units.xml <param blood>: 0 none, 1 red, 2 green, 3 pink.
 static func blood_of(unit_id: String) -> int:
 	if _blood == null:
-		_blood = JSON.parse_string(FileAccess.get_file_as_string(BLOOD_PATH)) if FileAccess.file_exists(BLOOD_PATH) else {}
+		_blood = DataLib.load(BLOOD_PATH) if FileAccess.file_exists(BLOOD_PATH) else {}
 	return int((_blood as Dictionary).get(unit_id, 0)) if _blood is Dictionary else 0
 
 
@@ -68,10 +68,10 @@ static func start(unit: Node2D, tip: int, size: Vector2, massa: float) -> void:
 func _ready() -> void:
 	var row: Array = TIPS[_tip]
 	if str(row[4]) != "":
-		SfxBank.play(str(row[4]))
+		Fx.sound(str(row[4]), _unit.global_position, {"source": _unit})
 	_mat = ShaderMaterial.new()
 	_mat.shader = SHADER
-	_mat.set_shader_parameter("seed", randf() * 1000.0)
+	_mat.set_shader_parameter("seed", Rng.randf(&"fx") * 1000.0)
 	_apply(_unit)
 	_n = 1
 
@@ -104,8 +104,8 @@ func _step() -> void:
 		_mat.set_shader_parameter("glow", Vector4(glow.r, glow.g, glow.b, k / float(TIME1)))
 	elif _n <= TIME1 + TIME2:
 		_mat.set_shader_parameter("dissolve", float(_n - TIME1) / float(TIME2))
-		if _massa >= 0.25 or randf() < _massa * 4.0:
-			UnitFx.emit(get_tree(), str(row[2]), _unit.global_position - Vector2(0, _size.y * 0.5),
+		if _massa >= 0.25 or Rng.randf(&"fx") < _massa * 4.0:
+			Fx.particles(str(row[2]), _unit.global_position - Vector2(0, _size.y * 0.5),
 				{"rx": _size.x * 0.75, "ry": _size.y * 0.5})
 	else:
 		_unit.queue_free()

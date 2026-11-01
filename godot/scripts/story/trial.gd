@@ -1,4 +1,5 @@
 extends Node
+const _PS := preload("res://scripts/prop_state.gd")
 
 ## Probation.as: one trial room of a land (a "prob" row from LandSpawn.plan_prob).
 ## Location.out / over run when the player leaves or enters the room. A box
@@ -72,7 +73,7 @@ func holds(at: Vector2) -> bool:
 func _process(delta: float) -> void:
 	if GameState.paused:
 		return
-	var player := get_tree().get_first_node_in_group("player") as Node2D
+	var player := Run.local_player() as Node2D
 	if player == null:
 		return
 	var inside := holds(player.global_position)
@@ -121,8 +122,8 @@ func _over(player: Node2D) -> void:
 func _out() -> void:
 	if closed:
 		for node in _room_nodes():
-			if bool(node.get_meta("prize", false)) and not bool(node.get_meta("spent", false)):
-				_props.call("_open_loot", node, true)
+			if bool(node.get_meta("prize", false)) and not bool(_PS.getv(node, "spent", false)):
+				WorldOps.open_container(node, true)
 	else:
 		_run("out")
 		if on_wave:
@@ -213,16 +214,14 @@ func _close_prob() -> void:
 	active = false
 	_props.set_flag("prob|" + id, true)
 	var t: Variant = Travel.trigger("prob_" + id)
-	Travel.set_trigger("prob_" + id, 1 if t == null else int(t) + 1)
-	var hud := get_tree().get_first_node_in_group("hud")
-	if hud != null and hud.has_method("show_notice"):
-		hud.show_notice(OriginalLines.info("closeProb", nazv()))
-	SfxBank.play("quest_ok")
+	WorldOps.set_trigger("prob_" + id, 1 if t == null else int(t) + 1)
+	Fx.notice(OriginalLines.info("closeProb", nazv()), {"source": self})
+	Fx.sound("quest_ok", Vector2.ZERO, {"source": self})
 	_doors(1)
 	if not prize_active:
 		for node in _room_nodes():
 			if bool(node.get_meta("prize", false)):
-				node.set_meta("prize_locked", false)
+				_PS.put(node, "prize_locked", false)
 	_run("close")
 
 
@@ -283,8 +282,8 @@ func _watch_events() -> void:
 
 func _prepare_prizes() -> void:
 	for node in _room_nodes():
-		if bool(node.get_meta("prize", false)) and not node.has_meta("prize_locked"):
-			node.set_meta("prize_locked", not prize_active and not closed)
+		if bool(node.get_meta("prize", false)) and not _PS.hasv(node, "prize_locked"):
+			_PS.put(node, "prize_locked", not prize_active and not closed)
 
 
 func _doors(turn: int) -> void:
@@ -292,7 +291,7 @@ func _doors(turn: int) -> void:
 		if str(node.get_meta("id", "")) != "doorout":
 			continue
 		var on := turn == 1 or (turn == 0 and str(node.get_meta("uid", "")) == "begin")
-		node.set_meta("usable", on)
+		_PS.put(node, "usable", on)
 		if node is CanvasItem:
 			(node as CanvasItem).visible = on
 
@@ -328,11 +327,11 @@ func _dead(unit: Node) -> bool:
 	if not is_instance_valid(unit):
 		return true
 	var d: Variant = unit.get("_dead")
-	return bool(d) if d != null else bool(unit.get_meta("dead", false))
+	return bool(d) if d != null else bool(_PS.getv(unit, "dead", false))
 
 
 func _box_open(node: Node) -> bool:
-	return bool(node.get_meta("opened", false)) or bool(node.get_meta("door_open", false)) or bool(node.get_meta("box_open", false))
+	return bool(_PS.getv(node, "opened", false)) or bool(_PS.getv(node, "door_open", false)) or bool(_PS.getv(node, "box_open", false))
 
 
 func _run(eve: String) -> void:
@@ -344,8 +343,6 @@ func _run(eve: String) -> void:
 
 func _mess(text: String, player: Node2D = null) -> void:
 	if player == null:
-		player = get_tree().get_first_node_in_group("player") as Node2D
+		player = Run.local_player() as Node2D
 	var down := player != null and player.global_position.y - room.y * ROOM.y < 300.0
-	var hud := get_tree().get_first_node_in_group("hud")
-	if hud != null and hud.has_method("show_message"):
-		hud.show_message(text, down)
+	Fx.notice(text, {"message": true, "down": down, "source": player if player != null else self})

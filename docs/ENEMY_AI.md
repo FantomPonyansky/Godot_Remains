@@ -81,7 +81,7 @@ Robot (robobrain, sentinel: jump jets, rockets past 160 px), turret (hidden / sw
 
 8. **Enemy speech bubbles** (*checked*: no `replic` outside `npc.gd` / `story_text.gd`). Original raiders and robots say lines on alert (`attack`), hearing (`ear`), finding (`find`), giving up (`vse`), levitation, grenades, damage and death, with cooldowns, via `Unit.replic` and `TextParser.repText`. The text is likely already in `text_*.xml`.
 9. **Zebra fade** (*checked*: no `shine`). Original zebras fade (`shine`, `vis.alpha`) and turn invisible to pets, turrets and NPCs when `shine` < 15; moving in the player's sight or shooting raises it; infravision shows them. Port `_invis` is only the ally invisibility cast.
-10. **Enclave and Ranger `allLink` wake radius 2000** (*checked*: `ALLIED_WAKE` 2000 is declared and never read). The port uses 500 for every raider type.
+10. **Enclave and Ranger `allLink` wake radius 2000** (*checked*: the port has no such radius; an unread `ALLIED_WAKE` const was removed 2026-10-31). The port uses 500 for every raider type.
 11. **`maxSpok` 50 for mercs and Enclave.** Port `MAX_SPOK` is a constant 30 for all, so they give up sooner.
 12. **Hellhound close sense:** original sees the player automatically inside 400 px and ignores alarms; not found in the port.
 13. **Ranger side weapon:** rocket every 50–140 ticks and gas with no target (`SideWeaponAttack`); not found by name in the port. Check.

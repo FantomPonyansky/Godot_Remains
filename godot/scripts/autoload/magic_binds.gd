@@ -16,12 +16,29 @@ const SLOTS := 4
 
 signal changed
 
-var _slots: Array[String] = []
-var _magic := ""
-var _throw := ""
+const _MagicBindsState := preload("res://scripts/character/magic_binds_state.gd")
+var _magic_binds_ref: _MagicBindsState
+
+## This autoload's fields live on Run.character().magic_binds; the properties below forward there.
+func _magic_binds() -> _MagicBindsState:
+	if _magic_binds_ref == null:
+		_magic_binds_ref = Run.character().magic_binds
+	return _magic_binds_ref
+
+var _slots: Array[String]:
+	get: return _magic_binds()._slots
+	set(value): _magic_binds()._slots = value
+var _magic: String:
+	get: return _magic_binds()._magic
+	set(value): _magic_binds()._magic = value
+var _throw: String:
+	get: return _magic_binds()._throw
+	set(value): _magic_binds()._throw = value
 var _catalog: Dictionary = {}
 var _order: Array[String] = []
-var _queued: Array[String] = []
+var _queued: Array[String]:
+	get: return _magic_binds()._queued
+	set(value): _magic_binds()._queued = value
 
 
 func _ready() -> void:
@@ -75,7 +92,7 @@ func magic_weapon() -> String:
 
 
 func magic_capable(id: String) -> bool:
-	var bags := get_node_or_null("/root/Inventory")
+	var bags := Inventory
 	if bags == null or not bags.has_method("weapon_def"):
 		return false
 	var w: Dictionary = bags.weapon_def(id)
@@ -151,7 +168,7 @@ func bind_text(id: String) -> String:
 	var events := InputMap.action_get_events(action)
 	if events.is_empty():
 		return "[???]"
-	var bindings := get_node_or_null("/root/InputBindings")
+	var bindings := InputBindings
 	if bindings != null and bindings.has_method("event_text"):
 		return "[%s]" % str(bindings.event_text(events[0]))
 	return "[%s]" % events[0].as_text()
@@ -167,7 +184,8 @@ func is_held(id: String) -> bool:
 	var slot := slot_of(id)
 	if slot < 0:
 		return false
-	return Input.is_action_pressed(action_of(slot))
+	var action := StringName(action_of(slot))
+	return InputMap.has_action(action) and LocalInput.held(action)
 
 
 ## A key a quick-spell action uses while its cell holds a spell.
@@ -181,19 +199,19 @@ func key_taken(code: int) -> bool:
 	return false
 
 
-func _input(event: InputEvent) -> void:
-	var state := get_node_or_null("/root/GameState")
+func _physics_process(_delta: float) -> void:
+	var state := GameState
 	if state != null and bool(state.get("paused")):
-		return
-	if event.is_echo():
 		return
 	var focus := get_viewport().gui_get_focus_owner()
 	if focus is Control and (focus as Control).is_visible_in_tree():
 		return
 	for slot in SLOTS:
-		if _slots[slot] != "" and event.is_action_pressed(action_of(slot)):
+		if _slots[slot] == "":
+			continue
+		var action := StringName(action_of(slot))
+		if InputMap.has_action(action) and LocalInput.just_pressed(action):
 			_queued.append(_slots[slot])
-			return
 
 
 func _load_catalog() -> void:
@@ -201,7 +219,7 @@ func _load_catalog() -> void:
 	_order.clear()
 	if not FileAccess.file_exists(SPELLS_PATH):
 		return
-	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(SPELLS_PATH))
+	var parsed: Variant = DataLib.load(SPELLS_PATH)
 	if typeof(parsed) != TYPE_DICTIONARY:
 		return
 	for entry_v in (parsed as Dictionary).get("spells", []):

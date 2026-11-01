@@ -181,7 +181,7 @@ func dop_test(bullet: Node) -> bool:
 	t_doptest -= 1
 	if t_doptest > 0:
 		return false
-	t_doptest = randi_range(10, 39)
+	t_doptest = Rng.randi_range(&"ai", 10, 39)
 	return true
 
 
@@ -216,11 +216,12 @@ func on_die() -> bool:
 	sound(str(row.get("snd", {}).get("die", "")))
 	var host := u.get_tree().get_first_node_in_group("land_props")
 	if host != null and host.has_method("run_actions"):
-		host.run_actions(u.get("die_actions"))
+		WorldOps.run_actions(host, u.get("die_actions"))
 	GameState.enemy_defeated(int(u.get("points")))
 	u.hp = 0
 	u.collision_layer = 0
 	u.remove_from_group("enemies")
+	Units.touch()
 	return true
 
 
@@ -274,7 +275,7 @@ func _vsos(n: float = 0.0, klob: bool = false) -> void:
 	if n == 0.0:
 		p.set("facing", 1.0 if p.velocity.x > 0.0 else -1.0)
 	if klob and t_vsos % 3 == 0:
-		emit_part("vsos", p.global_position + Vector2(0.0, -40.0), {"dx": d.x * 12.0 + randf() * 4.0 - 2.0, "dy": d.y * 12.0 + randf() * 4.0 - 2.0, "scale": 6.0})
+		emit_part("vsos", p.global_position + Vector2(0.0, -40.0), {"dx": d.x * 12.0 + Rng.randf(&"fx") * 4.0 - 2.0, "dy": d.y * 12.0 + Rng.randf(&"fx") * 4.0 - 2.0, "scale": 6.0})
 	p.velocity += d * TPS
 
 
@@ -296,21 +297,21 @@ func animate() -> void:
 		_vzdrzhne(t_die)
 	t_moln -= 1
 	if t_moln <= 0:
-		t_moln = randi_range(10, 29)
-		var i := 0 if randf() < 0.5 else 1
+		t_moln = Rng.randi_range(&"fx", 10, 29)
+		var i := 0 if Rng.randf(&"fx") < 0.5 else 1
 		if i < molns.size():
 			var m := molns[i]
-			var fr := randi() % MOLN_FRAMES
+			var fr := Rng.randi(&"fx") % MOLN_FRAMES
 			(m.texture as AtlasTexture).region = Rect2((fr % MOLN_COLS) * MOLN_FRAME.x, int(float(fr) / float(MOLN_COLS)) * MOLN_FRAME.y, MOLN_FRAME.x, MOLN_FRAME.y)
 			m.offset = -MOLN_ORIGIN
 			m.modulate.a = 1.0
-			m.position = -Vector2(hull.texture.get_width(), hull.texture.get_height()) * 0.5 + Vector2(MOLN_X[i] + randf_range(-150.0, 150.0), MOLN_Y + randf_range(-15.0, 15.0))
-			m.rotation = randf() * TAU
-			var s := (randf() * 0.3 + 0.7) * 0.5
+			m.position = -Vector2(hull.texture.get_width(), hull.texture.get_height()) * 0.5 + Vector2(MOLN_X[i] + Rng.randf_range(&"fx", -150.0, 150.0), MOLN_Y + Rng.randf_range(&"fx", -15.0, 15.0))
+			m.rotation = Rng.randf(&"fx") * TAU
+			var s := (Rng.randf(&"fx") * 0.3 + 0.7) * 0.5
 			m.scale = Vector2(s, s)
 	for m in molns:
 		if m.modulate.a > 0.0:
-			m.modulate.a = maxf(0.0, m.modulate.a - (randf() * 0.2 - 0.03))
+			m.modulate.a = maxf(0.0, m.modulate.a - (Rng.randf(&"fx") * 0.2 - 0.03))
 
 
 ## vzdrzhne: dieTransform on the whole vis. redMultiplier 1 + n/15, and the

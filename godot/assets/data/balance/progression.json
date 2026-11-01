@@ -1,0 +1,14 @@
+{
+  "xp_delta": 5000,
+  "xp_delta_fast": 3000,
+  "xp_bend_level": 10,
+  "xp_bend_span": 30,
+  "xp_round": 1000,
+  "level_sk_add": 5,
+  "level_sk_add_hard": 3,
+  "unit_xp_mult": 2.0,
+  "max_tele_massa": [0.6, 1.6, 3.0, 6.0, 12.0, 25.0],
+  "tele_porog": [0.1, 0.2, 0.3, 0.5, 0.8, 1.2],
+  "tele_accel": [1.0, 1.1, 1.2, 1.35, 1.6, 2.0],
+  "unit_levit_mult": [0.5, 1.0, 1.3, 1.6, 2.0, 2.5]
+}

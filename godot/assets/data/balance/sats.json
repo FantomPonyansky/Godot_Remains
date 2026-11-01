@@ -1,0 +1,13 @@
+{
+  "od_start": 80.0,
+  "od_regen": 0.1,
+  "melee_r": 100.0,
+  "melee_s": 40.0,
+  "ramka": 10.0,
+  "trass_liv": 100,
+  "skok": 0.4,
+  "tormoz": 0.6,
+  "brake": 2.0,
+  "hold": 0.4,
+  "t_od": 200
+}
