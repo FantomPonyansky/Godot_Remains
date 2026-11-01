@@ -461,7 +461,7 @@ func _touched() -> bool:
 		var act := GameState.activate_trap()
 		if act > 0.0 and (not plate or (act > 1.0 and _stands(player))) and area.intersects(_rect_of(player)):
 			return true
-	for node in get_tree().get_nodes_in_group("enemies"):
+	for node in Units.in_rect(area):
 		var unit := node as Node2D
 		if unit == null or not _unit_meets(unit):
 			continue
@@ -779,7 +779,7 @@ func _trap_control() -> void:
 			player.call("take_hit", HitInfo.make(int(round(_damage)), "DAM_BITE", self))
 			_klac(true)
 			return
-	for node in get_tree().get_nodes_in_group("enemies"):
+	for node in Units.in_rect(me):
 		var unit := node as Node2D
 		if unit == null or not _unit_meets(unit) or int(unit.get("fraction")) == 0 or _act_trap(unit) <= 1:
 			continue
@@ -890,7 +890,7 @@ func _look_invis() -> bool:
 ## Unit.budilo: units of the trap's fraction inside rad * their ear come to look.
 func _budilo(rad: float) -> void:
 	var robot := bool(UNITS[id].get("robot", false))
-	for node in get_tree().get_nodes_in_group("enemies"):
+	for node in Units.near(global_position, rad * Units.max_ear):
 		if not node.has_method("_alarm_from") or int(node.get("fraction")) != fraction:
 			continue
 		if node.get("_dead") == true or node.get("_downed") == true:

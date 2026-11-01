@@ -102,54 +102,7 @@ var _deviation: float = 0.0
 var _mazil: float = 0.0
 
 
-## Brain.aim. Horizontal aim uses the doorway gap when the target is in another room.
-## Vertical aim is the original celDY, and raiders freeze it in the air.
-func _aim() -> void:
-	var my := u._body_center(u)
-	var point := u._goal
-	if u._track_player and u._senses._player_valid():
-		point = u._move._player_goal()
-		u._move._cel_dx = point.x - my.x
-		if u.is_on_floor() or not _freeze_aim:
-			var their := u._body_center(u._player)
-			var top := their.y - u._body_size(u._player).y * 0.5
-			u._move._cel_dy = top - my.y + u.body_size.y
-	else:
-		u._move._cel_dx = point.x - my.x
-		if u.is_on_floor() or not _freeze_aim:
-			u._move._cel_dy = point.y - my.y + u.body_size.y
-	if u.is_on_floor() or not _freeze_aim:
-		if u._move._cel_dy > u.LEVEL_SLACK:
-			u._move._vert = 1
-		elif u._move._cel_dy < -u.LEVEL_SLACK:
-			u._move._vert = -1
-		else:
-			u._move._vert = 0
-	# Brain.aim: porog off while the target is far below.
-	u._move._porog = 0.0 if u._move._cel_dy > u.STEP_UP_OFF else u._move._unit_porog
-
-
-
-## Brain.reaim. Durak raiders turn toward a far target only half the time.
-## The original tests aiTCh % reaimInterval == 1 once per tick.
-func _reaim() -> void:
-	if u._frame_ticks <= 0 or _reaim_every <= 0:
-		return
-	var fire := false
-	for k in u._frame_ticks:
-		if (u._ai_tick - k) % _reaim_every == 1:
-			fire = true
-	if not fire:
-		return
-	if Rng.randf(&"ai") >= _reaim_chance:
-		return
-	if u._move._cel_dx > _reaim_dist:
-		u._move._heading = 1.0
-	elif u._move._cel_dx < -_reaim_dist:
-		u._move._heading = -1.0
-
-
-
+## GunAttack.tick (the generic brain calls it from tick_attacks).
 func _gun_try() -> void:
 	# GunAttack: bursts while chase, hold, or flee. Single shots are a roll each tick, only unshocked.
 	if u._climbing and not _shoot_climb:

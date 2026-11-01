@@ -511,7 +511,7 @@ func _impact_point() -> Vector2:
 	var tree := get_tree()
 	if tree == null:
 		return rect.get_center()
-	for node in tree.get_nodes_in_group("enemies"):
+	for node in Units.in_rect(rect):
 		var ray := node.get_node_or_null("WallCheck") as RayCast2D
 		if ray and ray.is_colliding() and ray.get_collider() == self:
 			return ray.get_collision_point()

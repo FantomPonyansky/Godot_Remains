@@ -228,7 +228,7 @@ func _spell_blast(w: Dictionary) -> void:
 	if Progression:
 		power = 1.0 + 0.1 * float(Progression.rank("tele"))
 	var dam := float(w.get("damage", 20.0)) * power
-	for enemy in p.get_tree().get_nodes_in_group("enemies"):
+	for enemy in Units.near(p.global_position, rad):
 		if not enemy is Node2D:
 			continue
 		var body := enemy as Node2D
@@ -281,7 +281,7 @@ func _tick_slow(delta: float) -> void:
 	if _slow_tick > 0:
 		return
 	_slow_tick = p._hold_ticks(1.0)
-	for enemy in p.get_tree().get_nodes_in_group("enemies"):
+	for enemy in Units.near(p.global_position, _slow_radius):
 		if not is_instance_valid(enemy):
 			continue
 		if p.global_position.distance_to(enemy.global_position) > _slow_radius:

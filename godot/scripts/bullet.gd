@@ -391,7 +391,7 @@ func _phis_blow() -> void:
 
 ## PhisBullet.sensor: any live unit of another fraction whose box holds the grenade.
 func _sensor_hit() -> bool:
-	var nodes: Array = get_tree().get_nodes_in_group("enemies") if from_player else Run.players()
+	var nodes: Array = Units.in_rect(Rect2(global_position, Vector2.ZERO)) if from_player else Run.players()
 	for node in nodes:
 		if not node is Node2D or not is_instance_valid(node):
 			continue

@@ -8,17 +8,16 @@ Godot 4.7.2 port of Fallout Equestria: Remains (Flash). Goal: a faithful port wi
 |---|---|
 | `docs/KNOWLEDGE_BASE.md` | The original: versions (2021, Steam base, DLC), sources, art ids, AS3 mechanics, wiki check, "looks like a bug, is original". |
 | `docs/IMPLEMENTED.md` | What the port has, by system, and where the code is. Gotchas at the end. |
-| `docs/TODO.md` | Step-by-step plan to finish, with phase status. |
+| `docs/TODO.md` | Step-by-step plan to finish, with phase status. §13 is the architecture refactoring (co-op readiness, liquid/gas, modding, endless maps, enemy directors): current state and open steps. |
 | `docs/PLAYER_FEEDBACK.md` | Reports from play and their status. |
 | `docs/PORT_RULES.md` | User decisions that differ from the original. Do not revert them. |
 | `docs/ENEMY_AI.md` | Enemy behaviour now (states, senses, targets, movement, engage / disengage) and the list of differences from the original. |
-| `docs/ARCHITECTURE_PLAN.md` | Architecture refactoring (R0–R6) for co-op readiness, liquid/gas simulation, modding, seamless endless maps and enemy directors: current state, ordered steps, dependencies. |
 | `docs/AUTOLOADS.md` | Autoload order, Sim phase, and which autoload calls which. Cycles that remain are marked on the line. |
 | `docs/ARCHITECTURE.md` | How the port is built now: Sim tick, input commands, Rng, entities, Fx, run document, checks. |
 | `docs/MODDING.md` | Mod folders, `mod.json`, data merge rules, art override and its limits, saves and mods. |
 | `docs/DATA_SCHEMA.md` | Every data file's schema. Generated: `python tools/data_schema_doc.py`; do not edit by hand. |
 | `docs/GLOSSARY.md` | Flash transliterated names, their meaning, and whether each mirrors an original field. |
-| `docs/MULTIPLAYER_PLAN.md` | Step-by-step refactoring plan for online co-op (after the port). `ARCHITECTURE_PLAN.md` R1 and R3 schedule it. |
+| `docs/MULTIPLAYER_PLAN.md` | Step-by-step refactoring plan for online co-op (after the port). `TODO.md` §13 schedules what is left of it. |
 | `docs/EDITOR_PORT_PLAN.md` | Room editor plan. Debug `map_builder` is retired in `_trash/map_builder/`. |
 | `godot/DEBUG_COMMANDS.md` | Console commands. Update whenever they change. |
 | `verify/README.md` | Human verify kit: one folder per hand check with a launcher straight into the situation and a verdict file. A "Verify in play" note in `PLAYER_FEEDBACK.md` should get a row here. |

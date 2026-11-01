@@ -2,7 +2,8 @@ extends RefCounted
 
 ## Location.enemySpawn and the alarm spawn timer (t_alarmsp). Each room keeps its
 ## enspawn points and kolEnSpawn, the enemies it may still call in. Spawned units
-## go on the current scene, where land_memory.gd adopts and saves them.
+## go on the current scene, where land_memory.gd adopts and saves them. Owned by
+## the land's SpawnDirector, whose policy may refuse a spawn or move the alarm.
 
 const TPS := 30.0
 const _Spawn := preload("res://scripts/map/land_spawn.gd")
@@ -11,13 +12,19 @@ const _EmergeGlow := preload("res://scripts/emerge_glow.gd")
 const EMERG := 30
 
 var props: Node
+var policy: SpawnPolicy
+## SpawnDirector.note(unit, source, key). A Callable, so the director and this
+## object do not hold each other (a RefCounted cycle never frees).
+var on_spawn: Callable
 ## Room key "x,y" -> {points, kol, tip, loc, ctx, t}.
 var _rooms: Dictionary = {}
 var _acc := 0.0
 
 
-func _init(host: Node) -> void:
+func _init(host: Node, spawn_policy: SpawnPolicy, noted: Callable) -> void:
 	props = host
+	policy = spawn_policy
+	on_spawn = noted
 
 
 ## An enspawn row from LandSpawn: its feet and the room's spawn data.
@@ -45,7 +52,7 @@ func left(key: String) -> int:
 ## Location.signal(n): the first alarm spawn comes up to n / 4 ticks later.
 func signal_room(key: String, n: int = 300) -> void:
 	if _rooms.has(key):
-		_rooms[key].t = int(float(n) * Rng.randf(&"spawn") * 0.25 + 0.25)
+		_rooms[key].t = policy.alarm_delay(key, int(float(n) * Rng.randf(&"spawn") * 0.25 + 0.25))
 
 
 func tick(delta: float) -> void:
@@ -65,9 +72,11 @@ func tick(delta: float) -> void:
 
 ## enemySpawn(one, getGG): one enemy at a random enspawn point of the room. Off
 ## a single trigger (one) the alarm chain does not continue.
-func spawn(key: String, one: bool, get_gg: bool) -> Node:
+func spawn(key: String, one: bool, get_gg: bool, source: StringName = &"alarm") -> Node:
 	var rec: Variant = _rooms.get(key)
 	if not rec is Dictionary or int(rec.kol) <= 0 or (rec.points as Array).is_empty():
+		return null
+	if not policy.allow_room(key, source, int(rec.kol)):
 		return null
 	rec.kol = int(rec.kol) - 1
 	props.set_flag("enspawn|" + key, int(rec.kol))
@@ -87,7 +96,9 @@ func spawn(key: String, one: bool, get_gg: bool) -> Node:
 	var row: Dictionary = out.rows.back()
 	if str(row.get("cat", "")) != "unit" or not bool(row.get("supported", false)):
 		return null
-	return _make(row, sp, get_gg)
+	var unit := _make(row, sp, get_gg)
+	on_spawn.call(unit, source, key)
+	return unit
 
 
 ## Location.waveSpawn: a Probation wave obj {id, tr, hero, cid} at enspawn n of
@@ -95,6 +106,8 @@ func spawn(key: String, one: bool, get_gg: bool) -> Node:
 func wave_spawn(key: String, obj: Dictionary, n: int) -> Node:
 	var rec: Variant = _rooms.get(key)
 	if not rec is Dictionary or (rec.points as Array).is_empty():
+		return null
+	if not policy.allow_room(key, &"wave", int(rec.kol)):
 		return null
 	var points: Array = rec.points
 	var sp: Vector2 = points[n] if n < points.size() else points[Rng.randi(&"spawn") % points.size()]
@@ -116,6 +129,7 @@ func wave_spawn(key: String, obj: Dictionary, n: int) -> Node:
 	var unit := _make(row, sp, true)
 	if unit != null:
 		unit.set_meta("wave", true)
+	on_spawn.call(unit, &"wave", key)
 	return unit
 
 

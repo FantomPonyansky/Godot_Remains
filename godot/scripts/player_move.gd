@@ -959,7 +959,8 @@ func _landed(was_on_floor: bool, fall_vy: float) -> void:
 	elif fall_vy > p.FALL_NOISE_HALF:
 		noise = run_noise * 0.5
 	if noise > 0.0:
-		p.set_meta("foe_noise", maxf(float(p.get_meta("foe_noise", 0.0)), noise))
+		var m := AiWorld.meters(p)
+		m.noise = maxf(m.noise, noise)
 
 func _step_up(delta: float, up: bool, down: bool) -> void:
 	# Unit.run lifts onto a tile or platform whose top is within porog of the

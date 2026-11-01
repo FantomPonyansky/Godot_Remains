@@ -10,10 +10,11 @@ Open work only. Finished steps go to `IMPLEMENTED.md`; play reports go to `PLAYE
 | B | Visual gaps | §3, §3a, §3b | Rig import is in; these are the remaining look differences. |
 | C | Menus and PipBuck | §4 | Testers live on these screens. |
 | D | Controller, then EN/RU | §5 | Bindings are decided in `PORT_RULES.md`; this is the audit pass. |
-| E | Checks, then smoke play | §6, §2 | One check runner before a full playthrough. |
+| E | Checks, then smoke play | §6, §2 | Soak and deviation register before a full playthrough. |
 | F | Performance and size | §8 | Profile after behaviour stops moving. |
 | G | Steam parity, second smoke | §9, §10 | Text, languages, DLC mode, then a full run. |
 | H | Final release | §11 | Cleanup and ship. §12 waits until the port is done. |
+| — | Architecture | §13 | Runs beside A–H; every open step waits on a design or networking. |
 
 Done phases (gamepad UI, lands, world map, saves, story, vendors, crafting, rig import) are in `IMPLEMENTED.md`.
 
@@ -28,18 +29,15 @@ Done phases (gamepad UI, lands, world map, saves, story, vendors, crafting, rig 
 3. **Raider vortex cooldown.** `emit` from the room object already sets `_vortex_left` (`land_props.gd`). Left: plain raiders use 300 ticks (`UnitRaider.as` ~654); the port uses 500 for everyone (`enemy.gd` `_vortex_*`), and boss setup still forces 8.
 4. **Overload blocks travel.** `Game.gotoLand` (~349) refuses with `nocont2` when the land is not the base and `pers.speedShtr >= 3` (hard inventory, `Pers.invMassParam` ~1785). Port `Inventory._inv_mass_param` zeros speed but travel ignores it; `Travel.goto_land` `nocont` is `GameState.dopusk()` only. Check: `hardinv 1`, heavy items, `land surf` from rbl.
 5. **Shooting a camp ally turns it hostile.** `Unit.as` ~3519 sets `priorUnit` to the bullet owner on any hit. Port `enemy.hit_by_bullet` sets `_prior` only for a pet. A `_ground_ally` hit by the player must target the player (`_prior_target`); check melee and explosions too. Verify row V-06.
-6. ~~**Integer tick counters.**~~ Done 2026-10-31 (R1.2): counters compared with `==` or `%` step by `Sim.frame_steps`. Threshold floats stay. The list is in `IMPLEMENTED.md`.
-7. **`nomed`.** While set, organ damage uses `organMult` 0.50 and fixed minimums (`Pers.as` ~1938: head 156, tors 86, legs 167, blood 113, mana 56), and the HUD hides organ status (`GUI.as` ~537). Port: `game_state.gd`, `hud.gd`. The PipBuck side is done.
-8. **Enemy AI differences**: the list is `docs/ENEMY_AI.md` items 8–19 (speech bubbles, zebra fade, `allLink` 2000 px wake for Enclave/Ranger, `maxSpok` 50, hellhound sight, ranger side weapon, ant fire, no-reload rammer, flyer `stalkDist`, re-aim 0.9, detection jitter, three `enemyAct` levels). The room-return reset stays omitted (`PORT_RULES.md`).
-9. ~~**Save gaps.**~~ Done 2026-10-31: pets, vendor money, score and land xp round-trip; provider blobs have a version (slot format 3, `ARCHITECTURE_PLAN.md` R1.6).
-10. ~~**Autoload order.**~~ Done 2026-10-31: `max_health()` skips `Effects.stat` until `Effects` is ready, and `Progression._ready` recomputes the applied max once every autoload is ready.
-11. ~~**Contact knockback.**~~ Done 2026-10-31 (R1.4): the hurtbox passes the touching body on `HitInfo` (`contact`) and the knock is away from that source. Melee and traps still scan 160 px.
-12. **Script travel on the load screen.** `Travel.goto_land` during `_loading` returns without storing the land id, so a script-driven travel then is dropped.
-13. **Unwired HUD.** `hud.gd` draws a boss HP bar, AP label, hook progress and item line, but nothing calls `set_boss_hp`, `set_ap`, `set_action_progress`, `set_item_line`, `show_subtitle`. Wire them where the original shows them (boss fights, SATS AP, hold-to-use) or drop the draw code.
+6. **`nomed`.** While set, organ damage uses `organMult` 0.50 and fixed minimums (`Pers.as` ~1938: head 156, tors 86, legs 167, blood 113, mana 56), and the HUD hides organ status (`GUI.as` ~537). Port: `game_state.gd`, `hud.gd`. The PipBuck side is done.
+7. **Enemy AI differences**: the list is `docs/ENEMY_AI.md` items 8–19 (speech bubbles, zebra fade, `allLink` 2000 px wake for Enclave/Ranger, `maxSpok` 50, hellhound sight, ranger side weapon, ant fire, no-reload rammer, flyer `stalkDist`, re-aim 0.9, detection jitter, three `enemyAct` levels). The room-return reset stays omitted (`PORT_RULES.md`).
+8. **Script travel on the load screen.** `Travel.goto_land` during `_loading` returns without storing the land id, so a script-driven travel then is dropped.
+9. **Unwired HUD.** `hud.gd` draws a boss HP bar, AP label, hook progress and item line, but nothing calls `set_boss_hp`, `set_ap`, `set_action_progress`, `set_item_line`, `show_subtitle`. Wire them where the original shows them (boss fights, SATS AP, hold-to-use) or drop the draw code.
+10. **Sheet prefetch race.** `boot_game` failed once with `Initializing already initialized RID` in `enemy._prefetch_sheet` (`ResourceLoader.load` on a `WorkerThreadPool` task, `enemy.gd` ~1744), then passed on rerun. Likely two loads of the same texture, or a load racing the main thread; load through `ResourceLoader.load_threaded_request` or serialise the prefetch.
 
 ## 2. Smoke-play `begin` to `surf` (block)
 
-Nobody has played start to finish. Do after §6.1 (check runner). One run: water in the four rooms, terminals, four checkpoints, save / quit / load, a vendor, a crate, SATS, a grenade, both wheels. Open play reports are in `PLAYER_FEEDBACK.md` (2026-10-25, 2026-10-26). Check on the way:
+Nobody has played start to finish. One run: water in the four rooms, terminals, four checkpoints, save / quit / load, a vendor, a crate, SATS, a grenade, both wheels. Open play reports are in `PLAYER_FEEDBACK.md` (2026-10-25, 2026-10-26). Check on the way:
 
 - Y on a real rune lock and on an alarm mine; prompt glyphs for R3, Share, Y.
 - Object drop shadows, indoor-door `comein`, alarm / robocell `active` frames, home-stable turrets, door autoclose, teleport spark burst.
@@ -105,24 +103,23 @@ The other port (`C:\Users\Командор\Downloads\foe-remains-godot-master`, 
 
 ## 6. Checks to build
 
-1. ~~**One check runner.**~~ Done 2026-10-31 (`tools/run_checks.py`, `HANDOFF.md`). Add each new test to its `CHECKS` table.
-2. **Every-land soak.** For each land and trial chamber: `--headless --path godot res://scenes/game.tscn --quit-after N -- --user-dir=tmp/soak --land=<id>`, then `tp` through every room. Count script errors, missing textures and units that fell out. A few fixed seeds for generated lands.
-3. ~~**Save round trip.**~~ Done 2026-10-31 (`tests/save_roundtrip.tscn`, runs in `begin`, `surf` and `random_mane`). The §1.9 gaps (pet state, score, vendor money) are listed in its `KNOWN_GAPS`; remove an entry when its gap is fixed.
-4. **Deviation register.** `docs/DEVIATIONS.md`: one row per known difference (what, why, evidence, owner file). "Awaiting a human check" links a `verify/` row. `PORT_RULES.md` stays the source for user decisions.
+1. **Every-land soak.** For each land and trial chamber: `--headless --path godot res://scenes/game.tscn --quit-after N -- --user-dir=tmp/soak --land=<id>`, then `tp` through every room. Count script errors, missing textures and units that fell out. A few fixed seeds for generated lands.
+2. **Deviation register.** `docs/DEVIATIONS.md`: one row per known difference (what, why, evidence, owner file). "Awaiting a human check" links a `verify/` row. `PORT_RULES.md` stays the source for user decisions.
 
 ## 7. Smoke play
 
-Run §2 once §6.1–6.3 run clean.
+Run §2 once `run_checks` and the §6 soak run clean.
 
 ## 8. Performance and size
 
 Goal: playable on a weak GPU (tester: parts of the map draw as plain colour). Done work is in `IMPLEMENTED.md` "Performance"; harness (`perf_arena`, `physhz`) is described there.
 
-1. Left per 30 Hz step in `perf_arena`: enemies ~4.9 ms (up to ~78 awake), crate batch ~2.4 ms, `stair_slope` ~1.2 ms; merging static colliders per room is untried; `aim_cursor._foe_tracking` walks every enemy each frame; chase (`pursue` + `_aim`) ~1 ms per alert unit.
+1. Left per 30 Hz step in `perf_arena`: enemies ~4.9 ms (up to ~78 awake), crate batch ~2.4 ms, `stair_slope` ~1.2 ms; merging static colliders per room is untried; chase (`pursue` + `_aim`) ~1 ms per alert unit.
 2. FPS, frame time and memory in the debug console.
 3. Hot paths from the 2026-10-31 audit (measure before and after each):
    - Physics queries allocated per call: `player._ceiling_blocks_stand` (every grounded frame), `_touch_melee` (every 9 px of a swing), `bullet.gd` ray loops, `pony_puppet._point_solid`. Reuse one query object each.
-   - Group scans: `enemy` shot/grenade sense, `_budilo` / `_alarm_from` chains, brainless friendlies' `_nearest_foe` every frame, `brain_turret.find_cel`, trap triggers and alarm buttons over all enemies, `audio_manager._watch_units`, `fog_sight` units/shots and `_poll_fx` scene walk, `bullet` blasts over all `destructibles`, `land_props` `begin_traps` twice per frame.
+   - Group scans: `enemy` shot/grenade sense, `fog_sight` units/shots and `_poll_fx` scene walk, `bullet` blasts over all `destructibles`, `land_props` `begin_traps` twice per frame.
+   - Later, for consistency only (event-time scans, no measurable gain): move the `enemies` scans in `game_state`, `vendors`, `story/npc` and `story/trial` onto `Units` (`ARCHITECTURE.md` "AI blackboard").
    - `magic_aura` walks the host's sprite tree every frame; cache the list.
    - `fog.gd` uploads the whole fog image on each dirty tick; upload changed rows.
    - HUD every frame: `_refresh_weapon`, `_tick_prompt` / `_place_tip`, `_bars.queue_redraw`, `_refresh_effects`, `_tick_eye` armour scan; PipBuck Effects/Health pages rebuild rows at 4 Hz; right panel rewrites labels at 4 Hz; `local_map_page` redraws every frame.
@@ -138,7 +135,7 @@ Goal: playable on a weak GPU (tester: parts of the map draw as plain colour). Do
 
 1. Import the `rooms_plant` / `rooms_prob` changes and corrected `text_en` / `text_ru`; re-export `texture1.swf` bitmaps 1139, 1141, 1143, 1145.
 2. Languages `ua`, `de`, `pl`, `es`, `jp`, `zh`, `tw`: text import, `lang.xml`, settings and main-menu picker, CJK font fallback, UI fit.
-3. DLC 1.0.4 rebalance as a mode: data overrides as a built-in R2.4 overlay (`ARCHITECTURE_PLAN.md`), the 13 code changes, a new-game switch, saves tagged with the mode. Ask about the odd values first (`KNOWLEDGE_BASE.md`).
+3. DLC 1.0.4 rebalance as a mode: data overrides as a built-in mod overlay (`MODDING.md`), the 13 code changes, a new-game switch, saves tagged with the mode. Ask about the odd values first (`KNOWLEDGE_BASE.md`).
 4. Compare `pfeUI.swf` UI art against `pfe.swf`.
 
 ## 10. Second smoke-play
@@ -154,7 +151,7 @@ A full run to an ending, controller only, in the base game; then a shorter run i
 
 ## 12. After the port (not started)
 
-The refactoring that 12.1, 12.2, 12.5 and modding need is `docs/ARCHITECTURE_PLAN.md` (R0–R5), with tests in place first (§6). Small debts it does not name: SATS calls private player methods by name (`_razn`, `_body_center`, `_aim_rect`, `_skill_mult`), and SATS aim and AI aim (`enemy` feet + `body_size`) can disagree; the grenade bounce is copied in `sats.gd` and `bullet.gd`.
+The refactoring that 12.1, 12.2, 12.5 and modding need is §13.
 
 ### 12.1 Seamless random lands
 
@@ -194,3 +191,50 @@ User, 2026-10-30. Differs from the original (whole-tile water in `map/water_flow
 4. Later, and design first: reactions (gas ignition, electrolysis, condensation, freezing).
 
 Do 1 and 2 first and play-test them before 3 and 4.
+
+## 13. Architecture
+
+Refactoring that readies the code for five goals without building them. R0–R4 and most of R5–R6 are done (`IMPLEMENTED.md` "Architecture state", `ARCHITECTURE.md`). Step ids (R5.6 and so on) are cited in code comments; keep them.
+
+- **MP**: online co-op ready, no networking yet (§12.2, `MULTIPLAYER_PLAN.md`).
+- **FL**: liquid and gas simulation (§12.5).
+- **MOD**: modding. No hard-coded tuning, data files with documented schemas, readable code.
+- **END**: seamless endless maps (§12.1).
+- **AI**: enemy AI under directors: a spawn director (pacing, budgets, reinforcements, ambushes, composition by distance and difficulty) and tactics directors (squads, roles, attack slots, flanking, suppression, retreat, shared target memory). Current behaviour: `ENEMY_AI.md`.
+
+Rules for every step:
+
+- Single-player play stays the same. Each step passes `python tools/run_checks.py` (save round trips, seeded replays against `godot/tests/fixtures/replay_golden_*.txt`) before the next starts.
+- The default directors reproduce today's behaviour exactly. New behaviour is opt-in per mode or difficulty through data (`assets/data/ai/*.json`) and needs a `PORT_RULES.md` entry when turned on by default.
+- Fixed lands (`begin`, story lands) keep their build path until R5 has a reason to touch them.
+- One writer at a time for `player.gd`, `enemy.gd`, `land_props.gd`, `bullet.gd` and `project.godot`.
+- Size: **S** under a day, **M** a few days, **L** a week or more. Risk is the risk to current behaviour.
+
+### 13.1 Open steps
+
+1. **R3 step 8 wiring (MP).** Needs networking and the user decisions in `MULTIPLAYER_PLAN.md`.
+   - Second player's state: code that acts on any player (damage, pickup, trade) switches from the autoload facades to `player.character()` / `Run.character(WorldOps.actor)`; the facades stay for the local UI.
+   - SATS and loot rules: the `sats` entry in `Sim.PLAYER_REASONS` with `Sim.pause_world` decides whether SATS stops the world; loot rules go where `WorldOps.take_loot(drop, pid)` reaches `ground_loot.pickup` / `land_props.grant_dropped`.
+   - Network: connect `WorldOps.requested` (client to host) and `LocalInput.set_command` (remote input); set `WorldOps.authority` and entity `authority` false on clients.
+2. **R4 simulator (FL).** §12.5 in `Sim` for active rooms, behind one off-by-default switch.
+3. **R5.6 chain and distance (END).** Behind `Travel.chain_lands`, off; seams are in. Waits for §12.1 (chunk size, difficulty curve, rest stops). Then:
+   - `play_land.append_chunk` builds the next chunk (`WorldState.begin_build(id, chunk)`) right of the between room's exit, rooms stamped `chunk`, rows carrying `chunk`;
+   - fog and the PipBuck map move to per-room textures;
+   - far chunks unload collision (`remesh`), doors and dressing;
+   - rooms build on a worker, and an unloaded room is solid while its load is pending;
+   - freeze-on-first-plan (`build_value`) and the cell records move to per chunk; vendor land xp per chunk;
+   - doors, back-room and sky-arena masks and the fog stop being land-wide.
+   L, high.
+4. **R5.7 coordinates (END).** After R5.6. Gameplay addresses use room plus tile integers; the render origin stays near the camera's chunk (shift the `Run` world origin when the player crosses a chunk), so float32 never sees large x. S–M, medium.
+5. **R6.4 spawn policies (AI).** Each needs a design decision and a `PORT_RULES.md` entry. One director per chunk with R5.6. Policies beyond the default: budget per room or distance, pacing, ambush placement out of sight, composition by distance and difficulty. Add a `pick_unit` hook in `_random_unit` when a composition policy needs it.
+6. **R6.6 real roles (AI).** They change play, so they wait for a design decision. When that comes, they need:
+   - a policy subclass (or mode) that assigns roles and orders;
+   - `tactics.json` `units` role hints;
+   - `suppress` and `call_help` in the generic brain;
+   - `takes_order` / `attack_slot` in the catalog brains that should join;
+   - a new-game option that picks the policy, with saves tagged with it.
+7. **R6.7 behaviour modules (AI).** Optional per brain id or per policy, off unless the catalog or the mode asks. Needs R6.6, and the R4 `grid_solid` layer for cover cells. L, high if any module becomes a default.
+   - Modules: flank (path to a side cell out of the target's facing), suppression fire at the last known position, morale and retreat (by HP, losses and squad size), search patterns around the last seen position, cover use, and coordinated alarm runs to the siren.
+   - Each module uses utility scoring or a small behaviour tree, with one decision per unit per 10 ticks like today's `SENSE_INTERVAL`.
+
+Small debts no step names: SATS calls private player methods by name (`_razn`, `_body_center`, `_aim_rect`, `_skill_mult`), and SATS aim and AI aim (`enemy` feet + `body_size`) can disagree; the grenade bounce is copied in `sats.gd` and `bullet.gd`.

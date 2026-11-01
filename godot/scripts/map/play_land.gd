@@ -724,7 +724,7 @@ func is_loaded(cell: Vector2i) -> bool:
 
 
 ## Chaining (Travel.chain_lands): attach the next chunk to the right of the
-## between room's exit. Not built yet (ARCHITECTURE_PLAN.md R5.6); false keeps
+## between room's exit. Not built yet (TODO.md §13 R5.6); false keeps
 ## Travel on the replace-the-land path.
 func append_chunk() -> bool:
 	push_warning("chained chunks are not built yet; replacing the land")

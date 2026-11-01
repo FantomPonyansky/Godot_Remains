@@ -1,6 +1,6 @@
 extends RefCounted
 
-## One character's condition fields (ARCHITECTURE_PLAN R3.1).
+## One character's condition fields (architecture step R3.1).
 ## condition.gd forwards a property of the same name to each.
 
 var _hp: Dictionary = {}

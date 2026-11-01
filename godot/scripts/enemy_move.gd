@@ -153,6 +153,8 @@ var _throu_left: int = 0
 var _flee_dir: float = 0.0
 
 var _goal: Vector2 = Vector2.ZERO
+## The last _pursue took the climb branch (the brain skips that tick's attacks).
+var pursue_climbed := false
 
 
 func _physics_move(delta: float) -> void:
@@ -235,8 +237,8 @@ func _float_to_cursor() -> void:
 	u.anim.modulate = Color(0.75, 0.9, 1.2)
 	u._lev_anim()
 
-func _hold() -> bool:
-	# WalkMotor.hold: stop, face the target. Brain.backOffIfCrowded may leave hold.
+## WalkMotor.hold: stop, face the target. The brain then backs off and attacks.
+func _hold() -> void:
 	var delta := u.get_physics_process_delta_time()
 	u.velocity.x = move_toward(u.velocity.x, 0.0, 900.0 * delta)
 	if absf(_cel_dx) > 1.0:
@@ -246,9 +248,6 @@ func _hold() -> bool:
 		u.facing = signf(u._senses._target_dx())
 		_heading = u.facing
 	u._weapons._aim_probes()
-	var left := _back_off_if_crowded()
-	u._tick_attacks()
-	return left
 
 func _leap_back() -> void:
 	# WalkMotor.leapBack: runSpeed * LEAP_BACK_SPEED away, then jump(LEAP_BACK).
@@ -257,39 +256,6 @@ func _leap_back() -> void:
 	var spd := run_speed if run_speed > 0.0 else move_speed
 	u.velocity.x = away * spd * u.LEAP_SPEED
 	_do_jump(u.LEAP_POWER)
-
-## Brain.holdIfClose. Melee and scorpions stop inside their band. A miss keeps chasing.
-func _hold_if_close() -> void:
-	if u._close_chance <= 0.0:
-		return
-	var ax := absf(_cel_dx)
-	var in_band := ax >= u._melee._band_min and ax <= u._melee._band_max and _cel_dy >= -u._melee._band_up and _cel_dy <= u._melee._band_down
-	if u.ai_state == u.ST_HOLD and u._close_release and not in_band:
-		u.ai_state = u.ST_CHASE
-		return
-	var searching := u.ai_state == u.ST_SEARCH and u._close_search
-	if u.ai_state != u.ST_CHASE and not searching:
-		return
-	if not u._track_player or not in_band or _frame_ticks <= 0:
-		return
-	if Rng.randf(&"ai") < u._close_chance:
-		if u.ai_state != u.ST_HOLD:
-			u._state_left = u._ticks(Rng.randf_range(&"ai", u._close_tmin, u._close_tmax) / u.TPS)
-		u.ai_state = u.ST_HOLD
-
-
-
-## Brain.backOffIfCrowded. Inside the range the gunner always leaves hold, and sometimes hops back.
-func _back_off_if_crowded() -> bool:
-	if not u._weapons._do_backoff or u.fixed_post or u.fight_style == "melee" or u.fight_style == "turret":
-		return false
-	if _cel_dx * _cel_dx + _cel_dy * _cel_dy >= u.BACK_OFF_RANGE * u.BACK_OFF_RANGE:
-		return false
-	if _frame_ticks > 0 and Rng.randf(&"ai") < u.BACK_OFF_CHANCE:
-		_leap_back()
-	u.ai_state = u.ST_CHASE
-	return true
-
 
 
 ## WalkMotor.pursue. Accelerate along aiNapr, hop gaps, jump to a target above, hop a wall.
@@ -310,9 +276,11 @@ func _pursue() -> bool:
 		if _opens_doors:
 			_open_door_ahead()
 		jump_power = _bump_wall(jump_power)
+	pursue_climbed = false
 	if u.ai_state == u.ST_SEARCH or u.ai_state == u.ST_CHASE:
 		_climb_toward_target()
 		if _climbing:
+			pursue_climbed = true
 			return _climb_step()
 	var cap := _speed_cap()
 	var add := _accel_tick * 900.0 * delta
@@ -338,8 +306,6 @@ func _pursue() -> bool:
 		u.facing = dir
 	u._weapons._aim_probes()
 	u._melee._maybe_smash()
-	if u.ai_state == u.ST_CHASE or u.ai_state == u.ST_FLEE or u.ai_state == u.ST_DASH:
-		u._tick_attacks()
 	return absf(u.velocity.x) > 8.0
 
 func _speed_cap() -> float:

@@ -2,7 +2,7 @@ extends RefCounted
 
 ## Senses for an enemy body: look, listen, alarm, and the shared world meters.
 ## State lives here. The body forwards a name only when another script uses it.
-## u is that body. One set of _world_* meters is shared by every unit, as before.
+## u is that body. The shared meters and facts are kept per player in AiWorld.
 
 const _Body := preload("res://scripts/enemy.gd")
 
@@ -11,25 +11,6 @@ var u: _Body
 
 func _init(body: _Body) -> void:
 	u = body
-
-static var _sense_frame: int = -1
-
-static var _known_shots: Dictionary = {}
-
-## Per-frame world facts every enemy shares: player room, room darkness, sneak.
-static var _world_room := Vector2i(-99999, -99999)
-
-static var _world_vis_mult: float = 1.0
-
-static var _world_sneak: float = 0.0
-
-static var _world_stealth: float = 1.0
-
-static var _world_visi: float = 1.0
-
-static var _world_crit_invis: float = 0.0
-
-static var _world_danger: Array = []
 
 ## Raider defaults. Turret / bloat / scorpion overrides come from the land's unit id.
 var _v_konus: float = 0.0
@@ -190,6 +171,8 @@ func _sense() -> void:
 	if seen > 0.0:
 		_add_obs(u._player, seen, _observ)
 		if _obs(u._player) >= u.MAX_OBS:
+			if not _track_player:
+				Fx.ai(&"saw", u, {"target": Entity.eid_of(u._player)})
 			_track_player = true
 			_aware = true
 			_memory_left = u.TARGET_MEMORY
@@ -198,6 +181,7 @@ func _sense() -> void:
 			_sync_vision()
 			return
 	elif heard > 0.0:
+		Fx.ai(&"heard", u, {"target": Entity.eid_of(u._player), "level": heard})
 		if _obs(u._player) >= u.MAX_OBS:
 			_track_player = false
 			u._goal = u._player.global_position + Vector2(Rng.randf_range(&"ai", -100.0, 100.0), Rng.randf_range(&"ai", -100.0, 100.0))
@@ -221,6 +205,8 @@ func _scene_pending() -> bool:
 	return false
 
 func _on_seen() -> void:
+	if u._player != null and is_instance_valid(u._player):
+		AiWorld.note_seen(u.fraction, u._player, u._player.global_position)
 	if _v_konus > 0.0:
 		u.ai_spok = u.MAX_SPOK + u.SIGHT_BONUS
 		u.ai_state = u.ST_HOLD
@@ -240,6 +226,8 @@ func _lose() -> void:
 		if u._player != null and is_instance_valid(u._player):
 			u._goal = u._player.global_position
 		return
+	if _track_player:
+		Fx.ai(&"lost", u, {"at": u._goal})
 	_track_player = false
 	_unseen_looks += 1
 	if _unseen_looks % u.DRIFT_INTERVAL == 0:
@@ -279,7 +267,7 @@ func _budilo(rad: float) -> void:
 		return
 	u.set_meta("foe_noise", _noise_run * 1.2)
 	var robot := u._is_machine()
-	for node in tree.get_nodes_in_group("enemies"):
+	for node in Units.near(u.global_position, rad * Units.max_ear):
 		if node == u or not node.has_method("_alarm_from"):
 			continue
 		if int(node.get("fraction")) != u.fraction or bool(node.get("_dead")) or bool(node.get("_downed")) or bool(node.get_meta("unres", false)):
@@ -298,6 +286,8 @@ func _budilo(rad: float) -> void:
 func _alarm_from(at: Vector2) -> void:
 	if u._dead or not u._is_calm():
 		return
+	AiWorld.note_alarm(u.fraction, u._room_of(u.global_position))
+	Fx.ai(&"alarmed", u, {"from": at})
 	_become_alert(at + Vector2(Rng.randf_range(&"ai", -125.0, 125.0), Rng.randf_range(&"ai", -125.0, 125.0)))
 	u._shok = Rng.randi_range(&"ai", _alarm_shock_min, _alarm_shock_max)
 	if _alarm_radius > 0.0:
@@ -318,7 +308,8 @@ func _look(player: Node2D) -> float:
 	vis *= float(player.get_meta("foe_vis_mult", 1.0))
 	var detecting := float(player.get_meta("foe_detecting", u.DETECTING))
 	# Unit.look: (visibility * stealthMult * loc.visMult + demask) * vision.
-	var dist_vis := (vis * _world_stealth * _world_vis_mult + float(player.get_meta("foe_demask", 0.0))) * _vision
+	var facts := AiWorld.facts(player)
+	var dist_vis := (vis * facts.stealth * facts.vis_mult + AiWorld.meters(player).demask) * _vision
 	# No cone: a target mostly below the eyes is harder to see, down to half range.
 	if _v_konus == 0.0 and not _overlook and cy > 0.0 and cy * cy > cx * cx:
 		dist_vis *= 0.5 + 0.5 * absf(cx / cy)
@@ -341,7 +332,7 @@ func _look(player: Node2D) -> float:
 	return dist_vis * dist_vis / r2 * 4.0
 
 func _listen(player: Node2D) -> float:
-	var noise := float(player.get_meta("foe_noise", 0.0)) * _ear * _ear_mult
+	var noise := AiWorld.meters(player).noise * _ear * _ear_mult
 	if noise <= 0.0:
 		return 0.0
 	var p_feet := u._feet(player)
@@ -358,55 +349,56 @@ func _listen(player: Node2D) -> float:
 
 func _tick_world_senses(player: Node, delta: float) -> void:
 	var frame := Engine.get_physics_frames()
-	if frame != _sense_frame:
-		_sense_frame = frame
+	var facts := AiWorld.facts(player)
+	if frame != facts.frame:
+		facts.frame = frame
+		var m := AiWorld.meters(player)
 		var ticks := delta * u.TPS
-		var is_obs := float(player.get_meta("foe_is_obs", 0.0))
-		var obs := float(player.get_meta("foe_obs", 0.0))
-		if is_obs > 0.0:
-			is_obs -= ticks
-			if is_obs < 0.0:
-				obs = maxf(0.0, obs - u.MINUS_OBS * (-is_obs))
-				is_obs = 0.0
-		elif obs > 0.0:
-			obs = maxf(0.0, obs - u.MINUS_OBS * ticks)
-		player.set_meta("foe_is_obs", is_obs)
-		player.set_meta("foe_obs", obs)
-		var demask := maxf(0.0, float(player.get_meta("foe_demask", 0.0)) - u.DEMASK_DECAY * ticks)
+		if m.is_obs > 0.0:
+			m.is_obs -= ticks
+			if m.is_obs < 0.0:
+				m.obs = maxf(0.0, m.obs - u.MINUS_OBS * (-m.is_obs))
+				m.is_obs = 0.0
+		elif m.obs > 0.0:
+			m.obs = maxf(0.0, m.obs - u.MINUS_OBS * ticks)
+		var demask := maxf(0.0, m.demask - u.DEMASK_DECAY * ticks)
 		var vel := u._velocity_of(player)
 		if absf(vel.x) > 10.0 * u.TPS or absf(vel.y) > 10.0 * u.TPS:
 			demask = maxf(demask, u.FAST_DEMASK)
-		player.set_meta("foe_demask", demask)
-		_refresh_world(player)
-		_world_danger = u._gather_grenades(u.get_tree())
-		var noise := maxf(0.0, float(player.get_meta("foe_noise", 0.0)) - u.NOISE_DECAY * ticks)
+		m.demask = demask
+		_refresh_world(player, facts)
+		if frame != AiWorld.sense_frame:
+			AiWorld.sense_frame = frame
+			AiWorld.danger = u._gather_grenades(u.get_tree())
+		var noise := maxf(0.0, m.noise - u.NOISE_DECAY * ticks)
 		var step := _footstep_noise(player, vel)
 		if step > noise:
 			noise = step
-		player.set_meta("foe_noise", noise)
+		m.noise = noise
 		_scan_shots(player)
 
 
 
 ## Facts shared by every enemy this frame. Sneak skill: Pers sneak is the raw points,
 ## noiseRun 300 - 60 per level, critInvis 0.05 per level. Armor sneak scales visiMult.
-func _refresh_world(player: Node) -> void:
+func _refresh_world(player: Node, facts: AiWorld.Facts) -> void:
 	var p2 := player as Node2D
-	var room := _world_room
+	var room := AiWorld.room
 	if p2 != null:
 		room = u._room_of(p2.global_position)
-	_world_vis_mult = _room_vis_mult(room)
-	_world_sneak = 0.0
-	_world_crit_invis = 0.0
+	facts.room = room
+	facts.vis_mult = _room_vis_mult(room)
+	facts.sneak = 0.0
+	facts.crit_invis = 0.0
 	if Progression != null:
-		_world_sneak = float(Progression.rank("sneak"))
-		_world_crit_invis = 0.05 * float(Progression.skill_level_of("sneak"))
-	_world_stealth = float(player.get_meta("stealth_mult", 1.0))
-	_world_visi = 1.0
+		facts.sneak = float(Progression.rank("sneak"))
+		facts.crit_invis = 0.05 * float(Progression.skill_level_of("sneak"))
+	facts.stealth = float(player.get_meta("stealth_mult", 1.0))
+	facts.visi = 1.0
 	if Inventory != null and Condition != null:
 		# armorParameters: visiMult *= 1 - sneak for the suit, then the amulet.
 		for worn in Inventory.worn_ids():
-			_world_visi *= 1.0 - Progression.armor_sneak(worn)
+			facts.visi *= 1.0 - Progression.armor_sneak(worn)
 
 
 
@@ -454,15 +446,14 @@ func _scan_shots(player: Node) -> void:
 			continue
 		var id: int = node.get_instance_id()
 		live[id] = true
-		if not _known_shots.has(id):
+		if not AiWorld.known_shots.has(id):
 			fresh = true
-	_known_shots = live
+	AiWorld.known_shots = live
 	if not fresh:
 		return
-	var noise := maxf(float(player.get_meta("foe_noise", 0.0)), _shot_noise())
-	player.set_meta("foe_noise", noise)
-	var demask := maxf(float(player.get_meta("foe_demask", 0.0)), u.SHOT_DEMASK)
-	player.set_meta("foe_demask", demask)
+	var m := AiWorld.meters(player)
+	m.noise = maxf(m.noise, _shot_noise())
+	m.demask = maxf(m.demask, u.SHOT_DEMASK)
 
 func _shot_noise() -> float:
 	# weapons.xml snd noise for the guns this slice loads. Default is p10mm.
@@ -487,24 +478,25 @@ func _add_obs(player: Node, amount: float, nobs: float) -> void:
 	if amount <= 0.0:
 		return
 	var nlook := amount
+	var facts := AiWorld.facts(player)
+	var m := AiWorld.meters(player)
 	if nobs > -1000.0:
-		var nsneak := maxf(0.0, _world_sneak - float(player.get_meta("foe_demask", 0.0)) / 20.0)
+		var nsneak := maxf(0.0, facts.sneak - m.demask / 20.0)
 		if nobs > nsneak:
 			nlook *= 1.0 + (nobs - nsneak) * 0.2
 		elif nobs < nsneak:
 			nlook /= 1.0 - (nobs - nsneak) * 0.3
-	nlook *= _world_visi * _world_stealth
+	nlook *= facts.visi * facts.stealth
 	if player.has_method("lurk_cut"):
 		var sneak_lurk := 2.5 + 0.5 * float(Progression.skill_level_of("sneak")) if Progression != null else 2.5
 		nlook -= sneak_lurk * float(player.call("lurk_cut"))
 	if nlook <= 0.0:
 		return
-	var obs := minf(float(player.get_meta("foe_obs", 0.0)) + nlook, u.MAX_OBS * 2.0)
-	player.set_meta("foe_obs", obs)
-	player.set_meta("foe_is_obs", u.OBS_GRACE)
+	m.obs = minf(m.obs + nlook, u.MAX_OBS * 2.0)
+	m.is_obs = u.OBS_GRACE
 
 func _obs(player: Node) -> float:
-	return float(player.get_meta("foe_obs", 0.0))
+	return AiWorld.meters(player).obs
 
 func _eye_pos() -> Vector2:
 	var size := u._body_size(u)
@@ -528,7 +520,7 @@ func _watch_for_danger() -> void:
 		return
 	for k in u._frame_ticks:
 		var t := u._ai_tick - k
-		if u._fear_grenade and not _world_danger.is_empty() and t % u.GRENADE_CHECK == 1 and Rng.randf(&"ai") < u.GRENADE_CHECK_CHANCE:
+		if u._fear_grenade and not AiWorld.danger.is_empty() and t % u.GRENADE_CHECK == 1 and Rng.randf(&"ai") < u.GRENADE_CHECK_CHANCE:
 			var nade: Variant = _grenade_in_view()
 			if nade != null:
 				u._move._flee(float(nade.x) - u.global_position.x)
@@ -539,7 +531,7 @@ func _watch_for_danger() -> void:
 func _grenade_in_view() -> Variant:
 	var center := u.global_position + Vector2(0.0, -u._body_size(u).y * 0.5)
 	var eye := u.global_position + Vector2(0.0, -u._body_size(u).y * 0.75)
-	for g in _world_danger:
+	for g in AiWorld.danger:
 		var at: Vector2 = g
 		if center.distance_squared_to(at) < 160000.0 and Sight.los_clear(eye, at, null):
 			return at

@@ -12,6 +12,11 @@ signal float_numbered(value: String, at: Vector2, kind: String, opts: Dictionary
 signal noticed(text: String, opts: Dictionary, eid: String, local: bool)
 signal particled(kind: String, at: Vector2, opts: Dictionary, eid: String, local: bool)
 signal flashed(at: Vector2, opts: Dictionary, eid: String, local: bool)
+## AI channel: saw, lost, heard, damaged, died, alarmed, spawned. Sim-side
+## facts about a unit, not presentation; listeners must not change the sim.
+signal ai_event(kind: StringName, eid: String, at: Vector2, opts: Dictionary)
+
+const AI_KINDS: Array[StringName] = [&"saw", &"lost", &"heard", &"damaged", &"died", &"alarmed", &"spawned"]
 
 var _prep_player: AudioStreamPlayer
 var _prep_path := ""
@@ -26,7 +31,9 @@ var counts := {
 	"flash": 0,
 	"blood": 0,
 	"hum": 0,
+	"ai": 0,
 }
+var _ai_log := false
 
 
 ## Weapon prep loop. The player sends one update a tick; this seeks the clip
@@ -140,10 +147,38 @@ func flash(at: Vector2, opts: Dictionary = {}) -> void:
 	flashed.emit(at, opts, _eid(opts), _belongs_local(opts))
 
 
+## A unit event on the AI channel. unit is the enemy body; at defaults to its position.
+func ai(kind: StringName, unit: Node2D, opts: Dictionary = {}) -> void:
+	_count("ai")
+	if ai_event.get_connections().is_empty():
+		return
+	var at: Vector2 = opts.get("at", unit.global_position)
+	ai_event.emit(kind, Entity.eid_of(unit), at, opts)
+
+
+## Debug listener: prints every AI event while on.
+func set_ai_log(on: bool) -> void:
+	if on == _ai_log:
+		return
+	_ai_log = on
+	if on:
+		ai_event.connect(_print_ai)
+	else:
+		ai_event.disconnect(_print_ai)
+
+
+func ai_log_on() -> bool:
+	return _ai_log
+
+
+func _print_ai(kind: StringName, eid: String, at: Vector2, opts: Dictionary) -> void:
+	print("AI %d %s %s (%d, %d) %s" % [Sim.tick, kind, eid, int(at.x), int(at.y), opts])
+
+
 func summary() -> String:
-	return "sound %d shake %d float %d notice %d particles %d blood %d hum %d flash %d" % [
+	return "sound %d shake %d float %d notice %d particles %d blood %d hum %d flash %d ai %d" % [
 		int(counts.sound), int(counts.shake), int(counts.float_number), int(counts.notice),
-		int(counts.particles), int(counts.blood), int(counts.hum), int(counts.flash)]
+		int(counts.particles), int(counts.blood), int(counts.hum), int(counts.flash), int(counts.ai)]
 
 
 func _emit_sound(id: String, at: Vector2, opts: Dictionary) -> void:

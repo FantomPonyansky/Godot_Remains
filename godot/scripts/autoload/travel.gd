@@ -366,7 +366,7 @@ func m_return() -> bool:
 
 
 ## landStage of a land. chunk is the distance of a chained chunk from the
-## land's first one (ARCHITECTURE_PLAN.md R5.6); fixed lands are chunk 0.
+## land's first one (TODO.md §13 R5.6); fixed lands are chunk 0.
 func land_stage(id: String, chunk := 0) -> int:
 	return int((lands.get(id, {}) as Dictionary).get("st", 0)) + maxi(chunk, 0)
 

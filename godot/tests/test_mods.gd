@@ -291,6 +291,84 @@ func _check_commands() -> void:
 	_check_grid()
 	_check_addresses()
 	_check_cell_records()
+	_check_ai_world()
+	_check_spawn_policy()
+	_check_tactics()
+
+
+class _OneSlot extends TacticsPolicy:
+	func grant(_unit: Node, _target: Node, _kind: StringName, attackers: int) -> bool:
+		return attackers < 1
+
+
+func _check_tactics() -> void:
+	TacticsPolicy.use(null)
+	var base := TacticsPolicy.current()
+	_check(base.get_script() == TacticsPolicy and base.regroup_ticks() == 30, "tactics policy loads the default from ai/tactics.json")
+	_check(base.roles(null).is_empty() and base.order(null, null, &"").is_empty() and base.grant(null, null, &"gun", 9), "default tactics give no roles or orders and grant every slot")
+	var director := TacticsDirector.new(self)
+	var target := Node.new()
+	var a := Node.new()
+	_check(director.grant(a, target, &"gun") and director.grant(a, target, &"gun"), "default slots never cap")
+	director.policy = _OneSlot.new()
+	director._attackers.clear()
+	_check(director.grant(a, target, &"gun") and not director.grant(a, target, &"melee") and director.denied == 1, "a capping policy denies the second attacker in a tick")
+	_check(director._checked({"kind": "dance"}).is_empty() and director._checked({"kind": "suppress"}).kind == "suppress", "orders of unknown kinds are dropped")
+	_check(base.roles_for(a).is_empty() and base.roles_for(null).is_empty(), "role hints are empty for units not in tactics.json")
+	_check(UnitBrain.new().takes_order(&"hold") == false, "catalog brains take no orders by default")
+	_check(Rng.stream(&"tactics") != Rng.stream(&"fx"), "the Rng tactics stream exists")
+	target.free()
+	a.free()
+	TacticsPolicy.use(null)
+
+
+class _CapPolicy extends SpawnPolicy:
+	func room_count(_loc: Dictionary, _tip: String, kol: int) -> int:
+		return mini(kol, 1)
+
+	func allow_summon(_owner: Node, uid: String) -> bool:
+		return uid != "dron1"
+
+
+func _check_spawn_policy() -> void:
+	SpawnPolicy.use(null)
+	var base := SpawnPolicy.current()
+	_check(base.get_script() == SpawnPolicy and str(base.config.get("policy", "")) == "default", "spawn policy loads the default from ai/spawn.json")
+	_check(base.room_count({}, "enl1", 4) == 4 and base.allow_room("0,0", &"alarm", 3) and base.alarm_delay("0,0", 17) == 17 and base.allow_summon(null, "dron1"), "default spawn policy changes nothing")
+	SpawnPolicy.use(_CapPolicy.new())
+	_check(SpawnPolicy.current().room_count({}, "enl1", 4) == 1 and not SpawnPolicy.current().allow_summon(null, "dron1"), "a swapped spawn policy decides")
+	var owner := Node2D.new()
+	add_child(owner)
+	_check(SpawnDirector.summon(owner, "dron1", Vector2.ZERO, {}, false, null) == null, "a refused summon makes no unit")
+	owner.free()
+	SpawnPolicy.use(null)
+
+func _check_ai_world() -> void:
+	var a := Node2D.new()
+	var m := AiWorld.meters(a)
+	m.noise = 300.0
+	_check(AiWorld.meters(a).noise == 300.0, "meters stay with their player")
+	var b := Node2D.new()
+	_check(AiWorld.meters(b).noise == 0.0, "a replaced player starts with fresh meters")
+	AiWorld.note_seen(3, b, Vector2(10, 20))
+	_check(AiWorld.last_seen(3, b).get("pos") == Vector2(10, 20) and AiWorld.last_seen(4, b).is_empty(), "last seen is per faction")
+	AiWorld.note_alarm(3, Vector2i(1, 2))
+	_check(AiWorld.alarmed_at(3, Vector2i(1, 2)) == Sim.tick and AiWorld.alarmed_at(3, Vector2i(0, 0)) == -1, "alarm per faction and room")
+	AiWorld.clear_land()
+	_check(AiWorld.last_seen(3, b).is_empty(), "a new land forgets faction knowledge")
+	var got: Array = []
+	var take := func(kind: StringName, _eid: String, at: Vector2, opts: Dictionary) -> void:
+		got.append([kind, at, opts.get("amount", 0)])
+	Fx.ai_event.connect(take)
+	add_child(a)
+	a.global_position = Vector2(5, 6)
+	Fx.ai(&"damaged", a, {"amount": 7})
+	Fx.ai(&"lost", a, {"at": Vector2(1, 1)})
+	Fx.ai_event.disconnect(take)
+	_check(got == [[&"damaged", Vector2(5, 6), 7], [&"lost", Vector2(1, 1), 0]], "AI events carry kind, place and opts")
+	remove_child(a)
+	a.free()
+	b.free()
 
 
 func _cells_digest(built: Dictionary) -> String:

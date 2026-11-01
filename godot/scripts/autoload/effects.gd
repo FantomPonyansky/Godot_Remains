@@ -576,7 +576,7 @@ func _sec(e: Dictionary, unit: Node, p: Node) -> void:
 		"inhibitor":
 			var from: Node2D = (p if unit == null else unit) as Node2D
 			if from != null and v > 0.0:
-				for en in get_tree().get_nodes_in_group("enemies"):
+				for en in Units.near(from.global_position, v):
 					if en is Node2D and en.has_method("apply_slow") and (en as Node2D).global_position.distance_squared_to(from.global_position) < v * v:
 						en.apply_slow(40.0 / TPS)
 

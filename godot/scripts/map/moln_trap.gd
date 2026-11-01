@@ -77,7 +77,7 @@ func _show(host: Node2D, frame: int) -> void:
 func _strike(host: Node2D) -> void:
 	var box := Rect2(host.global_position + rect.position, rect.size)
 	var units: Array = Run.players()
-	units.append_array(get_tree().get_nodes_in_group("enemies"))
+	units.append_array(Units.in_rect(box))
 	for unit in units:
 		if not unit is Node2D or not unit.has_method("take_hit") or unit.get("_dead") == true:
 			continue

@@ -247,7 +247,7 @@ func _watch_units() -> void:
 		combat(str(row[0]), int(row[1]), BOSS_DEATH_TICKS)
 	if _post_music:
 		return
-	for enemy in get_tree().get_nodes_in_group("enemies"):
+	for enemy in Units.enemies():
 		if not enemy.has_method("is_alert") or bool(enemy.get("_dead")) or not enemy.is_alert():
 			continue
 		var uid := _unit_id(enemy)

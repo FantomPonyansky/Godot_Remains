@@ -334,7 +334,7 @@ func _keys(player: Node2D, n: int) -> void:
 func _unit_at(at: Vector2) -> Node2D:
 	var best: Node2D = null
 	var best_d := ORDER_PICK
-	for node in get_tree().get_nodes_in_group("enemies"):
+	for node in Units.near(at, best_d):
 		if not node is CharacterBody2D or not is_instance_valid(node) or int(node.get("hp")) <= 0:
 			continue
 		var body: Vector2 = node.get("body_size") if node.get("body_size") is Vector2 else Vector2(40, 40)

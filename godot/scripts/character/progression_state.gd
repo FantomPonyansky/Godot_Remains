@@ -1,6 +1,6 @@
 extends RefCounted
 
-## One character's progression fields (ARCHITECTURE_PLAN R3.1).
+## One character's progression fields (architecture step R3.1).
 ## progression.gd forwards a property of the same name to each.
 
 var level: int = 1

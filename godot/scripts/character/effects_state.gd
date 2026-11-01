@@ -1,6 +1,6 @@
 extends RefCounted
 
-## One character's effects fields (ARCHITECTURE_PLAN R3.1).
+## One character's effects fields (architecture step R3.1).
 ## effects.gd forwards a property of the same name to each.
 
 var cut: float = 0.0

@@ -1,6 +1,6 @@
 extends RefCounted
 
-## One player's state (ARCHITECTURE_PLAN R3.1, MULTIPLAYER_PLAN step 2).
+## One player's state (architecture step R3.1, MULTIPLAYER_PLAN step 2).
 ## The character autoloads keep their names and forward their fields to the
 ## parts of Run.character(); new per-character state goes here, not in a new
 ## autoload. One part per autoload, named after it.

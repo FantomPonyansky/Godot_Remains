@@ -226,6 +226,13 @@ const _DATA := {
 	"res://assets/data/balance/water.json": {
 		"root": "dict", "of": {".": "number"},
 	},
+	"res://assets/data/ai/tactics.json": {
+		"root": "dict", "req": {"policy": "string", "script": "string", "regroup_ticks": "number", "units": "dict"},
+		"of": {"units": "dict"},
+	},
+	"res://assets/data/ai/spawn.json": {
+		"root": "dict", "req": {"policy": "string", "script": "string"},
+	},
 	"res://assets/data/balance/options.json": {
 		"root": "dict",
 		"req": {"audio": "dict", "game": "dict", "ui": "dict", "input": "dict", "camera": "dict"},

@@ -1,6 +1,6 @@
 extends RefCounted
 
-## One character's stash fields (ARCHITECTURE_PLAN R3.1).
+## One character's stash fields (architecture step R3.1).
 ## stash.gd forwards a property of the same name to each.
 
 var vault: Dictionary = {}

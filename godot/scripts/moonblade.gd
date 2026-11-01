@@ -112,7 +112,7 @@ func _follow_point() -> Vector2:
 func _nearest_foe() -> Node2D:
 	var best: Node2D = null
 	var best_d := SIGHT
-	for node in get_tree().get_nodes_in_group("enemies"):
+	for node in Units.near(global_position, best_d):
 		if not node is Node2D or not is_instance_valid(node):
 			continue
 		var body := node as Node2D

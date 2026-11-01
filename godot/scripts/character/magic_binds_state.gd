@@ -1,6 +1,6 @@
 extends RefCounted
 
-## One character's magic_binds fields (ARCHITECTURE_PLAN R3.1).
+## One character's magic_binds fields (architecture step R3.1).
 ## magic_binds.gd forwards a property of the same name to each.
 
 var _slots: Array[String] = []

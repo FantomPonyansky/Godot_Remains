@@ -349,8 +349,12 @@ static func _spawn_info(ctx: Dictionary, loc: Dictionary) -> Dictionary:
 
 static func _set_random_units(ctx: Dictionary, loc: Dictionary, out: Dictionary) -> void:
 	var rnd := bool(ctx.get("rnd", false))
+	var policy := SpawnPolicy.current()
 	for i in range(1, TIP_EN.size()):
 		var ups: Array = loc.ups[i]
+		var kol := policy.room_count(loc, TIP_EN[i], int(loc.kol_en[i]))
+		if kol != int(loc.kol_en[i]):
+			loc.kol_en[i] = kol
 		if int(loc.kol_en[i]) <= 0 or ups.is_empty():
 			continue
 		if rnd:
@@ -371,6 +375,9 @@ static func _set_random_units(ctx: Dictionary, loc: Dictionary, out: Dictionary)
 				break
 			ups.remove_at(n)
 	var hid: Array = loc.ups[2]
+	var kol_hid := policy.room_count(loc, "hidden", int(loc.kol_hid))
+	if kol_hid != int(loc.kol_hid):
+		loc.kol_hid = kol_hid
 	if int(loc.kol_hid) > 0 and not hid.is_empty():
 		for _j in int(loc.kol_hid):
 			var n := int(_rf() * float(hid.size()))

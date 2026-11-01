@@ -24,7 +24,6 @@ const _PropSfx := preload("res://scripts/prop_sfx.gd")
 const _Npc := preload("res://scripts/story/npc.gd")
 const _Trap := preload("res://scripts/map/trap_unit.gd")
 const _RadSource := preload("res://scripts/map/rad_source.gd")
-const _EnSpawn := preload("res://scripts/map/en_spawn.gd")
 const _Trial := preload("res://scripts/story/trial.gd")
 const _RoomLook := preload("res://scripts/map/room_look.gd")
 const _RoomFlags := preload("res://scripts/map/room_flags.gd")
@@ -112,8 +111,10 @@ var _xp_left: Dictionary = {}
 var _detected_rooms: Dictionary = {}
 ## Visits and saves: land_memory.gd. Room edges and crossings: room_bounds.gd.
 var _memory: RefCounted
-## Enspawn points and the alarm spawn timer: en_spawn.gd.
-var _en_spawn: RefCounted
+## Every runtime spawn: SpawnDirector (rooms, siren, triggers, waves, summons).
+var _en_spawn: SpawnDirector
+## Squads, roles, orders and attack slots: TacticsDirector (AiWorld.tactics).
+var _tactics: TacticsDirector
 var _signs := _Signs.new()
 
 
@@ -141,7 +142,9 @@ func _ready() -> void:
 		WorldOps.applied.connect(_on_world_op)
 	_PropSfx.hush()
 	_memory = _Memory.new(self)
-	_en_spawn = _EnSpawn.new(self)
+	_en_spawn = SpawnDirector.new(self)
+	_tactics = TacticsDirector.new(self)
+	AiWorld.tactics = _tactics
 	_memory.begin(_bound_rooms)
 	if _from_rooms:
 		_index_bound_rooms()
@@ -223,6 +226,8 @@ func _begin_checkpoints() -> Array:
 func _exit_tree() -> void:
 	if _memory != null:
 		_memory.store()
+	if AiWorld.tactics == _tactics:
+		AiWorld.tactics = null
 
 
 ## WorldState: this land's state as land_memory.gd keeps it.
@@ -281,6 +286,7 @@ func _process(delta: float) -> void:
 	_tick_alarm(delta)
 	_tick_alarm_boxes()
 	_en_spawn.tick(delta)
+	_tactics.tick()
 	_signs.tick(get_tree(), delta, _sign_point)
 	if Travel.blocks_control():
 		return
@@ -2462,6 +2468,7 @@ func _raise_alarm(at: Vector2) -> void:
 	_budilo_left = 8.0
 	_budilo_tick = 0.0
 	_alarm_at = at
+	AiWorld.note_alarm(AiWorld.SIREN, _room_of(at))
 	var trial := trial_at(at)
 	if trial != null:
 		trial.alarm()
@@ -2488,7 +2495,7 @@ func _tick_alarm_boxes() -> void:
 		if not is_instance_valid(node) or str(_PS.getv(node, "allact", "")) != "alarm" or bool(_PS.getv(node, "dead", false)):
 			continue
 		var box := Rect2((node as Node2D).global_position + _ObjArt.offset("alarm"), _ObjArt.size("alarm"))
-		for enemy in get_tree().get_nodes_in_group("enemies"):
+		for enemy in Units.in_rect(box):
 			if not bool(enemy.get("_raider_type")) or bool(enemy.get("_dead")) or not enemy.has_method("_is_calm") or bool(enemy.call("_is_calm")):
 				continue
 			var body_v: Variant = enemy.get("body_size")
@@ -2513,7 +2520,7 @@ func _tick_alarm(delta: float) -> void:
 	if _budilo_tick > 0.0:
 		return
 	_budilo_tick = 1.0
-	for enemy in get_tree().get_nodes_in_group("enemies"):
+	for enemy in Units.near(_alarm_at, 1500.0):
 		if bool(enemy.get_meta("hacked", false)) or not enemy.has_method("_alarm_from"):
 			continue
 		var body := enemy as Node2D

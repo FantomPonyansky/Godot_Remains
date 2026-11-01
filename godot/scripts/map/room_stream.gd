@@ -6,7 +6,7 @@ extends Node
 ## land memory beyond UNLOAD_REACH (land_props.unload_room / reload_room).
 ## Collision, doors and dressing stay built: a generated land is bounded, and
 ## meshing walls again while walking would cost frames and move wall seams.
-## play_land.remesh is there for chained chunks (ARCHITECTURE_PLAN.md R5.6).
+## play_land.remesh is there for chained chunks (TODO.md §13 R5.6).
 ## The back or front room behind a player's room counts as near. Rooms
 ## that run (room_bounds ACTIVE_REACH 1) are always inside LOAD_REACH.
 

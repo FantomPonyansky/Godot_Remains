@@ -182,7 +182,7 @@ func _find_hostile() -> bool:
 	if cel_unit != null and is_instance_valid(cel_unit) and cel_unit.is_in_group("enemies") and not bool(cel_unit.get("_dead")) and float(u.call("_look", cel_unit)) > 0.0:
 		set_cel(cel_unit)
 		return true
-	for un in u.get_tree().get_nodes_in_group("enemies"):
+	for un in Units.enemies():
 		if un == u or not un is Node2D or bool(un.get("_dead")) or bool(un.get("_friendly")):
 			continue
 		if float(u.call("_look", un)) > 0.0:

@@ -52,11 +52,11 @@ Planned after the port is finished, as a separate mode: true online co-op, P2P, 
 - Camps (`tip base`): normal fog, but seen tiles never fade and line-of-sight hiding is off. The full camp reveal was tried and reverted.
 - Line-of-sight fog never hides the object the player holds with telekinesis.
 - Lift positions are saved (the original does not).
-- Chunked lands (2026-11-01, user; `ARCHITECTURE_PLAN.md` R5):
+- Chunked lands (2026-11-01, user; architecture step R5):
   - Random lands use a per-cell RNG (same tables and odds, different layout per seed). A save made inside a random land before the change rebuilds that land with the new generator and puts the player at its entrance; that land's room memory is dropped. Fixed and story lands are not affected.
   - Chaining (next level attaches to the right instead of replacing the land) is built behind one switch, off by default. `TODO.md` §12.1 decides chunk size, difficulty curve and rest stops before it is turned on. Until then only its seams are built (user, 2026-11-01); the chunk append itself waits for §12.1.
   - Room streaming applies to generated lands only; fixed and story lands stay built in full.
-- Water and doors (2026-11-01, user): opening a door below the water level wakes the water at once and it drains through (`ARCHITECTURE_PLAN.md` R4.3). The original recalculates water only when a wall or door tile breaks (`Location.dieTile` / tile damage), so an opened door drained only on the next break.
+- Water and doors (2026-11-01, user): opening a door below the water level wakes the water at once and it drains through (architecture step R4.3). The original recalculates water only when a wall or door tile breaks (`Location.dieTile` / tile damage), so an opened door drained only on the next break.
 - Begin and Surf are linked both ways: the begin exit always leads to Surf, and the far-left end of the Surf arrival tunnel (room 0,1, cell 0) leads back to the begin exit (`play_land.SURF_TO_BEGIN`, `game.BEGIN_EXIT`). The original never lets you return.
 
 ## Visuals
@@ -74,7 +74,7 @@ Planned after the port is finished, as a separate mode: true online co-op, P2P, 
 
 ## Controls
 
-Game logic stays at 30 Hz (the original's rate); there is no 60 / 120 Hz simulation option. Input is sampled on every rendered frame and applied on the next tick, so presses between ticks are not lost and latency is at most one tick (user, 2026-10-31; `ARCHITECTURE_PLAN.md` R1.7).
+Game logic stays at 30 Hz (the original's rate); there is no 60 / 120 Hz simulation option. Input is sampled on every rendered frame and applied on the next tick, so presses between ticks are not lost and latency is at most one tick (user, 2026-10-31; architecture step R1.7).
 
 Keyboard follows the original `Ctr.as keyXML`, except: arrows removed from gameplay (menu focus only), shoot is left mouse only (J is quests), telekinesis is Q and right mouse.
 

@@ -8,8 +8,8 @@ extends Node
 ## narrowed to float32). RandomNumberGenerator.randf() draws twice, so build
 ## code must use randf_legacy or a generated land would reshuffle.
 
-const NAMES: Array[StringName] = [&"build", &"spawn", &"loot", &"ai", &"combat", &"fx"]
-const GAMEPLAY: Array[StringName] = [&"build", &"spawn", &"loot", &"ai", &"combat"]
+const NAMES: Array[StringName] = [&"build", &"spawn", &"loot", &"ai", &"combat", &"tactics", &"fx"]
+const GAMEPLAY: Array[StringName] = [&"build", &"spawn", &"loot", &"ai", &"combat", &"tactics"]
 
 var _streams: Dictionary = {}
 var _run_seed := 0

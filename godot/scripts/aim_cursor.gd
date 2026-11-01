@@ -187,7 +187,7 @@ func _aim_frame() -> String:
 
 ## GameContainer.t_battle stays up while some foe is on the player.
 func _foe_tracking() -> bool:
-	for node in get_tree().get_nodes_in_group("enemies"):
+	for node in Units.enemies():
 		if is_instance_valid(node) and node.get("_track_player") == true:
 			return true
 	return false

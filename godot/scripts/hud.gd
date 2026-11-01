@@ -626,7 +626,7 @@ func _tick_eye() -> void:
 		return
 	if not _shows_obs(player):
 		return
-	var obs := float(player.get_meta("foe_obs", 0.0))
+	var obs := AiWorld.meters(player).obs
 	if obs < 3.0:
 		return
 	_eye_frame = int(floor(obs / MAX_OBS * 40.0 + 1.0))

@@ -382,7 +382,7 @@ func _att_drop() -> void:
 		return
 	var rect := Rect2(global_position + _hit_origin, _hit)
 	var now := Time.get_ticks_msec()
-	var targets := get_tree().get_nodes_in_group("enemies")
+	var targets := Units.in_rect(rect)
 	# fracLevit: a crate the player lifted spares the player's side until it lands.
 	if not _frac_player:
 		targets.append_array(Run.players())

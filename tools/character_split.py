@@ -1,4 +1,4 @@
-"""Move an autoload's per-character fields into a state class (ARCHITECTURE_PLAN R3.1).
+"""Move an autoload's per-character fields into a state class (architecture step R3.1).
 
     python tools/character_split.py <autoload.gd> <part> <state.gd> name1 name2 ...
 
@@ -93,7 +93,7 @@ def main() -> int:
     out_rows[first:first] = helper
     io.open(host, "w", encoding="utf-8", newline="").write(nl.join(out_rows))
     state = ["extends RefCounted", "",
-             f"## One character's {Path(host_rel).stem} fields (ARCHITECTURE_PLAN R3.1).",
+             f"## One character's {Path(host_rel).stem} fields (architecture step R3.1).",
              f"## {Path(host_rel).name} forwards a property of the same name to each.", ""]
     if uses_host:
         state.append(f"const _Host := preload(\"res://{host_rel}\")")

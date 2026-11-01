@@ -331,7 +331,7 @@ func find_cel(_over: bool = false) -> bool:
 	var p := player_node()
 	if p == null or p.get("invulnerable") == true:
 		return false
-	for node in u.get_tree().get_nodes_in_group("enemies"):
+	for node in Units.near(u.global_position, RASST_VIS_EN):
 		var un := node as CharacterBody2D
 		if un == null or not un.has_method("_resist") or not _alive(un) or un.get("_invis") == true or un.has_meta("noagro"):
 			continue
@@ -418,7 +418,7 @@ func _alive(un: Node2D) -> bool:
 
 ## GameContainer.t_battle: some foe is on the player.
 func _battle() -> bool:
-	for node in u.get_tree().get_nodes_in_group("enemies"):
+	for node in Units.enemies():
 		if node.get("_track_player") == true:
 			return true
 	return false

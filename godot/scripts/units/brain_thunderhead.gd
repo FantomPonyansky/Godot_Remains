@@ -221,6 +221,7 @@ func on_die() -> bool:
 	u.hp = 0
 	u.collision_layer = 0
 	u.remove_from_group("enemies")
+	Units.touch()
 	return true
 
 

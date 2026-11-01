@@ -1,4 +1,4 @@
-"""One command for every automatic check (ARCHITECTURE_PLAN R0.1, TODO 6.1).
+"""One command for every automatic check (architecture step R0.1, TODO 6.1).
 
     python tools/run_checks.py               all checks
     python tools/run_checks.py --list        names only

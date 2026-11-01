@@ -465,7 +465,7 @@ func _get_units() -> void:
 	var melee := _is_melee(_weapon)
 	var eye: Vector2 = (_player.get_node("Muzzle") as Node2D).global_position if _player.has_node("Muzzle") else _player.global_position
 	var shown := _view_rect().grow(40.0)
-	for node in get_tree().get_nodes_in_group("enemies"):
+	for node in Units.in_rect(shown):
 		if not node is Node2D or not is_instance_valid(node):
 			continue
 		var unit := node as Node2D

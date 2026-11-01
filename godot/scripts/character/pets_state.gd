@@ -1,6 +1,6 @@
 extends RefCounted
 
-## One character's pets fields (ARCHITECTURE_PLAN R3.1).
+## One character's pets fields (architecture step R3.1).
 ## pets.gd forwards a property of the same name to each.
 
 var current: String = ""

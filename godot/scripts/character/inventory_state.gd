@@ -1,6 +1,6 @@
 extends RefCounted
 
-## One character's inventory fields (ARCHITECTURE_PLAN R3.1).
+## One character's inventory fields (architecture step R3.1).
 ## inventory.gd forwards a property of the same name to each.
 
 var worn: String = ""

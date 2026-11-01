@@ -1157,7 +1157,7 @@ func _contact_knock() -> Vector2:
 	# nearest enemy toward the player.
 	var best: Node2D = null
 	var best_d := 160.0
-	for node in get_tree().get_nodes_in_group("enemies"):
+	for node in Units.near(global_position, best_d):
 		var foe := node as Node2D
 		if foe == null:
 			continue

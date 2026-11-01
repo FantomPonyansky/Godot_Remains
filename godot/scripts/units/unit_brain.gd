@@ -43,6 +43,8 @@ var guns: Array[UnitGun] = []
 var weapon_dy := 0.0
 var cel := Vector2.ZERO
 var cel_unit: Node2D = null
+## The TacticsDirector's order, set only for kinds takes_order() accepts.
+var order: Dictionary = {}
 var cel_dx := 0.0
 var cel_dy := 0.0
 var stay := false
@@ -386,6 +388,23 @@ func animate() -> void:
 	pass
 
 
+## The body's hit flinch. Brain classes animate their own hits.
+func hit_anim() -> void:
+	pass
+
+
+## Whether this brain acts on a TacticsDirector order of kind (one of
+## TacticsPolicy.ORDERS). Catalog brains take none until one reads order.
+func takes_order(_kind: StringName) -> bool:
+	return false
+
+
+## An attack slot from the land's TacticsDirector, for a brain that asks one
+## before it fires or strikes. Granted when no policy caps attackers.
+func attack_slot(kind: StringName, target: Node = null) -> bool:
+	return TacticsDirector.ask(u, target, kind)
+
+
 ## Unit.damage before resistances. Returns what is left to apply.
 func on_damage(amount: float, _type: String, _bullet: Node, tt: bool) -> float:
 	if shithp > 0.0 and not tt:
@@ -671,22 +690,8 @@ func gun(wid: String) -> UnitGun:
 
 ## loc.createUnit: a new enemy at the feet point, already awake when alert is set.
 func spawn_unit(uid: String, at: Vector2, metas: Dictionary = {}, alert := true) -> CharacterBody2D:
-	var packed := load("res://scenes/enemy.tscn") as PackedScene
-	var host := u.get_tree().current_scene
-	if packed == null or host == null:
-		return null
-	var node := packed.instantiate() as CharacterBody2D
-	node.set_meta("unit_id", uid)
-	for k in metas.keys():
-		node.set_meta(k, metas[k])
-	node.set_meta("owner_eid", Entity.eid_of(u))
-	node.position = at
-	host.add_child(node)
-	node.global_position = at
-	if alert and node.has_method("_become_alert"):
-		var p := player_node()
-		node.call("_become_alert", p.global_position if p != null else at)
-	return node
+	var p := player_node()
+	return SpawnDirector.summon(u, uid, at, metas, alert, p.global_position if p != null else null)
 
 
 ## Unit.explosion at the feet: a blast with no projectile.

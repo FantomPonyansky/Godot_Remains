@@ -1,6 +1,6 @@
 extends Node
 
-## Seeded replay (ARCHITECTURE_PLAN R0.3, TODO 6.1). Plays the same scripted
+## Seeded replay (architecture step R0.3, TODO 6.1). Plays the same scripted
 ## input twice from the same seed in begin and compares a state hash every
 ## HASH_EVERY physics ticks: the player (position, velocity, health, magic) and
 ## the enemies of the land (position, health). Run with --fixed-fps 60 so both

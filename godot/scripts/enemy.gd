@@ -27,6 +27,9 @@ const _Weapons := preload("res://scripts/enemy_weapons.gd")
 var _weapons: _Weapons
 const _Melee := preload("res://scripts/enemy_melee.gd")
 var _melee: _Melee
+## The decisions of a unit without a UnitBrain (units/brain_generic.gd).
+const _Generic := preload("res://scripts/units/brain_generic.gd")
+var _generic: _Generic
 const _Difficulty := preload("res://scripts/difficulty.gd")
 ## Unit comb / loc.earMult from the difficulty row. Read once per unit.
 var _hp_mult: float = 1.0
@@ -675,6 +678,7 @@ func _init() -> void:
 	_senses = _Senses.new(self)
 	_weapons = _Weapons.new(self)
 	_melee = _Melee.new(self)
+	_generic = _Generic.new(self)
 	move_speed = SPEED
 	_v_konus = V_KONUS
 	_ear = EAR
@@ -717,14 +721,21 @@ func _init() -> void:
 
 
 func _notification(what: int) -> void:
+	if what == NOTIFICATION_ENTER_TREE or what == NOTIFICATION_EXIT_TREE:
+		Units.touch()
 	if what == NOTIFICATION_PREDELETE and _brain != null:
 		_brain.release()
 		_brain = null
 
 
+## The brain the body calls: the unit's UnitBrain, or the generic brain.
+func _ai() -> Variant:
+	return _brain if _brain != null else _generic
+
+
 ## Unit.dopTest: false lets the bullet fly on through this unit.
 func dop_test(bullet: Node) -> bool:
-	return _brain == null or _brain.dop_test(bullet)
+	return _ai().dop_test(bullet)
 
 
 ## Interact on a unit with an action (the wild phoenix's tame).
@@ -735,8 +746,7 @@ func use_object(from_timer: bool = false) -> void:
 
 ## Script targ commands (Unit.command), also for units outside the enemies group.
 func script_command(act: String, val: String) -> void:
-	if _brain != null:
-		_brain.command(act, val)
+	_ai().command(act, val)
 
 
 ## Unit.priorUnit: the pet that last hit this unit. Null once it is gone or down.
@@ -759,6 +769,7 @@ func _ready() -> void:
 	hp = max_hp
 	if _armor_hp <= 0.0:
 		_armor_hp = float(max_hp)
+	Units.touch()
 	if _friendly:
 		remove_from_group("enemies")
 		add_to_group("allies")
@@ -767,6 +778,7 @@ func _ready() -> void:
 		add_to_group("foe_bodies")
 		GameState.register_enemy()
 		_ensure_watch()
+	Fx.ai(&"spawned", self, {"friendly": _friendly})
 	# Layer 9 is a ghost wall. Enemies do not have transT, so they cannot walk through it.
 	set_collision_mask_value(9, true)
 	if _flying:
@@ -784,14 +796,11 @@ func _ready() -> void:
 	_move._heading = facing
 	_play_anim("idle")
 	anim.modulate = _tint
-	if _brain != null:
-		_brain.start()
+	_ai().start()
 
 
 func is_alert() -> bool:
-	if _brain != null:
-		return _brain.targets_player()
-	return not _is_calm()
+	return _ai().targets_player()
 
 
 ## Steps a `left -= 1/30` countdown takes before it is <= 0.
@@ -1039,8 +1048,8 @@ func set_levitated(active: bool, target: Vector2 = Vector2.ZERO, speed: float = 
 			anim.modulate = _tint
 		return
 	# UnitPlayer.actTele: the grabbed unit is alarma'd.
-	if active and not was and not _dead and _brain != null:
-		_brain.command("alarma", "")
+	if active and not was and not _dead:
+		_ai().command("alarma", "")
 	if active and not was and not _dead and _is_calm():
 		# Brain.reactToLevitation: a calm unit wakes, shocked. Movement stays frozen until release.
 		_senses._wake_allies()
@@ -1087,18 +1096,7 @@ func _physics_process(delta: float) -> void:
 			velocity.y += GRAVITY * delta
 		_commit_move()
 		return
-	if _brain != null:
-		_brain.physics(delta)
-		return
-	if _downed:
-		_physics_downed(delta)
-		return
-	if _stun_t > 0.0:
-		_physics_stunned(delta)
-		return
-	if _senses._physics_senses(delta):
-		return
-	_move._physics_move(delta)
+	_ai().physics(delta)
 
 func _physics_levitated(delta: float) -> void:
 	if _downed:
@@ -1107,8 +1105,9 @@ func _physics_levitated(delta: float) -> void:
 			_rise()
 	elif _levit_hold_shock > 0 and _shok < _levit_hold_shock:
 		_shok = _levit_hold_shock
-	if _brain != null and _brain.acts_held:
-		_brain.held(delta)
+	var ai: Variant = _ai()
+	if ai.acts_held:
+		ai.held(delta)
 		if _dead or not levitated:
 			return
 	_move._float_to_cursor()
@@ -1168,107 +1167,21 @@ func _is_calm() -> bool:
 func _is_attacking() -> bool:
 	return ai_state == ST_CHASE or ai_state == ST_HOLD or ai_state == ST_FLEE or ai_state == ST_DASH
 func _lev_anim() -> void:
-	if _brain != null:
-		_brain.animate()
-		if _brain.flips_sprite and is_instance_valid(anim):
-			anim.flip_h = _brain.storona < 0.0
-	elif _class_anim:
-		_present_class()
-	else:
-		_present(false)
+	var ai: Variant = _ai()
+	ai.animate()
+	if ai.flips_sprite and is_instance_valid(anim):
+		anim.flip_h = ai.storona < 0.0
 
 
-## UnitRaider / UnitZombie / UnitHellhound / UnitAnt / UnitMonstrik / UnitAlicorn.control:
-## a held unit after a target adds levitaccel to dx toward it while dx is under maxSpeed.
-## vel and the result are px per tick.
+## A held unit's push toward its target (the brain's levit_pull). vel and the result are px per tick.
 func levit_pull(vel: Vector2) -> Vector2:
 	if _dead or _downed or _stun_t > 0.0 or not levitated:
 		return Vector2.ZERO
-	if _brain != null:
-		return _brain.levit_pull(vel)
-	if not _levit_struggle or _is_calm():
-		return Vector2.ZERO
-	var target := _goal
-	if _track_player and _senses._player_valid():
-		target = _player.global_position
-	var dir := signf(target.x - global_position.x)
-	var cap := (run_speed if ai_spok >= MAX_SPOK else move_speed) / TPS
-	if dir == 0.0 or vel.x * dir >= cap:
-		return Vector2.ZERO
-	return Vector2(dir * _levitaccel, 0.0)
+	return _ai().levit_pull(vel)
 
 
 func _act() -> bool:
-	if _ground_ally:
-		return _ally_act()
-	if _friendly:
-		return _pet_act()
-	if _dig_left > 0.0 or _prep_left > 0.0:
-		velocity.x = 0.0
-		if _senses._player_valid():
-			facing = signf(_player.global_position.x - global_position.x)
-		return false
-	if _move._jump_free:
-		return absf(velocity.x) > 8.0
-	if _super_left > 0.0 and _super != "jump":
-		velocity.x = 0.0
-		return false
-	if _move._loose_fly:
-		_move._wander_left -= _frame_ticks
-		if not _track_player and _move._wander_left <= 0.0:
-			_move._wander_left = _ticks(Rng.randf_range(&"ai", 100.0, 200.0) / TPS)
-			_goal = global_position + Vector2(Rng.randf_range(&"ai", -700.0, 700.0), Rng.randf_range(&"ai", -100.0, 200.0))
-	elif _track_player and _player != null and is_instance_valid(_player):
-		_goal = _move._player_goal()
-	if _climbing or (_move._climb and wall_check.is_colliding() and not _flying):
-		_climbing = true
-		return _move._climb_step()
-	if _move._flyer:
-		_move._tick_flyer()
-	if _flying:
-		var point := _goal
-		if _move._flyer and not _track_player:
-			# UnitRaider: a calm flyer's celY is its floor line, so it sinks and lands.
-			point = Vector2(_goal.x, global_position.y + 40.0)
-		elif not _move._loose_fly:
-			point += Vector2(0.0, -_hover)
-		return _move._fly_toward(point, fight_style != "melee" and _weapons._chase_shot and not _weapons._gutsy_fire)
-	if fixed_post:
-		velocity.x = 0.0
-		if ai_state == ST_HOLD or ai_state == ST_CHASE:
-			_weapons._aim()
-			return _hold()
-		return false
-	# Brain.act while alert: aim, maybe stop in reach, then chase or hold.
-	if not _is_calm() and ai_state != ST_SURPRISED:
-		_weapons._aim()
-		if ai_state == ST_SEARCH or ai_state == ST_CHASE or ai_state == ST_DASH:
-			_weapons._reaim()
-		elif ai_state == ST_FLEE and _move._flee_dir != 0.0:
-			_move._heading = _move._flee_dir
-		_move._hold_if_close()
-	match ai_state:
-		ST_IDLE:
-			velocity.x = 0.0
-			return false
-		ST_PATROL, ST_SURPRISED:
-			# Raiders set turnsWhenSurprised = false, so surprise keeps the patrol.
-			return _move._patrol()
-		ST_SEARCH, ST_CHASE, ST_FLEE, ST_DASH:
-			return _move._pursue()
-		ST_DASH_PREP:
-			velocity.x = move_toward(velocity.x, 0.0, 900.0 * get_physics_process_delta_time())
-			if absf(_move._cel_dx) > 1.0:
-				facing = signf(_move._cel_dx)
-			_weapons._aim_probes()
-			return false
-		ST_HOLD:
-			return _hold()
-		_:
-			velocity.x = 0.0
-			return false
-func _hold() -> bool:
-	return _move._hold()
+	return _generic.act()
 func _body_center(body: Node2D) -> Vector2:
 	var feet := _feet(body)
 	return Vector2(feet.x, feet.y - _body_size(body).y * 0.5)
@@ -1276,30 +1189,7 @@ func _body_center(body: Node2D) -> Vector2:
 
 ## GunAttack.tick and WeaponAttack.tick, plus BodyAttack while chasing.
 func _tick_attacks() -> void:
-	if _frame_ticks <= 0 or _cannot_fight() or _weapons._gutsy_fire:
-		return
-	var chasing := ai_state == ST_CHASE
-	var holding := ai_state == ST_HOLD
-	var fleeing := ai_state == ST_FLEE
-	if fight_style != "melee" and (holding or fleeing or (chasing and _weapons._chase_shot)):
-		_weapons._gun_try()
-	if fight_style == "melee" and (holding or ((chasing or fleeing) and _melee._melee_while_chase)):
-		_melee._melee_try()
-	if _melee._ram_while_chase and (chasing or fleeing or ai_state == ST_DASH or (holding and fight_style == "melee")):
-		_melee._ram_hit()
-## Brain.pickAttack. Gunners hold for a fresh sighting inside aiDist (holdRange).
-## Dashers (zebras) sometimes get ready to dash at a target in sight.
-func _pick_attack() -> int:
-	if fixed_post or fight_style == "turret":
-		return ST_HOLD
-	var state := ST_CHASE
-	if fight_style == "gunner" and _weapons._gunner_hold and ai_spok >= MAX_SPOK + HOLD_FRESH:
-		var range := _ai_dist if _raider_type else _weapons._hold_range
-		if _move._cel_dx * _move._cel_dx + _move._cel_dy * _move._cel_dy < range * range and Rng.randf(&"ai") < _weapons._hold_chance:
-			state = ST_HOLD
-	if _move._can_dash and _track_player and Rng.randf(&"ai") < DASH_CHANCE:
-		state = ST_DASH_PREP
-	return state
+	_generic.tick_attacks()
 func _commit_move() -> void:
 	_move._commit_move()
 ## Unit.otbros: sila = rnd(0.8..1.2) * knocked / massa, at most 3; velocity += knock * otbros * sila.
@@ -1373,8 +1263,8 @@ func _receive(hit: HitInfo) -> void:
 		dam *= _resist(type)
 	if bullet != null and bool(bullet.get("from_player")):
 		dam *= Progression.target_mult(self)
-	if _brain != null and dam > 0.0:
-		dam = _brain.on_damage(dam, type, bullet, tt)
+	if dam > 0.0:
+		dam = _ai().on_damage(dam, type, bullet, tt)
 	if dam <= 0.0:
 		return
 	if type == "DAM_ELECTRIC" and not is_on_floor() and not _climbing:
@@ -1404,7 +1294,8 @@ func _receive(hit: HitInfo) -> void:
 		if armor2 > 0.0:
 			dam -= armor2
 	if bullet != null and bool(bullet.get("from_player")) and not _track_player:
-		if _Senses._world_crit_invis > 0.0 and Rng.randf(&"combat") < _Senses._world_crit_invis:
+		var crit_invis := AiWorld.facts(_player).crit_invis
+		if crit_invis > 0.0 and Rng.randf(&"combat") < crit_invis:
 			dam *= 2.0
 	var desintegr: Variant = bullet.get("desintegr") if bullet != null else null
 	if desintegr != null and float(desintegr) > 0.0 and dam > 0.0 and type in ["DAM_LASER", "DAM_PLASMA"]:
@@ -1462,14 +1353,14 @@ func _blood_fx(dam: float, type: String, bullet: Node) -> void:
 func _apply_damage(amount: int, separate: bool = false) -> void:
 	var calm := _is_calm()
 	hp -= amount
+	Fx.ai(&"damaged", self, {"amount": amount, "hp": hp})
 	_float_hit(amount, false, separate)
 	anim.modulate = Color(1.0, 0.5, 0.5)
 	get_tree().create_timer(0.08).timeout.connect(func() -> void:
 		if is_instance_valid(anim):
 			anim.modulate = _tint
 	)
-	if _brain == null and not _class_anim:
-		_play_anim("crouch")
+	_ai().hit_anim()
 	if calm:
 		_senses._wake_allies()
 	if calm and hp > 0:
@@ -1556,34 +1447,7 @@ func _eqd_port() -> void:
 		_port_kol -= 1
 		return
 func _decide() -> void:
-	var was := ai_state
-	if ai_state == ST_DASH_PREP:
-		ai_state = ST_DASH
-		_state_left = _ticks(DASH_TIME / TPS)
-		return
-	if ai_state == ST_SURPRISED:
-		if _track_player:
-			ai_spok = MAX_SPOK + SIGHT_BONUS
-			ai_state = ST_CHASE
-		else:
-			ai_state = ST_PATROL
-	if ai_spok == 0:
-		# Brain_Definition.stroll: units told to stay (un stay, aiTip stay) only stand.
-		ai_state = ST_PATROL if _move._stroll and Rng.randf(&"ai") < 0.5 else ST_IDLE
-	elif ai_spok < MAX_SPOK:
-		ai_state = ST_SEARCH
-	else:
-		if was != ST_CHASE and was != ST_HOLD:
-			_senses._wake_allies()
-		ai_state = _pick_attack()
-	if _is_calm():
-		_state_left = _ticks(Rng.randf_range(&"ai", IDLE_MIN, IDLE_MAX) / TPS)
-	elif ai_state == ST_DASH_PREP:
-		_state_left = _ticks(DASH_PREP_TIME / TPS)
-	else:
-		_state_left = _ticks(Rng.randf_range(&"ai", ALERT_MIN, ALERT_MAX) / TPS)
-	_senses._sync_vision()
-	_calm_cast()
+	_generic.decide()
 func _sense() -> void:
 	_senses._sense()
 func _become_alert(point: Vector2) -> void:
@@ -2477,25 +2341,25 @@ static func _room_of(at: Vector2) -> Vector2i:
 
 
 static func _room_near(room: Vector2i) -> bool:
-	return absi(room.x - _Senses._world_room.x) <= ACTIVE_REACH and absi(room.y - _Senses._world_room.y) <= ACTIVE_REACH
+	return absi(room.x - AiWorld.room.x) <= ACTIVE_REACH and absi(room.y - AiWorld.room.y) <= ACTIVE_REACH
 
 
 ## Only the player's Location runs in the original. Here the player's room and its
 ## neighbours run; a unit that ends up elsewhere sleeps until the player comes near.
 func _room_still_active() -> bool:
-	if (_friendly and not _ground_ally) or (_brain != null and _brain.always_active):
+	if (_friendly and not _ground_ally) or _ai().always_active:
 		return true
 	_room_check -= _frame_ticks
 	if _room_check > 0:
 		return true
 	_room_check = ROOM_CHECK_TICKS
-	if _Senses._world_room.x == -99999 and _senses._player_valid():
-		_Senses._world_room = _room_of(_player.global_position)
+	if AiWorld.room.x == -99999 and _senses._player_valid():
+		AiWorld.room = _room_of(_player.global_position)
 	var here := _room_of(global_position)
 	if _room_near(here):
 		return true
 	# Seamless rooms: a unit already after the player keeps going one room further.
-	if not _is_calm() and absi(here.x - _Senses._world_room.x) <= CHASE_REACH and absi(here.y - _Senses._world_room.y) <= CHASE_REACH:
+	if not _is_calm() and absi(here.x - AiWorld.room.x) <= CHASE_REACH and absi(here.y - AiWorld.room.y) <= CHASE_REACH:
 		return true
 	_fall_asleep()
 	return false
@@ -2532,7 +2396,7 @@ func _ensure_watch() -> void:
 
 
 static func _watch_room(room: Vector2i, tree: SceneTree) -> void:
-	_Senses._world_room = room
+	AiWorld.room = room
 	for node in tree.get_nodes_in_group("foe_bodies"):
 		if not bool(node.get("_asleep")):
 			continue
@@ -2663,65 +2527,6 @@ func _box_fits(at: Vector2, size: Vector2) -> bool:
 	return _move._box_fits(at, size)
 func _solid_at(at: Vector2) -> bool:
 	return _move._solid_at(at)
-## An F_PLAYER raider. Unit.findCel (Unit.as L4055-4062): with fraction F_PLAYER the
-## player is never the target (L4058); only priorUnit, the last unit of another
-## fraction that hit it, is. Otherwise Brain_Definition.stroll: patrol, or stand for ai="stay".
-func _ally_act() -> bool:
-	ai_spok = 0
-	_track_player = false
-	var foe := _prior_target()
-	if foe != null and (not foe.is_in_group("enemies") or bool(foe.get("_dead")) or bool(foe.get("_friendly"))):
-		_prior = null
-		foe = null
-	if foe != null and global_position.distance_to(foe.global_position) < 800.0 and _look(foe) > 0.0:
-		ai_state = ST_HOLD
-		velocity.x = move_toward(velocity.x, 0.0, 900.0 * get_physics_process_delta_time())
-		if absf(foe.global_position.x - global_position.x) > 2.0:
-			facing = signf(foe.global_position.x - global_position.x)
-		_move._heading = facing
-		_weapons._aim_probes()
-		if _weapons._gun_ready():
-			_weapons._shoot_at(foe.global_position)
-		return false
-	if ai_state != ST_PATROL:
-		ai_state = ST_IDLE
-	if ai_state == ST_PATROL:
-		return _move._patrol()
-	velocity.x = 0.0
-	return false
-
-
-func _pet_act() -> bool:
-	if not _senses._player_valid():
-		velocity = velocity.move_toward(Vector2.ZERO, move_speed)
-		return false
-	var foe := _nearest_foe()
-	var dest := _follow_point()
-	var shooting := false
-	if foe != null:
-		var at := foe.global_position
-		var dist := global_position.distance_to(at)
-		if dist > _pet_range:
-			dest = at
-		else:
-			shooting = true
-			facing = signf(at.x - global_position.x) if absf(at.x - global_position.x) > 2.0 else facing
-			if _weapons._gun_ready():
-				_weapons._shoot_at(at)
-	var spd := run_speed if foe != null and run_speed > 0.0 else move_speed
-	if spd <= 0.0:
-		spd = SPEED
-	var to := dest - global_position
-	if to.length() > 36.0 and not shooting:
-		velocity = to.limit_length(spd)
-		if absf(to.x) > 4.0:
-			facing = signf(to.x)
-	elif to.length() > 36.0:
-		velocity = to.limit_length(move_speed if move_speed > 0.0 else SPEED)
-	else:
-		velocity = velocity.move_toward(Vector2.ZERO, spd)
-	_weapons._aim_probes()
-	return velocity.length() > 8.0
 
 
 func _follow_point() -> Vector2:
@@ -2729,21 +2534,6 @@ func _follow_point() -> Vector2:
 	if _senses._player_valid() and "facing" in _player:
 		face = float(_player.facing)
 	return _player.global_position + Vector2(face * -120.0, -80.0)
-
-
-func _nearest_foe() -> Node2D:
-	var best: Node2D = null
-	var best_d := 800.0
-	for node in get_tree().get_nodes_in_group("enemies"):
-		if node == self or not is_instance_valid(node) or not node is Node2D:
-			continue
-		if int(node.get("hp")) <= 0:
-			continue
-		var d := global_position.distance_to((node as Node2D).global_position)
-		if d < best_d:
-			best = node as Node2D
-			best_d = d
-	return best
 
 
 func _calm_cast() -> void:
@@ -2909,7 +2699,7 @@ func _end_super() -> void:
 
 
 func _heal_zombies(radius: float, amount: float) -> void:
-	for node in get_tree().get_nodes_in_group("enemies"):
+	for node in Units.near(global_position, radius):
 		if node == self or not node is Node:
 			continue
 		if not (node as Node).has_method("receive_rad_heal"):
@@ -2936,7 +2726,7 @@ func _hurt_radius(radius: float, damage: int, tip: String) -> void:
 	if _senses._player_valid() and global_position.distance_to(_player.global_position) <= radius:
 		if _player.has_method("take_hit"):
 			WorldOps.damage(_player, HitInfo.make(damage, tip, self))
-	for node in get_tree().get_nodes_in_group("enemies"):
+	for node in Units.near(global_position, radius):
 		if node == self or not node is Node2D or not is_instance_valid(node):
 			continue
 		if global_position.distance_to((node as Node2D).global_position) > radius:
@@ -2981,14 +2771,14 @@ func _pole_release() -> void:
 func _begin_death() -> void:
 	if _dead:
 		return
+	Fx.ai(&"died", self)
 	_pole_release()
 	if _tele != null:
 		_tele.release()
 		_tele_unit = null
-	if _brain != null and _brain.on_die():
+	if _ai().on_die():
 		return
-	if _brain != null:
-		_brain.died()
+	_ai().died()
 	_last_rites = true
 	if not _friendly and not _revives:
 		_drop_loot()
@@ -2997,8 +2787,7 @@ func _begin_death() -> void:
 		# Unit.incStat: the PipBuck Enemies page kill count. UnitBloat skips tr 7-9 (king splits).
 		if _species_id != "" and not _species_id in ["bloat7", "bloat8", "bloat9"]:
 			WorldOps.set_trigger("frag_" + _species_id, int(Travel.triggers.get("frag_" + _species_id, 0)) + 1)
-	if _brain != null:
-		_brain.drop_loot()
+	_ai().drop_loot()
 	if _drop_id != "":
 		_weapons._launch(_feet(self), _weapon_row(_drop_id), false, false, false)
 		_drop_id = ""
@@ -3058,6 +2847,7 @@ func _become_corpse() -> void:
 	_acid_left = 0
 	_pink_left = 0
 	remove_from_group("enemies")
+	Units.touch()
 	remove_from_group("foe_bodies")
 	_asleep = false
 	collision_layer = 0

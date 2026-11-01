@@ -1,6 +1,6 @@
 extends Node
 
-## Save round trip (ARCHITECTURE_PLAN R0.2, TODO 6.3). Starts a new run in begin,
+## Save round trip (architecture step R0.2, TODO 6.3). Starts a new run in begin,
 ## scripts a state, saves slot 9, changes every part of that state, loads slot 9
 ## the way the main menu does and compares the live state with the saved one.
 ## Prints `CHECK save_roundtrip: ok N fail M` plus one `DIFF` line per mismatch.
@@ -49,6 +49,9 @@ class Runner extends Node:
 		var cycle_diffs: Array = []
 		if str(Registry.land(land).get("tip", "")) == "rnd":
 			cycle_diffs = await _cycle_room()
+		cycle_diffs.append_array(_check_units())
+		cycle_diffs.append_array(await _check_ai_view())
+		cycle_diffs.append_array(_check_tactics())
 		var saved := _digest()
 		if not SaveSlots.save(SLOT):
 			return _finish({}, ["SaveSlots.save failed"])
@@ -85,6 +88,95 @@ class Runner extends Node:
 		if saved.has("pos") and (saved.pos as Vector2).distance_to(loaded.pos) > POS_TOLERANCE:
 			diffs.append("pos %s -> %s" % [saved.pos, loaded.pos])
 		_finish(saved, diffs)
+
+	## R6.3: the registry is the group in group order, and a radius query keeps
+	## every unit a scan would find, in the same order.
+	func _check_units() -> Array:
+		var out: Array = []
+		var group := tree.get_nodes_in_group("enemies")
+		if Units.enemies() != group:
+			out.append("Units.enemies %d != group %d or order differs" % [Units.enemies().size(), group.size()])
+		var tests := 0
+		for centre in group:
+			if not centre is Node2D or tests >= 20:
+				continue
+			tests += 1
+			for radius in [300.0, 800.0, 1500.0, 2500.0]:
+				var at := (centre as Node2D).global_position
+				var want: Array = group.filter(func(n: Node) -> bool:
+					return n is Node2D and (n as Node2D).global_position.distance_to(at) < radius)
+				var got: Array = Units.near(at, radius).filter(func(n: Node) -> bool:
+					return (n as Node2D).global_position.distance_to(at) < radius)
+				if got != want:
+					out.append("Units.near %s r %d: %d != %d" % [at, int(radius), got.size(), want.size()])
+		print("save_roundtrip: units %d, near tests %d" % [group.size(), tests])
+		return out
+
+	## R6.6: squads hold one fraction and room each, and orders reach the generic
+	## brains and are cleared when the policy stops giving them.
+	func _check_tactics() -> Array:
+		var out: Array = []
+		var tactics := AiWorld.tactics
+		if tactics == null:
+			return ["no TacticsDirector on the land"]
+		tactics.regroup_now()
+		var members := 0
+		for sq: TacticsDirector.Squad in tactics.squads:
+			for unit in sq.members:
+				members += 1
+				if int(unit.get("fraction")) != sq.fraction or Units.room_of((unit as Node2D).global_position) != sq.room:
+					out.append("squad %d holds a unit of another fraction or room" % sq.id)
+				if tactics.squad_of(unit) != sq:
+					out.append("squad_of disagrees for squad %d" % sq.id)
+		var kept := tactics.policy
+		if not tactics.squads.is_empty():
+			var first: Node = (tactics.squads[0] as TacticsDirector.Squad).members[0]
+			var hinted := TacticsPolicy.new()
+			hinted.config = {"units": {str(first.get("_species_id")): {"roles": ["sniper"]}}}
+			if hinted.roles_for(first) != ["sniper"]:
+				out.append("tactics.json role hints do not reach a unit by catalog id")
+		tactics.policy = _Suppress.new()
+		tactics.regroup_now()
+		for sq: TacticsDirector.Squad in tactics.squads:
+			for unit in sq.members:
+				if not unit.call("_ai").order.is_empty():
+					out.append("a brain took an order kind it does not handle")
+					break
+		tactics.policy = _HoldAll.new()
+		tactics.regroup_now()
+		var held := 0
+		for sq: TacticsDirector.Squad in tactics.squads:
+			for unit in sq.members:
+				if unit.get("_brain") == null and str(unit.get("_generic").order.get("kind", "")) == "hold":
+					held += 1
+		tactics.policy = kept
+		tactics.regroup_now()
+		for sq: TacticsDirector.Squad in tactics.squads:
+			for unit in sq.members:
+				if unit.get("_brain") == null and not unit.get("_generic").order.is_empty():
+					out.append("an order outlived its policy")
+					break
+		print("save_roundtrip: squads %d, members %d, held %d" % [tactics.squads.size(), members, held])
+		return out
+
+	class _Suppress extends TacticsPolicy:
+		func order(_unit: Node, _squad: RefCounted, _role: StringName) -> Dictionary:
+			return {"kind": "suppress", "at": Vector2.ZERO}
+
+	class _HoldAll extends TacticsPolicy:
+		func order(_unit: Node, _squad: RefCounted, _role: StringName) -> Dictionary:
+			return {"kind": "hold"}
+
+	## R6.8: the AI overlay draws over a live land and comes off again.
+	func _check_ai_view() -> Array:
+		var out: Array = []
+		if not AiView.toggle(tree) or tree.current_scene.get_node_or_null(AiView.NAME) == null:
+			out.append("aiview did not turn on")
+		await _frames(10)
+		if AiView.toggle(tree):
+			out.append("aiview did not turn off")
+		await _frames(2)
+		return out
 
 	func _settle() -> bool:
 		var until := Time.get_ticks_msec() + 60000

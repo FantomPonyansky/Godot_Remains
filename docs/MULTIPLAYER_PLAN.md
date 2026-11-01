@@ -48,7 +48,7 @@ Steps 1 to 8 change no behaviour in single player and can be done during or righ
 - This also makes bots and replays possible, which are useful for tests.
 
 ### 4. One function per world change (5–8 days)
-- Done as `WorldOps` (`ARCHITECTURE.md` "World operations"); what step 8 still wires is under R3 in `ARCHITECTURE_PLAN.md`.
+- Done as `WorldOps` (`ARCHITECTURE.md` "World operations"); what step 8 still wires is in `TODO.md` §13.1.
 - New autoload `WorldOps` with one entry per change: `open_door`, `unlock`, `break_object`, `move_crate`, `spawn_loot`, `take_loot`, `damage_unit`, `kill_unit`, `set_trigger`, `activate_checkpoint`, `use_terminal`, `trade`, `story_step`, `travel`.
 - Every gameplay path goes through it (`land_props`, `lock_use`, `held_prop`, `ground_loot`, `loot_roll`, `bullet` hits, `ScriptsEngine` triggers, `Travel`, `Vendors`, `Stash`).
 - In single player each function applies the change at once. In multiplayer, a client's call becomes a request and the host's result is applied on every machine.

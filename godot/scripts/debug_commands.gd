@@ -41,7 +41,9 @@ const LINES: PackedStringArray = [
 	"refill — Restock every vendor now, as a visited land does (Game.refillVendors): stock tops up, waiting tasks open, info 'refill'.",
 	"vendor [id] [inter] — List the Vendors.xml ids, or open that vendor's Торговля page without its pony. inter is the npc type (doc, adoc, vdoc, v), default none.",
 	"stand — Open the base weapon stand screen.",
-	"fx — Print Fx event counts for this run (sound, shake, float, notice, particles, blood, hum).",
+	"fx — Print Fx event counts for this run (sound, shake, float, notice, particles, blood, hum, ai).",
+	"ailog — Toggle printing AI unit events (saw, lost, heard, damaged, died, alarmed, spawned) to the log.",
+	"aiview — Toggle the AI overlay: unit state and goal lines, faction last-seen marks, alarmed rooms, spawner kol left and units spawned per room.",
 ]
 
 # Durations and stacks match the fields enemy.gd and GameState already tick.
@@ -115,6 +117,8 @@ func _init() -> void:
 		"vendor": _cmd_vendor,
 		"stand": _cmd_stand,
 		"fx": _cmd_fx,
+		"ailog": _cmd_ailog,
+		"aiview": _cmd_aiview,
 	}
 
 
@@ -1123,6 +1127,15 @@ func _cmd_vendor(_console, args: PackedStringArray) -> String:
 
 func _cmd_fx(_console, _args: PackedStringArray) -> String:
 	return Fx.summary()
+
+
+func _cmd_ailog(_console, _args: PackedStringArray) -> String:
+	Fx.set_ai_log(not Fx.ai_log_on())
+	return "ailog %s" % ("on" if Fx.ai_log_on() else "off")
+
+
+func _cmd_aiview(console, _args: PackedStringArray) -> String:
+	return "aiview %s" % ("on" if AiView.toggle(console.get_tree()) else "off")
 
 
 func _cmd_stand(_console, args: PackedStringArray) -> String:

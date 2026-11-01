@@ -48,7 +48,7 @@ Every reader takes an optional player id (the player's `pid`, set by `Run.regist
 
 ## Rng
 
-`Rng` streams: `build`, `spawn`, `loot`, `ai`, `combat`, `fx`. The first five reseed with `hash([run_seed, land_id, stream_name])` on `WorldState.run_reset` and when the active land changes (`bind_land`). `fx` is `randomize()`d per run and is not reseeded per land.
+`Rng` streams: `build`, `spawn`, `loot`, `ai`, `combat`, `tactics`, `fx`. All but `fx` reseed with `hash([run_seed, land_id, stream_name])` on `WorldState.run_reset` and when the active land changes (`bind_land`). `fx` is `randomize()`d per run and is not reseeded per land.
 
 `seed_build` sets the `build` stream to a land's stored seed. `randf_legacy` is one `randi` narrowed to float32, the global `randf` sequence for that seed. `for_land` returns a fresh generator and does not move the active streams. Draws on a named stream: `randf`, `randi`, `randf_range`, `randi_range`, `randfn`, `pick`, `shuffle`. An unknown name pushes an error and draws from `fx`.
 
@@ -117,9 +117,60 @@ Chunks: `WorldState.chunk_info(land_id, chunk)` is a chunk's build info (chunk 0
 The player and enemy bodies keep the node, the tick sequence in `_physics_process`, damage, and `snapshot` / `restore`. Behaviour sits in component scripts on the same node, each holding a back-reference to the body:
 
 - Player: `player_move.gd`, `player_weapons.gd`, `player_melee.gd`, `player_senses.gd`, `player_spells.gd`, `player_water.gd`.
-- Enemy: `enemy_move.gd`, `enemy_weapons.gd`, `enemy_melee.gd`, `enemy_senses.gd`, `unit_water.gd`. AI brains (`unit_brain.gd`, `brain_*.gd`) drive the body.
+- Enemy: `enemy_move.gd`, `enemy_weapons.gd`, `enemy_melee.gd`, `enemy_senses.gd`, `unit_water.gd`. AI brains (`unit_brain.gd`, `brain_*.gd`) drive the body. The body calls its brain through `_ai()`: the unit's `UnitBrain` (`_brain`), or the generic brain (`units/brain_generic.gd`). Both answer the same methods: `physics`, `start`, `release`, `command`, `dop_test`, `targets_player`, `held` / `acts_held`, `animate` / `flips_sprite`, `levit_pull`, `on_damage`, `hit_anim`, `on_die`, `died`, `drop_loot`, and `always_active`. `_brain` stays the custom brain only; code that looks for a custom method such as `hack` or `use_object` reads it.
+
+The generic brain is the original Brain:
+
+- the downed/stunned/senses/move dispatch;
+- `decide`, `pick_attack` and `act`;
+- `aim`, `reaim`, `hold_if_close` and `back_off_if_crowded`;
+- `hold` and `pursue`, which run the WalkMotor step and then the attack tick;
+- `tick_attacks`, and the ground-ally and pet loops.
+
+The components are the motor and attacks: `enemy_move` (step, `_patrol`, `_hold`, `_pursue`, jump, climb, fly) and `enemy_weapons` (`_gun_try`, fire, arm). The body forwards `_decide`, `_act` and `_tick_attacks` for the components.
 
 Other scripts call the body; it forwards to the component. New code inside a component calls sibling components through the body.
+
+## AI blackboard
+
+`AiWorld` (`scripts/autoload/ai_world.gd`) holds what the enemies share. `AiWorld.meters(player)` holds one `Meters` per `pid`: `noise`, `obs`, `is_obs`, `demask`. A new player node with the same pid starts from zeros. `AiWorld.facts(player)` holds the per-tick reads of that player (`room`, `vis_mult`, `sneak`, `stealth`, `visi`, `crit_invis`), which `enemy_senses._tick_world_senses` refreshes once per tick. `room`, `danger` (live grenades) and `known_shots` are land-wide. `_budilo` still sets the unit's own `foe_noise` meta. Faction knowledge: `note_seen` / `last_seen` (from `_on_seen`) and `note_alarm` / `alarmed_at` (from `_alarm_from` and the siren under `AiWorld.SIREN`); it is cleared on `Travel.land_entered`, it is not saved, and nothing reads it yet.
+
+`Units` (`scripts/autoload/units.gd`) is the unit registry: a cached copy of the `enemies` group with the same units in the same (tree) order, and the same list bucketed by 1920×1000 room. It rebuilds once per physics tick, or after `Units.touch()`. An enemy calls `touch()` on entering or leaving the tree, and the code that takes it out of the group (`_ready` for friendlies, death, `brain_destr`, `brain_thunderhead`) calls it too; new group changes must call it as well. The queries:
+
+- `enemies()`: the whole list, read only;
+- `in_rect(rect)` and `near(at, radius)`: candidates from the rooms touched, padded by one room so units that moved this tick are still included, returned in group order. Callers keep their own exact test.
+
+`max_ear` bounds the `_budilo` reach. Ids are the existing eids (`Units.of(eid)` = `Entity.node_of`). On `Units` now: enemy and trap `_budilo`, `_nearest_foe`, zombie heal, `_hurt_radius`, turret and pet target search, pet `_battle`, alarm buttons, siren wake, trap triggers and jaws, `audio_manager._watch_units`, `aim_cursor._foe_tracking`, the grenade sensor, SATS targets, the blast and slow spells, moonblade, the inhibitor, thrown crates, pet orders, contact knockback, electric traps, and the wall-span hit point. Filter by faction at the call; squads are on the tactics director.
+
+## Spawn director
+
+`SpawnDirector` (`scripts/ai/spawn_director.gd`) is one per land, held by `land_props` as `_en_spawn`. Every way a unit appears goes through it and asks its `SpawnPolicy` (`scripts/ai/spawn_policy.gd`):
+
+- build plans: `land_spawn._set_random_units` asks `room_count(loc, tip, kol)` for each `kol_en` tip and for `"hidden"`;
+- the room spawners in `en_spawn.gd` (the siren chain `alarm`, allact `trigger`, trial `wave`) ask `allow_room(key, source, left)` before spending the room's kol, and the siren asks `alarm_delay(key, delay)`;
+- brain summons (`UnitBrain.spawn_unit` → `SpawnDirector.summon`) ask `allow_summon(owner, uid)`; with no land (a test arena) they use the current policy.
+
+The base class is the default: it grants everything, changes nothing and draws no random numbers. `assets/data/ai/spawn.json` (mods override it) may name a subclass in `script`. `SpawnPolicy.use(p)` swaps it, and `use(null)` reloads the config. A policy that draws randomness uses the `spawn` stream. The director counts what appeared in `by_source` and `by_room`, for the R6.8 view. `en_spawn` gets the policy and a note Callable rather than the director, so the two RefCounted objects do not hold each other.
+
+Console `aiview` toggles `AiView` (`scripts/ai/ai_view.gd`), an overlay on the current scene that only reads, redrawing at 10 Hz. It draws:
+
+- per unit: its state and fraction, and a line to its goal while it tracks;
+- `AiWorld` last-seen marks;
+- rooms alarmed within the last 10 s;
+- per spawner room: kol left and units spawned;
+- per squad: spokes to its members, `sq<id> f<fraction> n<count>`, each member's role and order (dashed to the order's spot), and the slots granted and denied near the player.
+
+## Tactics director
+
+`TacticsDirector` (`scripts/ai/tactics_director.gd`) is one per land, made by `land_props` and published as `AiWorld.tactics`. Every `regroup_ticks` (default 30) it groups awake, live, hostile units from `Units.enemies()` into squads by fraction and room, then asks its `TacticsPolicy` (`scripts/ai/tactics_policy.gd`):
+
+- `roles(squad)`: a unit-to-role map, roles from `TacticsPolicy.ROLES` (point, support, flanker, sniper). `roles_for(unit)` reads which roles a unit type may take from `tactics.json` `units` (by catalog id; `enemies.json` stays the original's);
+- `order(unit, squad, role)`: `{kind, at, ...}`, kind from `TacticsPolicy.ORDERS` (move, regroup, fall_back, hold, suppress, call_help); the director drops other kinds with a warning. The order goes to the unit's brain (`_ai()`) only if its `takes_order(kind)` says yes, and is cleared when the policy stops giving it. The generic brain takes `hold` (`pick_attack` holds) and `move` / `regroup` / `fall_back` (goal = `at`); `UnitBrain` takes none until a catalog brain overrides it. An empty order is today's behaviour;
+- `grant(unit, target, kind, attackers)`: asked through `TacticsDirector.ask` in `brain_generic.tick_attacks` before the gun, melee and ram attacks, with the count already granted on that target this tick. Catalog brains can ask the same through `UnitBrain.attack_slot(kind, target)`; none does yet.
+
+A squad carries `key` (fraction and room, stable across regroups), `members`, `centre`, `target` (the player a member tracks) and `losses` (deaths of that fraction in that room on this land, counted at regroup). Squads are not saved: they are rebuilt from unit state. A policy that rolls uses the `tactics` Rng stream.
+
+The base class gives no roles or orders and grants every slot, so the default changes nothing. Config `assets/data/ai/tactics.json` (`policy`, `script`, `regroup_ticks`, `units`); `TacticsPolicy.use(p)` swaps it, `use(null)` reloads it. `_budilo` stays the faction wake. Faction and squad indexes live here, not on `Units`.
 
 ## Prop state
 
@@ -134,6 +185,18 @@ Meta that stays meta: build identity, trap `dead` (the remembered flag), drop `t
 ## Fx
 
 `Fx` (`scripts/autoload/fx.gd`) emits `sound`, `shake`, `float_number`, `notice`, `particles`, `blood`, and `flash`. Each event carries the source eid and `local` (true for a world event, or one whose player is the local player). Listeners run in the same call. `SfxBank`, `CamShake`, the HUD, and `UnitFx` play them. A later peer skips HUD events whose `local` is false.
+
+The AI channel `Fx.ai(kind, unit, opts)` emits `ai_event(kind, eid, at, opts)`. It carries sim facts, so listeners must not change the sim. The kinds:
+
+- `saw`, when tracking starts;
+- `lost`, when the tracking memory runs out;
+- `heard`, on each heard look;
+- `damaged`, from `_apply_damage`;
+- `died`, from `_begin_death`;
+- `alarmed`, from `_alarm_from`;
+- `spawned`, from enemy `_ready`, so a room reloaded by the stream spawns again.
+
+The only listener is the console toggle `ailog`.
 
 `Fx.prep` plays the weapon prep loop. `Fx.quake_left` is the quake timer `CamShake` exposes. `blood` also counts as `particles`.
 

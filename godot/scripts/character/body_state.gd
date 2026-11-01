@@ -1,6 +1,6 @@
 extends RefCounted
 
-## One character's game_state fields (ARCHITECTURE_PLAN R3.1).
+## One character's game_state fields (architecture step R3.1).
 ## game_state.gd forwards a property of the same name to each.
 
 const _Host := preload("res://scripts/autoload/game_state.gd")
