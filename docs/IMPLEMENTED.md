@@ -223,6 +223,9 @@ Aim assist (`aim_cursor.gd`): no lock; near a target the cursor slows (`assist_s
 
 ## Gotchas
 
+- A modded image reaches `preload()` as an `ImageTexture`, not a `CompressedTexture2D`. A variable inferred from an art preload (`var tex := _ARROW`) then fails to parse whenever a mod replaces that file. Type such variables `Texture2D` (2026-11-01: a test mod's `ui/cursor/arrow.png` took out `aim_cursor`).
+- `test_mods` writes fixture mods under `UserDir.mods()`, so it refuses to run without `--user-dir` (`run_checks` passes one).
+
 - Godot's `CanvasItemMaterial.BLEND_MODE_MUL` ignores alpha, so transparent pixels go dark and alpha fades do nothing. For Flash multiply art, use `assets/shaders/alpha_mul.gdshader`, which `status_part.gd` uses for the blind particles.
 
 - `tools/build_enemies.py` can overwrite the hand-edited bloat rows in `enemies.json`.

@@ -343,7 +343,7 @@ func _hide_os_cursor() -> void:
 
 
 func _draw_cross() -> void:
-	var tex := _TARGET
+	var tex: Texture2D = _TARGET
 	var hot := Vector2(13, 13)
 	match _frame:
 		"arrow":

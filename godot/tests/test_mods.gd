@@ -23,6 +23,11 @@ var _fail_n := 0
 
 
 func _ready() -> void:
+	if not UserDir._sandbox:
+		print("FAIL test_mods writes fixture mods; run it with -- --user-dir=<scratch> (run_checks does)")
+		print("CHECK mods: ok 0 fail 1")
+		get_tree().quit(1)
+		return
 	_write_mods()
 	Mods.rescan()
 	_check_data()
