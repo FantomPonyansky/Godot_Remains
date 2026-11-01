@@ -15,6 +15,7 @@ const NEUJAZ_MS := 667
 const MANIFEST := "res://assets/sprites/sheets/units/manifest.json"
 const _Bullet := preload("res://scenes/bullet.tscn")
 const _RoomFlags := preload("res://scripts/map/room_flags.gd")
+const _Grid := preload("res://scripts/map/room_grid.gd")
 const _WeaponVis := preload("res://scripts/weapon_vis.gd")
 const _UnitWater := preload("res://scripts/map/unit_water.gd")
 const _UnitMassa := preload("res://scripts/unit_massa.gd")
@@ -274,8 +275,7 @@ func check_water() -> void:
 	var cell: Vector2i = _RoomFlags.cell_of(u.global_position)
 	if cell == _dry_cell:
 		return
-	var mask: PackedByteArray = _RoomFlags.env_at(u.global_position).get("wmask", PackedByteArray())
-	if mask.is_empty():
+	if not _Grid.has_water(_RoomFlags.env_at(u.global_position)):
 		_dry_cell = cell
 		return
 	_dry_cell = NO_CELL

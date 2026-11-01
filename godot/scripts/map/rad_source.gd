@@ -7,6 +7,8 @@ extends Node
 const TPS := 30.0
 const _Registry := preload("res://scripts/map/land_registry.gd")
 const GAS := ["", "DAM_VENOM", "DAM_PINKCLOUD"]
+const _Flags := preload("res://scripts/map/room_flags.gd")
+const _Grid := preload("res://scripts/map/room_grid.gd")
 
 var rad := 0.0
 var radrad := 250.0
@@ -14,6 +16,8 @@ var radtip := 0
 var _acc := 0.0
 var _gas := 0.0
 var _t := 0
+var _gas_on := false
+var _gas_at := Vector2.ZERO
 
 
 static func attach(node: Node, id: String) -> void:
@@ -30,6 +34,30 @@ static func attach(node: Node, id: String) -> void:
 		src.set("radrad", str(info.radrad).to_float())
 	src.set("radtip", str(info.get("radtip", "0")).to_int())
 	node.add_child(src)
+
+
+func _ready() -> void:
+	_put_gas.call_deferred(1)
+
+
+func _exit_tree() -> void:
+	_put_gas(-1)
+
+
+## The density on the room grid; damage stays the rule below.
+func _put_gas(dir: int) -> void:
+	if (dir > 0) == _gas_on:
+		return
+	var host := get_parent() as Node2D
+	var land: Node = host
+	while land != null and not land.has_meta(_Flags.META):
+		land = land.get_parent()
+	if host == null or land == null:
+		return
+	_gas_on = dir > 0
+	if _gas_on:
+		_gas_at = _center(host)
+	_Grid.add_gas_disk(land.get_meta(_Flags.META), _gas_at, radrad, rad, dir)
 
 
 func _physics_process(delta: float) -> void:

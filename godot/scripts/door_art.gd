@@ -127,6 +127,7 @@ static func apply(body: Node, is_open: bool) -> void:
 	var shape := body.get_node_or_null("CollisionShape2D") as CollisionShape2D
 	if shape:
 		shape.disabled = is_open
+	_forget_solids(body)
 	var visual := body.get_node_or_null("Visual") as Sprite2D
 	if visual == null:
 		return
@@ -139,6 +140,15 @@ static func apply(body: Node, is_open: bool) -> void:
 		return
 	visual.texture = tex
 	visual.visible = true
+
+
+## Water reads closed doors from the room grid; a change refills it.
+static func _forget_solids(body: Node) -> void:
+	var at := body.get_parent()
+	while at != null and not at.is_in_group("land_props"):
+		at = at.get_parent()
+	if at != null:
+		preload("res://scripts/map/water_flow.gd").forget_solids(at.get_parent())
 
 
 static func break_open(body: Node) -> void:
@@ -154,6 +164,7 @@ static func break_open(body: Node) -> void:
 	var shape := body.get_node_or_null("CollisionShape2D") as CollisionShape2D
 	if shape:
 		shape.disabled = true
+	_forget_solids(body)
 	var visual := body.get_node_or_null("Visual") as Sprite2D
 	if visual == null:
 		return

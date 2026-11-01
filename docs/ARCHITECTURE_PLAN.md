@@ -1,6 +1,6 @@
 # Architecture refactoring plan
 
-It prepares the code for five goals without building them. R0 to R3 are done (what was built: `IMPLEMENTED.md`); next are R4 and R6.
+It prepares the code for five goals without building them. R0 to R4 are done (what was built: `IMPLEMENTED.md`); next are R5 and R6.
 
 - **MP**: online co-op ready (no networking yet). Feature plan: `MULTIPLAYER_PLAN.md`.
 - **FL**: liquid and gas simulation. Feature plan: `TODO.md` §12.5.
@@ -18,18 +18,19 @@ Rules for every step:
 
 ## Where the code stands
 
-- **Core.** `Run`, `Sim`, `Rng`, `LocalInput`, `Fx`, the entity contract and the versioned run document exist (`AUTOLOADS.md`, `IMPLEMENTED.md`). The only autoload cycle is the WorldState ↔ Run ↔ Rng hub. GameState, Effects, Travel, Vendors and Craft are still god objects. `player.gd` and `enemy.gd` are each ~5k lines and share no base: gravity, melee, bullets and damage are written twice.
-- **Tick.** `Sim` runs one 30 Hz tick per physics tick and owns pause. Player and enemy keep their `_physics_process` on the body (`move_and_slide`); their gameplay cooldowns are tick counts.
-- **One player, one land.** Lookups go through `Run`, but the character (HP, inventory, perks, effects, pets, binds) lives in autoloads. One `active_land` and one fog image; land and fog states are keyed by node instance id.
-- **Input.** Gameplay reads the `LocalInput` snapshot. Menus, PipBuck, the console, the HUD and the editor preview read `Input`.
+- **Core.** `Run`, `Sim`, `Rng`, `LocalInput`, `Fx`, `WorldOps`, the entity contract and the versioned slot (format 4: `character.json`, `run.json`, `world.json`) exist (`ARCHITECTURE.md`, `AUTOLOADS.md`). The only autoload cycle is the WorldState ↔ Run ↔ Rng hub. GameState (1.8k lines), Effects, Travel, Vendors and Craft are still large, but their per-player state sits in `scripts/character/` behind forwarding properties.
+- **Bodies.** `player.gd` (1.3k lines) and `enemy.gd` (3.7k) are bodies with components (`player_move` / `_weapons` / `_melee` / `_senses` / `_spells`, `enemy_move` / `_weapons` / `_melee` / `_senses`). They still share no base: gravity, melee, bullets and damage are written twice. Both keep `_physics_process` on the body (`move_and_slide`); cooldowns are tick counts.
+- **Players.** One local player, but prepared for more: players have a `pid`, input reads take it (`LocalInput.commands` for others), `Run.character(pid)` makes a second character, screens mark the player busy (`Sim.busy`, `pause_world`), and entities carry `authority`. What step 8 of `MULTIPLAYER_PLAN.md` still wires is listed under R3.
+- **World changes.** Doors, containers, locks, buttons, terminals, passages, wall cells, drops, hits, kills, triggers, travel, checkpoints, quests, trades and the stash go through `WorldOps` (applied / requested signals, `Entity.node_of` by eid). Snapshot restores and land building stay direct.
+- **One land.** One `active_land` and one fog image; land and fog states are keyed by node instance id.
+- **Input.** Gameplay reads the `LocalInput` command. Menus, PipBuck, the console, the HUD and the editor preview read `Input`.
 - **Identity.** Authored rows keep `wid`; players, summons, drops and bullets have eids. Door, container, area and trap state is on fields (`prop_state.gd`); meta holds build identity only.
 - **Presentation.** The simulation emits `Fx` events. `CamShake` and `room_activity` work from the one camera and player.
-- **Data.** Catalogs are JSON (weapons, enemies, items, effects, loot, perks, rooms), but there are 83 `JSON.parse_string` calls in 60 scripts with no shared loader or schema, and schemas differ (`{items:[…]}`, `{units:{…}}`, flat maps). 981 literal `const`s sit in 153 scripts; the worst are `enemy.gd` 140, `player.gd` 62 and `game_state.gd` 22. Content tables are also in code (`enemy.UNIT_LOOT`, `lock_use.TEMPL`, `door_art.SPEC`, `bullet` species factions, `held_prop` masses, `tile_catalog` wall HP, `world_map_page.MARKS`, `unit_fx.PARTS`, `fog` door opacity).
-- **Mods today.** `patches/*.pck` (whole-file replace, name order, cannot replace autoloads) and `user://mods/rooms/` (whole-room replace). No data overlay, merge rule, validation, id-conflict report or modding doc.
-- **Water and gas.** Water is a 48×25 byte mask per room (`room_flags.gd`, `water_flow.gd`). Every consumer goes through `RoomFlags.water_at` / `in_water` / `water_y`, which is a good seam. Gas has no grid: room `rad` options, `rad_source.gd` distance falloff and `area_fx.gd` rects. Doors never notify water. Walls are merged `StaticBody2D` rects, sliced into per-cell HP by `wall_span.gd`.
+- **Data and mods.** Catalogs and tuning are JSON under `assets/data/` with schemas (`DataLib`, `DATA_SCHEMA.md`); direct JSON parsing is left only in saves, room files, the editor and the loaders. Mods overlay data per id, replace art and sound, and add rooms (`MODDING.md`).
+- **Water and gas.** Each room record has water, solid and gas layers (`map/room_grid.gd`). Water flow is whole-tile and drains through broken walls and opened doors; solids cache walls and closed doors; gas density is written by room rad and rad sources and read by nothing yet. `area_fx` is rect-based.
 - **Lands.** A land is one node built in full (`play_land._build`). Rooms are 48×25 tiles × 40 px on a grid rebased to the min room. Back, sky and trial rooms are folded into the same 2D grid (`back_band`, `trial_row`). `land_gen.build` is one RNG stream, so one cell cannot be rebuilt alone. Collision is merged across room borders. Rooms sleep when far (`room_bounds`) but never unload. A missing neighbour is a solid edge. Float32 world coordinates lose a pixel near ~4000 rooms.
-- **Enemy AI.** Units without a catalog `brain` decide, move and shoot inside `enemy.gd` (`_decide` → `_act` / `_pursue` / `_aim` / `_gun_try`, int `ST_*` states, timers as body fields). The 25 catalog brains (`unit_brains.gd`) replace that loop but still call the host's senses. Senses are per unit, and the player's noise and observation are single meters in player meta (`foe_noise`, `foe_obs`); `_world_*` statics are shared once per physics frame. Units talk through direct calls, groups and meta; `enemy.gd` has no signals. Coordination today: the faction wake `_budilo` / `_alarm_from`, the room siren plus per-room `kol` reinforcements (`en_spawn.gd`, `land_props._raise_alarm`), emitter and boss summons through `UnitBrain.spawn_unit`, and Thunderhead owning its turrets. Spawning is split across `land_spawn` (build time), `en_spawn` (runtime), `spawn_unit` and boss setup (`_apply_role`). AI tuning is partly data (`enemies.json`, `enemy_combat.json`) and partly consts (`MAX_SPOK`, hold, shot chances, wake radius, memory, state durations). Difficulty scales HP and hearing only. There are no squads, attack slots, morale or pacing.
-- **Docs and names.** 186 of 195 scripts have a `##` header; `enemy.gd`, `player.gd`, `game_state.gd`, `bullet.gd` and `travel.gd` do not. Comments are English. Flash transliterations remain (`kol` 122, `massa` 46, `sost` 36, `razn` 33, `propusk`, `porog`, `skok`, `tormoz`). Seven functions are over 150 lines, led by `player._physics_process` (271).
+- **Enemy AI.** Units without a catalog `brain` decide, move and shoot through `enemy.gd` and its components (`_decide` → `_act` / `_pursue` / `_aim` / `_gun_try`, int `ST_*` states, timers as body fields). The 25 catalog brains (`unit_brains.gd`) replace that loop but still call the host's senses. Senses are per unit, and the player's noise and observation are single meters in player meta (`foe_noise`, `foe_obs`); `_world_*` statics are shared once per physics frame. Units talk through direct calls, groups and meta; `enemy.gd` has no signals. Coordination today: the faction wake `_budilo` / `_alarm_from`, the room siren plus per-room `kol` reinforcements (`en_spawn.gd`, `land_props._raise_alarm`), emitter and boss summons through `UnitBrain.spawn_unit`, and Thunderhead owning its turrets. Spawning is split across `land_spawn` (build time), `en_spawn` (runtime), `spawn_unit` and boss setup (`_apply_role`). AI tuning is data (`enemies.json`, `enemy_combat.json`, `balance/ai.json`); difficulty scales HP and hearing. There are no squads, attack slots, morale or pacing.
+- **Docs and names.** Nearly every script has a `##` header; comments are English. Names that mirror an original field keep it (`GLOSSARY.md`).
 
 ## R0. Safety net: done
 
@@ -52,15 +53,10 @@ Steps 1–5 are done. What `MULTIPLAYER_PLAN.md` step 8 still wires, each in one
 - **Second player's state.** `Run.character(pid)` already makes one per player. Code that should act on any player (damage, pickup, trade) switches from the autoload facades to `player.character()` / `Run.character(WorldOps.actor)`; the facades stay for the local UI.
 - **SATS and loot rules** (user decisions at the end of `MULTIPLAYER_PLAN.md`). SATS: the `sats` entry in `Sim.PLAYER_REASONS` with `Sim.pause_world` decides whether it stops the world. Loot: `WorldOps.take_loot(drop, pid)` reaches `ground_loot.pickup` / `land_props.grant_dropped` with `WorldOps.actor` set; the rule goes there.
 - **Network.** Connect `WorldOps.requested` (client to host) and `LocalInput.set_command` (remote input); set `WorldOps.authority` and entity `authority` false on clients.
-- **Water** reacting to doors and walls listens to `WorldOps.applied` (R4.3).
 
 ## R4. Cell grid (FL)
 
-1. **`map/room_grid.gd`.** One record per room: `solid`, `water` and `gas` `PackedByteArray`s of 48×25. Water is built from today's `wmask`. `RoomFlags.water_at` / `in_water` / `water_y` read the grid; callers do not change. S, low.
-2. **Water writes through the grid.** `water_flow._write` and `restore` call `set_water(cell, 0|1)`. The `"water"` land flag format, `redraw_water` and the `water_changed` group stay. S, low.
-3. **Solids from the world.** Fill `solid` from `wall_span` live cells and closed doors. `note_broken`, door open/close and breakage go through `WorldOps.break_cell` / `open_door`; listen to `WorldOps.applied` to mark the grid and wake water. Today doors never notify water. M, medium.
-4. **Gas sources on the grid.** `rad_source`, cloud boxes and room `rad` keep their damage rules but also write density into `gas` (read by nothing yet). `area_fx` stays rect-based. S, low.
-5. **Contract doc** in `ARCHITECTURE.md`: water byte 255 means full; `water_at` thresholds the level; save stays the binary delta until the switch is on. Then `TODO.md` §12.5 plugs a simulator into `Sim` for active rooms behind one off-by-default switch.
+Done (`ARCHITECTURE.md` "Room grid"). Next on this line is `TODO.md` §12.5: a simulator in `Sim` for active rooms behind one off-by-default switch.
 
 ## R5. Chunked lands (END; also MP load positions)
 
@@ -82,20 +78,18 @@ The default directors reproduce today's behaviour exactly (the replay check must
 4. **Spawn director.** One `SpawnDirector` per land (per chunk in R5) owns every way a unit appears: build-time plans (`land_spawn._set_random_units` / `_random_unit`, same tables), runtime room spawners (`en_spawn` `signal_room` / `tick` / `spawn`), siren reinforcements (`land_props._raise_alarm`), and summon requests from emitters, vortex, bosses and Thunderhead (`UnitBrain.spawn_unit`). The default policy keeps `kol`, the child caps, timers and the emerge tween. Later policies add a budget per room or distance, pacing (intensity rises and falls), ambush placement out of sight, and composition by distance and difficulty (feeds R5.6). Uses the `Rng` `spawn` stream. M, medium (alarm timing and the emerge tween).
 5. **Brain interface.** Every unit runs `control()` on a `UnitBrain`. The generic loop leaves `enemy.gd` for `brain_generic.gd`, which keeps `ST_*`, the consts and the call order (`_decide`, `_act`, `_pursue`, `_aim`, `_gun_try`). `enemy.gd` becomes the motor and body: movement, guns, damage, animation, water. Brains get their senses from `AiWorld` and their orders from the tactics director (step 6). Tuning stays in `balance/ai.json`. L, high: do it after 1–4, with the replay as the gate, building on the enemy components (`enemy_move.gd`, `enemy_weapons.gd`, `enemy_melee.gd`, `enemy_senses.gd`).
 6. **Tactics director.** A `TacticsDirector` per faction per land groups awake units into squads (by faction and room first), assigns roles (point, support, flanker, sniper) and hands out orders the brains may take: move to a position, hold, suppress a spot, fall back, regroup, call help. **Attack slots:** a unit asks for a slot before `_gun_try` or a melee swing. The default grants every request, so nothing changes; a policy can cap simultaneous attackers per target. The default policy is `_budilo` (radius, faction, shock, one wake) and nothing else. M, medium.
-7. **Behaviour modules.** Optional per brain id or per policy, off unless the catalog or the mode asks: flank (path to a side cell out of the target's facing), suppression fire at the last known position, morale and retreat (by HP, losses and squad size), search patterns around the last seen position, cover use (needs cover cells from R4.1's `solid` grid), and coordinated alarm runs to the siren. Utility scoring or a small behaviour tree per module; one decision per unit per 10 ticks like today's `SENSE_INTERVAL`. L, high if any module becomes a default.
+7. **Behaviour modules.** Optional per brain id or per policy, off unless the catalog or the mode asks: flank (path to a side cell out of the target's facing), suppression fire at the last known position, morale and retreat (by HP, losses and squad size), search patterns around the last seen position, cover use (needs cover cells from the R4 `grid_solid` layer), and coordinated alarm runs to the siren. Utility scoring or a small behaviour tree per module; one decision per unit per 10 ticks like today's `SENSE_INTERVAL`. L, high if any module becomes a default.
 8. **Debug view.** A console toggle that draws squads, roles, orders, slots, last-seen markers and the spawn budget per room. S, low. Needed before tuning 6–7.
 
 ## Order and dependencies
 
 | Step | Needs | Goals |
 |---|---|---|
-| R0, R1 | done | all |
-| R2 | done | MOD |
-| R3 | MP plan decisions | MP |
-| R4.1–4.2, 4.4 | — | FL |
-| R4.3 | R3.3 | FL |
+| R0–R4 | done | all |
+| R3 step 8 wiring | networking, user decisions (`MULTIPLAYER_PLAN.md`) | MP |
+| §12.5 simulator | R4 | FL |
 | R5.1–5.2 | — | END |
-| R5.3–5.5 | R5.1, R3.3 | END MP |
+| R5.3–5.5 | R5.1 | END MP |
 | R5.6–5.7 | R5.5 | END |
 | R6.1 blackboard | — | AI MP |
 | R6.2 unit events | — | AI MOD |
@@ -103,7 +97,7 @@ The default directors reproduce today's behaviour exactly (the replay check must
 | R6.4 spawn director | R6.3 | AI END MOD |
 | R6.5 brain interface | R6.1–6.3 | AI MOD |
 | R6.6 tactics director | R6.5 | AI |
-| R6.7 behaviour modules | R6.6, R4.1 for cover | AI |
+| R6.7 behaviour modules | R6.6, R4 `grid_solid` for cover | AI |
 | R6.8 debug view | R6.4 | AI |
 
-R3, R4.1–4.2 and R6.1–6.3 can start now and run side by side; every line stops for a failing check. The gameplay plan (`TODO.md` A–H) continues in parallel. Prefer correctness fixes that land on the new seams over doing them twice.
+R5.1–5.2 and R6.1–6.3 can start now and run side by side; every line stops for a failing check. The gameplay plan (`TODO.md` A–H) continues in parallel. Prefer correctness fixes that land on the new seams over doing them twice.

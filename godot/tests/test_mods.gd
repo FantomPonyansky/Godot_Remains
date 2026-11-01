@@ -288,6 +288,84 @@ func _check_commands() -> void:
 	_check(Entity.has_authority(node), "node without field has authority")
 	node.free()
 	_check_world_ops()
+	_check_grid()
+
+
+func _script(source: String) -> GDScript:
+	var gs := GDScript.new()
+	gs.source_code = source
+	gs.reload()
+	return gs
+
+
+func _check_grid() -> void:
+	var grid := preload("res://scripts/map/room_grid.gd")
+	var flow_script := preload("res://scripts/map/water_flow.gd")
+	var rows: Array = []
+	for j in 25:
+		rows.append("")
+	var env := {"water": 20, grid.WATER: grid.build_water(rows, 20), "rows": rows}
+	_check(grid.wet(env, 0, 20) and not grid.wet(env, 0, 19), "water below the level")
+	grid.set_water(env, 5, 5, grid.FULL)
+	_check(grid.wet(env, 5, 5) and not grid.is_built_water(env, 5, 5, grid.FULL), "water write keeps the built copy")
+	_check(grid.reset_water(env) and not grid.wet(env, 5, 5), "reset to built water")
+	grid.add_gas(env, 1, 1, 200)
+	grid.add_gas(env, 1, 1, 200)
+	_check(grid.gas(env, 1, 1) == grid.FULL and grid.gas(env, 2, 1) == 0, "gas density caps")
+	var disk_env := {}
+	var envs := {Vector2i.ZERO: disk_env}
+	grid.add_gas_disk(envs, Vector2(400, 400), 200.0, 10.0)
+	var peak := grid.gas(disk_env, 9, 9)
+	_check(peak > grid.gas(disk_env, 12, 9) and grid.gas(disk_env, 16, 9) == 0, "source gas fades with distance")
+	grid.add_gas_disk(envs, Vector2(400, 400), 200.0, 10.0, -1)
+	_check(grid.gas(disk_env, 9, 9) == 0, "source gas taken back")
+	_check(grid.room_gas(2.0)[0] == 8 and grid.room_gas(0.0).is_empty(), "room rad gas")
+	var host := Node2D.new()
+	host.set_meta("room_env", {Vector2i.ZERO: env})
+	var solids := Node.new()
+	solids.name = "Solids"
+	var wall := Node.new()
+	wall.set_script(_script("extends Node\nfunc cell_rects(_a: Rect2) -> Array:\n\treturn [[Rect2(0, 0, 40, 40), true], [Rect2(40, 0, 40, 40), false]]\n"))
+	solids.add_child(wall)
+	host.add_child(solids)
+	var props := Node.new()
+	props.set_script(_script("extends Node\nvar _doors: Array = []\nvar flags := {}\nfunc flag(k: String, d: Variant = null) -> Variant:\n\treturn flags.get(k, d)\nfunc set_flag(k: String, v: Variant) -> void:\n\tflags[k] = v\n"))
+	props.add_to_group("land_props")
+	host.add_child(props)
+	var door := StaticBody2D.new()
+	var shape := CollisionShape2D.new()
+	shape.name = "CollisionShape2D"
+	var box := RectangleShape2D.new()
+	box.size = Vector2(40, 80)
+	shape.shape = box
+	shape.position = Vector2(20, 40)
+	door.add_child(shape)
+	door.position = Vector2(400, 0)
+	door.set_meta("door_w", 40.0)
+	door.set_meta("door_h", 80.0)
+	props.add_child(door)
+	props.get("_doors").append(door)
+	add_child(host)
+	_check(grid.solid(env, host, props, Vector2i.ZERO, 0, 0) == grid.SOLID, "live wall cell solid")
+	_check(grid.solid(env, host, props, Vector2i.ZERO, 1, 0) == grid.WALL_OPEN, "broken wall cell open")
+	_check(grid.solid(env, host, props, Vector2i.ZERO, 2, 0) == grid.FREE, "free cell")
+	_check(grid.solid(env, host, props, Vector2i.ZERO, 10, 1) == grid.SOLID, "closed door solid")
+	door.collision_layer = 0
+	shape.disabled = true
+	flow_script.forget_solids(host)
+	_check(grid.solid(env, host, props, Vector2i.ZERO, 10, 1) == grid.FREE, "open door refilled free")
+	flow_script._write(env, Vector2i(20, 5), 1)
+	flow_script._write(env, Vector2i(21, 5), 1)
+	var flow: Node = flow_script.of(props)
+	flow.call("enqueue", Vector2i(20, 5))
+	flow.call("_recalc")
+	_check(not grid.wet(env, 21, 5) and (props.get("flags") as Dictionary).has("water"), "water drains through the grid and is saved")
+	flow_script._write(env, Vector2i(11, 1), 1)
+	flow_script._write(env, Vector2i(10, 1), 1)
+	flow_script.door_opened(props, door)
+	flow.call("_recalc")
+	_check(not grid.wet(env, 11, 1), "opened door wakes the water")
+	host.free()
 
 
 func _check_world_ops() -> void:

@@ -5,7 +5,7 @@ extends RefCounted
 ##   the room's back layer is scaled by (1 - a) / (1 - 0xAA / 255) on top of
 ##   back_decor's DIM;
 ## - backform: drawBackWall sposob (0 all, 1 sides, 2 bottom, 3 last row);
-## - water: tileVoda on the water tiles (RoomFlags wmask; frame tipWater + 1,
+## - water: tileVoda on the water tiles (RoomGrid water; frame tipWater + 1,
 ##   the surface frame where the tile above is open), on visVoda at alpha 0.6;
 ## - color: cTransform multipliers over everything under the fog.
 
@@ -19,6 +19,7 @@ const BASE_DARK := 0xAA
 const TINT_SHADER := preload("res://assets/shaders/room_tint.gdshader")
 const _Catalog := preload("res://scripts/map/tile_catalog.gd")
 const _Flags := preload("res://scripts/map/room_flags.gd")
+const _Grid := preload("res://scripts/map/room_grid.gd")
 
 
 ## The back layer this room paints into: dim itself, or a child scaled for @dark.
@@ -76,11 +77,11 @@ static func build(land: Node2D, rooms: Array, envs: Dictionary) -> void:
 		if env.is_empty():
 			continue
 		var origin := Vector2(key.x * COLS, key.y * ROWS) * TILE
-		var wmask: PackedByteArray = env.get("wmask", PackedByteArray())
-		if not wmask.is_empty():
+		var wcells := _Grid.water(env)
+		if not wcells.is_empty():
 			if water_root == null:
 				water_root = _water_root(land)
-			_water(water_root, room, origin, wmask, int(env.get("wtip", 0)))
+			_water(water_root, room, origin, wcells, int(env.get("wtip", 0)))
 		var color := str(env.get("color", ""))
 		if color != "" and _Flags.COLORS.has(color):
 			if tint_root == null:
@@ -110,7 +111,7 @@ static func redraw_water(land: Node2D, cell: Vector2i, env: Dictionary) -> void:
 	for child in root.get_children():
 		if child.get_meta("room", Vector2i(-9999, -9999)) == cell:
 			child.queue_free()
-	var mask: PackedByteArray = env.get("wmask", PackedByteArray())
+	var mask := _Grid.water(env)
 	if not mask.is_empty():
 		_water(root, {"rows": env.get("rows", [])}, Vector2(cell.x * COLS, cell.y * ROWS) * TILE, mask, int(env.get("wtip", 0)))
 
@@ -129,9 +130,9 @@ static func _water(root: Node2D, room: Dictionary, origin: Vector2, mask: Packed
 		var run_start := -1
 		var run_top := false
 		for i in COLS + 1:
-			var wet := i < COLS and mask[j * COLS + i] == 1
+			var wet := i < COLS and mask[j * COLS + i] >= _Grid.WET
 			var is_top := false
-			if wet and j > 0 and mask[(j - 1) * COLS + i] == 0:
+			if wet and j > 0 and mask[(j - 1) * COLS + i] < _Grid.WET:
 				is_top = i >= above.size() or str(_Catalog.decode(above[i]).block) == ""
 			if run_start >= 0 and (not wet or is_top != run_top):
 				var strip := Sprite2D.new()

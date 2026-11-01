@@ -17,6 +17,7 @@ const META := "room_env"
 const META_GRAV := "tile_grav"
 const META_OP := "tile_op"
 const _Registry := preload("res://scripts/map/land_registry.gd")
+const _Grid := preload("res://scripts/map/room_grid.gd")
 
 ## ColorFilter.ColorTable.
 const COLORS := {
@@ -89,7 +90,8 @@ static func row_of(room: Dictionary, act: Dictionary, land_id: String) -> Dictio
 		"wtip": int(_num(o, act, "wtip", 0.0)),
 		"wopac": _num(o, act, "wopac", 0.0),
 		"water": water,
-		"wmask": water_mask(room.get("rows", []), water),
+		_Grid.WATER: _Grid.build_water(room.get("rows", []), water),
+		_Grid.GAS: _Grid.room_gas(_num(o, act, "rad", 0.0)),
 		"rows": room.get("rows", []),
 		"color": color,
 		"dark": int(_Registry.float_of(o.get("dark", act.get("darkness", 0)), 0.0)),
@@ -175,31 +177,14 @@ static func allows(flag: String, at: Variant = null) -> bool:
 	return bool(env.get(flag, true))
 
 
-## Tile.water of a room's 48 x 25 tiles (index j * COLS + i): the tile text
-## carries a "*" after its block (TileRegistry.decode), or the row is at or
-## below waterLevel (Location.buildLoc). Empty when the room has no water.
-static func water_mask(rows: Array, level: int) -> PackedByteArray:
-	var mask := PackedByteArray()
-	mask.resize(COLS * ROWS)
-	var any := false
-	for j in ROWS:
-		var parts := str(rows[j]).split(".") if j < rows.size() else PackedStringArray()
-		for i in COLS:
-			if j >= level or (i < parts.size() and parts[i].find("*", 1) > 0):
-				mask[j * COLS + i] = 1
-				any = true
-	return mask if any else PackedByteArray()
-
-
 ## Tile.water at a world point of the active land.
 static func water_at(point: Vector2) -> bool:
 	var env := env_at(point)
-	var mask: PackedByteArray = env.get("wmask", PackedByteArray())
-	if mask.is_empty():
+	if not _Grid.has_water(env):
 		return false
 	var i := floori(point.x / TILE) - cell_of(point).x * COLS
 	var j := floori(point.y / TILE) - cell_of(point).y * ROWS
-	return i >= 0 and i < COLS and j >= 0 and j < ROWS and mask[j * COLS + i] == 1
+	return _Grid.wet(env, i, j)
 
 
 ## World y of the water surface in the point's tile column: the top of the
@@ -207,18 +192,17 @@ static func water_at(point: Vector2) -> bool:
 static func water_y(at: Variant = null) -> float:
 	var point: Vector2 = player_pos() if at == null else at
 	var env := env_at(point)
-	var mask: PackedByteArray = env.get("wmask", PackedByteArray())
-	if mask.is_empty():
+	if not _Grid.has_water(env):
 		return INF
 	var cell := cell_of(point)
 	var i := clampi(floori(point.x / TILE) - cell.x * COLS, 0, COLS - 1)
 	var j := clampi(floori(point.y / TILE) - cell.y * ROWS, 0, ROWS - 1)
-	if mask[j * COLS + i] == 0:
-		while j < ROWS and mask[j * COLS + i] == 0:
+	if not _Grid.wet(env, i, j):
+		while j < ROWS and not _Grid.wet(env, i, j):
 			j += 1
 		if j >= ROWS:
 			return INF
-	while j > 0 and mask[(j - 1) * COLS + i] == 1:
+	while j > 0 and _Grid.wet(env, i, j - 1):
 		j -= 1
 	return float(cell.y * ROWS + j) * TILE
 

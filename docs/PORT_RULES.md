@@ -52,6 +52,7 @@ Planned after the port is finished, as a separate mode: true online co-op, P2P, 
 - Camps (`tip base`): normal fog, but seen tiles never fade and line-of-sight hiding is off. The full camp reveal was tried and reverted.
 - Line-of-sight fog never hides the object the player holds with telekinesis.
 - Lift positions are saved (the original does not).
+- Water and doors (2026-11-01, user): opening a door below the water level wakes the water at once and it drains through (`ARCHITECTURE_PLAN.md` R4.3). The original recalculates water only when a wall or door tile breaks (`Location.dieTile` / tile damage), so an opened door drained only on the next break.
 - Begin and Surf are linked both ways: the begin exit always leads to Surf, and the far-left end of the Surf arrival tunnel (room 0,1, cell 0) leads back to the begin exit (`play_land.SURF_TO_BEGIN`, `game.BEGIN_EXIT`). The original never lets you return.
 
 ## Visuals

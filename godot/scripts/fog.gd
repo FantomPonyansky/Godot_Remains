@@ -48,6 +48,7 @@ const LIVE_OPEN := 3
 ## Open tiles of those lands are LIVE_OPEN (fully lit at any distance).
 const LIVE_WALL := 4
 const _Flags := preload("res://scripts/map/room_flags.gd")
+const _Grid := preload("res://scripts/map/room_grid.gd")
 const _Registry := preload("res://scripts/map/land_registry.gd")
 
 static var LDIST1: int = 0
@@ -925,8 +926,8 @@ func _build_land(land: Node) -> LandFog:
 		if not bool(env.get("black", true)):
 			kind = LIVE_OPEN
 			state.has_open = true
-		var wmask: PackedByteArray = env.get("wmask", PackedByteArray())
-		var wopac := float(env.get("wopac", 0.0)) if not wmask.is_empty() else 0.0
+		var wcells: PackedByteArray = env.get(_Grid.WATER, PackedByteArray())
+		var wopac := float(env.get("wopac", 0.0)) if not wcells.is_empty() else 0.0
 		var rows: Array = src.get("rows", [])
 		for j in ROWS:
 			var parts := str(rows[j]).split(".") if j < rows.size() else PackedStringArray()
@@ -934,7 +935,7 @@ func _build_land(land: Node) -> LandFog:
 			for i in COLS:
 				var code_o := _code_opacity(parts[i]) if i < parts.size() else 0.0
 				var o := code_o
-				if wopac > 0.0 and wmask[j * COLS + i] == 1:
+				if wopac > 0.0 and wcells[j * COLS + i] >= _Grid.WET:
 					state.wet[row + i] = wopac
 					o = maxf(o, wopac)
 				base[row + i] = o

@@ -88,6 +88,18 @@ Ids:
 
 `snapshot` / `restore`: the player stores `GameState.get_state()` and `get_pools_state()` (the `game` and `body` providers). An enemy stores `Entity.captured`, which calls `land_props.capture_one`, and restores through `apply_one`. Doors store `PropState.door_record`.
 
+## Room grid
+
+`map/room_grid.gd` keeps three 48×25 byte layers (index `j * 48 + i`) on each room's `RoomFlags` record, so they live and are saved with it:
+
+| Layer | Bytes | Written by | Read by |
+|---|---|---|---|
+| `grid_water` | 0 dry to 255 full; wet when ≥ 128. Empty when the room has no water. `grid_water0` is the built copy. | `RoomFlags.row_of` (tile `*` and `wlevel`), `water_flow` | `RoomFlags.water_at` / `in_water` / `water_y`, `room_look`, `fog`, `unit_brain`, `water_flow` |
+| `grid_solid` | 1 live wall cell or closed door, 2 wall cell that broke, 0 free | filled on first use from `Solids` walls (`cell_rects`) and `land_props._doors`; dropped by `water_flow.forget_solids` when a wall breaks or `DoorArt` changes a door | `water_flow` (a free cell still asks physics for crates and lifts) |
+| `grid_gas` | density, 4 per unit of rad per tick, capped at 255 | room `rad`, `rad_source` (radiation, gas and pink-cloud boxes; taken back when it leaves) | nothing yet |
+
+Water flow stays whole-tile: cells are 0 or 255, and the land memory flag `water` saves the changed cells as 0 / 1 against the built rooms. An opened or broken door wakes the water like a broken wall (`land_props._on_world_op` on `WorldOps.applied`, `water_flow.door_opened`). `area_fx` stays rect-based. A partial-level simulator (`TODO.md` §12.5) would write levels between 0 and 255 into `grid_water` behind its own switch; until it is on, saves keep the 0 / 1 delta.
+
 ## Player and enemy components
 
 The player and enemy bodies keep the node, the tick sequence in `_physics_process`, damage, and `snapshot` / `restore`. Behaviour sits in component scripts on the same node, each holding a back-reference to the body:

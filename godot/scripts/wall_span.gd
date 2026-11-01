@@ -275,6 +275,17 @@ func break_at(world: Vector2) -> void:
 	_schedule()
 
 
+## [world rect, alive] of each cell meeting area (RoomGrid fills solids from it).
+func cell_rects(area: Rect2) -> Array:
+	var out: Array = []
+	for cy in _ch.size():
+		for cx in _cols:
+			var rect := _cell_rect(cx, cy)
+			if rect.intersects(area):
+				out.append([rect, bool(_alive[cy * _cols + cx])])
+	return out
+
+
 ## Tile.collision of the cell under a world point (false outside the span).
 func solid_at(world: Vector2) -> bool:
 	if _cols == 0 or not covers(world):

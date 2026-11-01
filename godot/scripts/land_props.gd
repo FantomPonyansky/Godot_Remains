@@ -137,6 +137,8 @@ func bind_plan(rows: Array, from: Vector2) -> void:
 
 func _ready() -> void:
 	add_to_group("land_props")
+	if not WorldOps.applied.is_connected(_on_world_op):
+		WorldOps.applied.connect(_on_world_op)
 	_PropSfx.hush()
 	_memory = _Memory.new(self)
 	_en_spawn = _EnSpawn.new(self)
@@ -248,6 +250,14 @@ func note_broken(rect: Rect2) -> void:
 	if _memory != null:
 		_memory.note_broken(rect)
 	_WaterFlow.broke(self, rect)
+
+
+## A door of this land that an op left open (swung, broken) wakes the water.
+func _on_world_op(_op: StringName, args: Array) -> void:
+	if args.is_empty() or not is_instance_valid(args[0]) or not (args[0] is Node2D) or not _doors.has(args[0]):
+		return
+	if bool(_PS.getv(args[0], "door_open", false)):
+		_WaterFlow.door_opened(self, args[0])
 
 
 ## Land-level script flags, saved with the land.
